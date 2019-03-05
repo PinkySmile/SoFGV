@@ -4,11 +4,11 @@
 
 namespace AttackType {
 	enum AttackType {
-		Spirit,
-		Void,
-		Matter,
+		Neutral	= 0,
+		Spirit	= 1 << 0,
+		Void	= 1 << 1,
+		Matter	= 1 << 2,
 	};
 }
-
 
 #endif //BATTLE_ATTACKTYPE_HPP

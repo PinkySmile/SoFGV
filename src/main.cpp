@@ -7,7 +7,7 @@ Logger	logger("./latest.log");
 
 void	game()
 {
-	Screen		screen;
+	Screen	screen;
 
 	while (screen.isOpen()) {
 		screen.clear();
