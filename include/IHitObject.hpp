@@ -14,8 +14,7 @@ public:
 	virtual void	changeBounds(Quadra &) = 0;
 	virtual bool	isColliding(IHitObject *) = 0;
 	virtual void	setDisabled(bool disabled = true) = 0;
-	virtual void	applyEffects(IHitObject *, ICharacter *) = 0;
-	virtual void	applyEffects(IHitObject *, IProjectile *) = 0;
+	virtual void	applyEffects(IHitObject *) = 0;
 };
 
 
