@@ -8,7 +8,6 @@
 #include "AttackType.hpp"
 #include "IHitObject.hpp"
 #include "Point.hpp"
-#include "Action.hpp"
 
 class ICharacter {
 public:
@@ -18,13 +17,16 @@ public:
 	virtual bool	strongAttack() = 0;
 	virtual float	getSuper() const = 0;
 	virtual float	getHealth() const = 0;
+	virtual void	takeDamages(float) = 0;
+	virtual sf::Vector2f getPos() const = 0;
 	virtual void	display(Screen &) const = 0;
-	virtual void	takeKnockback(float factor) = 0;
+	virtual void	setPos(sf::Vector2f pos) = 0;
 	virtual std::vector<IProjectile *> update() = 0;
-	virtual bool	setDirection(Directions::Directions) = 0;
+	virtual void	setDirection(Directions::Directions) = 0;
 	virtual void	setAttackType(AttackType::AttackType) = 0;
-	virtual void	takeDamages(float nb, AttackType::AttackType) = 0;
+	virtual void	takeKnockback(Directions::Directions, sf::Vector2f, unsigned) = 0;
 	virtual const	std::vector<std::unique_ptr<IHitObject>> &getHixObjects() const = 0;
+	virtual bool	isBlockingAttack(AttackType::AttackType type, ICharacter &enemy) const = 0;
 };
 
 

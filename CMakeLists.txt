@@ -3,24 +3,23 @@ project(Battle)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(include)
-
 add_executable(
 	Battle
 	src/main.cpp
 	src/Logger.cpp
-	include/Logger.hpp
+	src/Logger.hpp
 	src/Screen.cpp
-	include/Screen.hpp
-	include/ICharacter.hpp
-	include/AttackType.hpp
-	include/IHitObject.hpp
-	include/Directions.hpp
-	include/IProjectile.hpp
-	include/ACharacter.hpp
-	include/Point.hpp
-	include/Quadra.hpp
-	include/Action.hpp
+	src/Screen.hpp
+	src/ICharacter.hpp
+	src/AttackType.hpp
+	src/IHitObject.hpp
+	src/Directions.hpp
+	src/IProjectile.hpp
+	src/ACharacter.hpp
+	src/Point.hpp
+	src/Quadra.hpp
+#	src/Action.hpp
+	src/ACharacter.cpp
 )
 
 target_link_libraries(
