@@ -12,7 +12,16 @@ add_executable(
 	include/Logger.hpp
 	src/Screen.cpp
 	include/Screen.hpp
-	include/ICharacter.hpp include/AttackType.hpp include/IHitObject.hpp include/Directions.hpp include/IProjectile.hpp include/ACharacter.hpp include/Point.hpp include/Quadra.hpp include/Action.hpp)
+	include/ICharacter.hpp
+	include/AttackType.hpp
+	include/IHitObject.hpp
+	include/Directions.hpp
+	include/IProjectile.hpp
+	include/ACharacter.hpp
+	include/Point.hpp
+	include/Quadra.hpp
+	include/Action.hpp
+)
 
 target_link_libraries(
 	Battle
