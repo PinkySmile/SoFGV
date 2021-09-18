@@ -1,0 +1,35 @@
+//
+// Created by PinkySmile on 18/09/2021
+//
+
+#ifndef BATTLE_TEXTUREMANAGER_HPP
+#define BATTLE_TEXTUREMANAGER_HPP
+
+
+#include <map>
+#include <string>
+#include <SFML/Graphics.hpp>
+#include "Sprite.hpp"
+#include "../Data/Vector.hpp"
+#include "../Data/Color.hpp"
+
+namespace Battle
+{
+	class TextureManager {
+	private:
+		unsigned _lastIndex = 0;
+		std::vector<unsigned> _freedIndexes;
+		std::map<unsigned, sf::Texture> _textures;
+		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedTextures;
+
+	public:
+		unsigned load(const std::string &file, Vector2u *size = nullptr);
+		unsigned load(const Color *pixels, Vector2u size);
+		static Color *loadPixels(const std::string &file, Vector2u &size);
+		void remove(unsigned id);
+		void render(Sprite &sprite);
+	};
+}
+
+
+#endif //BATTLE_TEXTUREMANAGER_HPP

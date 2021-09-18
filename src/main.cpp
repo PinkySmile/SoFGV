@@ -1,25 +1,25 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
 #include "Logger.hpp"
-#include "Screen.hpp"
+#include "Resources/Screen.hpp"
+#include "Resources/Game.hpp"
 
-Logger	logger("./latest.log");
+Battle::Logger	logger("./latest.log");
 
-void	game()
+void	run()
 {
-	Screen	screen;
-
-	while (screen.isOpen()) {
-		screen.clear();
-		screen.handleEvents();
-		screen.display();
+	Battle::game.screen = std::make_unique<Battle::Screen>();
+	while (Battle::game.screen->isOpen()) {
+		Battle::game.screen->clear();
+		Battle::game.screen->handleEvents();
+		Battle::game.screen->display();
 	}
 }
 
 int	main()
 {
 	logger.info("Starting game.");
-	game();
+	run();
 	logger.info("Goodbye !");
 	return EXIT_SUCCESS;
 }
