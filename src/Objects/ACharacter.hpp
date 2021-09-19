@@ -211,6 +211,8 @@ namespace Battle
 
 	class ACharacter : public AObject {
 	public:
+		ACharacter(const std::string &frameData);
+		~ACharacter() override = default;
 		void render() const override;
 		void update() override;
 	};

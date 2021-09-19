@@ -46,3 +46,39 @@ target_link_libraries(
 	sfml-system
 	sfml-graphics
 )
+
+add_executable(
+	FrameDataEditor
+	src/dataEditor.cpp
+	src/Logger.cpp
+	src/Logger.hpp
+	src/Data/Vector.hpp
+	src/Resources/Screen.cpp
+	src/Resources/Screen.hpp
+	src/Resources/BattleManager.hpp
+	src/Resources/BattleManager.cpp
+	src/Resources/TextureManager.hpp
+	src/Resources/TextureManager.cpp
+	src/InputEnum.hpp
+	src/Objects/ACharacter.hpp
+	src/Objects/ACharacter.cpp
+	src/Objects/AObject.hpp
+	src/Objects/AObject.cpp
+	src/Objects/IObject.hpp
+	src/Resources/Game.hpp
+	src/Resources/Game.cpp
+	src/Resources/Sprite.hpp
+	src/Data/Color.hpp
+	src/FrameDataEditor/EditableObject.cpp
+	src/FrameDataEditor/EditableObject.hpp
+	src/Resources/FrameData.cpp
+	src/Resources/FrameData.hpp
+)
+
+target_link_libraries(
+	FrameDataEditor
+	sfml-window
+	sfml-system
+	sfml-graphics
+	tgui
+)

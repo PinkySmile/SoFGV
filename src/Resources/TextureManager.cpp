@@ -15,6 +15,8 @@ namespace Battle
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
 			logger.debug("Returning already loaded file " + file);
+			if (size)
+				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
 			return this->_allocatedTextures[file].first;
 		}
 
@@ -67,11 +69,17 @@ namespace Battle
 
 	void TextureManager::remove(unsigned int id)
 	{
-		for (auto [loadedPath, attr] : this->_allocatedTextures)
+		if (!id)
+			return;
+
+		for (auto &[loadedPath, attr] : this->_allocatedTextures)
 			if (attr.first == id && attr.second) {
 				attr.second--;
-				if (attr.second)
+				if (attr.second) {
+					logger.debug("Remove ref to " + loadedPath);
 					return;
+				}
+				logger.debug("Destroying texture " + loadedPath);
 				break;
 			}
 
@@ -82,9 +90,25 @@ namespace Battle
 		this->_freedIndexes.push_back(id);
 	}
 
-	void TextureManager::render(Sprite &sprite)
+	void TextureManager::render(Sprite &sprite) const
 	{
 		sprite.setTexture(this->_textures.at(sprite.textureHandle));
 		game.screen->displayElement(sprite);
+	}
+
+	void TextureManager::addRef(unsigned int id)
+	{
+		for (auto &[loadedPath, attr] : this->_allocatedTextures)
+			if (attr.first == id && attr.second) {
+				attr.second++;
+				assert(attr.second > 1);
+				logger.debug("Adding ref to " + loadedPath);
+				return;
+			}
+	}
+
+	Vector2u TextureManager::getTextureSize(unsigned int id) const
+	{
+		return this->_textures.at(id).getSize();
 	}
 }

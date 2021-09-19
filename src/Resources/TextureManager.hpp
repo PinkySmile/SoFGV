@@ -25,9 +25,12 @@ namespace Battle
 	public:
 		unsigned load(const std::string &file, Vector2u *size = nullptr);
 		unsigned load(const Color *pixels, Vector2u size);
-		static Color *loadPixels(const std::string &file, Vector2u &size);
+		Vector2u getTextureSize(unsigned id) const;
+		void addRef(unsigned id);
 		void remove(unsigned id);
-		void render(Sprite &sprite);
+		void render(Sprite &sprite) const;
+
+		static Color *loadPixels(const std::string &file, Vector2u &size);
 	};
 }
 

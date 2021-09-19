@@ -8,7 +8,7 @@
 namespace Battle
 {
 	Screen::Screen(const std::string &title) :
-		sf::RenderWindow(sf::VideoMode(640, 480), title), _title(title)
+		sf::RenderWindow(sf::VideoMode(1680, 960), title), _title(title)
 	{
 		logger.info("Opening game window \"" + title + "\"");
 		this->setFramerateLimit(60);
@@ -49,10 +49,11 @@ namespace Battle
 				this->close();
 	}
 
-	void	Screen::displayElement(sf::IntRect rect)
+	void	Screen::displayElement(sf::IntRect rect, sf::Color color)
 	{
 		this->_rect.setPosition(sf::Vector2f(rect.left, rect.width));
 		this->_rect.setSize(sf::Vector2f(rect.width, rect.height));
+		this->_rect.setFillColor(color);
 		this->draw(this->_rect);
 	}
 

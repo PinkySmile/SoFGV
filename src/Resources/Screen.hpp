@@ -29,7 +29,7 @@ namespace Battle
 		void              fillColor(const sf::Color &color = sf::Color(255, 255, 255, 255));
 		void              setFont(const sf::Font &font);
 		void              textSize(const size_t &size);
-		void              displayElement(sf::IntRect rect);
+		void              displayElement(sf::IntRect rect, sf::Color color);
 		void              displayElement(const std::string &str, sf::Vector2f);
 		void              displayElement(sf::Sprite &sprite, sf::Vector2f);
 		void              displayElement(sf::Sprite &sprite);

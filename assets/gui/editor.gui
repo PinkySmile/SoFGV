@@ -1,0 +1,59 @@
+MenuBar.main_bar {
+    MinimumSubMenuWidth = 125;
+    Size = (&.size, 20);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #D8D8D8;
+        distancetoside = 4;
+        selectedbackgroundcolor = #006EFF;
+        selectedtextcolor = white;
+        textcolor = black;
+        textcolordisabled = #7D7D7D;
+    }
+
+    Menu {
+        Text = File;
+
+        Menu {
+            Text = "New framedata";
+        }
+
+        Menu {
+            Text = "Load framedata";
+        }
+
+        Menu {
+            Enabled = false;
+            Text = Save;
+        }
+
+        Menu {
+            Text = "Save as";
+        }
+
+        Menu {
+            Text = Settings;
+        }
+
+        Menu {
+            Text = Quit;
+        }
+    }
+
+    Menu {
+        Text = New;
+        Items = ["Frame", "Animation block", "Action", "Hurt box", "Hit box"];
+    }
+}
+
+Panel.Panel1 {
+    Position = (1090, 20);
+    Size = (590, 940);
+
+    Renderer {
+        backgroundcolor = white;
+        bordercolor = black;
+        texturebackground = None;
+    }
+}

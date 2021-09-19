@@ -8,7 +8,7 @@
 
 namespace Battle
 {
-	std::map<unsigned int, std::vector<FrameData>> Battle::FrameData::loadFile(const std::string &path)
+	std::map<unsigned int, std::vector<std::vector<FrameData>>> Battle::FrameData::loadFile(const std::string &path)
 	{
 		std::ifstream stream{path};
 		nlohmann::json json;
@@ -20,9 +20,9 @@ namespace Battle
 		return loadFileJson(json);
 	}
 
-	std::map<unsigned, std::vector<FrameData>> FrameData::loadFileJson(const nlohmann::json &json)
+	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json)
 	{
-		std::map<unsigned int, std::vector<FrameData>> data;
+		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
 		if (!json.is_array())
 			// TODO: Create proper exceptions
@@ -53,8 +53,14 @@ namespace Battle
 
 			unsigned actionId = action;
 
-			for (auto &frame : framedata)
-				data[actionId].emplace_back(frame);
+			for (auto &block : framedata) {
+				if (!block.is_array())
+					// TODO: Create proper exceptions
+					throw std::invalid_argument("Invalid json");
+				data[actionId].emplace_back();
+				for (auto &frame : block)
+					data[actionId].back().emplace_back(frame);
+			}
 		}
 		return data;
 	}
@@ -238,17 +244,239 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->specialMarker = data["marker"];
 		}
+		if (data.contains("defense_flag")) {
+			if (!data["defense_flag"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->dFlag.flags = data["defense_flag"];
+		} else
+			this->dFlag.flags = 0;
+		if (data.contains("offense_flag")) {
+			if (!data["offense_flag"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->oFlag.flags = data["offense_flag"];
+		} else
+			this->oFlag.flags = 0;
+		if (data.contains("collision_box")) {
+			if (!data["collision_box"].is_object())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"].contains("left"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"].contains("top"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"].contains("width"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"].contains("height"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"]["left"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"]["top"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"]["width"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["collision_box"]["height"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->collisionBox = new Box{{
+				data["collision_box"]["left"],
+				data["collision_box"]["top"]
+			}, {
+				data["collision_box"]["width"],
+				data["collision_box"]["height"]
+			}};
+		}
+		if (data.contains("block_stun")) {
+			if (!data["block_stun"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->blockStun = data["block_stun"];
+		}
+		if (data.contains("hit_stun")) {
+			if (!data["hit_stun"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->hitStun = data["hit_stun"];
+		}
+		if (data.contains("prorate")) {
+			if (!data["prorate"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->prorate = data["prorate"];
+		}
+		if (data.contains("void_limit")) {
+			if (!data["void_limit"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->voidLimit = data["void_limit"];
+		}
+		if (data.contains("spirit_limit")) {
+			if (!data["spirit_limit"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->spiritLimit = data["spirit_limit"];
+		}
+		if (data.contains("matter_limit")) {
+			if (!data["matter_limit"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->matterLimit = data["matter_limit"];
+		}
+		if (data.contains("push_back")) {
+			if (!data["push_back"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->pushBack = data["pushBack"];
+		}
+		if (data.contains("push_block")) {
+			if (!data["push_block"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->pushBlock = data["push_block"];
+		}
+		if (data.contains("duration")) {
+			if (!data["duration"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->duration = data["duration"];
+		}
+		if (data.contains("subobject")) {
+			if (!data["subobject"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->subObjectSpawn = data["subobject"];
+		}
 
 		Vector2u textureSize;
 
-		game.textureMgr.load(this->spritePath, &textureSize);
+		this->textureHandle = game.textureMgr.load(this->spritePath, &textureSize);
 		if (!this->textureBounds.size.x)
 			this->textureBounds.size.x = textureSize.x;
 		if (!this->textureBounds.size.y)
 			this->textureBounds.size.y = textureSize.y;
 		if (!this->size.x)
-			this->textureBounds.size.x = textureSize.x;
+			this->size.x = this->textureBounds.size.x;
 		if (!this->size.y)
-			this->textureBounds.size.y = textureSize.y;
+			this->size.y = this->textureBounds.size.y;
+	}
+
+	FrameData::~FrameData()
+	{
+		game.textureMgr.remove(this->textureHandle);
+		delete this->collisionBox;
+	}
+
+	FrameData::FrameData(const FrameData &other)
+	{
+		*this = other;
+	}
+
+	FrameData &FrameData::operator=(const FrameData &other)
+	{
+		this->spritePath = other.spritePath;
+		this->textureHandle = other.textureHandle;
+		this->offset = other.offset;
+		this->size = other.size;
+		this->textureBounds = other.textureBounds;
+		this->rotation = other.rotation;
+		this->hurtBoxes = other.hurtBoxes;
+		this->hitBoxes = other.hitBoxes;
+		this->duration = other.duration;
+		this->specialMarker = other.specialMarker;
+		this->dFlag = other.dFlag;
+		this->oFlag = other.oFlag;
+		this->collisionBox = other.collisionBox;
+		this->blockStun = other.blockStun;
+		this->hitStun = other.hitStun;
+		this->prorate = other.prorate;
+		this->voidLimit = other.voidLimit;
+		this->spiritLimit = other.spiritLimit;
+		this->matterLimit = other.matterLimit;
+		this->pushBack = other.pushBack;
+		this->pushBlock = other.pushBlock;
+		this->subObjectSpawn = other.subObjectSpawn;
+		game.textureMgr.addRef(this->textureHandle);
+		return *this;
+	}
+
+	void FrameData::reloadTexture()
+	{
+		game.textureMgr.remove(this->textureHandle);
+		this->textureHandle = game.textureMgr.load(this->spritePath);
+	}
+
+	nlohmann::json FrameData::toJson() const
+	{
+		nlohmann::json result = nlohmann::json::object();
+
+		result["sprite"] = this->spritePath;
+		if (this->offset.x || this->offset.y)
+			result["offset"] = {
+				{"x", this->offset.x},
+				{"y", this->offset.y}
+			};
+		if (this->size != game.textureMgr.getTextureSize(this->textureHandle))
+			result["size"] = {
+				{"x", this->size.x},
+				{"y", this->size.y}
+			};
+		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != this->size)
+			result["texture_bounds"] = {
+				{"left", this->textureBounds.pos.x},
+				{"top", this->textureBounds.pos.y},
+				{"width", this->textureBounds.size.x},
+				{"height", this->textureBounds.size.y}
+			};
+		if (this->rotation != 0)
+			result["rotation"] = this->rotation * 180 / M_PI;
+		if (!this->hurtBoxes.empty())
+			result["hurt_boxes"] = this->hurtBoxes;
+		if (!this->hitBoxes.empty())
+			result["hit_boxes"] = this->hitBoxes;
+		if (this->specialMarker)
+			result["marker"] = this->specialMarker;
+		if (this->dFlag.flags)
+			result["defense_flag"] = this->dFlag.flags;
+		if (this->oFlag.flags)
+			result["offense_flag"] = this->oFlag.flags;
+		if (this->collisionBox)
+			result["collision_box"] = *this->collisionBox;
+		if (this->blockStun)
+			result["block_stun"] = this->blockStun;
+		if (this->hitStun)
+			result["hit_stun"] = this->hitStun;
+		if (this->prorate != 0)
+			result["prorate"] = this->prorate;
+		if (this->voidLimit)
+			result["void_limit"] = this->voidLimit;
+		if (this->spiritLimit)
+			result["spirit_limit"] = this->spiritLimit;
+		if (this->matterLimit)
+			result["matter_limit"] = this->matterLimit;
+		if (this->pushBack)
+			result["pushBack"] = this->pushBack;
+		if (this->pushBlock)
+			result["push_block"] = this->pushBlock;
+		if (this->duration)
+			result["duration"] = this->duration;
+		if (this->subObjectSpawn)
+			result["subobject"] = this->subObjectSpawn;
+		return result;
+	}
+
+	Box::operator sf::IntRect() const noexcept
+	{
+		return {
+			this->pos.x, this->pos.y,
+			static_cast<int>(this->size.x), static_cast<int>(this->size.y)
+		};
 	}
 }

@@ -2,18 +2,18 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#ifndef BATTLE_AOBJECT_HPP
-#define BATTLE_AOBJECT_HPP
+#ifndef BATTLE_EditableObject_HPP
+#define BATTLE_EditableObject_HPP
 
 
-#include "IObject.hpp"
+#include "../Objects/IObject.hpp"
 #include "../Resources/Sprite.hpp"
 #include "../Resources/FrameData.hpp"
 
 namespace Battle
 {
-	class AObject : public IObject {
-	protected:
+	class EditableObject : public IObject {
+	public:
 		mutable Sprite _sprite;
 
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
@@ -25,20 +25,13 @@ namespace Battle
 		unsigned _animation = 0;
 		unsigned _animationCtr = 0;
 
-		AObject() = default;
-
-	public:
-		#ifdef _DEBUG
-		bool showBoxes = true;
-		#else
-		bool showBoxes = false;
-		#endif
-
-		~AObject() override = default;
+		EditableObject() = default;
+		EditableObject(const std::string &frameData);
+		~EditableObject() override = default;
 		void render() const override;
 		void update() override;
 	};
 }
 
 
-#endif //BATTLE_AOBJECT_HPP
+#endif //BATTLE_EditableObject_HPP

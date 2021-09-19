@@ -1,0 +1,95 @@
+[
+  {
+    "action": 0,
+    "framedata": [
+      [
+        {
+          "sprite": "assets/characters/test/sheet.png",
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "left": 16,
+              "top": 16,
+              "width": 32,
+              "height": 96
+            }
+          ],
+          "hit_boxes": [
+            {
+              "left": 48,
+              "top": 32,
+              "width": 16,
+              "height": 16
+            },
+            {
+              "left": 64,
+              "top": 64,
+              "width": 320,
+              "height": 32
+            }
+          ],
+          "texture_bounds": {
+            "left": 0,
+            "top": 0,
+            "width": 64,
+            "height": 0
+          }
+        },
+        {
+          "sprite": "assets/characters/test/sheet.png",
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "left": 16,
+              "top": 16,
+              "width": 32,
+              "height": 96
+            }
+          ],
+          "texture_bounds": {
+            "left": 64,
+            "top": 0,
+            "width": 64,
+            "height": 0
+          }
+        },
+        {
+          "sprite": "assets/characters/test/sheet.png",
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "left": 16,
+              "top": 16,
+              "width": 32,
+              "height": 96
+            }
+          ],
+          "texture_bounds": {
+            "left": 128,
+            "top": 0,
+            "width": 64,
+            "height": 0
+          }
+        },
+        {
+          "sprite": "assets/characters/test/sheet.png",
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "left": 16,
+              "top": 16,
+              "width": 32,
+              "height": 96
+            }
+          ],
+          "texture_bounds": {
+            "left": 192,
+            "top": 0,
+            "width": 64,
+            "height": 0
+          }
+        }
+      ]
+    ]
+  }
+]
