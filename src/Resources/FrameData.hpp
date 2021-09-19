@@ -36,8 +36,8 @@ namespace Battle
 			bool highBlock : 1;
 			bool lowBlock : 1;
 			bool dashSpeed : 1;
-			bool speed : 1;
 			bool resetRotation : 1;
+			bool counterHit : 1;
 		};
 		unsigned flags;
 	};
@@ -58,7 +58,7 @@ namespace Battle
 			bool cancelable : 1;
 			bool jab : 1;
 			bool resetHits : 1;
-			bool charaCancel : 1;
+			bool resetSpeed : 1;
 			bool restand : 1;
 		};
 		unsigned flags;

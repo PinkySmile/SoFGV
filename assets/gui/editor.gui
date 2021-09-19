@@ -1,3 +1,118 @@
+Renderer.1 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+    texture = None;
+    texturedisabled = None;
+    texturedown = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Renderer.2 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    checkcolor = #3C3C3C;
+    checkcolordisabled = #7D7D7D;
+    checkcolorhover = black;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolorhover = black;
+    textdistanceratio = 0.2;
+    texturechecked = None;
+    texturecheckeddisabled = None;
+    texturecheckedfocused = None;
+    texturecheckedhover = None;
+    textureunchecked = None;
+    textureuncheckeddisabled = None;
+    textureuncheckedfocused = None;
+    textureuncheckedhover = None;
+}
+
+Renderer.3 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    caretcolor = black;
+    caretwidth = 1;
+    defaulttextcolor = #A0A0A0;
+    padding = (0, 0, 0, 0);
+    selectedtextbackgroundcolor = #006EFF;
+    selectedtextcolor = white;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    texture = None;
+    texturedisabled = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Renderer.4 {
+    backgroundcolor = transparent;
+    bordercolor = #3C3C3C;
+    borders = (0, 0, 0, 0);
+    textcolor = #3C3C3C;
+    texturebackground = None;
+}
+
+Renderer.5 {
+    bordercolor = #3C3C3C;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    texturethumb = None;
+    texturethumbhover = None;
+    texturetrack = None;
+    texturetrackhover = None;
+    thumbcolor = #F5F5F5;
+    thumbcolorhover = white;
+    trackcolor = #F5F5F5;
+    trackcolorhover = white;
+}
+
+Renderer.6 {
+    arrowcolor = #3C3C3C;
+    arrowcolorhover = black;
+    backgroundcolor = #F5F5F5;
+    backgroundcolorhover = white;
+    borderbetweenarrows = 2;
+    bordercolor = black;
+    borders = (1, 1, 1, 1);
+    texturearrowdown = None;
+    texturearrowdownhover = None;
+    texturearrowup = None;
+    texturearrowuphover = None;
+}
+
+Renderer.7 {
+    backgroundcolor = transparent;
+    bordercolor = #3C3C3C;
+    borders = (1, 1, 1, 1);
+    padding = (10, 10, 10, 10);
+    textcolor = #3C3C3C;
+    texturebackground = None;
+}
+
 MenuBar.main_bar {
     MinimumSubMenuWidth = 125;
     Size = (&.size, 20);
@@ -24,7 +139,6 @@ MenuBar.main_bar {
         }
 
         Menu {
-            Enabled = false;
             Text = Save;
         }
 
@@ -42,18 +156,770 @@ MenuBar.main_bar {
     }
 
     Menu {
+        Items = [Frame, "Animation block", Action, "Hurt box", "Hit box"];
         Text = New;
-        Items = ["Frame", "Animation block", "Action", "Hurt box", "Hit box"];
     }
 }
 
 Panel.Panel1 {
-    Position = (1090, 20);
-    Size = (590, 940);
+    Enabled = false;
+    Position = (1070, 20);
+    Size = (610, 940);
 
     Renderer {
-        backgroundcolor = white;
+        backgroundcolor = #E0E0E0;
         bordercolor = black;
         texturebackground = None;
+    }
+
+    Label.Label {
+        AutoSize = true;
+        Position = (20, 22);
+        ScrollbarPolicy = Never;
+        Size = (43.2, 18);
+        Text = Action;
+        TextSize = 13;
+        renderer = &4;
+    }
+
+    SpinButton.Block {
+        Maximum = 10;
+        Minimum = 0;
+        Position = (120, 10);
+        Size = (20, 42);
+        Step = 1;
+        Value = 0;
+        renderer = &6;
+    }
+
+    Label.Label1 {
+        AutoSize = true;
+        Position = (150, 22);
+        ScrollbarPolicy = Never;
+        Size = (48.2, 18);
+        Text = "Block 0";
+        TextSize = 13;
+        renderer = &4;
+    }
+
+    Label.Label2 {
+        AutoSize = true;
+        Position = (380, 52);
+        ScrollbarPolicy = Never;
+        Size = (56.2, 18);
+        Text = "Frame 0";
+        TextSize = 13;
+        renderer = &4;
+    }
+
+    EditBox.Action {
+        InputValidator = "[0-9]{0,3}";
+        Position = (70, 20);
+        Size = (30, 22);
+        Text = 300;
+        TextSize = 13;
+        renderer = &3;
+    }
+
+    Slider.Progress {
+        ChangeValueOnScroll = true;
+        InvertedDirection = false;
+        Maximum = 1;
+        Minimum = 0;
+        Position = (260, 22);
+        Size = (320, 16);
+        Step = 0.001;
+        Value = 0;
+        renderer = &5;
+    }
+
+    Label.SpeedLabel {
+        AutoSize = true;
+        Position = (510, 52);
+        ScrollbarPolicy = Never;
+        Size = (19.2, 18);
+        Text = x0;
+        TextSize = 13;
+        renderer = &4;
+    }
+
+    Button.Play {
+        Position = (260, 50);
+        Text = Play;
+        TextSize = 13;
+        renderer = &1;
+    }
+
+    Button.Step {
+        Position = (320, 50);
+        Text = Step;
+        TextSize = 13;
+        renderer = &1;
+    }
+
+    Panel.AnimPanel {
+        Position = (0, 90);
+        Size = (610, 850);
+
+        Renderer {
+            backgroundcolor = white;
+            bordercolor = black;
+            texturebackground = None;
+        }
+
+        Label.Label3 {
+            AutoSize = true;
+            Position = (10, 12);
+            ScrollbarPolicy = Never;
+            Size = (40.2, 18);
+            Text = Sprite;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.Sprite {
+            DefaultText = "assets/....";
+            Position = (70, 10);
+            Size = (230, 22);
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        EditBox.Offset {
+            InputValidator = "\\([0-9]{1,4},[0-9]{1,4}\\)";
+            Position = (380, 10);
+            Size = (210, 22);
+            Text = "(0,0)";
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label4 {
+            AutoSize = true;
+            Position = (320, 12);
+            ScrollbarPolicy = Never;
+            Size = (43.2, 18);
+            Text = Offset;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Label.Label5 {
+            AutoSize = true;
+            Position = (320, 42);
+            ScrollbarPolicy = Never;
+            Size = (29.2, 18);
+            Text = Size;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.Size {
+            InputValidator = "\\([0-9]{1,4},[0-9]{1,4}\\)";
+            Position = (380, 40);
+            Size = (210, 22);
+            Text = "(0,0)";
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        EditBox.Bounds {
+            DefaultText = "assets/....";
+            InputValidator = "\\([0-9]{1,4},[0-9]{1,4},[0-9]{1,4},[0-9]{1,4}\\)";
+            Position = (70, 40);
+            Size = (230, 22);
+            Text = "(0,0,0,0)";
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label6 {
+            AutoSize = true;
+            Position = (10, 42);
+            ScrollbarPolicy = Never;
+            Size = (50.2, 18);
+            Text = Bounds;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Label.Label7 {
+            AutoSize = true;
+            Position = (10, 72);
+            ScrollbarPolicy = Never;
+            Size = (57.2, 18);
+            Text = Rotation;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Slider.Rotation {
+            ChangeValueOnScroll = true;
+            InvertedDirection = false;
+            Maximum = 6.28319;
+            Minimum = 0;
+            Position = (80, 72);
+            Size = (340, 16);
+            Step = 0.28;
+            Value = 0;
+            renderer = &5;
+        }
+
+        EditBox.Duration {
+            InputValidator = UInt;
+            Position = (70, 100);
+            Size = (230, 22);
+            Text = 1;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label8 {
+            AutoSize = true;
+            Position = (10, 102);
+            ScrollbarPolicy = Never;
+            Size = (58.2, 18);
+            Text = Duration;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Label.Label9 {
+            AutoSize = true;
+            Position = (10, 132);
+            ScrollbarPolicy = Never;
+            Size = (46.2, 18);
+            Text = Marker;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.Marker {
+            InputValidator = UInt;
+            Position = (70, 130);
+            Size = (230, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        CheckBox.Collision {
+            Position = (570, 70);
+            Size = (20, 20);
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        Label.Label91 {
+            AutoSize = true;
+            Position = (10, 192);
+            ScrollbarPolicy = Never;
+            Size = (68.2, 18);
+            Text = "Block stun";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.BlockStun {
+            InputValidator = UInt;
+            Position = (90, 190);
+            Size = (210, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Level90 {
+            AutoSize = true;
+            Position = (318, 192);
+            ScrollbarPolicy = Never;
+            Size = (52.2, 18);
+            Text = "Hit stun";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.HitStun {
+            InputValidator = UInt;
+            Position = (400, 190);
+            Size = (190, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        EditBox.Rate {
+            InputValidator = UInt;
+            Position = (400, 250);
+            Size = (190, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label11 {
+            AutoSize = true;
+            Position = (320, 252);
+            ScrollbarPolicy = Never;
+            Size = (50.2, 18);
+            Text = Prorate;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Label.Label12 {
+            AutoSize = true;
+            Position = (10, 162);
+            ScrollbarPolicy = Never;
+            Size = (68.2, 18);
+            Text = "Push back";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.PushBack {
+            InputValidator = UInt;
+            Position = (90, 160);
+            Size = (210, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label13 {
+            AutoSize = true;
+            Position = (318, 162);
+            ScrollbarPolicy = Never;
+            Size = (71.2, 18);
+            Text = "Push block";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.PushBlock {
+            InputValidator = UInt;
+            Position = (400, 160);
+            Size = (190, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label14 {
+            AutoSize = true;
+            Position = (10, 222);
+            ScrollbarPolicy = Never;
+            Size = (70.2, 18);
+            Text = "Spirit Limit";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.SpiritLimit {
+            InputValidator = "100|[0-9]{1,2}";
+            Position = (90, 220);
+            Size = (210, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        EditBox.VoidLimit {
+            InputValidator = "100|[0-9]{1,2}";
+            Position = (400, 220);
+            Size = (190, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label45 {
+            AutoSize = true;
+            Position = (320, 222);
+            ScrollbarPolicy = Never;
+            Size = (65.2, 18);
+            Text = "Void Limit";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.MatterLimit {
+            InputValidator = "100|[0-9]{1,2}";
+            Position = (90, 250);
+            Size = (210, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label15 {
+            AutoSize = true;
+            Position = (10, 252);
+            ScrollbarPolicy = Never;
+            Size = (79.2, 18);
+            Text = "Matter Limit";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.SubObj {
+            InputValidator = "100|[0-9]{1,2}";
+            Position = (450, 130);
+            Size = (140, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label16 {
+            AutoSize = true;
+            Position = (320, 132);
+            ScrollbarPolicy = Never;
+            Size = (113.2, 18);
+            Text = "Spawn Subobject";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        Label.Label17 {
+            AutoSize = true;
+            Position = (90, 320);
+            ScrollbarPolicy = Never;
+            Size = (122.2, 40);
+            Text = "Offensive flags";
+            TextSize = 13;
+            renderer = &7;
+        }
+
+        Label.Label18 {
+            AutoSize = true;
+            Position = (10, 372);
+            ScrollbarPolicy = Never;
+            Size = (38.2, 18);
+            Text = Value;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        EditBox.oFlags {
+            InputValidator = UInt;
+            Position = (60, 370);
+            Size = (240, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label19 {
+            Position = (310, 310);
+            ScrollbarPolicy = Never;
+            Size = (4.2, 538);
+            TextSize = 13;
+
+            Renderer {
+                backgroundcolor = transparent;
+                bordercolor = #3C3C3C;
+                borders = (1, 0, 0, 0);
+                textcolor = #3C3C3C;
+                texturebackground = None;
+            }
+        }
+
+        CheckBox.Grab {
+            Position = (10, 410);
+            Size = (20, 20);
+            Text = Grab;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        Label.Label10 {
+            AutoSize = true;
+            Position = (470, 72);
+            ScrollbarPolicy = Never;
+            Size = (83.2, 18);
+            Text = "Collision box";
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        CheckBox.UB {
+            Position = (10, 440);
+            Size = (20, 20);
+            Text = Unblockable;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.SpiritElement {
+            Position = (10, 470);
+            Size = (20, 20);
+            Text = "Spirit Element";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.LowHit {
+            Position = (10, 500);
+            Size = (20, 20);
+            Text = "Low Hit";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.AUB {
+            Position = (170, 410);
+            Size = (20, 20);
+            Text = "Air Unblockable";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.VoidElem {
+            Position = (170, 440);
+            Size = (20, 20);
+            Text = "Void element";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.MatterElement {
+            Position = (170, 470);
+            Size = (20, 20);
+            Text = "Matter Element";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.HighHit {
+            Position = (170, 500);
+            Size = (20, 20);
+            Text = "High Hit";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.AutoHitPos {
+            Position = (10, 530);
+            Size = (20, 20);
+            Text = "Auto Hit Height";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.CanCH {
+            Position = (170, 530);
+            Size = (20, 20);
+            Text = "Can Counter Hit";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.HitSwitch {
+            Position = (10, 560);
+            Size = (20, 20);
+            Text = "Hit Switch Cancel";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.Cancelable {
+            Position = (170, 560);
+            Size = (20, 20);
+            Text = Cancelable;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.Jab {
+            Position = (10, 590);
+            Size = (20, 20);
+            Text = "Can cancel by itself";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.ResetHit {
+            Position = (170, 590);
+            Size = (20, 20);
+            Text = "New Hit";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.ResetSpeed {
+            Position = (10, 620);
+            Size = (20, 20);
+            Text = "Reset Speed";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.Restand {
+            Position = (170, 620);
+            Size = (20, 20);
+            Text = Restand;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        Label.Label20 {
+            AutoSize = true;
+            Position = (410, 320);
+            ScrollbarPolicy = Never;
+            Size = (125.2, 40);
+            Text = "Defensive flags";
+            TextSize = 13;
+            renderer = &7;
+        }
+
+        EditBox.dFlags {
+            InputValidator = UInt;
+            Position = (370, 370);
+            Size = (230, 22);
+            Text = 0;
+            TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label21 {
+            AutoSize = true;
+            Position = (320, 372);
+            ScrollbarPolicy = Never;
+            Size = (38.2, 18);
+            Text = Value;
+            TextSize = 13;
+            renderer = &4;
+        }
+
+        CheckBox.Invulnerable {
+            Position = (330, 410);
+            Size = (20, 20);
+            Text = Intangible;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.InvulnerableArmor {
+            Position = (470, 410);
+            Size = (20, 20);
+            Text = Invulnerable;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.GrabInvul {
+            Position = (470, 440);
+            Size = (20, 20);
+            Text = "Grab Invulnerable";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.SpiritBlock {
+            Position = (470, 470);
+            Size = (20, 20);
+            Text = "Spirit Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.NeutralBlock {
+            Position = (470, 500);
+            Size = (20, 20);
+            Text = "Neutral Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.CanBlock {
+            Position = (470, 530);
+            Size = (20, 20);
+            Text = "Can Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.SuperArmor {
+            Position = (330, 440);
+            Size = (20, 20);
+            Text = "Super Armor";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.VoidBlock {
+            Position = (330, 470);
+            Size = (20, 20);
+            Text = "Void Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.MatterBlock {
+            Position = (330, 500);
+            Size = (20, 20);
+            Text = "Matter Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.Air {
+            Position = (330, 530);
+            Size = (20, 20);
+            Text = Airborne;
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.HighBlock {
+            Position = (330, 560);
+            Size = (20, 20);
+            Text = "High Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.LowBlock {
+            Position = (470, 560);
+            Size = (20, 20);
+            Text = "Low Block";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.DashSpeed {
+            Position = (330, 590);
+            Size = (20, 20);
+            Text = "Dash Speed";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.ResetRotation {
+            Position = (470, 590);
+            Size = (20, 20);
+            Text = "Reset Rotation";
+            TextSize = 13;
+            renderer = &2;
+        }
+
+        CheckBox.CounterHit {
+            Position = (330, 620);
+            Size = (20, 20);
+            Text = "Counter Hit State";
+            TextSize = 13;
+            renderer = &2;
+        }
+    }
+
+    SpinButton.Speed {
+        Maximum = 10;
+        Minimum = 0;
+        Position = (460, 50);
+        Size = (42, 20);
+        Step = 1;
+        Value = 0;
+        renderer = &6;
     }
 }

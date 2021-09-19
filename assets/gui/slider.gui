@@ -1,0 +1,77 @@
+Renderer.1 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+    texture = None;
+    texturedisabled = None;
+    texturedown = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Slider.Slider {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 30;
+    Minimum = 0;
+    Position = (20, 20);
+    Size = (200, 16);
+    Step = 1;
+    Value = 0;
+
+    Renderer {
+        bordercolor = #3C3C3C;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        texturethumb = None;
+        texturethumbhover = None;
+        texturetrack = None;
+        texturetrackhover = None;
+        thumbcolor = #F5F5F5;
+        thumbcolorhover = white;
+        trackcolor = #F5F5F5;
+        trackcolorhover = white;
+    }
+}
+
+Label.Nb {
+    AutoSize = true;
+    Position = (230, 20);
+    ScrollbarPolicy = Never;
+    Size = (11.2, 18);
+    Text = 1;
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = transparent;
+        bordercolor = #3C3C3C;
+        borders = (0, 0, 0, 0);
+        textcolor = #3C3C3C;
+        texturebackground = None;
+    }
+}
+
+Button.Ok {
+    Position = (210, 50);
+    Text = Ok;
+    TextSize = 13;
+    renderer = &1;
+}
+
+Button.Cancel {
+    Position = (140, 50);
+    Text = Cancel;
+    TextSize = 13;
+    renderer = &1;
+}

@@ -393,7 +393,13 @@ namespace Battle
 		this->specialMarker = other.specialMarker;
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
-		this->collisionBox = other.collisionBox;
+		if (other.collisionBox)
+			this->collisionBox = new Box{
+				other.collisionBox->pos,
+				other.collisionBox->size
+			};
+		else
+			this->collisionBox = nullptr;
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
 		this->prorate = other.prorate;
@@ -428,7 +434,7 @@ namespace Battle
 				{"x", this->size.x},
 				{"y", this->size.y}
 			};
-		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != this->size)
+		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != game.textureMgr.getTextureSize(this->textureHandle))
 			result["texture_bounds"] = {
 				{"left", this->textureBounds.pos.x},
 				{"top", this->textureBounds.pos.y},
@@ -465,7 +471,7 @@ namespace Battle
 			result["pushBack"] = this->pushBack;
 		if (this->pushBlock)
 			result["push_block"] = this->pushBlock;
-		if (this->duration)
+		if (this->duration > 1)
 			result["duration"] = this->duration;
 		if (this->subObjectSpawn)
 			result["subobject"] = this->subObjectSpawn;

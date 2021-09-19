@@ -1,0 +1,54 @@
+Renderer.1 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+    texture = None;
+    texturedisabled = None;
+    texturedown = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Label.Label {
+    AutoSize = true;
+    Position = (10, 10);
+    ScrollbarPolicy = Never;
+    Size = (190.2, 48);
+    Text = "\nalready exists.\nDo you want to overwrite it ?";
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = transparent;
+        bordercolor = #3C3C3C;
+        borders = (0, 0, 0, 0);
+        textcolor = #3C3C3C;
+        texturebackground = None;
+    }
+}
+
+Button.Yes {
+    Position = (20, 70);
+    Size = (70, 22);
+    Text = Yes;
+    TextSize = 13;
+    renderer = &1;
+}
+
+Button.No {
+    Position = ((&.w - w) - 20, 70);
+    Size = (70, 22);
+    Text = No;
+    TextSize = 13;
+    renderer = &1;
+}

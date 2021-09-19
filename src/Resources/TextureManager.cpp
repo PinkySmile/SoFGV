@@ -92,6 +92,8 @@ namespace Battle
 
 	void TextureManager::render(Sprite &sprite) const
 	{
+		if (!sprite.textureHandle)
+			return;
 		sprite.setTexture(this->_textures.at(sprite.textureHandle));
 		game.screen->displayElement(sprite);
 	}

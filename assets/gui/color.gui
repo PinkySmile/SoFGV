@@ -1,0 +1,1626 @@
+Renderer.1 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+    texture = None;
+    texturedisabled = None;
+    texturedown = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Renderer.2 {
+    backgroundcolor = transparent;
+    bordercolor = #3C3C3C;
+    borders = (0, 0, 0, 0);
+    textcolor = #3C3C3C;
+    texturebackground = None;
+}
+
+Renderer.3 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    caretcolor = black;
+    caretwidth = 1;
+    defaulttextcolor = #A0A0A0;
+    padding = (0, 0, 0, 0);
+    selectedtextbackgroundcolor = #006EFF;
+    selectedtextcolor = white;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    texture = None;
+    texturedisabled = None;
+    texturefocused = None;
+    texturehover = None;
+}
+
+Slider.Lightness {
+    ChangeValueOnScroll = true;
+    InvertedDirection = false;
+    Maximum = 240;
+    Minimum = 0;
+    Position = (460, 20);
+    Size = (16, 200);
+    Step = 1;
+    Value = 0;
+
+    Renderer {
+        bordercolor = #3C3C3C;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        opacitydisabled = -1;
+        texturethumb = "assets/icons/black.png";
+        texturethumbhover = None;
+        texturetrack = "assets/icons/transparent.png";
+        texturetrackhover = None;
+        thumbcolor = black;
+        thumbcolorhover = transparent;
+        trackcolor = transparent;
+        trackcolorhover = transparent;
+        transparenttexture = false;
+    }
+}
+
+Button.OK {
+    Position = (10, 340);
+    Text = OK;
+    TextSize = 13;
+    renderer = &1;
+}
+
+Button.Cancel {
+    Position = (60, 340);
+    Text = Cancel;
+    TextSize = 13;
+    renderer = &1;
+}
+
+TextBox.Preview {
+    HorizontalScrollbarPolicy = Never;
+    MaximumCharacters = 0;
+    Position = (230, 240);
+    ReadOnly = true;
+    Size = (98, 75);
+    Text = "";
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = white;
+        bordercolor = black;
+        borders = (1, 1, 1, 1);
+        caretcolor = black;
+        caretwidth = 1;
+        padding = (0, 0, 0, 0);
+        selectedtextbackgroundcolor = #006EFF;
+        selectedtextcolor = white;
+        textcolor = #3C3C3C;
+        texturebackground = None;
+    }
+}
+
+EditBox.Edit {
+    InputValidator = "#[0-9A-Fa-f]*";
+    Position = (410, 340);
+    Size = (70, 22);
+    Text = "#000000";
+    TextSize = 13;
+    renderer = &3;
+}
+
+Label.Label4 {
+    AutoSize = true;
+    Position = (380, 344);
+    ScrollbarPolicy = Never;
+    Size = (30.2, 18);
+    Text = RGB;
+    TextSize = 13;
+    renderer = &2;
+}
+
+Label.Label5 {
+    AutoSize = true;
+    Position = (260, 320);
+    ScrollbarPolicy = Never;
+    Size = (36.2, 18);
+    Text = Color;
+    TextSize = 13;
+    renderer = &2;
+}
+
+Label.Label6 {
+    AutoSize = true;
+    Position = (10, 10);
+    ScrollbarPolicy = Never;
+    Size = (76.2, 18);
+    Text = "Base colors";
+    TextSize = 13;
+    renderer = &2;
+}
+
+Button.Button1 {
+    Position = (10, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF8080;
+        backgroundcolordisabled = #FF8080;
+        backgroundcolordown = #FF8080;
+        backgroundcolorfocused = #FF8080;
+        backgroundcolorhover = #FF8080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button2 {
+    Position = (44, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FFFF80;
+        backgroundcolordisabled = #FFFF80;
+        backgroundcolordown = #FFFF80;
+        backgroundcolorfocused = #FFFF80;
+        backgroundcolorhover = #FFFF80;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button3 {
+    Position = (78, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #80FF80;
+        backgroundcolordisabled = #80FF80;
+        backgroundcolordown = #80FF80;
+        backgroundcolorfocused = #80FF80;
+        backgroundcolorhover = #80FF80;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button4 {
+    Position = (112, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #00FF80;
+        backgroundcolordisabled = #00FF80;
+        backgroundcolordown = #00FF80;
+        backgroundcolorfocused = #00FF80;
+        backgroundcolorhover = #00FF80;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button5 {
+    Position = (146, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #80FFFF;
+        backgroundcolordisabled = #80FFFF;
+        backgroundcolordown = #80FFFF;
+        backgroundcolorhover = white;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button6 {
+    Position = (180, 30);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #0080FF;
+        backgroundcolordisabled = #0080FF;
+        backgroundcolordown = #0080FF;
+        backgroundcolorfocused = #0080FF;
+        backgroundcolorhover = #0080FF;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button8 {
+    Position = (10, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF80C0;
+        backgroundcolordisabled = #FF80C0;
+        backgroundcolordown = #FF80C0;
+        backgroundcolorfocused = #FF80C0;
+        backgroundcolorhover = #FF80C0;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button9 {
+    Position = (10, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = cyan;
+        backgroundcolordisabled = cyan;
+        backgroundcolordown = cyan;
+        backgroundcolorfocused = cyan;
+        backgroundcolorhover = cyan;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button10 {
+    Position = (10, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = green;
+        backgroundcolordisabled = green;
+        backgroundcolordown = green;
+        backgroundcolorfocused = green;
+        backgroundcolorhover = green;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button11 {
+    Position = (10, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #800000;
+        backgroundcolordisabled = #800000;
+        backgroundcolordown = #800000;
+        backgroundcolorfocused = #800000;
+        backgroundcolorhover = #800000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button12 {
+    Position = (10, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #800080;
+        backgroundcolordisabled = #800080;
+        backgroundcolordown = #800080;
+        backgroundcolorfocused = #800080;
+        backgroundcolorhover = #800080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button7 {
+    Position = (10, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #000080;
+        backgroundcolordisabled = #000080;
+        backgroundcolordown = #000080;
+        backgroundcolorfocused = #000080;
+        backgroundcolorhover = #000080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button13 {
+    Position = (10, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #808040;
+        backgroundcolordisabled = #808040;
+        backgroundcolordown = #808040;
+        backgroundcolorfocused = #808040;
+        backgroundcolorhover = #808040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button14 {
+    Position = (44, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF80FF;
+        backgroundcolordisabled = #FF80FF;
+        backgroundcolordown = #FF80FF;
+        backgroundcolorfocused = #FF80FF;
+        backgroundcolorhover = #FF80FF;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button15 {
+    Position = (78, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = red;
+        backgroundcolordisabled = red;
+        backgroundcolordown = red;
+        backgroundcolorfocused = red;
+        backgroundcolorhover = red;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button16 {
+    Position = (112, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = yellow;
+        backgroundcolordisabled = yellow;
+        backgroundcolordown = yellow;
+        backgroundcolorfocused = yellow;
+        backgroundcolorhover = yellow;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button17 {
+    Position = (146, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #80FF00;
+        backgroundcolordisabled = #80FF00;
+        backgroundcolordown = #80FF00;
+        backgroundcolorfocused = #80FF00;
+        backgroundcolorhover = #80FF00;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button18 {
+    Position = (180, 54);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #00FF40;
+        backgroundcolordisabled = #00FF40;
+        backgroundcolordown = #00FF40;
+        backgroundcolorfocused = #00FF40;
+        backgroundcolorhover = #00FF40;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button19 {
+    Position = (44, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #0080C0;
+        backgroundcolordisabled = #0080C0;
+        backgroundcolordown = #0080C0;
+        backgroundcolorfocused = #0080C0;
+        backgroundcolorhover = #0080C0;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button20 {
+    Position = (78, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #8080C0;
+        backgroundcolordisabled = #8080C0;
+        backgroundcolordown = #8080C0;
+        backgroundcolorfocused = #8080C0;
+        backgroundcolorhover = #8080C0;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button21 {
+    Position = (180, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF8040;
+        backgroundcolordisabled = #FF8040;
+        backgroundcolordown = #FF8040;
+        backgroundcolorfocused = #FF8040;
+        backgroundcolorhover = #FF8040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button22 {
+    Position = (146, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #804040;
+        backgroundcolordisabled = #804040;
+        backgroundcolordown = #804040;
+        backgroundcolorfocused = #804040;
+        backgroundcolorhover = #804040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button23 {
+    Position = (112, 78);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = magenta;
+        backgroundcolordisabled = magenta;
+        backgroundcolordown = magenta;
+        backgroundcolorfocused = magenta;
+        backgroundcolorhover = magenta;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button24 {
+    Position = (44, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #008080;
+        backgroundcolordisabled = #008080;
+        backgroundcolordown = #008080;
+        backgroundcolorfocused = #008080;
+        backgroundcolorhover = #008080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button25 {
+    Position = (78, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #004080;
+        backgroundcolordisabled = #004080;
+        backgroundcolordown = #004080;
+        backgroundcolorfocused = #004080;
+        backgroundcolorhover = #004080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button26 {
+    Position = (112, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #8080FF;
+        backgroundcolordisabled = #8080FF;
+        backgroundcolordown = #8080FF;
+        backgroundcolorfocused = #8080FF;
+        backgroundcolorhover = #8080FF;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button27 {
+    Position = (146, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #800040;
+        backgroundcolordisabled = #800040;
+        backgroundcolordown = #800040;
+        backgroundcolorfocused = #800040;
+        backgroundcolorhover = #800040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button28 {
+    Position = (180, 102);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF0080;
+        backgroundcolordisabled = #FF0080;
+        backgroundcolordown = #FF0080;
+        backgroundcolorfocused = #FF0080;
+        backgroundcolorhover = #FF0080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button29 {
+    Position = (44, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #FF8000;
+        backgroundcolordisabled = #FF8000;
+        backgroundcolordown = #FF8000;
+        backgroundcolorfocused = #FF8000;
+        backgroundcolorhover = #FF8000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button30 {
+    Position = (78, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #008000;
+        backgroundcolordisabled = #008000;
+        backgroundcolordown = #008000;
+        backgroundcolorfocused = #008000;
+        backgroundcolorhover = #008000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button31 {
+    Position = (112, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #008040;
+        backgroundcolordisabled = #008040;
+        backgroundcolordown = #008040;
+        backgroundcolorfocused = #008040;
+        backgroundcolorhover = #008040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button32 {
+    Position = (146, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = blue;
+        backgroundcolordisabled = blue;
+        backgroundcolordown = blue;
+        backgroundcolorfocused = blue;
+        backgroundcolorhover = blue;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button33 {
+    Position = (180, 126);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #0000A0;
+        backgroundcolordisabled = #0000A0;
+        backgroundcolordown = #0000A0;
+        backgroundcolorfocused = #0000A0;
+        backgroundcolorhover = #0000A0;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button34 {
+    Position = (44, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #8000FF;
+        backgroundcolordisabled = #8000FF;
+        backgroundcolordown = #8000FF;
+        backgroundcolorfocused = #8000FF;
+        backgroundcolorhover = #8000FF;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button35 {
+    Position = (78, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #400000;
+        backgroundcolordisabled = #400000;
+        backgroundcolordown = #400000;
+        backgroundcolorfocused = #400000;
+        backgroundcolorhover = #400000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button36 {
+    Position = (112, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #804000;
+        backgroundcolordisabled = #804000;
+        backgroundcolordown = #804000;
+        backgroundcolorfocused = #804000;
+        backgroundcolorhover = #804000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button37 {
+    Position = (146, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #004000;
+        backgroundcolordisabled = #004000;
+        backgroundcolordown = #004000;
+        backgroundcolorfocused = #004000;
+        backgroundcolorhover = #004000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button38 {
+    Position = (180, 150);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #004040;
+        backgroundcolordisabled = #004040;
+        backgroundcolordown = #004040;
+        backgroundcolorfocused = #004040;
+        backgroundcolorhover = #004040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button39 {
+    Position = (44, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #000040;
+        backgroundcolordisabled = #000040;
+        backgroundcolordown = #000040;
+        backgroundcolorfocused = #000040;
+        backgroundcolorhover = #000040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button40 {
+    Position = (78, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #400040;
+        backgroundcolordisabled = #400040;
+        backgroundcolordown = #400040;
+        backgroundcolorfocused = #400040;
+        backgroundcolorhover = #400040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button41 {
+    Position = (112, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #400080;
+        backgroundcolordisabled = #400080;
+        backgroundcolordown = #400080;
+        backgroundcolorfocused = #400080;
+        backgroundcolorhover = #400080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button42 {
+    Position = (146, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = black;
+        backgroundcolordisabled = black;
+        backgroundcolordown = black;
+        backgroundcolorfocused = black;
+        backgroundcolorhover = black;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button43 {
+    Position = (180, 174);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #808000;
+        backgroundcolordisabled = #808000;
+        backgroundcolordown = #808000;
+        backgroundcolorfocused = #808000;
+        backgroundcolorhover = #808000;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button44 {
+    Position = (44, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #808080;
+        backgroundcolordisabled = #808080;
+        backgroundcolordown = #808080;
+        backgroundcolorfocused = #808080;
+        backgroundcolorhover = #808080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button45 {
+    Position = (78, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #408080;
+        backgroundcolordisabled = #408080;
+        backgroundcolordown = #408080;
+        backgroundcolorfocused = #408080;
+        backgroundcolorhover = #408080;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button46 {
+    Position = (112, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #C0C0C0;
+        backgroundcolordisabled = #C0C0C0;
+        backgroundcolordown = #C0C0C0;
+        backgroundcolorfocused = #C0C0C0;
+        backgroundcolorhover = #C0C0C0;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button47 {
+    Position = (146, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #400040;
+        backgroundcolordisabled = #400040;
+        backgroundcolordown = #400040;
+        backgroundcolorfocused = #400040;
+        backgroundcolorhover = #400040;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Button.Button48 {
+    Position = (180, 198);
+    Size = (28, 18.6667);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = white;
+        backgroundcolordisabled = white;
+        backgroundcolordown = white;
+        backgroundcolorfocused = white;
+        backgroundcolorhover = white;
+        bordercolor = #3C3C3C;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = #1E1EB4;
+        bordercolorhover = black;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Label.Label7 {
+    HorizontalAlignment = Right;
+    Position = (380, 240);
+    ScrollbarPolicy = Never;
+    Size = (29.2, 18);
+    Text = Hue;
+    TextSize = 13;
+    renderer = &2;
+}
+
+Label.Label8 {
+    AutoSize = true;
+    HorizontalAlignment = Right;
+    Position = (340, 270);
+    ScrollbarPolicy = Never;
+    Size = (69.2, 18);
+    Text = Saturation;
+    TextSize = 13;
+    renderer = &2;
+}
+
+Label.Label9 {
+    HorizontalAlignment = Right;
+    Position = (340, 300);
+    ScrollbarPolicy = Never;
+    Size = (69.2, 18);
+    Text = Lightness;
+    TextSize = 13;
+    renderer = &2;
+}
+
+EditBox.Hue {
+    Alignment = Center;
+    InputValidator = UInt;
+    Position = (410, 237);
+    Size = (40, 22);
+    Text = 239;
+    TextSize = 13;
+    renderer = &3;
+}
+
+EditBox.Sat {
+    Alignment = Center;
+    InputValidator = UInt;
+    Position = (410, 267);
+    Size = (40, 22);
+    Text = 240;
+    TextSize = 13;
+    renderer = &3;
+}
+
+EditBox.Light {
+    Alignment = Center;
+    InputValidator = UInt;
+    Position = (410, 297);
+    Size = (40, 22);
+    Text = 240;
+    TextSize = 13;
+    renderer = &3;
+}
+
+Picture.SatHue {
+    Position = (230, 20);
+    Size = (200, 200);
+
+    Renderer {
+        texture = "assets/icons/colorPick.png";
+        transparenttexture = false;
+    }
+}
+
+Picture.Cross {
+    Position = (220, 10);
+    Size = (28, 28);
+
+    Renderer {
+        texture = "assets/icons/cross.png";
+        transparenttexture = false;
+    }
+}

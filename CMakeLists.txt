@@ -73,6 +73,8 @@ add_executable(
 	src/FrameDataEditor/EditableObject.hpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
+	src/Utils.cpp
+	src/Utils.hpp
 )
 
 target_link_libraries(
