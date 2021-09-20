@@ -21,6 +21,7 @@ bool dragLeft = false;
 bool dragRight = false;
 bool updateAnyway = false;
 bool spriteSelected = false;
+bool quitRequest = false;
 tgui::Color normalColor;
 tgui::Button::Ptr boxButton;
 Battle::Vector2i mouseStart;
@@ -315,6 +316,13 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto resetHit = panel->get<tgui::CheckBox>("ResetHit");
 	auto resetSpeed = panel->get<tgui::CheckBox>("ResetSpeed");
 	auto restand = panel->get<tgui::CheckBox>("Restand");
+	auto super = panel->get<tgui::CheckBox>("Super");
+	auto ultimate = panel->get<tgui::CheckBox>("Ultimate");
+	auto jumpCancelable = panel->get<tgui::CheckBox>("JumpCancel");
+	auto transformCancelable = panel->get<tgui::CheckBox>("TransCancel");
+	auto unTransformCancelable = panel->get<tgui::CheckBox>("UnTransCancel");
+	auto dashCancelable = panel->get<tgui::CheckBox>("DashCancel");
+	auto backDashCancelable = panel->get<tgui::CheckBox>("BDCancel");
 
 	auto invulnerable = panel->get<tgui::CheckBox>("Invulnerable");
 	auto invulnerableArmor = panel->get<tgui::CheckBox>("InvulnerableArmor");
@@ -772,7 +780,84 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [&object, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
+	super->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.super = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	ultimate->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.ultimate = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	jumpCancelable->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.jumpCancelable = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	transformCancelable->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.transformCancelable = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	unTransformCancelable->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.unTransformCancelable = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	dashCancelable->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.dashCancelable = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	backDashCancelable->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.backDashCancelable = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	oFlags->connect("TextChanged", [&object, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
@@ -799,6 +884,13 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		resetHit->setChecked(data.oFlag.resetHits);
 		resetSpeed->setChecked(data.oFlag.resetSpeed);
 		restand->setChecked(data.oFlag.restand);
+		super->setChecked(data.oFlag.super);
+		ultimate->setChecked(data.oFlag.ultimate);
+		jumpCancelable->setChecked(data.oFlag.jumpCancelable);
+		transformCancelable->setChecked(data.oFlag.transformCancelable);
+		unTransformCancelable->setChecked(data.oFlag.unTransformCancelable);
+		dashCancelable->setChecked(data.oFlag.dashCancelable);
+		backDashCancelable->setChecked(data.oFlag.backDashCancelable);
 		if (!g)
 			*c = false;
 	});
@@ -1071,6 +1163,9 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		}
 		stream << j.dump(4) << std::endl;
 	});
+	bar->connectMenuItem({"File", "Quit"}, []{
+		quitRequest = true;
+	});
 	bar->connectMenuItem({"File", "New framedata"}, [&gui, &object]{
 		object = std::make_unique<Battle::EditableObject>();
 		loadedPath.clear();
@@ -1187,7 +1282,7 @@ void	run()
 		while (Battle::game.screen->pollEvent(event)) {
 			gui.handleEvent(event);
 			if (event.type == sf::Event::Closed)
-				Battle::game.screen->close();
+				quitRequest = true;
 			if (event.type == sf::Event::Resized) {
 				guiView.setSize(event.size.width, event.size.height);
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
@@ -1210,6 +1305,51 @@ void	run()
 		}
 		gui.draw();
 		Battle::game.screen->display();
+		if (quitRequest) {
+			if (!object) {
+				Battle::game.screen->close();
+				continue;
+			}
+			quitRequest = false;
+			if (gui.get<tgui::ChildWindow>("QuitConfirm"))
+				continue;
+
+			auto window = Utils::openWindowWithFocus(gui, 260, 90);
+
+			window->loadWidgetsFromFile("assets/gui/quitConfirm.gui");
+			window->get<tgui::Button>("Yes")->connect("Clicked", [&object](std::weak_ptr<tgui::ChildWindow> self){
+				if (loadedPath.empty())
+					loadedPath = Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+				if (loadedPath.empty()) {
+					self.lock()->close();
+					return;
+				}
+
+				std::ofstream stream{loadedPath};
+
+				if (stream.fail()) {
+					Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
+					return;
+				}
+
+				nlohmann::json j = nlohmann::json::array();
+
+				for (auto &[key, value] : object->_moves) {
+					j.push_back({
+						{"action", key},
+						{"framedata", value}
+					});
+				}
+				stream << j.dump(4) << std::endl;
+				Battle::game.screen->close();
+			}, std::weak_ptr<tgui::ChildWindow>(window));
+			window->get<tgui::Button>("No")->connect("Clicked", []{
+				Battle::game.screen->close();
+			});
+			window->get<tgui::Button>("Cancel")->connect("Clicked", [](std::weak_ptr<tgui::ChildWindow> self){
+				self.lock()->close();
+			}, std::weak_ptr<tgui::ChildWindow>(window));
+		}
 	}
 }
 

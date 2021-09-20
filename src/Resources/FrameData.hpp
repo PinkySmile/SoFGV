@@ -65,6 +65,9 @@ namespace Battle
 			bool ultimate : 1;
 			bool jumpCancelable : 1;
 			bool transformCancelable : 1;
+			bool unTransformCancelable : 1;
+			bool dashCancelable : 1;
+			bool backDashCancelable : 1;
 		};
 		unsigned flags;
 	};
@@ -93,6 +96,8 @@ namespace Battle
 		unsigned pushBack = 0;
 		unsigned pushBlock = 0;
 		unsigned subObjectSpawn = 0;
+		Vector2i hitSpeed;
+		Vector2i counterHitSpeed;
 
 		FrameData() = default;
 		~FrameData();

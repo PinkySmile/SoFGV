@@ -5,24 +5,24 @@
             [
                 {
                     "collision_box": {
-                        "height": 128,
-                        "left": -251,
-                        "top": -98,
-                        "width": 64
+                        "height": 64,
+                        "left": -18,
+                        "top": 56,
+                        "width": 32
                     },
                     "defense_flag": 3564,
                     "duration": 6,
                     "hit_boxes": [
                         {
                             "height": 16,
-                            "left": 48,
-                            "top": 32,
+                            "left": 22,
+                            "top": 22,
                             "width": 16
                         },
                         {
                             "height": 32,
-                            "left": 229,
-                            "top": -175,
+                            "left": 40,
+                            "top": 46,
                             "width": 320
                         }
                     ],
@@ -92,7 +92,27 @@
                     "void_limit": 1
                 },
                 {
+                    "collision_box": {
+                        "height": 64,
+                        "left": -251,
+                        "top": -98,
+                        "width": 32
+                    },
                     "duration": 6,
+                    "hit_boxes": [
+                        {
+                            "height": 16,
+                            "left": 48,
+                            "top": 32,
+                            "width": 16
+                        },
+                        {
+                            "height": 32,
+                            "left": 229,
+                            "top": -175,
+                            "width": 320
+                        }
+                    ],
                     "hurt_boxes": [
                         {
                             "height": 96,
