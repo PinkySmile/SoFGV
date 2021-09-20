@@ -1395,6 +1395,71 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		selectBox(button, &box);
 	});
 
+	bar->connectMenuItem({"Remove", "Frame"}, [&object, boxes]{
+		auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
+
+		if (arr.size() == 1) {
+			arr.back() = Battle::FrameData();
+			refreshBoxes(boxes, arr.back(), object);
+			selectBox(nullptr, nullptr);
+			return;
+		}
+		arr.erase(arr.begin() + object->_animation);
+		if (object->_animation == arr.size())
+			object->_animation--;
+		refreshBoxes(boxes, arr[object->_animation], object);
+		selectBox(nullptr, nullptr);
+	});
+	bar->connectMenuItem({"Remove", "Animation block"}, [&object]{
+		auto &arr = object->_moves.at(object->_action);
+
+		if (arr.size() == 1) {
+			arr.back().clear();
+			arr.back().emplace_back();
+			return;
+		}
+		arr.erase(arr.begin() + object->_animation);
+	});
+	bar->connectMenuItem({"Remove", "Action"}, [&object]{
+		if (object->_action == 0)
+			return;
+
+		auto it = object->_moves.find(object->_action);
+
+		object->_moves.erase(it);
+	});
+	bar->connectMenuItem({"Remove", "Selected box"}, [boxes, &object, panel]{
+		if (!selectedBox)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (selectedBox == data.collisionBox) {
+			auto block = panel->get<tgui::CheckBox>("Collision");
+
+			block->setChecked(false);
+			selectBox(nullptr, nullptr);
+			return;
+		}
+		for (auto it = data.hitBoxes.begin(); it < data.hitBoxes.end(); it++) {
+			if (&*it == selectedBox) {
+				data.hitBoxes.erase(it);
+				refreshBoxes(boxes, data, object);
+				selectBox(nullptr, nullptr);
+				return;
+			}
+		}
+		for (auto it = data.hurtBoxes.begin(); it < data.hurtBoxes.end(); it++) {
+			if (&*it == selectedBox) {
+				data.hurtBoxes.erase(it);
+				refreshBoxes(boxes, data, object);
+				selectBox(nullptr, nullptr);
+				return;
+			}
+		}
+		assert(false);
+	});
+
 	for (unsigned i = 0; i < resizeButtons.size(); i++) {
 		auto &resizeButton = resizeButtons[i];
 

@@ -278,7 +278,7 @@ Panel.Panel1 {
 
         Panel.Panel2 {
             Position = (0, 40);
-            Size = (&.w, 840);
+            Size = (&.w, &.h - y);
             renderer = &5;
 
             Label.Label17 {
@@ -1151,7 +1151,7 @@ MenuBar.main_bar {
     }
 
     Menu {
-        Items = [Frame, "End frame", "Animation block", "Hurt box", "Hit box"];
+        Items = [Frame, "Animation block", Action, "Hurt box", "Hit box"];
         Text = New;
     }
 
