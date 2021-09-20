@@ -2,6 +2,7 @@
 // Created by PinkySmile on 15/01/2019.
 //
 
+#include <sstream>
 #include <iostream>
 #include <iomanip>
 #include <ctime>

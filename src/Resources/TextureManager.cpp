@@ -100,6 +100,8 @@ namespace Battle
 
 	void TextureManager::addRef(unsigned int id)
 	{
+		if (id == 0)
+			return;
 		for (auto &[loadedPath, attr] : this->_allocatedTextures)
 			if (attr.first == id && attr.second) {
 				attr.second++;
@@ -111,6 +113,8 @@ namespace Battle
 
 	Vector2u TextureManager::getTextureSize(unsigned int id) const
 	{
+		if (id == 0)
+			return {0, 0};
 		return this->_textures.at(id).getSize();
 	}
 }
