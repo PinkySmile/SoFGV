@@ -3,7 +3,10 @@ project(Battle)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(include)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
+find_package(SFML REQUIRED)
+find_package(TGUI REQUIRED)
+include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS})
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -42,9 +45,10 @@ add_executable(
 
 target_link_libraries(
 	Battle
-	sfml-window
-	sfml-system
-	sfml-graphics
+	${SFML_GRAPHICS_LIBRARY}
+	${SFML_AUDIO_LIBRARY}
+	${SFML_SYSTEM_LIBRARY}
+	${SFML_WINDOW_LIBRARY}
 )
 
 add_executable(
@@ -79,8 +83,8 @@ add_executable(
 
 target_link_libraries(
 	FrameDataEditor
-	sfml-window
-	sfml-system
-	sfml-graphics
-	tgui
+	${SFML_GRAPHICS_LIBRARY}
+	${SFML_SYSTEM_LIBRARY}
+	${SFML_WINDOW_LIBRARY}
+	${TGUI_LIBRARIES}
 )
