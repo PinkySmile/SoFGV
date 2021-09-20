@@ -19,11 +19,11 @@ namespace Battle
 		if (this->showBoxes) {
 			sf::RectangleShape rect;
 
-			rect.setOutlineThickness(2);
+			rect.setOutlineThickness(1);
 			rect.setOutlineColor(sf::Color{0x00, 0xFF, 0x00, 0xFF});
 			rect.setFillColor(sf::Color{0x00, 0xFF, 0x00, 0x60});
 			for (auto &hurtBox : data.hurtBoxes) {
-				rect.setPosition(hurtBox.pos);
+				rect.setPosition(hurtBox.pos + this->_position);
 				rect.setSize(hurtBox.size);
 				game.screen->draw(rect);
 			}
@@ -31,7 +31,7 @@ namespace Battle
 			rect.setOutlineColor(sf::Color{0xFF, 0x00, 0x00, 0xFF});
 			rect.setFillColor(sf::Color{0xFF, 0x00, 0x00, 0x60});
 			for (auto &hitBox : data.hitBoxes) {
-				rect.setPosition(hitBox.pos);
+				rect.setPosition(hitBox.pos + this->_position);
 				rect.setSize(hitBox.size);
 				game.screen->draw(rect);
 			}
@@ -39,7 +39,7 @@ namespace Battle
 			if (data.collisionBox) {
 				rect.setOutlineColor(sf::Color{0xFF, 0xFF, 0x00, 0xFF});
 				rect.setFillColor(sf::Color{0xFF, 0xFF, 0x00, 0x60});
-				rect.setPosition(data.collisionBox->pos);
+				rect.setPosition(data.collisionBox->pos + this->_position);
 				rect.setSize(data.collisionBox->size);
 				game.screen->draw(rect);
 			}

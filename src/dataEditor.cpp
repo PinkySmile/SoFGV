@@ -8,27 +8,181 @@
 #include "FrameDataEditor/EditableObject.hpp"
 #include "Utils.hpp"
 
+auto c = std::make_shared<bool>(false);
 Battle::Logger logger("./editor.log");
-float updateTimer = std::numeric_limits<float>::infinity();
+float updateTimer = 0;//std::numeric_limits<float>::infinity();
 float timer = 0;
 std::string loadedPath;
+bool canDrag = false;
+bool dragStart = false;
 bool dragUp = false;
 bool dragDown = false;
 bool dragLeft = false;
 bool dragRight = false;
+bool updateAnyway = false;
+bool spriteSelected = false;
+tgui::Color normalColor;
+tgui::Button::Ptr boxButton;
+Battle::Vector2i mouseStart;
+Battle::Vector2i lastMouse;
 Battle::Box *selectedBox;
 Battle::Box startValues;
 std::array<tgui::Button::Ptr, 8> resizeButtons;
 
-void	refreshFrameDataPanel(tgui::Panel::Ptr panel, Battle::EditableObject &object)
+void	arrangeButtons(Battle::EditableObject *object)
 {
-	auto action = panel->get<tgui::EditBox>("Action");
-	auto block = panel->get<tgui::SpinButton>("Block");
+	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
+	Battle::Box box = spriteSelected ? Battle::Box{{static_cast<int>(data->offset.x - data->size.x / 2), data->offset.y}, data->size} : *selectedBox;
+
+	for (int i = 0; i < 8; i++) {
+		Battle::Vector2i pos;
+		auto resizeButton = resizeButtons[i];
+
+		if (i == 0 || i == 3 || i == 5)
+			pos.x = box.pos.x - resizeButton->getSize().x;
+		else if (i == 2 || i == 4 || i == 7)
+			pos.x = box.pos.x + box.size.x;
+		else
+			pos.x = box.pos.x - resizeButton->getSize().x / 2 + box.size.x / 2;
+
+		if (i < 3)
+			pos.y = box.pos.y - resizeButton->getSize().x;
+		else if (i > 4)
+			pos.y = box.pos.y + box.size.y;
+		else
+			pos.y = box.pos.y - resizeButton->getSize().x / 2 + box.size.y / 2;
+		resizeButton->setPosition("boxes.w / 2 + " + std::to_string(pos.x), "boxes.h / 2 + " + std::to_string(pos.y));
+	}
+}
+
+void	selectBox(tgui::Button::Ptr button, Battle::Box *box)
+{
+	spriteSelected = false;
+	selectedBox = box;
+	if (boxButton)
+		boxButton->getRenderer()->setBackgroundColor(normalColor);
+	if (button) {
+		normalColor = button->getRenderer()->getBackgroundColor();
+		button->getRenderer()->setBackgroundColor(button->getRenderer()->getBackgroundColorFocused());
+	}
+	boxButton = button;
+	for (auto &b : resizeButtons)
+		b->setVisible(box != nullptr);
+	if (box)
+		arrangeButtons(nullptr);
+}
+
+void	selectSprite(tgui::Button::Ptr button, std::unique_ptr<Battle::EditableObject> &object)
+{
+	boxButton = button;
+	normalColor = button->getRenderer()->getBackgroundColor();
+	button->getRenderer()->setBackgroundColor(button->getRenderer()->getBackgroundColorFocused());
+	spriteSelected = true;
+	for (auto &b : resizeButtons)
+		b->setVisible(true);
+	arrangeButtons(&*object);
+}
+
+void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_ptr<Battle::EditableObject> &object)
+{
+	int i = 0;
+	auto button = tgui::Button::create();
+	auto renderer = button->getRenderer();
+
+	panel->removeAllWidgets();
+	renderer->setBackgroundColor({0xFF, 0xFF, 0xFF, 0x00});
+	renderer->setBackgroundColorDown({0xFF, 0xFF, 0xFF, 0xA0});
+	renderer->setBackgroundColorHover({0xFF, 0xFF, 0xFF, 0x80});
+	renderer->setBackgroundColorDisabled({0xFF, 0xFF, 0xFF, 0x4C});
+	renderer->setBackgroundColorFocused({0xFF, 0xFF, 0xFF, 0xA0});
+	renderer->setBorderColor({0xFF, 0xFF, 0xFF});
+	renderer->setBorderColorDown({0xFF, 0xFF, 0xFF});
+	renderer->setBorderColorHover({0xFF, 0xFF, 0xFF});
+	renderer->setBorderColorDisabled({0xFF, 0xFF, 0xFF});
+	renderer->setBorderColorFocused({0xFF, 0xFF, 0xFF});
+	renderer->setBorders(1);
+	button->setSize(data.size.x, data.size.y);
+	button->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y));
+	button->connect("MousePressed", [&object](std::weak_ptr<tgui::Button> self){
+		selectSprite(self.lock(), object);
+		canDrag = true;
+	}, std::weak_ptr<tgui::Button>(button));
+	panel->add(button, "SpriteBox");
+
+	if (data.collisionBox) {
+		button = tgui::Button::create();
+		renderer = button->getRenderer();
+		renderer->setBackgroundColor({0xFF, 0xFF, 0x00, 0x4C});
+		renderer->setBackgroundColorDown({0xFF, 0xFF, 0x00, 0xA0});
+		renderer->setBackgroundColorHover({0xFF, 0xFF, 0x00, 0x80});
+		renderer->setBackgroundColorDisabled({0xFF, 0xFF, 0x00, 0x4C});
+		renderer->setBackgroundColorFocused({0xFF, 0xFF, 0x00, 0xA0});
+		renderer->setBorderColor({0xFF, 0xFF, 0x00});
+		renderer->setBorderColorDown({0xFF, 0xFF, 0x00});
+		renderer->setBorderColorHover({0xFF, 0xFF, 0x00});
+		renderer->setBorderColorDisabled({0xFF, 0xFF, 0x00});
+		renderer->setBorderColorFocused({0xFF, 0xFF, 0x00});
+		renderer->setBorders(1);
+		button->setSize(data.collisionBox->size.x, data.collisionBox->size.y);
+		button->setPosition("&.w / 2 + " + std::to_string(data.collisionBox->pos.x), "&.h / 2 + " + std::to_string(data.collisionBox->pos.y));
+		button->connect("MousePressed", [&data](std::weak_ptr<tgui::Button> self){
+			selectBox(self.lock(), data.collisionBox);
+			canDrag = true;
+		}, std::weak_ptr<tgui::Button>(button));
+		panel->add(button, "CollisionBox");
+	}
+	for (auto &box : data.hurtBoxes) {
+		button = tgui::Button::create();
+		renderer = button->getRenderer();
+		renderer->setBackgroundColor({0x00, 0xFF, 0x00, 0x4C});
+		renderer->setBackgroundColorDown({0x00, 0xFF, 0x00, 0xA0});
+		renderer->setBackgroundColorHover({0x00, 0xFF, 0x00, 0x80});
+		renderer->setBackgroundColorDisabled({0x00, 0xFF, 0x00, 0x4C});
+		renderer->setBackgroundColorFocused({0x00, 0xFF, 0x00, 0xA0});
+		renderer->setBorderColor({0x00, 0xFF, 0x00});
+		renderer->setBorderColorDown({0x00, 0xFF, 0x00});
+		renderer->setBorderColorHover({0x00, 0xFF, 0x00});
+		renderer->setBorderColorDisabled({0x00, 0xFF, 0x00});
+		renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
+		renderer->setBorders(1);
+		button->setSize(box.size.x, box.size.y);
+		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
+			selectBox(self.lock(), &box);
+			canDrag = true;
+		}, std::weak_ptr<tgui::Button>(button));
+		panel->add(button, "HurtBox" + std::to_string(i));
+		i++;
+	}
+	i = 0;
+	for (auto &box : data.hitBoxes) {
+		button = tgui::Button::create();
+		renderer = button->getRenderer();
+		renderer->setBackgroundColor({0xFF, 0x00, 0x00, 0x4C});
+		renderer->setBackgroundColorDown({0xFF, 0x00, 0x00, 0xA0});
+		renderer->setBackgroundColorHover({0xFF, 0x00, 0x00, 0x80});
+		renderer->setBackgroundColorDisabled({0xFF, 0x00, 0x00, 0x4C});
+		renderer->setBackgroundColorFocused({0xFF, 0x00, 0x00, 0xA0});
+		renderer->setBorderColor({0xFF, 0x00, 0x00});
+		renderer->setBorderColorDown({0xFF, 0x00, 0x00});
+		renderer->setBorderColorHover({0xFF, 0x00, 0x00});
+		renderer->setBorderColorDisabled({0xFF, 0x00, 0x00});
+		renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
+		renderer->setBorders(1);
+		button->setSize(box.size.x, box.size.y);
+		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
+			selectBox(self.lock(), &box);
+			canDrag = true;
+		}, std::weak_ptr<tgui::Button>(button));
+		panel->add(button, "HitBox" + std::to_string(i));
+		i++;
+	}
+}
+
+void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
+{
 	auto progress = panel->get<tgui::Slider>("Progress");
-	auto play = panel->get<tgui::Button>("Play");
-	auto step = panel->get<tgui::Button>("Step");
-	auto speedCtrl = panel->get<tgui::SpinButton>("Speed");
-	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
@@ -48,31 +202,78 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, Battle::EditableObject &objec
 	auto prorate = panel->get<tgui::EditBox>("Rate");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
 	auto dFlags = panel->get<tgui::EditBox>("dFlags");
-	auto &data = object._moves.at(object._action)[object._actionBlock][object._animation];
+	auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
+	logger.debug("Soft refresh");
+	*c = true;
 	dFlags->setText(std::to_string(data.dFlag.flags));
 	oFlags->setText(std::to_string(data.oFlag.flags));
+	progress->setMinimum(0);
+	progress->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
+	progress->setValue(object->_animation);
+	sprite->setText(data.spritePath);
+	duration->setText(std::to_string(data.duration));
+	marker->setText(std::to_string(data.specialMarker));
+	subObj->setText(std::to_string(data.subObjectSpawn));
+	pushBack->setText(std::to_string(data.pushBack));
+	pushBlock->setText(std::to_string(data.pushBlock));
+	blockStun->setText(std::to_string(data.blockStun));
+	hitStun->setText(std::to_string(data.hitStun));
+	spiritLimit->setText(std::to_string(data.spiritLimit));
+	voidLimit->setText(std::to_string(data.voidLimit));
+	matterLimit->setText(std::to_string(data.matterLimit));
+	prorate->setText(std::to_string(data.prorate));
+
+	auto newBounds = "(" + std::to_string(data.textureBounds.pos.x) + "," + std::to_string(data.textureBounds.pos.y) + "," + std::to_string(data.textureBounds.size.x) + "," + std::to_string(data.textureBounds.size.y) + ")";
+	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
+	auto newOffset = "(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")";
+
+	offset->setText(newOffset);
+	bounds->setText(newBounds);
+	size->setText(newSize);
+	rotation->setValue(data.rotation * 180 / M_PI);
+	collisionBox->setChecked(data.collisionBox != nullptr);
+	selectBox(nullptr, nullptr);
+	refreshBoxes(boxes, data, object);
+	*c = false;
 }
 
-void	refreshRightPanel(tgui::Gui &gui, Battle::EditableObject &object)
+void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
-
-	panel->setEnabled(true);
-	if (object._moves[0].empty()) {
-		object._moves[0].emplace_back();
-		object._moves[0][0].emplace_back();
-	}
-	refreshFrameDataPanel(animPanel, object);
-}
-
-void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::EditableObject> &object)
-{
-	auto c = std::make_shared<bool>(false);
 	auto action = panel->get<tgui::EditBox>("Action");
 	auto block = panel->get<tgui::SpinButton>("Block");
+	auto play = panel->get<tgui::Button>("Play");
+	auto step = panel->get<tgui::Button>("Step");
+	auto speedCtrl = panel->get<tgui::SpinButton>("Speed");
+	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto frame = panel->get<tgui::SpinButton>("Frame");
+
+	logger.debug("Hard refresh");
+	panel->setEnabled(true);
+	step->onPress.emit(&*step, "Step");
+	action->setText("0");
+	action->onReturnKeyPress.emit(&*action, "0");
+	if (speedCtrl->getValue() == 0)
+		speedCtrl->onValueChange.emit(&*speedCtrl, 0);
+	else
+		speedCtrl->setValue(0);
+	if (object->_moves[0].empty()) {
+		object->_moves[0].emplace_back();
+		object->_moves[0][0].emplace_back();
+	}
+	refreshFrameDataPanel(panel, gui.get<tgui::Panel>("Boxes"), object);
+}
+
+void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
+{
+	auto panWeak = std::weak_ptr<tgui::Panel>(panel);
+	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
+	auto action = panel->get<tgui::EditBox>("Action");
+	auto block = panel->get<tgui::SpinButton>("Block");
+	auto blockLabel = panel->get<tgui::Label>("Label1");
+	auto frameLabel = panel->get<tgui::Label>("Label2");
 	auto progress = panel->get<tgui::Slider>("Progress");
 	auto play = panel->get<tgui::Button>("Play");
 	auto step = panel->get<tgui::Button>("Step");
@@ -130,8 +331,272 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 	auto dashSpeed = panel->get<tgui::CheckBox>("DashSpeed");
 	auto resetRotation = panel->get<tgui::CheckBox>("ResetRotation");
 	auto counterHit = panel->get<tgui::CheckBox>("CounterHit");
+	auto flash = panel->get<tgui::CheckBox>("Flash");
 
-	grab->connect("Changed", [oFlags, &object, c](bool b){
+	boxes->connect("Clicked", []{
+		if (!dragStart && !canDrag)
+			selectBox(nullptr, nullptr);
+	});
+	action->connect("ReturnKeyPressed", [&object, block](const std::string &t){
+		if (t.empty())
+			return;
+		object->_action = std::stoul(t);
+		if (object->_moves[object->_action].empty()) {
+			object->_moves[object->_action].emplace_back();
+			object->_moves[object->_action][0].emplace_back();
+		}
+		block->setMaximum(object->_moves[object->_action].size() - 1);
+		block->setMinimum(0);
+		if (block->getValue() == 0)
+			block->onValueChange.emit(&*block, 0);
+		else
+			block->setValue(0);
+	});
+	block->connect("ValueChanged", [&object, blockLabel, progress](float f){
+		int i = f;
+
+		blockLabel->setText("Block " + std::to_string(i));
+		object->_actionBlock = i;
+		if (object->_moves[object->_action][i].empty())
+			object->_moves[object->_action][i].emplace_back();
+		progress->setMaximum(object->_moves[object->_action][i].size() - 1);
+		progress->setMinimum(0);
+		if (progress->getValue() == 0)
+			progress->onValueChange.emit(&*progress, 0);
+		else
+			progress->setValue(0);
+	});
+	progress->connect("ValueChanged", [boxes, &object, frameLabel, panWeak](float f){
+		int i = f;
+
+		frameLabel->setText("Frame " + std::to_string(i));
+		object->_animation = i;
+		object->_animationCtr = 0;
+		refreshFrameDataPanel(panWeak.lock(), boxes, object);
+	});
+	play->connect("Clicked", [speedLabel, speedCtrl]{
+		speedCtrl->setValue(1);
+	});
+	step->connect("Clicked", [speedLabel, speedCtrl]{
+		updateAnyway = true;
+		speedCtrl->setValue(0);
+	});
+	speedCtrl->connect("ValueChanged", [speedLabel, animPanel](float f){
+		speedLabel->setText(f == 0 ? "Paused" : "x" + std::to_string(f));
+		updateTimer = 1 / f;
+		timer = 0;
+		animPanel->setEnabled(f == 0);
+	});
+	sprite->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.spritePath = t;
+		data.reloadTexture();
+	});
+	offset->connect("TextChanged", [boxes, &object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto pos = t.find(',');
+		auto x = t.substr(1, pos - 1);
+		auto y = t.substr(pos + 1, t.size() - pos - 1);
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.offset.x = std::stoul(x);
+		data.offset.y = std::stoul(y);
+		refreshBoxes(boxes, data, object);
+		if (spriteSelected)
+			arrangeButtons(&*object);
+	});
+	size->connect("TextChanged", [&object, boxes](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto pos = t.find(',');
+		auto x = t.substr(1, pos - 1);
+		auto y = t.substr(pos + 1, t.size() - pos - 1);
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.size.x = std::stoul(x);
+		data.size.y = std::stoul(y);
+		refreshBoxes(boxes, data, object);
+		if (spriteSelected)
+			arrangeButtons(&*object);
+	});
+	bounds->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto pos = t.find(',');
+		auto x = t.substr(1, pos - 1);
+
+		auto remainder = t.substr(pos + 1);
+		auto pos2 = remainder.find(',');
+		auto y = remainder.substr(0, pos2 + 1);
+
+		auto remainder2 = remainder.substr(pos2 + 1);
+		auto pos3 = remainder2.find(',');
+		auto w = remainder2.substr(0, pos3 + 1);
+		auto h = remainder2.substr(pos3 + 1, remainder2.size() - pos3 - 1);;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.textureBounds.pos.x = std::stoul(x);
+		data.textureBounds.pos.y = std::stoul(y);
+		data.textureBounds.size.x = std::stoul(w);
+		data.textureBounds.size.y = std::stoul(h);
+	});
+	rotation->connect("ValueChanged", [&object](float f){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.rotation = f / 180 * M_PI;
+	});
+	duration->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.duration = std::stoul(t);
+	});
+	marker->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.specialMarker = std::stoul(t);
+	});
+	subObj->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.subObjectSpawn = std::stoul(t);
+	});
+	pushBack->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.pushBack = std::stoul(t);
+	});
+	pushBlock->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.pushBlock = std::stoul(t);
+	});
+	blockStun->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.blockStun = std::stoul(t);
+	});
+	hitStun->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.hitStun = std::stoul(t);
+	});
+	spiritLimit->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.spiritLimit = std::stoul(t);
+	});
+	voidLimit->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.voidLimit = std::stoul(t);
+	});
+	matterLimit->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.matterLimit = std::stoul(t);
+	});
+	prorate->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.prorate = std::stoul(t);
+	});
+	collisionBox->connect("Checked", [&object, boxes]{
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (!data.collisionBox)
+			data.collisionBox = new Battle::Box{{-static_cast<int>(data.size.x) / 2, 0}, data.size};
+		refreshBoxes(boxes, data, object);
+	});
+	collisionBox->connect("Unchecked", [&object, boxes]{
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (selectedBox && selectedBox == data.collisionBox)
+			selectBox(nullptr, nullptr);
+		delete data.collisionBox;
+		data.collisionBox = nullptr;
+		refreshBoxes(boxes, data, object);
+	});
+
+	grab->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -142,7 +607,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	aub->connect("Changed", [oFlags, &object, c](bool b){
+	aub->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -153,7 +618,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	ub->connect("Changed", [oFlags, &object, c](bool b){
+	ub->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -164,7 +629,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	voidElem->connect("Changed", [oFlags, &object, c](bool b){
+	voidElem->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -175,7 +640,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	spiritElem->connect("Changed", [oFlags, &object, c](bool b){
+	spiritElem->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -186,7 +651,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	matterElem->connect("Changed", [oFlags, &object, c](bool b){
+	matterElem->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -197,7 +662,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	lowHit->connect("Changed", [oFlags, &object, c](bool b){
+	lowHit->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -208,7 +673,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	highHit->connect("Changed", [oFlags, &object, c](bool b){
+	highHit->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -219,7 +684,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	autoHitPos->connect("Changed", [oFlags, &object, c](bool b){
+	autoHitPos->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -230,7 +695,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	canCH->connect("Changed", [oFlags, &object, c](bool b){
+	canCH->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -241,7 +706,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	hitSwitch->connect("Changed", [oFlags, &object, c](bool b){
+	hitSwitch->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -252,7 +717,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	cancelable->connect("Changed", [oFlags, &object, c](bool b){
+	cancelable->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -263,7 +728,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	jab->connect("Changed", [oFlags, &object, c](bool b){
+	jab->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -274,7 +739,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	resetHit->connect("Changed", [oFlags, &object, c](bool b){
+	resetHit->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -285,7 +750,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	resetSpeed->connect("Changed", [oFlags, &object, c](bool b){
+	resetSpeed->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -296,7 +761,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	restand->connect("Changed", [oFlags, &object, c](bool b){
+	restand->connect("Changed", [oFlags, &object](bool b){
 		if (*c)
 			return;
 
@@ -307,16 +772,17 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [c, &object, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
-		if (*c)
-			return;
+	oFlags->connect("TextChanged", [&object, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+		auto g = *c;
 
-		*c = true;
-		data.oFlag.flags = std::stoul(t);
+		if (!*c) {
+			*c = true;
+			data.oFlag.flags = std::stoul(t);
+		}
 		grab->setChecked(data.oFlag.grab);
 		aub->setChecked(data.oFlag.airUnblockable);
 		ub->setChecked(data.oFlag.unblockable);
@@ -333,10 +799,11 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		resetHit->setChecked(data.oFlag.resetHits);
 		resetSpeed->setChecked(data.oFlag.resetSpeed);
 		restand->setChecked(data.oFlag.restand);
-		*c = false;
+		if (!g)
+			*c = false;
 	});
 
-	invulnerable->connect("Changed", [c, &object, dFlags](bool b){
+	invulnerable->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -347,7 +814,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	invulnerableArmor->connect("Changed", [c, &object, dFlags](bool b){
+	invulnerableArmor->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -358,7 +825,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	superArmor->connect("Changed", [c, &object, dFlags](bool b){
+	superArmor->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -369,7 +836,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	grabInvul->connect("Changed", [c, &object, dFlags](bool b){
+	grabInvul->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -380,7 +847,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	voidBlock->connect("Changed", [c, &object, dFlags](bool b){
+	voidBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -391,7 +858,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	spiritBlock->connect("Changed", [c, &object, dFlags](bool b){
+	spiritBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -402,7 +869,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	matterBlock->connect("Changed", [c, &object, dFlags](bool b){
+	matterBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -413,7 +880,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	neutralBlock->connect("Changed", [c, &object, dFlags](bool b){
+	neutralBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -424,7 +891,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	airborne->connect("Changed", [c, &object, dFlags](bool b){
+	airborne->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -435,7 +902,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	canBlock->connect("Changed", [c, &object, dFlags](bool b){
+	canBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -446,7 +913,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	highBlock->connect("Changed", [c, &object, dFlags](bool b){
+	highBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -457,7 +924,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	lowBlock->connect("Changed", [c, &object, dFlags](bool b){
+	lowBlock->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -468,7 +935,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dashSpeed->connect("Changed", [c, &object, dFlags](bool b){
+	dashSpeed->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -479,7 +946,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	resetRotation->connect("Changed", [c, &object, dFlags](bool b){
+	resetRotation->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -490,7 +957,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	counterHit->connect("Changed", [c, &object, dFlags](bool b){
+	counterHit->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
 			return;
 
@@ -501,16 +968,28 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, c, &object](std::string t){
+	flash->connect("Changed", [&object, dFlags](bool b){
 		if (*c)
-			return;
-		if (t.empty())
 			return;
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.dFlag.flags = std::stoul(t);
+		data.dFlag.flash = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+		auto g = *c;
+
+		if (!*c) {
+			*c = true;
+			data.dFlag.flags = std::stoul(t);
+		}
 		invulnerable->setChecked(data.dFlag.invulnerable);
 		invulnerableArmor->setChecked(data.dFlag.invulnerableArmor);
 		superArmor->setChecked(data.dFlag.superarmor);
@@ -526,7 +1005,9 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, std::unique_ptr<Battle::Editabl
 		dashSpeed->setChecked(data.dFlag.dashSpeed);
 		resetRotation->setChecked(data.dFlag.resetRotation);
 		counterHit->setChecked(data.dFlag.counterHit);
-		*c = false;
+		flash->setChecked(data.dFlag.flash);
+		if (!g)
+			*c = false;
 	});
 }
 
@@ -534,9 +1015,10 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
 	auto panel = gui.get<tgui::Panel>("Panel1");
-	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
+	auto boxes = panel->get<tgui::Panel>("Boxes");
 
-	placeAnimPanelHooks(animPanel, object);
+	logger.debug("Placing hooks");
+	placeAnimPanelHooks(panel, gui.get<tgui::Panel>("Boxes"), object);
 	bar->connectMenuItem({"File", "Save"}, [&object]{
 		if (!object)
 			return;
@@ -592,7 +1074,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	bar->connectMenuItem({"File", "New framedata"}, [&gui, &object]{
 		object = std::make_unique<Battle::EditableObject>();
 		loadedPath.clear();
-		refreshRightPanel(gui, *object);
+		refreshRightPanel(gui, object);
 	});
 	bar->connectMenuItem({"File", "Load framedata"}, [&gui, &object]{
 		auto path = Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
@@ -602,7 +1084,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		try {
 			object = std::make_unique<Battle::EditableObject>(path);
 			loadedPath = path;
-			refreshRightPanel(gui, *object);
+			refreshRightPanel(gui, object);
 		} catch (std::exception &e) {
 			Utils::dispMsg("Error", e.what(), MB_ICONERROR);
 		}
@@ -612,6 +1094,8 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		auto &resizeButton = resizeButtons[i];
 
 		resizeButton = tgui::Button::create();
+		resizeButton->setVisible(false);
+		resizeButton->setSize(8, 8);
 		resizeButton->getRenderer()->setBackgroundColor(tgui::Color::Transparent);
 		resizeButton->getRenderer()->setBorderColor(tgui::Color::Red);
 		resizeButton->connect("MousePressed", [i]{
@@ -621,6 +1105,38 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 			dragLeft = i == 0 || i == 3 || i == 5;
 			dragRight = i == 2 || i == 4 || i == 7;
 		});
+		gui.add(resizeButton);
+	}
+}
+
+void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, int mouseX, int mouseY)
+{
+	if (!object)
+		return;
+	if (!selectedBox && !spriteSelected)
+		return;
+	if (mouseStart.distance(Battle::Vector2i{mouseX, mouseY}) > 10)
+		dragStart = true;
+	if (!dragStart)
+		return;
+	if (!dragLeft && !dragRight && !dragUp && !dragDown) {
+		if (spriteSelected) {
+			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+			Battle::Vector2i diff{mouseX, mouseY};
+
+			data.offset += diff - lastMouse;
+			boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y));
+			gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
+			arrangeButtons(&*object);
+		} else {
+			Battle::Vector2i diff{mouseX, mouseY};
+
+			selectedBox->pos += diff - lastMouse;
+			boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y));
+			arrangeButtons(&*object);
+		}
+		lastMouse = {mouseX, mouseY};
+		return;
 	}
 }
 
@@ -630,7 +1146,6 @@ void	run()
 
 	std::unique_ptr<Battle::EditableObject> object;
 	tgui::Gui gui{*Battle::game.screen};
-	sf::View view{{-535, -480, 1680, 960}};
 	sf::Image icon;
 	sf::Event event;
 
@@ -638,14 +1153,32 @@ void	run()
 		Battle::game.screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	gui.loadWidgetsFromFile("assets/gui/editor.gui");
+
+	bool dragging = false;
+	auto panel = gui.get<tgui::Panel>("Panel1");
+	auto progress = panel->get<tgui::Slider>("Progress");
+	sf::View view;
+	sf::View guiView{
+		{
+			0, 0,
+			static_cast<float>(Battle::game.screen->getSize().x),
+			static_cast<float>(Battle::game.screen->getSize().y)
+		}
+	};
+
 	placeGuiHooks(gui, object);
+	view.setCenter(panel->getSize().x / 2, 0);
+	view.setSize(Battle::game.screen->getSize().x, Battle::game.screen->getSize().y);
 	Battle::game.screen->setView(view);
+	gui.setView(guiView);
 	while (Battle::game.screen->isOpen()) {
 		timer++;
 		Battle::game.screen->clear(sf::Color::Cyan);
 		if (object) {
-			if (timer >= updateTimer) {
+			if (timer >= updateTimer || updateAnyway) {
 				object->update();
+				updateAnyway = false;
+				progress->setValue(object->_animation);
 				timer -= updateTimer;
 			}
 			object->render();
@@ -655,6 +1188,25 @@ void	run()
 			gui.handleEvent(event);
 			if (event.type == sf::Event::Closed)
 				Battle::game.screen->close();
+			if (event.type == sf::Event::Resized) {
+				guiView.setSize(event.size.width, event.size.height);
+				guiView.setCenter(event.size.width / 2, event.size.height / 2);
+				gui.setView(guiView);
+
+				view.setCenter(panel->getSize().x / 2, 0);
+				view.setSize(event.size.width, event.size.height);
+				Battle::game.screen->setView(view);
+			}
+			dragging &= sf::Mouse::isButtonPressed(sf::Mouse::Left);
+			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+				dragging = true;
+				dragStart = false;
+				mouseStart = {event.mouseButton.x, event.mouseButton.y};
+				lastMouse = mouseStart;
+			}
+			canDrag &= dragging;
+			if (event.type == sf::Event::MouseMoved && dragging && canDrag)
+				handleDrag(gui, object, event.mouseMove.x, event.mouseMove.y);
 		}
 		gui.draw();
 		Battle::game.screen->display();

@@ -154,7 +154,7 @@ namespace Battle
 			if (!data["rotation"].is_number())
 				// TODO: Create proper exceptions
 				throw std::invalid_argument("Invalid json");
-			this->rotation = data["rotation"].get<float>() * M_PI / 180;
+			this->rotation = std::fmod(std::fmod(data["rotation"].get<float>(), 360) + 360, 360) * M_PI / 180;
 		}
 		if (data.contains("hurt_boxes")) {
 			if (!data["hurt_boxes"].is_array())
@@ -334,7 +334,7 @@ namespace Battle
 			if (!data["push_back"].is_number())
 				// TODO: Create proper exceptions
 				throw std::invalid_argument("Invalid json");
-			this->pushBack = data["pushBack"];
+			this->pushBack = data["push_back"];
 		}
 		if (data.contains("push_block")) {
 			if (!data["push_block"].is_number())
@@ -468,7 +468,7 @@ namespace Battle
 		if (this->matterLimit)
 			result["matter_limit"] = this->matterLimit;
 		if (this->pushBack)
-			result["pushBack"] = this->pushBack;
+			result["push_back"] = this->pushBack;
 		if (this->pushBlock)
 			result["push_block"] = this->pushBlock;
 		if (this->duration > 1)

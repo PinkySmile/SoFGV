@@ -38,6 +38,7 @@ namespace Battle
 			bool dashSpeed : 1;
 			bool resetRotation : 1;
 			bool counterHit : 1;
+			bool flash : 1;
 		};
 		unsigned flags;
 	};
@@ -60,6 +61,10 @@ namespace Battle
 			bool resetHits : 1;
 			bool resetSpeed : 1;
 			bool restand : 1;
+			bool super : 1;
+			bool ultimate : 1;
+			bool jumpCancelable : 1;
+			bool transformCancelable : 1;
 		};
 		unsigned flags;
 	};

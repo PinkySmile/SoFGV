@@ -113,58 +113,36 @@ Renderer.7 {
     texturebackground = None;
 }
 
-MenuBar.main_bar {
-    MinimumSubMenuWidth = 125;
-    Size = (&.size, 20);
-    TextSize = 13;
-
-    Renderer {
-        backgroundcolor = #D8D8D8;
-        distancetoside = 4;
-        selectedbackgroundcolor = #006EFF;
-        selectedtextcolor = white;
-        textcolor = black;
-        textcolordisabled = #7D7D7D;
-    }
-
-    Menu {
-        Text = File;
-
-        Menu {
-            Text = "New framedata";
-        }
-
-        Menu {
-            Text = "Load framedata";
-        }
-
-        Menu {
-            Text = Save;
-        }
-
-        Menu {
-            Text = "Save as";
-        }
-
-        Menu {
-            Text = Settings;
-        }
-
-        Menu {
-            Text = Quit;
-        }
-    }
-
-    Menu {
-        Items = [Frame, "Animation block", Action, "Hurt box", "Hit box"];
-        Text = New;
-    }
+Renderer.8 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    checkcolor = #3C3C3C;
+    checkcolordisabled = #7D7D7D;
+    checkcolorhover = black;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolorhover = black;
+    textdistanceratio = 0.2;
+    texturechecked = None;
+    texturecheckeddisabled = None;
+    texturecheckedfocused = None;
+    texturecheckedhover = None;
+    textureunchecked = None;
+    textureuncheckeddisabled = None;
+    textureuncheckedfocused = None;
+    textureuncheckedhover = None;
 }
 
 Panel.Panel1 {
     Enabled = false;
-    Position = (1070, 20);
-    Size = (610, 940);
+    Position = (&.w - w, 20);
+    Size = (610, &.h - 20);
 
     Renderer {
         backgroundcolor = #E0E0E0;
@@ -204,7 +182,7 @@ Panel.Panel1 {
 
     Label.Label2 {
         AutoSize = true;
-        Position = (380, 52);
+        Position = (390, 52);
         ScrollbarPolicy = Never;
         Size = (56.2, 18);
         Text = "Frame 0";
@@ -226,16 +204,16 @@ Panel.Panel1 {
         InvertedDirection = false;
         Maximum = 1;
         Minimum = 0;
-        Position = (260, 22);
-        Size = (320, 16);
-        Step = 0.001;
+        Position = (230, 22);
+        Size = (350, 16);
+        Step = 1;
         Value = 0;
         renderer = &5;
     }
 
     Label.SpeedLabel {
         AutoSize = true;
-        Position = (510, 52);
+        Position = (520, 52);
         ScrollbarPolicy = Never;
         Size = (19.2, 18);
         Text = x0;
@@ -244,14 +222,14 @@ Panel.Panel1 {
     }
 
     Button.Play {
-        Position = (260, 50);
+        Position = (230, 50);
         Text = Play;
         TextSize = 13;
         renderer = &1;
     }
 
     Button.Step {
-        Position = (320, 50);
+        Position = (290, 50);
         Text = Step;
         TextSize = 13;
         renderer = &1;
@@ -259,7 +237,7 @@ Panel.Panel1 {
 
     Panel.AnimPanel {
         Position = (0, 90);
-        Size = (610, 850);
+        Size = (610, &.h - y);
 
         Renderer {
             backgroundcolor = white;
@@ -286,7 +264,7 @@ Panel.Panel1 {
         }
 
         EditBox.Offset {
-            InputValidator = "\\([0-9]{1,4},[0-9]{1,4}\\)";
+            InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
             Position = (380, 10);
             Size = (210, 22);
             Text = "(0,0)";
@@ -324,11 +302,10 @@ Panel.Panel1 {
         }
 
         EditBox.Bounds {
-            DefaultText = "assets/....";
-            InputValidator = "\\([0-9]{1,4},[0-9]{1,4},[0-9]{1,4},[0-9]{1,4}\\)";
+            InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4},[0-9]{1,4},[0-9]{1,4}\\)";
             Position = (70, 40);
             Size = (230, 22);
-            Text = "(0,0,0,0)";
+            Text = "(128,0,64,128)";
             TextSize = 13;
             renderer = &3;
         }
@@ -449,7 +426,7 @@ Panel.Panel1 {
         }
 
         EditBox.Rate {
-            InputValidator = UInt;
+            InputValidator = Float;
             Position = (400, 250);
             Size = (190, 22);
             Text = 0;
@@ -613,7 +590,7 @@ Panel.Panel1 {
         Label.Label19 {
             Position = (310, 310);
             ScrollbarPolicy = Never;
-            Size = (4.2, 538);
+            Size = (4.2, &.h - y);
             TextSize = 13;
 
             Renderer {
@@ -911,15 +888,120 @@ Panel.Panel1 {
             TextSize = 13;
             renderer = &2;
         }
+
+        CheckBox.Flash {
+            Position = (470, 620);
+            Size = (20, 20);
+            Text = "Stop time";
+            TextSize = 13;
+
+            Renderer {
+                backgroundcolor = #F5F5F5;
+                backgroundcolordisabled = #E6E6E6;
+                backgroundcolorhover = white;
+                bordercolor = #3C3C3C;
+                bordercolordisabled = #7D7D7D;
+                bordercolorfocused = #1E1EB4;
+                bordercolorhover = black;
+                borders = (1, 1, 1, 1);
+                checkcolor = #3C3C3C;
+                checkcolordisabled = #7D7D7D;
+                checkcolorhover = black;
+                textcolor = #3C3C3C;
+                textcolordisabled = #7D7D7D;
+                textcolorhover = black;
+                textdistanceratio = 0.2;
+                texturechecked = None;
+                texturecheckeddisabled = None;
+                texturecheckedfocused = None;
+                texturecheckedhover = None;
+                textureunchecked = None;
+                textureuncheckeddisabled = None;
+                textureuncheckedfocused = None;
+                textureuncheckedhover = None;
+            }
+        }
+
+        CheckBox.Super {
+            Position = (10, 650);
+            Size = (20, 20);
+            Text = Super;
+            TextSize = 13;
+            renderer = &8;
+        }
+
+        CheckBox.Ultimate {
+            Position = (170, 650);
+            Size = (20, 20);
+            Text = Ultimate;
+            TextSize = 13;
+            renderer = &8;
+        }
+
+        CheckBox.JumpCancel {
+            Position = (10, 680);
+            Size = (20, 20);
+            Text = "Jump cancelable";
+            TextSize = 13;
+            renderer = &8;
+        }
+
+        CheckBox.TransCancel {
+            Position = (170, 680);
+            Size = (20, 20);
+            Text = "Transform cancel.";
+            TextSize = 13;
+            renderer = &8;
+        }
     }
 
     SpinButton.Speed {
-        Maximum = 10;
+        Maximum = 1;
         Minimum = 0;
-        Position = (460, 50);
+        Position = (470, 50);
         Size = (42, 20);
-        Step = 1;
+        Step = 0.05;
         Value = 0;
         renderer = &6;
+    }
+}
+
+Panel.Boxes {
+    Size = (panel1.x, &.h);
+
+    Renderer {
+        backgroundcolor = transparent;
+        bordercolor = black;
+        texturebackground = None;
+    }
+}
+
+MenuBar.main_bar {
+    MinimumSubMenuWidth = 125;
+    Size = (&.size, 20);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = #D8D8D8;
+        distancetoside = 4;
+        selectedbackgroundcolor = #006EFF;
+        selectedtextcolor = white;
+        textcolor = black;
+        textcolordisabled = #7D7D7D;
+    }
+
+    Menu {
+        Items = ["New framedata", "Load framedata", Save, "Save as", Settings, Quit];
+        Text = File;
+    }
+
+    Menu {
+        Items = [Frame, "Animation block", Action, "Hurt box", "Hit box"];
+        Text = New;
+    }
+
+    Menu {
+        Items = [Frame, "Animation block", Action, "Selected box"];
+        Text = Remove;
     }
 }
