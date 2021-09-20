@@ -4,11 +4,16 @@
         "framedata": [
             [
                 {
+                    "block_stun": 10,
                     "collision_box": {
                         "height": 64,
                         "left": -18,
                         "top": 56,
                         "width": 32
+                    },
+                    "counter_hit_speed": {
+                        "x": 10,
+                        "y": 0
                     },
                     "defense_flag": 3564,
                     "duration": 6,
@@ -26,6 +31,12 @@
                             "width": 320
                         }
                     ],
+                    "hit_speed": {
+                        "x": 64,
+                        "y": 128
+                    },
+                    "hit_stop": 10,
+                    "hit_stun": 10,
                     "hurt_boxes": [
                         {
                             "height": 96,
@@ -34,18 +45,27 @@
                             "width": 32
                         }
                     ],
+                    "mana_cost": 10,
+                    "mana_gain": 10,
+                    "marker": 10,
+                    "matter_limit": 10,
                     "offense_flag": 3764,
+                    "push_back": 10,
+                    "push_block": 10,
                     "size": {
                         "x": 64,
                         "y": 128
                     },
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
+                    "subobject": 10,
                     "texture_bounds": {
                         "height": 128,
                         "left": 0,
                         "top": 0,
                         "width": 64
-                    }
+                    },
+                    "void_limit": 10
                 },
                 {
                     "block_stun": 1,

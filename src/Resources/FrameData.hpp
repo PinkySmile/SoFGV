@@ -68,6 +68,9 @@ namespace Battle
 			bool unTransformCancelable : 1;
 			bool dashCancelable : 1;
 			bool backDashCancelable : 1;
+			bool voidMana : 1;
+			bool spiritMana : 1;
+			bool matterMana : 1;
 		};
 		unsigned flags;
 	};
@@ -96,6 +99,9 @@ namespace Battle
 		unsigned pushBack = 0;
 		unsigned pushBlock = 0;
 		unsigned subObjectSpawn = 0;
+		unsigned manaGain = 0;
+		unsigned manaCost = 0;
+		unsigned hitStop = 0;
 		Vector2i hitSpeed;
 		Vector2i counterHitSpeed;
 

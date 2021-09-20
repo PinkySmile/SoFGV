@@ -354,6 +354,62 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->subObjectSpawn = data["subobject"];
 		}
+		if (data.contains("mana_gain")) {
+			if (!data["mana_gain"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->manaGain = data["mana_gain"];
+		}
+		if (data.contains("mana_cost")) {
+			if (!data["mana_cost"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->manaCost = data["mana_cost"];
+		}
+		if (data.contains("hit_stop")) {
+			if (!data["hit_stop"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->hitStop = data["hit_stop"];
+		}
+		if (data.contains("hit_speed")) {
+			if (!data["hit_speed"].is_object())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["hit_speed"].contains("x"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["hit_speed"].contains("y"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["hit_speed"]["x"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["hit_speed"]["y"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->hitSpeed.x = data["hit_speed"]["x"];
+			this->hitSpeed.y = data["hit_speed"]["y"];
+		}
+		if (data.contains("counter_hit_speed")) {
+			if (!data["counter_hit_speed"].is_object())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["counter_hit_speed"].contains("x"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["counter_hit_speed"].contains("y"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["counter_hit_speed"]["x"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["counter_hit_speed"]["y"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->counterHitSpeed.x = data["counter_hit_speed"]["x"];
+			this->counterHitSpeed.y = data["counter_hit_speed"]["y"];
+		}
 
 		Vector2u textureSize;
 
@@ -393,12 +449,12 @@ namespace Battle
 		this->specialMarker = other.specialMarker;
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
-		if (other.collisionBox)
+		if (other.collisionBox && other.collisionBox != this->collisionBox) {
 			this->collisionBox = new Box{
 				other.collisionBox->pos,
 				other.collisionBox->size
 			};
-		else
+		} else
 			this->collisionBox = nullptr;
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
@@ -409,6 +465,11 @@ namespace Battle
 		this->pushBack = other.pushBack;
 		this->pushBlock = other.pushBlock;
 		this->subObjectSpawn = other.subObjectSpawn;
+		this->manaGain = other.manaGain;
+		this->manaCost = other.manaCost;
+		this->hitStop = other.hitStop;
+		this->hitSpeed = other.hitSpeed;
+		this->counterHitSpeed = other.counterHitSpeed;
 		game.textureMgr.addRef(this->textureHandle);
 		return *this;
 	}
@@ -475,6 +536,22 @@ namespace Battle
 			result["duration"] = this->duration;
 		if (this->subObjectSpawn)
 			result["subobject"] = this->subObjectSpawn;
+		if (this->manaGain)
+			result["mana_gain"] = this->manaGain;
+		if (this->manaCost)
+			result["mana_cost"] = this->manaCost;
+		if (this->hitStop)
+			result["hit_stop"] = this->hitStop;
+		if (this->hitSpeed != Vector2i{0, 0})
+			result["hit_speed"] = {
+				{"x", this->size.x},
+				{"y", this->size.y}
+			};
+		if (this->counterHitSpeed != Vector2i{0, 0})
+			result["counter_hit_speed"] = {
+				{"x", this->counterHitSpeed.x},
+				{"y", this->counterHitSpeed.y}
+			};
 		return result;
 	}
 
