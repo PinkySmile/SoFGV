@@ -10,7 +10,7 @@
 namespace Battle
 {
 	Logger::Logger(const std::string &filepath) noexcept :
-		file(std::ofstream("./latest.log", std::ios::out))
+		file(std::ofstream(filepath, std::ios::out))
 	{
 	}
 
