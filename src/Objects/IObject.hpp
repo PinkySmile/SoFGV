@@ -11,6 +11,8 @@ public:
 	virtual ~IObject() = default;
 	virtual void render() const = 0;
 	virtual void update() = 0;
+	virtual void reset() = 0;
+	virtual bool isDead() const = 0;
 };
 
 

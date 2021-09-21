@@ -6,10 +6,19 @@
 #define BATTLE_BATTLEMANAGER_HPP
 
 
+#include "../Objects/ACharacter.hpp"
+
 namespace Battle
 {
 	class BattleManager {
+	private:
+		std::unique_ptr<ACharacter> _leftCharacter;
+		std::unique_ptr<ACharacter> _rightCharacter;
 
+	public:
+		BattleManager(ACharacter *leftCharacter, ACharacter *rightCharacter);
+		void update();
+		void render();
 	};
 }
 

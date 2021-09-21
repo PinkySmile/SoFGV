@@ -58,6 +58,16 @@ namespace Battle
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		}
 		this->_position += this->_speed;
-		this->_speed.y += this->_gravity;
+		this->_speed += this->_gravity;
+	}
+
+	void AObject::reset()
+	{
+
+	}
+
+	bool AObject::isDead() const
+	{
+		return this->_dead;
 	}
 }

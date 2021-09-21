@@ -42,7 +42,7 @@ add_executable(
 	src/Data/Color.hpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
-)
+	src/Objects/Floor.cpp src/Objects/Floor.hpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)

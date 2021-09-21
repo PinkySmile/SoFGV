@@ -19,11 +19,18 @@ namespace Battle
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		Vector2f _position = {0, 0};
 		Vector2f _speed = {0, 0};
-		float _gravity = 0;
-		unsigned _action = 0;
-		unsigned _actionBlock = 0;
-		unsigned _animation = 0;
-		unsigned _animationCtr = 0;
+		Vector2f _gravity = {0, 0};
+		unsigned short _action = 0;
+		unsigned short _actionBlock = 0;
+		unsigned short _animation = 0;
+		unsigned short _animationCtr = 0;
+		unsigned short _hp = 0;
+		float _rotation = 0;
+		bool _dead = false;
+
+		float _baseRotation = 0;
+		Vector2f _baseGravity = {0, 0};
+		unsigned short _baseHp = 0;
 
 		AObject() = default;
 
@@ -37,6 +44,8 @@ namespace Battle
 		~AObject() override = default;
 		void render() const override;
 		void update() override;
+		void reset() override;
+		bool isDead() const override;
 	};
 }
 
