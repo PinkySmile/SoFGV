@@ -1373,6 +1373,103 @@ void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject
 	block->setValue(object->_moves.at(object->_action).size() - 1);
 }
 
+void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
+
+	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
+	auto button = tgui::Button::create();
+	auto renderer = button->getRenderer();
+
+	renderer->setBackgroundColor({0x00, 0xFF, 0x00, 0x4C});
+	renderer->setBackgroundColorDown({0x00, 0xFF, 0x00, 0xA0});
+	renderer->setBackgroundColorHover({0x00, 0xFF, 0x00, 0x80});
+	renderer->setBackgroundColorDisabled({0x00, 0xFF, 0x00, 0x4C});
+	renderer->setBackgroundColorFocused({0x00, 0xFF, 0x00, 0xA0});
+	renderer->setBorderColor({0x00, 0xFF, 0x00});
+	renderer->setBorderColorDown({0x00, 0xFF, 0x00});
+	renderer->setBorderColorHover({0x00, 0xFF, 0x00});
+	renderer->setBorderColorDisabled({0x00, 0xFF, 0x00});
+	renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
+	renderer->setBorders(1);
+	button->setSize(box.size.x, box.size.y);
+	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
+		selectBox(self.lock(), &box);
+		canDrag = true;
+	}, std::weak_ptr<tgui::Button>(button));
+	boxes->add(button, "HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1));
+	selectBox(button, &box);
+}
+
+void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
+
+	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.back();
+	auto button = tgui::Button::create();
+	auto renderer = button->getRenderer();
+
+	renderer->setBackgroundColor({0xFF, 0x00, 0x00, 0x4C});
+	renderer->setBackgroundColorDown({0xFF, 0x00, 0x00, 0xA0});
+	renderer->setBackgroundColorHover({0xFF, 0x00, 0x00, 0x80});
+	renderer->setBackgroundColorDisabled({0xFF, 0x00, 0x00, 0x4C});
+	renderer->setBackgroundColorFocused({0xFF, 0x00, 0x00, 0xA0});
+	renderer->setBorderColor({0xFF, 0x00, 0x00});
+	renderer->setBorderColorDown({0xFF, 0x00, 0x00});
+	renderer->setBorderColorHover({0xFF, 0x00, 0x00});
+	renderer->setBorderColorDisabled({0xFF, 0x00, 0x00});
+	renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
+	renderer->setBorders(1);
+	button->setSize(box.size.x, box.size.y);
+	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
+		selectBox(self.lock(), &box);
+		canDrag = true;
+	}, std::weak_ptr<tgui::Button>(button));
+	boxes->add(button, "HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.size() - 1));
+	selectBox(button, &box);
+}
+
+void	removeFrameCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
+
+	if (arr.size() == 1) {
+		arr.back() = Battle::FrameData();
+		refreshBoxes(boxes, arr.back(), object);
+		selectBox(nullptr, nullptr);
+		return;
+	}
+	arr.erase(arr.begin() + object->_animation);
+	if (object->_animation == arr.size())
+		object->_animation--;
+	refreshBoxes(boxes, arr[object->_animation], object);
+	selectBox(nullptr, nullptr);
+}
+
+void	removeAnimationBlockCallback(std::unique_ptr<Battle::EditableObject> &object)
+{
+	auto &arr = object->_moves.at(object->_action);
+
+	if (arr.size() == 1) {
+		arr.back().clear();
+		arr.back().emplace_back();
+		return;
+	}
+	arr.erase(arr.begin() + object->_animation);
+}
+
+void	removeActionCallback(std::unique_ptr<Battle::EditableObject> &object)
+{
+	if (object->_action == 0)
+		return;
+
+	auto it = object->_moves.find(object->_action);
+
+	object->_moves.erase(it);
+}
+
 void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
@@ -1394,94 +1491,12 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	bar->connectMenuItem({"New", "Frame (Ctrl + F)"}, newFrameCallback, std::ref(gui), std::ref(object), panel);
 	bar->connectMenuItem({"New", "End frame (Ctrl + Shift + F)"}, newEndFrameCallback, std::ref(gui), std::ref(object), panel);
 	bar->connectMenuItem({"New", "Animation block (Ctrl + B)"}, newAnimBlockCallback, std::ref(gui), std::ref(object), panel);
-	bar->connectMenuItem({"New", "Hurt box (Ctrl + H)"}, [&object, boxes]{
-		object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
+	bar->connectMenuItem({"New", "Hurt box (Ctrl + H)"}, newHurtBoxCallback, std::ref(object), boxes);
+	bar->connectMenuItem({"New", "Hit box (Ctrl + Shift + H)"}, newHitBoxCallback, std::ref(object), boxes);
 
-		auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
-		auto button = tgui::Button::create();
-		auto renderer = button->getRenderer();
-
-		renderer->setBackgroundColor({0x00, 0xFF, 0x00, 0x4C});
-		renderer->setBackgroundColorDown({0x00, 0xFF, 0x00, 0xA0});
-		renderer->setBackgroundColorHover({0x00, 0xFF, 0x00, 0x80});
-		renderer->setBackgroundColorDisabled({0x00, 0xFF, 0x00, 0x4C});
-		renderer->setBackgroundColorFocused({0x00, 0xFF, 0x00, 0xA0});
-		renderer->setBorderColor({0x00, 0xFF, 0x00});
-		renderer->setBorderColorDown({0x00, 0xFF, 0x00});
-		renderer->setBorderColorHover({0x00, 0xFF, 0x00});
-		renderer->setBorderColorDisabled({0x00, 0xFF, 0x00});
-		renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
-		renderer->setBorders(1);
-		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
-		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
-			selectBox(self.lock(), &box);
-			canDrag = true;
-		}, std::weak_ptr<tgui::Button>(button));
-		boxes->add(button, "HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1));
-		selectBox(button, &box);
-	});
-	bar->connectMenuItem({"New", "Hit box (Ctrl + Shift + H)"}, [&object, boxes]{
-		object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
-
-		auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.back();
-		auto button = tgui::Button::create();
-		auto renderer = button->getRenderer();
-
-		renderer->setBackgroundColor({0xFF, 0x00, 0x00, 0x4C});
-		renderer->setBackgroundColorDown({0xFF, 0x00, 0x00, 0xA0});
-		renderer->setBackgroundColorHover({0xFF, 0x00, 0x00, 0x80});
-		renderer->setBackgroundColorDisabled({0xFF, 0x00, 0x00, 0x4C});
-		renderer->setBackgroundColorFocused({0xFF, 0x00, 0x00, 0xA0});
-		renderer->setBorderColor({0xFF, 0x00, 0x00});
-		renderer->setBorderColorDown({0xFF, 0x00, 0x00});
-		renderer->setBorderColorHover({0xFF, 0x00, 0x00});
-		renderer->setBorderColorDisabled({0xFF, 0x00, 0x00});
-		renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
-		renderer->setBorders(1);
-		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
-		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
-			selectBox(self.lock(), &box);
-			canDrag = true;
-		}, std::weak_ptr<tgui::Button>(button));
-		boxes->add(button, "HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.size() - 1));
-		selectBox(button, &box);
-	});
-
-	bar->connectMenuItem({"Remove", "Frame (Ctrl + Shift + Del)"}, [&object, boxes]{
-		auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
-
-		if (arr.size() == 1) {
-			arr.back() = Battle::FrameData();
-			refreshBoxes(boxes, arr.back(), object);
-			selectBox(nullptr, nullptr);
-			return;
-		}
-		arr.erase(arr.begin() + object->_animation);
-		if (object->_animation == arr.size())
-			object->_animation--;
-		refreshBoxes(boxes, arr[object->_animation], object);
-		selectBox(nullptr, nullptr);
-	});
-	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, [&object]{
-		auto &arr = object->_moves.at(object->_action);
-
-		if (arr.size() == 1) {
-			arr.back().clear();
-			arr.back().emplace_back();
-			return;
-		}
-		arr.erase(arr.begin() + object->_animation);
-	});
-	bar->connectMenuItem({"Remove", "Action (Ctrl + Del)"}, [&object]{
-		if (object->_action == 0)
-			return;
-
-		auto it = object->_moves.find(object->_action);
-
-		object->_moves.erase(it);
-	});
+	bar->connectMenuItem({"Remove", "Frame (Ctrl + Shift + Del)"}, removeFrameCallback, std::ref(object), boxes);
+	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, removeAnimationBlockCallback, std::ref(object));
+	bar->connectMenuItem({"Remove", "Action (Ctrl + Del)"}, removeActionCallback, std::ref(object));
 	bar->connectMenuItem({"Remove", "Selected box (Del)"}, removeBoxCallback, boxes, std::ref(object), panel);
 
 	for (unsigned i = 0; i < resizeButtons.size(); i++) {
@@ -1646,6 +1661,50 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object,
 
 void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<Battle::EditableObject> &object, tgui::Gui &gui)
 {
+	auto bar = gui.get<tgui::MenuBar>("main_bar");
+	auto panel = gui.get<tgui::Panel>("Panel1");
+	auto boxes = gui.get<tgui::Panel>("Boxes");
+
+	if (event.code == sf::Keyboard::S) {
+		if (event.control && event.shift)
+			saveAsCallback(object);
+		else if (event.control)
+			saveCallback(object);
+	}
+	if (event.code == sf::Keyboard::Q)
+		quitCallback();
+	if (event.code == sf::Keyboard::N && event.control)
+		newFileCallback(object, bar, gui);
+	if (event.code == sf::Keyboard::O && event.control)
+		openFileCallback(object, bar, gui);
+
+	if (object) {
+		if (event.code == sf::Keyboard::F) {
+			if (event.control && event.shift)
+				newEndFrameCallback(gui, object, panel);
+			else if (event.control)
+				newFrameCallback(gui, object, panel);
+		}
+		if (event.code == sf::Keyboard::B && event.control)
+			newAnimBlockCallback(gui, object, panel);
+		if (event.code == sf::Keyboard::H) {
+			if (event.control && event.shift)
+				newHitBoxCallback(object, boxes);
+			else if (event.control)
+				newHurtBoxCallback(object, boxes);
+		}
+
+		if (event.code == sf::Keyboard::Delete) {
+			if (event.control && event.shift)
+				removeFrameCallback(object, boxes);
+			else if (event.control)
+				removeActionCallback(object);
+			else if (event.shift)
+				removeAnimationBlockCallback(object);
+			else
+				removeBoxCallback(boxes, object, panel);
+		}
+	}
 }
 
 void	run()
