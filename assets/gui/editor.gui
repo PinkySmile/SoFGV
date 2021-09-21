@@ -1146,17 +1146,17 @@ MenuBar.main_bar {
     }
 
     Menu {
-        Items = ["New framedata", "Load framedata", Save, "Save as", Settings, Quit];
+        Items = ["New framedata (Ctrl + N)", "Load framedata (Ctrl + O)", "Save (Ctrl + S)", "Save as (Ctrl + Shift + S)", Settings, "Quit (Ctrl + Q)"];
         Text = File;
     }
 
     Menu {
-        Items = [Frame, "Animation block", Action, "Hurt box", "Hit box"];
+        Items = ["Frame (Ctrl + F)", "End frame (Ctrl + Shift + F)", "Animation block (Ctrl + B)", "Hit box (Ctrl + H)", "Hit box (Ctrl + Shift + H)"];
         Text = New;
     }
 
     Menu {
-        Items = [Frame, "Animation block", Action, "Selected box"];
+        Items = ["Frame (Ctrl + Shift + Del)", "Animation block (Shift + Del)", "Action (Ctrl + Del)", "Selected box (Del)"];
         Text = Remove;
     }
 }

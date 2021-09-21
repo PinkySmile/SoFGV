@@ -1210,6 +1210,169 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	});
 }
 
+void	saveCallback(std::unique_ptr<Battle::EditableObject> &object)
+{
+	if (!object)
+		return;
+	if (loadedPath.empty())
+		loadedPath = Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+	if (loadedPath.empty())
+		return;
+
+	nlohmann::json j = nlohmann::json::array();
+
+	for (auto &[key, value] : object->_moves) {
+		j.push_back({
+			{"action", key},
+			{"framedata", value}
+		});
+	}
+
+	std::ofstream stream{loadedPath};
+
+	if (stream.fail()) {
+		Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
+		return;
+	}
+	stream << j.dump(4) << std::endl;
+}
+
+void	saveAsCallback(std::unique_ptr<Battle::EditableObject> &object)
+{
+	if (!object)
+		return;
+
+	auto path = Utils::saveFileDialog("Save framedata", loadedPath.empty() ? "assets" : loadedPath, {{".*\\.json", "Frame data file"}});
+
+	if (path.empty())
+		return;
+	loadedPath = path;
+
+	nlohmann::json j = nlohmann::json::array();
+
+	for (auto &[key, value] : object->_moves) {
+		j.push_back({
+			{"action", key},
+			{"framedata", value}
+		});
+	}
+
+	std::ofstream stream{path};
+
+	if (stream.fail()) {
+		Utils::dispMsg("Saving failed", path + ": " + strerror(errno), MB_ICONERROR);
+		return;
+	}
+	stream << j.dump(4) << std::endl;
+}
+
+void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+{
+	if (!selectedBox)
+		return;
+
+	auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+	if (selectedBox == data.collisionBox) {
+		auto block = panel->get<tgui::CheckBox>("Collision");
+
+		block->setChecked(false);
+		selectBox(nullptr, nullptr);
+		return;
+	}
+	for (auto it = data.hitBoxes.begin(); it < data.hitBoxes.end(); it++) {
+		if (&*it == selectedBox) {
+			data.hitBoxes.erase(it);
+			refreshBoxes(boxes, data, object);
+			selectBox(nullptr, nullptr);
+			return;
+		}
+	}
+	for (auto it = data.hurtBoxes.begin(); it < data.hurtBoxes.end(); it++) {
+		if (&*it == selectedBox) {
+			data.hurtBoxes.erase(it);
+			refreshBoxes(boxes, data, object);
+			selectBox(nullptr, nullptr);
+			return;
+		}
+	}
+	assert(false);
+}
+
+void	quitCallback()
+{
+	quitRequest = true;
+}
+
+void	newFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
+{
+	object = std::make_unique<Battle::EditableObject>();
+	loadedPath.clear();
+	refreshRightPanel(gui, object);
+	bar->setMenuEnabled({"New"}, true);
+	bar->setMenuEnabled({"Remove"}, true);
+}
+
+void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
+{
+	auto path = Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
+
+	if (path.empty())
+		return;
+	try {
+		object = std::make_unique<Battle::EditableObject>(path);
+		loadedPath = path;
+		refreshRightPanel(gui, object);
+		bar->setMenuEnabled({"New"}, true);
+		bar->setMenuEnabled({"Remove"}, true);
+	} catch (std::exception &e) {
+		Utils::dispMsg("Error", e.what(), MB_ICONERROR);
+	}
+}
+
+void	newFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+{
+	object->_moves.at(object->_action)[object->_actionBlock].insert(object->_moves.at(object->_action)[object->_actionBlock].begin() + object->_animation, object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
+
+	auto anim = object->_animation + 1;
+	auto oldBlock = object->_actionBlock;
+
+	refreshRightPanel(gui, object);
+
+	auto block = panel->get<tgui::SpinButton>("Block");
+	auto frame = panel->get<tgui::Slider>("Progress");
+
+	block->setValue(oldBlock);
+	frame->setValue(anim);
+}
+
+void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+{
+	object->_moves.at(object->_action)[object->_actionBlock].push_back(object->_moves.at(object->_action)[object->_actionBlock].back());
+
+	auto oldBlock = object->_actionBlock;
+
+	refreshRightPanel(gui, object);
+
+	auto block = panel->get<tgui::SpinButton>("Block");
+	auto frame = panel->get<tgui::Slider>("Progress");
+
+	block->setValue(oldBlock);
+	frame->setValue(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
+}
+
+void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+{
+	object->_actionBlock = object->_moves.at(object->_action).size();
+	object->_moves.at(object->_action).emplace_back();
+	object->_moves.at(object->_action).back().emplace_back();
+	refreshRightPanel(gui, object);
+
+	auto block = panel->get<tgui::SpinButton>("Block");
+
+	block->setValue(object->_moves.at(object->_action).size() - 1);
+}
+
 void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
@@ -1218,129 +1381,20 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 
 	logger.debug("Placing hooks");
 	placeAnimPanelHooks(panel, boxes, object);
-	bar->connectMenuItem({"File", "Save"}, [&object]{
-		if (!object)
-			return;
-		if (loadedPath.empty())
-			loadedPath = Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
-		if (loadedPath.empty())
-			return;
-
-		nlohmann::json j = nlohmann::json::array();
-
-		for (auto &[key, value] : object->_moves) {
-			nlohmann::json json = nlohmann::json::object();
-
-			json["action"] = key;
-			json["framedata"] = value;
-			j.push_back(json);
-			//j.push_back({
-			//	{"action", key},
-			//	{"framedata", value}
-			//});
-		}
-
-		std::ofstream stream{loadedPath};
-
-		if (stream.fail()) {
-			Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
-			return;
-		}
-		stream << j.dump(4) << std::endl;
-	});
-	bar->connectMenuItem({"File", "Save as"}, [&object]{
-		if (!object)
-			return;
-
-		auto path = Utils::saveFileDialog("Save framedata", loadedPath.empty() ? "assets" : loadedPath, {{".*\\.json", "Frame data file"}});
-
-		if (path.empty())
-			return;
-		loadedPath = path;
-
-		nlohmann::json j = nlohmann::json::array();
-
-		for (auto &[key, value] : object->_moves) {
-			j.push_back({
-				{"action", key},
-				{"framedata", value}
-			});
-		}
-
-		std::ofstream stream{path};
-
-		if (stream.fail()) {
-			Utils::dispMsg("Saving failed", path + ": " + strerror(errno), MB_ICONERROR);
-			return;
-		}
-		stream << j.dump(4) << std::endl;
-	});
-	bar->connectMenuItem({"File", "Quit"}, []{
-		quitRequest = true;
-	});
-	bar->connectMenuItem({"File", "New framedata"}, [bar, &gui, &object]{
-		object = std::make_unique<Battle::EditableObject>();
-		loadedPath.clear();
-		refreshRightPanel(gui, object);
-		bar->setMenuEnabled({"New"}, true);
-		bar->setMenuEnabled({"Remove"}, true);
-	});
-	bar->connectMenuItem({"File", "Load framedata"}, [bar, &gui, &object]{
-		auto path = Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
-
-		if (path.empty())
-			return;
-		try {
-			object = std::make_unique<Battle::EditableObject>(path);
-			loadedPath = path;
-			refreshRightPanel(gui, object);
-			bar->setMenuEnabled({"New"}, true);
-			bar->setMenuEnabled({"Remove"}, true);
-		} catch (std::exception &e) {
-			Utils::dispMsg("Error", e.what(), MB_ICONERROR);
-		}
-	});
 
 	bar->setMenuEnabled({"New"}, false);
 	bar->setMenuEnabled({"Remove"}, false);
-	bar->connectMenuItem({"New", "Frame"}, [&gui, &object, panel]{
-		object->_moves.at(object->_action)[object->_actionBlock].insert(object->_moves.at(object->_action)[object->_actionBlock].begin() + object->_animation, object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
 
-		auto anim = object->_animation + 1;
-		auto oldBlock = object->_actionBlock;
+	bar->connectMenuItem({"File", "Save (Ctrl + S)"}, saveCallback, std::ref(object));
+	bar->connectMenuItem({"File", "Save as (Ctrl + Shift + S)"}, saveAsCallback, std::ref(object));
+	bar->connectMenuItem({"File", "Quit (Ctrl + Q)"}, quitCallback);
+	bar->connectMenuItem({"File", "New framedata (Ctrl + N)"}, newFileCallback, std::ref(object), bar, std::ref(gui));
+	bar->connectMenuItem({"File", "Load framedata (Ctrl + O)"}, openFileCallback, std::ref(object), bar, std::ref(gui));
 
-		refreshRightPanel(gui, object);
-
-		auto block = panel->get<tgui::SpinButton>("Block");
-		auto frame = panel->get<tgui::Slider>("Progress");
-
-		block->setValue(oldBlock);
-		frame->setValue(anim);
-	});
-	bar->connectMenuItem({"New", "End frame"}, [&gui, &object, panel]{
-		object->_moves.at(object->_action)[object->_actionBlock].push_back(object->_moves.at(object->_action)[object->_actionBlock].back());
-
-		auto oldBlock = object->_actionBlock;
-
-		refreshRightPanel(gui, object);
-
-		auto block = panel->get<tgui::SpinButton>("Block");
-		auto frame = panel->get<tgui::Slider>("Progress");
-
-		block->setValue(oldBlock);
-		frame->setValue(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
-	});
-	bar->connectMenuItem({"New", "Animation block"}, [&gui, &object, panel]{
-		object->_actionBlock = object->_moves.at(object->_action).size();
-		object->_moves.at(object->_action).emplace_back();
-		object->_moves.at(object->_action).back().emplace_back();
-		refreshRightPanel(gui, object);
-
-		auto block = panel->get<tgui::SpinButton>("Block");
-
-		block->setValue(object->_moves.at(object->_action).size() - 1);
-	});
-	bar->connectMenuItem({"New", "Hurt box"}, [&object, boxes]{
+	bar->connectMenuItem({"New", "Frame (Ctrl + F)"}, newFrameCallback, std::ref(gui), std::ref(object), panel);
+	bar->connectMenuItem({"New", "End frame (Ctrl + Shift + F)"}, newEndFrameCallback, std::ref(gui), std::ref(object), panel);
+	bar->connectMenuItem({"New", "Animation block (Ctrl + B)"}, newAnimBlockCallback, std::ref(gui), std::ref(object), panel);
+	bar->connectMenuItem({"New", "Hurt box (Ctrl + H)"}, [&object, boxes]{
 		object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
 
 		auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
@@ -1367,7 +1421,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		boxes->add(button, "HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1));
 		selectBox(button, &box);
 	});
-	bar->connectMenuItem({"New", "Hit box"}, [&object, boxes]{
+	bar->connectMenuItem({"New", "Hit box (Ctrl + Shift + H)"}, [&object, boxes]{
 		object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
 
 		auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.back();
@@ -1395,7 +1449,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		selectBox(button, &box);
 	});
 
-	bar->connectMenuItem({"Remove", "Frame"}, [&object, boxes]{
+	bar->connectMenuItem({"Remove", "Frame (Ctrl + Shift + Del)"}, [&object, boxes]{
 		auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
 
 		if (arr.size() == 1) {
@@ -1410,7 +1464,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		refreshBoxes(boxes, arr[object->_animation], object);
 		selectBox(nullptr, nullptr);
 	});
-	bar->connectMenuItem({"Remove", "Animation block"}, [&object]{
+	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, [&object]{
 		auto &arr = object->_moves.at(object->_action);
 
 		if (arr.size() == 1) {
@@ -1420,7 +1474,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 		}
 		arr.erase(arr.begin() + object->_animation);
 	});
-	bar->connectMenuItem({"Remove", "Action"}, [&object]{
+	bar->connectMenuItem({"Remove", "Action (Ctrl + Del)"}, [&object]{
 		if (object->_action == 0)
 			return;
 
@@ -1428,37 +1482,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 
 		object->_moves.erase(it);
 	});
-	bar->connectMenuItem({"Remove", "Selected box"}, [boxes, &object, panel]{
-		if (!selectedBox)
-			return;
-
-		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
-
-		if (selectedBox == data.collisionBox) {
-			auto block = panel->get<tgui::CheckBox>("Collision");
-
-			block->setChecked(false);
-			selectBox(nullptr, nullptr);
-			return;
-		}
-		for (auto it = data.hitBoxes.begin(); it < data.hitBoxes.end(); it++) {
-			if (&*it == selectedBox) {
-				data.hitBoxes.erase(it);
-				refreshBoxes(boxes, data, object);
-				selectBox(nullptr, nullptr);
-				return;
-			}
-		}
-		for (auto it = data.hurtBoxes.begin(); it < data.hurtBoxes.end(); it++) {
-			if (&*it == selectedBox) {
-				data.hurtBoxes.erase(it);
-				refreshBoxes(boxes, data, object);
-				selectBox(nullptr, nullptr);
-				return;
-			}
-		}
-		assert(false);
-	});
+	bar->connectMenuItem({"Remove", "Selected box (Del)"}, removeBoxCallback, boxes, std::ref(object), panel);
 
 	for (unsigned i = 0; i < resizeButtons.size(); i++) {
 		auto &resizeButton = resizeButtons[i];
@@ -1620,6 +1644,10 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object,
 	}
 }
 
+void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<Battle::EditableObject> &object, tgui::Gui &gui)
+{
+}
+
 void	run()
 {
 	Battle::game.screen = std::make_unique<Battle::Screen>("Frame data editor");
@@ -1666,8 +1694,12 @@ void	run()
 
 		while (Battle::game.screen->pollEvent(event)) {
 			gui.handleEvent(event);
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				quitRequest = true;
+				continue;
+			}
+			if (event.type == sf::Event::KeyPressed)
+				handleKeyPress(event.key, object, gui);
 			if (event.type == sf::Event::Resized) {
 				guiView.setSize(event.size.width, event.size.height);
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
@@ -1676,6 +1708,7 @@ void	run()
 				view.setCenter(panel->getSize().x / 2, 0);
 				view.setSize(event.size.width, event.size.height);
 				Battle::game.screen->setView(view);
+				continue;
 			}
 			dragging &= sf::Mouse::isButtonPressed(sf::Mouse::Left);
 			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
