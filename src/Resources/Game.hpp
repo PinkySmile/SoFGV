@@ -9,12 +9,14 @@
 #include <memory>
 #include "Screen.hpp"
 #include "TextureManager.hpp"
+#include "BattleManager.hpp"
 
 namespace Battle
 {
 	struct Game {
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
+		std::unique_ptr<BattleManager> battleMgr;
 	};
 
 	extern Game game;

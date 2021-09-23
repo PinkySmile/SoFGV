@@ -3,7 +3,7 @@
 //
 
 #include "ACharacter.hpp"
-#include <iostream>
+
 namespace Battle
 {
 	ACharacter::ACharacter(const std::string &frameData)
@@ -19,5 +19,15 @@ namespace Battle
 	void ACharacter::update()
 	{
 		AObject::update();
+	}
+
+	void ACharacter::init(bool side)
+	{
+		this->_direction = side;
+		if (side) {
+			this->_position = {-600, 200};
+		} else {
+			this->_position = {600, 200};
+		}
 	}
 }

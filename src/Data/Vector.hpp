@@ -133,6 +133,11 @@ namespace Battle
 			return Vector2<decltype(this->x / b)>(this->x / b, this->y / b);
 		}
 
+		Vector2<T> operator-() const noexcept
+		{
+			return Vector2<T>(-this->x, -this->y);
+		}
+
 		template<typename T2>
 		double distance(const Vector2<T2> &o) const noexcept
 		{

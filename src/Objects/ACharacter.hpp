@@ -216,6 +216,7 @@ namespace Battle
 		~ACharacter() override = default;
 		void render() const override;
 		void update() override;
+		void init(bool side);
 	};
 }
 

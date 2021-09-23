@@ -14,11 +14,18 @@ namespace Battle
 	private:
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
+		std::vector<std::unique_ptr<IObject>> _objects;
 
 	public:
 		BattleManager(ACharacter *leftCharacter, ACharacter *rightCharacter);
 		void update();
 		void render();
+		void registerObject(IObject *object);
+		template <typename T, typename ...Args>
+		T *registerObject(Args &... args)
+		{
+			this->registerObject(new T(args...));
+		}
 	};
 }
 

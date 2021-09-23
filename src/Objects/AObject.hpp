@@ -26,14 +26,16 @@ namespace Battle
 		unsigned short _animationCtr = 0;
 		unsigned short _hp = 0;
 		float _rotation = 0;
-		AObject *_parent;
+		unsigned _team = 0;
 		bool _dead = false;
+		bool _direction = false;
 
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
 		unsigned short _baseHp = 0;
 
 		AObject() = default;
+		Box applyModifiers(Box box) const;
 
 	public:
 		#ifdef _DEBUG
@@ -47,9 +49,9 @@ namespace Battle
 		void update() override;
 		void reset() override;
 		bool isDead() const override;
-		void hit(IObject *other) override;
-		IObject *hits(IObject *other) const override;
-		void hasHit() override;
+		void hit(IObject &other, const FrameData *data) override;
+		bool hits(IObject &other) const override;
+		void getHit(IObject &other, const FrameData *data) override;
 		const FrameData *getCurrentFrameData() const override;
 	};
 }

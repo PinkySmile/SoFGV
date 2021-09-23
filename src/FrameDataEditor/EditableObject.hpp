@@ -30,6 +30,12 @@ namespace Battle
 		~EditableObject() override = default;
 		void render() const override;
 		void update() override;
+		void reset() override;
+		bool isDead() const override;
+		bool hits(IObject &other) const override;
+		void hit(IObject &other, const FrameData *data) override;
+		void getHit(IObject &other, const FrameData *data) override;
+		const FrameData *getCurrentFrameData() const override;
 	};
 }
 

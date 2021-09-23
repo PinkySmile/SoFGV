@@ -37,4 +37,34 @@ namespace Battle
 		this->_position += this->_speed;
 		this->_speed.y += this->_gravity;
 	}
+
+	void EditableObject::reset()
+	{
+
+	}
+
+	bool EditableObject::isDead() const
+	{
+		return false;
+	}
+
+	bool EditableObject::hits(IObject &other) const
+	{
+		return false;
+	}
+
+	void EditableObject::hit(IObject &other, const FrameData *data)
+	{
+
+	}
+
+	void EditableObject::getHit(IObject &other, const FrameData *data)
+	{
+
+	}
+
+	const FrameData *EditableObject::getCurrentFrameData() const
+	{
+		return nullptr;
+	}
 }

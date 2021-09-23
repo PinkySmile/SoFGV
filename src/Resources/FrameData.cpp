@@ -5,6 +5,7 @@
 #include <fstream>
 #include "FrameData.hpp"
 #include "Game.hpp"
+#include "../Logger.hpp"
 
 namespace Battle
 {
@@ -13,6 +14,7 @@ namespace Battle
 		std::ifstream stream{path};
 		nlohmann::json json;
 
+		logger.debug("Loading framedata file " + path);
 		if (stream.fail())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument(path + ": " + strerror(errno));
