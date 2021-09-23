@@ -26,6 +26,7 @@ namespace Battle
 		unsigned short _animationCtr = 0;
 		unsigned short _hp = 0;
 		float _rotation = 0;
+		AObject *_parent;
 		bool _dead = false;
 
 		float _baseRotation = 0;
@@ -46,6 +47,10 @@ namespace Battle
 		void update() override;
 		void reset() override;
 		bool isDead() const override;
+		void hit(IObject *other) override;
+		IObject *hits(IObject *other) const override;
+		void hasHit() override;
+		const FrameData *getCurrentFrameData() const override;
 	};
 }
 

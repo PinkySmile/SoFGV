@@ -63,11 +63,50 @@ namespace Battle
 
 	void AObject::reset()
 	{
-
+		this->_rotation = this->_baseRotation;
+		this->_gravity = this->_baseGravity;
+		this->_hp = this->_baseHp;
 	}
 
 	bool AObject::isDead() const
 	{
 		return this->_dead;
+	}
+
+	void AObject::hit(IObject *other)
+	{
+
+	}
+
+	void AObject::hasHit()
+	{
+
+	}
+
+	IObject *AObject::hits(IObject *other) const
+	{
+		auto *oData = other->getCurrentFrameData();
+		auto *mData = this->getCurrentFrameData();
+
+		if (!mData || !oData)
+			return nullptr;
+		for (auto &hurtBox : oData->hurtBoxes) {
+			for (auto &hitBox : oData->hurtBoxes) {
+				if (
+					hurtBox.pos.x < hitBox.pos.x + static_cast<int>(hitBox.size.x) &&
+					hurtBox.pos.y < hitBox.pos.y + static_cast<int>(hitBox.size.y) &&
+					hurtBox.pos.x + static_cast<int>(hurtBox.size.x) > hitBox.pos.x &&
+					hurtBox.pos.y + static_cast<int>(hurtBox.size.y) > hitBox.pos.y
+				) {
+
+				}
+			}
+		}
+		return nullptr;
+	}
+
+	const FrameData *AObject::getCurrentFrameData() const
+	{
+		return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 	}
 }
