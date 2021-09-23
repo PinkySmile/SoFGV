@@ -25,9 +25,9 @@ namespace Battle
 	{
 		this->_direction = side;
 		if (side) {
-			this->_position = {-600, 200};
+			this->_position = {-150, 200};
 		} else {
-			this->_position = {600, 200};
+			this->_position = {150, 200};
 		}
 	}
 }

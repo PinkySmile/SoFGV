@@ -4,6 +4,7 @@
 
 #include "AObject.hpp"
 #include "../Resources/Game.hpp"
+#include "../Logger.hpp"
 
 namespace Battle
 {
@@ -88,12 +89,12 @@ namespace Battle
 
 	void AObject::hit(IObject &other, const FrameData *data)
 	{
-
+		logger.debug(std::to_string((long)this) + " has hit !");
 	}
 
 	void AObject::getHit(IObject &other, const FrameData *data)
 	{
-
+		logger.debug(std::to_string((long)this) + " is hit !");
 	}
 
 	bool AObject::hits(IObject &other) const
