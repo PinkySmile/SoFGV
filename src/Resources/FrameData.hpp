@@ -102,6 +102,7 @@ namespace Battle
 		unsigned manaGain = 0;
 		unsigned manaCost = 0;
 		unsigned hitStop = 0;
+		Vector2i speed;
 		Vector2i hitSpeed;
 		Vector2i counterHitSpeed;
 

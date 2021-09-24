@@ -15,9 +15,20 @@ namespace Battle
 	void EditableObject::render() const
 	{
 		auto &data = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		auto scale = Vector2f{
+			static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			static_cast<float>(data.size.y) / data.textureBounds.size.y
+		};
+		auto result = this->_position + data.offset;
 
-		this->_sprite.setPosition(this->_position + data.offset - Vector2u{data.size.x / 2, 0});
-		this->_sprite.setScale(1, 1);
+		result.y *= -1;
+		result.y += 128;
+		result += Vector2i{
+			(-static_cast<int>(data.size.x) / 2),
+			-static_cast<int>(data.size.y)
+		};
+		this->_sprite.setPosition(result);
+		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);

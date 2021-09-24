@@ -374,6 +374,25 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->hitStop = data["hit_stop"];
 		}
+		if (data.contains("speed")) {
+			if (!data["speed"].is_object())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["speed"].contains("x"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["speed"].contains("y"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["speed"]["x"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["speed"]["y"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->speed.x = data["speed"]["x"];
+			this->speed.y = data["speed"]["y"];
+		}
 		if (data.contains("hit_speed")) {
 			if (!data["hit_speed"].is_object())
 				// TODO: Create proper exceptions
@@ -471,6 +490,7 @@ namespace Battle
 		this->manaCost = other.manaCost;
 		this->hitStop = other.hitStop;
 		this->hitSpeed = other.hitSpeed;
+		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		game.textureMgr.addRef(this->textureHandle);
 		return *this;
@@ -491,6 +511,11 @@ namespace Battle
 			result["offset"] = {
 				{"x", this->offset.x},
 				{"y", this->offset.y}
+			};
+		if (this->speed.x || this->speed.y)
+			result["speed"] = {
+				{"x", this->speed.x},
+				{"y", this->speed.y}
 			};
 		if (this->size != game.textureMgr.getTextureSize(this->textureHandle))
 			result["size"] = {
@@ -544,12 +569,12 @@ namespace Battle
 			result["mana_cost"] = this->manaCost;
 		if (this->hitStop)
 			result["hit_stop"] = this->hitStop;
-		if (this->hitSpeed != Vector2i{0, 0})
+		if (this->hitSpeed.x || this->hitSpeed.y)
 			result["hit_speed"] = {
 				{"x", this->size.x},
 				{"y", this->size.y}
 			};
-		if (this->counterHitSpeed != Vector2i{0, 0})
+		if (this->counterHitSpeed.x || this->counterHitSpeed.y)
 			result["counter_hit_speed"] = {
 				{"x", this->counterHitSpeed.x},
 				{"y", this->counterHitSpeed.y}

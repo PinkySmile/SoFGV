@@ -28,6 +28,7 @@ namespace Battle
 		float _rotation = 0;
 		unsigned _team = 0;
 		bool _dead = false;
+		bool _hasHit = false;
 		bool _direction = false;
 
 		float _baseRotation = 0;
@@ -35,7 +36,8 @@ namespace Battle
 		unsigned short _baseHp = 0;
 
 		AObject() = default;
-		Box applyModifiers(Box box) const;
+		virtual void _applyNewAnimFlags();
+		Box _applyModifiers(Box box) const;
 
 	public:
 		#ifdef _DEBUG

@@ -24,10 +24,11 @@ namespace Battle
 	void ACharacter::init(bool side)
 	{
 		this->_direction = side;
+		this->_team = side;
 		if (side) {
-			this->_position = {-150, 200};
+			this->_position = {-150, 0};
 		} else {
-			this->_position = {150, 200};
+			this->_position = {150, 0};
 		}
 	}
 }

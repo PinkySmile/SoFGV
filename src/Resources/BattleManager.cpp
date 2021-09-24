@@ -23,6 +23,11 @@ namespace Battle
 		for (auto &object : this->_objects)
 			object->update();
 
+		if (this->_leftCharacter->hits(*this->_rightCharacter))
+			collisions.emplace_back(&*this->_leftCharacter, &*this->_rightCharacter, this->_leftCharacter->getCurrentFrameData());
+		if (this->_rightCharacter->hits(*this->_leftCharacter))
+			collisions.emplace_back(&*this->_rightCharacter, &*this->_leftCharacter, this->_rightCharacter->getCurrentFrameData());
+
 		for (auto &object : this->_objects) {
 			if (this->_leftCharacter->hits(*object))
 				collisions.emplace_back(&*this->_leftCharacter, &*object, this->_leftCharacter->getCurrentFrameData());
