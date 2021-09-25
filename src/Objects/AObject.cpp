@@ -81,9 +81,9 @@ namespace Battle
 			this->_animationCtr = 0;
 			this->_animation++;
 			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
-			this->_animation %= this->_moves.at(this->_action)[this->_actionBlock].size();
+			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
+				this->_onMoveEnd();
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-			this->_applyNewAnimFlags();
 		}
 		this->_position += this->_speed + this->_speed2;
 		if (this->_speed2.x > 0)
@@ -178,5 +178,46 @@ namespace Battle
 			this->_rotation = 0;
 		this->_speed = {0, 0};
 		(data->dFlag.dashSpeed ? this->_speed2 : this->_speed) += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
+	}
+
+	bool AObject::_hasMove(unsigned action) const
+	{
+		return this->_moves.find(action) != this->_moves.end();
+	}
+
+	bool AObject::_startMove(unsigned int action)
+	{
+		if (!this->_hasMove(action))
+			return false;
+
+		auto &data = this->_moves.at(action)[0][0];
+
+		if (!this->_canStartMove(action, data))
+			return false;
+		this->_forceStartMove(action);
+		return true;
+	}
+
+	bool AObject::_canStartMove(unsigned action, const FrameData &data)
+	{
+		return true;
+	}
+
+	void AObject::_forceStartMove(unsigned int action)
+	{
+		if (this->_action == action)
+			return;
+
+		this->_action = action;
+		this->_animationCtr = 0;
+		this->_animation = 0;
+		this->_hasHit = false;
+		this->_applyNewAnimFlags();
+	}
+
+	void AObject::_onMoveEnd()
+	{
+		this->_animation = 0;
+		this->_applyNewAnimFlags();
 	}
 }

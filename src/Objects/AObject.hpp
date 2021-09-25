@@ -42,6 +42,11 @@ namespace Battle
 		unsigned short _baseHp = 0;
 
 		AObject() = default;
+		bool _hasMove(unsigned action) const;
+		void _forceStartMove(unsigned action);
+		virtual void _onMoveEnd();
+		virtual bool _canStartMove(unsigned action, const FrameData &data);
+		virtual bool _startMove(unsigned action);
 		virtual void _applyNewAnimFlags();
 		Box _applyModifiers(Box box) const;
 

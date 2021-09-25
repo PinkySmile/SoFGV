@@ -39,6 +39,7 @@ namespace Battle
 			bool resetRotation : 1;
 			bool counterHit : 1;
 			bool flash : 1;
+			bool crouch : 1;
 		};
 		unsigned flags;
 	};

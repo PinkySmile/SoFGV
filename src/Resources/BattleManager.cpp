@@ -68,7 +68,6 @@ namespace Battle
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i]->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
-		puts("");
 	}
 
 	void BattleManager::render()

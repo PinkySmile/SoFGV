@@ -6,6 +6,7 @@
 #define BATTLE_ACHARACTER_HPP
 
 
+#include <list>
 #include "AObject.hpp"
 #include "../Inputs/IInput.hpp"
 
@@ -213,7 +214,19 @@ namespace Battle
 
 	class ACharacter : public AObject {
 	private:
+		struct LastInput {
+			unsigned nbFrames;
+			InputEnum input;
+		};
+
 		std::unique_ptr<IInput> _input;
+		std::list<LastInput> _lastInputs;
+
+		void _processInput(const InputStruct &input);
+		bool _executeAirborneMoves(const InputStruct &input);
+		bool _executeGroundMoves(const InputStruct &input);
+		void _onMoveEnd() override;
+		bool _canStartMove(unsigned action, const FrameData &data) override;
 
 	public:
 		ACharacter(const std::string &frameData, IInput *input);
