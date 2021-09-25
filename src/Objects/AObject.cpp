@@ -20,7 +20,6 @@ namespace Battle
 
 		realPos.y *= -1;
 		result.y *= -1;
-		result.y += 128;
 		result += Vector2f{
 			-this->_dir * data.size.x / 2,
 			-static_cast<float>(data.size.y)
@@ -63,6 +62,13 @@ namespace Battle
 				rect.setSize(box.size);
 				game.screen->draw(rect);
 			}
+
+			rect.setOutlineThickness(2);
+			rect.setOutlineColor(sf::Color::White);
+			rect.setFillColor(sf::Color::Black);
+			rect.setPosition(realPos - Vector2f{4, 4});
+			rect.setSize({9, 9});
+			game.screen->draw(rect);
 		}
 	}
 

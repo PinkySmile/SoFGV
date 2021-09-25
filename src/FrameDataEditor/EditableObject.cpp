@@ -22,7 +22,6 @@ namespace Battle
 		auto result = this->_position + data.offset;
 
 		result.y *= -1;
-		result.y += 128;
 		result += Vector2i{
 			(-static_cast<int>(data.size.x) / 2),
 			-static_cast<int>(data.size.y)
@@ -32,6 +31,15 @@ namespace Battle
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
+
+		sf::RectangleShape rect;
+
+		rect.setOutlineThickness(2);
+		rect.setOutlineColor(sf::Color::White);
+		rect.setFillColor(sf::Color::Black);
+		rect.setPosition(this->_position - Vector2f{4, 4});
+		rect.setSize({9, 9});
+		game.screen->draw(rect);
 	}
 
 	void EditableObject::update()

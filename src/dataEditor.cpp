@@ -31,7 +31,7 @@ std::array<tgui::Button::Ptr, 8> resizeButtons;
 void	arrangeButtons(Battle::EditableObject *object)
 {
 	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
-	Battle::Box box = spriteSelected ? Battle::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(128 - data->offset.y - data->size.y)}, data->size} : *selectedBox;
+	Battle::Box box = spriteSelected ? Battle::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(-data->offset.y - data->size.y)}, data->size} : *selectedBox;
 
 	for (int i = 0; i < 8; i++) {
 		Battle::Vector2i pos;
@@ -50,7 +50,7 @@ void	arrangeButtons(Battle::EditableObject *object)
 			pos.y = box.pos.y + box.size.y;
 		else
 			pos.y = box.pos.y - resizeButton->getSize().x / 2 + box.size.y / 2;
-		resizeButton->setPosition("boxes.w / 2 + " + std::to_string(pos.x), "boxes.h / 2 + " + std::to_string(pos.y));
+		resizeButton->setPosition("boxes.w / 2 + " + std::to_string(pos.x), "boxes.h / 2 + " + std::to_string(pos.y + 300));
 	}
 }
 
@@ -103,7 +103,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 	button->setSize(data.size.x, data.size.y);
 	button->setPosition(
 		"&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)),
-		"&.h / 2 + " + std::to_string(128 - data.size.y - data.offset.y)
+		"&.h / 2 + " + std::to_string(-data.size.y - data.offset.y + 300)
 	);
 	button->connect("MousePressed", [&object](std::weak_ptr<tgui::Button> self){
 		selectSprite(self.lock(), object);
@@ -126,7 +126,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 		renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
 		renderer->setBorders(1);
 		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), &box);
 			canDrag = true;
@@ -150,7 +150,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 		renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
 		renderer->setBorders(1);
 		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), &box);
 			canDrag = true;
@@ -173,7 +173,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 		renderer->setBorderColorFocused({0xFF, 0xFF, 0x00});
 		renderer->setBorders(1);
 		button->setSize(data.collisionBox->size.x, data.collisionBox->size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(data.collisionBox->pos.x), "&.h / 2 + " + std::to_string(data.collisionBox->pos.y));
+		button->setPosition("&.w / 2 + " + std::to_string(data.collisionBox->pos.x), "&.h / 2 + " + std::to_string(data.collisionBox->pos.y + 300));
 		button->connect("MousePressed", [&data](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), data.collisionBox);
 			canDrag = true;
@@ -1588,14 +1588,14 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object,
 
 			diff.y *= -1;
 			data.offset += diff;
-			boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y));
+			boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
 			gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 			arrangeButtons(&*object);
 		} else {
 			Battle::Vector2i diff{mouseX, mouseY};
 
 			selectedBox->pos += diff - lastMouse;
-			boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y));
+			boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
 			arrangeButtons(&*object);
 		}
 		lastMouse = {mouseX, mouseY};
@@ -1708,13 +1708,13 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object,
 	if (spriteSelected) {
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y));
+		boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
 		boxButton->setSize(data.size.x, data.size.y);
 		gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 		gui.get<tgui::EditBox>("Size")->setText("(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")");
 		arrangeButtons(&*object);
 	} else {
-		boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y));
+		boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
 		boxButton->setSize(selectedBox->size.x, selectedBox->size.y);
 		arrangeButtons(&*object);
 	}
@@ -1781,7 +1781,7 @@ void	run()
 
 	stage.loadFromFile("assets/stages/14687.png");
 	sprite.setTexture(stage, true);
-	sprite.setPosition({stage.getSize().x * 1.f / -2.f, stage.getSize().y * 1.f / -1.65f});
+	sprite.setPosition({stage.getSize().x * 1.f / -2.f, stage.getSize().y * 1.f / -1.4f});
 	sprite.setScale(1, 1);
 	if (icon.loadFromFile("assets/editorIcon.png"))
 		Battle::game.screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -1801,7 +1801,7 @@ void	run()
 	};
 
 	placeGuiHooks(gui, object);
-	view.setCenter(panel->getSize().x / 2, 0);
+	view.setCenter(panel->getSize().x / 2, -300);
 	view.setSize(Battle::game.screen->getSize().x, Battle::game.screen->getSize().y);
 	Battle::game.screen->setView(view);
 	gui.setView(guiView);
@@ -1832,7 +1832,7 @@ void	run()
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
 				gui.setView(guiView);
 
-				view.setCenter(panel->getSize().x / 2, 0);
+				view.setCenter(panel->getSize().x / 2, -300);
 				view.setSize(event.size.width, event.size.height);
 				Battle::game.screen->setView(view);
 				continue;
