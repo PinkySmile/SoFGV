@@ -22,6 +22,7 @@ namespace Battle
 	};
 
 	union DefensiveFlags {
+		unsigned flags;
 		struct {
 			bool invulnerable : 1;
 			bool invulnerableArmor : 1;
@@ -41,10 +42,10 @@ namespace Battle
 			bool flash : 1;
 			bool crouch : 1;
 		};
-		unsigned flags;
 	};
 
 	union OffensiveFlags {
+		unsigned flags;
 		struct {
 			bool grab : 1;
 			bool airUnblockable : 1;
@@ -73,7 +74,6 @@ namespace Battle
 			bool spiritMana : 1;
 			bool matterMana : 1;
 		};
-		unsigned flags;
 	};
 
 	class FrameData {
@@ -88,8 +88,8 @@ namespace Battle
 		std::vector<Box> hitBoxes;
 		unsigned duration = 1;
 		unsigned specialMarker = 0;
-		DefensiveFlags dFlag;
-		OffensiveFlags oFlag;
+		DefensiveFlags dFlag = {0};
+		OffensiveFlags oFlag = {0};
 		Box *collisionBox = nullptr;
 		unsigned blockStun = 0;
 		unsigned hitStun = 0;
@@ -103,9 +103,10 @@ namespace Battle
 		unsigned manaGain = 0;
 		unsigned manaCost = 0;
 		unsigned hitStop = 0;
-		Vector2i speed;
-		Vector2i hitSpeed;
-		Vector2i counterHitSpeed;
+		unsigned damage = 0;
+		Vector2i speed = {0, 0};
+		Vector2i hitSpeed = {0, 0};
+		Vector2i counterHitSpeed = {0, 0};
 
 		FrameData() = default;
 		~FrameData();

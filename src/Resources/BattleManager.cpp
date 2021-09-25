@@ -3,6 +3,8 @@
 //
 
 #include "BattleManager.hpp"
+#include "../Logger.hpp"
+#include "Game.hpp"
 
 namespace Battle
 {
@@ -18,11 +20,25 @@ namespace Battle
 	{
 		this->_leftCharacter->consumeEvent(event);
 		this->_rightCharacter->consumeEvent(event);
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::S)
+			this->_step = !this->_step;
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)
+			this->_next = true;
 	}
 
 	void BattleManager::update()
 	{
 		std::vector<std::tuple<IObject *, IObject *, const FrameData *>> collisions;
+
+		if (this->_step && !this->_next)
+			return;
+		this->_next = false;
+
+		if (this->_hitStop) {
+			this->_hitStop--;
+			logger.debug(std::to_string(this->_hitStop) + " frames remaining");
+			return;
+		}
 
 		this->_leftCharacter->update();
 		this->_rightCharacter->update();
@@ -76,10 +92,27 @@ namespace Battle
 		this->_rightCharacter->render();
 		for (auto &object : this->_objects)
 			object->render();
+
+		sf::RectangleShape rect;
+
+		rect.setOutlineThickness(1);
+		rect.setOutlineColor(sf::Color::Black);
+		rect.setFillColor(sf::Color::Yellow);
+		rect.setPosition(0, -490);
+		rect.setSize({400.f * this->_leftCharacter->_hp / 10000.f, 20});
+		game.screen->draw(rect);
+		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / 10000.f, -490);
+		rect.setSize({400.f * this->_rightCharacter->_hp / 10000.f, 20});
+		game.screen->draw(rect);
 	}
 
 	void BattleManager::registerObject(IObject *object)
 	{
 		this->_objects.emplace_back(object);
+	}
+
+	void BattleManager::addHitStop(unsigned int stop)
+	{
+		this->_hitStop = std::max(stop, this->_hitStop);
 	}
 }

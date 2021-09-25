@@ -640,6 +640,14 @@ Panel.Panel1 {
                 Size = (140, 22);
                 Text = "(0,0)";
                 TextSize = 13;
+                renderer = &4;
+            }
+
+            CheckBox.Crouch {
+                Position = (330, 650);
+                Size = (20, 20);
+                Text = Crouch;
+                TextSize = 13;
 
                 Renderer {
                     backgroundcolor = #F5F5F5;
@@ -647,20 +655,24 @@ Panel.Panel1 {
                     backgroundcolorhover = white;
                     bordercolor = #3C3C3C;
                     bordercolordisabled = #7D7D7D;
+                    bordercolorfocused = #1E1EB4;
                     bordercolorhover = black;
                     borders = (1, 1, 1, 1);
-                    caretcolor = black;
-                    caretwidth = 1;
-                    defaulttextcolor = #A0A0A0;
-                    padding = (0, 0, 0, 0);
-                    selectedtextbackgroundcolor = #006EFF;
-                    selectedtextcolor = white;
+                    checkcolor = #3C3C3C;
+                    checkcolordisabled = #7D7D7D;
+                    checkcolorhover = black;
                     textcolor = #3C3C3C;
                     textcolordisabled = #7D7D7D;
-                    texture = None;
-                    texturedisabled = None;
-                    texturefocused = None;
-                    texturehover = None;
+                    textcolorhover = black;
+                    textdistanceratio = 0.2;
+                    texturechecked = None;
+                    texturecheckeddisabled = None;
+                    texturecheckedfocused = None;
+                    texturecheckedhover = None;
+                    textureunchecked = None;
+                    textureuncheckeddisabled = None;
+                    textureuncheckedfocused = None;
+                    textureuncheckedhover = None;
                 }
             }
         }
@@ -678,15 +690,15 @@ Panel.Panel1 {
         EditBox.Sprite {
             DefaultText = "assets/....";
             Position = (90, 10);
-            Size = (210, 22);
+            Size = (330, 22);
             TextSize = 13;
             renderer = &4;
         }
 
         EditBox.Offset {
             InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
-            Position = (380, 10);
-            Size = (210, 22);
+            Position = (500, 10);
+            Size = (90, 22);
             Text = "(0,0)";
             TextSize = 13;
             renderer = &4;
@@ -694,7 +706,7 @@ Panel.Panel1 {
 
         Label.Label4 {
             AutoSize = true;
-            Position = (320, 12);
+            Position = (450, 12);
             ScrollbarPolicy = Never;
             Size = (43.2, 18);
             Text = Offset;
@@ -704,7 +716,7 @@ Panel.Panel1 {
 
         Label.Label5 {
             AutoSize = true;
-            Position = (320, 42);
+            Position = (460, 42);
             ScrollbarPolicy = Never;
             Size = (29.2, 18);
             Text = Size;
@@ -714,9 +726,9 @@ Panel.Panel1 {
 
         EditBox.Size {
             InputValidator = "\\([0-9]{1,4},[0-9]{1,4}\\)";
-            Position = (380, 40);
-            Size = (210, 22);
-            Text = "(0,0)";
+            Position = (500, 40);
+            Size = (90, 22);
+            Text = "(300,300)";
             TextSize = 13;
             renderer = &4;
         }
@@ -724,7 +736,7 @@ Panel.Panel1 {
         EditBox.Bounds {
             InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4},[0-9]{1,4},[0-9]{1,4}\\)";
             Position = (90, 40);
-            Size = (210, 22);
+            Size = (330, 22);
             Text = "(128,0,64,128)";
             TextSize = 13;
             renderer = &4;
@@ -847,8 +859,8 @@ Panel.Panel1 {
 
         EditBox.Rate {
             InputValidator = Float;
-            Position = (480, 250);
-            Size = (110, 22);
+            Position = (500, 250);
+            Size = (90, 22);
             Text = 0;
             TextSize = 13;
             renderer = &4;
@@ -856,7 +868,7 @@ Panel.Panel1 {
 
         Label.Label11 {
             AutoSize = true;
-            Position = (420, 252);
+            Position = (450, 252);
             ScrollbarPolicy = Never;
             Size = (50.2, 18);
             Text = Prorate;
@@ -915,7 +927,7 @@ Panel.Panel1 {
         EditBox.SpiritLimit {
             InputValidator = "100|[0-9]{1,2}";
             Position = (90, 220);
-            Size = (210, 22);
+            Size = (110, 22);
             Text = 0;
             TextSize = 13;
             renderer = &4;
@@ -923,8 +935,8 @@ Panel.Panel1 {
 
         EditBox.VoidLimit {
             InputValidator = "100|[0-9]{1,2}";
-            Position = (450, 220);
-            Size = (140, 22);
+            Position = (500, 220);
+            Size = (90, 22);
             Text = 0;
             TextSize = 13;
             renderer = &4;
@@ -932,7 +944,7 @@ Panel.Panel1 {
 
         Label.Label45 {
             AutoSize = true;
-            Position = (320, 222);
+            Position = (430, 222);
             ScrollbarPolicy = Never;
             Size = (65.2, 18);
             Text = "Void Limit";
@@ -1090,6 +1102,16 @@ Panel.Panel1 {
             Size = (43.2, 18);
             Text = Speed;
             TextSize = 13;
+            renderer = &3;
+        }
+
+        Label.Label28 {
+            AutoSize = true;
+            Position = (220, 222);
+            ScrollbarPolicy = Never;
+            Size = (58.2, 18);
+            Text = Damage;
+            TextSize = 13;
 
             Renderer {
                 backgroundcolor = transparent;
@@ -1097,6 +1119,36 @@ Panel.Panel1 {
                 borders = (0, 0, 0, 0);
                 textcolor = #3C3C3C;
                 texturebackground = None;
+            }
+        }
+
+        EditBox.Damage {
+            InputValidator = UInt;
+            Position = (280, 220);
+            Size = (140, 22);
+            Text = 0;
+            TextSize = 13;
+
+            Renderer {
+                backgroundcolor = #F5F5F5;
+                backgroundcolordisabled = #E6E6E6;
+                backgroundcolorhover = white;
+                bordercolor = #3C3C3C;
+                bordercolordisabled = #7D7D7D;
+                bordercolorhover = black;
+                borders = (1, 1, 1, 1);
+                caretcolor = black;
+                caretwidth = 1;
+                defaulttextcolor = #A0A0A0;
+                padding = (0, 0, 0, 0);
+                selectedtextbackgroundcolor = #006EFF;
+                selectedtextcolor = white;
+                textcolor = #3C3C3C;
+                textcolordisabled = #7D7D7D;
+                texture = None;
+                texturedisabled = None;
+                texturefocused = None;
+                texturehover = None;
             }
         }
     }

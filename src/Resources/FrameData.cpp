@@ -374,6 +374,12 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->hitStop = data["hit_stop"];
 		}
+		if (data.contains("damage")) {
+			if (!data["damage"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->damage = data["damage"];
+		}
 		if (data.contains("speed")) {
 			if (!data["speed"].is_object())
 				// TODO: Create proper exceptions
@@ -488,6 +494,7 @@ namespace Battle
 		this->subObjectSpawn = other.subObjectSpawn;
 		this->manaGain = other.manaGain;
 		this->manaCost = other.manaCost;
+		this->damage = other.damage;
 		this->hitStop = other.hitStop;
 		this->hitSpeed = other.hitSpeed;
 		this->speed = other.speed;
@@ -537,6 +544,8 @@ namespace Battle
 			result["hit_boxes"] = this->hitBoxes;
 		if (this->specialMarker)
 			result["marker"] = this->specialMarker;
+		if (this->damage)
+			result["damage"] = this->damage;
 		if (this->dFlag.flags)
 			result["defense_flag"] = this->dFlag.flags;
 		if (this->oFlag.flags)
@@ -571,8 +580,8 @@ namespace Battle
 			result["hit_stop"] = this->hitStop;
 		if (this->hitSpeed.x || this->hitSpeed.y)
 			result["hit_speed"] = {
-				{"x", this->size.x},
-				{"y", this->size.y}
+				{"x", this->hitSpeed.x},
+				{"y", this->hitSpeed.y}
 			};
 		if (this->counterHitSpeed.x || this->counterHitSpeed.y)
 			result["counter_hit_speed"] = {

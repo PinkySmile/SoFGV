@@ -198,10 +198,14 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto pushBlock = panel->get<tgui::EditBox>("PushBlock");
 	auto blockStun = panel->get<tgui::EditBox>("BlockStun");
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
+	auto hitStop = panel->get<tgui::EditBox>("HitStop");
+	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
+	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
 	auto spiritLimit = panel->get<tgui::EditBox>("SpiritLimit");
 	auto voidLimit = panel->get<tgui::EditBox>("VoidLimit");
 	auto matterLimit = panel->get<tgui::EditBox>("MatterLimit");
 	auto prorate = panel->get<tgui::EditBox>("Rate");
+	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
 	auto dFlags = panel->get<tgui::EditBox>("dFlags");
@@ -215,6 +219,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	progress->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
 	progress->setValue(object->_animation);
 	sprite->setText(data.spritePath);
+	damage->setText(std::to_string(data.damage));
 	duration->setText(std::to_string(data.duration));
 	marker->setText(std::to_string(data.specialMarker));
 	subObj->setText(std::to_string(data.subObjectSpawn));
@@ -222,6 +227,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	pushBlock->setText(std::to_string(data.pushBlock));
 	blockStun->setText(std::to_string(data.blockStun));
 	hitStun->setText(std::to_string(data.hitStun));
+	hitStop->setText(std::to_string(data.hitStop));
 	spiritLimit->setText(std::to_string(data.spiritLimit));
 	voidLimit->setText(std::to_string(data.voidLimit));
 	matterLimit->setText(std::to_string(data.matterLimit));
@@ -231,7 +237,11 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
 	auto newOffset = "(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")";
 	auto newSpeed = "(" + std::to_string(data.speed.x) + "," + std::to_string(data.speed.y) + ")";
+	auto newCHitSpeed = "(" + std::to_string(data.counterHitSpeed.x) + "," + std::to_string(data.counterHitSpeed.y) + ")";
+	auto newHitSpeed = "(" + std::to_string(data.hitSpeed.x) + "," + std::to_string(data.hitSpeed.y) + ")";
 
+	counterHitSpeed->setText(newCHitSpeed);
+	hitSpeed->setText(newHitSpeed);
 	speed->setText(newSpeed);
 	offset->setText(newOffset);
 	bounds->setText(newBounds);
@@ -305,6 +315,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto voidLimit = panel->get<tgui::EditBox>("VoidLimit");
 	auto matterLimit = panel->get<tgui::EditBox>("MatterLimit");
 	auto prorate = panel->get<tgui::EditBox>("Rate");
+	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
 	auto hitStop = panel->get<tgui::EditBox>("HitStun");
@@ -357,6 +368,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto resetRotation = panel->get<tgui::CheckBox>("ResetRotation");
 	auto counterHit = panel->get<tgui::CheckBox>("CounterHit");
 	auto flash = panel->get<tgui::CheckBox>("Flash");
+	auto crouch = panel->get<tgui::CheckBox>("Crouch");
 
 	boxes->connect("Clicked", []{
 		if (!dragStart && !canDrag)
@@ -566,6 +578,16 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.duration = std::stoul(t);
+	});
+	damage->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.damage = std::stoul(t);
 	});
 	marker->connect("TextChanged", [&object](std::string t){
 		if (*c)
@@ -1223,7 +1245,18 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+	crouch->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.crouch = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
 		if (t.empty())
 			return;
 
@@ -1239,6 +1272,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		superArmor->setChecked(data.dFlag.superarmor);
 		grabInvul->setChecked(data.dFlag.grabInvulnerable);
 		voidBlock->setChecked(data.dFlag.voidBlock);
+		crouch->setChecked(data.dFlag.crouch);
 		spiritBlock->setChecked(data.dFlag.spiritBlock);
 		matterBlock->setChecked(data.dFlag.matterBlock);
 		neutralBlock->setChecked(data.dFlag.neutralBlock);
@@ -1443,7 +1477,7 @@ void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 	renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
 	renderer->setBorders(1);
 	button->setSize(box.size.x, box.size.y);
-	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 		selectBox(self.lock(), &box);
 		canDrag = true;
@@ -1472,7 +1506,7 @@ void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Pa
 	renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
 	renderer->setBorders(1);
 	button->setSize(box.size.x, box.size.y);
-	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y));
+	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 		selectBox(self.lock(), &box);
 		canDrag = true;

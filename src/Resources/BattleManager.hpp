@@ -15,9 +15,13 @@ namespace Battle
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
 		std::vector<std::unique_ptr<IObject>> _objects;
+		unsigned _hitStop = 0;
+		bool _step = false;
+		bool _next = false;
 
 	public:
 		BattleManager(ACharacter *leftCharacter, ACharacter *rightCharacter);
+		void addHitStop(unsigned stop);
 		void update();
 		void render();
 		void registerObject(IObject *object);

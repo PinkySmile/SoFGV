@@ -27,7 +27,7 @@ namespace Battle
 		unsigned short _actionBlock = 0;
 		unsigned short _animation = 0;
 		unsigned short _animationCtr = 0;
-		unsigned short _hp = 0;
+		short _hp = 0;
 		float _rotation = 0;
 		unsigned _team = 0;
 		bool _dead = false;
@@ -39,7 +39,7 @@ namespace Battle
 		Vector2f _baseGravity = {0, 0};
 		Vector2f _baseGroundDrag = {0, 0};
 		Vector2f _baseAirDrag = {0, 0};
-		unsigned short _baseHp = 0;
+		short _baseHp = 0;
 
 		AObject() = default;
 		bool _hasMove(unsigned action) const;
@@ -62,10 +62,12 @@ namespace Battle
 		void update() override;
 		void reset() override;
 		bool isDead() const override;
-		void hit(IObject &other, const FrameData *data) override;
 		bool hits(IObject &other) const override;
+		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		const FrameData *getCurrentFrameData() const override;
+
+		friend class BattleManager;
 	};
 }
 

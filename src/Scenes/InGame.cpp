@@ -13,7 +13,7 @@ namespace Battle
 {
 	InGame::InGame()
 	{
-		sf::View view{{0, 562.5 - 1000, 1000, 562.5}};
+		sf::View view{{-50, -500, 1100, 618.75}};
 
 		logger.info("InGame scene created");
 		Battle::game.screen->setView(view);

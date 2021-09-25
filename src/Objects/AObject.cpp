@@ -102,6 +102,8 @@ namespace Battle
 		this->_rotation = this->_baseRotation;
 		this->_gravity = this->_baseGravity;
 		this->_hp = this->_baseHp;
+		this->_airDrag = this->_baseAirDrag;
+		this->_groundDrag = this->_baseGroundDrag;
 	}
 
 	bool AObject::isDead() const
@@ -139,10 +141,10 @@ namespace Battle
 				auto _hurtBox = asAObject->_applyModifiers(hurtBox);
 
 				if (
-					_hurtBox.pos.x < _hitBox.pos.x + static_cast<int>(_hitBox.size.x) &&
-					_hurtBox.pos.y < _hitBox.pos.y + static_cast<int>(_hitBox.size.y) &&
-					_hurtBox.pos.x + static_cast<int>(_hurtBox.size.x) > _hitBox.pos.x &&
-					_hurtBox.pos.y + static_cast<int>(_hurtBox.size.y) > _hitBox.pos.y
+					asAObject->_position.x + _hurtBox.pos.x                   < this->_position.x + _hitBox.pos.x + _hitBox.size.x &&
+					asAObject->_position.y + _hurtBox.pos.y                   < this->_position.y + _hitBox.pos.y + _hitBox.size.y &&
+					asAObject->_position.x + _hurtBox.pos.x + _hurtBox.size.x > this->_position.x + _hitBox.pos.x &&
+					asAObject->_position.y + _hurtBox.pos.y + _hurtBox.size.y > this->_position.y + _hitBox.pos.y
 				)
 					return true;
 			}
@@ -205,10 +207,8 @@ namespace Battle
 
 	void AObject::_forceStartMove(unsigned int action)
 	{
-		if (this->_action == action)
-			return;
-
 		this->_action = action;
+		this->_actionBlock = 0;
 		this->_animationCtr = 0;
 		this->_animation = 0;
 		this->_hasHit = false;

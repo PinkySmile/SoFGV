@@ -219,18 +219,24 @@ namespace Battle
 			InputEnum input;
 		};
 
+		float _pushSpeed = 0;
 		std::unique_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;
+		Vector2f _hitSpeed = {0, 0};
+		unsigned _blockStun = 0;
 
 		void _processInput(const InputStruct &input);
 		bool _executeAirborneMoves(const InputStruct &input);
 		bool _executeGroundMoves(const InputStruct &input);
 		void _onMoveEnd() override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
+		bool _isBlocking();
 
 	public:
 		ACharacter(const std::string &frameData, IInput *input);
 		~ACharacter() override = default;
+		void hit(IObject &other, const FrameData *data) override;
+		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;
 		void update() override;
 		void init(bool side);
