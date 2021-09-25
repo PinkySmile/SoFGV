@@ -10,6 +10,7 @@
 #include "Screen.hpp"
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
+#include "../Scenes/IScene.hpp"
 
 namespace Battle
 {
@@ -17,6 +18,7 @@ namespace Battle
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		std::unique_ptr<BattleManager> battleMgr;
+		std::unique_ptr<IScene> scene;
 	};
 
 	extern Game game;

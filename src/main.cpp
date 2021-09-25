@@ -3,26 +3,30 @@
 #include "Logger.hpp"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
-#include "Objects/ACharacter.hpp"
+#include "Scenes/TitleScreen.hpp"
 
 Battle::Logger	logger("./latest.log");
 
 void	run()
 {
-	sf::View view{{-840, -480, 1680, 960}};
+	sf::Event event;
 
 	Battle::game.screen = std::make_unique<Battle::Screen>();
-	Battle::game.battleMgr = std::make_unique<Battle::BattleManager>(
-		new Battle::ACharacter{"assets/characters/test/framedata.json"},
-		new Battle::ACharacter{"assets/characters/test/framedata.json"}
-	);
-	Battle::game.screen->setView(view);
+	Battle::game.scene = std::make_unique<Battle::TitleScreen>();
 	while (Battle::game.screen->isOpen()) {
-		Battle::game.battleMgr->update();
-		Battle::game.screen->clear(sf::Color::Cyan);
-		Battle::game.battleMgr->render();
-		Battle::game.screen->handleEvents();
+		Battle::IScene *newScene = Battle::game.scene->update();
+
+		Battle::game.screen->clear(sf::Color::White);
+		Battle::game.scene->render();
 		Battle::game.screen->display();
+
+		while (Battle::game.screen->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				Battle::game.screen->close();
+			Battle::game.scene->consumeEvent(event);
+		}
+		if (newScene)
+			Battle::game.scene.reset(newScene);
 	}
 }
 

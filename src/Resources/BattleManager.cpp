@@ -14,6 +14,12 @@ namespace Battle
 		this->_rightCharacter->init(false);
 	}
 
+	void BattleManager::consumeEvent(const sf::Event &event)
+	{
+		this->_leftCharacter->consumeEvent(event);
+		this->_rightCharacter->consumeEvent(event);
+	}
+
 	void BattleManager::update()
 	{
 		std::vector<std::tuple<IObject *, IObject *, const FrameData *>> collisions;
@@ -62,6 +68,7 @@ namespace Battle
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i]->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
+		puts("");
 	}
 
 	void BattleManager::render()

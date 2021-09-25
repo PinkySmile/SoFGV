@@ -15,18 +15,18 @@ namespace Battle
 			static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = this->_position + (this->_direction ? data.offset : -data.offset);
+		auto result = this->_position + (data.offset * this->_dir);
 		auto realPos = this->_position;
 
 		realPos.y *= -1;
 		result.y *= -1;
 		result.y += 128;
-		result += Vector2i{
-			this->_direction ? (-static_cast<int>(data.size.x) / 2) : (static_cast<int>(data.size.x) / 2),
-			-static_cast<int>(data.size.y)
+		result += Vector2f{
+			-this->_dir * data.size.x / 2,
+			-static_cast<float>(data.size.y)
 		};
 		this->_sprite.setPosition(result);
-		this->_sprite.setScale(this->_direction ? scale.x : -scale.x, scale.y);
+		this->_sprite.setScale(this->_dir * scale.x, scale.y);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
@@ -79,9 +79,16 @@ namespace Battle
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 			this->_applyNewAnimFlags();
 		}
-		this->_position += this->_speed;
-		if (data->dFlag.airborne)
+		this->_position += this->_speed + this->_speed2;
+		if (this->_speed2.x > 0)
+			this->_speed2.x = std::copysign(std::abs(this->_speed2.x) - 0.1f, this->_speed2.x);
+		else
+			this->_speed2.x = 0;
+		if (data->dFlag.airborne) {
 			this->_speed += this->_gravity;
+			this->_speed2.y = std::copysign(std::abs(this->_speed2.y) - 0.1f, this->_speed2.y);
+		} else
+			this->_speed2.y = 0;
 	}
 
 	void AObject::reset()
@@ -160,8 +167,10 @@ namespace Battle
 			return;
 		this->_hasHit &= data->oFlag.resetHits;
 		if (data->oFlag.resetSpeed)
-			this->_speed = {0, 0};
+			this->_speed2 = {0, 0};
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
+		this->_speed = {0, 0};
+		(data->dFlag.dashSpeed ? this->_speed2 : this->_speed) += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 	}
 }

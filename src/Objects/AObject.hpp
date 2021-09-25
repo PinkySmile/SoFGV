@@ -19,7 +19,10 @@ namespace Battle
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		Vector2f _position = {0, 0};
 		Vector2f _speed = {0, 0};
+		Vector2f _speed2 = {0, 0};
 		Vector2f _gravity = {0, 0};
+		Vector2f _airDrag = {0, 0};
+		Vector2f _groundDrag = {0, 0};
 		unsigned short _action = 0;
 		unsigned short _actionBlock = 0;
 		unsigned short _animation = 0;
@@ -30,9 +33,12 @@ namespace Battle
 		bool _dead = false;
 		bool _hasHit = false;
 		bool _direction = false;
+		float _dir = -1;
 
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
+		Vector2f _baseGroundDrag = {0, 0};
+		Vector2f _baseAirDrag = {0, 0};
 		unsigned short _baseHp = 0;
 
 		AObject() = default;

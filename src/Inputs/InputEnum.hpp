@@ -7,7 +7,7 @@
 
 namespace Battle
 {
-	enum Input {
+	enum InputEnum {
 		INPUT_LEFT,
 		INPUT_RIGHT,
 		INPUT_UP,
@@ -22,9 +22,10 @@ namespace Battle
 		INPUT_VOID = INPUT_V,
 		INPUT_A,
 		INPUT_ASCEND = INPUT_A,
+		INPUT_NUMBER
 	};
 
-	struct Input {
+	struct InputStruct {
 		int horizontalAxis;
 		int verticalAxis;
 		int n;

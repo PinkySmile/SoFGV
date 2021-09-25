@@ -21,6 +21,7 @@ namespace Battle
 		void update();
 		void render();
 		void registerObject(IObject *object);
+		void consumeEvent(const sf::Event &);
 		template <typename T, typename ...Args>
 		T *registerObject(Args &... args)
 		{

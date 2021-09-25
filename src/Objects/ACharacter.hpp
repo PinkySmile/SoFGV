@@ -7,6 +7,7 @@
 
 
 #include "AObject.hpp"
+#include "../Inputs/IInput.hpp"
 
 namespace Battle
 {
@@ -211,12 +212,16 @@ namespace Battle
 	};
 
 	class ACharacter : public AObject {
+	private:
+		std::unique_ptr<IInput> _input;
+
 	public:
-		ACharacter(const std::string &frameData);
+		ACharacter(const std::string &frameData, IInput *input);
 		~ACharacter() override = default;
 		void render() const override;
 		void update() override;
 		void init(bool side);
+		void consumeEvent(const sf::Event &event);
 	};
 }
 

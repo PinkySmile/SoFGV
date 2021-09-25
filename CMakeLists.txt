@@ -30,7 +30,7 @@ add_executable(
 	src/Resources/BattleManager.cpp
 	src/Resources/TextureManager.hpp
 	src/Resources/TextureManager.cpp
-	src/InputEnum.hpp
+	src/Inputs/InputEnum.hpp
 	src/Objects/ACharacter.hpp
 	src/Objects/ACharacter.cpp
 	src/Objects/AObject.hpp
@@ -42,6 +42,16 @@ add_executable(
 	src/Data/Color.hpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
+	src/Scenes/TitleScreen.cpp
+	src/Scenes/TitleScreen.hpp
+	src/Scenes/IScene.hpp
+	src/Scenes/InGame.cpp
+	src/Scenes/InGame.hpp
+	src/Inputs/IInput.hpp
+	src/Inputs/KeyboardInput.cpp
+	src/Inputs/KeyboardInput.hpp
+	src/Inputs/ControllerInput.cpp
+	src/Inputs/ControllerInput.hpp
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -82,13 +92,9 @@ add_executable(
 	src/Data/Vector.hpp
 	src/Resources/Screen.cpp
 	src/Resources/Screen.hpp
-	src/Resources/BattleManager.hpp
-	src/Resources/BattleManager.cpp
 	src/Resources/TextureManager.hpp
 	src/Resources/TextureManager.cpp
-	src/InputEnum.hpp
-	src/Objects/ACharacter.hpp
-	src/Objects/ACharacter.cpp
+	src/Inputs/InputEnum.hpp
 	src/Objects/AObject.hpp
 	src/Objects/AObject.cpp
 	src/Objects/IObject.hpp
