@@ -219,11 +219,12 @@ namespace Battle
 			InputEnum input;
 		};
 
-		float _pushSpeed = 0;
 		std::unique_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;
-		Vector2f _hitSpeed = {0, 0};
 		unsigned _blockStun = 0;
+		unsigned _jumpsUsed = 0;
+
+		unsigned _maxJumps = 0;
 
 		void _processInput(const InputStruct &input);
 		bool _executeAirborneMoves(const InputStruct &input);
@@ -231,6 +232,8 @@ namespace Battle
 		void _onMoveEnd() override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
 		bool _isBlocking();
+		bool _isGrounded() const override;
+		void _forceStartMove(unsigned action) override;
 
 	public:
 		ACharacter(const std::string &frameData, IInput *input);

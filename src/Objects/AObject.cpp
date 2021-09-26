@@ -10,7 +10,7 @@ namespace Battle
 {
 	void AObject::render() const
 	{
-		auto &data = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		auto &data = *this->getCurrentFrameData();
 		auto scale = Vector2f{
 			static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
@@ -85,16 +85,15 @@ namespace Battle
 				this->_onMoveEnd();
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		}
-		this->_position += this->_speed + this->_speed2;
-		if (this->_speed2.x > 0)
-			this->_speed2.x = std::copysign(std::abs(this->_speed2.x) - 0.1f, this->_speed2.x);
-		else
-			this->_speed2.x = 0;
-		if (data->dFlag.airborne) {
+		if (data->oFlag.resetSpeed)
+			this->_speed = {0, 0};
+		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
+		this->_position += this->_speed;
+		if (!this->_isGrounded()) {
+			this->_speed *= 0.99;
 			this->_speed += this->_gravity;
-			this->_speed2.y = std::copysign(std::abs(this->_speed2.y) - 0.1f, this->_speed2.y);
 		} else
-			this->_speed2.y = 0;
+			this->_speed *= 0.6;
 	}
 
 	void AObject::reset()
@@ -140,11 +139,15 @@ namespace Battle
 				auto _hitBox = this->_applyModifiers(hitBox);
 				auto _hurtBox = asAObject->_applyModifiers(hurtBox);
 
+				_hitBox.pos.x += this->_position.x;
+				_hitBox.pos.y -= this->_position.y;
+				_hurtBox.pos.x += asAObject->_position.x;
+				_hurtBox.pos.y += asAObject->_position.y;
 				if (
-					asAObject->_position.x + _hurtBox.pos.x                   < this->_position.x + _hitBox.pos.x + _hitBox.size.x &&
-					asAObject->_position.y + _hurtBox.pos.y                   < this->_position.y + _hitBox.pos.y + _hitBox.size.y &&
-					asAObject->_position.x + _hurtBox.pos.x + _hurtBox.size.x > this->_position.x + _hitBox.pos.x &&
-					asAObject->_position.y + _hurtBox.pos.y + _hurtBox.size.y > this->_position.y + _hitBox.pos.y
+					static_cast<float>(_hurtBox.pos.x)                   < static_cast<float>(_hitBox.pos.x) + _hitBox.size.x &&
+					static_cast<float>(_hurtBox.pos.y)                   < static_cast<float>(_hitBox.pos.y) + _hitBox.size.y &&
+					static_cast<float>(_hurtBox.pos.x) + _hurtBox.size.x > static_cast<float>(_hitBox.pos.x)                  &&
+					static_cast<float>(_hurtBox.pos.y) + _hurtBox.size.y > static_cast<float>(_hitBox.pos.y)
 				)
 					return true;
 			}
@@ -174,12 +177,8 @@ namespace Battle
 		if (!data)
 			return;
 		this->_hasHit &= data->oFlag.resetHits;
-		if (data->oFlag.resetSpeed)
-			this->_speed2 = {0, 0};
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
-		this->_speed = {0, 0};
-		(data->dFlag.dashSpeed ? this->_speed2 : this->_speed) += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 	}
 
 	bool AObject::_hasMove(unsigned action) const
@@ -219,5 +218,12 @@ namespace Battle
 	{
 		this->_animation = 0;
 		this->_applyNewAnimFlags();
+	}
+
+	bool AObject::_isGrounded() const
+	{
+		auto data = this->getCurrentFrameData();
+
+		return !data || !data->dFlag.airborne;
 	}
 }

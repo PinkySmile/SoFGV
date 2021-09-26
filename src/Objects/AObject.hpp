@@ -19,7 +19,6 @@ namespace Battle
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		Vector2f _position = {0, 0};
 		Vector2f _speed = {0, 0};
-		Vector2f _speed2 = {0, 0};
 		Vector2f _gravity = {0, 0};
 		Vector2f _airDrag = {0, 0};
 		Vector2f _groundDrag = {0, 0};
@@ -43,11 +42,12 @@ namespace Battle
 
 		AObject() = default;
 		bool _hasMove(unsigned action) const;
-		void _forceStartMove(unsigned action);
+		virtual void _forceStartMove(unsigned action);
 		virtual void _onMoveEnd();
 		virtual bool _canStartMove(unsigned action, const FrameData &data);
 		virtual bool _startMove(unsigned action);
 		virtual void _applyNewAnimFlags();
+		virtual bool _isGrounded() const;
 		Box _applyModifiers(Box box) const;
 
 	public:
