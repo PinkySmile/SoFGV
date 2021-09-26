@@ -29,10 +29,11 @@ namespace Battle
 			this->_blockStun--;
 			if (this->_blockStun == 0)
 				this->_forceStartMove(ACTION_IDLE);
-		} else {
-			auto inputs = this->_input->getInputs();
-
-			this->_processInput(inputs);
+		} else
+			this->_processInput(this->_input->getInputs());
+		if (this->_action < ACTION_LANDING && this->_opponent) {
+			this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			this->_direction = this->_dir == 1;
 		}
 
 		if (this->_position.x < 0)
@@ -83,6 +84,10 @@ namespace Battle
 					return;
 			} else if (this->_startMove(ACTION_NEUTRAL_JUMP))
 				return;
+		} else if (input.verticalAxis < 0 && this->_isGrounded()) {
+			this->_startMove(ACTION_CROUCHING);
+			if (this->_action == ACTION_CROUCHING || this->_action == ACTION_CROUCH)
+				return;
 		}
 		if (this->_isGrounded()) {
 			if (input.horizontalAxis) {
@@ -91,30 +96,47 @@ namespace Battle
 					return;
 				}
 				this->_startMove(ACTION_WALK_BACKWARD);
-			} else
-				this->_startMove(ACTION_IDLE);
-		} else
+				return;
+			} else {
+				this->_startMove(this->_action == ACTION_CROUCH ? ACTION_STANDING_UP : ACTION_IDLE);
+				return;
+			}
+		} else {
 			this->_startMove(ACTION_FALLING);
+			return;
+		}
 	}
 
 	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
 	{
-		return  (input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
+		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
+		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
+		        (input.n && input.n <= 4 && input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2N)) ||
+		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
 	{
-		return  (input.n && input.n <= 4 && this->_startMove(ACTION_5N));
+		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
+			(input.n && input.n <= 4 && input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2N)) ||
+		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N));
 	}
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
-		auto currentData = this->getCurrentFrameData();
-
-		if (action == this->_action && currentData->oFlag.jab && currentData->oFlag.cancelable && this->_hasHit)
+		if (action == ACTION_IDLE && this->_action == ACTION_STANDING_UP)
+			return false;
+		if (action == ACTION_CROUCHING && this->_action == ACTION_CROUCH)
+			return false;
+		if (this->_canCancel(action))
 			return true;
 		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP)
-			return this->_jumpsUsed <= this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
@@ -131,11 +153,15 @@ namespace Battle
 			AObject::_onMoveEnd();
 			return;
 		}
+		if (this->_action == ACTION_CROUCHING)
+			return this->_forceStartMove(ACTION_CROUCH);
+		if (this->_action == ACTION_STANDING_UP)
+			return this->_forceStartMove(ACTION_IDLE);
 		if (
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
 		)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
 		AObject::_onMoveEnd();
@@ -154,14 +180,14 @@ namespace Battle
 		if (!data)
 			return;
 		if (!this->_isBlocking()) {
-			this->_forceStartMove(data->hitSpeed.y <= 0 ? ACTION_GROUND_HIGH_HIT : ACTION_AIR_HIT);
+			this->_forceStartMove(this->_isGrounded() && data->hitSpeed.y <= 0 ? ACTION_GROUND_HIGH_HIT : ACTION_AIR_HIT);
 			this->_hp -= data->damage;
 			this->_blockStun = data->hitStun;
 			this->_speed += data->hitSpeed;
 			this->_speed.x *= -this->_dir;
 			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
-			this->_forceStartMove(ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+			this->_forceStartMove(this->_isGrounded() ? ACTION_GROUND_HIGH_NEUTRAL_BLOCK : ACTION_AIR_NEUTRAL_BLOCK);
 			this->_blockStun = data->blockStun;
 			this->_speed.x += data->pushBlock * -this->_dir;
 		}
@@ -174,22 +200,7 @@ namespace Battle
 
 		if (this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
 			return true;
-		switch (this->_action) {
-		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
-		case ACTION_GROUND_HIGH_SPIRIT_BLOCK:
-		case ACTION_GROUND_HIGH_MATTER_BLOCK:
-		case ACTION_GROUND_HIGH_VOID_BLOCK:
-		case ACTION_GROUND_LOW_NEUTRAL_BLOCK:
-		case ACTION_GROUND_LOW_SPIRIT_BLOCK:
-		case ACTION_GROUND_LOW_MATTER_BLOCK:
-		case ACTION_GROUND_LOW_VOID_BLOCK:
-		case ACTION_AIR_NEUTRAL_BLOCK:
-		case ACTION_AIR_SPIRIT_BLOCK:
-		case ACTION_AIR_MATTER_BLOCK:
-		case ACTION_AIR_VOID_BLOCK:
-			return this->_blockStun != 0;
-		}
-		return false;
+		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
 	}
 
 	bool ACharacter::_isGrounded() const
@@ -202,5 +213,19 @@ namespace Battle
 		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP)
 			this->_jumpsUsed++;
 		AObject::_forceStartMove(action);
+	}
+
+	void ACharacter::setOpponent(ACharacter *opponent)
+	{
+		this->_opponent = opponent;
+	}
+
+	bool ACharacter::_canCancel(unsigned int action)
+	{
+		auto currentData = this->getCurrentFrameData();
+
+		if (action == this->_action && currentData->oFlag.jab && currentData->oFlag.cancelable && this->_hasHit)
+			return true;
+		return false;
 	}
 }

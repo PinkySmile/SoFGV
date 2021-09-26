@@ -219,6 +219,7 @@ namespace Battle
 			InputEnum input;
 		};
 
+		ACharacter *_opponent;
 		std::unique_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;
 		unsigned _blockStun = 0;
@@ -232,12 +233,14 @@ namespace Battle
 		void _onMoveEnd() override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
 		bool _isBlocking();
+		bool _canCancel(unsigned int action);
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 
 	public:
 		ACharacter(const std::string &frameData, IInput *input);
 		~ACharacter() override = default;
+		void setOpponent(ACharacter *opponent);
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;

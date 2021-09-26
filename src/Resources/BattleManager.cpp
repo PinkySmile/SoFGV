@@ -12,6 +12,8 @@ namespace Battle
 		_leftCharacter(leftCharacter),
 		_rightCharacter(rightCharacter)
 	{
+		this->_leftCharacter->setOpponent(rightCharacter);
+		this->_rightCharacter->setOpponent(leftCharacter);
 		this->_leftCharacter->init(true);
 		this->_rightCharacter->init(false);
 	}
