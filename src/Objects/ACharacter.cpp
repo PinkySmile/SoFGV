@@ -236,9 +236,9 @@ namespace Battle
 			return false;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
-		if (this->_getAttackTier(action) > this->_action)
+		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
 			return true;
-		if (currentData->oFlag.hitSwitch && this->_getAttackTier(action) == this->_action)
+		if (currentData->oFlag.hitSwitch && this->_getAttackTier(action) == this->_getAttackTier(this->_action))
 			return true;
 		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
