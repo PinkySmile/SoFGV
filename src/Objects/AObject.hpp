@@ -43,7 +43,7 @@ namespace Battle
 		AObject() = default;
 		bool _hasMove(unsigned action) const;
 		virtual void _forceStartMove(unsigned action);
-		virtual void _onMoveEnd();
+		virtual void _onMoveEnd(FrameData &lastData);
 		virtual bool _canStartMove(unsigned action, const FrameData &data);
 		virtual bool _startMove(unsigned action);
 		virtual void _applyNewAnimFlags();

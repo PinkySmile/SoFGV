@@ -224,18 +224,20 @@ namespace Battle
 		std::list<LastInput> _lastInputs;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
+		bool _hasJumped = false;
 
 		unsigned _maxJumps = 0;
 
 		void _processInput(const InputStruct &input);
 		bool _executeAirborneMoves(const InputStruct &input);
 		bool _executeGroundMoves(const InputStruct &input);
-		void _onMoveEnd() override;
+		void _onMoveEnd(FrameData &lastData) override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
 		bool _isBlocking();
 		bool _canCancel(unsigned int action);
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
+		int _getAttackTier(unsigned int action) const;
 
 	public:
 		ACharacter(const std::string &frameData, IInput *input);

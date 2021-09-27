@@ -76,19 +76,23 @@ namespace Battle
 		)
 			return;
 		if (input.verticalAxis > 0) {
-			if (input.horizontalAxis) {
-				if (std::copysign(1, input.horizontalAxis) == std::copysign(1, this->_dir)) {
-					if (this->_startMove(ACTION_FORWARD_JUMP))
+			if (!this->_hasJumped) {
+				if (input.horizontalAxis) {
+					if (std::copysign(1, input.horizontalAxis) == std::copysign(1, this->_dir)) {
+						if (this->_startMove(ACTION_FORWARD_JUMP))
+							return;
+					} else if (this->_startMove(ACTION_BACKWARD_JUMP))
 						return;
-				} else if (this->_startMove(ACTION_BACKWARD_JUMP))
+				} else if (this->_startMove(ACTION_NEUTRAL_JUMP))
 					return;
-			} else if (this->_startMove(ACTION_NEUTRAL_JUMP))
-				return;
+			}
 		} else if (input.verticalAxis < 0 && this->_isGrounded()) {
 			this->_startMove(ACTION_CROUCHING);
 			if (this->_action == ACTION_CROUCHING || this->_action == ACTION_CROUCH)
 				return;
-		}
+			this->_hasJumped = false;
+		} else
+			this->_hasJumped = false;
 		if (this->_isGrounded()) {
 			if (input.horizontalAxis) {
 				if (std::copysign(1, input.horizontalAxis) == std::copysign(1, this->_dir)) {
@@ -111,8 +115,8 @@ namespace Battle
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
-		        (input.n && input.n <= 4 && input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
+		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2N)) ||
 		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 	}
@@ -121,8 +125,8 @@ namespace Battle
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
-			(input.n && input.n <= 4 && input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
+			(input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2N)) ||
 		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N));
 	}
@@ -146,11 +150,11 @@ namespace Battle
 		return false;
 	}
 
-	void ACharacter::_onMoveEnd()
+	void ACharacter::_onMoveEnd(FrameData &lastData)
 	{
 		if (this->_blockStun && !this->_actionBlock) {
 			this->_actionBlock++;
-			AObject::_onMoveEnd();
+			AObject::_onMoveEnd(lastData);
 			return;
 		}
 		if (this->_action == ACTION_CROUCHING)
@@ -161,10 +165,10 @@ namespace Battle
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
 		)
-			return this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
+			return this->_forceStartMove(lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
-		AObject::_onMoveEnd();
+		AObject::_onMoveEnd(lastData);
 	}
 
 	void ACharacter::hit(IObject &other, const FrameData *data)
@@ -210,8 +214,10 @@ namespace Battle
 
 	void ACharacter::_forceStartMove(unsigned int action)
 	{
-		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP)
+		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP) {
 			this->_jumpsUsed++;
+			this->_hasJumped = true;
+		}
 		AObject::_forceStartMove(action);
 	}
 
@@ -224,8 +230,68 @@ namespace Battle
 	{
 		auto currentData = this->getCurrentFrameData();
 
-		if (action == this->_action && currentData->oFlag.jab && currentData->oFlag.cancelable && this->_hasHit)
+		if (action < 100)
+			return false;
+		if (!currentData->oFlag.cancelable || !this->_hasHit)
+			return false;
+		if (action == this->_action && currentData->oFlag.jab)
+			return true;
+		if (this->_getAttackTier(action) > this->_action)
+			return true;
+		if (currentData->oFlag.hitSwitch && this->_getAttackTier(action) == this->_action)
+			return true;
+		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
 		return false;
+	}
+
+	int ACharacter::_getAttackTier(unsigned int action) const
+	{
+		const FrameData *data = nullptr;
+		bool isTyped = action >= ACTION_5M;
+
+		if (action < 100)
+			return -1;
+
+		try {
+			data = &this->_moves.at(action).at(0).at(0);
+		} catch (...) {
+			return -1;
+		}
+		if (data->oFlag.super)
+			return 6;
+		if (data->oFlag.ultimate)
+			return 7;
+		switch ((action % 50) + 100) {
+		case ACTION_5N:
+		case ACTION_2N:
+		case ACTION_j5N:
+			return 0 + isTyped;
+		case ACTION_6N:
+		case ACTION_8N:
+		case ACTION_3N:
+		case ACTION_j6N:
+		case ACTION_j8N:
+		case ACTION_j3N:
+		case ACTION_j2N:
+			return 2 + isTyped;
+		case ACTION_214N:
+		case ACTION_236N:
+		case ACTION_421N:
+		case ACTION_623N:
+		case ACTION_41236N:
+		case ACTION_63214N:
+		case ACTION_6321469874N:
+		case ACTION_j214N:
+		case ACTION_j236N:
+		case ACTION_j421N:
+		case ACTION_j623N:
+		case ACTION_j41236N:
+		case ACTION_j63214N:
+		case ACTION_j6321469874N:
+			return 4 + isTyped;
+		default:
+			return -1;
+		}
 	}
 }

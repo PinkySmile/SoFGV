@@ -15,7 +15,7 @@ namespace Battle
 			static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = this->_position + (data.offset * this->_dir);
+		auto result = this->_position + Vector2f{ data.offset.x * this->_dir, static_cast<float>(data.offset.y) };
 		auto realPos = this->_position;
 
 		realPos.y *= -1;
@@ -82,7 +82,7 @@ namespace Battle
 			this->_animation++;
 			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
-				this->_onMoveEnd();
+				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		}
 		if (data->oFlag.resetSpeed)
@@ -93,7 +93,7 @@ namespace Battle
 			this->_speed *= 0.99;
 			this->_speed += this->_gravity;
 		} else
-			this->_speed *= 0.6;
+			this->_speed *= 0.75;
 	}
 
 	void AObject::reset()
@@ -110,15 +110,21 @@ namespace Battle
 		return this->_dead;
 	}
 
-	void AObject::hit(IObject &other, const FrameData *data)
+	void AObject::hit(IObject &other, const FrameData *)
 	{
-		logger.debug(std::to_string((ptrdiff_t)this) + " has hit " + std::to_string((long long)&other) + " !");
+		char buffer[30];
+
+		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
+		logger.debug(buffer);
 		this->_hasHit = true;
 	}
 
-	void AObject::getHit(IObject &other, const FrameData *data)
+	void AObject::getHit(IObject &other, const FrameData *)
 	{
-		logger.debug(std::to_string((ptrdiff_t)this) + " is hit by " + std::to_string((long long)&other) + " !");
+		char buffer[32];
+
+		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
+		logger.debug(buffer);
 	}
 
 	bool AObject::hits(IObject &other) const
@@ -214,7 +220,7 @@ namespace Battle
 		this->_applyNewAnimFlags();
 	}
 
-	void AObject::_onMoveEnd()
+	void AObject::_onMoveEnd(FrameData &)
 	{
 		this->_animation = 0;
 		this->_applyNewAnimFlags();

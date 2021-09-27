@@ -67,17 +67,17 @@ namespace Battle
 		return false;
 	}
 
-	bool EditableObject::hits(IObject &other) const
+	bool EditableObject::hits(IObject &) const
 	{
 		return false;
 	}
 
-	void EditableObject::hit(IObject &other, const FrameData *data)
+	void EditableObject::hit(IObject &, const FrameData *)
 	{
 
 	}
 
-	void EditableObject::getHit(IObject &other, const FrameData *data)
+	void EditableObject::getHit(IObject &, const FrameData *)
 	{
 
 	}

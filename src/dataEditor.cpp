@@ -318,7 +318,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
-	auto hitStop = panel->get<tgui::EditBox>("HitStun");
+	auto hitStop = panel->get<tgui::EditBox>("HitStop");
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
@@ -377,11 +377,12 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	action->connect("ReturnKeyPressed", [&object, block](const std::string &t){
 		if (t.empty())
 			return;
-		object->_action = std::stoul(t);
-		if (object->_moves[object->_action].empty()) {
-			object->_moves[object->_action].emplace_back();
-			object->_moves[object->_action][0].emplace_back();
+		auto newAction = std::stoul(t);
+		if (object->_moves[newAction].empty()) {
+			object->_moves[newAction].emplace_back();
+			object->_moves[newAction][0].push_back(object->_moves[object->_action][object->_actionBlock][object->_animation]);
 		}
+		object->_action = newAction;
 		block->setMaximum(object->_moves[object->_action].size() - 1);
 		block->setMinimum(0);
 		if (block->getValue() == 0)
