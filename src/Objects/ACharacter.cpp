@@ -25,16 +25,17 @@ namespace Battle
 		AObject::update();
 		if (this->_isGrounded())
 			this->_jumpsUsed = 0;
+
+		if (this->_action < ACTION_LANDING && this->_opponent) {
+			this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			this->_direction = this->_dir == 1;
+		}
 		if (this->_blockStun) {
 			this->_blockStun--;
 			if (this->_blockStun == 0)
 				this->_forceStartMove(ACTION_IDLE);
 		} else
 			this->_processInput(this->_input->getInputs());
-		if (this->_action < ACTION_LANDING && this->_opponent) {
-			this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
-			this->_direction = this->_dir == 1;
-		}
 
 		if (this->_position.x < 0)
 			this->_position.x = 0;
@@ -51,7 +52,7 @@ namespace Battle
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
 		this->_team = side;
-		this->_hp = 10000;
+		this->_hp = 20000;
 		this->_maxJumps = 1;
 		this->_baseGravity = this->_gravity = {0, -1};
 		if (side) {

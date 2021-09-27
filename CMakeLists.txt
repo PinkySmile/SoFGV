@@ -107,6 +107,10 @@ add_executable(
 	src/Data/Color.hpp
 	src/FrameDataEditor/EditableObject.cpp
 	src/FrameDataEditor/EditableObject.hpp
+	src/Objects/ACharacter.hpp
+	src/Objects/ACharacter.cpp
+	src/Resources/BattleManager.hpp
+	src/Resources/BattleManager.cpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
 	src/Utils.cpp

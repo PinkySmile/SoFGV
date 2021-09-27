@@ -101,10 +101,10 @@ namespace Battle
 		rect.setOutlineColor(sf::Color::Black);
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(0, -490);
-		rect.setSize({400.f * this->_leftCharacter->_hp / 10000.f, 20});
+		rect.setSize({400.f * this->_leftCharacter->_hp / 20000.f, 20});
 		game.screen->draw(rect);
-		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / 10000.f, -490);
-		rect.setSize({400.f * this->_rightCharacter->_hp / 10000.f, 20});
+		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / 20000.f, -490);
+		rect.setSize({400.f * this->_rightCharacter->_hp / 20000.f, 20});
 		game.screen->draw(rect);
 	}
 
