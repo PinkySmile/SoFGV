@@ -243,13 +243,15 @@ namespace Battle
 
 		if (action < 100)
 			return false;
-		if (!currentData->oFlag.cancelable || !this->_hasHit)
+        if (!currentData->oFlag.cancelable)
+            return false;
+        if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
 		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
 			return true;
-		if (currentData->oFlag.hitSwitch && this->_getAttackTier(action) == this->_getAttackTier(this->_action))
+		if (currentData->oFlag.hitSwitch && this->_action != action && this->_getAttackTier(action) == this->_getAttackTier(this->_action))
 			return true;
 		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
