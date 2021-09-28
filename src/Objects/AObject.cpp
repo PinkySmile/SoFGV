@@ -84,6 +84,7 @@ namespace Battle
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+			this->_hasHit &= !data->oFlag.resetHits;
 		}
 		if (data->oFlag.resetSpeed)
 			this->_speed = {0, 0};
@@ -112,7 +113,7 @@ namespace Battle
 
 	void AObject::hit(IObject &other, const FrameData *)
 	{
-		char buffer[30];
+		char buffer[36];
 
 		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		logger.debug(buffer);
@@ -121,7 +122,7 @@ namespace Battle
 
 	void AObject::getHit(IObject &other, const FrameData *)
 	{
-		char buffer[32];
+		char buffer[38];
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		logger.debug(buffer);

@@ -7,6 +7,7 @@
 
 
 #include <map>
+#include <array>
 #include "IInput.hpp"
 
 namespace Battle

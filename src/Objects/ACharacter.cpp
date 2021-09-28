@@ -119,7 +119,12 @@ namespace Battle
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
 		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2N)) ||
-		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
+		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3V)) ||
+		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2V)) ||
+		        (input.v && input.v <= 4 && this->_startMove(ACTION_j5V));
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
@@ -127,9 +132,14 @@ namespace Battle
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
-			(input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
+		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2N)) ||
-		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N));
+		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3V)) ||
+		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2V)) ||
+		        (input.v && input.v <= 4 && this->_startMove(ACTION_5V));
 	}
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)

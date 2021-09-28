@@ -97,7 +97,7 @@ namespace Utils
 				result.push_back(c);
 		return result;
 #else
-		return path;
+		return path.string();
 #endif
 	}
 
