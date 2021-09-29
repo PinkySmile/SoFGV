@@ -147,7 +147,7 @@ namespace Battle
 				auto _hurtBox = asAObject->_applyModifiers(hurtBox);
 
 				_hitBox.pos.x += this->_position.x;
-				_hitBox.pos.y -= this->_position.y;
+				_hitBox.pos.y += this->_position.y;
 				_hurtBox.pos.x += asAObject->_position.x;
 				_hurtBox.pos.y += asAObject->_position.y;
 				if (
@@ -172,7 +172,7 @@ namespace Battle
 			return box;
 
 		return Box{
-			{static_cast<int>(-box.pos.x - box.size.x), box.pos.y},
+			{-box.pos.x - static_cast<int>(box.size.x), box.pos.y},
 			box.size
 		};
 	}
