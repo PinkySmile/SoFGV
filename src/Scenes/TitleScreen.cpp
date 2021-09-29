@@ -12,6 +12,7 @@
 #include "../Inputs/RemoteInput.hpp"
 #include "../Inputs/NetworkInput.hpp"
 #include "NetplayGame.hpp"
+#include "CharacterSelect.hpp"
 
 namespace Battle
 {
@@ -141,8 +142,8 @@ namespace Battle
 	{
 		switch (this->_selectedEntry) {
 		case 0:
-			this->_nextScene = new InGame(
-				new KeyboardInput({
+			this->_nextScene = new CharacterSelect(
+				std::make_shared<KeyboardInput>(std::map<sf::Keyboard::Key, InputEnum>{
 					{ sf::Keyboard::Left,  INPUT_LEFT },
 					{ sf::Keyboard::Right, INPUT_RIGHT },
 					{ sf::Keyboard::Up,    INPUT_UP },
@@ -153,7 +154,7 @@ namespace Battle
 					{ sf::Keyboard::V,     INPUT_VOID },
 					{ sf::Keyboard::B,     INPUT_ASCEND }
 				}),
-				new ControllerInput({
+				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
 					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
 					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::X, 30) },
 					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::Y, -30) },

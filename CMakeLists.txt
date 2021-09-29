@@ -55,7 +55,7 @@ add_executable(
 	src/Inputs/KeyboardInput.hpp
 	src/Inputs/ControllerInput.cpp
 	src/Inputs/ControllerInput.hpp
-	src/Inputs/RemoteInput.cpp src/Inputs/RemoteInput.hpp src/Inputs/NetworkInput.cpp src/Inputs/NetworkInput.hpp src/Scenes/NetplayGame.cpp src/Scenes/NetplayGame.hpp)
+	src/Inputs/RemoteInput.cpp src/Inputs/RemoteInput.hpp src/Inputs/NetworkInput.cpp src/Inputs/NetworkInput.hpp src/Scenes/NetplayGame.cpp src/Scenes/NetplayGame.hpp src/Scenes/CharacterSelect.cpp src/Scenes/CharacterSelect.hpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)

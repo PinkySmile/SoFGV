@@ -8,14 +8,14 @@
 
 namespace Battle
 {
-	BattleManager::BattleManager(ACharacter *leftCharacter, ACharacter *rightCharacter) :
-		_leftCharacter(leftCharacter),
-		_rightCharacter(rightCharacter)
+	BattleManager::BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
+		_leftCharacter(leftCharacter.character),
+		_rightCharacter(rightCharacter.character)
 	{
-		this->_leftCharacter->setOpponent(rightCharacter);
-		this->_rightCharacter->setOpponent(leftCharacter);
-		this->_leftCharacter->init(true);
-		this->_rightCharacter->init(false);
+		this->_leftCharacter->setOpponent(rightCharacter.character);
+		this->_rightCharacter->setOpponent(leftCharacter.character);
+		this->_leftCharacter->init(true, leftCharacter.hp, leftCharacter.maxJumps, leftCharacter.gravity);
+		this->_rightCharacter->init(false, rightCharacter.hp, rightCharacter.maxJumps, rightCharacter.gravity);
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)

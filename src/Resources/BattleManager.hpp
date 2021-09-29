@@ -20,7 +20,14 @@ namespace Battle
 		bool _next = false;
 
 	public:
-		BattleManager(ACharacter *leftCharacter, ACharacter *rightCharacter);
+		struct CharacterParams {
+			ACharacter *character;
+			unsigned hp;
+			Vector2f gravity;
+			unsigned char maxJumps;
+		};
+
+		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		void addHitStop(unsigned stop);
 		void update();
 		void render();

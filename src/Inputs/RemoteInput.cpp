@@ -69,23 +69,23 @@ namespace Battle
 		size_t received;
 
 		logger.debug("Hosting on port " + std::to_string(port));
-		this->_listener.listen(port);
-		this->_listener.accept(this->_sock);
+		//this->_listener.listen(port);
+		//this->_listener.accept(this->_sock);
 		this->_port = port;
 		this->_address = sf::IpAddress::Any;
-		this->_sock.receive(buffer, sizeof(buffer), received);
-		logger.debug("Connection from " + this->_sock.getRemoteAddress().toString() + ":" + std::to_string(this->_sock.getRemotePort()));
-		//this->_sock.bind(port);
-		//this->_sock.receive(buffer, sizeof(buffer), received, this->_address, this->_port);
-		//logger.debug("Connection from " + this->_address.toString() + ":" + std::to_string(this->_port));
+		//this->_sock.receive(buffer, sizeof(buffer), received);
+		//logger.debug("Connection from " + this->_sock.getRemoteAddress().toString() + ":" + std::to_string(this->_sock.getRemotePort()));
+		this->_sock.bind(port);
+		this->_sock.receive(buffer, sizeof(buffer), received, this->_address, this->_port);
+		logger.debug("Connection from " + this->_address.toString() + ":" + std::to_string(this->_port));
 		if (received != 8)
 			// TODO: Make custom exceptions
 			throw std::invalid_argument("Invalid handshake");
 		if (std::memcmp(handshake, buffer, sizeof(buffer)) != 0)
 			// TODO: Make custom exceptions
 			throw std::invalid_argument("Invalid handshake");
-		//this->_sock.send(buffer, sizeof(buffer), this->_address, this->_port);
-		this->_sock.send(buffer, sizeof(buffer));
+		this->_sock.send(buffer, sizeof(buffer), this->_address, this->_port);
+		//this->_sock.send(buffer, sizeof(buffer));
 		//this->_networkThread = std::thread();
 	}
 
@@ -97,11 +97,11 @@ namespace Battle
 		this->_address = ip;
 		this->_port = port;
 		logger.debug("Connecting to " + this->_address.toString() + ":" + std::to_string(this->_port));
-		this->_sock.connect(ip, port);
-		this->_sock.send(handshake, sizeof(handshake));
-		this->_sock.receive(buffer, sizeof(buffer), received);
-		//this->_sock.send(handshake, sizeof(handshake), this->_address, this->_port);
-		//this->_sock.receive(buffer, sizeof(buffer), received, this->_address, this->_port);
+		//this->_sock.connect(ip, port);
+		//this->_sock.send(handshake, sizeof(handshake));
+		//this->_sock.receive(buffer, sizeof(buffer), received);
+		this->_sock.send(handshake, sizeof(handshake), this->_address, this->_port);
+		this->_sock.receive(buffer, sizeof(buffer), received, this->_address, this->_port);
 		logger.debug("Response from " + this->_address.toString() + ":" + std::to_string(this->_port));
 		if (received != 8)
 			// TODO: Make custom exceptions
@@ -125,8 +125,8 @@ namespace Battle
 		} packet;
 		size_t received;
 
-		//this->_sock.receive(&packet, sizeof(packet), received, this->_address, this->_port);
-		this->_sock.receive(&packet, sizeof(packet), received);
+		this->_sock.receive(&packet, sizeof(packet), received, this->_address, this->_port);
+		//this->_sock.receive(&packet, sizeof(packet), received);
 		this->_keyStates[INPUT_LEFT] = packet.horizontalAxis < 0;
 		this->_keyStates[INPUT_RIGHT] = packet.horizontalAxis > 0;
 		this->_keyStates[INPUT_UP] = packet.verticalAxis > 0;
@@ -143,8 +143,8 @@ namespace Battle
 
 	}
 
-	//sf::UdpSocket &RemoteInput::getSock()
-	sf::TcpSocket &RemoteInput::getSock()
+	sf::UdpSocket &RemoteInput::getSock()
+	//sf::TcpSocket &RemoteInput::getSock()
 	{
 		return this->_sock;
 	}

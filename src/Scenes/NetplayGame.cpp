@@ -18,13 +18,23 @@ namespace Battle
 		logger.info("NetplayGame scene created");
 		Battle::game.screen->setView(view);
 		game.battleMgr = std::make_unique<BattleManager>(
-			new ACharacter{
-				"assets/characters/test/framedata.json",
-				leftInput
+			BattleManager::CharacterParams{
+				new ACharacter{
+					"assets/characters/test/framedata.json",
+					std::shared_ptr<IInput>(leftInput)
+				},
+				20000,
+				{0, -1},
+				1
 			},
-			new ACharacter{
-				"assets/characters/test/framedata.json",
-				rightInput
+			BattleManager::CharacterParams{
+				new ACharacter{
+					"assets/characters/test/framedata.json",
+					std::shared_ptr<IInput>(rightInput)
+				},
+				20000,
+				{0, -1},
+				1
 			}
 		);
 		this->_hosts = leftInput == input;

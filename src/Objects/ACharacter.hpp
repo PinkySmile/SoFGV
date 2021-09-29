@@ -220,7 +220,7 @@ namespace Battle
 		};
 
 		ACharacter *_opponent;
-		std::unique_ptr<IInput> _input;
+		std::shared_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
@@ -240,14 +240,14 @@ namespace Battle
 		int _getAttackTier(unsigned int action) const;
 
 	public:
-		ACharacter(const std::string &frameData, IInput *input);
+		ACharacter(const std::string &frameData, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;
 		void update() override;
-		void init(bool side);
+		void init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 	};
 }

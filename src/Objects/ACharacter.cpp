@@ -8,8 +8,8 @@
 
 namespace Battle
 {
-	ACharacter::ACharacter(const std::string &frameData, IInput *input) :
-		_input(input)
+	ACharacter::ACharacter(const std::string &frameData, std::shared_ptr<IInput> input) :
+		_input(std::move(input))
 	{
 		this->_moves = FrameData::loadFile(frameData);
 	}
@@ -47,14 +47,14 @@ namespace Battle
 			this->_position.y = 1000;
 	}
 
-	void ACharacter::init(bool side)
+	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
 		this->_team = side;
-		this->_hp = 20000;
-		this->_maxJumps = 1;
-		this->_baseGravity = this->_gravity = {0, -1};
+		this->_baseHp = this->_hp = maxHp;
+		this->_maxJumps = maxJumps;
+		this->_baseGravity = this->_gravity = gravity;
 		if (side) {
 			this->_position = {200, 0};
 		} else {
@@ -243,9 +243,9 @@ namespace Battle
 
 		if (action < 100)
 			return false;
-        if (!currentData->oFlag.cancelable)
-            return false;
-        if (!this->_hasHit && !currentData->dFlag.charaCancel)
+		if (!currentData->oFlag.cancelable)
+			return false;
+		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;

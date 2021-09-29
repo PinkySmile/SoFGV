@@ -1,0 +1,13 @@
+[
+    {
+        "class": 0,
+        "hp": 20000,
+        "air_jump_count": 1,
+        "gravity": {"x": 0, "y": -1},
+        "framedata": "assets/characters/test/framedata.json",
+        "framedata_char_select": "assets/characters/test/charSelect.json",
+        "palettes": "assets/characters/test/palettes.json",
+        "name": "Stickman",
+        "pos": 0
+    }
+]

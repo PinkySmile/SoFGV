@@ -33,9 +33,7 @@ namespace Battle
 
 	void Logger::debug(const std::string &content) noexcept
 	{
-	#ifdef _DEBUG
 		this->msg(content, "[DEBUG]");
-	#endif
 	}
 
 	void Logger::warn(const std::string &content) noexcept

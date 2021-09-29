@@ -9,20 +9,24 @@
 
 namespace Battle
 {
-	InGame::InGame(IInput *leftInput, IInput *rightInput)
+	InGame::InGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
 	{
 		sf::View view{{-50, -500, 1100, 618.75}};
 
 		logger.info("InGame scene created");
 		Battle::game.screen->setView(view);
 		game.battleMgr = std::make_unique<BattleManager>(
-			new ACharacter{
-				"assets/characters/test/framedata.json",
-				leftInput
+			BattleManager::CharacterParams{
+				leftChr,
+				lJson["hp"],
+				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
+				lJson["air_jump_count"]
 			},
-			new ACharacter{
-				"assets/characters/test/framedata.json",
-				rightInput
+			BattleManager::CharacterParams{
+				rightChr,
+				rJson["hp"],
+				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
+				rJson["air_jump_count"]
 			}
 		);
 	}

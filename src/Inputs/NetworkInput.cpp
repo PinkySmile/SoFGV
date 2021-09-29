@@ -53,7 +53,7 @@ namespace Battle
 		packet.s = inputs.s != 0;
 		packet.v = inputs.v != 0;
 		packet.a = inputs.a != 0;
-		this->_remote.getSock().send(&packet, sizeof(packet));
-		//this->_remote.getSock().send(&packet, sizeof(packet), this->_remote.getAddress(), this->_remote.getPort());
+		//this->_remote.getSock().send(&packet, sizeof(packet));
+		this->_remote.getSock().send(&packet, sizeof(packet), this->_remote.getAddress(), this->_remote.getPort());
 	}
 }
