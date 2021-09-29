@@ -169,10 +169,13 @@ namespace Battle
 	Box AObject::_applyModifiers(Box box) const
 	{
 		if (this->_direction)
-			return box;
+			return Box{
+				{box.pos.x, -box.pos.y},
+				box.size
+			};
 
 		return Box{
-			{-box.pos.x - static_cast<int>(box.size.x), box.pos.y},
+			{-box.pos.x - static_cast<int>(box.size.x), -box.pos.y},
 			box.size
 		};
 	}
