@@ -19,7 +19,9 @@ namespace Battle
 		std::array<int, INPUT_NUMBER> _keyDuration;
 		sf::IpAddress _address;
 		unsigned short _port;
-		sf::UdpSocket _sock;
+		//sf::UdpSocket _sock;
+		sf::TcpSocket _sock;
+		sf::TcpListener _listener;
 		unsigned _recieved = 0;
 		std::thread _networkThread;
 
@@ -29,7 +31,8 @@ namespace Battle
 		RemoteInput();
 		~RemoteInput();
 		sf::IpAddress &getAddress();
-		sf::UdpSocket &getSock();
+		//sf::UdpSocket &getSock();
+		sf::TcpSocket &getSock();
 		unsigned short &getPort();
 		void host(unsigned short port);
 		void connect(const sf::IpAddress &ip, unsigned short port);
