@@ -7,12 +7,13 @@
 
 
 #include "IScene.hpp"
+#include "../Inputs/IInput.hpp"
 
 namespace Battle
 {
 	class InGame : public IScene {
 	public:
-		InGame();
+		InGame(IInput *leftInput, IInput *rightInput);
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

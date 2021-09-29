@@ -18,6 +18,8 @@ namespace Battle
 		IScene *_nextScene = nullptr;
 
 		void _onConfirm();
+		void _host();
+		void _connect();
 
 	public:
 		TitleScreen();

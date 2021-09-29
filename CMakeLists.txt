@@ -55,7 +55,7 @@ add_executable(
 	src/Inputs/KeyboardInput.hpp
 	src/Inputs/ControllerInput.cpp
 	src/Inputs/ControllerInput.hpp
-)
+	src/Inputs/RemoteInput.cpp src/Inputs/RemoteInput.hpp src/Inputs/NetworkInput.cpp src/Inputs/NetworkInput.hpp src/Scenes/NetplayGame.cpp src/Scenes/NetplayGame.hpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
@@ -64,12 +64,14 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 		set(SFML_AUDIO_LIB "${SFML_DIR}/lib/sfml-audio-d.lib")
 		set(SFML_SYSTEM_LIB "${SFML_DIR}/lib/sfml-system-d.lib")
 		set(SFML_WINDOW_LIB "${SFML_DIR}/lib/sfml-window-d.lib")
+		set(SFML_NETWORK_LIB "${SFML_DIR}/lib/sfml-network-d.lib")
 	else ()
 		set(TGUI_LIB "${TGUI_LIBRARIES}")
 		set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
 		set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
 		set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
 		set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+		set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
 	endif ()
 else ()
 	set(TGUI_LIB "${TGUI_LIBRARIES}")
@@ -77,6 +79,7 @@ else ()
 	set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
 	set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
 	set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+	set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
 endif ()
 
 target_link_libraries(
@@ -85,6 +88,7 @@ target_link_libraries(
 	${SFML_AUDIO_LIB}
 	${SFML_SYSTEM_LIB}
 	${SFML_WINDOW_LIB}
+	${SFML_NETWORK_LIB}
 )
 
 add_executable(
