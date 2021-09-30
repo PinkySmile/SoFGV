@@ -51,7 +51,7 @@ namespace Battle
 
 	void	Screen::displayElement(sf::IntRect rect, sf::Color color)
 	{
-		this->_rect.setPosition(sf::Vector2f(rect.left, rect.width));
+		this->_rect.setPosition(sf::Vector2f(rect.left, rect.top));
 		this->_rect.setSize(sf::Vector2f(rect.width, rect.height));
 		this->_rect.setFillColor(color);
 		this->draw(this->_rect);
@@ -73,8 +73,22 @@ namespace Battle
 		this->_text.setCharacterSize(size);
 	}
 
-	void	Screen::displayElement(const std::string &str, sf::Vector2f pos)
+	void	Screen::displayElement(const std::string &str, sf::Vector2f pos, float boxSize, TextAlign align)
 	{
+		float size = 0;
+
+		for (char c : str)
+			size += this->_text.getFont()->getGlyph(c, this->_text.getCharacterSize(), false).advance;
+		switch (align) {
+		case ALIGN_RIGHT:
+			pos.x += boxSize - size;
+			break;
+		case ALIGN_CENTER:
+			pos.x += (boxSize - size) / 2;
+			break;
+		default:
+			break;
+		}
 		this->_text.setPosition(pos);
 		this->_text.setString(str);
 		this->draw(this->_text);

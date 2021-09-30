@@ -23,16 +23,20 @@ namespace Battle
 			unsigned _class;
 			std::string name;
 			std::string framedataPath;
+			Sprite icon;
 			std::map<unsigned, std::vector<std::vector<FrameData>>> data;
 
 			CharacterEntry(const nlohmann::json &json);
+			~CharacterEntry();
 		};
 
+		sf::Font _font;
+		mutable Sprite _randomSprite;
 		std::shared_ptr<IInput> _leftInput;
 		std::shared_ptr<IInput> _rightInput;
-		std::vector<CharacterEntry> _entries;
-		int _leftPos = 0;
-		int _rightPos = 0;
+		mutable std::vector<CharacterEntry> _entries;
+		int _leftPos = -1;
+		int _rightPos = -1;
 
 		ACharacter *_createCharacter(int pos, std::shared_ptr<IInput> input);
 

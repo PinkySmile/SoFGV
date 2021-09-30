@@ -7,6 +7,7 @@
 
 
 #include <memory>
+#include <random>
 #include "Screen.hpp"
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
@@ -19,6 +20,7 @@ namespace Battle
 		TextureManager textureMgr;
 		std::unique_ptr<BattleManager> battleMgr;
 		std::unique_ptr<IScene> scene;
+		std::mt19937 random;
 	};
 
 	extern Game game;

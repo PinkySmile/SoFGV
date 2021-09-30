@@ -44,6 +44,7 @@ namespace Battle
 
 	IScene *TitleScreen::update()
 	{
+		game.random();
 		return this->_nextScene;
 	}
 
