@@ -8,7 +8,7 @@
         "framedata": "assets/characters/test/framedata.json",
         "framedata_char_select": "assets/characters/test/charSelect.json",
         "palettes": "assets/characters/test/palettes.json",
-        "name": "Stickman",
+        "name": "Test",
         "pos": 0
     }
 ]

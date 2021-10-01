@@ -1132,7 +1132,7 @@
                         "top": -132,
                         "width": 14
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -3815,7 +3815,7 @@
         ]
     },
     {
-        "action": 115,
+        "action": 116,
         "framedata": [
             [
                 {
@@ -4106,7 +4106,7 @@
         ]
     },
     {
-        "action": 116,
+        "action": 115,
         "framedata": [
             [
                 {
@@ -4287,10 +4287,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 192,
-                        "left": -21,
-                        "top": -192,
-                        "width": 36
+                        "height": 142,
+                        "left": -14,
+                        "top": -142,
+                        "width": 17
                     },
                     "duration": 4,
                     "hurt_boxes": [

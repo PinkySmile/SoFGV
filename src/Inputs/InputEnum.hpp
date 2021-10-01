@@ -22,6 +22,8 @@ namespace Battle
 		INPUT_VOID = INPUT_V,
 		INPUT_A,
 		INPUT_ASCEND = INPUT_A,
+		INPUT_D,
+		INPUT_DASH = INPUT_D,
 		INPUT_NUMBER
 	};
 
@@ -33,6 +35,7 @@ namespace Battle
 		int s;
 		int v;
 		int a;
+		int d;
 	};
 }
 

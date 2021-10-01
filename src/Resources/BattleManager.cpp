@@ -22,7 +22,7 @@ namespace Battle
 	{
 		this->_leftCharacter->consumeEvent(event);
 		this->_rightCharacter->consumeEvent(event);
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::S)
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::J)
 			this->_step = !this->_step;
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)
 			this->_next = true;

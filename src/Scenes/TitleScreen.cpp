@@ -90,9 +90,22 @@ namespace Battle
 			{ sf::Keyboard::W,     INPUT_NEUTRAL },
 			{ sf::Keyboard::X,     INPUT_MATTER },
 			{ sf::Keyboard::C,     INPUT_SPIRIT },
-			{ sf::Keyboard::V,     INPUT_VOID },
-			{ sf::Keyboard::B,     INPUT_ASCEND }
+			{ sf::Keyboard::Q,     INPUT_VOID },
+			{ sf::Keyboard::S,     INPUT_ASCEND },
+			{ sf::Keyboard::D,     INPUT_DASH }
 		}));
+		//auto networkInput = new NetworkInput(*remote, new ControllerInput({
+		//	{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
+		//	{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::X, 30) },
+		//	{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::Y, -30) },
+		//	{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::Y, 30) },
+		//	{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
+		//	{ INPUT_MATTER,  new ControllerButton(0, 2) },
+		//	{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
+		//	{ INPUT_VOID,    new ControllerButton(0, 3) },
+		//	{ INPUT_ASCEND,  new ControllerButton(0, 5) },
+		//	{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
+		//}));
 
 		try {
 			remote->host(10800);
@@ -117,7 +130,8 @@ namespace Battle
 			{ INPUT_MATTER,  new ControllerButton(0, 2) },
 			{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
 			{ INPUT_VOID,    new ControllerButton(0, 3) },
-			{ INPUT_ASCEND,  new ControllerButton(0, 5) }
+			{ INPUT_ASCEND,  new ControllerButton(0, 5) },
+			{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
 		}));
 
 		try {
@@ -150,10 +164,11 @@ namespace Battle
 					{ sf::Keyboard::Up,    INPUT_UP },
 					{ sf::Keyboard::Down,  INPUT_DOWN },
 					{ sf::Keyboard::W,     INPUT_NEUTRAL },
-					{ sf::Keyboard::X,     INPUT_MATTER },
-					{ sf::Keyboard::C,     INPUT_SPIRIT },
-					{ sf::Keyboard::V,     INPUT_VOID },
-					{ sf::Keyboard::B,     INPUT_ASCEND }
+					{ sf::Keyboard::Q,     INPUT_MATTER },
+					{ sf::Keyboard::S,     INPUT_SPIRIT },
+					{ sf::Keyboard::D,     INPUT_VOID },
+					{ sf::Keyboard::X,     INPUT_ASCEND },
+					{ sf::Keyboard::LShift,INPUT_DASH }
 				}),
 				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
 					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
@@ -164,7 +179,8 @@ namespace Battle
 					{ INPUT_MATTER,  new ControllerButton(0, 2) },
 					{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
 					{ INPUT_VOID,    new ControllerButton(0, 3) },
-					{ INPUT_ASCEND,  new ControllerButton(0, 5) }
+					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
+					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
 				})
 			);
 			break;

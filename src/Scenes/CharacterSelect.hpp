@@ -27,6 +27,7 @@ namespace Battle
 			std::map<unsigned, std::vector<std::vector<FrameData>>> data;
 
 			CharacterEntry(const nlohmann::json &json);
+			CharacterEntry(const CharacterEntry &entry);
 			~CharacterEntry();
 		};
 

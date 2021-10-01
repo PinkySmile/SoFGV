@@ -77,7 +77,7 @@ namespace Battle
 		)
 			return;
 		if (input.verticalAxis > 0) {
-			if (!this->_hasJumped) {
+			if (!this->_hasJumped || this->_isGrounded()) {
 				if (input.horizontalAxis) {
 					if (std::copysign(1, input.horizontalAxis) == std::copysign(1, this->_dir)) {
 						if (this->_startMove(ACTION_FORWARD_JUMP))
@@ -120,6 +120,7 @@ namespace Battle
 		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2N)) ||
 		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N)) ||
+
 		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8V)) ||
 		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3V)) ||
 		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6V)) ||
@@ -135,6 +136,7 @@ namespace Battle
 		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2N)) ||
 		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
+
 		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8V)) ||
 		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3V)) ||
 		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6V)) ||
@@ -176,7 +178,7 @@ namespace Battle
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
 		)
-			return this->_forceStartMove(lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
+			return this->_forceStartMove(this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
 		AObject::_onMoveEnd(lastData);
@@ -228,7 +230,8 @@ namespace Battle
 		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP) {
 			this->_jumpsUsed++;
 			this->_hasJumped = true;
-		}
+		} else if (action >= ACTION_5N)
+			this->_hasJumped = true;
 		AObject::_forceStartMove(action);
 	}
 

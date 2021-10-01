@@ -32,17 +32,29 @@ namespace Battle
 
 	void CharacterSelect::render() const
 	{
-		game.screen->setFont(this->_font);
-		game.screen->displayElement({0, 0, 1680, 960}, sf::Color::Black);
-		game.screen->displayElement({0, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
-		game.screen->displayElement({1120, 480, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
-		game.screen->fillColor();
-		game.screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
-		game.screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 440}, 560, Screen::ALIGN_CENTER);
-		game.screen->fillColor(sf::Color::Black);
+		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 
-		auto &leftSprite = this->_leftPos == -1 ? this->_randomSprite : this->_entries[this->_leftPos].icon;
-		auto &rightSprite = this->_rightPos == -1 ? this->_randomSprite : this->_entries[this->_rightPos].icon;
+		auto lInputs = this->_leftInput->getInputs();
+		auto rInputs = this->_rightInput->getInputs();
+
+		game.screen->fillColor(sf::Color::Black);
+		game.screen->setFont(this->_font);
+		game.screen->displayElement({0, 0, 1680, 960}, sf::Color{
+			static_cast<sf::Uint8>(lInputs.d),
+			static_cast<sf::Uint8>(rInputs.d),
+			static_cast<sf::Uint8>((lInputs.d + rInputs.d) / 2)
+		});
+		game.screen->displayElement({0, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
+		game.screen->displayElement({0, 480, 560, 480}, sf::Color::White);
+
+		game.screen->displayElement({1120, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
+		game.screen->displayElement({1120, 480, 560, 480}, sf::Color::White);
+
+		game.screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
+		game.screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
+
+		auto &leftSprite  = this->_entries[this->_leftPos == -1  ? dist(game.random) : this->_leftPos ].icon;
+		auto &rightSprite = this->_entries[this->_rightPos == -1 ? dist(game.random) : this->_rightPos].icon;
 		auto leftTexture = game.textureMgr.getTextureSize(leftSprite.textureHandle);
 		auto rightTexture = game.textureMgr.getTextureSize(rightSprite.textureHandle);
 
@@ -50,8 +62,8 @@ namespace Battle
 		leftSprite.setScale(560.f / leftTexture.x, 480.f / leftTexture.y);
 		game.textureMgr.render(leftSprite);
 
-		rightSprite.setPosition(1680, 480);
-		rightSprite.setScale(560.f / rightTexture.x * -1, 480.f / rightTexture.y);
+		rightSprite.setPosition(1680, 0);
+		rightSprite.setScale(-560.f / rightTexture.x, 480.f / rightTexture.y);
 		game.textureMgr.render(rightSprite);
 	}
 
@@ -72,6 +84,7 @@ namespace Battle
 			if (this->_leftPos == static_cast<int>(this->_entries.size()))
 				this->_leftPos = -1;
 		}
+
 		if (rInputs.horizontalAxis == -1) {
 			if (this->_rightPos == -1)
 				this->_rightPos = static_cast<int>(this->_entries.size());
@@ -81,6 +94,7 @@ namespace Battle
 			if (this->_rightPos == static_cast<int>(this->_entries.size()))
 				this->_rightPos = -1;
 		}
+
 		if (lInputs.n == 1) {
 			std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 
@@ -149,6 +163,18 @@ namespace Battle
 		this->framedataPath = json["framedata"];
 		this->data = FrameData::loadFile(json["framedata_char_select"]);
 		this->icon.textureHandle = game.textureMgr.load(json["icon"]);
+	}
+
+	CharacterSelect::CharacterEntry::CharacterEntry(const CharacterSelect::CharacterEntry &entry) :
+		entry(entry.entry),
+		pos(entry.pos),
+		_class(entry._class),
+		name(entry.name),
+		framedataPath(entry.framedataPath),
+		icon(entry.icon),
+		data(entry.data)
+	{
+		game.textureMgr.addRef(this->icon.textureHandle);
 	}
 
 	CharacterSelect::CharacterEntry::~CharacterEntry()
