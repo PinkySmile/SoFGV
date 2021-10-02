@@ -8,6 +8,7 @@
 
 #include <thread>
 #include <SFML/Network.hpp>
+#include <array>
 #include "IInput.hpp"
 
 namespace Battle
