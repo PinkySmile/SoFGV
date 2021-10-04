@@ -189,12 +189,18 @@ namespace Battle
 			return this->_forceStartMove(ACTION_CROUCH);
 		if (this->_action == ACTION_STANDING_UP)
 			return this->_forceStartMove(ACTION_IDLE);
+		if (this->_action == ACTION_FORWARD_DASH)
+			return this->_forceStartMove(ACTION_IDLE);
+		if (this->_action == ACTION_BACKWARD_DASH)
+			return this->_forceStartMove(ACTION_IDLE);
 		if (
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
 		)
 			return this->_forceStartMove(this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
+			return this->_forceStartMove(ACTION_FALLING);
+		if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
 		AObject::_onMoveEnd(lastData);
 	}
