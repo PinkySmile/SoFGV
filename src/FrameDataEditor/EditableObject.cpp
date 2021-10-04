@@ -91,4 +91,12 @@ namespace Battle
 	{
 		return nullptr;
 	}
+
+    bool EditableObject::collides(IObject &other) const {
+        return false;
+    }
+
+    void EditableObject::collide(IObject &other) {
+
+    }
 }
