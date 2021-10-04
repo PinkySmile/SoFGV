@@ -179,7 +179,12 @@ namespace Battle
 
 	const FrameData *AObject::getCurrentFrameData() const
 	{
-		return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		try {
+			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		} catch (std::out_of_range &) {
+			//TODO : Add proper exceptions
+			throw std::invalid_argument("Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+		}
 	}
 
 	Box AObject::_applyModifiers(Box box, bool hasRotation) const
