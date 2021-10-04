@@ -152,8 +152,8 @@ namespace Battle
 			throw std::invalid_argument("gravity.x");
 		if (!json["gravity"].contains("y"))
 			throw std::invalid_argument("gravity.y");
-		if (!json.contains("air_jump_count"))
-			throw std::invalid_argument("air_jump_count");
+		if (!json.contains("jump_count"))
+			throw std::invalid_argument("jump_count");
 		if (!json.contains("icon"))
 			throw std::invalid_argument("icon");
 

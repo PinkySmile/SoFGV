@@ -28,7 +28,15 @@ namespace Battle
 
 		this->_input->update();
 		AObject::update();
-		if (this->_isGrounded())
+		if (
+			this->_isGrounded() &&
+			this->_action != ACTION_NEUTRAL_JUMP &&
+			this->_action != ACTION_FORWARD_JUMP &&
+			this->_action != ACTION_BACKWARD_JUMP &&
+			this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
+			this->_action != ACTION_FORWARD_HIGH_JUMP &&
+			this->_action != ACTION_BACKWARD_HIGH_JUMP
+		)
 			this->_jumpsUsed = 0;
 		if (this->_blockStun) {
 			this->_blockStun--;
@@ -167,12 +175,16 @@ namespace Battle
 			return false;
 		if (this->_canCancel(action))
 			return true;
-		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP)
+		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP || action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP)
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+		if (this->_action <= ACTION_BACKWARD_DASH)
+			return false;
+		if (this->_action <= ACTION_FORWARD_DASH)
+			return false;
 		if (this->_action <= ACTION_LANDING)
 			return true;
 		return false;
@@ -289,6 +301,8 @@ namespace Battle
 	{
 		auto currentData = this->getCurrentFrameData();
 
+		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
+			return true;
 		if (action < 100)
 			return false;
 		if (!currentData->oFlag.cancelable)
@@ -300,8 +314,6 @@ namespace Battle
 		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
 			return true;
 		if (currentData->oFlag.hitSwitch && this->_action != action && this->_getAttackTier(action) == this->_getAttackTier(this->_action))
-			return true;
-		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
 		return false;
 	}
