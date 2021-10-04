@@ -274,17 +274,24 @@ namespace Battle
 		if (!asAObject)
 			return;
 
-		float diff = 0;
-		auto _hitBox = this->_applyModifiers(*myData->collisionBox);
-		auto _hurtBox = asAObject->_applyModifiers(*data->collisionBox);
+		auto myBox = this->_applyModifiers(*myData->collisionBox);
+		auto opBox = asAObject->_applyModifiers(*data->collisionBox);
+		float myDiff;
+		float opDiff;
 
-		_hitBox.pos.x += this->_position.x;
-		_hurtBox.pos.x += asAObject->_position.x;
-		if (this->_speed.x < 0) {
+		//float tmp = asAObject->_speed.x / 2 + this->_speed.x / 4;
 
+		//this->_speed.x = this->_speed.x / 2 + asAObject->_speed.x / 4;
+		//asAObject->_speed.x = tmp;
+		if (this->_speed.x < asAObject->_speed.x) {
+			opDiff = (this->_position.x      + myBox.pos.to<float>().x - opBox.pos.to<float>().x  - opBox.size.to<float>().x) - asAObject->_position.x;
+			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x + opBox.size.to<float>().x - myBox.pos.to<float>().x)  - this->_position.x;
 		} else {
-
+			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x - myBox.pos.to<float>().x  - myBox.size.to<float>().x) - this->_position.x;
+			opDiff = (this->_position.x      + myBox.pos.to<float>().x + myBox.size.to<float>().x - opBox.pos.to<float>().x)  - asAObject->_position.x;
 		}
+		this->_position.x += myDiff * 0.5f;
+		asAObject->_position.x += opDiff * 0.5f;
 	}
 
 	bool AObject::collides(IObject &other) const

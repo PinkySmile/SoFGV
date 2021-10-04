@@ -86,6 +86,15 @@ namespace Battle
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i]->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
+
+		if (this->_leftCharacter->collides(*this->_rightCharacter))
+			this->_leftCharacter->collide(*this->_rightCharacter);
+		for (auto &object : this->_objects) {
+			if (this->_leftCharacter->collides(*object))
+				this->_leftCharacter->collide(*object);
+			if (this->_rightCharacter->collides(*object))
+				this->_rightCharacter->collide(*object);
+		}
 	}
 
 	void BattleManager::render()

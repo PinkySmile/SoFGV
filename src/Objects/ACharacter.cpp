@@ -21,15 +21,15 @@ namespace Battle
 
 	void ACharacter::update()
 	{
-		this->_input->update();
-		AObject::update();
-		if (this->_isGrounded())
-			this->_jumpsUsed = 0;
-
 		if (this->_action < ACTION_LANDING && this->_opponent) {
 			this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
 		}
+
+		this->_input->update();
+		AObject::update();
+		if (this->_isGrounded())
+			this->_jumpsUsed = 0;
 		if (this->_blockStun) {
 			this->_blockStun--;
 			if (this->_blockStun == 0)
