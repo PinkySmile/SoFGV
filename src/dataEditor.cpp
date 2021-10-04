@@ -572,7 +572,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		data.rotation = f / 180 * M_PI;
+		data.rotation = f * M_PI / 180;
 	});
 	duration->connect("TextChanged", [&object](std::string t){
 		if (*c)

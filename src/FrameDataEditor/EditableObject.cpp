@@ -14,25 +14,30 @@ namespace Battle
 
 	void EditableObject::render() const
 	{
+		sf::RectangleShape rect;
 		auto &data = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		auto scale = Vector2f{
 			static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = this->_position + data.offset;
+		auto result = data.offset;
 
 		result.y *= -1;
-		result += Vector2i{
-			(-static_cast<int>(data.size.x) / 2),
-			-static_cast<int>(data.size.y)
+		result += Vector2f{
+			data.size.x / -2.f,
+			-static_cast<float>(data.size.y)
 		};
+		result += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
+		this->_sprite.setRotation(data.rotation * 180 / M_PI);
 		this->_sprite.setPosition(result);
 		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
-
-		sf::RectangleShape rect;
 
 		rect.setOutlineThickness(2);
 		rect.setOutlineColor(sf::Color::White);

@@ -648,32 +648,7 @@ Panel.Panel1 {
                 Size = (20, 20);
                 Text = Crouch;
                 TextSize = 13;
-
-                Renderer {
-                    backgroundcolor = #F5F5F5;
-                    backgroundcolordisabled = #E6E6E6;
-                    backgroundcolorhover = white;
-                    bordercolor = #3C3C3C;
-                    bordercolordisabled = #7D7D7D;
-                    bordercolorfocused = #1E1EB4;
-                    bordercolorhover = black;
-                    borders = (1, 1, 1, 1);
-                    checkcolor = #3C3C3C;
-                    checkcolordisabled = #7D7D7D;
-                    checkcolorhover = black;
-                    textcolor = #3C3C3C;
-                    textcolordisabled = #7D7D7D;
-                    textcolorhover = black;
-                    textdistanceratio = 0.2;
-                    texturechecked = None;
-                    texturecheckeddisabled = None;
-                    texturecheckedfocused = None;
-                    texturecheckedhover = None;
-                    textureunchecked = None;
-                    textureuncheckeddisabled = None;
-                    textureuncheckedfocused = None;
-                    textureuncheckedhover = None;
-                }
+                renderer = &2;
             }
         }
 
@@ -765,7 +740,7 @@ Panel.Panel1 {
         Slider.Rotation {
             ChangeValueOnScroll = true;
             InvertedDirection = false;
-            Maximum = 6.28319;
+            Maximum = 360;
             Minimum = 0;
             Position = (100, 72);
             Size = (320, 16);
@@ -1112,14 +1087,7 @@ Panel.Panel1 {
             Size = (58.2, 18);
             Text = Damage;
             TextSize = 13;
-
-            Renderer {
-                backgroundcolor = transparent;
-                bordercolor = #3C3C3C;
-                borders = (0, 0, 0, 0);
-                textcolor = #3C3C3C;
-                texturebackground = None;
-            }
+            renderer = &3;
         }
 
         EditBox.Damage {
@@ -1128,28 +1096,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-
-            Renderer {
-                backgroundcolor = #F5F5F5;
-                backgroundcolordisabled = #E6E6E6;
-                backgroundcolorhover = white;
-                bordercolor = #3C3C3C;
-                bordercolordisabled = #7D7D7D;
-                bordercolorhover = black;
-                borders = (1, 1, 1, 1);
-                caretcolor = black;
-                caretwidth = 1;
-                defaulttextcolor = #A0A0A0;
-                padding = (0, 0, 0, 0);
-                selectedtextbackgroundcolor = #006EFF;
-                selectedtextcolor = white;
-                textcolor = #3C3C3C;
-                textcolordisabled = #7D7D7D;
-                texture = None;
-                texturedisabled = None;
-                texturefocused = None;
-                texturehover = None;
-            }
+            renderer = &4;
         }
     }
 

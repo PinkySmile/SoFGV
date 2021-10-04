@@ -65,6 +65,8 @@ namespace Battle
 		/* 49  */ ACTION_BACKWARD_AIR_TECH,
 		/* 50  */ ACTION_AIR_TECH_LANDING_LAG,
 		/* 51  */ ACTION_UNTRANSFORM,
+		/* 52  */ ACTION_GROUND_SLAM,
+		/* 53  */ ACTION_WALL_SLAM,
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,

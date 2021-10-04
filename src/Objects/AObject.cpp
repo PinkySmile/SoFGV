@@ -15,15 +15,21 @@ namespace Battle
 			static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = this->_position + Vector2f{ data.offset.x * this->_dir, static_cast<float>(data.offset.y) };
+		auto result = this->_position;
 		auto realPos = this->_position;
 
 		realPos.y *= -1;
 		result.y *= -1;
 		result += Vector2f{
-			-this->_dir * data.size.x / 2,
-			-static_cast<float>(data.size.y)
+			data.size.x / -2.f - data.offset.x * !this->_direction * 2.f,
+			-static_cast<float>(data.size.y) + data.offset.y
 		};
+		result += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+		this->_sprite.setOrigin(data.textureBounds.size / 2.f + Vector2f{-data.offset.x / 2.f * this->_dir, static_cast<float>(data.offset.y)});
+		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
 		this->_sprite.setPosition(result);
 		this->_sprite.setScale(this->_dir * scale.x, scale.y);
 		this->_sprite.textureHandle = data.textureHandle;
@@ -38,6 +44,7 @@ namespace Battle
 			for (auto &hurtBox : data.hurtBoxes) {
 				auto box = this->_applyModifiers(hurtBox);
 
+			//	rect.setRotation(this->_rotation * 180 / M_PI);
 				rect.setPosition(box.pos + realPos);
 				rect.setSize(box.size);
 				game.screen->draw(rect);
@@ -53,8 +60,9 @@ namespace Battle
 				game.screen->draw(rect);
 			}
 
+			rect.setRotation(0);
 			if (data.collisionBox) {
-				auto box = this->_applyModifiers(*data.collisionBox);
+				auto box = this->_applyModifiers(*data.collisionBox, false);
 
 				rect.setOutlineColor(sf::Color{0xFF, 0xFF, 0x00, 0xFF});
 				rect.setFillColor(sf::Color{0xFF, 0xFF, 0x00, 0x60});
@@ -88,6 +96,9 @@ namespace Battle
 		}
 		if (data->oFlag.resetSpeed)
 			this->_speed = {0, 0};
+		if (data->dFlag.resetRotation)
+			this->_rotation = this->_baseRotation;
+		this->_rotation += data->rotation;
 		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 		this->_position += this->_speed;
 		if (!this->_isGrounded()) {
@@ -141,6 +152,11 @@ namespace Battle
 		if (asAObject && asAObject->_team == this->_team)
 			return false;
 
+		if (mData->dFlag.invulnerable && !oData->oFlag.grab)
+			return false;
+		if (mData->dFlag.grabInvulnerable && oData->oFlag.grab)
+			return false;
+
 		for (auto &hurtBox : oData->hurtBoxes)
 			for (auto &hitBox : mData->hitBoxes) {
 				auto _hitBox = this->_applyModifiers(hitBox);
@@ -166,8 +182,15 @@ namespace Battle
 		return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 	}
 
-	Box AObject::_applyModifiers(Box box) const
+	Box AObject::_applyModifiers(Box box, bool hasRotation) const
 	{
+		auto &data = *this->getCurrentFrameData();
+
+		//if (hasRotation) {
+		//	box = this->_applyModifiers(box, false);
+		//	box.pos.rotate(this->_rotation, Vector2f{static_cast<float>(data.textureBounds.size.x), -static_cast<float>(data.textureBounds.size.y)} + data.offset);
+		//	return box;
+		//}
 		if (this->_direction)
 			return box;
 

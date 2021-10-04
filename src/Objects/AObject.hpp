@@ -48,7 +48,7 @@ namespace Battle
 		virtual bool _startMove(unsigned action);
 		virtual void _applyNewAnimFlags();
 		virtual bool _isGrounded() const;
-		Box _applyModifiers(Box box) const;
+		Box _applyModifiers(Box box, bool hasRotation = true) const;
 
 	public:
 		#ifdef _DEBUG

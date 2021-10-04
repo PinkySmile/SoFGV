@@ -115,33 +115,48 @@ namespace Battle
 	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
-		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
-		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2N)) ||
-		        (input.n && input.n <= 4 && this->_startMove(ACTION_j5N)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
+			(input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_AIR_DASH_8)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_3)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_1)) ||
+			(input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_AIR_DASH_2)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_6)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_4)) ||
 
-		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_j8V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3V)) ||
-		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j6V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_j2V)) ||
-		        (input.v && input.v <= 4 && this->_startMove(ACTION_j5V));
+			(input.n && input.n <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_j8N)) ||
+			(input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
+			(input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 &&                           this->_startMove(ACTION_j6N)) ||
+			(input.n && input.n <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_j2N)) ||
+			(input.n && input.n <= 4 &&                                                                    this->_startMove(ACTION_j5N)) ||
+
+			(input.v && input.v <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_j8V)) ||
+			(input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3V)) ||
+			(input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 &&                           this->_startMove(ACTION_j6V)) ||
+			(input.v && input.v <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_j2V)) ||
+			(input.v && input.v <= 4 &&                                                                    this->_startMove(ACTION_j5V));
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
-		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2N)) ||
-		        (input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_HIGH_JUMP)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP)) ||
+			(input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_NEUTRAL_HIGH_JUMP)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_DASH)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_DASH)) ||
 
-		        (input.v && input.v <= 4 && input.verticalAxis > 0 && this->_startMove(ACTION_8V)) ||
+			(input.n && input.n <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_8N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
+		        (input.n && input.n <= 4 &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_2N)) ||
+		        (input.n && input.n <= 4 &&                                                                    this->_startMove(ACTION_5N)) ||
+
+		        (input.v && input.v <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_8V)) ||
 		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3V)) ||
-		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_startMove(ACTION_2V)) ||
-		        (input.v && input.v <= 4 && this->_startMove(ACTION_5V));
+		        (input.v && input.v <= 4 &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_2V)) ||
+		        (input.v && input.v <= 4 &&                                                                    this->_startMove(ACTION_5V));
 	}
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
@@ -192,19 +207,40 @@ namespace Battle
 
 	void ACharacter::getHit(IObject &other, const FrameData *data)
 	{
+		auto myData = this->getCurrentFrameData();
+
 		AObject::getHit(other, data);
 
 		if (!data)
 			return;
-		if (!this->_isBlocking()) {
-			this->_forceStartMove(this->_isGrounded() && data->hitSpeed.y <= 0 ? ACTION_GROUND_HIGH_HIT : ACTION_AIR_HIT);
-			this->_hp -= data->damage;
-			this->_blockStun = data->hitStun;
-			this->_speed += data->hitSpeed;
-			this->_speed.x *= -this->_dir;
-			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+		if (
+			!this->_isBlocking() ||
+			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
+			data->oFlag.unblockable ||
+			data->oFlag.grab
+		) {
+			if (this->_isGrounded() && data->hitSpeed.y <= 0)
+				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+			else
+				this->_forceStartMove(ACTION_AIR_HIT);
+			if (myData->dFlag.counterHit && data->oFlag.canCounterHit) {
+				this->_hp -= data->damage * 1.5;
+				this->_blockStun = data->hitStun * 1.5;
+				this->_speed += data->counterHitSpeed;
+				this->_speed.x *= -this->_dir;
+				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
+			} else {
+				this->_hp -= data->damage;
+				this->_blockStun = data->hitStun;
+				this->_speed += data->hitSpeed;
+				this->_speed.x *= -this->_dir;
+				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+			}
 		} else {
-			this->_forceStartMove(this->_isGrounded() ? ACTION_GROUND_HIGH_NEUTRAL_BLOCK : ACTION_AIR_NEUTRAL_BLOCK);
+			if (this->_isGrounded())
+				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+			else
+				this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
 			this->_blockStun = data->blockStun;
 			this->_speed.x += data->pushBlock * -this->_dir;
 		}
@@ -229,6 +265,9 @@ namespace Battle
 	{
 		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP) {
 			this->_jumpsUsed++;
+			this->_hasJumped = true;
+		} else if (action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP) {
+			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
 		} else if (action >= ACTION_5N)
 			this->_hasJumped = true;
