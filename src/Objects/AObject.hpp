@@ -65,6 +65,10 @@ namespace Battle
 		bool hits(IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
+		void collide(IObject &other) override;
+
+		bool collides(IObject &other) const override;
+
 		const FrameData *getCurrentFrameData() const override;
 
 		friend class BattleManager;

@@ -261,4 +261,59 @@ namespace Battle
 
 		return !data || !data->dFlag.airborne;
 	}
+
+	void AObject::collide(IObject &other)
+	{
+		if (this->_speed.x == 0)
+			return;
+
+		auto myData = this->getCurrentFrameData();
+		auto data = other.getCurrentFrameData();
+		auto asAObject = dynamic_cast<AObject *>(&other);
+
+		if (!asAObject)
+			return;
+
+		float diff = 0;
+		auto _hitBox = this->_applyModifiers(*myData->collisionBox);
+		auto _hurtBox = asAObject->_applyModifiers(*data->collisionBox);
+
+		_hitBox.pos.x += this->_position.x;
+		_hurtBox.pos.x += asAObject->_position.x;
+		if (this->_speed.x < 0) {
+
+		} else {
+
+		}
+	}
+
+	bool AObject::collides(IObject &other) const
+	{
+		auto myData = this->getCurrentFrameData();
+
+		if (!myData || !myData->collisionBox)
+			return false;
+
+		auto data = other.getCurrentFrameData();
+
+		if (!data || !data->collisionBox)
+			return false;
+
+		auto asAObject = dynamic_cast<AObject *>(&other);
+
+		if (!asAObject)
+			return false;
+
+		auto _hitBox = this->_applyModifiers(*myData->collisionBox);
+		auto _hurtBox = asAObject->_applyModifiers(*data->collisionBox);
+
+		_hitBox.pos.x += this->_position.x;
+		_hitBox.pos.y -= this->_position.y;
+		_hurtBox.pos.x += asAObject->_position.x;
+		_hurtBox.pos.y -= asAObject->_position.y;
+		return static_cast<float>(_hurtBox.pos.x)                   < static_cast<float>(_hitBox.pos.x) + _hitBox.size.x &&
+		       static_cast<float>(_hurtBox.pos.y)                   < static_cast<float>(_hitBox.pos.y) + _hitBox.size.y &&
+		       static_cast<float>(_hurtBox.pos.x) + _hurtBox.size.x > static_cast<float>(_hitBox.pos.x)                  &&
+		       static_cast<float>(_hurtBox.pos.y) + _hurtBox.size.y > static_cast<float>(_hitBox.pos.y);
+	}
 }
