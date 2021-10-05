@@ -39,6 +39,7 @@ namespace Battle
 		)
 			this->_jumpsUsed = 0;
 		if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
+			this->_blockStun = 0;
 			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 			return;
 		}
