@@ -223,8 +223,10 @@ namespace Battle
 
 	bool AObject::_startMove(unsigned int action)
 	{
-		if (!this->_hasMove(action))
+		if (!this->_hasMove(action)) {
+			logger.debug("Cannot start action " + std::to_string(action));
 			return false;
+		}
 
 		auto &data = this->_moves.at(action)[0][0];
 

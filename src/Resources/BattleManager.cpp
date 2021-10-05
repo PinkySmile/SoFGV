@@ -38,7 +38,6 @@ namespace Battle
 
 		if (this->_hitStop) {
 			this->_hitStop--;
-			logger.debug(std::to_string(this->_hitStop) + " frames remaining");
 			return;
 		}
 

@@ -181,9 +181,9 @@ namespace Battle
 			return false;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
-		if (this->_action <= ACTION_BACKWARD_DASH)
+		if (this->_action == ACTION_BACKWARD_DASH)
 			return false;
-		if (this->_action <= ACTION_FORWARD_DASH)
+		if (this->_action == ACTION_FORWARD_DASH)
 			return false;
 		if (this->_action <= ACTION_LANDING)
 			return true;
@@ -231,6 +231,10 @@ namespace Battle
 
 		if (!data)
 			return;
+		if (myData->dFlag.invulnerableArmor) {
+			game.battleMgr->addHitStop(data->hitStop);
+			return;
+		}
 		if (
 			!this->_isBlocking() ||
 			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
