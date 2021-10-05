@@ -1916,6 +1916,98 @@
                         "width": 23
                     }
                 }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 138,
+                        "left": -14,
+                        "top": -139,
+                        "width": 15
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 101,
+                            "left": -20,
+                            "top": -102,
+                            "width": 30
+                        },
+                        {
+                            "height": 20,
+                            "left": -10,
+                            "top": -122,
+                            "width": 20
+                        },
+                        {
+                            "height": 55,
+                            "left": -21,
+                            "top": -176,
+                            "width": 44
+                        }
+                    ],
+                    "offset": {
+                        "x": 2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 46,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 234,
+                        "top": 1,
+                        "width": 23
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 138,
+                        "left": -14,
+                        "top": -139,
+                        "width": 15
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 101,
+                            "left": -20,
+                            "top": -102,
+                            "width": 30
+                        },
+                        {
+                            "height": 20,
+                            "left": -10,
+                            "top": -122,
+                            "width": 20
+                        },
+                        {
+                            "height": 55,
+                            "left": -21,
+                            "top": -176,
+                            "width": 44
+                        }
+                    ],
+                    "offset": {
+                        "x": 2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 46,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 234,
+                        "top": 1,
+                        "width": 23
+                    }
+                }
             ]
         ]
     },
