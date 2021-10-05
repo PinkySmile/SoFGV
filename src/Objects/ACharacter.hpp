@@ -67,6 +67,7 @@ namespace Battle
 		/* 51  */ ACTION_UNTRANSFORM,
 		/* 52  */ ACTION_GROUND_SLAM,
 		/* 53  */ ACTION_WALL_SLAM,
+		/* 54  */ ACTION_HARD_LAND,
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
@@ -217,8 +218,9 @@ namespace Battle
 	class ACharacter : public AObject {
 	private:
 		struct LastInput {
-			unsigned nbFrames;
-			InputEnum input;
+			unsigned nbFrames : 28;
+			int h : 2;
+			int v : 2;
 		};
 
 		ACharacter *_opponent;
@@ -228,14 +230,22 @@ namespace Battle
 		unsigned _jumpsUsed = 0;
 		bool _hasJumped = false;
 		bool _restand = false;
-		struct SpecialInputs {
-			bool _236 : 1;
-			bool _214 : 1;
-			bool _623 : 1;
-			bool _421 : 1;
-			bool _624 : 1;
-			bool _426 : 1;
-			bool _624684 : 1;
+		union SpecialInputs {
+			unsigned short _value = 0;
+			struct {
+				bool _236: 1;
+				bool _214: 1;
+				bool _623: 1;
+				bool _421: 1;
+				bool _624: 1;
+				bool _426: 1;
+				bool _6314: 1;
+				bool _4136: 1;
+				bool _624684: 1;
+				bool _6314684: 1;
+				bool _6246974: 1;
+				bool _63146974: 1;
+			};
 		} _specialInputs;
 
 		unsigned _maxJumps = 0;
@@ -250,6 +260,21 @@ namespace Battle
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 		int _getAttackTier(unsigned int action) const;
+		void _checkSpecialInputs();
+
+		void _clearLastInputs();
+		bool _check236Input();
+		bool _check214Input();
+		bool _check623Input();
+		bool _check421Input();
+		bool _check624Input();
+		bool _check426Input();
+		bool _check6314Input();
+		bool _check4136Input();
+		bool _check624684Input();
+		bool _check6314684Input();
+		bool _check6246974Input();
+		bool _check63146974Input();
 
 	public:
 		ACharacter(const std::string &frameData, std::shared_ptr<IInput> input);

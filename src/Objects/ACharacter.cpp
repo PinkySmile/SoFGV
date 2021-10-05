@@ -2,6 +2,7 @@
 // Created by PinkySmile on 18/09/2021
 //
 
+#include <windows.h>
 #include "ACharacter.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
@@ -12,6 +13,7 @@ namespace Battle
 		_input(std::move(input))
 	{
 		this->_moves = FrameData::loadFile(frameData);
+		this->_lastInputs.push_back({0, 0, 0});
 	}
 
 	void ACharacter::render() const
@@ -22,7 +24,8 @@ namespace Battle
 	void ACharacter::update()
 	{
 		if (this->_action < ACTION_LANDING && this->_opponent) {
-			this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			if (this->_opponent->_position.x - this->_position.x != 0)
+				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
 		}
 
@@ -38,6 +41,8 @@ namespace Battle
 			this->_action != ACTION_BACKWARD_HIGH_JUMP
 		)
 			this->_jumpsUsed = 0;
+		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9 && this->_isGrounded())
+			return this->_forceStartMove(ACTION_HARD_LAND);
 		if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
 			this->_blockStun = 0;
 			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
@@ -89,6 +94,35 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		if (
+			std::copysign(!!input.horizontalAxis, input.horizontalAxis) != this->_lastInputs.front().h ||
+			std::copysign(!!input.verticalAxis,   input.verticalAxis)   != this->_lastInputs.front().v
+		)
+			this->_lastInputs.push_front({
+				0,
+				static_cast<int>(std::copysign(1, input.horizontalAxis)),
+				static_cast<int>(std::copysign(1, input.verticalAxis))
+			});
+		this->_lastInputs.front().nbFrames++;
+		if (this->_lastInputs.front().nbFrames > 45)
+			this->_lastInputs.front().nbFrames = 45;
+		this->_checkSpecialInputs();
+		if (!this->_isGrounded() && (
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
+			(input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_AIR_DASH_8)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_3)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_1)) ||
+			(input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_AIR_DASH_2)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_6)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_4))
+		))
+			return;
+		if (this->_isGrounded() && (
+			(input.d && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_DASH)) ||
+			(input.d && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_DASH))
+		))
+			return;
+		if (
 			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
 			(!data->dFlag.airborne && this->_executeGroundMoves(input))
 		)
@@ -136,14 +170,6 @@ namespace Battle
 		        (input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH)) ||
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
 		        (input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
-		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
-		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
-		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_AIR_DASH_8)) ||
-		        (input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_3)) ||
-		        (input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_1)) ||
-		        (input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_AIR_DASH_2)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_6)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_4)) ||
 
 		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_j8N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
@@ -164,9 +190,15 @@ namespace Battle
 		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_HIGH_JUMP)) ||
 		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP)) ||
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_NEUTRAL_HIGH_JUMP)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_DASH)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_DASH)) ||
 
+			(input.n && (this->_specialInputs._624684  || this->_specialInputs._6314684)  &&               this->_startMove(ACTION_6321469874N)) ||
+			(input.n && (this->_specialInputs._6246974 || this->_specialInputs._63146974) &&               this->_startMove(ACTION_6321469874N)) ||
+			(input.n && (this->_specialInputs._624 || this->_specialInputs._6314) &&                       this->_startMove(ACTION_63214N)) ||
+			(input.n && (this->_specialInputs._426 || this->_specialInputs._4136) &&                       this->_startMove(ACTION_41236N)) ||
+			(input.n && this->_specialInputs._623 &&                                                       this->_startMove(ACTION_623N)) ||
+			(input.n && this->_specialInputs._421 &&                                                       this->_startMove(ACTION_421N)) ||
+			(input.n && this->_specialInputs._236 &&                                                       this->_startMove(ACTION_236N)) ||
+			(input.n && this->_specialInputs._214 &&                                                       this->_startMove(ACTION_214N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_8N)) ||
 		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_3N)) ||
 		        (input.n && input.n <= 4 &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_6N)) ||
@@ -188,7 +220,9 @@ namespace Battle
 			return false;
 		if (this->_canCancel(action))
 			return true;
-		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP || action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP)
+		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
+			return this->_action > ACTION_BACKWARD_HIGH_JUMP || (this->_action < ACTION_NEUTRAL_HIGH_JUMP && (this->_action < ACTION_NEUTRAL_JUMP || !this->getCurrentFrameData()->dFlag.airborne));
+		if (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
@@ -223,23 +257,24 @@ namespace Battle
 
 			if (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (!inputs.horizontalAxis)
-				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (inputs.horizontalAxis * this->_dir < 0)
-				if (!this->_startMove(ACTION_BACKWARD_TECH))
-					return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (!this->_startMove(ACTION_FORWARD_TECH))
-				this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			return;
+			if (inputs.horizontalAxis && this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
+				return;
+			return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 		}
 		if (this->_action == ACTION_CROUCHING)
 			return this->_forceStartMove(ACTION_CROUCH);
+		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
+			return this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
+			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_STANDING_UP)
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_FORWARD_DASH)
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_BACKWARD_DASH)
 			return this->_forceStartMove(ACTION_IDLE);
+		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
+			return this->_forceStartMove(this->_isGrounded() ? ACTION_HARD_LAND : ACTION_FALLING);
 		if (
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
@@ -327,6 +362,11 @@ namespace Battle
 		} else if (action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP) {
 			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
+		} else if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9) {
+			if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP) {
+				this->_jumpsUsed--;
+				this->_hasJumped = false;
+			}
 		} else if (action >= ACTION_5N)
 			this->_hasJumped = true;
 		AObject::_forceStartMove(action);
@@ -362,7 +402,7 @@ namespace Battle
 
 	int ACharacter::_getAttackTier(unsigned int action) const
 	{
-		const FrameData *data = nullptr;
+		const FrameData *data;
 		bool isTyped = action >= ACTION_5M;
 
 		if (action < 100)
@@ -408,5 +448,125 @@ namespace Battle
 		default:
 			return -1;
 		}
+	}
+
+	void ACharacter::_checkSpecialInputs()
+	{
+		this->_clearLastInputs();
+		this->_specialInputs._value = 0;
+		this->_specialInputs._236 = this->_check236Input();
+		this->_specialInputs._214 = this->_check214Input();
+		this->_specialInputs._623 = this->_check623Input();
+		this->_specialInputs._421 = this->_check421Input();
+		this->_specialInputs._624 = this->_check624Input();
+		this->_specialInputs._426 = this->_check426Input();
+		this->_specialInputs._6314 = this->_check6314Input();
+		this->_specialInputs._4136 = this->_check4136Input();
+		this->_specialInputs._624684 = this->_check624684Input();
+		this->_specialInputs._6314684 = this->_check6314684Input();
+		this->_specialInputs._6246974 = this->_check6246974Input();
+		this->_specialInputs._63146974 = this->_check63146974Input();
+	}
+
+	bool ACharacter::_check236Input()
+	{
+		unsigned total = 0;
+		bool found2 = false;
+		bool found3 = false;
+		bool found6 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found2 |= input.v < 0 && !input.h;
+			found3 |= found2 && input.v < 0 && input.h > 0;
+			found6 |= found3 && !input.v && input.h > 0;
+			if (found2 && found3 && found6)
+				return true;
+			total += input.nbFrames;
+			if (total > 15)
+				break;
+		}
+		return false;
+	}
+
+	bool ACharacter::_check214Input()
+	{
+		unsigned total = 0;
+		bool found2 = false;
+		bool found1 = false;
+		bool found4 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found2 |= input.v < 0 && !input.h;
+			found1 |= found2 && input.v < 0 && input.h < 0;
+			found4 |= found1 && !input.v && input.h < 0;
+			if (found2 && found1 && found4)
+				return true;
+			total += input.nbFrames;
+			if (total > 15)
+				break;
+		}
+		return false;
+	}
+
+	bool ACharacter::_check623Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check421Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check624Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check426Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check6314Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check4136Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check624684Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check6314684Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check6246974Input()
+	{
+		return false;
+	}
+
+	bool ACharacter::_check63146974Input()
+	{
+		return false;
+	}
+
+	void ACharacter::_clearLastInputs()
+	{
+		auto it = this->_lastInputs.begin();
+		unsigned total = 0;
+
+		while (it != this->_lastInputs.end() && total < 45) {
+			total += it->nbFrames;
+			it++;
+		}
+		this->_lastInputs.erase(it, this->_lastInputs.end());
 	}
 }
