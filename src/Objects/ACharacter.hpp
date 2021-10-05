@@ -67,6 +67,7 @@ namespace Battle
 		/* 51  */ ACTION_UNTRANSFORM,
 		/* 52  */ ACTION_GROUND_SLAM,
 		/* 53  */ ACTION_WALL_SLAM,
+		/* 54  */ ACTION_HARD_LAND,
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
@@ -218,8 +219,8 @@ namespace Battle
 	private:
 		struct LastInput {
 			unsigned nbFrames : 28;
-			unsigned h : 2;
-			unsigned v : 2;
+			int h : 2;
+			int v : 2;
 		};
 
 		ACharacter *_opponent;
@@ -259,6 +260,21 @@ namespace Battle
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 		int _getAttackTier(unsigned int action) const;
+		void _checkSpecialInputs();
+
+		void _clearLastInputs();
+		bool _check236Input();
+		bool _check214Input();
+		bool _check623Input();
+		bool _check421Input();
+		bool _check624Input();
+		bool _check426Input();
+		bool _check6314Input();
+		bool _check4136Input();
+		bool _check624684Input();
+		bool _check6314684Input();
+		bool _check6246974Input();
+		bool _check63146974Input();
 
 	public:
 		ACharacter(const std::string &frameData, std::shared_ptr<IInput> input);

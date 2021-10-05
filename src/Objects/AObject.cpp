@@ -152,9 +152,9 @@ namespace Battle
 		if (asAObject && asAObject->_team == this->_team)
 			return false;
 
-		if (mData->dFlag.invulnerable && !oData->oFlag.grab)
+		if (oData->dFlag.invulnerable && !mData->oFlag.grab)
 			return false;
-		if (mData->dFlag.grabInvulnerable && oData->oFlag.grab)
+		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
 			return false;
 
 		for (auto &hurtBox : oData->hurtBoxes)
