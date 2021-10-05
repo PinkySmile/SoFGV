@@ -206,6 +206,10 @@ namespace Battle
 	void ACharacter::_onMoveEnd(FrameData &lastData)
 	{
 		logger.debug(std::to_string(this->_action) + " ended");
+		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
+			this->_blockStun = 0;
+			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
+		}
 		if (this->_blockStun && !this->_actionBlock) {
 			this->_actionBlock++;
 			if (this->_moves.at(this->_action).size() == 1)
@@ -214,8 +218,6 @@ namespace Battle
 			AObject::_onMoveEnd(lastData);
 			return;
 		}
-		if (this->_action == ACTION_BEING_KNOCKED_DOWN)
-			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
 		if (this->_action == ACTION_KNOCKED_DOWN) {
 			auto inputs = this->_input->getInputs();
 
@@ -224,8 +226,11 @@ namespace Battle
 			if (!inputs.horizontalAxis)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 			if (inputs.horizontalAxis * this->_dir < 0)
-				return this->_forceStartMove(ACTION_BACKWARD_TECH);
-			return this->_forceStartMove(ACTION_FORWARD_TECH);
+				if (!this->_startMove(ACTION_BACKWARD_TECH))
+					return this->_forceStartMove(ACTION_NEUTRAL_TECH);
+			if (!this->_startMove(ACTION_FORWARD_TECH))
+				this->_forceStartMove(ACTION_NEUTRAL_TECH);
+			return;
 		}
 		if (this->_action == ACTION_CROUCHING)
 			return this->_forceStartMove(ACTION_CROUCH);

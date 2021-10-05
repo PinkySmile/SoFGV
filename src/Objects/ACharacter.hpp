@@ -228,6 +228,15 @@ namespace Battle
 		unsigned _jumpsUsed = 0;
 		bool _hasJumped = false;
 		bool _restand = false;
+		struct SpecialInputs {
+			bool _236 : 1;
+			bool _214 : 1;
+			bool _623 : 1;
+			bool _421 : 1;
+			bool _624 : 1;
+			bool _426 : 1;
+			bool _624684 : 1;
+		} _specialInputs;
 
 		unsigned _maxJumps = 0;
 

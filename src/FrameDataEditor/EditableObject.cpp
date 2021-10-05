@@ -64,7 +64,6 @@ namespace Battle
 
 	void EditableObject::reset()
 	{
-
 	}
 
 	bool EditableObject::isDead() const
@@ -79,12 +78,10 @@ namespace Battle
 
 	void EditableObject::hit(IObject &, const FrameData *)
 	{
-
 	}
 
 	void EditableObject::getHit(IObject &, const FrameData *)
 	{
-
 	}
 
 	const FrameData *EditableObject::getCurrentFrameData() const
@@ -92,11 +89,12 @@ namespace Battle
 		return nullptr;
 	}
 
-    bool EditableObject::collides(IObject &other) const {
-        return false;
-    }
+	bool EditableObject::collides(IObject &) const
+	{
+		return false;
+	}
 
-    void EditableObject::collide(IObject &other) {
-
-    }
+	void EditableObject::collide(IObject &)
+	{
+	}
 }
