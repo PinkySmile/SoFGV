@@ -1488,6 +1488,7 @@ void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 		canDrag = true;
 	}, std::weak_ptr<tgui::Button>(button));
 	boxes->add(button, "HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1));
+	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
 	selectBox(button, &box);
 }
 
@@ -1517,6 +1518,7 @@ void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Pa
 		canDrag = true;
 	}, std::weak_ptr<tgui::Button>(button));
 	boxes->add(button, "HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.size() - 1));
+	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
 	selectBox(button, &box);
 }
 

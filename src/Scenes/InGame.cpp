@@ -20,13 +20,13 @@ namespace Battle
 				leftChr,
 				lJson["hp"],
 				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
-				lJson["air_jump_count"]
+				lJson["jump_count"]
 			},
 			BattleManager::CharacterParams{
 				rightChr,
 				rJson["hp"],
 				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
-				rJson["air_jump_count"]
+				rJson["jump_count"]
 			}
 		);
 	}

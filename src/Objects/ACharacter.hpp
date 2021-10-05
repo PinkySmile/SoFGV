@@ -227,6 +227,7 @@ namespace Battle
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		bool _hasJumped = false;
+		bool _restand = false;
 
 		unsigned _maxJumps = 0;
 

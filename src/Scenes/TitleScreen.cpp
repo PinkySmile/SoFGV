@@ -2,7 +2,12 @@
 // Created by Gegel85 on 24/09/2021.
 //
 
+#ifdef _WIN32
 #include <windows.h>
+#else
+// TODO: Add proper message boxes on non windows systems
+#define MessageBox(...)
+#endif
 #include "TitleScreen.hpp"
 #include "../Resources/Game.hpp"
 #include "InGame.hpp"
