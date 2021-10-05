@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include "Logger.hpp"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
@@ -34,11 +36,15 @@ void	run()
 int	main()
 {
 	logger.info("Starting game.");
+	#ifdef _WIN32
 	try {
+	#endif
 		run();
+	#ifdef _WIN32
 	} catch (std::exception &e) {
 		MessageBox(nullptr, e.what(), "Fatal error", MB_ICONERROR);
 	}
+	#endif
 	logger.info("Goodbye !");
 	return EXIT_SUCCESS;
 }
