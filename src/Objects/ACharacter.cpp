@@ -223,17 +223,16 @@ namespace Battle
 
 			if (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (!inputs.horizontalAxis)
-				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (inputs.horizontalAxis * this->_dir < 0)
-				if (!this->_startMove(ACTION_BACKWARD_TECH))
-					return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (!this->_startMove(ACTION_FORWARD_TECH))
-				this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			return;
+			if (inputs.horizontalAxis && this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
+				return;
+			return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 		}
 		if (this->_action == ACTION_CROUCHING)
 			return this->_forceStartMove(ACTION_CROUCH);
+		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
+			return this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
+			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_STANDING_UP)
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_FORWARD_DASH)

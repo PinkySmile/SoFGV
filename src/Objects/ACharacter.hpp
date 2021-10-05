@@ -217,8 +217,9 @@ namespace Battle
 	class ACharacter : public AObject {
 	private:
 		struct LastInput {
-			unsigned nbFrames;
-			InputEnum input;
+			unsigned nbFrames : 28;
+			unsigned h : 2;
+			unsigned v : 2;
 		};
 
 		ACharacter *_opponent;
@@ -228,14 +229,22 @@ namespace Battle
 		unsigned _jumpsUsed = 0;
 		bool _hasJumped = false;
 		bool _restand = false;
-		struct SpecialInputs {
-			bool _236 : 1;
-			bool _214 : 1;
-			bool _623 : 1;
-			bool _421 : 1;
-			bool _624 : 1;
-			bool _426 : 1;
-			bool _624684 : 1;
+		union SpecialInputs {
+			unsigned short _value = 0;
+			struct {
+				bool _236: 1;
+				bool _214: 1;
+				bool _623: 1;
+				bool _421: 1;
+				bool _624: 1;
+				bool _426: 1;
+				bool _6314: 1;
+				bool _4136: 1;
+				bool _624684: 1;
+				bool _6314684: 1;
+				bool _6246974: 1;
+				bool _63146974: 1;
+			};
 		} _specialInputs;
 
 		unsigned _maxJumps = 0;
