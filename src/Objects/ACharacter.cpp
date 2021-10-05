@@ -214,18 +214,6 @@ namespace Battle
 			AObject::_onMoveEnd(lastData);
 			return;
 		}
-		if (this->_action == ACTION_AIR_HIT) {
-			if (this->_actionBlock != 1) {
-				AObject::_onMoveEnd(lastData);
-				return;
-			}
-			this->_actionBlock++;
-			if (this->_moves.at(this->_action).size() <= 2)
-				//TODO: make proper exceptions
-				throw std::invalid_argument("ACTION_AIR_HIT is missing block 2");
-			AObject::_onMoveEnd(lastData);
-			return;
-		}
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN)
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
 		if (this->_action == ACTION_KNOCKED_DOWN) {
