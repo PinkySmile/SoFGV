@@ -38,10 +38,24 @@ namespace Battle
 			this->_action != ACTION_BACKWARD_HIGH_JUMP
 		)
 			this->_jumpsUsed = 0;
+		if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
+			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+			return;
+		}
 		if (this->_blockStun) {
 			this->_blockStun--;
-			if (this->_blockStun == 0)
-				this->_forceStartMove(ACTION_IDLE);
+			if (this->_blockStun == 0) {
+				if (this->_isGrounded())
+					this->_forceStartMove(ACTION_IDLE);
+				else if (this->_action != ACTION_AIR_HIT || this->_restand)
+					this->_forceStartMove(ACTION_FALLING);
+				else {
+					this->_actionBlock++;
+					if (this->_moves.at(ACTION_AIR_HIT).size() <= 2)
+						//TODO: make proper exceptions
+						throw std::invalid_argument("ACTION_AIR_HIT is missing block 2");
+				}
+			}
 		} else
 			this->_processInput(this->_input->getInputs());
 
@@ -192,10 +206,39 @@ namespace Battle
 
 	void ACharacter::_onMoveEnd(FrameData &lastData)
 	{
+		logger.debug(std::to_string(this->_action) + " ended");
 		if (this->_blockStun && !this->_actionBlock) {
 			this->_actionBlock++;
+			if (this->_moves.at(this->_action).size() == 1)
+				//TODO: make proper exceptions
+				throw std::invalid_argument("Action " + std::to_string(this->_action) + " is missing block 1");
 			AObject::_onMoveEnd(lastData);
 			return;
+		}
+		if (this->_action == ACTION_AIR_HIT) {
+			if (this->_actionBlock != 2) {
+				AObject::_onMoveEnd(lastData);
+				return;
+			}
+			this->_actionBlock++;
+			if (this->_moves.at(this->_action).size() <= 3)
+				//TODO: make proper exceptions
+				throw std::invalid_argument("ACTION_AIR_HIT is missing block 3");
+			AObject::_onMoveEnd(lastData);
+			return;
+		}
+		if (this->_action == ACTION_BEING_KNOCKED_DOWN)
+			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
+		if (this->_action == ACTION_KNOCKED_DOWN) {
+			auto inputs = this->_input->getInputs();
+
+			if (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v)
+				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
+			if (!inputs.horizontalAxis)
+				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
+			if (inputs.horizontalAxis * this->_dir < 0)
+				return this->_forceStartMove(ACTION_BACKWARD_TECH);
+			return this->_forceStartMove(ACTION_FORWARD_TECH);
 		}
 		if (this->_action == ACTION_CROUCHING)
 			return this->_forceStartMove(ACTION_CROUCH);
@@ -231,6 +274,7 @@ namespace Battle
 
 		if (!data)
 			return;
+		this->_restand = data->oFlag.restand;
 		if (myData->dFlag.invulnerableArmor) {
 			game.battleMgr->addHitStop(data->hitStop);
 			return;
