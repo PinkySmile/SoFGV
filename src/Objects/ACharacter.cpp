@@ -106,6 +106,22 @@ namespace Battle
 		if (this->_lastInputs.front().nbFrames > 45)
 			this->_lastInputs.front().nbFrames = 45;
 		this->_checkSpecialInputs();
+		if (!this->_isGrounded() && (
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
+			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
+			(input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_AIR_DASH_8)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_3)) ||
+			(input.d && input.verticalAxis < 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_1)) ||
+			(input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_AIR_DASH_2)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_6)) ||
+			(input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_4))
+		))
+			return;
+		if (this->_isGrounded() && (
+			(input.d && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_DASH)) ||
+			(input.d && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_DASH))
+		))
+			return;
 		if (
 			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
 			(!data->dFlag.airborne && this->_executeGroundMoves(input))
@@ -174,8 +190,6 @@ namespace Battle
 		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_HIGH_JUMP)) ||
 		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP)) ||
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_NEUTRAL_HIGH_JUMP)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_DASH)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_DASH)) ||
 
 			(input.n && (this->_specialInputs._624684  || this->_specialInputs._6314684)  &&               this->_startMove(ACTION_6321469874N)) ||
 			(input.n && (this->_specialInputs._6246974 || this->_specialInputs._63146974) &&               this->_startMove(ACTION_6321469874N)) ||
@@ -206,7 +220,9 @@ namespace Battle
 			return false;
 		if (this->_canCancel(action))
 			return true;
-		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP || action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP)
+		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
+			return this->_action > ACTION_BACKWARD_HIGH_JUMP || (this->_action < ACTION_NEUTRAL_HIGH_JUMP && (this->_action < ACTION_NEUTRAL_JUMP || !this->getCurrentFrameData()->dFlag.airborne));
+		if (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
@@ -346,6 +362,11 @@ namespace Battle
 		} else if (action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP) {
 			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
+		} else if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9) {
+			if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP) {
+				this->_jumpsUsed--;
+				this->_hasJumped = false;
+			}
 		} else if (action >= ACTION_5N)
 			this->_hasJumped = true;
 		AObject::_forceStartMove(action);
