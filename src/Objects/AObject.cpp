@@ -236,7 +236,7 @@ namespace Battle
 		return true;
 	}
 
-	bool AObject::_canStartMove(unsigned action, const FrameData &data)
+	bool AObject::_canStartMove(unsigned, const FrameData &)
 	{
 		return true;
 	}
