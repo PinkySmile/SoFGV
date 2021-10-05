@@ -189,7 +189,7 @@ namespace Battle
 
 	Box AObject::_applyModifiers(Box box, bool hasRotation) const
 	{
-		auto &data = *this->getCurrentFrameData();
+		//auto &data = *this->getCurrentFrameData();
 
 		//if (hasRotation) {
 		//	box = this->_applyModifiers(box, false);
