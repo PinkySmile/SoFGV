@@ -173,17 +173,25 @@ namespace Battle
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
 		        (input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
 
-		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_j8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3N)) ||
-		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 &&                           this->_startMove(ACTION_j6N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_j2N)) ||
-		        (input.n && input.n <= 4 &&                                                                    this->_startMove(ACTION_j5N)) ||
+			(input.n && input.n <= 4 && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
+			(input.n && input.n <= 4 && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
+			(input.n && input.n <= 4 && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214N)) ||
+			(input.n && input.n <= 4 && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236N)) ||
+			(input.n && input.n <= 4 && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623N)) ||
+			(input.n && input.n <= 4 && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421N)) ||
+			(input.n && input.n <= 4 && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
+			(input.n && input.n <= 4 && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
+		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6N)) ||
+		        (input.n && input.n <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
+		        (input.n && input.n <= 4 &&                                                                      this->_startMove(ACTION_j5N)) ||
 
-		        (input.v && input.v <= 4 && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_j8V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_j3V)) ||
-		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 &&                           this->_startMove(ACTION_j6V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_j2V)) ||
-		        (input.v && input.v <= 4 &&                                                                    this->_startMove(ACTION_j5V));
+		        (input.v && input.v <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
+		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6V)) ||
+		        (input.v && input.v <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
+		        (input.v && input.v <= 4 &&                                                                      this->_startMove(ACTION_j5V));
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
@@ -486,7 +494,7 @@ namespace Battle
 			if (found2 && found3 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 15)
+			if (total > 10)
 				break;
 		}
 		return false;
@@ -506,7 +514,7 @@ namespace Battle
 			if (found2 && found1 && found4)
 				return true;
 			total += input.nbFrames;
-			if (total > 15)
+			if (total > 10)
 				break;
 		}
 		return false;
@@ -526,7 +534,7 @@ namespace Battle
 			if (found2 && found3 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > 15)
 				break;
 		}
 		return false;
@@ -546,7 +554,7 @@ namespace Battle
 			if (found2 && found1 && found4)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > 15)
 				break;
 		}
 		return false;
@@ -574,21 +582,113 @@ namespace Battle
 
 	bool ACharacter::_check624684Input()
 	{
+		unsigned total = 0;
+		bool found6_1 = false;
+		bool found2 = false;
+		bool found4_1 = false;
+		bool found6_2 = false;
+		bool found8 = false;
+		bool found4_2 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4_2 |= !input.v && input.h < 0;
+			found8   |= found4_2 && input.v > 0 && !input.h;
+			found6_2 |= found8   && !input.v && input.h > 0;
+			found4_1 |= found6_2 && !input.v && input.h < 0;
+			found2   |= found4_1 && input.v < 0 && !input.h;
+			found6_1 |= found2   && !input.v && input.h > 0;
+			if (found6_1 && found2 && found4_1 && found6_2 && found8 && found4_2)
+				return true;
+			total += input.nbFrames;
+			if (total > 30)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check6314684Input()
 	{
+		unsigned total = 0;
+		bool found6_1 = false;
+		bool found3 = false;
+		bool found1 = false;
+		bool found4_1 = false;
+		bool found6_2 = false;
+		bool found8 = false;
+		bool found4_2 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4_2 |= !input.v && input.h < 0;
+			found8   |= found4_2 && input.v > 0 && !input.h;
+			found6_2 |= found8   && !input.v && input.h > 0;
+			found4_1 |= found6_2 && !input.v && input.h < 0;
+			found1   |= found4_1 && input.v < 0 && input.h < 0;
+			found3   |= found1   && input.v < 0 && input.h > 0;
+			found6_1 |= found3   && !input.v && input.h > 0;
+			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found8 && found4_2)
+				return true;
+			total += input.nbFrames;
+			if (total > 30)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check6246974Input()
 	{
+		unsigned total = 0;
+		bool found6_1 = false;
+		bool found2 = false;
+		bool found4_1 = false;
+		bool found6_2 = false;
+		bool found9 = false;
+		bool found7 = false;
+		bool found4_2 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4_2 |= !input.v && input.h < 0;
+			found7   |= found4_2 && input.v > 0 && input.h < 0;
+			found9   |= found7   && input.v > 0 && input.h > 0;
+			found6_2 |= found9   && !input.v && input.h > 0;
+			found4_1 |= found6_2 && !input.v && input.h < 0;
+			found2   |= found4_1 && input.v < 0 && !input.h;
+			found6_1 |= found2   && !input.v && input.h > 0;
+			if (found6_1 && found2 && found4_1 && found6_2 && found9 && found7 && found4_2)
+				return true;
+			total += input.nbFrames;
+			if (total > 30)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check63146974Input()
 	{
+		unsigned total = 0;
+		bool found6_1 = false;
+		bool found3 = false;
+		bool found1 = false;
+		bool found4_1 = false;
+		bool found6_2 = false;
+		bool found9 = false;
+		bool found7 = false;
+		bool found4_2 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4_2 |= !input.v && input.h < 0;
+			found7   |= found4_2 && input.v > 0 && input.h < 0;
+			found9   |= found7   && input.v > 0 && input.h > 0;
+			found6_2 |= found9   && !input.v && input.h > 0;
+			found4_1 |= found6_2 && !input.v && input.h < 0;
+			found1   |= found4_1 && input.v < 0 && input.h < 0;
+			found3   |= found1   && input.v < 0 && input.h > 0;
+			found6_1 |= found3   && !input.v && input.h > 0;
+			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found9 && found7 && found4_2)
+				return true;
+			total += input.nbFrames;
+			if (total > 30)
+				break;
+		}
 		return false;
 	}
 
