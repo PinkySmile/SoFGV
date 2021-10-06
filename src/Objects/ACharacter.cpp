@@ -552,21 +552,85 @@ namespace Battle
 
 	bool ACharacter::_check624Input()
 	{
+		unsigned total = 0;
+		bool found2 = false;
+		bool found4 = false;
+		bool found6 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4 |= !input.v && input.h < 0;
+			found2 |= found4 && input.v < 0 && !input.h;
+			found6 |= found2 && !input.v && input.h > 0;
+			if (found2 && found4 && found6)
+				return true;
+			total += input.nbFrames;
+			if (total > 20)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check426Input()
 	{
+		unsigned total = 0;
+		bool found2 = false;
+		bool found4 = false;
+		bool found6 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found6 |= !input.v && input.h > 0;
+			found2 |= found4 && input.v < 0 && !input.h;
+			found4 |= found2 && !input.v && input.h < 0;
+			if (found2 && found4 && found6)
+				return true;
+			total += input.nbFrames;
+			if (total > 20)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check6314Input()
 	{
+		unsigned total = 0;
+		bool found1 = false;
+		bool found3 = false;
+		bool found4 = false;
+		bool found6 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found4 |= !input.v && input.h < 0;
+			found1 |= found4 && input.v < 0 && input.h < 0;
+			found3 |= found1 && input.v < 0 && input.h > 0;
+			found6 |= found3 && !input.v && input.h > 0;
+			if (found1 && found3 && found4 && found6)
+				return true;
+			total += input.nbFrames;
+			if (total > 20)
+				break;
+		}
 		return false;
 	}
 
 	bool ACharacter::_check4136Input()
 	{
+		unsigned total = 0;
+		bool found1 = false;
+		bool found3 = false;
+		bool found4 = false;
+		bool found6 = false;
+
+		for (auto &input : this->_lastInputs) {
+			found6 |= !input.v && input.h > 0;
+			found3 |= found6 && input.v < 0 && input.h > 0;
+			found1 |= found3 && input.v < 0 && input.h < 0;
+			found4 |= found1 && !input.v && input.h < 0;
+			if (found1 && found3 && found4 && found6)
+				return true;
+			total += input.nbFrames;
+			if (total > 20)
+				break;
+		}
 		return false;
 	}
 
