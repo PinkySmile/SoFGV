@@ -13,6 +13,7 @@
 #define DP_BUFFER 15
 #define HALF_CIRCLE_BUFFER 20
 #define SPIRAL_BUFFER 30
+#define NORMAL_BUFFER 4
 
 namespace Battle
 {
@@ -178,25 +179,25 @@ namespace Battle
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
 		        (input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
 
-			(input.n && input.n <= 4 && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
-		        (input.n && input.n <= 4 && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
-		        (input.n && input.n <= 4 &&                                                                      this->_startMove(ACTION_j5N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5N)) ||
 
-		        (input.v && input.v <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
-		        (input.v && input.v <= 4 && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
-		        (input.v && input.v <= 4 &&                                                                      this->_startMove(ACTION_j5V));
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && this->_dir * input.horizontalAxis > 0 &&                             this->_startMove(ACTION_j6V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5V));
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
@@ -206,25 +207,25 @@ namespace Battle
 		        (input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP)) ||
 		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_NEUTRAL_HIGH_JUMP)) ||
 
-			(input.n && input.n <= 4 && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214N)) ||
-			(input.n && input.n <= 4 && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236N)) ||
-			(input.n && input.n <= 4 && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
-		        (input.n && input.n <= 4 &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
-		        (input.n && input.n <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
-		        (input.n && input.n <= 4 &&                                                                      this->_startMove(ACTION_5N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236N)) ||
+			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5N)) ||
 
-		        (input.v && input.v <= 4 && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
-		        (input.v && input.v <= 4 &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
-		        (input.v && input.v <= 4 && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2V)) ||
-		        (input.v && input.v <= 4 &&                                                                      this->_startMove(ACTION_5V));
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5V));
 	}
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)

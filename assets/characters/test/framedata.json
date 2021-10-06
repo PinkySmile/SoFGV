@@ -5,25 +5,25 @@
             [
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -11,
-                        "top": -152,
-                        "width": 18
+                        "height": 164,
+                        "left": -16,
+                        "top": -165,
+                        "width": 34
                     },
                     "defense_flag": 513,
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 136,
-                            "left": -14,
-                            "top": -136,
-                            "width": 24
+                            "height": 58,
+                            "left": -24,
+                            "top": -193,
+                            "width": 52
                         },
                         {
-                            "height": 52,
-                            "left": -20,
-                            "top": -189,
-                            "width": 48
+                            "height": 131,
+                            "left": -13,
+                            "top": -133,
+                            "width": 20
                         }
                     ],
                     "size": {
@@ -2593,9 +2593,9 @@
                 {
                     "collision_box": {
                         "height": 52,
-                        "left": -84,
+                        "left": -15,
                         "top": -49,
-                        "width": 181
+                        "width": 33
                     },
                     "duration": 5,
                     "hurt_boxes": [
@@ -2628,9 +2628,9 @@
                 {
                     "collision_box": {
                         "height": 44,
-                        "left": -94,
+                        "left": -18,
                         "top": -50,
-                        "width": 184
+                        "width": 37
                     },
                     "defense_flag": 1,
                     "duration": 25,
@@ -2777,16 +2777,16 @@
                     "hit_stun": 10,
                     "hurt_boxes": [
                         {
-                            "height": 137,
-                            "left": -15,
-                            "top": -137,
-                            "width": 23
+                            "height": 58,
+                            "left": -24,
+                            "top": -189,
+                            "width": 53
                         },
                         {
-                            "height": 52,
-                            "left": -21,
-                            "top": -189,
-                            "width": 46
+                            "height": 128,
+                            "left": -15,
+                            "top": -130,
+                            "width": 21
                         }
                     ],
                     "offense_flag": 7296,
