@@ -9,6 +9,11 @@
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 
+#define QUARTER_CIRCLE_BUFFER 10
+#define DP_BUFFER 15
+#define HALF_CIRCLE_BUFFER 20
+#define SPIRAL_BUFFER 30
+
 namespace Battle
 {
 	ACharacter::ACharacter(const std::string &frameData, std::shared_ptr<IInput> input) :
@@ -494,7 +499,7 @@ namespace Battle
 			if (found2 && found3 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 10)
+			if (total > QUARTER_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -514,7 +519,7 @@ namespace Battle
 			if (found2 && found1 && found4)
 				return true;
 			total += input.nbFrames;
-			if (total > 10)
+			if (total > QUARTER_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -534,7 +539,7 @@ namespace Battle
 			if (found2 && found3 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 15)
+			if (total > DP_BUFFER)
 				break;
 		}
 		return false;
@@ -554,7 +559,7 @@ namespace Battle
 			if (found2 && found1 && found4)
 				return true;
 			total += input.nbFrames;
-			if (total > 15)
+			if (total > DP_BUFFER)
 				break;
 		}
 		return false;
@@ -574,7 +579,7 @@ namespace Battle
 			if (found2 && found4 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > HALF_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -594,7 +599,7 @@ namespace Battle
 			if (found2 && found4 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > HALF_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -616,7 +621,7 @@ namespace Battle
 			if (found1 && found3 && found4 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > HALF_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -638,7 +643,7 @@ namespace Battle
 			if (found1 && found3 && found4 && found6)
 				return true;
 			total += input.nbFrames;
-			if (total > 20)
+			if (total > HALF_CIRCLE_BUFFER)
 				break;
 		}
 		return false;
@@ -664,7 +669,7 @@ namespace Battle
 			if (found6_1 && found2 && found4_1 && found6_2 && found8 && found4_2)
 				return true;
 			total += input.nbFrames;
-			if (total > 30)
+			if (total > SPIRAL_BUFFER)
 				break;
 		}
 		return false;
@@ -692,7 +697,7 @@ namespace Battle
 			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found8 && found4_2)
 				return true;
 			total += input.nbFrames;
-			if (total > 30)
+			if (total > SPIRAL_BUFFER)
 				break;
 		}
 		return false;
@@ -720,7 +725,7 @@ namespace Battle
 			if (found6_1 && found2 && found4_1 && found6_2 && found9 && found7 && found4_2)
 				return true;
 			total += input.nbFrames;
-			if (total > 30)
+			if (total > SPIRAL_BUFFER)
 				break;
 		}
 		return false;
@@ -750,7 +755,7 @@ namespace Battle
 			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found9 && found7 && found4_2)
 				return true;
 			total += input.nbFrames;
-			if (total > 30)
+			if (total > SPIRAL_BUFFER)
 				break;
 		}
 		return false;
