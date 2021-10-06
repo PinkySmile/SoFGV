@@ -2,7 +2,9 @@
 // Created by PinkySmile on 18/09/2021
 //
 
+#ifdef _WIN32
 #include <windows.h>
+#endif
 #include "ACharacter.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
