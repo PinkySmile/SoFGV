@@ -114,6 +114,41 @@ namespace Battle
 		if (this->_lastInputs.front().nbFrames > 45)
 			this->_lastInputs.front().nbFrames = 45;
 		this->_checkSpecialInputs();
+		if (this->_isGrounded()) {
+			if (input.n && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+				return;
+			}
+			if (input.m && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_BLOCK : ACTION_GROUND_HIGH_MATTER_BLOCK);
+				return;
+			}
+			if (input.s && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_BLOCK : ACTION_GROUND_HIGH_SPIRIT_BLOCK);
+				return;
+			}
+			if (input.v && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_BLOCK : ACTION_GROUND_HIGH_VOID_BLOCK);
+				return;
+			}
+		} else {
+			if (input.n && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(ACTION_AIR_NEUTRAL_BLOCK);
+				return;
+			}
+			if (input.m && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(ACTION_AIR_MATTER_BLOCK);
+				return;
+			}
+			if (input.s && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(ACTION_AIR_SPIRIT_BLOCK);
+				return;
+			}
+			if (input.v && input.horizontalAxis * this->_dir < 0) {
+				this->_startMove(ACTION_AIR_VOID_BLOCK);
+				return;
+			}
+		}
 		if (!this->_isGrounded() && (
 			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
 			(input.d && input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
@@ -242,6 +277,8 @@ namespace Battle
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
+		if (this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK && this->_action <= ACTION_AIR_HIT)
+			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == ACTION_BACKWARD_DASH)
