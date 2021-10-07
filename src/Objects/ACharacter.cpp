@@ -120,15 +120,18 @@ namespace Battle
 				return;
 			}
 			if (input.m && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_BLOCK : ACTION_GROUND_HIGH_MATTER_BLOCK);
+				if (!this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_BLOCK : ACTION_GROUND_HIGH_MATTER_BLOCK))
+					this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				return;
 			}
 			if (input.s && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_BLOCK : ACTION_GROUND_HIGH_SPIRIT_BLOCK);
+				if (!this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_BLOCK : ACTION_GROUND_HIGH_SPIRIT_BLOCK))
+					this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				return;
 			}
 			if (input.v && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_BLOCK : ACTION_GROUND_HIGH_VOID_BLOCK);
+				if (!this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_BLOCK : ACTION_GROUND_HIGH_VOID_BLOCK))
+					this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				return;
 			}
 		} else {
@@ -137,15 +140,18 @@ namespace Battle
 				return;
 			}
 			if (input.m && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(ACTION_AIR_MATTER_BLOCK);
+				if (!this->_startMove(ACTION_AIR_MATTER_BLOCK))
+					this->_startMove(ACTION_AIR_NEUTRAL_BLOCK);
 				return;
 			}
 			if (input.s && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(ACTION_AIR_SPIRIT_BLOCK);
+				if (!this->_startMove(ACTION_AIR_SPIRIT_BLOCK))
+					this->_startMove(ACTION_AIR_NEUTRAL_BLOCK);
 				return;
 			}
 			if (input.v && input.horizontalAxis * this->_dir < 0) {
-				this->_startMove(ACTION_AIR_VOID_BLOCK);
+				if (!this->_startMove(ACTION_AIR_VOID_BLOCK))
+					this->_startMove(ACTION_AIR_NEUTRAL_BLOCK);
 				return;
 			}
 		}
