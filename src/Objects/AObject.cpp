@@ -17,6 +17,7 @@ namespace Battle
 		};
 		auto result = this->_position;
 		auto realPos = this->_position;
+		auto center = data.textureBounds.size / 2.f + Vector2f{-data.offset.x / 2.f * this->_dir, static_cast<float>(data.offset.y)};
 
 		realPos.y *= -1;
 		result.y *= -1;
@@ -28,7 +29,7 @@ namespace Battle
 			data.textureBounds.size.x * scale.x / 2,
 			data.textureBounds.size.y * scale.y / 2
 		};
-		this->_sprite.setOrigin(data.textureBounds.size / 2.f + Vector2f{-data.offset.x / 2.f * this->_dir, static_cast<float>(data.offset.y)});
+		this->_sprite.setOrigin(center);
 		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
 		this->_sprite.setPosition(result);
 		this->_sprite.setScale(this->_dir * scale.x, scale.y);
@@ -37,6 +38,7 @@ namespace Battle
 		game.textureMgr.render(this->_sprite);
 		if (this->showBoxes) {
 			sf::RectangleShape rect;
+			auto angleDeg = this->_rotation * 180 / M_PI;
 
 			rect.setOutlineThickness(1);
 			rect.setOutlineColor(sf::Color{0x00, 0xFF, 0x00, 0xFF});
@@ -44,8 +46,9 @@ namespace Battle
 			for (auto &hurtBox : data.hurtBoxes) {
 				auto box = this->_applyModifiers(hurtBox);
 
-			//	rect.setRotation(this->_rotation * 180 / M_PI);
-				rect.setPosition(box.pos + realPos);
+				rect.setRotation(angleDeg);
+				rect.setOrigin(box.size / 2);
+				rect.setPosition((box.pos + realPos + box.size / 2).rotation(this->_rotation, result));
 				rect.setSize(box.size);
 				game.screen->draw(rect);
 			}
@@ -55,7 +58,9 @@ namespace Battle
 			for (auto &hitBox : data.hitBoxes) {
 				auto box = this->_applyModifiers(hitBox);
 
-				rect.setPosition(box.pos + realPos);
+				rect.setOrigin(box.size / 2);
+				rect.setRotation(angleDeg);
+				rect.setPosition((box.pos + realPos + box.size / 2).rotation(this->_rotation, result));
 				rect.setSize(box.size);
 				game.screen->draw(rect);
 			}
@@ -64,17 +69,20 @@ namespace Battle
 			if (data.collisionBox) {
 				auto box = this->_applyModifiers(*data.collisionBox, false);
 
+				rect.setOrigin(box.size / 2);
 				rect.setOutlineColor(sf::Color{0xFF, 0xFF, 0x00, 0xFF});
 				rect.setFillColor(sf::Color{0xFF, 0xFF, 0x00, 0x60});
-				rect.setPosition(box.pos + realPos);
+				rect.setRotation(0);
+				rect.setPosition(box.pos + realPos + box.size / 2);
 				rect.setSize(box.size);
 				game.screen->draw(rect);
 			}
 
+			rect.setOrigin(4.5, 4.5);
 			rect.setOutlineThickness(2);
 			rect.setOutlineColor(sf::Color::White);
 			rect.setFillColor(sf::Color::Black);
-			rect.setPosition(realPos - Vector2f{4, 4});
+			rect.setPosition(realPos);
 			rect.setSize({9, 9});
 			game.screen->draw(rect);
 		}

@@ -187,10 +187,10 @@ namespace Battle
 
 			float c = cos(angle);
 			float s = sin(angle);
+			auto newX = c * (static_cast<float>(this->x) - center.x) - s * (static_cast<float>(this->y) - center.y) + center.x;
 
-			this->x = c * (static_cast<float>(x) - center.x) - s * (static_cast<float>(y) - center.y) + center.x;
-			this->y = s * (static_cast<float>(x) - center.x) + c * (static_cast<float>(y) - center.y) + center.y;
-
+			this->y = s * (static_cast<float>(this->x) - center.x) + c * (static_cast<float>(this->y) - center.y) + center.y;
+			this->x = newX;
 		}
 
 		Vector2<float> rotation(float angle, const Vector2<T> &center) const noexcept
