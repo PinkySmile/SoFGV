@@ -8,6 +8,50 @@
 
 namespace Battle
 {
+	struct Rectangle {
+		Vector2f pt1;
+		Vector2f pt2;
+		Vector2f pt3;
+		Vector2f pt4;
+
+		bool intersect(const Rectangle &other)
+		{
+			return Rectangle::intersect(this->pt1, this->pt2, other.pt1, other.pt2) ||
+			       Rectangle::intersect(this->pt2, this->pt3, other.pt1, other.pt2) ||
+			       Rectangle::intersect(this->pt3, this->pt4, other.pt1, other.pt2) ||
+			       Rectangle::intersect(this->pt4, this->pt1, other.pt1, other.pt2) ||
+
+			       Rectangle::intersect(this->pt1, this->pt2, other.pt2, other.pt3) ||
+			       Rectangle::intersect(this->pt2, this->pt3, other.pt2, other.pt3) ||
+			       Rectangle::intersect(this->pt3, this->pt4, other.pt2, other.pt3) ||
+			       Rectangle::intersect(this->pt4, this->pt1, other.pt2, other.pt3) ||
+
+			       Rectangle::intersect(this->pt1, this->pt2, other.pt3, other.pt4) ||
+			       Rectangle::intersect(this->pt2, this->pt3, other.pt3, other.pt4) ||
+			       Rectangle::intersect(this->pt3, this->pt4, other.pt3, other.pt4) ||
+			       Rectangle::intersect(this->pt4, this->pt1, other.pt3, other.pt4) ||
+
+			       Rectangle::intersect(this->pt1, this->pt2, other.pt4, other.pt1) ||
+			       Rectangle::intersect(this->pt2, this->pt3, other.pt4, other.pt1) ||
+			       Rectangle::intersect(this->pt3, this->pt4, other.pt4, other.pt1) ||
+			       Rectangle::intersect(this->pt4, this->pt1, other.pt4, other.pt1);
+		}
+
+		static bool intersect(const Vector2f &A, const Vector2f &B, const Vector2f &C, const Vector2f &D)
+		{
+			auto AB = B - A;
+			auto CD = D - C;
+
+			if (CD.y * AB.x == CD.x * AB.y)
+				return false;
+
+			auto u = ((A.y - C.y) * AB.x + (C.x - A.x) * AB.y) / (CD.y * AB.x - CD.x * AB.y);
+			auto t = AB.x == 0 ? (C.y + u * CD.y - A.y) / AB.y : (C.x + u * CD.x - A.x) / AB.x;
+
+			return u >= 0 && u <= 1 && t >= 0 && t <= 1;
+		}
+	};
+
 	void AObject::render() const
 	{
 		auto &data = *this->getCurrentFrameData();
@@ -67,7 +111,7 @@ namespace Battle
 
 			rect.setRotation(0);
 			if (data.collisionBox) {
-				auto box = this->_applyModifiers(*data.collisionBox, false);
+				auto box = this->_applyModifiers(*data.collisionBox);
 
 				rect.setOrigin(box.size / 2);
 				rect.setOutlineColor(sf::Color{0xFF, 0xFF, 0x00, 0xFF});
@@ -156,6 +200,35 @@ namespace Battle
 			return false;
 
 		auto asAObject = dynamic_cast<AObject *>(&other);
+		auto mCenter = this->_position;
+		auto oCenter = asAObject->_position;
+		auto mScale = Vector2f{
+			static_cast<float>(mData->size.x) / mData->textureBounds.size.x,
+			static_cast<float>(mData->size.y) / mData->textureBounds.size.y
+		};
+		auto oScale = Vector2f{
+			static_cast<float>(oData->size.x) / oData->textureBounds.size.x,
+			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
+		};
+
+		mCenter.y *= -1;
+		mCenter += Vector2f{
+			mData->size.x / -2.f - mData->offset.x * !this->_direction * 2.f,
+			-static_cast<float>(mData->size.y) + mData->offset.y
+		};
+		mCenter += Vector2f{
+			mData->textureBounds.size.x * mScale.x / 2,
+			mData->textureBounds.size.y * mScale.y / 2
+		};
+		oCenter.y *= -1;
+		oCenter += Vector2f{
+			oData->size.x / -2.f - oData->offset.x * !this->_direction * 2.f,
+			-static_cast<float>(oData->size.y) + oData->offset.y
+		};
+		oCenter += Vector2f{
+			oData->textureBounds.size.x * oScale.x / 2,
+			oData->textureBounds.size.y * oScale.y / 2
+		};
 
 		if (asAObject && asAObject->_team == this->_team)
 			return false;
@@ -165,23 +238,26 @@ namespace Battle
 		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
 			return false;
 
-		for (auto &hurtBox : oData->hurtBoxes)
+		for (auto &hurtBox : oData->hurtBoxes) {
+			auto _hurtBox = asAObject->_applyModifiers(hurtBox);
+			Rectangle __hurtBox;
+
+			__hurtBox.pt1 = _hurtBox.pos.rotation(this->_rotation, oCenter)                                                      + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(this->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(this->_rotation, oCenter)                                    + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(this->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
 			for (auto &hitBox : mData->hitBoxes) {
 				auto _hitBox = this->_applyModifiers(hitBox);
-				auto _hurtBox = asAObject->_applyModifiers(hurtBox);
+				Rectangle __hitBox;
 
-				_hitBox.pos.x += this->_position.x;
-				_hitBox.pos.y -= this->_position.y;
-				_hurtBox.pos.x += asAObject->_position.x;
-				_hurtBox.pos.y -= asAObject->_position.y;
-				if (
-					static_cast<float>(_hurtBox.pos.x)                   < static_cast<float>(_hitBox.pos.x) + _hitBox.size.x &&
-					static_cast<float>(_hurtBox.pos.y)                   < static_cast<float>(_hitBox.pos.y) + _hitBox.size.y &&
-					static_cast<float>(_hurtBox.pos.x) + _hurtBox.size.x > static_cast<float>(_hitBox.pos.x)                  &&
-					static_cast<float>(_hurtBox.pos.y) + _hurtBox.size.y > static_cast<float>(_hitBox.pos.y)
-				)
+				__hitBox.pt1 = _hitBox.pos.rotation(this->_rotation, mCenter)                                                     + Vector2f{this->_position.x, -this->_position.y};
+				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
+				__hitBox.pt3 = (_hitBox.pos + _hitBox.size).rotation(this->_rotation, mCenter)                                    + Vector2f{this->_position.x, -this->_position.y};
+				__hitBox.pt4 = (_hitBox.pos + Vector2f{static_cast<float>(_hitBox.size.x), 0}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
+				if (__hurtBox.intersect(__hitBox))
 					return true;
 			}
+		}
 		return false;
 	}
 
@@ -195,15 +271,8 @@ namespace Battle
 		}
 	}
 
-	Box AObject::_applyModifiers(Box box, bool hasRotation) const
+	Box AObject::_applyModifiers(Box box) const
 	{
-		//auto &data = *this->getCurrentFrameData();
-
-		//if (hasRotation) {
-		//	box = this->_applyModifiers(box, false);
-		//	box.pos.rotate(this->_rotation, Vector2f{static_cast<float>(data.textureBounds.size.x), -static_cast<float>(data.textureBounds.size.y)} + data.offset);
-		//	return box;
-		//}
 		if (this->_direction)
 			return box;
 
