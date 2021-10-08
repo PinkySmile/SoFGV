@@ -332,6 +332,8 @@ namespace Battle
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_BACKWARD_DASH)
 			return this->_forceStartMove(ACTION_IDLE);
+		if (this->_action == ACTION_HARD_LAND)
+			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
 			return this->_forceStartMove(this->_isGrounded() ? ACTION_HARD_LAND : ACTION_FALLING);
 		if (
