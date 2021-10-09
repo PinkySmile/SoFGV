@@ -6025,6 +6025,182 @@
         ]
     },
     {
+        "action": 156,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 180,
+                        "left": -27,
+                        "top": -181,
+                        "width": 56
+                    },
+                    "counter_hit_speed": {
+                        "x": 20,
+                        "y": 20
+                    },
+                    "defense_flag": 16384,
+                    "duration": 10,
+                    "hit_stun": 40,
+                    "hurt_boxes": [
+                        {
+                            "height": 103,
+                            "left": -32,
+                            "top": -105,
+                            "width": 66
+                        }
+                    ],
+                    "mana_cost": 5,
+                    "matter_limit": 40,
+                    "offense_flag": 33619968,
+                    "offset": {
+                        "x": 12,
+                        "y": 0
+                    },
+                    "prorate": 80.0,
+                    "size": {
+                        "x": 128,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 235,
+                        "top": 298,
+                        "width": 64
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 192,
+                        "left": -22,
+                        "top": -195,
+                        "width": 56
+                    },
+                    "defense_flag": 49161,
+                    "duration": 8,
+                    "hurt_boxes": [
+                        {
+                            "height": 99,
+                            "left": -21,
+                            "top": -101,
+                            "width": 48
+                        }
+                    ],
+                    "mana_cost": 5,
+                    "offense_flag": 65536,
+                    "offset": {
+                        "x": 12,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 128,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 235,
+                        "top": 298,
+                        "width": 64
+                    }
+                },
+                {
+                    "block_stun": 20,
+                    "collision_box": {
+                        "height": 192,
+                        "left": -27,
+                        "top": -195,
+                        "width": 56
+                    },
+                    "counter_hit_speed": {
+                        "x": 20,
+                        "y": 20
+                    },
+                    "damage": 3000,
+                    "defense_flag": 16384,
+                    "duration": 6,
+                    "hit_boxes": [
+                        {
+                            "height": 135,
+                            "left": -61,
+                            "top": -328,
+                            "width": 165
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 15,
+                        "y": 15
+                    },
+                    "hit_stop": 10,
+                    "hurt_boxes": [
+                        {
+                            "height": 115,
+                            "left": -26,
+                            "top": -119,
+                            "width": 55
+                        }
+                    ],
+                    "mana_cost": 5,
+                    "matter_limit": 40,
+                    "offense_flag": 33620512,
+                    "offset": {
+                        "x": 19,
+                        "y": 0
+                    },
+                    "prorate": 70.0,
+                    "push_block": 16,
+                    "size": {
+                        "x": 162,
+                        "y": 330
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 165,
+                        "left": 131,
+                        "top": 341,
+                        "width": 81
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 192,
+                        "left": -22,
+                        "top": -195,
+                        "width": 56
+                    },
+                    "defense_flag": 16384,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 195,
+                            "left": -34,
+                            "top": -197,
+                            "width": 82
+                        }
+                    ],
+                    "mana_cost": 5,
+                    "offense_flag": 65536,
+                    "offset": {
+                        "x": 12,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 128,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 235,
+                        "top": 298,
+                        "width": 64
+                    }
+                }
+            ]
+        ]
+    },
+    {
         "action": 164,
         "framedata": [
             [
