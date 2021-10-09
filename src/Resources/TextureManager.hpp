@@ -23,7 +23,7 @@ namespace Battle
 		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedTextures;
 
 	public:
-		unsigned load(const std::string &file, Vector2u *size = nullptr);
+		unsigned load(std::string file, Vector2u *size = nullptr);
 		unsigned load(const Color *pixels, Vector2u size);
 		Vector2u getTextureSize(unsigned id) const;
 		void addRef(unsigned id);

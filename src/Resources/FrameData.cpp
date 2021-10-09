@@ -81,6 +81,13 @@ namespace Battle
 			throw std::invalid_argument("Invalid json");
 		this->spritePath = data["sprite"];
 
+		if (data.contains("sound")) {
+			if (!data["sound"].is_string())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->soundPath = data["sound"];
+		}
+
 		if (data.contains("offset")) {
 			if (!data["offset"].is_object())
 				// TODO: Create proper exceptions
@@ -466,6 +473,8 @@ namespace Battle
 	{
 		this->spritePath = other.spritePath;
 		this->textureHandle = other.textureHandle;
+		this->soundPath = other.soundPath;
+		this->soundHandle = other.soundHandle;
 		this->offset = other.offset;
 		this->size = other.size;
 		this->textureBounds = other.textureBounds;
@@ -499,6 +508,7 @@ namespace Battle
 		this->hitSpeed = other.hitSpeed;
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
+		//TODO: Add ref to sound manager
 		game.textureMgr.addRef(this->textureHandle);
 		return *this;
 	}

@@ -79,7 +79,9 @@ namespace Battle
 	class FrameData {
 	public:
 		std::string spritePath;
+		std::string soundPath;
 		unsigned textureHandle = 0;
+		unsigned soundHandle = 0;
 		Vector2i offset = {0, 0};
 		Vector2u size = {0, 0};
 		Box textureBounds = {{0, 0}, {0, 0}};

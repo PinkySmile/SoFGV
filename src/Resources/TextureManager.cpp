@@ -2,7 +2,6 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#include <cstring>
 #include <cassert>
 #include "TextureManager.hpp"
 #include "Game.hpp"
@@ -10,8 +9,10 @@
 
 namespace Battle
 {
-	unsigned TextureManager::load(const std::string &file, Vector2u *size)
+	unsigned TextureManager::load(std::string file, Vector2u *size)
 	{
+		for (auto pos = file.find('\\'); pos != std::string::npos; pos = file.find('\\'))
+			file[pos] = '/';
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
 			logger.debug("Returning already loaded file " + file);

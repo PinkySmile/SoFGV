@@ -108,7 +108,7 @@ namespace Battle
 			this->_lastInputs.push_front({
 				0,
 				static_cast<int>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
-				static_cast<int>(std::copysign(!!input.verticalAxis,   this->_dir * input.verticalAxis))
+				static_cast<int>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
 			});
 		this->_lastInputs.front().nbFrames++;
 		if (this->_lastInputs.front().nbFrames > 45)
