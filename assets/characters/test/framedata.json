@@ -6650,6 +6650,14 @@
                     },
                     "defense_flag": 8712,
                     "duration": 14,
+                    "hurt_boxes": [
+                        {
+                            "height": 195,
+                            "left": -32,
+                            "top": -196,
+                            "width": 63
+                        }
+                    ],
                     "offense_flag": 16384,
                     "size": {
                         "x": 66,
