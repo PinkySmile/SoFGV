@@ -232,6 +232,7 @@ namespace Battle
 		std::list<LastInput> _lastInputs;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
+		unsigned _airDashesUsed = 0;
 		bool _hasJumped = false;
 		bool _restand = false;
 		union SpecialInputs {
@@ -253,6 +254,7 @@ namespace Battle
 		} _specialInputs;
 
 		unsigned _maxJumps = 0;
+		unsigned _maxAirDashes = 0;
 
 		void _processInput(const InputStruct &input);
 		bool _executeAirborneMoves(const InputStruct &input);
@@ -267,6 +269,11 @@ namespace Battle
 		void _checkSpecialInputs();
 
 		void _clearLastInputs();
+		bool _check44Input();
+		bool _check66Input();
+		bool _check27Input();
+		bool _check28Input();
+		bool _check29Input();
 		bool _check236Input();
 		bool _check214Input();
 		bool _check623Input();

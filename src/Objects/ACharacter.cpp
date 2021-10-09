@@ -350,7 +350,7 @@ namespace Battle
 		if (this->_canCancel(action))
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
-			return this->_action > ACTION_BACKWARD_HIGH_JUMP || (this->_action < ACTION_NEUTRAL_HIGH_JUMP && (this->_action < ACTION_NEUTRAL_JUMP || !this->getCurrentFrameData()->dFlag.airborne));
+			return this->_action < ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING;
 		if (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
