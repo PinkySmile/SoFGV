@@ -457,14 +457,18 @@ namespace Battle
 			if (myData->dFlag.counterHit && data->oFlag.canCounterHit) {
 				this->_hp -= data->damage * 1.5;
 				this->_blockStun = data->hitStun * 1.5;
-				this->_speed += data->counterHitSpeed;
+				this->_speed.x -= data->counterHitSpeed.x;
+				this->_speed.y += -data->counterHitSpeed.y;
 				this->_speed.x *= -this->_dir;
+				this->_speed.x = min(-data->counterHitSpeed.x * 1.5, max(data->counterHitSpeed.x * 1.5, this->_speed.x));
 				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 			} else {
 				this->_hp -= data->damage;
 				this->_blockStun = data->hitStun;
-				this->_speed += data->hitSpeed;
+				this->_speed.x -= data->hitSpeed.x;
+				this->_speed.y += -data->hitSpeed.y;
 				this->_speed.x *= -this->_dir;
+				this->_speed.x = min(-data->hitSpeed.x * 1.5, max(data->hitSpeed.x * 1.5, this->_speed.x));
 				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 			}
 		} else {
