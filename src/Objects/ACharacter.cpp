@@ -45,7 +45,7 @@ namespace Battle
 
 		this->_input->update();
 		AObject::update();
-		if (this->_isGrounded() && this->_action == ACTION_DOWN_AIR_TECH)
+		if (this->_isGrounded() && this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
 			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
 		if (
 			this->_isGrounded() &&
@@ -240,10 +240,10 @@ namespace Battle
 	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
-			((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
-		        ((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
-		        ((input.d || input.n || input.v || input.m || input.a || input.s) &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH)) ||
-		        ((input.d || input.n || input.v || input.m || input.a || input.s) &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH)) ||
+			((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis > 0 &&                this->_startMove(ACTION_UP_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis < 0 &&                this->_startMove(ACTION_DOWN_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH)) ||
 
 			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
@@ -479,18 +479,16 @@ namespace Battle
 			if (myData->dFlag.counterHit && data->oFlag.canCounterHit) {
 				this->_hp -= data->damage * 1.5;
 				this->_blockStun = data->hitStun * 1.5;
-				this->_speed.x -= data->counterHitSpeed.x;
-				this->_speed.y += -data->counterHitSpeed.y;
-				this->_speed.x *= -this->_dir;
-				this->_speed.x = min(-data->counterHitSpeed.x * 1.5, max(data->counterHitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.x -= data->counterHitSpeed.x * this->_dir;
+				this->_speed.x = max(-data->counterHitSpeed.x * 1.5, min(data->counterHitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.y -= data->counterHitSpeed.y;
 				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 			} else {
 				this->_hp -= data->damage;
 				this->_blockStun = data->hitStun;
-				this->_speed.x -= data->hitSpeed.x;
-				this->_speed.y += -data->hitSpeed.y;
-				this->_speed.x *= -this->_dir;
-				this->_speed.x = min(-data->hitSpeed.x * 1.5, max(data->hitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.x -= data->hitSpeed.x * this->_dir;
+				this->_speed.x = max(-data->hitSpeed.x * 1.5, min(data->hitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.y -= data->hitSpeed.y;
 				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 			}
 		} else {

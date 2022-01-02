@@ -126,6 +126,24 @@ namespace Battle
 			this->size.x = data["size"]["x"];
 			this->size.y = data["size"]["y"];
 		}
+		if (data.contains("gravity")) {
+			if (!data["gravity"].is_object())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["gravity"].contains("x"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["gravity"].contains("y"))
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["gravity"]["x"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			if (!data["gravity"]["y"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->gravity = Vector2f(data["gravity"]["x"], data["gravity"]["y"]);
+		}
 		if (data.contains("texture_bounds")) {
 			if (!data["texture_bounds"].is_object())
 				// TODO: Create proper exceptions
@@ -321,6 +339,12 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->prorate = data["prorate"];
 		}
+		if (data.contains("neutral_limit")) {
+			if (!data["neutral_limit"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->neutralLimit = data["neutral_limit"];
+		}
 		if (data.contains("void_limit")) {
 			if (!data["void_limit"].is_number())
 				// TODO: Create proper exceptions
@@ -495,6 +519,7 @@ namespace Battle
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
 		this->prorate = other.prorate;
+		this->neutralLimit = other.neutralLimit;
 		this->voidLimit = other.voidLimit;
 		this->spiritLimit = other.spiritLimit;
 		this->matterLimit = other.matterLimit;
@@ -508,6 +533,7 @@ namespace Battle
 		this->hitSpeed = other.hitSpeed;
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
+		this->gravity = other.gravity;
 		//TODO: Add ref to sound manager
 		game.textureMgr.addRef(this->textureHandle);
 		return *this;
@@ -533,6 +559,11 @@ namespace Battle
 			result["speed"] = {
 				{"x", this->speed.x},
 				{"y", this->speed.y}
+			};
+		if (this->gravity)
+			result["gravity"] = {
+				{"x", this->gravity->x},
+				{"y", this->gravity->y}
 			};
 		if (this->size != game.textureMgr.getTextureSize(this->textureHandle))
 			result["size"] = {
@@ -568,6 +599,8 @@ namespace Battle
 			result["hit_stun"] = this->hitStun;
 		if (this->prorate != 0)
 			result["prorate"] = this->prorate;
+		if (this->neutralLimit)
+			result["neutral_limit"] = this->neutralLimit;
 		if (this->voidLimit)
 			result["void_limit"] = this->voidLimit;
 		if (this->spiritLimit)

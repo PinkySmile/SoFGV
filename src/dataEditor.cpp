@@ -185,6 +185,10 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto progress = panel->get<tgui::Slider>("Progress");
+	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
+	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
+	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
+	auto gravity = panel->get<tgui::EditBox>("Gravity");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
@@ -232,6 +236,9 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	voidLimit->setText(std::to_string(data.voidLimit));
 	matterLimit->setText(std::to_string(data.matterLimit));
 	prorate->setText(std::to_string(data.prorate));
+	manaGain->setText(std::to_string(data.manaGain));
+	manaCost->setText(std::to_string(data.manaCost));
+	neutralLimit->setText(std::to_string(data.neutralLimit));
 
 	auto newBounds = "(" + std::to_string(data.textureBounds.pos.x) + "," + std::to_string(data.textureBounds.pos.y) + "," + std::to_string(data.textureBounds.size.x) + "," + std::to_string(data.textureBounds.size.y) + ")";
 	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
@@ -239,6 +246,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newSpeed = "(" + std::to_string(data.speed.x) + "," + std::to_string(data.speed.y) + ")";
 	auto newCHitSpeed = "(" + std::to_string(data.counterHitSpeed.x) + "," + std::to_string(data.counterHitSpeed.y) + ")";
 	auto newHitSpeed = "(" + std::to_string(data.hitSpeed.x) + "," + std::to_string(data.hitSpeed.y) + ")";
+	auto newGravity = data.gravity ? "(" + std::to_string(data.gravity->x) + "," + std::to_string(data.gravity->y) + ")" : "";
 
 	counterHitSpeed->setText(newCHitSpeed);
 	hitSpeed->setText(newHitSpeed);
@@ -246,6 +254,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	offset->setText(newOffset);
 	bounds->setText(newBounds);
 	size->setText(newSize);
+	gravity->setText(newGravity);
 	rotation->setValue(data.rotation * 180 / M_PI);
 	collisionBox->setChecked(data.collisionBox != nullptr);
 	selectBox(nullptr, nullptr);
@@ -320,6 +329,8 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
 	auto hitStop = panel->get<tgui::EditBox>("HitStop");
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
+	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
+	auto gravity = panel->get<tgui::EditBox>("Gravity");
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
@@ -369,6 +380,10 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto counterHit = panel->get<tgui::CheckBox>("CounterHit");
 	auto flash = panel->get<tgui::CheckBox>("Flash");
 	auto crouch = panel->get<tgui::CheckBox>("Crouch");
+	auto projInvul = panel->get<tgui::CheckBox>("ProjInvul");
+	auto proj = panel->get<tgui::CheckBox>("Proj");
+	auto lc = panel->get<tgui::CheckBox>("LC");
+	auto dc = panel->get<tgui::CheckBox>("DC");
 
 	boxes->connect("Clicked", []{
 		if (!dragStart && !canDrag)
@@ -536,6 +551,41 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		if (spriteSelected)
 			arrangeButtons(&*object);
 	});
+	gravity->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (t.size() <= 2) {
+			data.gravity.reset();
+			return;
+		}
+		if (t.front() != '(' || t.back() != ')') {
+			data.gravity.reset();
+			return;
+		}
+
+		auto pos = t.find(',');
+
+		if (pos == std::string::npos) {
+			data.gravity.reset();
+			return;
+		}
+
+		auto x = t.substr(1, pos - 1);
+		auto y = t.substr(pos + 1, t.size() - pos - 2);
+
+		try {
+			data.gravity = Battle::Vector2f(
+				std::stof(x),
+				std::stof(y)
+			);
+		} catch (...) {
+			data.gravity.reset();
+			return;
+		}
+	});
 	bounds->connect("TextChanged", [&object](std::string t){
 		if (*c)
 			return;
@@ -683,6 +733,16 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.hitStun = std::stoul(t);
+	});
+	neutralLimit->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.neutralLimit = std::stoul(t);
 	});
 	spiritLimit->connect("TextChanged", [&object](std::string t){
 		if (*c)
@@ -1261,7 +1321,51 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+	projInvul->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.projectileInvul = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	proj->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.projectile = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	lc->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.landCancel = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dc->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.dashCancel = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [projInvul, proj, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
 		if (t.empty())
 			return;
 
@@ -1289,6 +1393,10 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		resetRotation->setChecked(data.dFlag.resetRotation);
 		counterHit->setChecked(data.dFlag.counterHit);
 		flash->setChecked(data.dFlag.flash);
+		projInvul->setChecked(data.dFlag.projectileInvul);
+		proj->setChecked(data.dFlag.projectile);
+		lc->setChecked(data.dFlag.landCancel);
+		dc->setChecked(data.dFlag.dashCancel);
 		if (!g)
 			*c = false;
 	});

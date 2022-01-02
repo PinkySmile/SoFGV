@@ -41,6 +41,10 @@ namespace Battle
 			bool counterHit : 1;
 			bool flash : 1;
 			bool crouch : 1;
+			bool projectileInvul : 1;
+			bool projectile : 1;
+			bool landCancel : 1;
+			bool dashCancel : 1;
 		};
 	};
 
@@ -96,6 +100,7 @@ namespace Battle
 		unsigned blockStun = 0;
 		unsigned hitStun = 0;
 		float prorate = 0;
+		unsigned neutralLimit = 0;
 		unsigned voidLimit = 0;
 		unsigned spiritLimit = 0;
 		unsigned matterLimit = 0;
@@ -109,6 +114,7 @@ namespace Battle
 		Vector2i speed = {0, 0};
 		Vector2i hitSpeed = {0, 0};
 		Vector2i counterHitSpeed = {0, 0};
+		std::optional<Vector2f> gravity;
 
 		FrameData() = default;
 		~FrameData();
