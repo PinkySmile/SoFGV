@@ -8,6 +8,12 @@
 #include "ACharacter.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
+#ifndef max
+#define max(x, y) (x > y ? x : y)
+#endif
+#ifndef min
+#define min(x, y) (x < y ? x : y)
+#endif
 
 #define QUARTER_CIRCLE_BUFFER 10
 #define DP_BUFFER 15
@@ -39,6 +45,8 @@ namespace Battle
 
 		this->_input->update();
 		AObject::update();
+		if (this->_isGrounded() && this->_action == ACTION_DOWN_AIR_TECH)
+			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
 		if (
 			this->_isGrounded() &&
 			this->_action != ACTION_NEUTRAL_JUMP &&
@@ -115,6 +123,14 @@ namespace Battle
 			this->_lastInputs.front().nbFrames = 45;
 		this->_checkSpecialInputs();
 		if (this->_isGrounded()) {
+			if (
+				this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK &&
+				this->_action <= ACTION_GROUND_LOW_VOID_BLOCK &&
+				this->_action != ACTION_GROUND_HIGH_HIT &&
+				input.horizontalAxis * this->_dir < 0
+			)
+				return;
+
 			if (input.n && input.horizontalAxis * this->_dir < 0) {
 				if (this->_startMove(input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK))
 					return;
@@ -141,6 +157,12 @@ namespace Battle
 					return;
 			}
 		} else {
+			if (
+				this->_action >= ACTION_AIR_NEUTRAL_BLOCK &&
+				this->_action <= ACTION_AIR_VOID_BLOCK &&
+				input.horizontalAxis * this->_dir < 0
+			)
+				return;
 			if (input.n && input.horizontalAxis * this->_dir < 0) {
 				if (this->_startMove(ACTION_AIR_NEUTRAL_BLOCK))
 					return;
@@ -218,10 +240,10 @@ namespace Battle
 	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
-		        (input.d &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH)) ||
-		        (input.d &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH)) ||
-		        (input.d && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
-		        (input.d && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
+			((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis > 0 &&                                          this->_startMove(ACTION_UP_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) && input.verticalAxis < 0 &&                                          this->_startMove(ACTION_DOWN_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) &&                           this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH)) ||
+		        ((input.d || input.n || input.v || input.m || input.a || input.s) &&                           this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH)) ||
 
 			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
