@@ -23,10 +23,10 @@
 
 namespace Battle
 {
-	ACharacter::ACharacter(const std::string &frameData, std::shared_ptr<IInput> input) :
+	ACharacter::ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
-		this->_moves = FrameData::loadFile(frameData);
+		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_lastInputs.push_back({0, 0, 0});
 	}
 

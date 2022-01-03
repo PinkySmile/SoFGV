@@ -13,6 +13,7 @@
 #include <nlohmann/json.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include "../Data/Vector.hpp"
+#include "../Data/Color.hpp"
 
 namespace Battle
 {
@@ -82,6 +83,9 @@ namespace Battle
 	};
 
 	class FrameData {
+	private:
+		std::pair<std::vector<Color>, std::vector<Color>> _palette;
+
 	public:
 		std::string spritePath;
 		std::string soundPath;
@@ -120,12 +124,12 @@ namespace Battle
 		FrameData() = default;
 		~FrameData();
 		FrameData(const FrameData &other);
-		FrameData(const nlohmann::json &json);
+		FrameData(const nlohmann::json &json, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		FrameData &operator=(const FrameData &other);
 		void reloadTexture();
 		nlohmann::json toJson() const;
-		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path);
-		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path);
+		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
+		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 	};
 
 	inline void to_json(nlohmann::json &j, const FrameData &data) {

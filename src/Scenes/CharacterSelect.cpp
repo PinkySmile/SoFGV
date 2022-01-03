@@ -33,7 +33,8 @@ namespace Battle
 	void CharacterSelect::render() const
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
-
+		size_t left  = this->_leftPos == -1  ? dist(game.random) : this->_leftPos;
+		size_t right = this->_rightPos == -1 ? dist(game.random) : this->_rightPos;
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
@@ -53,9 +54,17 @@ namespace Battle
 		game.screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
 		game.screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
 
-		auto &leftSprite  = this->_entries[this->_leftPos == -1  ? dist(game.random) : this->_leftPos ].icon;
-		auto &rightSprite = this->_entries[this->_rightPos == -1 ? dist(game.random) : this->_rightPos].icon;
-		auto leftTexture = game.textureMgr.getTextureSize(leftSprite.textureHandle);
+		auto &leftSprites  = this->_entries[left].icon;
+		auto &rightSprites = this->_entries[right].icon;
+		std::uniform_int_distribution<size_t> ldist{0, this->_entries[left].palettes.size() - 1};
+		std::uniform_int_distribution<size_t> rdist{0, this->_entries[right].palettes.size() - 1};
+		int realLPal = this->_leftPos == -1  ? -1 : this->_leftPalette;
+		int realRPal = this->_rightPos == -1 ? -1 : this->_rightPalette;
+		size_t lpal = realLPal == -1 ? ldist(game.random) : this->_leftPalette;
+		size_t rpal = realRPal == -1 ? ldist(game.random) : this->_rightPalette;
+		auto &leftSprite  = leftSprites[lpal];
+		auto &rightSprite = rightSprites[rpal];
+		auto leftTexture  = game.textureMgr.getTextureSize(leftSprite.textureHandle);
 		auto rightTexture = game.textureMgr.getTextureSize(rightSprite.textureHandle);
 
 		leftSprite.setPosition(0, 0);
@@ -95,16 +104,69 @@ namespace Battle
 				this->_rightPos = -1;
 		}
 
+		if (this->_leftPos >= 0) {
+			if (lInputs.verticalAxis == -1) {
+				if (this->_leftPalette == -1)
+					this->_leftPalette = static_cast<int>(this->_entries[this->_leftPos].palettes.size());
+				this->_leftPalette--;
+			} else if (lInputs.verticalAxis == 1) {
+				this->_leftPalette++;
+				if (this->_leftPalette == static_cast<int>(this->_entries[this->_leftPos].palettes.size()))
+					this->_leftPalette = -1;
+			}
+		}
+		if (this->_rightPos >= 0) {
+			if (rInputs.verticalAxis == -1) {
+				if (this->_rightPalette == -1)
+					this->_rightPalette = static_cast<int>(this->_entries[this->_rightPos].palettes.size());
+				this->_rightPalette--;
+			} else if (rInputs.verticalAxis == 1) {
+				this->_rightPalette++;
+				if (this->_rightPalette == static_cast<int>(this->_entries[this->_rightPos].palettes.size()))
+					this->_rightPalette = -1;
+			}
+		}
+
 		if (lInputs.n == 1) {
 			std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 
 			if (this->_leftPos < 0)
+				this->_leftPalette = -1;
+			if (this->_rightPos < 0)
+				this->_rightPalette = -1;
+			if (this->_leftPos < 0)
 				this->_leftPos = dist(game.random);
 			if (this->_rightPos < 0)
 				this->_rightPos = dist(game.random);
+			if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
+				this->_leftPalette = 0;
+				this->_rightPalette = 0;
+			} else if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() == 2 && this->_leftPalette == this->_rightPalette) {
+				this->_leftPalette = 0;
+				this->_rightPalette = 1;
+			} else {
+				if (this->_leftPalette < 0) {
+					std::uniform_int_distribution<size_t> dist2{0, this->_entries[this->_leftPos].palettes.size() - 1};
+
+					this->_leftPalette = dist2(game.random);
+				}
+				if (this->_rightPalette < 0) {
+					std::uniform_int_distribution<size_t> dist2{0, this->_entries[this->_rightPos].palettes.size() - 1};
+
+					this->_rightPalette = dist2(game.random);
+				}
+			}
+			if (this->_leftPos == this->_rightPos && this->_leftPalette == this->_rightPalette && this->_entries[this->_leftPos].palettes.size() > 1) {
+				this->_rightPalette++;
+				this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
+			}
+
+			auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
+			auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
+
 			return new InGame(
-				this->_createCharacter(this->_leftPos, this->_leftInput),
-				this->_createCharacter(this->_rightPos, this->_rightInput),
+				lchr,
+				rchr,
 				this->_entries[this->_leftPos].entry,
 				this->_entries[this->_rightPos].entry
 			);
@@ -118,14 +180,20 @@ namespace Battle
 		this->_rightInput->consumeEvent(event);
 	}
 
-	ACharacter *CharacterSelect::_createCharacter(int pos, std::shared_ptr<IInput> input)
+	ACharacter *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
 	{
 		auto &entry = this->_entries[pos];
+		std::pair<std::vector<Color>, std::vector<Color>> palettes;
 
+		if (!entry.palettes.empty() && palette) {
+			palettes.first = entry.palettes.front();
+			palettes.second = entry.palettes[palette];
+		}
 		switch (entry._class) {
 		default:
 			return new ACharacter{
 				entry.framedataPath,
+				palettes,
 				std::move(input)
 			};
 		}
@@ -135,34 +203,60 @@ namespace Battle
 		entry(json)
 	{
 		if (!json.contains("pos"))
-			throw std::invalid_argument("pos");
+			throw std::invalid_argument("pos is missing");
 		if (!json.contains("class"))
-			throw std::invalid_argument("class");
+			throw std::invalid_argument("class is missing");
 		if (!json.contains("name"))
-			throw std::invalid_argument("name");
+			throw std::invalid_argument("name is missing");
 		if (!json.contains("framedata"))
-			throw std::invalid_argument("framedata");
+			throw std::invalid_argument("framedata is missing");
 		if (!json.contains("framedata_char_select"))
-			throw std::invalid_argument("framedata_char_select");
+			throw std::invalid_argument("framedata_char_select is missing");
 		if (!json.contains("hp"))
-			throw std::invalid_argument("hp");
+			throw std::invalid_argument("hp is missing");
 		if (!json.contains("gravity"))
-			throw std::invalid_argument("gravity");
+			throw std::invalid_argument("gravity is missing");
 		if (!json["gravity"].contains("x"))
-			throw std::invalid_argument("gravity.x");
+			throw std::invalid_argument("gravity.x is missing");
 		if (!json["gravity"].contains("y"))
-			throw std::invalid_argument("gravity.y");
+			throw std::invalid_argument("gravity.y is missing");
 		if (!json.contains("jump_count"))
-			throw std::invalid_argument("jump_count");
+			throw std::invalid_argument("jump_count is missing");
 		if (!json.contains("icon"))
-			throw std::invalid_argument("icon");
+			throw std::invalid_argument("icon is missing");
+		if (!json.contains("palettes"))
+			throw std::invalid_argument("palettes is missing");
+
+		for (auto &j : json["palettes"]) {
+			this->palettes.emplace_back();
+			for (auto &c : j) {
+				if (!c.contains("r"))
+					throw std::invalid_argument("c.r is missing");
+				if (!c.contains("g"))
+					throw std::invalid_argument("c.g is missing");
+				if (!c.contains("b"))
+					throw std::invalid_argument("c.b is missing");
+				this->palettes.back().push_back(Color{{
+					c["r"],
+					c["g"],
+					c["b"],
+					255
+				}});
+			}
+			assert(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
+		}
 
 		this->pos = json["pos"];
 		this->_class = json["class"];
 		this->name = json["name"];
 		this->framedataPath = json["framedata"];
 		this->data = FrameData::loadFile(json["framedata_char_select"]);
-		this->icon.textureHandle = game.textureMgr.load(json["icon"]);
+		if (this->palettes.empty())
+			this->icon.emplace_back(), this->icon.back().textureHandle = game.textureMgr.load(json["icon"]);
+		else {
+			for (auto &palette : this->palettes)
+				this->icon.emplace_back(), this->icon.back().textureHandle = game.textureMgr.load(json["icon"], {this->palettes[0], palette});
+		}
 	}
 
 	CharacterSelect::CharacterEntry::CharacterEntry(const CharacterSelect::CharacterEntry &entry) :
@@ -174,11 +268,13 @@ namespace Battle
 		icon(entry.icon),
 		data(entry.data)
 	{
-		game.textureMgr.addRef(this->icon.textureHandle);
+		for (auto &_icon : this->icon)
+			game.textureMgr.addRef(_icon.textureHandle);
 	}
 
 	CharacterSelect::CharacterEntry::~CharacterEntry()
 	{
-		game.textureMgr.remove(this->icon.textureHandle);
+		for (auto &_icon : this->icon)
+			game.textureMgr.remove(_icon.textureHandle);
 	}
 }

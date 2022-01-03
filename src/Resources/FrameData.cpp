@@ -9,7 +9,7 @@
 
 namespace Battle
 {
-	std::map<unsigned int, std::vector<std::vector<FrameData>>> Battle::FrameData::loadFile(const std::string &path)
+	std::map<unsigned int, std::vector<std::vector<FrameData>>> Battle::FrameData::loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		std::ifstream stream{path};
 		nlohmann::json json;
@@ -19,13 +19,14 @@ namespace Battle
 			// TODO: Create proper exceptions
 			throw std::invalid_argument(path + ": " + strerror(errno));
 		stream >> json;
-		return loadFileJson(json);
+		return loadFileJson(json, palette);
 	}
 
-	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json)
+	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
+		logger.debug("Loading json");
 		if (!json.is_array())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument("Invalid json");
@@ -61,13 +62,13 @@ namespace Battle
 					throw std::invalid_argument("Invalid json");
 				data[actionId].emplace_back();
 				for (auto &frame : block)
-					data[actionId].back().emplace_back(frame);
+					data[actionId].back().emplace_back(frame, palette);
 			}
 		}
 		return data;
 	}
 
-	FrameData::FrameData(const nlohmann::json &data)
+	FrameData::FrameData(const nlohmann::json &data, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		if (!data.is_object())
 			// TODO: Create proper exceptions
@@ -471,7 +472,8 @@ namespace Battle
 
 		Vector2u textureSize;
 
-		this->textureHandle = game.textureMgr.load(this->spritePath, &textureSize);
+		this->_palette = palette;
+		this->textureHandle = game.textureMgr.load(this->spritePath, palette, &textureSize);
 		if (!this->textureBounds.size.x)
 			this->textureBounds.size.x = textureSize.x;
 		if (!this->textureBounds.size.y)
@@ -485,6 +487,7 @@ namespace Battle
 	FrameData::~FrameData()
 	{
 		game.textureMgr.remove(this->textureHandle);
+		this->textureHandle = 0;
 		delete this->collisionBox;
 	}
 
@@ -495,6 +498,7 @@ namespace Battle
 
 	FrameData &FrameData::operator=(const FrameData &other)
 	{
+		this->_palette = other._palette;
 		this->spritePath = other.spritePath;
 		this->textureHandle = other.textureHandle;
 		this->soundPath = other.soundPath;
@@ -542,7 +546,7 @@ namespace Battle
 	void FrameData::reloadTexture()
 	{
 		game.textureMgr.remove(this->textureHandle);
-		this->textureHandle = game.textureMgr.load(this->spritePath);
+		this->textureHandle = game.textureMgr.load(this->spritePath, this->_palette);
 	}
 
 	nlohmann::json FrameData::toJson() const

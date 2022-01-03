@@ -7,7 +7,16 @@
         "icon": "assets/characters/test/icon.png",
         "framedata": "assets/characters/test/framedata.json",
         "framedata_char_select": "assets/characters/test/charSelect.json",
-        "palettes": "assets/characters/test/palettes.json",
+        "palettes": [
+            [{"r":   0, "g":   0, "b":   0}],
+            [{"r": 255, "g":   0, "b":   0}],
+            [{"r":   0, "g": 255, "b":   0}],
+            [{"r":   0, "g":   0, "b": 255}],
+            [{"r": 255, "g": 255, "b":   0}],
+            [{"r":   0, "g": 255, "b": 255}],
+            [{"r": 255, "g":   0, "b": 255}],
+            [{"r": 120, "g": 120, "b": 120}]
+        ],
         "name": "Test",
         "pos": 0
     }
