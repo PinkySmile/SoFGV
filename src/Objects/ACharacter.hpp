@@ -68,6 +68,10 @@ namespace Battle
 		/* 52  */ ACTION_GROUND_SLAM,
 		/* 53  */ ACTION_WALL_SLAM,
 		/* 54  */ ACTION_HARD_LAND,
+		/* 55  */ ACTION_NEUTRAL_AIR_JUMP,
+		/* 56  */ ACTION_FORWARD_AIR_JUMP,
+		/* 57  */ ACTION_BACKWARD_AIR_JUMP,
+
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
