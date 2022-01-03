@@ -57,6 +57,9 @@ namespace Battle
 			this->_action != ACTION_NEUTRAL_JUMP &&
 			this->_action != ACTION_FORWARD_JUMP &&
 			this->_action != ACTION_BACKWARD_JUMP &&
+			this->_action != ACTION_NEUTRAL_AIR_JUMP &&
+			this->_action != ACTION_FORWARD_AIR_JUMP &&
+			this->_action != ACTION_BACKWARD_AIR_JUMP &&
 			this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
 			this->_action != ACTION_FORWARD_HIGH_JUMP &&
 			this->_action != ACTION_BACKWARD_HIGH_JUMP
@@ -296,7 +299,7 @@ namespace Battle
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
 			return this->_action < ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING;
-		if (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
+		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
@@ -361,6 +364,8 @@ namespace Battle
 		)
 			return this->_forceStartMove(this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
+			return this->_forceStartMove(ACTION_FALLING);
+		if (this->_action == ACTION_NEUTRAL_AIR_JUMP || this->_action == ACTION_FORWARD_AIR_JUMP || this->_action == ACTION_BACKWARD_AIR_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
 		if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
 			return this->_forceStartMove(ACTION_FALLING);
@@ -438,14 +443,28 @@ namespace Battle
 
 	void ACharacter::_forceStartMove(unsigned int action)
 	{
-		if (action == ACTION_NEUTRAL_JUMP || action == ACTION_FORWARD_JUMP || action == ACTION_BACKWARD_JUMP) {
+		if (
+			action == ACTION_NEUTRAL_JUMP ||
+			action == ACTION_FORWARD_JUMP ||
+			action == ACTION_BACKWARD_JUMP ||
+			action == ACTION_NEUTRAL_AIR_JUMP ||
+			action == ACTION_FORWARD_AIR_JUMP ||
+			action == ACTION_BACKWARD_AIR_JUMP
+		) {
 			this->_jumpsUsed++;
 			this->_hasJumped = true;
 		} else if (action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP) {
 			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
 		} else if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9) {
-			if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP) {
+			if (
+				this->_action == ACTION_NEUTRAL_JUMP ||
+				this->_action == ACTION_FORWARD_JUMP ||
+				this->_action == ACTION_BACKWARD_JUMP ||
+				this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+				this->_action == ACTION_FORWARD_AIR_JUMP ||
+				this->_action == ACTION_BACKWARD_AIR_JUMP
+			) {
 				this->_jumpsUsed--;
 				this->_hasJumped = false;
 			}
@@ -467,9 +486,9 @@ namespace Battle
 			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
-		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
+		if (currentData->oFlag.jumpCancelable && (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) && (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
 			return true;
-		if (action < 100)
+		if (action < 100 || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
 			return false;
 		if (!currentData->oFlag.cancelable)
 			return false;
@@ -1060,11 +1079,13 @@ namespace Battle
 
 	bool ACharacter::_executeAirJump(const InputStruct &input)
 	{
+		if (this->_hasJumped)
+			return false;
 		if (input.verticalAxis <= 0)
 			return false;
-		if (input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_JUMP))
+		if (input.horizontalAxis * this->_dir > 0 && this->_startMove(ACTION_FORWARD_AIR_JUMP))
 			return true;
-		if (input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_JUMP))
+		if (input.horizontalAxis * this->_dir < 0 && this->_startMove(ACTION_BACKWARD_AIR_JUMP))
 			return true;
 		return this->_startMove(ACTION_NEUTRAL_AIR_JUMP);
 	}
@@ -1123,8 +1144,6 @@ namespace Battle
 
 	bool ACharacter::_executeGroundJump(const InputStruct &input)
 	{
-		if (this->_hasJumped)
-			return false;
 		if (this->_specialInputs._29 && this->_startMove(ACTION_FORWARD_HIGH_JUMP))
 			return true;
 		if (this->_specialInputs._27 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP))
