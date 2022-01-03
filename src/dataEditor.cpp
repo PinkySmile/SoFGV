@@ -1656,7 +1656,9 @@ void	removeAnimationBlockCallback(std::unique_ptr<Battle::EditableObject> &objec
 		arr.back().emplace_back();
 		return;
 	}
-	arr.erase(arr.begin() + object->_animation);
+	arr.erase(arr.begin() + object->_actionBlock);
+	if (object->_actionBlock == arr.size())
+		object->_actionBlock--;
 }
 
 void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
