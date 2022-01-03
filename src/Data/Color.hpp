@@ -8,11 +8,24 @@
 
 namespace Battle
 {
-	struct Color {
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
-		unsigned char a;
+	union Color {
+		struct {
+			unsigned char r;
+			unsigned char g;
+			unsigned char b;
+			unsigned char a;
+		};
+		unsigned value;
+
+		bool operator==(const Color &other) const
+		{
+			return this->value == other.value;
+		}
+
+		bool operator!=(const Color &other) const
+		{
+			return !(*this == other);
+		}
 	};
 }
 

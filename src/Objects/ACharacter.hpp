@@ -9,6 +9,7 @@
 #include <list>
 #include "AObject.hpp"
 #include "../Inputs/IInput.hpp"
+#include "../Data/Color.hpp"
 
 namespace Battle
 {
@@ -288,7 +289,7 @@ namespace Battle
 		bool _check63146974Input();
 
 	public:
-		ACharacter(const std::string &frameData, std::shared_ptr<IInput> input);
+		ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
 		void hit(IObject &other, const FrameData *data) override;
