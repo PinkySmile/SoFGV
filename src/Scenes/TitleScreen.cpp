@@ -163,29 +163,29 @@ namespace Battle
 		switch (this->_selectedEntry) {
 		case 0:
 			this->_nextScene = new CharacterSelect(
-				std::make_shared<KeyboardInput>(std::map<sf::Keyboard::Key, InputEnum>{
-					{ sf::Keyboard::Left,  INPUT_LEFT },
-					{ sf::Keyboard::Right, INPUT_RIGHT },
-					{ sf::Keyboard::Up,    INPUT_UP },
-					{ sf::Keyboard::Down,  INPUT_DOWN },
-					{ sf::Keyboard::W,     INPUT_NEUTRAL },
-					{ sf::Keyboard::Q,     INPUT_MATTER },
-					{ sf::Keyboard::S,     INPUT_SPIRIT },
-					{ sf::Keyboard::D,     INPUT_VOID },
-					{ sf::Keyboard::X,     INPUT_ASCEND },
-					{ sf::Keyboard::LShift,INPUT_DASH }
-				}),
 				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
-					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
-					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::X, 30) },
-					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::Y, -30) },
-					{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::Y, 30) },
+					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::PovX, -30) },
+					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::PovX, 30) },
+					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::PovY, 30) },
+					{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::PovY, -30) },
 					{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
 					{ INPUT_MATTER,  new ControllerButton(0, 2) },
 					{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
 					{ INPUT_VOID,    new ControllerButton(0, 3) },
 					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
 					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
+				}),
+				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
+					{ INPUT_LEFT,    new ControllerAxis(1, sf::Joystick::Axis::X, -30) },
+					{ INPUT_RIGHT,   new ControllerAxis(1, sf::Joystick::Axis::X, 30) },
+					{ INPUT_UP,      new ControllerAxis(1, sf::Joystick::Axis::Y, -30) },
+					{ INPUT_DOWN,    new ControllerAxis(1, sf::Joystick::Axis::Y, 30) },
+					{ INPUT_NEUTRAL, new ControllerButton(1, 2) },
+					{ INPUT_MATTER,  new ControllerButton(1, 3) },
+					{ INPUT_SPIRIT,  new ControllerAxis(1, sf::Joystick::Z, 30) },
+					{ INPUT_VOID,    new ControllerAxis(1, sf::Joystick::Z, -30) },
+					{ INPUT_ASCEND,  new ControllerButton(1, 0) },
+					{ INPUT_DASH,    new ControllerButton(1, 1) }
 				})
 			);
 			break;

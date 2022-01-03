@@ -103,6 +103,9 @@ namespace Battle
 		/* 125 */ ACTION_t6N,
 		/* 126 */ ACTION_t8N,
 		/* 127 */ ACTION_t2N,
+		/* 128 */ ACTION_c28N,
+		/* 129 */ ACTION_c46N,
+		/* 130 */ ACTION_c64N,
 
 		/* 150 */ ACTION_5M = 150,
 		/* 151 */ ACTION_6M,
@@ -133,6 +136,9 @@ namespace Battle
 		/* 175 */ ACTION_t6M,
 		/* 176 */ ACTION_t8M,
 		/* 177 */ ACTION_t2M,
+		/* 178 */ ACTION_c28M,
+		/* 179 */ ACTION_c46M,
+		/* 180 */ ACTION_c64M,
 
 		/* 200 */ ACTION_5S = 200,
 		/* 201 */ ACTION_6S,
@@ -163,6 +169,9 @@ namespace Battle
 		/* 225 */ ACTION_t6S,
 		/* 226 */ ACTION_t8S,
 		/* 227 */ ACTION_t2S,
+		/* 228 */ ACTION_c28S,
+		/* 229 */ ACTION_c46S,
+		/* 230 */ ACTION_c64S,
 
 		/* 250 */ ACTION_5V = 250,
 		/* 251 */ ACTION_6V,
@@ -193,6 +202,9 @@ namespace Battle
 		/* 275 */ ACTION_t6V,
 		/* 276 */ ACTION_t8V,
 		/* 277 */ ACTION_t2V,
+		/* 278 */ ACTION_c28V,
+		/* 279 */ ACTION_c46V,
+		/* 280 */ ACTION_c64V,
 
 		/* 300 */ ACTION_5A = 300,
 		/* 301 */ ACTION_6A,
@@ -222,6 +234,9 @@ namespace Battle
 		/* 325 */ ACTION_t6A,
 		/* 326 */ ACTION_t8A,
 		/* 327 */ ACTION_t2A,
+		/* 328 */ ACTION_c28A,
+		/* 329 */ ACTION_c46A,
+		/* 330 */ ACTION_c64A,
 	};
 
 	class ACharacter : public AObject {
@@ -243,6 +258,14 @@ namespace Battle
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
+				bool _44: 1;
+				bool _66: 1;
+				bool _27: 1;
+				bool _28: 1;
+				bool _29: 1;
+				bool _c28: 1;
+				bool _c46: 1;
+				bool _c64: 1;
 				bool _236: 1;
 				bool _214: 1;
 				bool _623: 1;
@@ -261,6 +284,15 @@ namespace Battle
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
 
+		bool _executeAirDashes(const InputStruct &input);
+		bool _executeAirBlock(const InputStruct &input);
+		bool _executeAirJump(const InputStruct &input);
+		bool _executeGroundDashes(const InputStruct &input);
+		bool _executeGroundBlock(const InputStruct &input);
+		bool _executeGroundJump(const InputStruct &input);
+		bool _executeCrouch(const InputStruct &input);
+		bool _executeWalking(const InputStruct &input);
+		bool _executeAirTech(const InputStruct &input);
 		void _processInput(const InputStruct &input);
 		bool _executeAirborneMoves(const InputStruct &input);
 		bool _executeGroundMoves(const InputStruct &input);
@@ -279,6 +311,9 @@ namespace Battle
 		bool _check27Input();
 		bool _check28Input();
 		bool _check29Input();
+		bool _checkc28Input();
+		bool _checkc46Input();
+		bool _checkc64Input();
 		bool _check236Input();
 		bool _check214Input();
 		bool _check623Input();
