@@ -393,14 +393,8 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		if (t.empty())
 			return;
 		auto newAction = std::stoul(t);
-		if (object->_moves[newAction].empty()) {
-			object->_moves[newAction].emplace_back();
-			try {
-				object->_moves[newAction][0].push_back(object->_moves.at(object->_action).at(object->_actionBlock).at(object->_animation));
-			} catch (...) {
-				object->_moves[newAction][0].emplace_back();
-			}
-		}
+		if (object->_moves[newAction].empty())
+			object->_moves[newAction] = object->_moves[object->_action];
 		object->_action = newAction;
 		block->setMaximum(object->_moves[object->_action].size() - 1);
 		block->setMinimum(0);
