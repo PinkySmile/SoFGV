@@ -50,6 +50,28 @@ namespace Battle
 
 			return u >= 0 && u <= 1 && t >= 0 && t <= 1;
 		}
+
+		bool isIn(const Rectangle &other)
+		{
+			Vector2f maxPt1{
+				std::max(this->pt1.x, std::max(this->pt2.x, std::max(this->pt3.x, this->pt4.x))),
+				std::max(this->pt1.y, std::max(this->pt2.y, std::max(this->pt3.y, this->pt4.y)))
+			};
+			Vector2f maxPt2{
+				std::max(other.pt1.x, std::max(other.pt2.x, std::max(other.pt3.x, other.pt4.x))),
+				std::max(other.pt1.y, std::max(other.pt2.y, std::max(other.pt3.y, other.pt4.y)))
+			};
+			Vector2f minPt1{
+				std::min(this->pt1.x, std::min(this->pt2.x, std::min(this->pt3.x, this->pt4.x))),
+				std::min(this->pt1.y, std::min(this->pt2.y, std::min(this->pt3.y, this->pt4.y)))
+			};
+			Vector2f minPt2{
+				std::min(other.pt1.x, std::min(other.pt2.x, std::min(other.pt3.x, other.pt4.x))),
+				std::min(other.pt1.y, std::min(other.pt2.y, std::min(other.pt3.y, other.pt4.y)))
+			};
+
+			return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
+		}
 	};
 
 	void AObject::render() const
@@ -144,6 +166,7 @@ namespace Battle
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 			this->_hasHit &= !data->oFlag.resetHits;
 		}
 		if (data->oFlag.resetSpeed)
@@ -254,7 +277,7 @@ namespace Battle
 				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
 				__hitBox.pt3 = (_hitBox.pos + _hitBox.size).rotation(this->_rotation, mCenter)                                    + Vector2f{this->_position.x, -this->_position.y};
 				__hitBox.pt4 = (_hitBox.pos + Vector2f{static_cast<float>(_hitBox.size.x), 0}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
-				if (__hurtBox.intersect(__hitBox))
+				if (__hurtBox.intersect(__hitBox) || __hurtBox.isIn(__hitBox) || __hitBox.isIn(__hurtBox))
 					return true;
 			}
 		}
@@ -343,14 +366,13 @@ namespace Battle
 
 	void AObject::collide(IObject &other)
 	{
-		if (this->_speed.x == 0)
-			return;
-
 		auto myData = this->getCurrentFrameData();
 		auto data = other.getCurrentFrameData();
 		auto asAObject = dynamic_cast<AObject *>(&other);
 
 		if (!asAObject)
+			return;
+		if (this->_speed.x == 0 && asAObject->_speed.x == 0)
 			return;
 
 		auto myBox = this->_applyModifiers(*myData->collisionBox);
