@@ -41,36 +41,43 @@ namespace Battle
 			return;
 		}
 
-		this->_leftCharacter->update();
-		this->_rightCharacter->update();
-		for (auto &object : this->_objects)
-			object->update();
+		auto ldata = this->_leftCharacter->getCurrentFrameData();
+		auto rdata = this->_rightCharacter->getCurrentFrameData();
 
-		if (this->_leftCharacter->hits(*this->_rightCharacter))
-			collisions.emplace_back(&*this->_leftCharacter, &*this->_rightCharacter, this->_leftCharacter->getCurrentFrameData());
-		if (this->_rightCharacter->hits(*this->_leftCharacter))
-			collisions.emplace_back(&*this->_rightCharacter, &*this->_leftCharacter, this->_rightCharacter->getCurrentFrameData());
+		if (!rdata->dFlag.flash || ldata->dFlag.flash)
+			this->_leftCharacter->update();
+		if (!ldata->dFlag.flash)
+			this->_rightCharacter->update();
 
-		for (auto &object : this->_objects) {
-			if (this->_leftCharacter->hits(*object))
-				collisions.emplace_back(&*this->_leftCharacter, &*object, this->_leftCharacter->getCurrentFrameData());
-			if (object->hits(*this->_leftCharacter))
-				collisions.emplace_back(&*object, &*this->_leftCharacter, object->getCurrentFrameData());
+		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
+			for (auto &object : this->_objects)
+				object->update();
+			if (this->_leftCharacter->hits(*this->_rightCharacter))
+				collisions.emplace_back(&*this->_leftCharacter, &*this->_rightCharacter, this->_leftCharacter->getCurrentFrameData());
+			if (this->_rightCharacter->hits(*this->_leftCharacter))
+				collisions.emplace_back(&*this->_rightCharacter, &*this->_leftCharacter, this->_rightCharacter->getCurrentFrameData());
 
-			if (this->_rightCharacter->hits(*object))
-				collisions.emplace_back(&*this->_rightCharacter, &*object, this->_rightCharacter->getCurrentFrameData());
-			if (object->hits(*this->_rightCharacter))
-				collisions.emplace_back(&*object, &*this->_rightCharacter, object->getCurrentFrameData());
+				for (auto &object : this->_objects) {
+					if (this->_leftCharacter->hits(*object))
+						collisions.emplace_back(&*this->_leftCharacter, &*object, this->_leftCharacter->getCurrentFrameData());
+					if (object->hits(*this->_leftCharacter))
+						collisions.emplace_back(&*object, &*this->_leftCharacter, object->getCurrentFrameData());
 
-			for (auto &object2 : this->_objects)
-				if (object2 != object)
-					if (object->hits(*object2))
-						collisions.emplace_back(&*object, &*object2, object->getCurrentFrameData());
-		}
+					if (this->_rightCharacter->hits(*object))
+						collisions.emplace_back(&*this->_rightCharacter, &*object, this->_rightCharacter->getCurrentFrameData());
+					if (object->hits(*this->_rightCharacter))
+						collisions.emplace_back(&*object, &*this->_rightCharacter, object->getCurrentFrameData());
 
-		for (auto &[attacker, defender, data] : collisions) {
-			attacker->hit(*defender, data);
-			defender->getHit(*attacker, data);
+					for (auto &object2 : this->_objects)
+						if (object2 != object)
+							if (object->hits(*object2))
+								collisions.emplace_back(&*object, &*object2, object->getCurrentFrameData());
+				}
+
+			for (auto &[attacker, defender, data] : collisions) {
+				attacker->hit(*defender, data);
+				defender->getHit(*attacker, data);
+			}
 		}
 
 		if (this->_leftCharacter->isDead())

@@ -512,10 +512,10 @@ namespace Battle
 		} catch (...) {
 			return -1;
 		}
-		if (data->oFlag.super)
-			return 6;
 		if (data->oFlag.ultimate)
 			return 7;
+		if (data->oFlag.super)
+			return 6;
 		switch ((action % 50) + 100) {
 		case ACTION_5N:
 		case ACTION_2N:
