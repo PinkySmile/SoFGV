@@ -76,7 +76,7 @@ namespace Battle
 			this->_blockStun--;
 			if (this->_blockStun == 0) {
 				if (this->_isGrounded())
-					this->_forceStartMove(ACTION_IDLE);
+					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 				else if (this->_action != ACTION_AIR_HIT || this->_restand)
 					this->_forceStartMove(ACTION_FALLING);
 			}
@@ -309,11 +309,7 @@ namespace Battle
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
-		if (this->_action == ACTION_BACKWARD_DASH)
-			return false;
-		if (this->_action == ACTION_FORWARD_DASH)
-			return false;
-		if (this->_action <= ACTION_LANDING)
+		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
 		return false;
 	}
@@ -486,9 +482,9 @@ namespace Battle
 			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
-		if (currentData->oFlag.jumpCancelable && (action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) && (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
+		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
 			return true;
-		if (action < 100 || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
+		if (action < 100)
 			return false;
 		if (!currentData->oFlag.cancelable)
 			return false;
@@ -533,6 +529,9 @@ namespace Battle
 		case ACTION_j3N:
 		case ACTION_j2N:
 			return 2 + isTyped;
+		case ACTION_c28N:
+		case ACTION_c46N:
+		case ACTION_c64N:
 		case ACTION_214N:
 		case ACTION_236N:
 		case ACTION_421N:

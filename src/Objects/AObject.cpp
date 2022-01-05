@@ -166,6 +166,7 @@ namespace Battle
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 			this->_hasHit &= !data->oFlag.resetHits;
 		}
 		if (data->oFlag.resetSpeed)
