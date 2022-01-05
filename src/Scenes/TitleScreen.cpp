@@ -24,7 +24,7 @@ namespace Battle
 	TitleScreen::TitleScreen()
 	{
 		logger.info("Title scene created");
-		this->_font.loadFromFile("assets/fonts/comicsansms.ttf");
+		this->_font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
 	}
 
 	void TitleScreen::render() const

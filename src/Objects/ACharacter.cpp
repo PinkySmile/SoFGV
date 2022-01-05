@@ -15,6 +15,8 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define WALL_SLAM_THRESHOLD 15
+#define GROUND_SLAM_THRESHOLD 15
 #define HJ_BUFFER 5
 #define DASH_BUFFER 7
 #define QUARTER_CIRCLE_BUFFER 10
@@ -31,6 +33,14 @@ namespace Battle
 	ACharacter::ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
+#ifdef _DEBUG
+		this->_font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
+		this->_text.setFont(this->_font);
+		this->_text.setFillColor(sf::Color::White);
+		this->_text.setOutlineColor(sf::Color::Black);
+		this->_text.setOutlineThickness(2);
+		this->_text.setCharacterSize(10);
+#endif
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_lastInputs.push_back({0, 0, 0});
 	}
@@ -38,18 +48,15 @@ namespace Battle
 	void ACharacter::render() const
 	{
 		AObject::render();
+#ifdef _DEBUG
+		game.screen->draw(this->_text);
+#endif
 	}
 
 	void ACharacter::update()
 	{
-		if (this->_action < ACTION_LANDING && this->_opponent) {
-			if (this->_opponent->_position.x - this->_position.x != 0)
-				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
-			this->_direction = this->_dir == 1;
-		}
-
 		this->_input->update();
-		AObject::update();
+		this->_tickMove();
 		if (this->_isGrounded() && this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
 			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
 		if (
@@ -66,11 +73,10 @@ namespace Battle
 		)
 			this->_jumpsUsed = 0;
 		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9 && this->_isGrounded())
-			return this->_forceStartMove(ACTION_HARD_LAND);
-		if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
+			this->_forceStartMove(ACTION_HARD_LAND);
+		else if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
 			this->_blockStun = 0;
 			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
-			return;
 		}
 		if (this->_blockStun) {
 			this->_blockStun--;
@@ -80,17 +86,138 @@ namespace Battle
 				else if (this->_action != ACTION_AIR_HIT || this->_restand)
 					this->_forceStartMove(ACTION_FALLING);
 			}
-		} else
+		}
+		if (!this->_blockStun)
 			this->_processInput(this->_input->getInputs());
 
-		if (this->_position.x < 0)
+		this->_applyMoveAttributes();
+		if (this->_position.x < 0) {
 			this->_position.x = 0;
-		if (this->_position.y < 0)
-			this->_position.y = 0;
-		if (this->_position.x > 1000)
+			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && this->_action == ACTION_AIR_HIT) {
+				this->_speed.x *= -0.8;
+				this->_speed.y = 2;
+				this->_forceStartMove(ACTION_WALL_SLAM);
+			} else
+				this->_speed.x = 0;
+		} else if (this->_position.x > 1000) {
 			this->_position.x = 1000;
-		if (this->_position.y > 1000)
+			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
+				this->_speed.x *= -0.8;
+				this->_speed.y = 4;
+				this->_forceStartMove(ACTION_WALL_SLAM);
+			} else
+				this->_speed.x = 0;
+		}
+		if (this->_position.y < 0) {
+			this->_position.y = 0;
+
+			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (this->_action == ACTION_AIR_HIT)) {
+				this->_speed.x *= 0.8;
+				this->_speed.y *= -0.8;
+				this->_forceStartMove(ACTION_GROUND_SLAM);
+			} else
+				this->_speed.y = 0;
+		} else if (this->_position.y > 1000) {
 			this->_position.y = 1000;
+
+			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
+				this->_speed.x *= 0.8;
+				this->_speed.y *= -0.8;
+				this->_forceStartMove(ACTION_GROUND_SLAM);
+			} else
+				this->_speed.y = 0;
+		}
+
+		if (this->_action < ACTION_LANDING && this->_opponent) {
+			if (this->_opponent->_position.x - this->_position.x != 0)
+				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			this->_direction = this->_dir == 1;
+		}
+#ifdef _DEBUG
+		char buffer[4096] =
+			"position.x: 0.00000000\n"
+			"position.y: 0.00000000\n"
+			"speed.x: 0.00000000\n"
+			"speed.y: 0.00000000\n"
+			"gravity.x: 0.00000000\n"
+			"gravity.y: 0.00000000\n"
+			"blockStun: 3000\n"
+			"jumpUsed: 0/0\n"
+			"aitDashUsed: 0/0\n"
+			"jumped: false\n"
+			"restand: false\n"
+			"action: 1000\n"
+			"actionBlock: 10\n"
+			"animation: 10\n"
+			"animationCtr: 10\n"
+			"hp: 100000/100000\n"
+			"rotation: 0.00000000\n"
+			"hasHit: false\n"
+			"direction: false\n"
+			"dir: 0.00000000\n"
+			"baseGravity.x: 0.00000000\n"
+			"baseGravity.y: 0.00000000";
+
+		sprintf(
+			buffer,
+			"PositionX: %f\n"
+			"PositionY: %f\n"
+			"SpeedX: %f\n"
+			"SpeedY: %f\n"
+			"GravityX: %f\n"
+			"GravityY: %f\n"
+			"BlockStun: %i\n"
+			"JumpUsed: %i/%i\n"
+			"AirDashUsed: %i/%i\n"
+			"Jumped: %s\n"
+			"Restand: %s\n"
+			"Action: %i\n"
+			"ActionBlock: %i/%llu\n"
+			"Animation: %i/%llu\n"
+			"AnimationCtr: %i/%i\n"
+			"Hp: %i/%i\n"
+			"Rotation: %f\n"
+			"HasHit: %s\n"
+			"Direction: %s\n"
+			"Dir: %f\n"
+			"BaseGravityX: %f\n"
+			"BaseGravityY: %f",
+			this->_position.x,
+			this->_position.y,
+			this->_speed.x,
+			this->_speed.y,
+			this->_gravity.x,
+			this->_gravity.y,
+			this->_blockStun,
+			this->_jumpsUsed,
+			this->_maxJumps,
+			this->_airDashesUsed,
+			this->_maxAirDashes,
+			this->_hasJumped ? "true" : "false",
+			this->_restand ? "true" : "false",
+			this->_action,
+			this->_actionBlock,
+			this->_moves.at(this->_action).size(),
+			this->_animation,
+			this->_moves.at(this->_action)[this->_actionBlock].size(),
+			this->_animationCtr,
+			this->_moves.at(this->_action)[this->_actionBlock][this->_animation].duration,
+			this->_hp,
+			this->_baseHp,
+			this->_rotation,
+			this->_hasHit ? "true" : "false",
+			this->_direction ? "right" : "left",
+			this->_dir,
+			this->_baseGravity.x,
+			this->_baseGravity.y
+		);
+		this->_text.setString(buffer);
+		this->_text.setPosition({static_cast<float>(!this->_team * 850), -450});
+#endif
 	}
 
 	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity)

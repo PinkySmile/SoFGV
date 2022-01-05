@@ -49,6 +49,8 @@ namespace Battle
 		virtual void _applyNewAnimFlags();
 		virtual bool _isGrounded() const;
 		Box _applyModifiers(Box box) const;
+		void _tickMove();
+		void _applyMoveAttributes();
 
 	public:
 		#ifdef _DEBUG

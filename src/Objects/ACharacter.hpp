@@ -264,6 +264,10 @@ namespace Battle
 			int v : 2;
 		};
 
+#ifdef _DEBUG
+		sf::Font _font;
+		sf::Text _text;
+#endif
 		ACharacter *_opponent;
 		std::shared_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;

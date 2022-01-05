@@ -156,31 +156,8 @@ namespace Battle
 
 	void AObject::update()
 	{
-		auto *data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-
-		this->_animationCtr++;
-		while (this->_animationCtr >= data->duration) {
-			this->_animationCtr = 0;
-			this->_animation++;
-			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
-			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
-				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
-			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
-			this->_hasHit &= !data->oFlag.resetHits;
-		}
-		if (data->oFlag.resetSpeed)
-			this->_speed = {0, 0};
-		if (data->dFlag.resetRotation)
-			this->_rotation = this->_baseRotation;
-		this->_rotation += data->rotation;
-		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
-		this->_position += this->_speed;
-		if (!this->_isGrounded()) {
-			this->_speed *= 0.99;
-			this->_speed += this->_gravity;
-		} else
-			this->_speed *= 0.75;
+		this->_tickMove();
+		this->_applyMoveAttributes();
 	}
 
 	void AObject::reset()
@@ -384,7 +361,7 @@ namespace Battle
 
 		//this->_speed.x = this->_speed.x / 2 + asAObject->_speed.x / 4;
 		//asAObject->_speed.x = tmp;
-		if (this->_speed.x < asAObject->_speed.x) {
+		if (this->_position.x > asAObject->_position.x) {
 			opDiff = (this->_position.x      + myBox.pos.to<float>().x - opBox.pos.to<float>().x  - opBox.size.to<float>().x) - asAObject->_position.x;
 			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x + opBox.size.to<float>().x - myBox.pos.to<float>().x)  - this->_position.x;
 		} else {
@@ -423,5 +400,40 @@ namespace Battle
 		       static_cast<float>(_hurtBox.pos.y)                   < static_cast<float>(_hitBox.pos.y) + _hitBox.size.y &&
 		       static_cast<float>(_hurtBox.pos.x) + _hurtBox.size.x > static_cast<float>(_hitBox.pos.x)                  &&
 		       static_cast<float>(_hurtBox.pos.y) + _hurtBox.size.y > static_cast<float>(_hitBox.pos.y);
+	}
+
+	void AObject::_applyMoveAttributes()
+	{
+		auto data = this->getCurrentFrameData();
+
+		if (data->oFlag.resetSpeed)
+			this->_speed = {0, 0};
+		if (data->dFlag.resetRotation)
+			this->_rotation = this->_baseRotation;
+		this->_rotation += data->rotation;
+		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
+		this->_position += this->_speed;
+		if (!this->_isGrounded()) {
+			this->_speed *= 0.99;
+			this->_speed += this->_gravity;
+		} else
+			this->_speed *= 0.75;
+	}
+
+	void AObject::_tickMove()
+	{
+		auto data = this->getCurrentFrameData();
+
+		this->_animationCtr++;
+		while (this->_animationCtr >= data->duration) {
+			this->_animationCtr = 0;
+			this->_animation++;
+			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
+			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
+				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
+			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
+			this->_hasHit &= !data->oFlag.resetHits;
+		}
 	}
 }
