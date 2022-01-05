@@ -93,10 +93,12 @@ namespace Battle
 		this->_applyMoveAttributes();
 		if (this->_position.x < 0) {
 			this->_position.x = 0;
-			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && this->_action == ACTION_AIR_HIT) {
-				this->_speed.x *= -0.8;
-				this->_speed.y = 2;
+			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
+			) {
 				this->_forceStartMove(ACTION_WALL_SLAM);
+				this->_speed.x *= -0.8;
+				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
 			} else
 				this->_speed.x = 0;
 		} else if (this->_position.x > 1000) {
@@ -104,16 +106,18 @@ namespace Battle
 			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 			)) {
-				this->_speed.x *= -0.8;
-				this->_speed.y = 4;
 				this->_forceStartMove(ACTION_WALL_SLAM);
+				this->_speed.x *= -0.8;
+				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
 			} else
 				this->_speed.x = 0;
 		}
 		if (this->_position.y < 0) {
 			this->_position.y = 0;
 
-			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (this->_action == ACTION_AIR_HIT)) {
+			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
 				this->_speed.x *= 0.8;
 				this->_speed.y *= -0.8;
 				this->_forceStartMove(ACTION_GROUND_SLAM);
