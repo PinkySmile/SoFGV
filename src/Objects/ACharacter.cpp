@@ -28,6 +28,60 @@
 #define CHARGE_BUFFER 5
 #define CHARGE_TIME 25
 
+#ifdef _DEBUG
+static const char *oFlags[] = {
+	"grab",
+	"airUnblockable",
+	"unblockable",
+	"voidElement",
+	"spiritElement",
+	"matterElement",
+	"lowHit",
+	"highHit",
+	"autoHitPos",
+	"canCounterHit",
+	"hitSwitch",
+	"cancelable",
+	"jab",
+	"resetHits",
+	"resetSpeed",
+	"restand",
+	"super",
+	"ultimate",
+	"jumpCancelable",
+	"transformCancelable",
+	"unTransformCancelable",
+	"dashCancelable",
+	"backDashCancelable",
+	"voidMana",
+	"spiritMana",
+	"matterMana"
+};
+
+static const char *dFlags[] = {
+	"invulnerable",
+	"invulnerableArmor",
+	"superarmor",
+	"grabInvulnerable",
+	"voidBlock",
+	"spiritBlock",
+	"matterBlock",
+	"neutralBlock",
+	"airborne",
+	"canBlock",
+	"highBlock",
+	"lowBlock",
+	"charaCancel",
+	"resetRotation",
+	"counterHit",
+	"flash",
+	"crouch",
+	"projectileInvul",
+	"projectile",
+	"landCancel",
+	"dashCancel"
+};
+#endif
 namespace Battle
 {
 	ACharacter::ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
@@ -40,6 +94,11 @@ namespace Battle
 		this->_text.setOutlineColor(sf::Color::Black);
 		this->_text.setOutlineThickness(2);
 		this->_text.setCharacterSize(10);
+		this->_text2.setFont(this->_font);
+		this->_text2.setFillColor(sf::Color::White);
+		this->_text2.setOutlineColor(sf::Color::Black);
+		this->_text2.setOutlineThickness(2);
+		this->_text2.setCharacterSize(10);
 #endif
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_lastInputs.push_back({0, 0, 0});
@@ -50,6 +109,7 @@ namespace Battle
 		AObject::render();
 #ifdef _DEBUG
 		game.screen->draw(this->_text);
+		game.screen->draw(this->_text2);
 #endif
 	}
 
@@ -173,31 +233,8 @@ namespace Battle
 			this->_direction = this->_dir == 1;
 		}
 #ifdef _DEBUG
-		char buffer[4096] =
-			"position.x: 0.00000000\n"
-			"position.y: 0.00000000\n"
-			"speed.x: 0.00000000\n"
-			"speed.y: 0.00000000\n"
-			"gravity.x: 0.00000000\n"
-			"gravity.y: 0.00000000\n"
-			"blockStun: 3000\n"
-			"jumpUsed: 0/0\n"
-			"aitDashUsed: 0/0\n"
-			"jumped: false\n"
-			"restand: false\n"
-			"action: 1000\n"
-			"actionBlock: 10\n"
-			"animation: 10\n"
-			"animationCtr: 10\n"
-			"hp: 100000/100000\n"
-			"rotation: 0.00000000\n"
-			"hasHit: false\n"
-			"direction: false\n"
-			"dir: 0.00000000\n"
-			"cornerPriority: 10\n"
-			"justGotCorner: false\n"
-			"baseGravity.x: 0.00000000\n"
-			"baseGravity.y: 0.00000000";
+		auto data = this->getCurrentFrameData();
+		char buffer[4096];
 
 		sprintf(
 			buffer,
@@ -258,6 +295,53 @@ namespace Battle
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -450});
+
+
+		sprintf(
+			buffer,
+			"specialMarker: %u\n"
+			"blockStun: %u\n"
+			"hitStun: %u\n"
+			"prorate: %3.f\n"
+			"neutralLimit: %u\n"
+			"voidLimit: %u\n"
+			"spiritLimit: %u\n"
+			"matterLimit: %u\n"
+			"pushBack: %u\n"
+			"pushBlock: %u\n"
+			"subObjectSpawn: %u\n"
+			"manaGain: %u\n"
+			"manaCost: %u\n"
+			"hitStop: %u\n"
+			"damage: %u\n",
+			data->specialMarker,
+			data->blockStun,
+			data->hitStun,
+			data->prorate,
+			data->neutralLimit,
+			data->voidLimit,
+			data->spiritLimit,
+			data->matterLimit,
+			data->pushBack,
+			data->pushBlock,
+			data->subObjectSpawn,
+			data->manaGain,
+			data->manaCost,
+			data->hitStop,
+			data->damage
+		);
+		for (unsigned tmp = data->dFlag.flags, i = 0; tmp; tmp >>= 1, i++)
+			if (tmp & 1) {
+				strcat(buffer, dFlags[i]);
+				strcat(buffer, "\n");
+			}
+		for (unsigned tmp = data->oFlag.flags, i = 0; tmp; tmp >>= 1, i++)
+			if (tmp & 1) {
+				strcat(buffer, oFlags[i]);
+				strcat(buffer, "\n");
+			}
+		this->_text2.setString(buffer);
+		this->_text2.setPosition({static_cast<float>(this->_team * 600 + 150), -450});
 #endif
 	}
 

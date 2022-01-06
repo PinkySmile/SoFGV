@@ -267,6 +267,7 @@ namespace Battle
 #ifdef _DEBUG
 		sf::Font _font;
 		sf::Text _text;
+		sf::Text _text2;
 #endif
 		ACharacter *_opponent;
 		std::shared_ptr<IInput> _input;
