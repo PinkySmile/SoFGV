@@ -274,8 +274,11 @@ namespace Battle
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		unsigned _airDashesUsed = 0;
+		unsigned _maxJumps = 0;
+		unsigned _maxAirDashes = 0;
 		bool _hasJumped = false;
 		bool _restand = false;
+		bool _justGotCorner = false;
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
@@ -301,9 +304,6 @@ namespace Battle
 				bool _63146974: 1;
 			};
 		} _specialInputs;
-
-		unsigned _maxJumps = 0;
-		unsigned _maxAirDashes = 0;
 
 		bool _executeAirDashes(const InputStruct &input);
 		bool _executeAirBlock(const InputStruct &input);

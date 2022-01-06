@@ -123,10 +123,26 @@ namespace Battle
 
 		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
 
-		if (newPriority == this->_opponent->_cornerPriority)
+		this->_justGotCorner = newPriority && !this->_cornerPriority;
+		if (newPriority && this->_justGotCorner) {
+			if (newPriority == this->_opponent->_cornerPriority) {
+				if (this->_team == 1) {
+					if (this->_opponent->_justGotCorner && this->_opponent->_cornerPriority == 1) {
+						this->_cornerPriority = newPriority;
+						this->_opponent->_justGotCorner = false;
+						this->_opponent->_cornerPriority = 0;
+					} else
+						this->_cornerPriority = 0;
+				} else
+					this->_cornerPriority = 0;
+			} else {
+				this->_justGotCorner = newPriority && !this->_cornerPriority;
+				this->_cornerPriority = newPriority;
+			}
+		} else if (!newPriority) {
+			this->_justGotCorner = false;
 			this->_cornerPriority = 0;
-		else
-			this->_cornerPriority = newPriority;
+		}
 		if (this->_position.y < 0) {
 			this->_position.y = 0;
 
@@ -179,6 +195,7 @@ namespace Battle
 			"direction: false\n"
 			"dir: 0.00000000\n"
 			"cornerPriority: 10\n"
+			"justGotCorner: false\n"
 			"baseGravity.x: 0.00000000\n"
 			"baseGravity.y: 0.00000000";
 
@@ -205,6 +222,7 @@ namespace Battle
 			"Direction: %s\n"
 			"Dir: %f\n"
 			"cornerPriority: %i\n"
+			"justGotCorner: %s\n"
 			"BaseGravityX: %f\n"
 			"BaseGravityY: %f",
 			this->_position.x,
@@ -234,11 +252,12 @@ namespace Battle
 			this->_direction ? "right" : "left",
 			this->_dir,
 			this->_cornerPriority,
+			this->_justGotCorner ? "true" : "false",
 			this->_baseGravity.x,
 			this->_baseGravity.y
 		);
 		this->_text.setString(buffer);
-		this->_text.setPosition({static_cast<float>(!this->_team * 850), -450});
+		this->_text.setPosition({static_cast<float>(this->_team * 850), -450});
 #endif
 	}
 
@@ -246,7 +265,7 @@ namespace Battle
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
-		this->_team = side;
+		this->_team = !side;
 		this->_baseHp = this->_hp = maxHp;
 		this->_maxJumps = maxJumps;
 		this->_baseGravity = this->_gravity = gravity;
