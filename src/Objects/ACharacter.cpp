@@ -16,7 +16,7 @@
 #endif
 
 #define WALL_SLAM_THRESHOLD 15
-#define GROUND_SLAM_THRESHOLD 15
+#define GROUND_SLAM_THRESHOLD 20
 #define HJ_BUFFER 5
 #define DASH_BUFFER 7
 #define QUARTER_CIRCLE_BUFFER 10
@@ -654,14 +654,14 @@ namespace Battle
 			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
-		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
-			return true;
 		if (action < 100)
 			return false;
 		if (!currentData->oFlag.cancelable)
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
+		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
+			return true;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
 		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
