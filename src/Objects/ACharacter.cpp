@@ -435,8 +435,12 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH)
+		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
+			for (auto limit : this->_limit)
+				if (limit >= 100)
+					return false;
 			return this->_action == ACTION_AIR_HIT;
+		}
 		if (action == ACTION_IDLE && this->_action == ACTION_STANDING_UP)
 			return false;
 		if (action == ACTION_CROUCHING && this->_action == ACTION_CROUCH)
