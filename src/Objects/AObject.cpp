@@ -349,24 +349,18 @@ namespace Battle
 
 		if (!asAObject)
 			return;
-		if (this->_speed.x == 0 && asAObject->_speed.x == 0)
-			return;
 
 		auto myBox = this->_applyModifiers(*myData->collisionBox);
 		auto opBox = asAObject->_applyModifiers(*data->collisionBox);
 		float myDiff;
 		float opDiff;
 
-		//float tmp = asAObject->_speed.x / 2 + this->_speed.x / 4;
-
-		//this->_speed.x = this->_speed.x / 2 + asAObject->_speed.x / 4;
-		//asAObject->_speed.x = tmp;
-		if (this->_position.x > asAObject->_position.x) {
+		if (this->_position.x > asAObject->_position.x || (this->_position.x == asAObject->_position.x && this->_cornerPriority > asAObject->_cornerPriority)) {
 			opDiff = (this->_position.x      + myBox.pos.to<float>().x - opBox.pos.to<float>().x  - opBox.size.to<float>().x) - asAObject->_position.x;
 			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x + opBox.size.to<float>().x - myBox.pos.to<float>().x)  - this->_position.x;
 		} else {
-			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x - myBox.pos.to<float>().x  - myBox.size.to<float>().x) - this->_position.x;
 			opDiff = (this->_position.x      + myBox.pos.to<float>().x + myBox.size.to<float>().x - opBox.pos.to<float>().x)  - asAObject->_position.x;
+			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x - myBox.pos.to<float>().x  - myBox.size.to<float>().x) - this->_position.x;
 		}
 		this->_position.x += myDiff * 0.5f;
 		asAObject->_position.x += opDiff * 0.5f;

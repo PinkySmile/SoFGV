@@ -77,6 +77,14 @@ namespace Battle
 		else if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
 			this->_blockStun = 0;
 			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+		} else if ((
+			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
+			this->_action == ACTION_AIR_MATTER_BLOCK ||
+			this->_action == ACTION_AIR_VOID_BLOCK ||
+			this->_action == ACTION_AIR_SPIRIT_BLOCK
+		) && this->_isGrounded()) {
+			this->_blockStun = 0;
+			this->_forceStartMove(ACTION_IDLE);
 		}
 		if (this->_blockStun) {
 			this->_blockStun--;
@@ -112,6 +120,13 @@ namespace Battle
 			} else
 				this->_speed.x = 0;
 		}
+
+		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
+
+		if (newPriority == this->_opponent->_cornerPriority)
+			this->_cornerPriority = 0;
+		else
+			this->_cornerPriority = newPriority;
 		if (this->_position.y < 0) {
 			this->_position.y = 0;
 
@@ -163,6 +178,7 @@ namespace Battle
 			"hasHit: false\n"
 			"direction: false\n"
 			"dir: 0.00000000\n"
+			"cornerPriority: 10\n"
 			"baseGravity.x: 0.00000000\n"
 			"baseGravity.y: 0.00000000";
 
@@ -188,6 +204,7 @@ namespace Battle
 			"HasHit: %s\n"
 			"Direction: %s\n"
 			"Dir: %f\n"
+			"cornerPriority: %i\n"
 			"BaseGravityX: %f\n"
 			"BaseGravityY: %f",
 			this->_position.x,
@@ -216,6 +233,7 @@ namespace Battle
 			this->_hasHit ? "true" : "false",
 			this->_direction ? "right" : "left",
 			this->_dir,
+			this->_cornerPriority,
 			this->_baseGravity.x,
 			this->_baseGravity.y
 		);
@@ -422,6 +440,8 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH)
+			return this->_action == ACTION_AIR_HIT;
 		if (action == ACTION_IDLE && this->_action == ACTION_STANDING_UP)
 			return false;
 		if (action == ACTION_CROUCHING && this->_action == ACTION_CROUCH)
@@ -476,6 +496,8 @@ namespace Battle
 		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_STANDING_UP)
+			return this->_forceStartMove(ACTION_IDLE);
+		if (this->_action == ACTION_AIR_TECH_LANDING_LAG)
 			return this->_forceStartMove(ACTION_IDLE);
 		if (this->_action == ACTION_FORWARD_DASH)
 			return this->_forceStartMove(ACTION_IDLE);

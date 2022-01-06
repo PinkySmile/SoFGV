@@ -1,0 +1,9 @@
+Afficher frame flags
+Right/Wrongblock
+Auto height
+Mana
+Limit
+Proration
+Land cancel
+Dash cancel
+Projectile invul

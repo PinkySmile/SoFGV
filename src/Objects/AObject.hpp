@@ -32,6 +32,7 @@ namespace Battle
 		bool _dead = false;
 		bool _hasHit = false;
 		bool _direction = false;
+		char _cornerPriority = 0;
 		float _dir = -1;
 
 		float _baseRotation = 0;
