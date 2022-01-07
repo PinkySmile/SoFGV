@@ -72,6 +72,18 @@ namespace Battle
 		/* 55  */ ACTION_NEUTRAL_AIR_JUMP,
 		/* 56  */ ACTION_FORWARD_AIR_JUMP,
 		/* 57  */ ACTION_BACKWARD_AIR_JUMP,
+		/* 58  */ ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK,
+		/* 59  */ ACTION_GROUND_HIGH_SPIRIT_WRONG_BLOCK,
+		/* 60  */ ACTION_GROUND_HIGH_MATTER_WRONG_BLOCK,
+		/* 61  */ ACTION_GROUND_HIGH_VOID_WRONG_BLOCK,
+		/* 62  */ ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK,
+		/* 63  */ ACTION_GROUND_LOW_SPIRIT_WRONG_BLOCK,
+		/* 64  */ ACTION_GROUND_LOW_MATTER_WRONG_BLOCK,
+		/* 65  */ ACTION_GROUND_LOW_VOID_WRONG_BLOCK,
+		/* 66  */ ACTION_AIR_NEUTRAL_WRONG_BLOCK,
+		/* 67  */ ACTION_AIR_SPIRIT_WRONG_BLOCK,
+		/* 68  */ ACTION_AIR_MATTER_WRONG_BLOCK,
+		/* 69  */ ACTION_AIR_VOID_WRONG_BLOCK,
 
 
 		/* 100 */ ACTION_5N = 100,
@@ -277,6 +289,10 @@ namespace Battle
 		unsigned _airDashesUsed = 0;
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
+		unsigned _comboCtr = 0;
+		unsigned _totalDamage = 0;
+		float _prorate = 1;
+		std::array<unsigned, 4> _limit;
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
@@ -353,12 +369,14 @@ namespace Battle
 		ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
+		bool hits(IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;
 		void update() override;
 		void init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
+		void postUpdate();
 	};
 }
 

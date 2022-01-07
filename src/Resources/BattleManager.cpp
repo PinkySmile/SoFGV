@@ -43,30 +43,32 @@ namespace Battle
 
 		auto ldata = this->_leftCharacter->getCurrentFrameData();
 		auto rdata = this->_rightCharacter->getCurrentFrameData();
+		auto lchr = &*this->_leftCharacter;
+		auto rchr = &*this->_rightCharacter;
 
 		if (!rdata->dFlag.flash || ldata->dFlag.flash)
-			this->_leftCharacter->update();
+			lchr->update();
 		if (!ldata->dFlag.flash)
-			this->_rightCharacter->update();
+			rchr->update();
 
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
 			for (auto &object : this->_objects)
 				object->update();
-			if (this->_leftCharacter->hits(*this->_rightCharacter))
-				collisions.emplace_back(&*this->_leftCharacter, &*this->_rightCharacter, this->_leftCharacter->getCurrentFrameData());
-			if (this->_rightCharacter->hits(*this->_leftCharacter))
-				collisions.emplace_back(&*this->_rightCharacter, &*this->_leftCharacter, this->_rightCharacter->getCurrentFrameData());
+			if (lchr->hits(*rchr))
+				collisions.emplace_back(&*lchr, &*rchr, lchr->getCurrentFrameData());
+			if (rchr->hits(*lchr))
+				collisions.emplace_back(&*rchr, &*lchr, rchr->getCurrentFrameData());
 
 			for (auto &object : this->_objects) {
-				if (this->_leftCharacter->hits(*object))
-					collisions.emplace_back(&*this->_leftCharacter, &*object, this->_leftCharacter->getCurrentFrameData());
-				if (object->hits(*this->_leftCharacter))
-					collisions.emplace_back(&*object, &*this->_leftCharacter, object->getCurrentFrameData());
+				if (lchr->hits(*object))
+					collisions.emplace_back(&*lchr, &*object, lchr->getCurrentFrameData());
+				if (object->hits(*lchr))
+					collisions.emplace_back(&*object, &*lchr, object->getCurrentFrameData());
 
-				if (this->_rightCharacter->hits(*object))
-					collisions.emplace_back(&*this->_rightCharacter, &*object, this->_rightCharacter->getCurrentFrameData());
-				if (object->hits(*this->_rightCharacter))
-					collisions.emplace_back(&*object, &*this->_rightCharacter, object->getCurrentFrameData());
+				if (rchr->hits(*object))
+					collisions.emplace_back(&*rchr, &*object, rchr->getCurrentFrameData());
+				if (object->hits(*rchr))
+					collisions.emplace_back(&*object, &*rchr, object->getCurrentFrameData());
 
 				for (auto &object2 : this->_objects)
 					if (object2 != object)
@@ -80,11 +82,11 @@ namespace Battle
 			}
 		}
 
-		if (this->_leftCharacter->isDead())
+		if (lchr->isDead())
 			// The state is messed up
 			// TODO: Do real exceptions
 			throw std::invalid_argument("Invalid state");
-		if (this->_rightCharacter->isDead())
+		if (rchr->isDead())
 			// The state is messed up
 			// TODO: Do real exceptions
 			throw std::invalid_argument("Invalid state");
@@ -93,14 +95,16 @@ namespace Battle
 			if (this->_objects[i]->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
 
-		if (this->_leftCharacter->collides(*this->_rightCharacter))
-			this->_leftCharacter->collide(*this->_rightCharacter);
+		if (lchr->collides(*rchr))
+			lchr->collide(*rchr);
 		for (auto &object : this->_objects) {
-			if (this->_leftCharacter->collides(*object))
-				this->_leftCharacter->collide(*object);
-			if (this->_rightCharacter->collides(*object))
-				this->_rightCharacter->collide(*object);
+			if (lchr->collides(*object))
+				lchr->collide(*object);
+			if (rchr->collides(*object))
+				rchr->collide(*object);
 		}
+		lchr->postUpdate();
+		rchr->postUpdate();
 	}
 
 	void BattleManager::render()

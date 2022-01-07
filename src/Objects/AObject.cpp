@@ -200,6 +200,17 @@ namespace Battle
 			return false;
 
 		auto asAObject = dynamic_cast<AObject *>(&other);
+
+		if (asAObject && asAObject->_team == this->_team)
+			return false;
+
+		if (oData->dFlag.invulnerable && !mData->oFlag.grab && !mData->dFlag.projectile)
+			return false;
+		if (oData->dFlag.projectileInvul && mData->dFlag.projectile)
+			return false;
+		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
+			return false;
+
 		auto mCenter = this->_position;
 		auto oCenter = asAObject->_position;
 		auto mScale = Vector2f{
@@ -229,14 +240,6 @@ namespace Battle
 			oData->textureBounds.size.x * oScale.x / 2,
 			oData->textureBounds.size.y * oScale.y / 2
 		};
-
-		if (asAObject && asAObject->_team == this->_team)
-			return false;
-
-		if (oData->dFlag.invulnerable && !mData->oFlag.grab)
-			return false;
-		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
-			return false;
 
 		for (auto &hurtBox : oData->hurtBoxes) {
 			auto _hurtBox = asAObject->_applyModifiers(hurtBox);

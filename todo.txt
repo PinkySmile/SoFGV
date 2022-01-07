@@ -1,8 +1,5 @@
-Right/Wrongblock
-Limit
-Proration
 Land cancel
 Dash cancel
-Projectile invul
+Air dash limit
 Auto height
 Mana

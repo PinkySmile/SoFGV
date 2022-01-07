@@ -100,6 +100,7 @@ namespace Battle
 		this->_text2.setOutlineThickness(2);
 		this->_text2.setCharacterSize(10);
 #endif
+		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_lastInputs.push_back({0, 0, 0});
 	}
@@ -141,7 +142,9 @@ namespace Battle
 			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
 			this->_action == ACTION_AIR_MATTER_BLOCK ||
 			this->_action == ACTION_AIR_VOID_BLOCK ||
-			this->_action == ACTION_AIR_SPIRIT_BLOCK
+			this->_action == ACTION_AIR_SPIRIT_BLOCK ||
+			(this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
+			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
 		) && this->_isGrounded()) {
 			this->_blockStun = 0;
 			this->_forceStartMove(ACTION_IDLE);
@@ -232,117 +235,6 @@ namespace Battle
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
 		}
-#ifdef _DEBUG
-		auto data = this->getCurrentFrameData();
-		char buffer[4096];
-
-		sprintf(
-			buffer,
-			"PositionX: %f\n"
-			"PositionY: %f\n"
-			"SpeedX: %f\n"
-			"SpeedY: %f\n"
-			"GravityX: %f\n"
-			"GravityY: %f\n"
-			"BlockStun: %i\n"
-			"JumpUsed: %i/%i\n"
-			"AirDashUsed: %i/%i\n"
-			"Jumped: %s\n"
-			"Restand: %s\n"
-			"Action: %i\n"
-			"ActionBlock: %i/%llu\n"
-			"Animation: %i/%llu\n"
-			"AnimationCtr: %i/%i\n"
-			"Hp: %i/%i\n"
-			"Rotation: %f\n"
-			"HasHit: %s\n"
-			"Direction: %s\n"
-			"Dir: %f\n"
-			"cornerPriority: %i\n"
-			"justGotCorner: %s\n"
-			"BaseGravityX: %f\n"
-			"BaseGravityY: %f",
-			this->_position.x,
-			this->_position.y,
-			this->_speed.x,
-			this->_speed.y,
-			this->_gravity.x,
-			this->_gravity.y,
-			this->_blockStun,
-			this->_jumpsUsed,
-			this->_maxJumps,
-			this->_airDashesUsed,
-			this->_maxAirDashes,
-			this->_hasJumped ? "true" : "false",
-			this->_restand ? "true" : "false",
-			this->_action,
-			this->_actionBlock,
-			this->_moves.at(this->_action).size(),
-			this->_animation,
-			this->_moves.at(this->_action)[this->_actionBlock].size(),
-			this->_animationCtr,
-			this->_moves.at(this->_action)[this->_actionBlock][this->_animation].duration,
-			this->_hp,
-			this->_baseHp,
-			this->_rotation,
-			this->_hasHit ? "true" : "false",
-			this->_direction ? "right" : "left",
-			this->_dir,
-			this->_cornerPriority,
-			this->_justGotCorner ? "true" : "false",
-			this->_baseGravity.x,
-			this->_baseGravity.y
-		);
-		this->_text.setString(buffer);
-		this->_text.setPosition({static_cast<float>(this->_team * 850), -450});
-
-
-		sprintf(
-			buffer,
-			"specialMarker: %u\n"
-			"blockStun: %u\n"
-			"hitStun: %u\n"
-			"prorate: %3.f\n"
-			"neutralLimit: %u\n"
-			"voidLimit: %u\n"
-			"spiritLimit: %u\n"
-			"matterLimit: %u\n"
-			"pushBack: %u\n"
-			"pushBlock: %u\n"
-			"subObjectSpawn: %u\n"
-			"manaGain: %u\n"
-			"manaCost: %u\n"
-			"hitStop: %u\n"
-			"damage: %u\n",
-			data->specialMarker,
-			data->blockStun,
-			data->hitStun,
-			data->prorate,
-			data->neutralLimit,
-			data->voidLimit,
-			data->spiritLimit,
-			data->matterLimit,
-			data->pushBack,
-			data->pushBlock,
-			data->subObjectSpawn,
-			data->manaGain,
-			data->manaCost,
-			data->hitStop,
-			data->damage
-		);
-		for (unsigned tmp = data->dFlag.flags, i = 0; tmp; tmp >>= 1, i++)
-			if (tmp & 1) {
-				strcat(buffer, dFlags[i]);
-				strcat(buffer, "\n");
-			}
-		for (unsigned tmp = data->oFlag.flags, i = 0; tmp; tmp >>= 1, i++)
-			if (tmp & 1) {
-				strcat(buffer, oFlags[i]);
-				strcat(buffer, "\n");
-			}
-		this->_text2.setString(buffer);
-		this->_text2.setPosition({static_cast<float>(this->_team * 600 + 150), -450});
-#endif
 	}
 
 	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity)
@@ -543,8 +435,12 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH)
+		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
+			for (auto limit : this->_limit)
+				if (limit >= 100)
+					return false;
 			return this->_action == ACTION_AIR_HIT;
+		}
 		if (action == ACTION_IDLE && this->_action == ACTION_STANDING_UP)
 			return false;
 		if (action == ACTION_CROUCHING && this->_action == ACTION_CROUCH)
@@ -560,6 +456,11 @@ namespace Battle
 		if (action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK && action <= ACTION_AIR_HIT)
 			return this->getCurrentFrameData()->dFlag.canBlock;
 		if (this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK && this->_action <= ACTION_AIR_HIT)
+			return !this->_blockStun;
+		if (
+			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
+			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK
+		)
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
@@ -638,11 +539,10 @@ namespace Battle
 
 		if (!data)
 			return;
-		this->_restand = data->oFlag.restand;
-		if (myData->dFlag.invulnerableArmor) {
-			game.battleMgr->addHitStop(data->hitStop);
+		game.battleMgr->addHitStop(data->hitStop);
+		if (myData->dFlag.invulnerableArmor)
 			return;
-		}
+		this->_restand = data->oFlag.restand;
 		if (
 			!this->_isBlocking() ||
 			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
@@ -654,29 +554,80 @@ namespace Battle
 			else
 				this->_forceStartMove(ACTION_AIR_HIT);
 			if (myData->dFlag.counterHit && data->oFlag.canCounterHit) {
-				this->_hp -= data->damage * 1.5;
+				this->_hp -= data->damage * 1.5 * this->_prorate;
+				this->_totalDamage += data->damage * 1.5 * this->_prorate;
+				this->_comboCtr++;
 				this->_blockStun = data->hitStun * 1.5;
 				this->_speed.x -= data->counterHitSpeed.x * this->_dir;
 				this->_speed.x = max(-data->counterHitSpeed.x * 1.5, min(data->counterHitSpeed.x * 1.5, this->_speed.x));
 				this->_speed.y -= data->counterHitSpeed.y;
+				this->_prorate *= data->prorate / 100;
+				this->_limit[0] += data->neutralLimit;
+				this->_limit[1] += data->voidLimit;
+				this->_limit[2] += data->matterLimit;
+				this->_limit[3] += data->spiritLimit;
 				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 			} else {
-				this->_hp -= data->damage;
+				this->_hp -= data->damage * this->_prorate;
+				this->_totalDamage += data->damage * this->_prorate;
+				this->_comboCtr++;
 				this->_blockStun = data->hitStun;
 				this->_speed.x -= data->hitSpeed.x * this->_dir;
 				this->_speed.x = max(-data->hitSpeed.x * 1.5, min(data->hitSpeed.x * 1.5, this->_speed.x));
 				this->_speed.y -= data->hitSpeed.y;
+				this->_prorate *= data->prorate / 100;
+				this->_limit[0] += data->neutralLimit;
+				this->_limit[1] += data->voidLimit;
+				this->_limit[2] += data->matterLimit;
+				this->_limit[3] += data->spiritLimit;
 				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 			}
 		} else {
-			if (this->_isGrounded())
-				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
-			else
-				this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
-			this->_blockStun = data->blockStun;
+			unsigned wrongBlockLevel = 0;
+
+			if (data->oFlag.lowHit && !myData->dFlag.lowBlock)
+				wrongBlockLevel++;
+			else if (data->oFlag.highHit && !myData->dFlag.highBlock)
+				wrongBlockLevel++;
+			if (data->oFlag.matterElement && data->oFlag.voidElement && data->oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
+				wrongBlockLevel++;
+			else {
+				if (data->oFlag.matterElement) {
+					if (myData->dFlag.voidBlock);
+					else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
+						wrongBlockLevel += 1;
+					else if (myData->dFlag.spiritBlock)
+						wrongBlockLevel += 2;
+				} else if (data->oFlag.voidElement) {
+					if (myData->dFlag.spiritBlock);
+					else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
+						wrongBlockLevel += 1;
+					else if (myData->dFlag.matterBlock)
+						wrongBlockLevel += 2;
+				} else if (data->oFlag.spiritElement) {
+					if (myData->dFlag.matterBlock);
+					else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
+						wrongBlockLevel += 1;
+					else if (myData->dFlag.voidBlock)
+						wrongBlockLevel += 2;
+				}
+			}
+			if (wrongBlockLevel) {
+				if (this->_isGrounded())
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
+				else
+					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
+			} else {
+				if (this->_isGrounded())
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
+				else
+					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
+				this->_blockStun *= 3;
+				this->_blockStun /= 4;
+			}
+			this->_blockStun += data->blockStun * (3 + wrongBlockLevel) / 3;
 			this->_speed.x += data->pushBlock * -this->_dir;
 		}
-		game.battleMgr->addHitStop(data->hitStop);
 	}
 
 	bool ACharacter::_isBlocking()
@@ -722,6 +673,12 @@ namespace Battle
 			}
 		} else if (action >= ACTION_5N)
 			this->_hasJumped = true;
+		if (action != ACTION_AIR_HIT && action != ACTION_GROUND_LOW_HIT && action != ACTION_GROUND_HIGH_HIT) {
+			this->_comboCtr = 0;
+			this->_prorate = 1;
+			this->_totalDamage = 0;
+			this->_limit.fill(0);
+		}
 		AObject::_forceStartMove(action);
 	}
 
@@ -1446,5 +1403,152 @@ namespace Battle
 			(input.verticalAxis < 0 &&                this->_startMove(ACTION_DOWN_AIR_TECH)) ||
 			(this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH)) ||
 			(this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
+	}
+
+	bool ACharacter::hits(IObject &other) const
+	{
+		for (auto limit : this->_limit)
+			if (limit >= 100)
+				return false;
+		return AObject::hits(other);
+	}
+
+	void ACharacter::postUpdate()
+	{
+		if (this->_position.x < 0)
+			this->_position.x = 0;
+		else if (this->_position.x > 1000)
+			this->_position.x = 1000;
+		if (this->_position.y < 0)
+			this->_position.y = 0;
+		else if (this->_position.y > 1000)
+			this->_position.y = 1000;
+
+
+#ifdef _DEBUG
+		auto data = this->getCurrentFrameData();
+		char buffer[4096];
+
+		sprintf(
+			buffer,
+			"PositionX: %f\n"
+			"PositionY: %f\n"
+			"SpeedX: %f\n"
+			"SpeedY: %f\n"
+			"GravityX: %f\n"
+			"GravityY: %f\n"
+			"BlockStun: %i\n"
+			"JumpUsed: %i/%i\n"
+			"AirDashUsed: %i/%i\n"
+			"Jumped: %s\n"
+			"Restand: %s\n"
+			"Action: %i\n"
+			"ActionBlock: %i/%llu\n"
+			"Animation: %i/%llu\n"
+			"AnimationCtr: %i/%i\n"
+			"Hp: %i/%i\n"
+			"Rotation: %f\n"
+			"HasHit: %s\n"
+			"Direction: %s\n"
+			"Dir: %f\n"
+			"cornerPriority: %i\n"
+			"justGotCorner: %s\n"
+			"comboCtr: %u\n"
+			"prorate: %f\n"
+			"totalDamage: %u\n"
+			"neutralLimit: %u\n"
+			"voidLimit: %u\n"
+			"matterLimit: %u\n"
+			"spiritLimit: %u\n"
+			"BaseGravityX: %f\n"
+			"BaseGravityY: %f",
+			this->_position.x,
+			this->_position.y,
+			this->_speed.x,
+			this->_speed.y,
+			this->_gravity.x,
+			this->_gravity.y,
+			this->_blockStun,
+			this->_jumpsUsed,
+			this->_maxJumps,
+			this->_airDashesUsed,
+			this->_maxAirDashes,
+			this->_hasJumped ? "true" : "false",
+			this->_restand ? "true" : "false",
+			this->_action,
+			this->_actionBlock,
+			this->_moves.at(this->_action).size(),
+			this->_animation,
+			this->_moves.at(this->_action)[this->_actionBlock].size(),
+			this->_animationCtr,
+			this->_moves.at(this->_action)[this->_actionBlock][this->_animation].duration,
+			this->_hp,
+			this->_baseHp,
+			this->_rotation,
+			this->_hasHit ? "true" : "false",
+			this->_direction ? "right" : "left",
+			this->_dir,
+			this->_cornerPriority,
+			this->_justGotCorner ? "true" : "false",
+			this->_comboCtr,
+			this->_prorate,
+			this->_totalDamage,
+			this->_limit[0],
+			this->_limit[1],
+			this->_limit[2],
+			this->_limit[3],
+			this->_baseGravity.x,
+			this->_baseGravity.y
+		);
+		this->_text.setString(buffer);
+		this->_text.setPosition({static_cast<float>(this->_team * 850), -450});
+
+
+		sprintf(
+			buffer,
+			"specialMarker: %u\n"
+			"blockStun: %u\n"
+			"hitStun: %u\n"
+			"prorate: %3.f\n"
+			"neutralLimit: %u\n"
+			"voidLimit: %u\n"
+			"spiritLimit: %u\n"
+			"matterLimit: %u\n"
+			"pushBack: %u\n"
+			"pushBlock: %u\n"
+			"subObjectSpawn: %u\n"
+			"manaGain: %u\n"
+			"manaCost: %u\n"
+			"hitStop: %u\n"
+			"damage: %u\n",
+			data->specialMarker,
+			data->blockStun,
+			data->hitStun,
+			data->prorate,
+			data->neutralLimit,
+			data->voidLimit,
+			data->spiritLimit,
+			data->matterLimit,
+			data->pushBack,
+			data->pushBlock,
+			data->subObjectSpawn,
+			data->manaGain,
+			data->manaCost,
+			data->hitStop,
+			data->damage
+		);
+		for (unsigned tmp = data->dFlag.flags, i = 0; tmp; tmp >>= 1, i++)
+			if (tmp & 1) {
+				strcat(buffer, dFlags[i]);
+				strcat(buffer, "\n");
+			}
+		for (unsigned tmp = data->oFlag.flags, i = 0; tmp; tmp >>= 1, i++)
+			if (tmp & 1) {
+				strcat(buffer, oFlags[i]);
+				strcat(buffer, "\n");
+			}
+		this->_text2.setString(buffer);
+		this->_text2.setPosition({static_cast<float>(this->_team * 600 + 150), -450});
+#endif
 	}
 }
