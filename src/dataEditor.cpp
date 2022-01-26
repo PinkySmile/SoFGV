@@ -696,7 +696,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		data.pushBack = std::stoul(t);
+		data.pushBack = std::stoi(t);
 	});
 	pushBlock->connect("TextChanged", [&object](std::string t){
 		if (*c)
@@ -706,7 +706,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		data.pushBlock = std::stoul(t);
+		data.pushBlock = std::stoi(t);
 	});
 	blockStun->connect("TextChanged", [&object](std::string t){
 		if (*c)

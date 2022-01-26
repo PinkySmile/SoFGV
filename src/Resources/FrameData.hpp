@@ -109,8 +109,8 @@ namespace Battle
 		unsigned voidLimit = 0;
 		unsigned spiritLimit = 0;
 		unsigned matterLimit = 0;
-		unsigned pushBack = 0;
-		unsigned pushBlock = 0;
+		int pushBack = 0;
+		int pushBlock = 0;
 		unsigned subObjectSpawn = 0;
 		unsigned manaGain = 0;
 		unsigned manaCost = 0;
