@@ -331,7 +331,7 @@ namespace Battle
 		this->_applyNewAnimFlags();
 	}
 
-	void AObject::_onMoveEnd(FrameData &)
+	void AObject::_onMoveEnd(const FrameData &)
 	{
 		this->_animation = 0;
 		this->_applyNewAnimFlags();

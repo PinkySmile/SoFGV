@@ -477,13 +477,14 @@ namespace Battle
 		return false;
 	}
 
-	void ACharacter::_onMoveEnd(FrameData &lastData)
+	void ACharacter::_onMoveEnd(const FrameData &lastData)
 	{
 		logger.debug(std::to_string(this->_action) + " ended");
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
 		}
+
 		if (this->_blockStun && !this->_actionBlock) {
 			this->_actionBlock++;
 			if (this->_moves.at(this->_action).size() == 1)
@@ -492,6 +493,7 @@ namespace Battle
 			AObject::_onMoveEnd(lastData);
 			return;
 		}
+
 		if (this->_action == ACTION_KNOCKED_DOWN) {
 			auto inputs = this->_input->getInputs();
 
@@ -501,41 +503,53 @@ namespace Battle
 				return;
 			return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 		}
+
 		if (this->_action == ACTION_CROUCHING)
 			return this->_forceStartMove(ACTION_CROUCH);
+
+		auto idleAction = this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING;
+
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
-			return this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_STANDING_UP)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_AIR_TECH_LANDING_LAG)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_FORWARD_DASH)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_DASH)
-			return this->_forceStartMove(ACTION_IDLE);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_HARD_LAND)
-			return this->_forceStartMove(ACTION_IDLE);
-		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
-			return this->_forceStartMove(this->_isGrounded() ? ACTION_HARD_LAND : ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
 		if (
 			this->_action >= ACTION_5N ||
 			this->_action == ACTION_LANDING
 		)
-			return this->_forceStartMove(this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
+
+		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
+			return this->_forceStartMove(this->_isGrounded() ? ACTION_HARD_LAND : ACTION_FALLING);
 		if (this->_action == ACTION_NEUTRAL_JUMP || this->_action == ACTION_FORWARD_JUMP || this->_action == ACTION_BACKWARD_JUMP)
-			return this->_forceStartMove(ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_NEUTRAL_AIR_JUMP || this->_action == ACTION_FORWARD_AIR_JUMP || this->_action == ACTION_BACKWARD_AIR_JUMP)
-			return this->_forceStartMove(ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
-			return this->_forceStartMove(ACTION_FALLING);
+			return this->_forceStartMove(idleAction);
 		AObject::_onMoveEnd(lastData);
 	}
 
 	void ACharacter::hit(IObject &other, const FrameData *data)
 	{
 		this->_speed.x += data->pushBack * -this->_dir;
+		if (data->oFlag.grab) {
+			this->_actionBlock++;
+			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
+				//TODO: make proper exceptions
+				throw std::invalid_argument("Grab action " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			AObject::_onMoveEnd(*data);
+		}
 		AObject::hit(other, data);
 	}
 

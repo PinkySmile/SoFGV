@@ -894,7 +894,7 @@ Panel.Panel1 {
         }
 
         EditBox.PushBack {
-            InputValidator = UInt;
+            InputValidator = Int;
             Position = (90, 160);
             Size = (210, 22);
             Text = 0;
@@ -913,7 +913,7 @@ Panel.Panel1 {
         }
 
         EditBox.PushBlock {
-            InputValidator = UInt;
+            InputValidator = Int;
             Position = (450, 160);
             Size = (140, 22);
             Text = 0;
