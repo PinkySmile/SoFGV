@@ -374,6 +374,7 @@ namespace Battle
 		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;
 		void update() override;
+		InputStruct updateInputs();
 		void init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();

@@ -38,6 +38,8 @@ namespace Battle
 
 		if (this->_hitStop) {
 			this->_hitStop--;
+			this->_leftCharacter->updateInputs();
+			this->_rightCharacter->updateInputs();
 			return;
 		}
 

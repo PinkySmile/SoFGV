@@ -116,7 +116,6 @@ namespace Battle
 
 	void ACharacter::update()
 	{
-		this->_input->update();
 		this->_tickMove();
 		if (this->_isGrounded() && this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
 			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
@@ -159,7 +158,7 @@ namespace Battle
 			}
 		}
 		if (!this->_blockStun)
-			this->_processInput(this->_input->getInputs());
+			this->_processInput(this->updateInputs());
 
 		this->_applyMoveAttributes();
 		if (this->_position.x < 0) {
@@ -262,6 +261,23 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		if (
+			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
+			(!data->dFlag.airborne && this->_executeGroundMoves(input))
+		)
+			return;
+		if (this->_isGrounded())
+			this->_startMove(this->_action == ACTION_CROUCH ? ACTION_STANDING_UP : ACTION_IDLE);
+		else
+			this->_startMove(ACTION_FALLING);
+	}
+
+	InputStruct ACharacter::updateInputs()
+	{
+		this->_input->update();
+
+		InputStruct input = this->_input->getInputs();
+
+		if (
 			std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis) != this->_lastInputs.front().h ||
 			std::copysign(!!input.verticalAxis,   this->_dir * input.verticalAxis)   != this->_lastInputs.front().v
 		)
@@ -275,15 +291,7 @@ namespace Battle
 			this->_lastInputs.front().nbFrames = 45;
 		this->_checkSpecialInputs();
 		this->_hasJumped &= input.verticalAxis > 0;
-		if (
-			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
-			(!data->dFlag.airborne && this->_executeGroundMoves(input))
-		)
-			return;
-		if (this->_isGrounded())
-			this->_startMove(this->_action == ACTION_CROUCH ? ACTION_STANDING_UP : ACTION_IDLE);
-		else
-			this->_startMove(ACTION_FALLING);
+		return input;
 	}
 
 	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
