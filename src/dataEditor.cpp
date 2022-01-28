@@ -384,6 +384,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto proj = panel->get<tgui::CheckBox>("Proj");
 	auto lc = panel->get<tgui::CheckBox>("LC");
 	auto dc = panel->get<tgui::CheckBox>("DC");
+	auto resOPS = panel->get<tgui::CheckBox>("ResetOPSpeed");
 
 	boxes->connect("Clicked", []{
 		if (!dragStart && !canDrag)
@@ -1359,7 +1360,18 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [projInvul, proj, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+	resOPS->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.resetSpeed = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [projInvul, proj, resOPS, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
 		if (t.empty())
 			return;
 
@@ -1391,6 +1403,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 		proj->setChecked(data.dFlag.projectile);
 		lc->setChecked(data.dFlag.landCancel);
 		dc->setChecked(data.dFlag.dashCancel);
+		resOPS->setChecked(data.dFlag.resetSpeed);
 		if (!g)
 			*c = false;
 	});

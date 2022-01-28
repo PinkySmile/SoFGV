@@ -1,3 +1,5 @@
+Reset opponent speed
+Guard point
 Mana
 Dash momentum change
-Guard point
+Platforms

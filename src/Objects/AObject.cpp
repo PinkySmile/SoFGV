@@ -430,7 +430,7 @@ namespace Battle
 	{
 		auto data = this->getCurrentFrameData();
 
-		if (data->oFlag.resetSpeed)
+		if (data->dFlag.resetSpeed)
 			this->_speed = {0, 0};
 		if (data->dFlag.resetRotation)
 			this->_rotation = this->_baseRotation;

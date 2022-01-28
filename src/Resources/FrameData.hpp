@@ -47,6 +47,7 @@ namespace Battle
 			bool projectile : 1;
 			bool landCancel : 1;
 			bool dashCancel : 1;
+			bool resetSpeed : 1;
 		};
 	};
 
