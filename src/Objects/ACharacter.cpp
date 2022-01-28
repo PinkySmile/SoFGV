@@ -566,6 +566,8 @@ namespace Battle
 		if (myData->dFlag.invulnerableArmor)
 			return;
 		this->_restand = data->oFlag.restand;
+		if (data->oFlag.resetSpeed)
+			this->_speed = {0, 0};
 		if (
 			!this->_isBlocking() ||
 			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
