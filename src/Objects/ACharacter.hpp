@@ -337,7 +337,9 @@ namespace Battle
 		virtual bool _isBlocking();
 		virtual bool _canCancel(unsigned int action);
 		virtual int _getAttackTier(unsigned int action) const;
-		virtual bool _checkHitPos(AObject *other) const;
+		virtual bool _checkHitPos(const AObject *other) const;
+		virtual void _blockMove(const AObject *other, const FrameData &data);
+		virtual void _getHitByMove(const AObject *other, const FrameData &data);
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 		void _onMoveEnd(const FrameData &lastData) override;

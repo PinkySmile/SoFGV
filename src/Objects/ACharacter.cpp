@@ -574,93 +574,10 @@ namespace Battle
 			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
 			!data->oFlag.unblockable &&
 			!data->oFlag.grab
-		) {
-			unsigned wrongBlockLevel = 0;
-
-			if (data->oFlag.lowHit && myData->dFlag.lowBlock);
-			else if (data->oFlag.highHit && myData->dFlag.highBlock);
-			else if (data->oFlag.autoHitPos && this->_checkHitPos(dynamic_cast<AObject *>(&other)));
-			else if (data->oFlag.lowHit || data->oFlag.highHit || data->oFlag.autoHitPos)
-				wrongBlockLevel += 2;
-
-			if (data->oFlag.matterElement && data->oFlag.voidElement && data->oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
-				wrongBlockLevel++;
-			else if (data->oFlag.matterElement) {
-				if (myData->dFlag.voidBlock);
-				else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
-					wrongBlockLevel += 1;
-				else if (myData->dFlag.spiritBlock)
-					wrongBlockLevel += 2;
-			} else if (data->oFlag.voidElement) {
-				if (myData->dFlag.spiritBlock);
-				else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
-					wrongBlockLevel += 1;
-				else if (myData->dFlag.matterBlock)
-					wrongBlockLevel += 2;
-			} else if (data->oFlag.spiritElement) {
-				if (myData->dFlag.matterBlock);
-				else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
-					wrongBlockLevel += 1;
-				else if (myData->dFlag.voidBlock)
-					wrongBlockLevel += 2;
-			}
-
-			if (wrongBlockLevel) {
-				if (this->_isGrounded())
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
-				else
-					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
-			} else {
-				if (this->_isGrounded())
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
-				else
-					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
-				this->_blockStun *= 3;
-				this->_blockStun /= 4;
-			}
-			this->_blockStun += data->blockStun * (3 + wrongBlockLevel) / 3;
-			this->_speed.x += data->pushBlock * -this->_dir;
-		} else {
-			if (myData->dFlag.counterHit && data->oFlag.canCounterHit && !data->dFlag.superarmor) {
-				if (this->_isGrounded() && data->counterHitSpeed.y <= 0)
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				else
-					this->_forceStartMove(ACTION_AIR_HIT);
-				this->_hp -= data->damage * 1.5 * this->_prorate;
-				this->_totalDamage += data->damage * 1.5 * this->_prorate;
-				this->_comboCtr++;
-				this->_blockStun = data->hitStun * 1.5;
-				this->_speed.x -= data->counterHitSpeed.x * this->_dir;
-				this->_speed.x = max(-data->counterHitSpeed.x * 1.5, min(data->counterHitSpeed.x * 1.5, this->_speed.x));
-				this->_speed.y -= data->counterHitSpeed.y;
-				this->_prorate *= data->prorate / 100;
-				this->_limit[0] += data->neutralLimit;
-				this->_limit[1] += data->voidLimit;
-				this->_limit[2] += data->matterLimit;
-				this->_limit[3] += data->spiritLimit;
-				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
-			} else {
-				this->_hp -= data->damage * this->_prorate;
-				if (!data->dFlag.superarmor) {
-					if (this->_isGrounded() && data->hitSpeed.y <= 0)
-						this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-					else
-						this->_forceStartMove(ACTION_AIR_HIT);
-					this->_totalDamage += data->damage * this->_prorate;
-					this->_comboCtr++;
-					this->_blockStun = data->hitStun;
-					this->_speed.x -= data->hitSpeed.x * this->_dir;
-					this->_speed.x = max(-data->hitSpeed.x * 1.5, min(data->hitSpeed.x * 1.5, this->_speed.x));
-					this->_speed.y -= data->hitSpeed.y;
-					this->_prorate *= data->prorate / 100;
-					this->_limit[0] += data->neutralLimit;
-					this->_limit[1] += data->voidLimit;
-					this->_limit[2] += data->matterLimit;
-					this->_limit[3] += data->spiritLimit;
-				}
-				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
-			}
-		}
+		)
+			this->_blockMove(dynamic_cast<AObject *>(&other), *data);
+		else
+			this->_getHitByMove(dynamic_cast<AObject *>(&other), *data);
 	}
 
 	bool ACharacter::_isBlocking()
@@ -1588,7 +1505,7 @@ namespace Battle
 #endif
 	}
 
-	bool ACharacter::_checkHitPos(AObject *other) const
+	bool ACharacter::_checkHitPos(const AObject *other) const
 	{
 		if (!other)
 			return false;
@@ -1669,5 +1586,113 @@ namespace Battle
 		if (height > 0)
 			return pts.size() == 1 ? oData->dFlag.highBlock : oData->dFlag.lowBlock;
 		return pts.size() == 1 ? oData->dFlag.lowBlock : oData->dFlag.highBlock;
+	}
+
+	void ACharacter::_blockMove(const AObject *other, const FrameData &data)
+	{
+		auto myData = this->getCurrentFrameData();
+		unsigned wrongBlockLevel = 0;
+
+		if (data.oFlag.lowHit && myData->dFlag.lowBlock);
+		else if (data.oFlag.highHit && myData->dFlag.highBlock);
+		else if (data.oFlag.autoHitPos && this->_checkHitPos(other));
+		else if (data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos)
+			wrongBlockLevel += 2;
+
+		if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
+			wrongBlockLevel++;
+		else if (data.oFlag.matterElement) {
+			if (myData->dFlag.voidBlock);
+			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
+				wrongBlockLevel += 1;
+			else if (myData->dFlag.spiritBlock)
+				wrongBlockLevel += 2;
+		} else if (data.oFlag.voidElement) {
+			if (myData->dFlag.spiritBlock);
+			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
+				wrongBlockLevel += 1;
+			else if (myData->dFlag.matterBlock)
+				wrongBlockLevel += 2;
+		} else if (data.oFlag.spiritElement) {
+			if (myData->dFlag.matterBlock);
+			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
+				wrongBlockLevel += 1;
+			else if (myData->dFlag.voidBlock)
+				wrongBlockLevel += 2;
+		}
+
+		if ((
+			this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
+		) || (
+			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK &&
+			this->_action <= ACTION_AIR_VOID_BLOCK &&
+			this->_action != ACTION_GROUND_HIGH_HIT &&
+			this->_action != ACTION_GROUND_LOW_HIT
+		) || (
+			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
+			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK
+		)) {
+			if (wrongBlockLevel) {
+				if (this->_isGrounded())
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
+				else
+					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
+			} else {
+				if (this->_isGrounded())
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+				else
+					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
+				this->_blockStun *= 3;
+				this->_blockStun /= 4;
+			}
+			this->_blockStun += data.blockStun * (3 + wrongBlockLevel) / 3;
+		} else if (wrongBlockLevel)
+			return this->_getHitByMove(other, data);
+		this->_speed.x += data.pushBlock * -this->_dir;
+	}
+
+	void ACharacter::_getHitByMove(const AObject *other, const FrameData &data)
+	{
+		auto myData = this->getCurrentFrameData();
+
+		if (myData->dFlag.counterHit && data.oFlag.canCounterHit && !data.dFlag.superarmor) {
+			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
+				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+			else
+				this->_forceStartMove(ACTION_AIR_HIT);
+			this->_hp -= data.damage * 1.5 * this->_prorate;
+			this->_totalDamage += data.damage * 1.5 * this->_prorate;
+			this->_comboCtr++;
+			this->_blockStun = data.hitStun * 1.5;
+			this->_speed.x -= data.counterHitSpeed.x * this->_dir;
+			this->_speed.x = max(-data.counterHitSpeed.x * 1.5, min(data.counterHitSpeed.x * 1.5, this->_speed.x));
+			this->_speed.y -= data.counterHitSpeed.y;
+			this->_prorate *= data.prorate / 100;
+			this->_limit[0] += data.neutralLimit;
+			this->_limit[1] += data.voidLimit;
+			this->_limit[2] += data.matterLimit;
+			this->_limit[3] += data.spiritLimit;
+			logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
+		} else {
+			this->_hp -= data.damage * this->_prorate;
+			if (!data.dFlag.superarmor) {
+				if (this->_isGrounded() && data.hitSpeed.y <= 0)
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				else
+					this->_forceStartMove(ACTION_AIR_HIT);
+				this->_totalDamage += data.damage * this->_prorate;
+				this->_comboCtr++;
+				this->_blockStun = data.hitStun;
+				this->_speed.x -= data.hitSpeed.x * this->_dir;
+				this->_speed.x = max(-data.hitSpeed.x * 1.5, min(data.hitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.y -= data.hitSpeed.y;
+				this->_prorate *= data.prorate / 100;
+				this->_limit[0] += data.neutralLimit;
+				this->_limit[1] += data.voidLimit;
+				this->_limit[2] += data.matterLimit;
+				this->_limit[3] += data.spiritLimit;
+			}
+			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+		}
 	}
 }
