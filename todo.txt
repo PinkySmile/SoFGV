@@ -1,5 +1,3 @@
-Air dash limit
-Auto height
 Mana
 Dash momentum change
 Guard point

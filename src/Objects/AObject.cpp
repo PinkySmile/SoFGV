@@ -8,71 +8,98 @@
 
 namespace Battle
 {
-	struct Rectangle {
-		Vector2f pt1;
-		Vector2f pt2;
-		Vector2f pt3;
-		Vector2f pt4;
+	bool Rectangle::intersect(const Rectangle &other)
+	{
+		return Rectangle::intersect(this->pt1, this->pt2, other.pt1, other.pt2) ||
+		       Rectangle::intersect(this->pt2, this->pt3, other.pt1, other.pt2) ||
+		       Rectangle::intersect(this->pt3, this->pt4, other.pt1, other.pt2) ||
+		       Rectangle::intersect(this->pt4, this->pt1, other.pt1, other.pt2) ||
 
-		bool intersect(const Rectangle &other)
-		{
-			return Rectangle::intersect(this->pt1, this->pt2, other.pt1, other.pt2) ||
-			       Rectangle::intersect(this->pt2, this->pt3, other.pt1, other.pt2) ||
-			       Rectangle::intersect(this->pt3, this->pt4, other.pt1, other.pt2) ||
-			       Rectangle::intersect(this->pt4, this->pt1, other.pt1, other.pt2) ||
+		       Rectangle::intersect(this->pt1, this->pt2, other.pt2, other.pt3) ||
+		       Rectangle::intersect(this->pt2, this->pt3, other.pt2, other.pt3) ||
+		       Rectangle::intersect(this->pt3, this->pt4, other.pt2, other.pt3) ||
+		       Rectangle::intersect(this->pt4, this->pt1, other.pt2, other.pt3) ||
 
-			       Rectangle::intersect(this->pt1, this->pt2, other.pt2, other.pt3) ||
-			       Rectangle::intersect(this->pt2, this->pt3, other.pt2, other.pt3) ||
-			       Rectangle::intersect(this->pt3, this->pt4, other.pt2, other.pt3) ||
-			       Rectangle::intersect(this->pt4, this->pt1, other.pt2, other.pt3) ||
+		       Rectangle::intersect(this->pt1, this->pt2, other.pt3, other.pt4) ||
+		       Rectangle::intersect(this->pt2, this->pt3, other.pt3, other.pt4) ||
+		       Rectangle::intersect(this->pt3, this->pt4, other.pt3, other.pt4) ||
+		       Rectangle::intersect(this->pt4, this->pt1, other.pt3, other.pt4) ||
 
-			       Rectangle::intersect(this->pt1, this->pt2, other.pt3, other.pt4) ||
-			       Rectangle::intersect(this->pt2, this->pt3, other.pt3, other.pt4) ||
-			       Rectangle::intersect(this->pt3, this->pt4, other.pt3, other.pt4) ||
-			       Rectangle::intersect(this->pt4, this->pt1, other.pt3, other.pt4) ||
+		       Rectangle::intersect(this->pt1, this->pt2, other.pt4, other.pt1) ||
+		       Rectangle::intersect(this->pt2, this->pt3, other.pt4, other.pt1) ||
+		       Rectangle::intersect(this->pt3, this->pt4, other.pt4, other.pt1) ||
+		       Rectangle::intersect(this->pt4, this->pt1, other.pt4, other.pt1);
+	}
 
-			       Rectangle::intersect(this->pt1, this->pt2, other.pt4, other.pt1) ||
-			       Rectangle::intersect(this->pt2, this->pt3, other.pt4, other.pt1) ||
-			       Rectangle::intersect(this->pt3, this->pt4, other.pt4, other.pt1) ||
-			       Rectangle::intersect(this->pt4, this->pt1, other.pt4, other.pt1);
+	bool Rectangle::intersect(const Vector2f &A, const Vector2f &B, const Vector2f &C, const Vector2f &D)
+	{
+		auto AB = B - A;
+		auto CD = D - C;
+
+		if (CD.y * AB.x == CD.x * AB.y)
+			return false;
+
+		auto u = ((A.y - C.y) * AB.x + (C.x - A.x) * AB.y) / (CD.y * AB.x - CD.x * AB.y);
+		auto t = AB.x == 0 ? (C.y + u * CD.y - A.y) / AB.y : (C.x + u * CD.x - A.x) / AB.x;
+
+		return u >= 0 && u <= 1 && t >= 0 && t <= 1;
+	}
+
+	std::vector<std::vector<Vector2f>> Rectangle::getIntersectionPoints(const Rectangle &other)
+	{
+		std::vector<std::vector<Vector2f>> result;
+		std::vector<Vector2f> tmp;
+
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				auto A = (&this->pt1)[j];
+				auto B = (&this->pt1)[(j + 1) % 4];
+				auto C = (&other.pt1)[i];
+				auto D = (&other.pt1)[(i + 1) % 4];
+				auto AB = B - A;
+				auto CD = D - C;
+
+				if (CD.y * AB.x == CD.x * AB.y)
+					continue;
+
+				auto u = ((A.y - C.y) * AB.x + (C.x - A.x) * AB.y) / (CD.y * AB.x - CD.x * AB.y);
+				auto t = AB.x == 0 ? (C.y + u * CD.y - A.y) / AB.y : (C.x + u * CD.x - A.x) / AB.x;
+
+				if (u < 0 || u > 1 || t < 0 || t > 1)
+					continue;
+
+				auto r = C + CD * u;
+
+				tmp.emplace_back(r);
+			}
+			if (!tmp.empty())
+				result.push_back(tmp);
+			tmp.clear();
 		}
+		return result;
+	}
 
-		static bool intersect(const Vector2f &A, const Vector2f &B, const Vector2f &C, const Vector2f &D)
-		{
-			auto AB = B - A;
-			auto CD = D - C;
+	bool Rectangle::isIn(const Rectangle &other)
+	{
+		Vector2f maxPt1{
+			std::max(this->pt1.x, std::max(this->pt2.x, std::max(this->pt3.x, this->pt4.x))),
+			std::max(this->pt1.y, std::max(this->pt2.y, std::max(this->pt3.y, this->pt4.y)))
+		};
+		Vector2f maxPt2{
+			std::max(other.pt1.x, std::max(other.pt2.x, std::max(other.pt3.x, other.pt4.x))),
+			std::max(other.pt1.y, std::max(other.pt2.y, std::max(other.pt3.y, other.pt4.y)))
+		};
+		Vector2f minPt1{
+			std::min(this->pt1.x, std::min(this->pt2.x, std::min(this->pt3.x, this->pt4.x))),
+			std::min(this->pt1.y, std::min(this->pt2.y, std::min(this->pt3.y, this->pt4.y)))
+		};
+		Vector2f minPt2{
+			std::min(other.pt1.x, std::min(other.pt2.x, std::min(other.pt3.x, other.pt4.x))),
+			std::min(other.pt1.y, std::min(other.pt2.y, std::min(other.pt3.y, other.pt4.y)))
+		};
 
-			if (CD.y * AB.x == CD.x * AB.y)
-				return false;
-
-			auto u = ((A.y - C.y) * AB.x + (C.x - A.x) * AB.y) / (CD.y * AB.x - CD.x * AB.y);
-			auto t = AB.x == 0 ? (C.y + u * CD.y - A.y) / AB.y : (C.x + u * CD.x - A.x) / AB.x;
-
-			return u >= 0 && u <= 1 && t >= 0 && t <= 1;
-		}
-
-		bool isIn(const Rectangle &other)
-		{
-			Vector2f maxPt1{
-				std::max(this->pt1.x, std::max(this->pt2.x, std::max(this->pt3.x, this->pt4.x))),
-				std::max(this->pt1.y, std::max(this->pt2.y, std::max(this->pt3.y, this->pt4.y)))
-			};
-			Vector2f maxPt2{
-				std::max(other.pt1.x, std::max(other.pt2.x, std::max(other.pt3.x, other.pt4.x))),
-				std::max(other.pt1.y, std::max(other.pt2.y, std::max(other.pt3.y, other.pt4.y)))
-			};
-			Vector2f minPt1{
-				std::min(this->pt1.x, std::min(this->pt2.x, std::min(this->pt3.x, this->pt4.x))),
-				std::min(this->pt1.y, std::min(this->pt2.y, std::min(this->pt3.y, this->pt4.y)))
-			};
-			Vector2f minPt2{
-				std::min(other.pt1.x, std::min(other.pt2.x, std::min(other.pt3.x, other.pt4.x))),
-				std::min(other.pt1.y, std::min(other.pt2.y, std::min(other.pt3.y, other.pt4.y)))
-			};
-
-			return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
-		}
-	};
+		return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
+	}
 
 	void AObject::render() const
 	{
@@ -233,7 +260,7 @@ namespace Battle
 		};
 		oCenter.y *= -1;
 		oCenter += Vector2f{
-			oData->size.x / -2.f - oData->offset.x * !this->_direction * 2.f,
+			oData->size.x / -2.f - oData->offset.x * !asAObject->_direction * 2.f,
 			-static_cast<float>(oData->size.y) + oData->offset.y
 		};
 		oCenter += Vector2f{
@@ -245,10 +272,10 @@ namespace Battle
 			auto _hurtBox = asAObject->_applyModifiers(hurtBox);
 			Rectangle __hurtBox;
 
-			__hurtBox.pt1 = _hurtBox.pos.rotation(this->_rotation, oCenter)                                                      + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(this->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(this->_rotation, oCenter)                                    + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(this->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt1 = _hurtBox.pos.rotation(asAObject->_rotation, oCenter)                                                      + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(asAObject->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(asAObject->_rotation, oCenter)                                    + Vector2f{asAObject->_position.x, -asAObject->_position.y};
+			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(asAObject->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
 			for (auto &hitBox : mData->hitBoxes) {
 				auto _hitBox = this->_applyModifiers(hitBox);
 				Rectangle __hitBox;

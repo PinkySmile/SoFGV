@@ -12,6 +12,18 @@
 
 namespace Battle
 {
+	struct Rectangle {
+		Vector2f pt1;
+		Vector2f pt2;
+		Vector2f pt3;
+		Vector2f pt4;
+
+		bool intersect(const Rectangle &other);
+		std::vector<std::vector<Vector2f>> getIntersectionPoints(const Rectangle &other);
+		static bool intersect(const Vector2f &A, const Vector2f &B, const Vector2f &C, const Vector2f &D);
+		bool isIn(const Rectangle &other);
+	};
+
 	class AObject : public IObject {
 	protected:
 		mutable Sprite _sprite;
@@ -69,12 +81,11 @@ namespace Battle
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void collide(IObject &other) override;
-
 		bool collides(IObject &other) const override;
-
 		const FrameData *getCurrentFrameData() const override;
 
 		friend class BattleManager;
+		friend class ACharacter;
 	};
 }
 

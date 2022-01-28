@@ -608,33 +608,34 @@ namespace Battle
 		} else {
 			unsigned wrongBlockLevel = 0;
 
-			if (data->oFlag.lowHit && !myData->dFlag.lowBlock)
-				wrongBlockLevel++;
-			else if (data->oFlag.highHit && !myData->dFlag.highBlock)
-				wrongBlockLevel++;
+			if (data->oFlag.lowHit && myData->dFlag.lowBlock);
+			else if (data->oFlag.highHit && myData->dFlag.highBlock);
+			else if (data->oFlag.autoHitPos && this->_checkHitPos(dynamic_cast<AObject *>(&other)));
+			else if (data->oFlag.lowHit || data->oFlag.highHit || data->oFlag.autoHitPos)
+				wrongBlockLevel += 2;
+
 			if (data->oFlag.matterElement && data->oFlag.voidElement && data->oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
 				wrongBlockLevel++;
-			else {
-				if (data->oFlag.matterElement) {
-					if (myData->dFlag.voidBlock);
-					else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
-						wrongBlockLevel += 1;
-					else if (myData->dFlag.spiritBlock)
-						wrongBlockLevel += 2;
-				} else if (data->oFlag.voidElement) {
-					if (myData->dFlag.spiritBlock);
-					else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
-						wrongBlockLevel += 1;
-					else if (myData->dFlag.matterBlock)
-						wrongBlockLevel += 2;
-				} else if (data->oFlag.spiritElement) {
-					if (myData->dFlag.matterBlock);
-					else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
-						wrongBlockLevel += 1;
-					else if (myData->dFlag.voidBlock)
-						wrongBlockLevel += 2;
-				}
+			else if (data->oFlag.matterElement) {
+				if (myData->dFlag.voidBlock);
+				else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
+					wrongBlockLevel += 1;
+				else if (myData->dFlag.spiritBlock)
+					wrongBlockLevel += 2;
+			} else if (data->oFlag.voidElement) {
+				if (myData->dFlag.spiritBlock);
+				else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
+					wrongBlockLevel += 1;
+				else if (myData->dFlag.matterBlock)
+					wrongBlockLevel += 2;
+			} else if (data->oFlag.spiritElement) {
+				if (myData->dFlag.matterBlock);
+				else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
+					wrongBlockLevel += 1;
+				else if (myData->dFlag.voidBlock)
+					wrongBlockLevel += 2;
 			}
+
 			if (wrongBlockLevel) {
 				if (this->_isGrounded())
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
@@ -1540,8 +1541,8 @@ namespace Battle
 			"voidLimit: %u\n"
 			"spiritLimit: %u\n"
 			"matterLimit: %u\n"
-			"pushBack: %u\n"
-			"pushBlock: %u\n"
+			"pushBack: %i\n"
+			"pushBlock: %i\n"
 			"subObjectSpawn: %u\n"
 			"manaGain: %u\n"
 			"manaCost: %u\n"
@@ -1576,5 +1577,88 @@ namespace Battle
 		this->_text2.setString(buffer);
 		this->_text2.setPosition({static_cast<float>(this->_team * 600 + 150), -450});
 #endif
+	}
+
+	bool ACharacter::_checkHitPos(AObject *other) const
+	{
+		if (!other)
+			return false;
+
+		auto *oData = this->getCurrentFrameData();
+		auto *mData = other->getCurrentFrameData();
+		auto mCenter = other->_position;
+		auto oCenter = this->_position;
+		auto mScale = Vector2f{
+			static_cast<float>(mData->size.x) / mData->textureBounds.size.x,
+			static_cast<float>(mData->size.y) / mData->textureBounds.size.y
+		};
+		auto oScale = Vector2f{
+			static_cast<float>(oData->size.x) / oData->textureBounds.size.x,
+			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
+		};
+		bool found = false;
+		Battle::Rectangle hurtbox;
+		Battle::Rectangle hitbox;
+
+		mCenter.y *= -1;
+		mCenter += Vector2f{
+			mData->size.x / -2.f - mData->offset.x * !other->_direction * 2.f,
+			-static_cast<float>(mData->size.y) + mData->offset.y
+		};
+		mCenter += Vector2f{
+			mData->textureBounds.size.x * mScale.x / 2,
+			mData->textureBounds.size.y * mScale.y / 2
+		};
+		oCenter.y *= -1;
+		oCenter += Vector2f{
+			oData->size.x / -2.f - oData->offset.x * !this->_direction * 2.f,
+			-static_cast<float>(oData->size.y) + oData->offset.y
+		};
+		oCenter += Vector2f{
+			oData->textureBounds.size.x * oScale.x / 2,
+			oData->textureBounds.size.y * oScale.y / 2
+		};
+
+		for (auto &hurtBox : oData->hurtBoxes) {
+			auto _hurtBox = this->_applyModifiers(hurtBox);
+			Battle::Rectangle __hurtBox;
+
+			__hurtBox.pt1 = _hurtBox.pos.rotation(this->_rotation, oCenter)                                                      + Vector2f{this->_position.x, -this->_position.y};
+			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(this->_rotation, oCenter) + Vector2f{this->_position.x, -this->_position.y};
+			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(this->_rotation, oCenter)                                    + Vector2f{this->_position.x, -this->_position.y};
+			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(this->_rotation, oCenter) + Vector2f{this->_position.x, -this->_position.y};
+			hurtbox = __hurtBox;
+			for (auto &hitBox : mData->hitBoxes) {
+				auto _hitBox = other->_applyModifiers(hitBox);
+				Battle::Rectangle __hitBox;
+
+				__hitBox.pt1 = _hitBox.pos.rotation(other->_rotation, mCenter)                                                     + Vector2f{other->_position.x, -other->_position.y};
+				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(other->_rotation, mCenter) + Vector2f{other->_position.x, -other->_position.y};
+				__hitBox.pt3 = (_hitBox.pos + _hitBox.size).rotation(other->_rotation, mCenter)                                    + Vector2f{other->_position.x, -other->_position.y};
+				__hitBox.pt4 = (_hitBox.pos + Vector2f{static_cast<float>(_hitBox.size.x), 0}).rotation(other->_rotation, mCenter) + Vector2f{other->_position.x, -other->_position.y};
+				if (__hurtBox.intersect(__hitBox) || __hurtBox.isIn(__hitBox) || __hitBox.isIn(__hurtBox)) {
+					hitbox = __hitBox;
+					found = true;
+					break;
+				}
+			}
+			if (found)
+				break;
+		}
+		if (!found)
+			return true;
+
+		auto height = 0;
+		auto pts = hurtbox.getIntersectionPoints(hitbox);
+		auto center = this->_position.y + oData->offset.y + oData->size.y / 2;
+
+		for (auto &arr : pts)
+			for (auto &pt : arr)
+				height += (pt.y > center) - (pt.y < center);
+		if (height == 0)
+			return true;
+		if (height > 0)
+			return pts.size() == 1 ? oData->dFlag.highBlock : oData->dFlag.lowBlock;
+		return pts.size() == 1 ? oData->dFlag.lowBlock : oData->dFlag.highBlock;
 	}
 }
