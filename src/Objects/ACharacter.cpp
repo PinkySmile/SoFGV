@@ -157,6 +157,8 @@ namespace Battle
 					this->_forceStartMove(ACTION_FALLING);
 			}
 		}
+		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel)
+			this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		if (!this->_blockStun)
 			this->_processInput(this->updateInputs());
 
@@ -723,6 +725,8 @@ namespace Battle
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
+		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)))
+			return true;
 		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
 			return true;
 		if (action == this->_action && currentData->oFlag.jab)
