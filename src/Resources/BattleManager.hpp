@@ -25,6 +25,7 @@ namespace Battle
 			unsigned hp;
 			Vector2f gravity;
 			unsigned char maxJumps;
+			unsigned char maxAirDash;
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);

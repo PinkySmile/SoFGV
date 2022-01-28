@@ -222,6 +222,8 @@ namespace Battle
 			throw std::invalid_argument("gravity.y is missing");
 		if (!json.contains("jump_count"))
 			throw std::invalid_argument("jump_count is missing");
+		if (!json.contains("air_dash_count"))
+			throw std::invalid_argument("air_dash_count is missing");
 		if (!json.contains("icon"))
 			throw std::invalid_argument("icon is missing");
 		if (!json.contains("palettes"))

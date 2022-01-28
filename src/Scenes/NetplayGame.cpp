@@ -26,7 +26,8 @@ namespace Battle
 				},
 				20000,
 				{0, -1},
-				1
+				2,
+				2
 			},
 			BattleManager::CharacterParams{
 				new ACharacter{
@@ -36,7 +37,8 @@ namespace Battle
 				},
 				20000,
 				{0, -1},
-				1
+				2,
+				2
 			}
 		);
 		this->_hosts = leftInput == input;

@@ -14,8 +14,8 @@ namespace Battle
 	{
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
-		this->_leftCharacter->init(true, leftCharacter.hp, leftCharacter.maxJumps, leftCharacter.gravity);
-		this->_rightCharacter->init(false, rightCharacter.hp, rightCharacter.maxJumps, rightCharacter.gravity);
+		this->_leftCharacter->init(true, leftCharacter.hp, leftCharacter.maxJumps, leftCharacter.maxAirDash, leftCharacter.gravity);
+		this->_rightCharacter->init(false, rightCharacter.hp, rightCharacter.maxJumps, rightCharacter.maxAirDash, rightCharacter.gravity);
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)

@@ -117,37 +117,6 @@ namespace Battle
 	void ACharacter::update()
 	{
 		this->_tickMove();
-		if (this->_isGrounded() && this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
-			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
-		if (
-			this->_isGrounded() &&
-			this->_action != ACTION_NEUTRAL_JUMP &&
-			this->_action != ACTION_FORWARD_JUMP &&
-			this->_action != ACTION_BACKWARD_JUMP &&
-			this->_action != ACTION_NEUTRAL_AIR_JUMP &&
-			this->_action != ACTION_FORWARD_AIR_JUMP &&
-			this->_action != ACTION_BACKWARD_AIR_JUMP &&
-			this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
-			this->_action != ACTION_FORWARD_HIGH_JUMP &&
-			this->_action != ACTION_BACKWARD_HIGH_JUMP
-		)
-			this->_jumpsUsed = 0;
-		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9 && this->_isGrounded())
-			this->_forceStartMove(ACTION_HARD_LAND);
-		else if (this->_action == ACTION_AIR_HIT && this->_isGrounded()) {
-			this->_blockStun = 0;
-			this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
-		} else if ((
-			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
-			this->_action == ACTION_AIR_MATTER_BLOCK ||
-			this->_action == ACTION_AIR_VOID_BLOCK ||
-			this->_action == ACTION_AIR_SPIRIT_BLOCK ||
-			(this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
-			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
-		) && this->_isGrounded()) {
-			this->_blockStun = 0;
-			this->_forceStartMove(ACTION_IDLE);
-		}
 		if (this->_blockStun) {
 			this->_blockStun--;
 			if (this->_blockStun == 0) {
@@ -159,6 +128,35 @@ namespace Battle
 		}
 		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel)
 			this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+
+		if (this->_isGrounded()) {
+			this->_airDashesUsed = 0;
+			if (this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
+				this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
+			if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
+				this->_forceStartMove(ACTION_HARD_LAND);
+			else if (this->_action == ACTION_AIR_HIT) {
+				this->_blockStun = 0;
+				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+			} else if ((
+				this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
+				this->_action == ACTION_AIR_MATTER_BLOCK ||
+				this->_action == ACTION_AIR_VOID_BLOCK ||
+				this->_action == ACTION_AIR_SPIRIT_BLOCK ||
+				(this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK && this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
+			)) {
+				this->_blockStun = 0;
+				this->_forceStartMove(ACTION_IDLE);
+			} else if (
+				this->_action != ACTION_NEUTRAL_JUMP &&
+				this->_action != ACTION_FORWARD_JUMP &&
+				this->_action != ACTION_BACKWARD_JUMP &&
+				this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
+				this->_action != ACTION_FORWARD_HIGH_JUMP &&
+				this->_action != ACTION_BACKWARD_HIGH_JUMP
+			)
+				this->_jumpsUsed = 0;
+		}
 		if (!this->_blockStun)
 			this->_processInput(this->updateInputs());
 
@@ -238,13 +236,14 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, Vector2f gravity)
+	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
 		this->_team = !side;
 		this->_baseHp = this->_hp = maxHp;
 		this->_maxJumps = maxJumps;
+		this->_maxAirDashes = maxAirDash;
 		this->_baseGravity = this->_gravity = gravity;
 		if (side) {
 			this->_position = {200, 0};
@@ -359,8 +358,8 @@ namespace Battle
 		        (input.m && input.m <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
 		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2M)) ||
 		        (input.m && input.m <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5M)) ||
-		        this->_executeAirJump(input)   ||
-		        this->_executeAirDashes(input);
+			this->_executeAirDashes(input) ||
+		        this->_executeAirJump(input);
 	}
 
 	bool ACharacter::_executeGroundMoves(const InputStruct &input)
@@ -458,7 +457,7 @@ namespace Battle
 		if (this->_canCancel(action))
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
-			return this->_action < ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING;
+			return this->_airDashesUsed < this->_maxAirDashes && (this->_action < ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
@@ -684,6 +683,7 @@ namespace Battle
 			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
 		} else if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9) {
+			this->_airDashesUsed++;
 			if (
 				this->_action == ACTION_NEUTRAL_JUMP ||
 				this->_action == ACTION_FORWARD_JUMP ||
@@ -1100,7 +1100,7 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
-			if (found4 && foundOther && input.h < 0)
+			if (found4 && foundOther && input.h < 0 && input.v == 0)
 				return true;
 			found4 |= input.h < 0;
 			foundOther |= found4 && input.h >= 0;
@@ -1118,7 +1118,7 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
-			if (found6 && foundOther && input.h > 0)
+			if (found6 && foundOther && input.h > 0 && input.v == 0)
 				return true;
 			found6 |= input.h > 0;
 			foundOther |= found6 && input.h <= 0;
