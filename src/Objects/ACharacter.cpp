@@ -44,7 +44,7 @@ static const char *oFlags[] = {
 	"cancelable",
 	"jab",
 	"resetHits",
-	"resetSpeed",
+	"resetOPSpeed",
 	"restand",
 	"super",
 	"ultimate",
@@ -79,7 +79,8 @@ static const char *dFlags[] = {
 	"projectileInvul",
 	"projectile",
 	"landCancel",
-	"dashCancel"
+	"dashCancel",
+	"resetSpeed"
 };
 #endif
 namespace Battle
@@ -569,45 +570,11 @@ namespace Battle
 		if (data->oFlag.resetSpeed)
 			this->_speed = {0, 0};
 		if (
-			!this->_isBlocking() ||
-			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
-			data->oFlag.unblockable ||
-			data->oFlag.grab
+			this->_isBlocking() &&
+			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
+			!data->oFlag.unblockable &&
+			!data->oFlag.grab
 		) {
-			if (this->_isGrounded() && data->hitSpeed.y <= 0)
-				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-			else
-				this->_forceStartMove(ACTION_AIR_HIT);
-			if (myData->dFlag.counterHit && data->oFlag.canCounterHit) {
-				this->_hp -= data->damage * 1.5 * this->_prorate;
-				this->_totalDamage += data->damage * 1.5 * this->_prorate;
-				this->_comboCtr++;
-				this->_blockStun = data->hitStun * 1.5;
-				this->_speed.x -= data->counterHitSpeed.x * this->_dir;
-				this->_speed.x = max(-data->counterHitSpeed.x * 1.5, min(data->counterHitSpeed.x * 1.5, this->_speed.x));
-				this->_speed.y -= data->counterHitSpeed.y;
-				this->_prorate *= data->prorate / 100;
-				this->_limit[0] += data->neutralLimit;
-				this->_limit[1] += data->voidLimit;
-				this->_limit[2] += data->matterLimit;
-				this->_limit[3] += data->spiritLimit;
-				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
-			} else {
-				this->_hp -= data->damage * this->_prorate;
-				this->_totalDamage += data->damage * this->_prorate;
-				this->_comboCtr++;
-				this->_blockStun = data->hitStun;
-				this->_speed.x -= data->hitSpeed.x * this->_dir;
-				this->_speed.x = max(-data->hitSpeed.x * 1.5, min(data->hitSpeed.x * 1.5, this->_speed.x));
-				this->_speed.y -= data->hitSpeed.y;
-				this->_prorate *= data->prorate / 100;
-				this->_limit[0] += data->neutralLimit;
-				this->_limit[1] += data->voidLimit;
-				this->_limit[2] += data->matterLimit;
-				this->_limit[3] += data->spiritLimit;
-				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
-			}
-		} else {
 			unsigned wrongBlockLevel = 0;
 
 			if (data->oFlag.lowHit && myData->dFlag.lowBlock);
@@ -653,6 +620,46 @@ namespace Battle
 			}
 			this->_blockStun += data->blockStun * (3 + wrongBlockLevel) / 3;
 			this->_speed.x += data->pushBlock * -this->_dir;
+		} else {
+			if (myData->dFlag.counterHit && data->oFlag.canCounterHit && !data->dFlag.superarmor) {
+				if (this->_isGrounded() && data->counterHitSpeed.y <= 0)
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				else
+					this->_forceStartMove(ACTION_AIR_HIT);
+				this->_hp -= data->damage * 1.5 * this->_prorate;
+				this->_totalDamage += data->damage * 1.5 * this->_prorate;
+				this->_comboCtr++;
+				this->_blockStun = data->hitStun * 1.5;
+				this->_speed.x -= data->counterHitSpeed.x * this->_dir;
+				this->_speed.x = max(-data->counterHitSpeed.x * 1.5, min(data->counterHitSpeed.x * 1.5, this->_speed.x));
+				this->_speed.y -= data->counterHitSpeed.y;
+				this->_prorate *= data->prorate / 100;
+				this->_limit[0] += data->neutralLimit;
+				this->_limit[1] += data->voidLimit;
+				this->_limit[2] += data->matterLimit;
+				this->_limit[3] += data->spiritLimit;
+				logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
+			} else {
+				this->_hp -= data->damage * this->_prorate;
+				if (!data->dFlag.superarmor) {
+					if (this->_isGrounded() && data->hitSpeed.y <= 0)
+						this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+					else
+						this->_forceStartMove(ACTION_AIR_HIT);
+					this->_totalDamage += data->damage * this->_prorate;
+					this->_comboCtr++;
+					this->_blockStun = data->hitStun;
+					this->_speed.x -= data->hitSpeed.x * this->_dir;
+					this->_speed.x = max(-data->hitSpeed.x * 1.5, min(data->hitSpeed.x * 1.5, this->_speed.x));
+					this->_speed.y -= data->hitSpeed.y;
+					this->_prorate *= data->prorate / 100;
+					this->_limit[0] += data->neutralLimit;
+					this->_limit[1] += data->voidLimit;
+					this->_limit[2] += data->matterLimit;
+					this->_limit[3] += data->spiritLimit;
+				}
+				logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+			}
 		}
 	}
 
@@ -1456,7 +1463,7 @@ namespace Battle
 
 #ifdef _DEBUG
 		auto data = this->getCurrentFrameData();
-		char buffer[4096];
+		char buffer[8194];
 
 		sprintf(
 			buffer,
