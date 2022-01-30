@@ -214,9 +214,12 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
 	auto dFlags = panel->get<tgui::EditBox>("dFlags");
 	auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+	auto actionName = panel->get<tgui::Button>("ActionName");
+	auto name = Battle::actionNames.find(static_cast<Battle::CharacterActions>(object->_action));
 
 	logger.debug("Soft refresh");
 	*c = true;
+	actionName->setText(name == Battle::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
 	dFlags->setText(std::to_string(data.dFlag.flags));
 	oFlags->setText(std::to_string(data.oFlag.flags));
 	progress->setMinimum(0);
@@ -299,6 +302,7 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto panWeak = std::weak_ptr<tgui::Panel>(panel);
 	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
 	auto action = panel->get<tgui::EditBox>("Action");
+	auto actionName = panel->get<tgui::Button>("ActionName");
 	auto block = panel->get<tgui::SpinButton>("Block");
 	auto blockLabel = panel->get<tgui::Label>("Label1");
 	auto frameLabel = panel->get<tgui::Label>("Label2");
