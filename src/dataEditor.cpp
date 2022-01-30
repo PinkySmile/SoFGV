@@ -297,7 +297,7 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &
 	refreshFrameDataPanel(panel, gui.get<tgui::Panel>("Boxes"), object);
 }
 
-void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
+void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto panWeak = std::weak_ptr<tgui::Panel>(panel);
 	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
@@ -390,6 +390,45 @@ void	placeAnimPanelHooks(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::un
 	auto dc = panel->get<tgui::CheckBox>("DC");
 	auto resOPS = panel->get<tgui::CheckBox>("ResetOPSpeed");
 
+	actionName->connect("Clicked", [&gui, &object, block, action]{
+		auto window = Utils::openWindowWithFocus(gui, 500, "&.h - 100");
+		auto pan = tgui::ScrollablePanel::create({"&.w", "&.h"});
+		unsigned i = 0;
+
+		window->setTitle("Default character moves");
+		window->add(pan);
+		for (auto &move : Battle::actionNames) {
+			auto label = tgui::Label::create(std::to_string(move.first));
+			auto button = tgui::Button::create(move.second);
+
+			label->setPosition(10, i * 25 + 12);
+			button->setPosition(50, i * 25 + 10);
+			button->setSize(430, 20);
+			if (object->_moves.find(move.first) == object->_moves.end()) {
+				button->getRenderer()->setTextColor(tgui::Color::Red);
+				button->getRenderer()->setTextColorHover(tgui::Color{0xFF, 0x40, 0x40});
+				button->getRenderer()->setTextColorDisabled(tgui::Color{0xA0, 0, 0});
+				button->getRenderer()->setTextColorDown(tgui::Color{0x80, 0x00, 0x00});
+				button->getRenderer()->setTextColorFocused(tgui::Color{0x80, 0x20, 0x20});
+			}
+
+			button->connect("Clicked", [move, action](std::weak_ptr<tgui::ChildWindow> win){
+				win.lock()->close();
+				action->setText(std::to_string(move.first));
+				action->onReturnKeyPress.emit(&*action, action->getText());
+			}, std::weak_ptr<tgui::ChildWindow>(window));
+
+			pan->add(label);
+			pan->add(button);
+			i++;
+		}
+
+		auto label = tgui::Label::create("");
+
+		label->setPosition(10, i * 25 + 10);
+		label->setSize(10, 5);
+		pan->add(label);
+	});
 	boxes->connect("Clicked", []{
 		if (!dragStart && !canDrag)
 			selectBox(nullptr, nullptr);
@@ -1690,7 +1729,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	auto boxes = gui.get<tgui::Panel>("Boxes");
 
 	logger.debug("Placing hooks");
-	placeAnimPanelHooks(panel, boxes, object);
+	placeAnimPanelHooks(gui, panel, boxes, object);
 
 	bar->setMenuEnabled({"New"}, false);
 	bar->setMenuEnabled({"Remove"}, false);
