@@ -21,14 +21,22 @@ namespace Battle
 				lJson["hp"],
 				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
 				lJson["jump_count"],
-				lJson["air_dash_count"]
+				lJson["air_dash_count"],
+				lJson["void_mana_max"],
+				lJson["spirit_mana_max"],
+				lJson["matter_mana_max"],
+				lJson["mana_regen"]
 			},
 			BattleManager::CharacterParams{
 				rightChr,
 				rJson["hp"],
 				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
 				rJson["jump_count"],
-				rJson["air_dash_count"]
+				rJson["air_dash_count"],
+				rJson["void_mana_max"],
+				rJson["spirit_mana_max"],
+				rJson["matter_mana_max"],
+				rJson["mana_regen"]
 			}
 		);
 	}

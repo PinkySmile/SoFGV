@@ -224,6 +224,14 @@ namespace Battle
 			throw std::invalid_argument("jump_count is missing");
 		if (!json.contains("air_dash_count"))
 			throw std::invalid_argument("air_dash_count is missing");
+		if (!json.contains("void_mana_max"))
+			throw std::invalid_argument("void_mana_max is missing");
+		if (!json.contains("spirit_mana_max"))
+			throw std::invalid_argument("spirit_mana_max is missing");
+		if (!json.contains("matter_mana_max"))
+			throw std::invalid_argument("matter_mana_max is missing");
+		if (!json.contains("mana_regen"))
+			throw std::invalid_argument("mana_regen is missing");
 		if (!json.contains("icon"))
 			throw std::invalid_argument("icon is missing");
 		if (!json.contains("palettes"))

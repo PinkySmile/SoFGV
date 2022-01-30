@@ -118,6 +118,9 @@ namespace Battle
 	void ACharacter::update()
 	{
 		this->_tickMove();
+		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
+		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
+		this->_voidMana   += (this->_voidManaMax   - this->_voidMana)   * this->_regen;
 		if (this->_blockStun) {
 			this->_blockStun--;
 			if (this->_blockStun == 0) {
@@ -162,74 +165,9 @@ namespace Battle
 			this->_processInput(this->updateInputs());
 
 		this->_applyMoveAttributes();
-		if (this->_position.x < 0) {
-			this->_position.x = 0;
-			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
-			) {
-				this->_forceStartMove(ACTION_WALL_SLAM);
-				this->_speed.x *= -0.8;
-				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
-			} else
-				this->_speed.x = 0;
-		} else if (this->_position.x > 1000) {
-			this->_position.x = 1000;
-			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
-				this->_forceStartMove(ACTION_WALL_SLAM);
-				this->_speed.x *= -0.8;
-				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
-			} else
-				this->_speed.x = 0;
-		}
-
-		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
-
-		this->_justGotCorner = newPriority && !this->_cornerPriority;
-		if (newPriority && this->_justGotCorner) {
-			if (newPriority == this->_opponent->_cornerPriority) {
-				if (this->_team == 1) {
-					if (this->_opponent->_justGotCorner && this->_opponent->_cornerPriority == 1) {
-						this->_cornerPriority = newPriority;
-						this->_opponent->_justGotCorner = false;
-						this->_opponent->_cornerPriority = 0;
-					} else
-						this->_cornerPriority = 0;
-				} else
-					this->_cornerPriority = 0;
-			} else {
-				this->_justGotCorner = newPriority && !this->_cornerPriority;
-				this->_cornerPriority = newPriority;
-			}
-		} else if (!newPriority) {
-			this->_justGotCorner = false;
-			this->_cornerPriority = 0;
-		}
-		if (this->_position.y < 0) {
-			this->_position.y = 0;
-
-			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
-				this->_speed.x *= 0.8;
-				this->_speed.y *= -0.8;
-				this->_forceStartMove(ACTION_GROUND_SLAM);
-			} else
-				this->_speed.y = 0;
-		} else if (this->_position.y > 1000) {
-			this->_position.y = 1000;
-
-			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
-				this->_speed.x *= 0.8;
-				this->_speed.y *= -0.8;
-				this->_forceStartMove(ACTION_GROUND_SLAM);
-			} else
-				this->_speed.y = 0;
-		}
-
+		this->_processGroundSlams();
+		this->_calculateCornerPriority();
+		this->_processWallSlams();
 		if (this->_action < ACTION_LANDING && this->_opponent) {
 			if (this->_opponent->_position.x - this->_position.x != 0)
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
@@ -237,7 +175,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, Vector2f gravity)
+	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -246,6 +184,13 @@ namespace Battle
 		this->_maxJumps = maxJumps;
 		this->_maxAirDashes = maxAirDash;
 		this->_baseGravity = this->_gravity = gravity;
+		this->_voidManaMax   = maxVMana;
+		this->_spiritManaMax = maxSMana;
+		this->_matterManaMax = maxMMana;
+		this->_voidMana   = maxVMana / 2.f;
+		this->_spiritMana = maxSMana / 2.f;
+		this->_matterMana = maxMMana / 2.f;
+		this->_regen = manaRegen;
 		if (side) {
 			this->_position = {200, 0};
 		} else {
@@ -445,6 +390,12 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
+			return false;
+		if (data.oFlag.voidMana && this->_voidMana < data.manaCost)
+			return false;
+		if (data.oFlag.spiritMana && this->_spiritMana < data.manaCost)
+			return false;
 		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
 			for (auto limit : this->_limit)
 				if (limit >= 100)
@@ -463,14 +414,9 @@ namespace Battle
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
 			return false;
-		if (action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK && action <= ACTION_AIR_HIT)
+		if (isBlockingAction(action))
 			return this->getCurrentFrameData()->dFlag.canBlock;
-		if (this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK && this->_action <= ACTION_AIR_HIT)
-			return !this->_blockStun;
-		if (
-			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
-			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK
-		)
+		if (isBlockingAction(this->_action))
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
@@ -1583,9 +1529,9 @@ namespace Battle
 				height += (pt.y > center) - (pt.y < center);
 		if (height == 0)
 			return true;
-		if (height > 0)
-			return pts.size() == 1 ? oData->dFlag.highBlock : oData->dFlag.lowBlock;
-		return pts.size() == 1 ? oData->dFlag.lowBlock : oData->dFlag.highBlock;
+		if (pts.size() == 1)
+			return true; // TODO: Handle this case
+		return height > 0 ? oData->dFlag.lowBlock : oData->dFlag.highBlock;
 	}
 
 	void ACharacter::_blockMove(const AObject *other, const FrameData &data)
@@ -1593,10 +1539,12 @@ namespace Battle
 		auto myData = this->getCurrentFrameData();
 		unsigned wrongBlockLevel = 0;
 
-		if (data.oFlag.lowHit && myData->dFlag.lowBlock);
-		else if (data.oFlag.highHit && myData->dFlag.highBlock);
-		else if (data.oFlag.autoHitPos && this->_checkHitPos(other));
-		else if (data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos)
+		if (
+			(data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) &&
+			(!data.oFlag.lowHit || !myData->dFlag.lowBlock) &&
+			(!data.oFlag.highHit || !myData->dFlag.highBlock) &&
+			(!data.oFlag.autoHitPos || !this->_checkHitPos(other))
+		)
 			wrongBlockLevel += 2;
 
 		if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
@@ -1621,17 +1569,11 @@ namespace Battle
 				wrongBlockLevel += 2;
 		}
 
-		if ((
-			this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
-		) || (
-			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_BLOCK &&
-			this->_action <= ACTION_AIR_VOID_BLOCK &&
-			this->_action != ACTION_GROUND_HIGH_HIT &&
-			this->_action != ACTION_GROUND_LOW_HIT
-		) || (
-			this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK &&
-			this->_action <= ACTION_AIR_VOID_WRONG_BLOCK
-		)) {
+		if (
+			(
+				this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
+			) || isBlockingAction(this->_action)
+		) {
 			if (wrongBlockLevel) {
 				if (this->_isGrounded())
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
@@ -1651,7 +1593,7 @@ namespace Battle
 		this->_speed.x += data.pushBlock * -this->_dir;
 	}
 
-	void ACharacter::_getHitByMove(const AObject *other, const FrameData &data)
+	void ACharacter::_getHitByMove(const AObject *, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -1693,6 +1635,144 @@ namespace Battle
 				this->_limit[3] += data.spiritLimit;
 			}
 			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+		}
+	}
+
+	void ACharacter::_processWallSlams()
+	{
+		if (this->_position.x < 0) {
+			this->_position.x = 0;
+			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
+				) {
+				this->_forceStartMove(ACTION_WALL_SLAM);
+				this->_speed.x *= -0.8;
+				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
+			} else
+				this->_speed.x = 0;
+			return;
+		}
+
+		if (this->_position.x <= 1000)
+			return;
+		this->_position.x = 1000;
+		if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
+			this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+		)) {
+			this->_forceStartMove(ACTION_WALL_SLAM);
+			this->_speed.x *= -0.8;
+			this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
+		} else
+			this->_speed.x = 0;
+	}
+
+	void ACharacter::_processGroundSlams()
+	{
+		if (this->_position.y < 0) {
+			this->_position.y = 0;
+
+			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
+				this->_speed.x *= 0.8;
+				this->_speed.y *= -0.8;
+				this->_forceStartMove(ACTION_GROUND_SLAM);
+			} else
+				this->_speed.y = 0;
+		} else if (this->_position.y > 1000) {
+			this->_position.y = 1000;
+
+			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
+				this->_speed.x *= 0.8;
+				this->_speed.y *= -0.8;
+				this->_forceStartMove(ACTION_GROUND_SLAM);
+			} else
+				this->_speed.y = 0;
+		}
+	}
+
+	void ACharacter::_calculateCornerPriority()
+	{
+		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
+
+		this->_justGotCorner = newPriority && !this->_cornerPriority;
+		if (newPriority && this->_justGotCorner) {
+			if (newPriority == this->_opponent->_cornerPriority) {
+				if (this->_team == 1 && this->_opponent->_justGotCorner && this->_opponent->_cornerPriority == 1) {
+					this->_cornerPriority = newPriority;
+					this->_opponent->_justGotCorner = false;
+					this->_opponent->_cornerPriority = 0;
+				} else
+					this->_cornerPriority = 0;
+			} else {
+				this->_justGotCorner = newPriority && !this->_cornerPriority;
+				this->_cornerPriority = newPriority;
+			}
+		} else if (!newPriority) {
+			this->_justGotCorner = false;
+			this->_cornerPriority = 0;
+		}
+	}
+
+	void ACharacter::_applyMoveAttributes()
+	{
+		auto data = this->getCurrentFrameData();
+
+		AObject::_applyMoveAttributes();
+		if (data->oFlag.voidMana && data->manaCost > this->_voidMana)
+			return this->_forceStartMove(ACTION_IDLE);
+		if (data->oFlag.spiritMana && data->manaCost > this->_spiritMana)
+			return this->_forceStartMove(ACTION_IDLE);
+		if (data->oFlag.matterMana && data->manaCost > this->_matterMana)
+			return this->_forceStartMove(ACTION_IDLE);
+
+		auto input = this->_input->getInputs();
+
+		if (
+			((input.n || input.v || input.m || input.s) && input.horizontalAxis * this->_dir < 0) ||
+			!isBlockingAction(this->_action)
+		) {
+			if (data->oFlag.voidMana)
+				this->_voidMana -= data->manaCost;
+			if (data->oFlag.spiritMana)
+				this->_spiritMana -= data->manaCost;
+			if (data->oFlag.matterMana)
+				this->_matterMana -= data->manaCost;
+		}
+	}
+
+	bool ACharacter::isBlockingAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
+		case ACTION_GROUND_HIGH_SPIRIT_BLOCK:
+		case ACTION_GROUND_HIGH_MATTER_BLOCK:
+		case ACTION_GROUND_HIGH_VOID_BLOCK:
+		case ACTION_GROUND_LOW_NEUTRAL_BLOCK:
+		case ACTION_GROUND_LOW_SPIRIT_BLOCK:
+		case ACTION_GROUND_LOW_MATTER_BLOCK:
+		case ACTION_GROUND_LOW_VOID_BLOCK:
+		case ACTION_AIR_NEUTRAL_BLOCK:
+		case ACTION_AIR_SPIRIT_BLOCK:
+		case ACTION_AIR_MATTER_BLOCK:
+		case ACTION_AIR_VOID_BLOCK:
+		case ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK:
+		case ACTION_GROUND_HIGH_SPIRIT_WRONG_BLOCK:
+		case ACTION_GROUND_HIGH_MATTER_WRONG_BLOCK:
+		case ACTION_GROUND_HIGH_VOID_WRONG_BLOCK:
+		case ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK:
+		case ACTION_GROUND_LOW_SPIRIT_WRONG_BLOCK:
+		case ACTION_GROUND_LOW_MATTER_WRONG_BLOCK:
+		case ACTION_GROUND_LOW_VOID_WRONG_BLOCK:
+		case ACTION_AIR_NEUTRAL_WRONG_BLOCK:
+		case ACTION_AIR_SPIRIT_WRONG_BLOCK:
+		case ACTION_AIR_MATTER_WRONG_BLOCK:
+		case ACTION_AIR_VOID_WRONG_BLOCK:
+			return true;
+		default:
+			return false;
 		}
 	}
 }

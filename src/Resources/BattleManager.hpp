@@ -26,6 +26,10 @@ namespace Battle
 			Vector2f gravity;
 			unsigned char maxJumps;
 			unsigned char maxAirDash;
+			unsigned voidManaMax;
+			unsigned spiritManaMax;
+			unsigned matterManaMax;
+			float manaRegen;
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);

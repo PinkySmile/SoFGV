@@ -269,7 +269,7 @@ namespace Battle
 	};
 
 	class ACharacter : public AObject {
-	private:
+	protected:
 		struct LastInput {
 			unsigned nbFrames : 28;
 			int h : 2;
@@ -296,6 +296,13 @@ namespace Battle
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
+		float _regen;
+		float _voidMana;
+		float _spiritMana;
+		float _matterMana;
+		unsigned _voidManaMax;
+		unsigned _spiritManaMax;
+		unsigned _matterManaMax;
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
@@ -340,6 +347,13 @@ namespace Battle
 		virtual bool _checkHitPos(const AObject *other) const;
 		virtual void _blockMove(const AObject *other, const FrameData &data);
 		virtual void _getHitByMove(const AObject *other, const FrameData &data);
+		virtual void _processWallSlams();
+		virtual void _processGroundSlams();
+		virtual void _calculateCornerPriority();
+
+		static bool isBlockingAction(unsigned action);
+
+		void _applyMoveAttributes() override;
 		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 		void _onMoveEnd(const FrameData &lastData) override;
@@ -378,9 +392,11 @@ namespace Battle
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, Vector2f gravity);
+		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
+
+		friend class BattleManager;
 	};
 }
 

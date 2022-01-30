@@ -175,17 +175,17 @@ namespace Battle
 					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
 					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
 				}),
-				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
-					{ INPUT_LEFT,    new ControllerAxis(1, sf::Joystick::Axis::X, -30) },
-					{ INPUT_RIGHT,   new ControllerAxis(1, sf::Joystick::Axis::X, 30) },
-					{ INPUT_UP,      new ControllerAxis(1, sf::Joystick::Axis::Y, -30) },
-					{ INPUT_DOWN,    new ControllerAxis(1, sf::Joystick::Axis::Y, 30) },
-					{ INPUT_NEUTRAL, new ControllerButton(1, 2) },
-					{ INPUT_MATTER,  new ControllerButton(1, 3) },
-					{ INPUT_SPIRIT,  new ControllerAxis(1, sf::Joystick::Z, 30) },
-					{ INPUT_VOID,    new ControllerAxis(1, sf::Joystick::Z, -30) },
-					{ INPUT_ASCEND,  new ControllerButton(1, 0) },
-					{ INPUT_DASH,    new ControllerButton(1, 1) }
+				std::make_shared<KeyboardInput>(std::map<sf::Keyboard::Key, InputEnum>{
+					{ sf::Keyboard::Left, INPUT_LEFT },
+					{ sf::Keyboard::Right, INPUT_RIGHT },
+					{ sf::Keyboard::Up, INPUT_UP },
+					{ sf::Keyboard::Down, INPUT_DOWN },
+					{ sf::Keyboard::W, INPUT_NEUTRAL },
+					{ sf::Keyboard::X, INPUT_MATTER },
+					{ sf::Keyboard::C, INPUT_SPIRIT },
+					{ sf::Keyboard::V, INPUT_VOID },
+					{ sf::Keyboard::Q, INPUT_ASCEND },
+					{ sf::Keyboard::RShift, INPUT_DASH }
 				})
 			);
 			break;

@@ -14,8 +14,28 @@ namespace Battle
 	{
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
-		this->_leftCharacter->init(true, leftCharacter.hp, leftCharacter.maxJumps, leftCharacter.maxAirDash, leftCharacter.gravity);
-		this->_rightCharacter->init(false, rightCharacter.hp, rightCharacter.maxJumps, rightCharacter.maxAirDash, rightCharacter.gravity);
+		this->_leftCharacter->init(
+			true,
+			leftCharacter.hp,
+			leftCharacter.maxJumps,
+			leftCharacter.maxAirDash,
+			leftCharacter.matterManaMax,
+			leftCharacter.voidManaMax,
+			leftCharacter.spiritManaMax,
+			leftCharacter.manaRegen,
+			leftCharacter.gravity
+		);
+		this->_rightCharacter->init(
+			false,
+			rightCharacter.hp,
+			rightCharacter.maxJumps,
+			rightCharacter.maxAirDash,
+			rightCharacter.matterManaMax,
+			rightCharacter.voidManaMax,
+			rightCharacter.spiritManaMax,
+			rightCharacter.manaRegen,
+			rightCharacter.gravity
+		);
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)
@@ -122,10 +142,34 @@ namespace Battle
 		rect.setOutlineColor(sf::Color::Black);
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(0, -490);
-		rect.setSize({400.f * this->_leftCharacter->_hp / 20000.f, 20});
+		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
 		game.screen->draw(rect);
-		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / 20000.f, -490);
-		rect.setSize({400.f * this->_rightCharacter->_hp / 20000.f, 20});
+		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -490);
+		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::Cyan);
+		rect.setPosition(100, 40);
+		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
+		game.screen->draw(rect);
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
+		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xFF, 0x40, 0x40});
+		rect.setPosition(100, 55);
+		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
+		game.screen->draw(rect);
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
+		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
+		rect.setPosition(100, 70);
+		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
+		game.screen->draw(rect);
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
+		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
 		game.screen->draw(rect);
 	}
 
