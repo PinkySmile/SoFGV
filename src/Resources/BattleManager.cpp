@@ -148,7 +148,7 @@ namespace Battle
 		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
-		rect.setFillColor(sf::Color::Cyan);
+		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(100, 40);
 		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
 		game.screen->draw(rect);
@@ -156,7 +156,7 @@ namespace Battle
 		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
 		game.screen->draw(rect);
 
-		rect.setFillColor(sf::Color{0xFF, 0x40, 0x40});
+		rect.setFillColor(sf::Color{187, 94, 0});
 		rect.setPosition(100, 55);
 		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
 		game.screen->draw(rect);
