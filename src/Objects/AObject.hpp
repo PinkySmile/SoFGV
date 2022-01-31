@@ -54,6 +54,7 @@ namespace Battle
 		short _baseHp = 0;
 
 		AObject() = default;
+		void _drawBox(const Rectangle &box, const sf::Color &color) const;
 		std::vector<Rectangle> _getModifiedBoxes(const FrameData &data, const std::vector<Box> &) const;
 		std::vector<Rectangle> _getModifiedHurtBoxes() const;
 		std::vector<Rectangle> _getModifiedHitBoxes() const;

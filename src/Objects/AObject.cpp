@@ -130,49 +130,34 @@ namespace Battle
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
 		if (this->showBoxes) {
-			sf::VertexArray arr{sf::Quads, 4};
-			sf::RectangleShape rect;
+			for (auto &hurtBox : this->_getModifiedHurtBoxes())
+				this->_drawBox(hurtBox, sf::Color::Green);
+			for (auto &hitBox : this->_getModifiedHitBoxes())
+				this->_drawBox(hitBox, sf::Color::Red);
 
-			for (int i = 0; i < 4; i++)
-				arr[i].color = sf::Color{sf::Color{0x00, 0xFF, 0x00, 0x60}};
-			for (auto &hurtBox : this->_getModifiedHurtBoxes()) {
-				arr[0].position = hurtBox.pt1;
-				arr[1].position = hurtBox.pt2;
-				arr[2].position = hurtBox.pt3;
-				arr[3].position = hurtBox.pt4;
-				game.screen->draw(arr);
-			}
-
-			for (int i = 0; i < 4; i++)
-				arr[i].color = sf::Color{sf::Color{0xFF, 0x00, 0x00, 0x60}};
-			for (auto &hurtBox : this->_getModifiedHitBoxes()) {
-				arr[0].position = hurtBox.pt1;
-				arr[1].position = hurtBox.pt2;
-				arr[2].position = hurtBox.pt3;
-				arr[3].position = hurtBox.pt4;
-				game.screen->draw(arr);
-			}
-
-			rect.setOutlineThickness(1);
 			if (data.collisionBox) {
 				auto box = this->_applyModifiers(*data.collisionBox);
 
-				rect.setOrigin(box.size / 2);
-				rect.setOutlineColor(sf::Color{0xFF, 0xFF, 0x00, 0xFF});
-				rect.setFillColor(sf::Color{0xFF, 0xFF, 0x00, 0x60});
-				rect.setRotation(0);
-				rect.setPosition(box.pos + realPos + box.size / 2);
-				rect.setSize(box.size);
-				game.screen->draw(rect);
+				this->_drawBox({
+					realPos + box.pos,
+					realPos + Vector2f{
+						static_cast<float>(box.pos.x),
+						static_cast<float>(box.pos.y) + box.size.y
+					},
+					realPos + box.pos + box.size,
+					realPos + Vector2f{
+						static_cast<float>(box.pos.x) + box.size.x,
+						static_cast<float>(box.pos.y)
+					}
+				}, sf::Color::Yellow);
 			}
 
-			rect.setOrigin(4.5, 4.5);
-			rect.setOutlineThickness(2);
-			rect.setOutlineColor(sf::Color::White);
-			rect.setFillColor(sf::Color::Black);
-			rect.setPosition(realPos);
-			rect.setSize({9, 9});
-			game.screen->draw(rect);
+			this->_drawBox({
+				{realPos.x - 4.5f, realPos.y - 4.5f},
+				{realPos.x + 4.5f, realPos.y - 4.5f},
+				{realPos.x + 4.5f, realPos.y + 4.5f},
+				{realPos.x - 4.5f, realPos.y + 4.5f},
+			}, sf::Color::Black);
 		}
 	}
 
@@ -440,5 +425,24 @@ namespace Battle
 	std::vector<Rectangle> AObject::_getModifiedHitBoxes() const
 	{
 		return this->_getModifiedBoxes(*this->getCurrentFrameData(), this->getCurrentFrameData()->hitBoxes);
+	}
+
+	void AObject::_drawBox(const Rectangle &box, const sf::Color &color) const
+	{
+		sf::VertexArray arr{sf::Quads, 4};
+		sf::VertexArray arr2{sf::LineStrip, 5};
+
+		for (int i = 0; i < 4; i++) {
+			arr[i].color = color;
+			arr[i].color.a *= 0x60 / 255.f;
+			arr[i].position = (&box.pt1)[i];
+		}
+		game.screen->draw(arr);
+
+		for (unsigned i = 0; i < 5; i++) {
+			arr2[i].color = color;
+			arr2[i].position = (&box.pt1)[i % 4];
+		}
+		game.screen->draw(arr2);
 	}
 }

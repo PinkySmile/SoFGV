@@ -94,15 +94,15 @@ namespace Battle
 		}
 
 		template<typename T2>
-		Vector2<T> operator*(T2 d) const noexcept
+		auto operator*(const Vector2<T2> &b) const noexcept
 		{
-			return Vector2<T>(this->x * d, this->y * d);
+			return this->x * b.x + this->y * b.y;
 		}
 
 		template<typename T2>
-		T operator*(Vector2<T2> &b) const noexcept
+		Vector2<T> operator*(T2 d) const noexcept
 		{
-			return this->x * b.x + this->y * b.y;
+			return Vector2<T>(this->x * d, this->y * d);
 		}
 
 		template<typename T2>
@@ -146,12 +146,17 @@ namespace Battle
 
 		double magnitude() const noexcept
 		{
-			return (std::sqrt(std::pow(this->x, 2) + std::pow(this->y, 2)));
+			return (std::sqrt(this->x * this->x + this->y * this->y));
 		}
 
 		double angle(const Vector2<T> &o) const noexcept
 		{
 			return (std::atan2(o.y - this->y, o.x - this->x));
+		}
+
+		Vector2<float> normal(const Vector2<T> &p2)
+		{
+			return Vector2<float>{this->y - p2.y, p2.x - this->x}.normalized();
 		}
 
 		Vector2<T> normalize() noexcept
