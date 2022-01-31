@@ -163,18 +163,6 @@ namespace Battle
 		switch (this->_selectedEntry) {
 		case 0:
 			this->_nextScene = new CharacterSelect(
-				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
-					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::PovX, -30) },
-					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::PovX, 30) },
-					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::PovY, 30) },
-					{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::PovY, -30) },
-					{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
-					{ INPUT_MATTER,  new ControllerButton(0, 2) },
-					{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
-					{ INPUT_VOID,    new ControllerButton(0, 3) },
-					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
-					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
-				}),
 				std::make_shared<KeyboardInput>(std::map<sf::Keyboard::Key, InputEnum>{
 					{ sf::Keyboard::Left, INPUT_LEFT },
 					{ sf::Keyboard::Right, INPUT_RIGHT },
@@ -186,6 +174,18 @@ namespace Battle
 					{ sf::Keyboard::V, INPUT_VOID },
 					{ sf::Keyboard::Q, INPUT_ASCEND },
 					{ sf::Keyboard::RShift, INPUT_DASH }
+				}),
+				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
+					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::PovX, -30) },
+					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::PovX, 30) },
+					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::PovY, 30) },
+					{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::PovY, -30) },
+					{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
+					{ INPUT_MATTER,  new ControllerButton(0, 2) },
+					{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
+					{ INPUT_VOID,    new ControllerButton(0, 3) },
+					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
+					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
 				})
 			);
 			break;
@@ -196,6 +196,7 @@ namespace Battle
 			this->_connect();
 			break;
 		case 3:
+			MessageBox(nullptr, "Not implemented", "Not implemented", MB_ICONERROR);
 			break;
 		case 4:
 			game.screen->close();

@@ -1667,6 +1667,9 @@ namespace Battle
 
 		sprintf(
 			buffer,
+			"voidMana: %.2f/%u\n"
+			"spiritMana: %.2f/%u\n"
+			"matterMana: %.2f/%u\n"
 			"specialMarker: %u\n"
 			"blockStun: %u\n"
 			"hitStun: %u\n"
@@ -1682,6 +1685,12 @@ namespace Battle
 			"manaCost: %u\n"
 			"hitStop: %u\n"
 			"damage: %u\n",
+			this->_voidMana,
+			this->_voidManaMax,
+			this->_spiritMana,
+			this->_spiritManaMax,
+			this->_matterMana,
+			this->_matterManaMax,
 			data->specialMarker,
 			data->blockStun,
 			data->hitStun,
@@ -1709,7 +1718,7 @@ namespace Battle
 				strcat(buffer, "\n");
 			}
 		this->_text2.setString(buffer);
-		this->_text2.setPosition({static_cast<float>(this->_team * 600 + 150), -450});
+		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -450});
 #endif
 	}
 

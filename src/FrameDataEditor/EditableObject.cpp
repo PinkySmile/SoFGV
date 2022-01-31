@@ -71,7 +71,7 @@ namespace Battle
 		return false;
 	}
 
-	bool EditableObject::hits(IObject &) const
+	bool EditableObject::hits(const IObject &) const
 	{
 		return false;
 	}
@@ -89,7 +89,7 @@ namespace Battle
 		return nullptr;
 	}
 
-	bool EditableObject::collides(IObject &) const
+	bool EditableObject::collides(const IObject &) const
 	{
 		return false;
 	}
