@@ -407,7 +407,7 @@ namespace Battle
 		ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
-		bool hits(IObject &other) const override;
+		bool hits(const IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void render() const override;

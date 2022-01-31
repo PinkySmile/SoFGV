@@ -17,8 +17,8 @@ namespace Battle
 		virtual void update() = 0;
 		virtual void reset() = 0;
 		virtual bool isDead() const = 0;
-		virtual bool hits(IObject &other) const = 0;
-		virtual bool collides(IObject &other) const = 0;
+		virtual bool hits(const IObject &other) const = 0;
+		virtual bool collides(const IObject &other) const = 0;
 		virtual void hit(IObject &other, const FrameData *data) = 0;
 		virtual void getHit(IObject &other, const FrameData *data) = 0;
 		virtual const FrameData *getCurrentFrameData() const = 0;

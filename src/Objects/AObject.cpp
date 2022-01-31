@@ -218,7 +218,7 @@ namespace Battle
 		logger.debug(buffer);
 	}
 
-	bool AObject::hits(IObject &other) const
+	bool AObject::hits(const IObject &other) const
 	{
 		auto *oData = other.getCurrentFrameData();
 		auto *mData = this->getCurrentFrameData();
@@ -226,9 +226,9 @@ namespace Battle
 		if (!mData || !oData || this->_hasHit)
 			return false;
 
-		auto asAObject = dynamic_cast<AObject *>(&other);
+		auto asAObject = dynamic_cast<const AObject *>(&other);
 
-		if (asAObject && asAObject->_team == this->_team)
+		if (!asAObject || asAObject->_team == this->_team)
 			return false;
 
 		if (oData->dFlag.invulnerable && !mData->oFlag.grab && !mData->dFlag.projectile)
@@ -238,56 +238,10 @@ namespace Battle
 		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
 			return false;
 
-		auto mCenter = this->_position;
-		auto oCenter = asAObject->_position;
-		auto mScale = Vector2f{
-			static_cast<float>(mData->size.x) / mData->textureBounds.size.x,
-			static_cast<float>(mData->size.y) / mData->textureBounds.size.y
-		};
-		auto oScale = Vector2f{
-			static_cast<float>(oData->size.x) / oData->textureBounds.size.x,
-			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
-		};
-
-		mCenter.y *= -1;
-		mCenter += Vector2f{
-			mData->size.x / -2.f - mData->offset.x * !this->_direction * 2.f,
-			-static_cast<float>(mData->size.y) + mData->offset.y
-		};
-		mCenter += Vector2f{
-			mData->textureBounds.size.x * mScale.x / 2,
-			mData->textureBounds.size.y * mScale.y / 2
-		};
-		oCenter.y *= -1;
-		oCenter += Vector2f{
-			oData->size.x / -2.f - oData->offset.x * !asAObject->_direction * 2.f,
-			-static_cast<float>(oData->size.y) + oData->offset.y
-		};
-		oCenter += Vector2f{
-			oData->textureBounds.size.x * oScale.x / 2,
-			oData->textureBounds.size.y * oScale.y / 2
-		};
-
-		for (auto &hurtBox : oData->hurtBoxes) {
-			auto _hurtBox = asAObject->_applyModifiers(hurtBox);
-			Rectangle __hurtBox;
-
-			__hurtBox.pt1 = _hurtBox.pos.rotation(asAObject->_rotation, oCenter)                                                      + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(asAObject->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(asAObject->_rotation, oCenter)                                    + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(asAObject->_rotation, oCenter) + Vector2f{asAObject->_position.x, -asAObject->_position.y};
-			for (auto &hitBox : mData->hitBoxes) {
-				auto _hitBox = this->_applyModifiers(hitBox);
-				Rectangle __hitBox;
-
-				__hitBox.pt1 = _hitBox.pos.rotation(this->_rotation, mCenter)                                                     + Vector2f{this->_position.x, -this->_position.y};
-				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
-				__hitBox.pt3 = (_hitBox.pos + _hitBox.size).rotation(this->_rotation, mCenter)                                    + Vector2f{this->_position.x, -this->_position.y};
-				__hitBox.pt4 = (_hitBox.pos + Vector2f{static_cast<float>(_hitBox.size.x), 0}).rotation(this->_rotation, mCenter) + Vector2f{this->_position.x, -this->_position.y};
-				if (__hurtBox.intersect(__hitBox) || __hurtBox.isIn(__hitBox) || __hitBox.isIn(__hurtBox))
+		for (auto &hurtBox : asAObject->_getModifiedHurtBoxes())
+			for (auto &hitBox : this->_getModifiedHitBoxes())
+				if (hurtBox.intersect(hitBox) || hurtBox.isIn(hitBox) || hitBox.isIn(hurtBox))
 					return true;
-			}
-		}
 		return false;
 	}
 
@@ -396,7 +350,7 @@ namespace Battle
 		asAObject->_position.x += opDiff * 0.5f;
 	}
 
-	bool AObject::collides(IObject &other) const
+	bool AObject::collides(const IObject &other) const
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -408,7 +362,7 @@ namespace Battle
 		if (!data || !data->collisionBox)
 			return false;
 
-		auto asAObject = dynamic_cast<AObject *>(&other);
+		auto asAObject = dynamic_cast<const AObject *>(&other);
 
 		if (!asAObject)
 			return false;
@@ -459,5 +413,47 @@ namespace Battle
 			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 			this->_hasHit &= !data->oFlag.resetHits;
 		}
+	}
+
+	std::vector<Rectangle> AObject::_getModifiedBoxes(const FrameData &data, const std::vector<Box> &boxes) const
+	{
+		std::vector<Rectangle> result;
+		auto center = this->_position;
+		auto scale = Vector2f{
+			static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			static_cast<float>(data.size.y) / data.textureBounds.size.y
+		};
+
+		center.y *= -1;
+		center += Vector2f{
+			data.size.x / -2.f - data.offset.x * !this->_direction,
+			-static_cast<float>(data.size.y) + data.offset.y
+		};
+		center += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+
+		for (auto &box : boxes) {
+			auto _box = this->_applyModifiers(box);
+			Rectangle __box;
+
+			__box.pt1 = _box.pos.rotation(this->_rotation, center)                                                  + Vector2f{this->_position.x, -this->_position.y};
+			__box.pt2 = (_box.pos + Vector2f{0, static_cast<float>(_box.size.y)}).rotation(this->_rotation, center) + Vector2f{this->_position.x, -this->_position.y};
+			__box.pt3 = (_box.pos + _box.size).rotation(this->_rotation, center)                                    + Vector2f{this->_position.x, -this->_position.y};
+			__box.pt4 = (_box.pos + Vector2f{static_cast<float>(_box.size.x), 0}).rotation(this->_rotation, center) + Vector2f{this->_position.x, -this->_position.y};
+			result.push_back(__box);
+		}
+		return result;
+	}
+
+	std::vector<Rectangle> AObject::_getModifiedHurtBoxes() const
+	{
+		return this->_getModifiedBoxes(*this->getCurrentFrameData(), this->getCurrentFrameData()->hurtBoxes);
+	}
+
+	std::vector<Rectangle> AObject::_getModifiedHitBoxes() const
+	{
+		return this->_getModifiedBoxes(*this->getCurrentFrameData(), this->getCurrentFrameData()->hitBoxes);
 	}
 }

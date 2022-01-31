@@ -1566,7 +1566,7 @@ namespace Battle
 			(this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
 	}
 
-	bool ACharacter::hits(IObject &other) const
+	bool ACharacter::hits(const IObject &other) const
 	{
 		for (auto limit : this->_limit)
 			if (limit >= 100)
