@@ -409,7 +409,7 @@ namespace Battle
 				this->_action == ACTION_AIR_MATTER_BLOCK ||
 				this->_action == ACTION_AIR_VOID_BLOCK ||
 				this->_action == ACTION_AIR_SPIRIT_BLOCK ||
-				(this->_action >= ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK && this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
+				(this->_action >= ACTION_AIR_NEUTRAL_WRONG_BLOCK && this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
 			)) {
 				this->_blockStun = 0;
 				this->_forceStartMove(ACTION_IDLE);
@@ -854,16 +854,16 @@ namespace Battle
 			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
+		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)))
+			return true;
+		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
+			return true;
 		if (action < 100)
 			return false;
 		if (!currentData->oFlag.cancelable)
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
-		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)))
-			return true;
-		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
-			return true;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
 		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
@@ -1802,19 +1802,23 @@ namespace Battle
 			return true;
 		if (pts.size() == 1)
 			return true; // TODO: Handle this case
-		return height > 0 ? oData->dFlag.lowBlock : oData->dFlag.highBlock;
+		return height > 0 ?
+			oData->dFlag.lowBlock || this->_input->isPressed(INPUT_DOWN) :
+			oData->dFlag.highBlock || !this->_input->isPressed(INPUT_DOWN);
 	}
 
 	void ACharacter::_blockMove(const AObject *other, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 		unsigned wrongBlockLevel = 0;
+		bool low = this->_input->isPressed(INPUT_DOWN);
 
 		if (
-			(data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) &&
-			(!data.oFlag.lowHit || !myData->dFlag.lowBlock) &&
-			(!data.oFlag.highHit || !myData->dFlag.highBlock) &&
-			(!data.oFlag.autoHitPos || !this->_checkHitPos(other))
+			(data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) && (
+				(data.oFlag.lowHit && !myData->dFlag.lowBlock && !low) ||
+				(data.oFlag.highHit && !myData->dFlag.highBlock && low) ||
+				(data.oFlag.autoHitPos && this->_checkHitPos(other))
+			)
 		)
 			wrongBlockLevel += 2;
 
@@ -1847,12 +1851,12 @@ namespace Battle
 		) {
 			if (wrongBlockLevel) {
 				if (this->_isGrounded())
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
+					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
 			} else {
 				if (this->_isGrounded())
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
 				this->_blockStun *= 3;
