@@ -130,35 +130,30 @@ namespace Battle
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
 		if (this->showBoxes) {
+			sf::VertexArray arr{sf::Quads, 4};
 			sf::RectangleShape rect;
-			auto angleDeg = this->_rotation * 180 / M_PI;
+
+			for (int i = 0; i < 4; i++)
+				arr[i].color = sf::Color{sf::Color{0x00, 0xFF, 0x00, 0x60}};
+			for (auto &hurtBox : this->_getModifiedHurtBoxes()) {
+				arr[0].position = hurtBox.pt1;
+				arr[1].position = hurtBox.pt2;
+				arr[2].position = hurtBox.pt3;
+				arr[3].position = hurtBox.pt4;
+				game.screen->draw(arr);
+			}
+
+			for (int i = 0; i < 4; i++)
+				arr[i].color = sf::Color{sf::Color{0xFF, 0x00, 0x00, 0x60}};
+			for (auto &hurtBox : this->_getModifiedHitBoxes()) {
+				arr[0].position = hurtBox.pt1;
+				arr[1].position = hurtBox.pt2;
+				arr[2].position = hurtBox.pt3;
+				arr[3].position = hurtBox.pt4;
+				game.screen->draw(arr);
+			}
 
 			rect.setOutlineThickness(1);
-			rect.setOutlineColor(sf::Color{0x00, 0xFF, 0x00, 0xFF});
-			rect.setFillColor(sf::Color{0x00, 0xFF, 0x00, 0x60});
-			for (auto &hurtBox : data.hurtBoxes) {
-				auto box = this->_applyModifiers(hurtBox);
-
-				rect.setRotation(angleDeg);
-				rect.setOrigin(box.size / 2);
-				rect.setPosition((box.pos + realPos + box.size / 2).rotation(this->_rotation, result));
-				rect.setSize(box.size);
-				game.screen->draw(rect);
-			}
-
-			rect.setOutlineColor(sf::Color{0xFF, 0x00, 0x00, 0xFF});
-			rect.setFillColor(sf::Color{0xFF, 0x00, 0x00, 0x60});
-			for (auto &hitBox : data.hitBoxes) {
-				auto box = this->_applyModifiers(hitBox);
-
-				rect.setOrigin(box.size / 2);
-				rect.setRotation(angleDeg);
-				rect.setPosition((box.pos + realPos + box.size / 2).rotation(this->_rotation, result));
-				rect.setSize(box.size);
-				game.screen->draw(rect);
-			}
-
-			rect.setRotation(0);
 			if (data.collisionBox) {
 				auto box = this->_applyModifiers(*data.collisionBox);
 
@@ -418,30 +413,20 @@ namespace Battle
 	std::vector<Rectangle> AObject::_getModifiedBoxes(const FrameData &data, const std::vector<Box> &boxes) const
 	{
 		std::vector<Rectangle> result;
-		auto center = this->_position;
-		auto scale = Vector2f{
-			static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
-		};
-
-		center.y *= -1;
-		center += Vector2f{
-			data.size.x / -2.f - data.offset.x * !this->_direction,
-			-static_cast<float>(data.size.y) + data.offset.y
-		};
-		center += Vector2f{
-			data.textureBounds.size.x * scale.x / 2,
-			data.textureBounds.size.y * scale.y / 2
+		Vector2f center{
+			data.offset.x * (this->_direction ? -1.f : 1.f),
+			data.size.y / -2.f - data.offset.y
 		};
 
 		for (auto &box : boxes) {
 			auto _box = this->_applyModifiers(box);
 			Rectangle __box;
+			auto real = Vector2f{this->_position.x, -this->_position.y};
 
-			__box.pt1 = _box.pos.rotation(this->_rotation, center)                                                  + Vector2f{this->_position.x, -this->_position.y};
-			__box.pt2 = (_box.pos + Vector2f{0, static_cast<float>(_box.size.y)}).rotation(this->_rotation, center) + Vector2f{this->_position.x, -this->_position.y};
-			__box.pt3 = (_box.pos + _box.size).rotation(this->_rotation, center)                                    + Vector2f{this->_position.x, -this->_position.y};
-			__box.pt4 = (_box.pos + Vector2f{static_cast<float>(_box.size.x), 0}).rotation(this->_rotation, center) + Vector2f{this->_position.x, -this->_position.y};
+			__box.pt1 = real + _box.pos.rotation(this->_rotation, center);
+			__box.pt2 = real + (_box.pos + Vector2f{0, static_cast<float>(_box.size.y)}).rotation(this->_rotation, center);
+			__box.pt3 = real + (_box.pos + _box.size).rotation(this->_rotation, center);
+			__box.pt4 = real + (_box.pos + Vector2f{static_cast<float>(_box.size.x), 0}).rotation(this->_rotation, center);
 			result.push_back(__box);
 		}
 		return result;
