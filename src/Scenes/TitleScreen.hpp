@@ -7,22 +7,47 @@
 
 
 #include <SFML/Graphics/Font.hpp>
+#include <memory>
 #include "IScene.hpp"
+#include "../Inputs/KeyboardInput.hpp"
+#include "../Inputs/ControllerInput.hpp"
 
 namespace Battle
 {
 	class TitleScreen : public IScene {
 	private:
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P1;
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P2;
 		sf::Font _font;
+		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		unsigned _selectedEntry = 0;
+		unsigned _leftInput = 0;
+		unsigned _rightInput = 0;
+		bool _askingInputs = false;
+		bool _usingKeyboard = false;
+		unsigned char _changingInputs = 0;
 		IScene *_nextScene = nullptr;
 
-		void _onConfirm();
+		void _onInputsChosen();
 		void _host();
 		void _connect();
+		void _onKeyPressed(sf::Event::KeyEvent ev);
+		void _onJoystickMoved(sf::Event::JoystickMoveEvent ev);
+		void _onJoystickPressed(sf::Event::JoystickButtonEvent ev);
+		void _showAskInputBox() const;
+		void _showEditKeysMenu() const;
+		void _onGoUp();
+		void _onGoDown();
+		void _onGoLeft();
+		void _onGoRight();
+		void _onCancel();
+		void _onConfirm();
 
 	public:
-		TitleScreen();
+		TitleScreen(
+			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
+			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
+		);
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

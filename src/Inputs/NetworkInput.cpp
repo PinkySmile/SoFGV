@@ -6,7 +6,7 @@
 
 namespace Battle
 {
-	NetworkInput::NetworkInput(RemoteInput &remote, IInput *real) :
+	NetworkInput::NetworkInput(RemoteInput &remote, std::shared_ptr<IInput> real) :
 		_remote(remote),
 		_real(real)
 	{
@@ -55,5 +55,15 @@ namespace Battle
 		packet.a = inputs.a != 0;
 		//this->_remote.getSock().send(&packet, sizeof(packet));
 		this->_remote.getSock().send(&packet, sizeof(packet), this->_remote.getAddress(), this->_remote.getPort());
+	}
+
+	std::string NetworkInput::getName() const
+	{
+		return "NetworkInput: " + this->_real->getName();
+	}
+
+	std::vector<std::string> NetworkInput::getKeyNames() const
+	{
+		return this->_real->getKeyNames();
 	}
 }

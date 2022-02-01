@@ -48,6 +48,26 @@ namespace Battle
 			key->consumeEvent(event);
 	}
 
+	void ControllerInput::setJoystickId(unsigned int id)
+	{
+		for (auto &keys : this->_keyMap)
+			keys.second->setJoystickId(id);
+	}
+
+	std::string ControllerInput::getName() const
+	{
+		return "Controller";
+	}
+
+	std::vector<std::string> ControllerInput::getKeyNames() const
+	{
+		std::vector<std::string> result{INPUT_NUMBER};
+
+		for (auto &pair : this->_keyMap)
+			result[pair.first] = pair.second->toString();
+		return result;
+	}
+
 	ControllerButton::ControllerButton(unsigned int joystickId, unsigned int buttonId) :
 		_joystickId(joystickId),
 		_buttonId(buttonId)
@@ -72,6 +92,16 @@ namespace Battle
 		if (event.joystickButton.button != this->_buttonId)
 			return;
 		this->_state = event.type == sf::Event::JoystickButtonPressed;
+	}
+
+	void ControllerButton::setJoystickId(unsigned int id)
+	{
+		this->_joystickId = id;
+	}
+
+	std::string ControllerButton::toString()
+	{
+		return "Button " + std::to_string(this->_buttonId);
 	}
 
 	ControllerAxis::ControllerAxis(unsigned int joystickId, sf::Joystick::Axis axis, float threshHold) :
@@ -100,5 +130,26 @@ namespace Battle
 		if (event.joystickMove.axis != this->_axis)
 			return;
 		this->_state = event.joystickMove.position;
+	}
+
+	void ControllerAxis::setJoystickId(unsigned int id)
+	{
+		this->_joystickId = id;
+	}
+
+	std::string ControllerAxis::toString()
+	{
+		std::vector<std::string> axis{
+			"X",
+			"Y",
+			"Z",
+			"R",
+			"U",
+			"V",
+			"PadX",
+			"PadY"
+		};
+
+		return "Axis " + axis[this->_axis] + (this->_threshHold < 0 ? "-" : "+");
 	}
 }

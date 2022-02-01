@@ -16,6 +16,8 @@ namespace Battle
 	public:
 		virtual bool isPressed() = 0;
 		virtual void consumeEvent(const sf::Event &event) = 0;
+		virtual void setJoystickId(unsigned id) = 0;
+		virtual std::string toString() = 0;
 	};
 
 	class ControllerButton : public ControllerKey {
@@ -28,6 +30,8 @@ namespace Battle
 		ControllerButton(unsigned joystickId, unsigned buttonId);
 		bool isPressed() override;
 		void consumeEvent(const sf::Event &event) override;
+		void setJoystickId(unsigned id) override;
+		std::string toString() override;
 	};
 
 	class ControllerAxis : public ControllerKey {
@@ -41,6 +45,8 @@ namespace Battle
 		ControllerAxis(unsigned joystickId, sf::Joystick::Axis axis, float threshHold);
 		bool isPressed() override;
 		void consumeEvent(const sf::Event &event) override;
+		void setJoystickId(unsigned id) override;
+		std::string toString() override;
 	};
 
 	class ControllerInput : public IInput {
@@ -54,6 +60,11 @@ namespace Battle
 		InputStruct getInputs() const override;
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
+		void setJoystickId(unsigned id);
+
+		std::string getName() const override;
+
+		std::vector<std::string> getKeyNames() const override;
 	};
 }
 

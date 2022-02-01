@@ -8,6 +8,8 @@
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
 #include "Scenes/TitleScreen.hpp"
+#include "Inputs/KeyboardInput.hpp"
+#include "Inputs/ControllerInput.hpp"
 
 Battle::Logger	logger("./latest.log");
 
@@ -47,12 +49,70 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 }
 #endif
 
+std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> loadPlayerInputs(std::ifstream &stream)
+{
+	std::map<Battle::InputEnum, sf::Keyboard::Key> keyboardMap{
+		{ Battle::INPUT_LEFT,    sf::Keyboard::Left },
+		{ Battle::INPUT_RIGHT,   sf::Keyboard::Right },
+		{ Battle::INPUT_UP,      sf::Keyboard::Up },
+		{ Battle::INPUT_DOWN,    sf::Keyboard::Down },
+		{ Battle::INPUT_NEUTRAL, sf::Keyboard::W },
+		{ Battle::INPUT_MATTER,  sf::Keyboard::X },
+		{ Battle::INPUT_SPIRIT,  sf::Keyboard::C },
+		{ Battle::INPUT_VOID,    sf::Keyboard::Q },
+		{ Battle::INPUT_ASCEND,  sf::Keyboard::S },
+		{ Battle::INPUT_DASH,    sf::Keyboard::LShift }
+	};
+	std::map<Battle::InputEnum, std::pair<bool, int>> controllerMap{
+		{ Battle::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
+		{ Battle::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
+		{ Battle::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
+		{ Battle::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
+		{ Battle::INPUT_NEUTRAL, {false, 0} },
+		{ Battle::INPUT_MATTER,  {false, 2} },
+		{ Battle::INPUT_SPIRIT,  {false, 1} },
+		{ Battle::INPUT_VOID,    {false, 3} },
+		{ Battle::INPUT_ASCEND,  {false, 5} },
+		{ Battle::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
+	};
+	std::map<Battle::InputEnum, Battle::ControllerKey *> realControllerMap;
+	std::map<sf::Keyboard::Key, Battle::InputEnum> realKeyboardMap;
+
+	if (!stream.fail()) {
+		for (auto &pair : keyboardMap)
+			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+		for (auto &pair : controllerMap)
+			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+	}
+	for (auto &pair : keyboardMap)
+		realKeyboardMap[pair.second] = pair.first;
+	for (auto &pair : controllerMap) {
+		realControllerMap[pair.first] = pair.second.first ?
+			static_cast<Battle::ControllerKey *>(new Battle::ControllerAxis(
+				0,
+				static_cast<sf::Joystick::Axis>(pair.second.second & 7),
+				(char)(pair.second.second >> 3)
+			)) :
+			static_cast<Battle::ControllerKey *>(new Battle::ControllerButton(
+				0,
+				pair.second.second
+			));
+	}
+	return {
+		std::make_shared<Battle::KeyboardInput>(realKeyboardMap),
+		std::make_shared<Battle::ControllerInput>(realControllerMap)
+	};
+}
+
 void	run()
 {
+	std::ifstream stream{"settings.dat", std::istream::binary};
 	sf::Event event;
 
+	Battle::game.P1 = loadPlayerInputs(stream);
+	Battle::game.P2 = loadPlayerInputs(stream);
 	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9");
-	Battle::game.scene = std::make_unique<Battle::TitleScreen>();
+	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);
 	while (Battle::game.screen->isOpen()) {
 		Battle::IScene *newScene = Battle::game.scene->update();
 

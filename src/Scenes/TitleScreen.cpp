@@ -4,6 +4,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+
+#include <utility>
 #else
 // TODO: Add proper message boxes on non windows systems
 #define MessageBox(...)
@@ -19,9 +21,16 @@
 #include "NetplayGame.hpp"
 #include "CharacterSelect.hpp"
 
+#define THRESHOLD 50
+
 namespace Battle
 {
-	TitleScreen::TitleScreen()
+	TitleScreen::TitleScreen(
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
+	) :
+		_P1(std::move(P1)),
+		_P2(std::move(P2))
 	{
 		logger.info("Title scene created");
 		this->_font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
@@ -45,6 +54,9 @@ namespace Battle
 
 		game.screen->fillColor(this->_selectedEntry == 4 ? sf::Color::Red : sf::Color::Black);
 		game.screen->displayElement("Quit", {100, 260});
+
+		if (this->_askingInputs)
+			this->_showAskInputBox();
 	}
 
 	IScene *TitleScreen::update()
@@ -59,25 +71,13 @@ namespace Battle
 			return;
 		switch (event.type) {
 		case sf::Event::KeyPressed:
-			switch (event.key.code) {
-			case sf::Keyboard::Up:
-				this->_selectedEntry += 5;
-				this->_selectedEntry--;
-				this->_selectedEntry %= 5;
-				break;
-			case sf::Keyboard::Down:
-				this->_selectedEntry++;
-				this->_selectedEntry %= 5;
-				break;
-			case sf::Keyboard::X:
-				this->_selectedEntry = 4;
-				break;
-			case sf::Keyboard::Z:
-				this->_onConfirm();
-				break;
-			default:
-				break;
-			}
+			this->_onKeyPressed(event.key);
+			break;
+		case sf::Event::JoystickButtonPressed:
+			this->_onJoystickPressed(event.joystickButton);
+			break;
+		case sf::Event::JoystickMoved:
+			this->_onJoystickMoved(event.joystickMove);
 			break;
 		default:
 			break;
@@ -87,30 +87,7 @@ namespace Battle
 	void TitleScreen::_host()
 	{
 		auto remote = new RemoteInput();
-		auto networkInput = new NetworkInput(*remote, new KeyboardInput({
-			{ sf::Keyboard::Left,  INPUT_LEFT },
-			{ sf::Keyboard::Right, INPUT_RIGHT },
-			{ sf::Keyboard::Up,    INPUT_UP },
-			{ sf::Keyboard::Down,  INPUT_DOWN },
-			{ sf::Keyboard::W,     INPUT_NEUTRAL },
-			{ sf::Keyboard::X,     INPUT_MATTER },
-			{ sf::Keyboard::C,     INPUT_SPIRIT },
-			{ sf::Keyboard::Q,     INPUT_VOID },
-			{ sf::Keyboard::S,     INPUT_ASCEND },
-			{ sf::Keyboard::D,     INPUT_DASH }
-		}));
-		//auto networkInput = new NetworkInput(*remote, new ControllerInput({
-		//	{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
-		//	{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::X, 30) },
-		//	{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::Y, -30) },
-		//	{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::Y, 30) },
-		//	{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
-		//	{ INPUT_MATTER,  new ControllerButton(0, 2) },
-		//	{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
-		//	{ INPUT_VOID,    new ControllerButton(0, 3) },
-		//	{ INPUT_ASCEND,  new ControllerButton(0, 5) },
-		//	{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
-		//}));
+		auto networkInput = new NetworkInput(*remote, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
 
 		try {
 			remote->host(10800);
@@ -126,18 +103,7 @@ namespace Battle
 	void TitleScreen::_connect()
 	{
 		auto remote = new RemoteInput();
-		auto networkInput = new NetworkInput(*remote, new ControllerInput({
-			{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::X, -30) },
-			{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::X, 30) },
-			{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::Y, -30) },
-			{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::Y, 30) },
-			{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
-			{ INPUT_MATTER,  new ControllerButton(0, 2) },
-			{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
-			{ INPUT_VOID,    new ControllerButton(0, 3) },
-			{ INPUT_ASCEND,  new ControllerButton(0, 5) },
-			{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
-		}));
+		auto networkInput = new NetworkInput(*remote, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
 
 		try {
 			std::ifstream stream{"ip.txt"};
@@ -162,38 +128,9 @@ namespace Battle
 	{
 		switch (this->_selectedEntry) {
 		case 0:
-			this->_nextScene = new CharacterSelect(
-				std::make_shared<KeyboardInput>(std::map<sf::Keyboard::Key, InputEnum>{
-					{ sf::Keyboard::Left, INPUT_LEFT },
-					{ sf::Keyboard::Right, INPUT_RIGHT },
-					{ sf::Keyboard::Up, INPUT_UP },
-					{ sf::Keyboard::Down, INPUT_DOWN },
-					{ sf::Keyboard::W, INPUT_NEUTRAL },
-					{ sf::Keyboard::X, INPUT_MATTER },
-					{ sf::Keyboard::C, INPUT_SPIRIT },
-					{ sf::Keyboard::V, INPUT_VOID },
-					{ sf::Keyboard::Q, INPUT_ASCEND },
-					{ sf::Keyboard::RShift, INPUT_DASH }
-				}),
-				std::make_shared<ControllerInput>(std::map<InputEnum, ControllerKey *>{
-					{ INPUT_LEFT,    new ControllerAxis(0, sf::Joystick::Axis::PovX, -30) },
-					{ INPUT_RIGHT,   new ControllerAxis(0, sf::Joystick::Axis::PovX, 30) },
-					{ INPUT_UP,      new ControllerAxis(0, sf::Joystick::Axis::PovY, 30) },
-					{ INPUT_DOWN,    new ControllerAxis(0, sf::Joystick::Axis::PovY, -30) },
-					{ INPUT_NEUTRAL, new ControllerButton(0, 0) },
-					{ INPUT_MATTER,  new ControllerButton(0, 2) },
-					{ INPUT_SPIRIT,  new ControllerButton(0, 1) },
-					{ INPUT_VOID,    new ControllerButton(0, 3) },
-					{ INPUT_ASCEND,  new ControllerButton(0, 5) },
-					{ INPUT_DASH,    new ControllerAxis(0, sf::Joystick::Z, -30) }
-				})
-			);
-			break;
 		case 1:
-			this->_host();
-			break;
 		case 2:
-			this->_connect();
+			this->_askingInputs = true;
 			break;
 		case 3:
 			MessageBox(nullptr, "Not implemented", "Not implemented", MB_ICONERROR);
@@ -204,5 +141,230 @@ namespace Battle
 		default:
 			break;
 		}
+	}
+
+	void TitleScreen::_onInputsChosen()
+	{
+		if (this->_leftInput > 1)
+			this->_P1.second->setJoystickId(this->_leftInput - 2);
+		if (this->_rightInput > 1)
+			this->_P2.second->setJoystickId(this->_rightInput - 2);
+		switch (this->_selectedEntry) {
+		case 0:
+			this->_nextScene = new CharacterSelect(
+				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
+				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
+			);
+			break;
+		case 1:
+			this->_host();
+			break;
+		case 2:
+			this->_connect();
+			break;
+		}
+	}
+
+	void TitleScreen::_onKeyPressed(sf::Event::KeyEvent ev)
+	{
+		this->_usingKeyboard = true;
+		if (this->_askingInputs) {
+			if (ev.code == sf::Keyboard::Escape) {
+				if (this->_rightInput && this->_selectedEntry == 0)
+					this->_rightInput = 0;
+				else if (this->_leftInput)
+					this->_leftInput = 0;
+				else
+					this->_askingInputs = false;
+			} else if (ev.code == sf::Keyboard::Z) {
+				if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0))
+					this->_onInputsChosen();
+				else if (this->_leftInput)
+					this->_rightInput = 1;
+				else
+					this->_leftInput = 1;
+			}
+			return;
+		}
+		switch (ev.code) {
+		case sf::Keyboard::Up:
+			this->_onGoUp();
+			break;
+		case sf::Keyboard::Down:
+			this->_onGoDown();
+			break;
+		case sf::Keyboard::X:
+			this->_selectedEntry = 4;
+			break;
+		case sf::Keyboard::Z:
+			this->_onConfirm();
+			break;
+		default:
+			break;
+		}
+	}
+
+	void TitleScreen::_onJoystickMoved(sf::Event::JoystickMoveEvent ev)
+	{
+		auto old = this->_oldStickValues[ev.joystickId][ev.axis];
+
+		this->_usingKeyboard = false;
+		this->_oldStickValues[ev.joystickId][ev.axis] = ev.position;
+		switch (ev.axis) {
+		case sf::Joystick::Axis::X:
+		case sf::Joystick::Axis::PovX:
+			if (ev.position < -THRESHOLD && old > -THRESHOLD)
+				this->_onGoLeft();
+			else if (ev.position > THRESHOLD && old < THRESHOLD)
+				this->_onGoRight();
+		case sf::Joystick::Axis::Y:
+			if (ev.position < -THRESHOLD && old > -THRESHOLD)
+				this->_onGoUp();
+			else if (ev.position > THRESHOLD && old < THRESHOLD)
+				this->_onGoDown();
+			return;
+		case sf::Joystick::Axis::PovY:
+			if (ev.position < -THRESHOLD && old > -THRESHOLD)
+				this->_onGoDown();
+			else if (ev.position > THRESHOLD && old < THRESHOLD)
+				this->_onGoUp();
+			return;
+		default:
+			return;
+		}
+	}
+
+	void TitleScreen::_onJoystickPressed(sf::Event::JoystickButtonEvent ev)
+	{
+		this->_usingKeyboard = false;
+		if (this->_askingInputs) {
+			if (ev.button == 1) {
+				if (this->_rightInput && this->_selectedEntry == 0)
+					this->_rightInput = 0;
+				else if (this->_leftInput)
+					this->_leftInput = 0;
+				else
+					this->_askingInputs = false;
+			} else if (ev.button == 0) {
+				if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0))
+					this->_onInputsChosen();
+				else if (this->_leftInput) {
+					if (this->_leftInput != ev.joystickId + 2)
+						this->_rightInput = ev.joystickId + 2;
+				} else
+					this->_leftInput = ev.joystickId + 2;
+			}
+			return;
+		}
+		if (ev.button == 0)
+			this->_onConfirm();
+		else if (ev.button == 1)
+			this->_selectedEntry = 4;
+	}
+
+	void TitleScreen::_showAskInputBox() const
+	{
+		game.screen->displayElement({540, 180, 600, 300}, sf::Color{0x50, 0x50, 0x50});
+
+		game.screen->fillColor(this->_leftInput ? sf::Color::Green : sf::Color::White);
+		game.screen->displayElement("P1", {540 + 120, 190});
+		game.screen->fillColor(sf::Color::White);
+		if (this->_leftInput)
+			game.screen->displayElement(
+				this->_leftInput == 1 ?
+				this->_P1.first->getName() :
+				this->_P1.second->getName() + " #" + std::to_string(this->_leftInput - 1),
+				{540 + 70, 260}
+			);
+		else
+			game.screen->displayElement("Press Z or (A)", {540 + 70, 260});
+
+		if (this->_selectedEntry == 0)
+			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
+		else
+			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
+		game.screen->displayElement("P2", {540 + 420, 190});
+		game.screen->fillColor(sf::Color::White);
+		if (this->_leftInput && this->_selectedEntry == 0) {
+			if (this->_rightInput)
+				game.screen->displayElement(
+					this->_rightInput == 1 ?
+					this->_P2.first->getName() :
+					this->_P2.second->getName() + " #" + std::to_string(this->_rightInput - 1),
+					{540 + 370, 260}
+				);
+			else
+				game.screen->displayElement("Press Z or (A)", {540 + 370, 260});
+		}
+
+		if (this->_leftInput && (this->_rightInput || this->_selectedEntry != 0))
+			game.screen->displayElement("Press Z or (A) to confirm", {540 + 120, 360});
+	}
+
+	void TitleScreen::_showEditKeysMenu() const
+	{
+		game.screen->displayElement({540, 180, 600, 600}, sf::Color{0x50, 0x50, 0x50});
+
+		game.screen->fillColor(this->_leftInput ? sf::Color::Green : sf::Color::White);
+		game.screen->displayElement("P1", {540 + 120, 190});
+		game.screen->fillColor(sf::Color::White);
+		if (this->_leftInput)
+			game.screen->displayElement(
+				this->_leftInput == 1 ?
+				this->_P1.first->getName() :
+				this->_P1.second->getName() + " #" + std::to_string(this->_leftInput - 1),
+				{540 + 70, 260}
+			);
+		else
+			game.screen->displayElement("Press Z or (A)", {540 + 70, 260});
+
+		if (this->_selectedEntry == 0)
+			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
+		else
+			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
+		game.screen->displayElement("P2", {540 + 420, 190});
+		game.screen->fillColor(sf::Color::White);
+		if (this->_leftInput && this->_selectedEntry == 0) {
+			if (this->_rightInput)
+				game.screen->displayElement(
+					this->_rightInput == 1 ?
+					this->_P2.first->getName() :
+					this->_P2.second->getName() + " #" + std::to_string(this->_rightInput - 1),
+					{540 + 370, 260}
+				);
+			else
+				game.screen->displayElement("Press Z or (A)", {540 + 370, 260});
+		}
+
+		if (this->_leftInput && (this->_rightInput || this->_selectedEntry != 0))
+			game.screen->displayElement("Press Z or (A) to confirm", {540 + 120, 360});
+	}
+
+	void TitleScreen::_onGoUp()
+	{
+		this->_selectedEntry += 5;
+		this->_selectedEntry--;
+		this->_selectedEntry %= 5;
+	}
+
+	void TitleScreen::_onGoDown()
+	{
+		this->_selectedEntry++;
+		this->_selectedEntry %= 5;
+	}
+
+	void TitleScreen::_onGoLeft()
+	{
+
+	}
+
+	void TitleScreen::_onGoRight()
+	{
+
+	}
+
+	void TitleScreen::_onCancel()
+	{
+
 	}
 }

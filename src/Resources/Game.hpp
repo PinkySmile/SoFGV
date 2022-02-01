@@ -12,6 +12,8 @@
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
 #include "../Scenes/IScene.hpp"
+#include "../Inputs/KeyboardInput.hpp"
+#include "../Inputs/ControllerInput.hpp"
 
 namespace Battle
 {
@@ -21,6 +23,8 @@ namespace Battle
 		std::unique_ptr<BattleManager> battleMgr;
 		std::unique_ptr<IScene> scene;
 		std::mt19937 random;
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1;
+		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2;
 	};
 
 	extern Game game;

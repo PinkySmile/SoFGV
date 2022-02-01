@@ -149,4 +149,14 @@ namespace Battle
 	{
 		return this->_sock;
 	}
+
+	std::string RemoteInput::getName() const
+	{
+		return "Remote input at " + this->_address.toString();
+	}
+
+	std::vector<std::string> RemoteInput::getKeyNames() const
+	{
+		return std::vector<std::string>{INPUT_NUMBER};
+	}
 }

@@ -42,6 +42,8 @@ namespace Battle
 		void receiveData();
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
+		std::string getName() const override;
+		std::vector<std::string> getKeyNames() const override;
 	};
 }
 

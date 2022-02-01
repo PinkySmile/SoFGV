@@ -18,6 +18,8 @@ namespace Battle
 		virtual InputStruct getInputs() const = 0;
 		virtual void update() = 0;
 		virtual void consumeEvent(const sf::Event &event) = 0;
+		virtual std::string getName() const = 0;
+		virtual std::vector<std::string> getKeyNames() const = 0;
 	};
 }
 

@@ -7,6 +7,7 @@
 
 
 #include <SFML/Network/UdpSocket.hpp>
+#include <memory>
 #include "IInput.hpp"
 #include "RemoteInput.hpp"
 
@@ -15,15 +16,17 @@ namespace Battle
 	class NetworkInput : public IInput {
 	private:
 		RemoteInput &_remote;
-		std::unique_ptr<IInput> _real;
+		std::shared_ptr<IInput> _real;
 
 	public:
-		NetworkInput(RemoteInput &remote, IInput *real);
+		NetworkInput(RemoteInput &remote, std::shared_ptr<IInput> real);
 		bool isPressed(InputEnum input) const override;
 		InputStruct getInputs() const override;
 		void sendInputs();
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
+		std::string getName() const override;
+		std::vector<std::string> getKeyNames() const override;
 	};
 }
 
