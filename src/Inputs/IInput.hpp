@@ -8,6 +8,7 @@
 
 #include <SFML/Window/Event.hpp>
 #include "InputEnum.hpp"
+#include <vector>
 
 namespace Battle
 {
