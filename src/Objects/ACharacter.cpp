@@ -850,19 +850,19 @@ namespace Battle
 	{
 		auto currentData = this->getCurrentFrameData();
 
+		if (!currentData->oFlag.cancelable)
+			return false;
+		if (!this->_hasHit && !currentData->dFlag.charaCancel)
+			return false;
 		if (action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH || action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH)
 			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
-		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)))
+		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)) && this->_airDashesUsed < this->_maxAirDashes)
 			return true;
-		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)))
+		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)) && this->_jumpsUsed < this->_maxJumps)
 			return true;
 		if (action < 100)
-			return false;
-		if (!currentData->oFlag.cancelable)
-			return false;
-		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
