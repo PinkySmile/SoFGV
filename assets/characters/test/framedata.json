@@ -12974,7 +12974,7 @@
                         "width": 56
                     },
                     "damage": 200,
-                    "defense_flag": 32832,
+                    "defense_flag": 64,
                     "duration": 4,
                     "hit_boxes": [
                         {
