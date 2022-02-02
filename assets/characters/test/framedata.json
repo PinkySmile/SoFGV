@@ -567,7 +567,7 @@
                         "width": 49
                     },
                     "defense_flag": 2097152,
-                    "duration": 4,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
                             "height": 190,
@@ -4847,14 +4847,6 @@
                         "width": 92
                     },
                     "duration": 5,
-                    "hurt_boxes": [
-                        {
-                            "height": 52,
-                            "left": -85,
-                            "top": -52,
-                            "width": 184
-                        }
-                    ],
                     "size": {
                         "x": 192,
                         "y": 52
