@@ -104,13 +104,29 @@ std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::Contro
 	};
 }
 
-void	run()
+void	saveSettings()
+{
+	std::ofstream stream{"settings.dat", std::istream::binary};
+
+	Battle::game.P1.first->save(stream);
+	Battle::game.P1.second->save(stream);
+	Battle::game.P2.first->save(stream);
+	Battle::game.P2.second->save(stream);
+}
+
+void	loadSettings()
 {
 	std::ifstream stream{"settings.dat", std::istream::binary};
-	sf::Event event;
 
 	Battle::game.P1 = loadPlayerInputs(stream);
 	Battle::game.P2 = loadPlayerInputs(stream);
+}
+
+void	run()
+{
+	sf::Event event;
+
+	loadSettings();
 	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9");
 	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);
 	while (Battle::game.screen->isOpen()) {
@@ -128,6 +144,7 @@ void	run()
 		if (newScene)
 			Battle::game.scene.reset(newScene);
 	}
+	saveSettings();
 }
 
 int	main()

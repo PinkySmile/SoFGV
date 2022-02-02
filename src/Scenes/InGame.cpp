@@ -11,7 +11,7 @@ namespace Battle
 {
 	InGame::InGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
 	{
-		sf::View view{{-50, -500, 1100, 618.75}};
+		sf::View view{{-50, -600, 1100, 700}};
 
 		logger.info("InGame scene created");
 		Battle::game.screen->setView(view);

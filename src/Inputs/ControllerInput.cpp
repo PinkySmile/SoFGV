@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <fstream>
 #include "ControllerInput.hpp"
 
 namespace Battle
@@ -16,6 +17,10 @@ namespace Battle
 
 	bool ControllerInput::isPressed(InputEnum input) const
 	{
+		if (input == INPUT_RIGHT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
+		if (input == INPUT_LEFT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
 		return this->_keyMap.at(input)->isPressed();
 	}
 
@@ -68,6 +73,21 @@ namespace Battle
 		return result;
 	}
 
+	void ControllerInput::changeInput(InputEnum input, ControllerKey *controller)
+	{
+		this->_keyMap[input].reset(controller);
+	}
+
+	void ControllerInput::save(std::ofstream &stream) const
+	{
+		std::map<Battle::InputEnum, std::pair<bool, int>> controllerMap;
+
+		for (auto &pair : this->_keyMap)
+			controllerMap[pair.first] = pair.second->save();
+		for (auto &pair : controllerMap)
+			stream.write(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+	}
+
 	ControllerButton::ControllerButton(unsigned int joystickId, unsigned int buttonId) :
 		_joystickId(joystickId),
 		_buttonId(buttonId)
@@ -102,6 +122,11 @@ namespace Battle
 	std::string ControllerButton::toString()
 	{
 		return "Button " + std::to_string(this->_buttonId);
+	}
+
+	std::pair<bool, int> ControllerButton::save()
+	{
+		return {false, this->_buttonId};
 	}
 
 	ControllerAxis::ControllerAxis(unsigned int joystickId, sf::Joystick::Axis axis, float threshHold) :
@@ -151,5 +176,10 @@ namespace Battle
 		};
 
 		return "Axis " + axis[this->_axis] + (this->_threshHold < 0 ? "-" : "+");
+	}
+
+	std::pair<bool, int> ControllerAxis::save()
+	{
+		return {true, (this->_axis) | ((int)(char)(this->_threshHold)) << 3};
 	}
 }

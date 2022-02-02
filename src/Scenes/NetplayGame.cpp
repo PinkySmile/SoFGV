@@ -13,7 +13,7 @@ namespace Battle
 		_remote(remote),
 		_input(input)
 	{
-		sf::View view{{-50, -500, 1100, 618.75}};
+		sf::View view{{-50, -600, 1100, 700}};
 
 		logger.info("NetplayGame scene created");
 		Battle::game.screen->setView(view);

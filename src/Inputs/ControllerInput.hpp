@@ -18,6 +18,7 @@ namespace Battle
 		virtual void consumeEvent(const sf::Event &event) = 0;
 		virtual void setJoystickId(unsigned id) = 0;
 		virtual std::string toString() = 0;
+		virtual std::pair<bool, int> save() = 0;
 	};
 
 	class ControllerButton : public ControllerKey {
@@ -32,6 +33,7 @@ namespace Battle
 		void consumeEvent(const sf::Event &event) override;
 		void setJoystickId(unsigned id) override;
 		std::string toString() override;
+		std::pair<bool, int> save() override;
 	};
 
 	class ControllerAxis : public ControllerKey {
@@ -47,6 +49,7 @@ namespace Battle
 		void consumeEvent(const sf::Event &event) override;
 		void setJoystickId(unsigned id) override;
 		std::string toString() override;
+		std::pair<bool, int> save() override;
 	};
 
 	class ControllerInput : public IInput {
@@ -61,9 +64,9 @@ namespace Battle
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
 		void setJoystickId(unsigned id);
-
+		void changeInput(InputEnum input, ControllerKey *controller);
+		void save(std::ofstream &stream) const;
 		std::string getName() const override;
-
 		std::vector<std::string> getKeyNames() const override;
 	};
 }

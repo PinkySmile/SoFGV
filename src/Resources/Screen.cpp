@@ -104,4 +104,12 @@ namespace Battle
 	{
 		this->draw(sprite);
 	}
+
+	void	Screen::displayElement(const sf::Texture &texture, sf::Vector2f pos)
+	{
+		sf::Sprite sprite;
+
+		sprite.setTexture(texture);
+		this->displayElement(sprite, pos);
+	}
 }
