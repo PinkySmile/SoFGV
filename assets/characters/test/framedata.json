@@ -24,7 +24,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -54,7 +53,6 @@
                         "x": 64,
                         "y": 184
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -84,7 +82,6 @@
                         "x": 72,
                         "y": 176
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -114,7 +111,6 @@
                         "x": 64,
                         "y": 184
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -151,7 +147,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -187,7 +182,6 @@
                         "x": 54,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -224,7 +218,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -267,7 +260,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -305,7 +297,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -349,7 +340,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -387,7 +377,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -434,7 +423,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -472,7 +460,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -516,7 +503,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -554,7 +540,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -595,7 +580,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 18,
                         "y": 0
@@ -640,7 +624,6 @@
                         "x": 72,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 18,
                         "y": 0
@@ -675,7 +658,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -726,7 +708,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -18,
                         "y": 0
@@ -764,7 +745,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -18,
                         "y": 0
@@ -805,7 +785,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -4,
                         "y": 0
@@ -847,7 +826,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 6,
                         "y": 0
@@ -886,7 +864,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -922,7 +899,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -960,7 +936,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -989,7 +964,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 18
@@ -1023,7 +997,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1067,7 +1040,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1096,7 +1068,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 16
@@ -1130,7 +1101,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1168,7 +1138,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1197,7 +1166,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 16
@@ -1231,7 +1199,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1269,7 +1236,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1298,7 +1264,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 24
@@ -1332,7 +1297,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1370,7 +1334,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1399,7 +1362,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 14,
                         "y": 22
@@ -1433,7 +1395,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1471,7 +1432,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1500,7 +1460,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -14,
                         "y": 22
@@ -1534,7 +1493,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1570,7 +1528,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1606,7 +1563,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1648,7 +1604,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": -12
@@ -1687,7 +1642,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -1722,7 +1676,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -1760,7 +1713,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": -12
@@ -1795,7 +1747,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1826,7 +1777,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1868,7 +1818,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": -12
@@ -1907,7 +1856,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1942,7 +1890,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -1,
                         "y": 0
@@ -1987,7 +1934,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": 0
@@ -2025,7 +1971,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2059,7 +2004,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2100,7 +2044,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": 0
@@ -2138,7 +2081,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2172,7 +2114,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2214,7 +2155,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": 12
@@ -2253,7 +2193,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2288,7 +2227,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2330,7 +2268,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 12
@@ -2369,7 +2306,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2404,7 +2340,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2446,7 +2381,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": 12
@@ -2485,7 +2419,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2520,7 +2453,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -1,
                         "y": 0
@@ -2573,7 +2505,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2615,7 +2546,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2659,7 +2589,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2701,7 +2630,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2750,7 +2678,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2792,7 +2719,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2836,7 +2762,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2878,7 +2803,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2927,7 +2851,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2969,7 +2892,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3013,7 +2935,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3055,7 +2976,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3104,7 +3024,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3146,7 +3065,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3190,7 +3108,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3232,7 +3149,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3272,7 +3188,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3307,7 +3222,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3350,7 +3264,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3386,7 +3299,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3424,7 +3336,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3460,7 +3371,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3503,7 +3413,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3539,7 +3448,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3577,7 +3485,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3613,7 +3520,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3656,7 +3562,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3692,7 +3597,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3730,7 +3634,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3766,7 +3669,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3809,7 +3711,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3845,7 +3746,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3882,7 +3782,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3917,7 +3816,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3964,7 +3862,6 @@
                         "x": 100,
                         "y": 134
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 67,
@@ -4001,7 +3898,6 @@
                         "x": 104,
                         "y": 110
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 55,
@@ -4044,7 +3940,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4080,7 +3975,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4130,7 +4024,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4178,7 +4071,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4233,7 +4125,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4281,7 +4172,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4331,7 +4221,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4379,7 +4268,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4434,7 +4322,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4482,7 +4369,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4532,7 +4418,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4580,7 +4465,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4635,7 +4519,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4683,7 +4566,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4733,7 +4615,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4781,7 +4662,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4818,7 +4698,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4853,7 +4732,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4900,7 +4778,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4947,7 +4824,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4975,7 +4851,6 @@
                         "x": 192,
                         "y": 52
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 35,
@@ -5004,7 +4879,6 @@
                         "x": 192,
                         "y": 52
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 35,
@@ -5037,7 +4911,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5062,7 +4935,6 @@
                         "x": 72,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5095,7 +4967,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -15,
                         "y": 0
@@ -5133,7 +5004,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5161,7 +5031,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -15,
                         "y": 0
@@ -5199,7 +5068,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5245,7 +5113,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5285,7 +5152,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5322,7 +5188,6 @@
                         "x": 66,
                         "y": 194
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5351,7 +5216,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5372,7 +5236,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 20
@@ -5398,7 +5261,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5431,7 +5293,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5457,7 +5318,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": -10
@@ -5504,7 +5364,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5568,7 +5427,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 3
@@ -5614,7 +5472,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5643,7 +5500,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5664,7 +5520,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 15
@@ -5690,7 +5545,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5720,7 +5574,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5741,7 +5594,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 15
@@ -5767,7 +5619,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5804,7 +5655,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -5845,7 +5695,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5880,7 +5729,6 @@
                         "x": 56,
                         "y": 164
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 82,
@@ -5911,7 +5759,6 @@
                         "x": 62,
                         "y": 162
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 81,
@@ -5952,7 +5799,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5986,7 +5832,6 @@
                         "x": 56,
                         "y": 164
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": -12
@@ -6022,7 +5867,6 @@
                         "x": 62,
                         "y": 162
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 81,
@@ -6059,7 +5903,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -6097,7 +5940,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6126,7 +5968,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 20
@@ -6160,7 +6001,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6204,7 +6044,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6233,7 +6072,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 15
@@ -6267,7 +6105,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6305,7 +6142,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6334,7 +6170,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 15
@@ -6380,7 +6215,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6429,7 +6263,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6471,7 +6304,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6515,7 +6347,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6551,7 +6382,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6600,7 +6430,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6642,7 +6471,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6686,7 +6514,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6722,7 +6549,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6771,7 +6597,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6813,7 +6638,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6857,7 +6681,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6893,7 +6716,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6942,7 +6764,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6984,7 +6805,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7028,7 +6848,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7064,7 +6883,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7113,7 +6931,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7155,7 +6972,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7199,7 +7015,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7241,7 +7056,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7290,7 +7104,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7332,7 +7145,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7376,7 +7188,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7418,7 +7229,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7467,7 +7277,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7509,7 +7318,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7553,7 +7361,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7595,7 +7402,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7644,7 +7450,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7686,7 +7491,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7730,7 +7534,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7772,7 +7575,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7821,7 +7623,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7863,7 +7664,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7907,7 +7707,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7943,7 +7742,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7992,7 +7790,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8034,7 +7831,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8078,7 +7874,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8114,7 +7909,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8163,7 +7957,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8205,7 +7998,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8249,7 +8041,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8285,7 +8076,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8334,7 +8124,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8376,7 +8165,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8420,7 +8208,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8456,7 +8243,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8497,7 +8283,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8556,7 +8341,6 @@
                         "x": 74,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8596,7 +8380,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8630,7 +8413,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8677,7 +8459,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8722,7 +8503,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -8772,7 +8552,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8846,7 +8625,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8890,7 +8668,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8928,7 +8705,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 1,
                         "y": 0
@@ -8974,7 +8750,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9009,7 +8784,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9067,7 +8841,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9101,7 +8874,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9148,7 +8920,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9194,7 +8965,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9266,7 +9036,6 @@
                         "x": 110,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9313,7 +9082,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9354,7 +9122,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9392,7 +9159,6 @@
                         "x": 60,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9447,7 +9213,6 @@
                         "x": 100,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9492,7 +9257,6 @@
                         "x": 100,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9523,7 +9287,6 @@
                         "x": 60,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9566,7 +9329,6 @@
                         "x": 76,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -9636,7 +9398,6 @@
                         "x": 158,
                         "y": 124
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 62,
@@ -9683,7 +9444,6 @@
                         "x": 158,
                         "y": 124
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 62,
@@ -9720,7 +9480,6 @@
                         "x": 76,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -9767,7 +9526,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9831,7 +9589,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9895,7 +9652,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9965,7 +9721,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10026,7 +9781,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10073,7 +9827,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10138,7 +9891,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10199,7 +9951,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10264,7 +10015,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10321,7 +10071,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10372,7 +10121,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10439,7 +10187,6 @@
                         "x": 46,
                         "y": 224
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 112,
@@ -10473,7 +10220,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10520,7 +10266,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10585,7 +10330,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10654,7 +10398,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10715,7 +10458,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10761,7 +10503,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10811,7 +10552,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10869,7 +10609,6 @@
                         "x": 122,
                         "y": 254
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 127,
@@ -10903,7 +10642,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10951,7 +10689,6 @@
                         "x": 92,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -10993,7 +10730,6 @@
                         "x": 70,
                         "y": 134
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 67,
@@ -11055,7 +10791,6 @@
                         "x": 100,
                         "y": 130
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -11130,7 +10865,6 @@
                         "x": 188,
                         "y": 130
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 65,
@@ -11201,7 +10935,6 @@
                         "x": 188,
                         "y": 130
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 65,
@@ -11248,7 +10981,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -11289,7 +11021,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -11339,7 +11070,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11375,7 +11105,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11433,7 +11162,6 @@
                         "x": 162,
                         "y": 330
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 165,
@@ -11469,7 +11197,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11517,7 +11244,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11583,7 +11309,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 1
@@ -11628,7 +11353,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11671,7 +11395,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11735,7 +11458,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 3
@@ -11781,7 +11503,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11833,7 +11554,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11902,7 +11622,6 @@
                         "x": 46,
                         "y": 224
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 112,
@@ -11936,7 +11655,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11978,7 +11696,6 @@
                         "x": 46,
                         "y": 186
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 93,
@@ -12038,7 +11755,6 @@
                         "x": 94,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 93,
@@ -12078,7 +11794,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -12112,7 +11827,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -12154,7 +11868,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 1,
                         "y": 0
@@ -12193,7 +11906,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12227,7 +11939,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12285,7 +11996,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -12330,7 +12040,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12364,7 +12073,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12393,7 +12101,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12441,7 +12148,6 @@
                         "x": 148,
                         "y": 220
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 110,
@@ -12471,7 +12177,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12521,7 +12226,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12602,7 +12306,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12684,7 +12387,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12766,7 +12468,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12848,7 +12549,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12930,7 +12630,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12972,7 +12671,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12991,206 +12689,456 @@
                 {
                     "collision_box": {
                         "height": 142,
-                        "left": -14,
-                        "top": -142,
-                        "width": 17
+                        "left": -19,
+                        "top": -144,
+                        "width": 39
                     },
-                    "duration": 4,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 96,
-                            "left": -21,
-                            "top": -96,
+                            "height": 190,
+                            "left": -23,
+                            "top": -191,
+                            "width": 46
+                        }
+                    ],
+                    "size": {
+                        "x": 46,
+                        "y": 192
+                    },
+                    "sprite": "assets\\characters\\test\\sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 204,
+                        "top": 503,
+                        "width": 23
+                    }
+                },
+                {
+                    "block_stun": 8,
+                    "collision_box": {
+                        "height": 135,
+                        "left": -18,
+                        "top": -138,
+                        "width": 36
+                    },
+                    "damage": 400,
+                    "defense_flag": 524288,
+                    "duration": 2,
+                    "hit_boxes": [
+                        {
+                            "height": 24,
+                            "left": -9,
+                            "top": -29,
+                            "width": 45
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 0,
+                        "y": 3
+                    },
+                    "hit_stop": 2,
+                    "hit_stun": 16,
+                    "hurt_boxes": [
+                        {
+                            "height": 197,
+                            "left": -23,
+                            "top": -190,
+                            "width": 46
+                        },
+                        {
+                            "height": 25,
+                            "left": -5,
+                            "top": -29,
+                            "width": 43
+                        }
+                    ],
+                    "offense_flag": 2120,
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "prorate": 70.0,
+                    "push_back": 2,
+                    "push_block": 2,
+                    "size": {
+                        "x": 58,
+                        "y": 188
+                    },
+                    "sprite": "assets\\characters\\test\\sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 235,
+                        "top": 505,
+                        "width": 29
+                    },
+                    "void_limit": 20
+                },
+                {
+                    "collision_box": {
+                        "height": 139,
+                        "left": -17,
+                        "top": -141,
+                        "width": 36
+                    },
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 27,
+                            "left": 5,
+                            "top": -28,
                             "width": 31
                         },
                         {
-                            "height": 38,
-                            "left": -11,
-                            "top": -134,
-                            "width": 13
-                        },
-                        {
-                            "height": 57,
-                            "left": -28,
-                            "top": -191,
-                            "width": 54
+                            "height": 201,
+                            "left": -21,
+                            "top": -194,
+                            "width": 42
                         }
                     ],
-                    "offense_flag": 12617728,
+                    "offense_flag": 2048,
+                    "offset": {
+                        "x": 5,
+                        "y": 0
+                    },
                     "size": {
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets\\characters\\test\\sheet.png",
                     "texture_bounds": {
-                        "height": 96,
-                        "left": 111,
-                        "top": 1,
-                        "width": 23
+                        "height": 94,
+                        "left": 271,
+                        "top": 506,
+                        "width": 29
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 253,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
+                    },
+                    "defense_flag": 81920,
+                    "duration": 9,
+                    "hurt_boxes": [
+                        {
+                            "height": 61,
+                            "left": -32,
+                            "top": -52,
+                            "width": 67
+                        },
+                        {
+                            "height": 80,
+                            "left": -24,
+                            "top": -130,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": 2,
+                        "y": -1
+                    },
+                    "size": {
+                        "x": 70,
+                        "y": 132
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 65,
+                        "left": 197,
+                        "top": 606,
+                        "width": 33
                     }
                 },
                 {
                     "block_stun": 5,
                     "collision_box": {
-                        "height": 192,
-                        "left": -21,
-                        "top": -192,
-                        "width": 36
+                        "height": 73,
+                        "left": -19,
+                        "top": -74,
+                        "width": 38
                     },
-                    "counter_hit_speed": {
-                        "x": 0,
-                        "y": 1
-                    },
-                    "damage": 400,
-                    "duration": 2,
+                    "damage": 100,
+                    "defense_flag": 81920,
+                    "duration": 5,
                     "hit_boxes": [
                         {
-                            "height": 17,
-                            "left": 0,
-                            "top": -94,
-                            "width": 24
+                            "height": 22,
+                            "left": 27,
+                            "top": -33,
+                            "width": 32
                         }
                     ],
                     "hit_speed": {
-                        "x": 0,
-                        "y": 1
+                        "x": 5,
+                        "y": 0
                     },
                     "hit_stop": 2,
-                    "hit_stun": 9,
+                    "hit_stun": 7,
                     "hurt_boxes": [
                         {
-                            "height": 96,
-                            "left": -21,
-                            "top": -96,
-                            "width": 31
+                            "height": 60,
+                            "left": -32,
+                            "top": -52,
+                            "width": 58
                         },
                         {
-                            "height": 38,
-                            "left": -11,
-                            "top": -134,
-                            "width": 13
+                            "height": 82,
+                            "left": -26,
+                            "top": -130,
+                            "width": 50
                         },
                         {
-                            "height": 57,
-                            "left": -28,
-                            "top": -191,
-                            "width": 54
-                        },
-                        {
-                            "height": 17,
-                            "left": 0,
-                            "top": -94,
-                            "width": 28
+                            "height": 41,
+                            "left": 25,
+                            "top": -52,
+                            "width": 34
                         }
                     ],
-                    "mana_cost": 2,
-                    "offense_flag": 12617728,
-                    "push_back": 1,
-                    "push_block": 1,
+                    "offense_flag": 34826,
+                    "offset": {
+                        "x": 11,
+                        "y": -2
+                    },
+                    "push_back": 2,
+                    "push_block": 3,
                     "size": {
-                        "x": 52,
-                        "y": 192
+                        "x": 86,
+                        "y": 130
                     },
-                    "sound": "",
-                    "sprite": "assets\\characters\\test\\sheet.png",
+                    "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 96,
-                        "left": 159,
-                        "top": 1,
-                        "width": 27
+                        "height": 65,
+                        "left": 232,
+                        "top": 606,
+                        "width": 43
+                    }
+                },
+                {
+                    "block_stun": 7,
+                    "collision_box": {
+                        "height": 73,
+                        "left": -25,
+                        "top": -75,
+                        "width": 50
                     },
-                    "void_limit": 10
+                    "damage": 100,
+                    "defense_flag": 81920,
+                    "duration": 4,
+                    "hit_boxes": [
+                        {
+                            "height": 25,
+                            "left": 25,
+                            "top": -52,
+                            "width": 33
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 1,
+                        "y": 8
+                    },
+                    "hit_stop": 3,
+                    "hit_stun": 10,
+                    "hurt_boxes": [
+                        {
+                            "height": 64,
+                            "left": -32,
+                            "top": -52,
+                            "width": 58
+                        },
+                        {
+                            "height": 78,
+                            "left": -27,
+                            "top": -130,
+                            "width": 50
+                        },
+                        {
+                            "height": 26,
+                            "left": 20,
+                            "top": -52,
+                            "width": 43
+                        }
+                    ],
+                    "offense_flag": 10304,
+                    "offset": {
+                        "x": 12,
+                        "y": -2
+                    },
+                    "prorate": 100.0,
+                    "push_back": 10,
+                    "push_block": 14,
+                    "size": {
+                        "x": 88,
+                        "y": 130
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 65,
+                        "left": 277,
+                        "top": 606,
+                        "width": 44
+                    },
+                    "void_limit": 20
+                },
+                {
+                    "block_stun": 7,
+                    "collision_box": {
+                        "height": 73,
+                        "left": -25,
+                        "top": -75,
+                        "width": 50
+                    },
+                    "damage": 250,
+                    "defense_flag": 81920,
+                    "duration": 4,
+                    "hit_boxes": [
+                        {
+                            "height": 25,
+                            "left": 24,
+                            "top": -68,
+                            "width": 37
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 4,
+                        "y": 15
+                    },
+                    "hit_stop": 6,
+                    "hit_stun": 25,
+                    "hurt_boxes": [
+                        {
+                            "height": 64,
+                            "left": -32,
+                            "top": -52,
+                            "width": 58
+                        },
+                        {
+                            "height": 78,
+                            "left": -24,
+                            "top": -130,
+                            "width": 50
+                        },
+                        {
+                            "height": 34,
+                            "left": 13,
+                            "top": -72,
+                            "width": 57
+                        }
+                    ],
+                    "offense_flag": 305344,
+                    "offset": {
+                        "x": 12,
+                        "y": -2
+                    },
+                    "prorate": 100.0,
+                    "push_back": 5,
+                    "push_block": 7,
+                    "size": {
+                        "x": 88,
+                        "y": 130
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 65,
+                        "left": 326,
+                        "top": 606,
+                        "width": 44
+                    },
+                    "void_limit": 30
                 },
                 {
                     "collision_box": {
-                        "height": 192,
-                        "left": -21,
-                        "top": -192,
-                        "width": 36
+                        "height": 73,
+                        "left": -27,
+                        "top": -75,
+                        "width": 52
                     },
-                    "duration": 2,
+                    "defense_flag": 65536,
+                    "duration": 5,
                     "hurt_boxes": [
                         {
-                            "height": 96,
-                            "left": -21,
-                            "top": -96,
-                            "width": 31
+                            "height": 52,
+                            "left": -32,
+                            "top": -52,
+                            "width": 58
                         },
                         {
-                            "height": 38,
-                            "left": -11,
-                            "top": -134,
-                            "width": 13
+                            "height": 79,
+                            "left": -24,
+                            "top": -130,
+                            "width": 50
                         },
                         {
-                            "height": 57,
-                            "left": -28,
-                            "top": -191,
-                            "width": 54
-                        },
-                        {
-                            "height": 17,
-                            "left": 0,
-                            "top": -94,
-                            "width": 28
+                            "height": 36,
+                            "left": 25,
+                            "top": -50,
+                            "width": 32
                         }
                     ],
-                    "offense_flag": 12617728,
-                    "size": {
-                        "x": 52,
-                        "y": 192
+                    "offense_flag": 264192,
+                    "offset": {
+                        "x": 11,
+                        "y": -1
                     },
-                    "sound": "",
-                    "sprite": "assets\\characters\\test\\sheet.png",
+                    "size": {
+                        "x": 88,
+                        "y": 132
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 96,
-                        "left": 159,
-                        "top": 1,
-                        "width": 27
+                        "height": 66,
+                        "left": 206,
+                        "top": 99,
+                        "width": 44
                     }
                 },
                 {
                     "collision_box": {
-                        "height": 192,
-                        "left": -21,
-                        "top": -192,
-                        "width": 36
+                        "height": 71,
+                        "left": -27,
+                        "top": -75,
+                        "width": 56
                     },
-                    "duration": 4,
+                    "defense_flag": 65536,
+                    "duration": 5,
                     "hurt_boxes": [
                         {
-                            "height": 96,
-                            "left": -21,
-                            "top": -96,
-                            "width": 31
+                            "height": 52,
+                            "left": -32,
+                            "top": -52,
+                            "width": 67
                         },
                         {
-                            "height": 38,
-                            "left": -11,
-                            "top": -134,
-                            "width": 13
-                        },
-                        {
-                            "height": 57,
-                            "left": -28,
-                            "top": -191,
-                            "width": 54
+                            "height": 78,
+                            "left": -24,
+                            "top": -130,
+                            "width": 50
                         }
                     ],
-                    "mana_cost": 2,
-                    "offense_flag": 12617728,
-                    "size": {
-                        "x": 52,
-                        "y": 192
+                    "offense_flag": 264192,
+                    "offset": {
+                        "x": 2,
+                        "y": -1
                     },
-                    "sound": "",
-                    "sprite": "assets\\characters\\test\\sheet.png",
+                    "size": {
+                        "x": 70,
+                        "y": 132
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 96,
-                        "left": 186,
-                        "top": 1,
-                        "width": 23
+                        "height": 66,
+                        "left": 171,
+                        "top": 99,
+                        "width": 35
                     }
                 }
             ]
@@ -13227,7 +13175,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13262,7 +13209,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13318,7 +13264,6 @@
                         "x": 170,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13354,7 +13299,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13372,34 +13316,33 @@
             [
                 {
                     "collision_box": {
-                        "height": 190,
-                        "left": -11,
-                        "top": -183,
-                        "width": 29
+                        "height": 137,
+                        "left": -24,
+                        "top": -130,
+                        "width": 42
                     },
-                    "defense_flag": 17152,
+                    "defense_flag": 256,
                     "duration": 6,
                     "hurt_boxes": [
                         {
                             "height": 194,
-                            "left": -24,
-                            "top": -186,
-                            "width": 55
+                            "left": -35,
+                            "top": -185,
+                            "width": 58
                         }
                     ],
                     "offset": {
-                        "x": 6,
+                        "x": -6,
                         "y": -6
                     },
                     "size": {
-                        "x": 52,
+                        "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 238,
+                        "left": 235,
                         "top": 182,
                         "width": 30
                     }
@@ -13407,17 +13350,17 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 190,
-                        "left": -11,
-                        "top": -183,
-                        "width": 29
+                        "height": 141,
+                        "left": -18,
+                        "top": -134,
+                        "width": 36
                     },
                     "counter_hit_speed": {
                         "x": 1,
                         "y": 2
                     },
                     "damage": 500,
-                    "defense_flag": 16640,
+                    "defense_flag": 256,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -13445,21 +13388,27 @@
                             "left": -24,
                             "top": -186,
                             "width": 55
+                        },
+                        {
+                            "height": 111,
+                            "left": -1,
+                            "top": -113,
+                            "width": 49
                         }
                     ],
                     "mana_cost": 3,
-                    "offense_flag": 8653056,
+                    "offense_flag": 10750216,
                     "offset": {
                         "x": 6,
                         "y": -6
                     },
+                    "prorate": 90.0,
                     "push_back": 1,
                     "push_block": 2,
                     "size": {
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13472,10 +13421,10 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 190,
-                        "left": -11,
-                        "top": -183,
-                        "width": 29
+                        "height": 147,
+                        "left": -16,
+                        "top": -140,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 1,
@@ -13493,9 +13442,9 @@
                     "hurt_boxes": [
                         {
                             "height": 194,
-                            "left": -15,
+                            "left": -21,
                             "top": -186,
-                            "width": 40
+                            "width": 49
                         }
                     ],
                     "mana_cost": 3,
@@ -13507,14 +13456,13 @@
                     "push_back": 1,
                     "push_block": 2,
                     "size": {
-                        "x": 52,
+                        "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 304,
+                        "left": 305,
                         "top": 196,
                         "width": 30
                     },
@@ -13524,158 +13472,143 @@
         ]
     },
     {
-        "action": 264,
+        "action": 266,
         "framedata": [
             [
                 {
                     "collision_box": {
                         "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "left": -19,
+                        "top": -150,
+                        "width": 42
                     },
-                    "defense_flag": 16640,
-                    "duration": 7,
+                    "defense_flag": 2121992,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 194,
-                            "left": -21,
-                            "top": -186,
-                            "width": 52
-                        },
-                        {
-                            "height": 56,
-                            "left": -53,
-                            "top": -145,
-                            "width": 116
+                            "height": 180,
+                            "left": -34,
+                            "top": -175,
+                            "width": 69
                         }
                     ],
-                    "offense_flag": 8388608,
+                    "offense_flag": 16384,
                     "offset": {
-                        "x": 6,
+                        "x": 0,
                         "y": -6
                     },
                     "size": {
-                        "x": 128,
-                        "y": 199
+                        "x": 64,
+                        "y": 178
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 99,
-                        "left": 234,
-                        "top": 294,
-                        "width": 64
+                        "height": 89,
+                        "left": 199,
+                        "top": 684,
+                        "width": 32
                     }
                 },
                 {
                     "block_stun": 15,
                     "collision_box": {
-                        "height": 150,
+                        "height": 143,
                         "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "top": -139,
+                        "width": 40
                     },
                     "counter_hit_speed": {
-                        "x": 0,
-                        "y": 14
+                        "x": 1,
+                        "y": 2
                     },
-                    "damage": 350,
-                    "defense_flag": 16648,
-                    "duration": 5,
+                    "damage": 600,
+                    "defense_flag": 545032,
+                    "duration": 10,
                     "hit_boxes": [
                         {
-                            "height": 82,
-                            "left": -56,
-                            "top": -193,
-                            "width": 130
+                            "height": 125,
+                            "left": -21,
+                            "top": -117,
+                            "width": 45
                         }
                     ],
                     "hit_speed": {
                         "x": 0,
-                        "y": 10
+                        "y": 2
                     },
-                    "hit_stop": 4,
-                    "hit_stun": 12,
+                    "hit_stop": 2,
+                    "hit_stun": 25,
                     "hurt_boxes": [
                         {
-                            "height": 194,
-                            "left": -21,
-                            "top": -186,
-                            "width": 52
-                        },
-                        {
-                            "height": 78,
-                            "left": -51,
-                            "top": -177,
-                            "width": 121
+                            "height": 201,
+                            "left": -24,
+                            "top": -193,
+                            "width": 55
                         }
                     ],
-                    "mana_cost": 2,
-                    "offense_flag": 8390656,
+                    "mana_cost": 3,
+                    "offense_flag": 10520712,
                     "offset": {
                         "x": 6,
                         "y": -6
                     },
-                    "prorate": 90.0,
-                    "push_block": 6,
+                    "prorate": 100.0,
+                    "push_back": 2,
+                    "push_block": 4,
                     "size": {
-                        "x": 128,
-                        "y": 199
+                        "x": 52,
+                        "y": 198
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
-                        "y": 3
+                        "y": -5
                     },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
-                        "left": 295,
-                        "top": 294,
-                        "width": 64
+                        "left": 236,
+                        "top": 684,
+                        "width": 27
                     },
-                    "void_limit": 30
+                    "void_limit": 10
                 },
                 {
                     "collision_box": {
-                        "height": 150,
+                        "height": 145,
                         "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "top": -143,
+                        "width": 41
                     },
-                    "defense_flag": 16648,
-                    "duration": 5,
+                    "counter_hit_speed": {
+                        "x": 1,
+                        "y": 2
+                    },
+                    "defense_flag": 524544,
+                    "duration": 6,
+                    "hit_stun": 10,
                     "hurt_boxes": [
                         {
-                            "height": 194,
+                            "height": 199,
                             "left": -21,
-                            "top": -186,
-                            "width": 52
-                        },
-                        {
-                            "height": 51,
-                            "left": -51,
-                            "top": -142,
-                            "width": 111
+                            "top": -191,
+                            "width": 53
                         }
                     ],
-                    "offense_flag": 8390656,
+                    "offense_flag": 264192,
                     "offset": {
                         "x": 6,
                         "y": -6
                     },
                     "size": {
-                        "x": 128,
-                        "y": 199
+                        "x": 54,
+                        "y": 196
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 99,
-                        "left": 234,
-                        "top": 294,
-                        "width": 64
+                        "height": 98,
+                        "left": 266,
+                        "top": 684,
+                        "width": 27
                     }
                 }
             ]
