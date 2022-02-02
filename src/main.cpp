@@ -72,7 +72,7 @@ std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::Contro
 		{ Battle::INPUT_MATTER,  {false, 2} },
 		{ Battle::INPUT_SPIRIT,  {false, 1} },
 		{ Battle::INPUT_VOID,    {false, 3} },
-		{ Battle::INPUT_ASCEND,  {false, 5} },
+		{ Battle::INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
 		{ Battle::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
 	};
 	std::map<Battle::InputEnum, Battle::ControllerKey *> realControllerMap;

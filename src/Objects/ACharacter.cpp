@@ -1662,7 +1662,7 @@ namespace Battle
 			this->_baseGravity.y
 		);
 		this->_text.setString(buffer);
-		this->_text.setPosition({static_cast<float>(this->_team * 850), -450});
+		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
 
 
 		sprintf(
@@ -1718,7 +1718,7 @@ namespace Battle
 				strcat(buffer, "\n");
 			}
 		this->_text2.setString(buffer);
-		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -450});
+		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -550});
 #endif
 	}
 

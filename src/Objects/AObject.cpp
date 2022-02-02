@@ -255,6 +255,7 @@ namespace Battle
 		this->_hasHit &= data->oFlag.resetHits;
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
+		Battle::game.soundMgr.play(data->soundHandle);
 	}
 
 	bool AObject::_hasMove(unsigned action) const
@@ -392,6 +393,7 @@ namespace Battle
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 			this->_hasHit &= !data->oFlag.resetHits;
+			Battle::game.soundMgr.play(data->soundHandle);
 		}
 	}
 

@@ -190,6 +190,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
 	auto gravity = panel->get<tgui::EditBox>("Gravity");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
+	auto sound = panel->get<tgui::EditBox>("SFX");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -226,6 +227,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	progress->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
 	progress->setValue(object->_animation);
 	sprite->setText(data.spritePath);
+	sound->setText(data.soundPath);
 	damage->setText(std::to_string(data.damage));
 	duration->setText(std::to_string(data.duration));
 	marker->setText(std::to_string(data.specialMarker));
@@ -312,6 +314,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto speedCtrl = panel->get<tgui::SpinButton>("Speed");
 	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
+	auto sfx = panel->get<tgui::EditBox>("SFX");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -490,6 +493,15 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		data.spritePath = t;
 		data.reloadTexture();
+	});
+	sfx->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.soundPath = t;
+		data.reloadSound();
 	});
 	speed->connect("TextChanged", [boxes, &object](std::string t){
 		if (*c)
@@ -2013,6 +2025,8 @@ void	run()
 		if (object) {
 			if (timer >= updateTimer || updateAnyway) {
 				object->update();
+				if (object->_animationCtr == 0)
+					Battle::game.soundMgr.play(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].soundHandle);
 				updateAnyway = false;
 				progress->setValue(object->_animation);
 				timer -= updateTimer;

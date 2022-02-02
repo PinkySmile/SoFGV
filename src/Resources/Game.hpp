@@ -14,12 +14,14 @@
 #include "../Scenes/IScene.hpp"
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
+#include "SoundManager.hpp"
 
 namespace Battle
 {
 	struct Game {
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
+		SoundManager soundMgr;
 		std::unique_ptr<BattleManager> battleMgr;
 		std::unique_ptr<IScene> scene;
 		std::mt19937 random;

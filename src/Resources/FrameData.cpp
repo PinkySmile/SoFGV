@@ -474,6 +474,8 @@ namespace Battle
 
 		this->_palette = palette;
 		this->textureHandle = game.textureMgr.load(this->spritePath, palette, &textureSize);
+		if (!this->soundPath.empty())
+			this->soundHandle = game.soundMgr.load(this->soundPath);
 		if (!this->textureBounds.size.x)
 			this->textureBounds.size.x = textureSize.x;
 		if (!this->textureBounds.size.y)
@@ -540,6 +542,7 @@ namespace Battle
 		this->gravity = other.gravity;
 		//TODO: Add ref to sound manager
 		game.textureMgr.addRef(this->textureHandle);
+		game.soundMgr.addRef(this->soundHandle);
 		return *this;
 	}
 
@@ -549,11 +552,20 @@ namespace Battle
 		this->textureHandle = game.textureMgr.load(this->spritePath, this->_palette);
 	}
 
+	void FrameData::reloadSound()
+	{
+		game.soundMgr.remove(this->soundHandle);
+		if (!this->soundPath.empty())
+			this->soundHandle = game.soundMgr.load(this->soundPath);
+	}
+
 	nlohmann::json FrameData::toJson() const
 	{
 		nlohmann::json result = nlohmann::json::object();
 
 		result["sprite"] = this->spritePath;
+		if (!this->soundPath.empty())
+			result["sound"] = this->soundPath;
 		if (this->offset.x || this->offset.y)
 			result["offset"] = {
 				{"x", this->offset.x},

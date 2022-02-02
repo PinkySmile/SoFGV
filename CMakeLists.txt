@@ -35,6 +35,8 @@ add_executable(
 	src/Resources/BattleManager.cpp
 	src/Resources/TextureManager.hpp
 	src/Resources/TextureManager.cpp
+	src/Resources/SoundManager.hpp
+	src/Resources/SoundManager.cpp
 	src/Inputs/InputEnum.hpp
 	src/Objects/ACharacter.hpp
 	src/Objects/ACharacter.cpp
@@ -112,6 +114,8 @@ add_executable(
 	src/Resources/Screen.hpp
 	src/Resources/TextureManager.hpp
 	src/Resources/TextureManager.cpp
+	src/Resources/SoundManager.hpp
+	src/Resources/SoundManager.cpp
 	src/Inputs/InputEnum.hpp
 	src/Objects/AObject.hpp
 	src/Objects/AObject.cpp
@@ -137,5 +141,6 @@ target_link_libraries(
 	${SFML_GRAPHICS_LIB}
 	${SFML_SYSTEM_LIB}
 	${SFML_WINDOW_LIB}
+	${SFML_AUDIO_LIB}
 	${TGUI_LIB}
 )

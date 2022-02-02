@@ -128,6 +128,7 @@ namespace Battle
 		FrameData(const nlohmann::json &json, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		FrameData &operator=(const FrameData &other);
 		void reloadTexture();
+		void reloadSound();
 		nlohmann::json toJson() const;
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
