@@ -12,6 +12,8 @@ namespace Battle
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character)
 	{
+		this->_stage.textureHandle = game.textureMgr.load("assets/stages/14687.png");
+		this->_stage.setPosition({-50, -600});
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
 		this->_leftCharacter->init(
@@ -131,20 +133,17 @@ namespace Battle
 
 	void BattleManager::render()
 	{
-		this->_leftCharacter->render();
-		this->_rightCharacter->render();
-		for (auto &object : this->_objects)
-			object->render();
+		game.textureMgr.render(this->_stage);
 
 		sf::RectangleShape rect;
 
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
 		rect.setFillColor(sf::Color::Yellow);
-		rect.setPosition(0, -490);
+		rect.setPosition(0, -590);
 		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
 		game.screen->draw(rect);
-		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -490);
+		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -590);
 		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
@@ -171,6 +170,11 @@ namespace Battle
 		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
 		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
 		game.screen->draw(rect);
+
+		this->_leftCharacter->render();
+		this->_rightCharacter->render();
+		for (auto &object : this->_objects)
+			object->render();
 	}
 
 	void BattleManager::registerObject(IObject *object)

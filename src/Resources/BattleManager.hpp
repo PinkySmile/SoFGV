@@ -12,6 +12,7 @@ namespace Battle
 {
 	class BattleManager {
 	private:
+		Sprite _stage;
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
 		std::vector<std::unique_ptr<IObject>> _objects;

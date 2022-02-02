@@ -2,6 +2,7 @@
 // Created by Gegel85 on 25/09/2021.
 //
 
+#include <fstream>
 #include "KeyboardInput.hpp"
 
 namespace Battle
@@ -142,6 +143,10 @@ namespace Battle
 
 	bool KeyboardInput::isPressed(InputEnum input) const
 	{
+		if (input == INPUT_RIGHT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
+		if (input == INPUT_LEFT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
 		return this->_keyStates[input];
 	}
 
@@ -166,10 +171,32 @@ namespace Battle
 
 	std::vector<std::string> KeyboardInput::getKeyNames() const
 	{
-		std::vector<std::string> result{INPUT_NUMBER};
+		std::vector<std::string> result;
 
+		result.resize(INPUT_NUMBER, "Not mapped");
 		for (auto &pair : this->_keyMap)
 			result[pair.second] = keyToString[pair.first + 1];
 		return result;
+	}
+
+	void KeyboardInput::changeInput(InputEnum input, sf::Keyboard::Key key)
+	{
+		auto it = std::find_if(this->_keyMap.begin(), this->_keyMap.end(), [input](std::pair<sf::Keyboard::Key, InputEnum> pair){
+			return pair.second == input;
+		});
+
+		if (it != this->_keyMap.end())
+			this->_keyMap.erase(it);
+		this->_keyMap[key] = input;
+	}
+
+	void KeyboardInput::save(std::ofstream &stream) const
+	{
+		std::map<Battle::InputEnum, sf::Keyboard::Key> realKeyboardMap;
+
+		for (auto &pair : this->_keyMap)
+			realKeyboardMap[pair.second] = pair.first;
+		for (auto &pair : realKeyboardMap)
+			stream.write(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
 	}
 }

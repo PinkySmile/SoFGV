@@ -23,6 +23,10 @@ namespace Battle
 
 	bool RemoteInput::isPressed(InputEnum input) const
 	{
+		if (input == INPUT_RIGHT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
+		if (input == INPUT_LEFT)
+			return (this->_keyDuration[INPUT_RIGHT] - this->_keyDuration[INPUT_LEFT]) > 0;
 		return this->_keyStates[input];
 	}
 

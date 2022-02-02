@@ -37,6 +37,7 @@ namespace Battle
 		void              textSize(const size_t &size);
 		void              displayElement(sf::IntRect rect, sf::Color color);
 		void              displayElement(const std::string &str, sf::Vector2f pos, float size = 0, TextAlign = ALIGN_LEFT);
+		void              displayElement(const sf::Texture &texture, sf::Vector2f);
 		void              displayElement(sf::Sprite &sprite, sf::Vector2f);
 		void              displayElement(sf::Sprite &sprite);
 	};

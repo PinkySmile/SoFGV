@@ -25,6 +25,8 @@ namespace Battle
 		InputStruct getInputs() const override;
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
+		void changeInput(InputEnum input, sf::Keyboard::Key key);
+		void save(std::ofstream &stream) const;
 		std::string getName() const override;
 		std::vector<std::string> getKeyNames() const override;
 	};

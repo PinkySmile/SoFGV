@@ -16,6 +16,7 @@ namespace Battle
 {
 	class TitleScreen : public IScene {
 	private:
+		std::vector<sf::Texture> _inputs;
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P1;
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P2;
 		sf::Font _font;
@@ -23,9 +24,11 @@ namespace Battle
 		unsigned _selectedEntry = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
+		bool _changeInput = false;
 		bool _askingInputs = false;
 		bool _usingKeyboard = false;
 		unsigned char _changingInputs = 0;
+		unsigned char _cursorInputs = 0;
 		IScene *_nextScene = nullptr;
 
 		void _onInputsChosen();
