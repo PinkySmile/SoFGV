@@ -67,7 +67,7 @@ add_executable(
 	src/Scenes/NetplayGame.hpp
 	src/Scenes/CharacterSelect.cpp
 	src/Scenes/CharacterSelect.hpp
-)
+	src/Objects/AProjectile.cpp src/Objects/AProjectile.hpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)

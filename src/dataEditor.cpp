@@ -742,7 +742,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		data.subObjectSpawn = std::stoul(t);
+		data.subObjectSpawn = std::stoi(t);
 	});
 	pushBack->connect("TextChanged", [&object](std::string t){
 		if (*c)

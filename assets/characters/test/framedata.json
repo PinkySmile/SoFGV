@@ -24,7 +24,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -54,7 +53,6 @@
                         "x": 64,
                         "y": 184
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -84,7 +82,6 @@
                         "x": 72,
                         "y": 176
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -114,7 +111,6 @@
                         "x": 64,
                         "y": 184
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -151,7 +147,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -187,7 +182,6 @@
                         "x": 54,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -224,7 +218,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -267,7 +260,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -305,7 +297,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -349,7 +340,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -387,7 +377,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -434,7 +423,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -472,7 +460,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -516,7 +503,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -554,7 +540,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -5,
                         "y": 0
@@ -595,7 +580,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 18,
                         "y": 0
@@ -640,7 +624,6 @@
                         "x": 72,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 18,
                         "y": 0
@@ -675,7 +658,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -726,7 +708,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -18,
                         "y": 0
@@ -764,7 +745,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -18,
                         "y": 0
@@ -805,7 +785,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -4,
                         "y": 0
@@ -847,7 +826,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 6,
                         "y": 0
@@ -886,7 +864,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -922,7 +899,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -960,7 +936,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -989,7 +964,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 18
@@ -1023,7 +997,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1067,7 +1040,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1096,7 +1068,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 16
@@ -1130,7 +1101,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1168,7 +1138,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1197,7 +1166,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 16
@@ -1231,7 +1199,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1269,7 +1236,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1298,7 +1264,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 24
@@ -1332,7 +1297,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1370,7 +1334,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1399,7 +1362,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 14,
                         "y": 22
@@ -1433,7 +1395,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1471,7 +1432,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1500,7 +1460,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -14,
                         "y": 22
@@ -1534,7 +1493,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1570,7 +1528,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1606,7 +1563,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1648,7 +1604,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": -12
@@ -1687,7 +1642,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -1722,7 +1676,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -1760,7 +1713,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": -12
@@ -1795,7 +1747,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1826,7 +1777,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1868,7 +1818,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": -12
@@ -1907,7 +1856,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -1942,7 +1890,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -1,
                         "y": 0
@@ -1987,7 +1934,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": 0
@@ -2025,7 +1971,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2059,7 +2004,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2100,7 +2044,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": 0
@@ -2138,7 +2081,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2172,7 +2114,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2214,7 +2155,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -12,
                         "y": 12
@@ -2253,7 +2193,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2288,7 +2227,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -2330,7 +2268,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 12
@@ -2369,7 +2306,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2404,7 +2340,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2446,7 +2381,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 12,
                         "y": 12
@@ -2485,7 +2419,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2520,7 +2453,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -1,
                         "y": 0
@@ -2573,7 +2505,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2615,7 +2546,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2659,7 +2589,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2701,7 +2630,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2750,7 +2678,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2792,7 +2719,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2836,7 +2762,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2878,7 +2803,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2927,7 +2851,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -2969,7 +2892,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3013,7 +2935,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3055,7 +2976,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3104,7 +3024,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3146,7 +3065,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3190,7 +3108,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3232,7 +3149,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3272,7 +3188,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3307,7 +3222,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -3350,7 +3264,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3386,7 +3299,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3424,7 +3336,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3460,7 +3371,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3503,7 +3413,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3539,7 +3448,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3577,7 +3485,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3613,7 +3520,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3656,7 +3562,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3692,7 +3597,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3730,7 +3634,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3766,7 +3669,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3809,7 +3711,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3845,7 +3746,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3882,7 +3782,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3917,7 +3816,6 @@
                         "x": 80,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -3964,7 +3862,6 @@
                         "x": 100,
                         "y": 134
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 67,
@@ -4001,7 +3898,6 @@
                         "x": 104,
                         "y": 110
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 55,
@@ -4044,7 +3940,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4080,7 +3975,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4130,7 +4024,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4178,7 +4071,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4233,7 +4125,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4281,7 +4172,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4331,7 +4221,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4379,7 +4268,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4434,7 +4322,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4482,7 +4369,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4532,7 +4418,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4580,7 +4465,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4635,7 +4519,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4683,7 +4566,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4733,7 +4615,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4781,7 +4662,6 @@
                         "x": 70,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4818,7 +4698,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4853,7 +4732,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4900,7 +4778,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4947,7 +4824,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -4970,12 +4846,12 @@
                         "top": -49,
                         "width": 92
                     },
+                    "defense_flag": 8192,
                     "duration": 5,
                     "size": {
                         "x": 192,
                         "y": 52
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 35,
@@ -5004,7 +4880,6 @@
                         "x": 192,
                         "y": 52
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 35,
@@ -5037,7 +4912,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5062,7 +4936,6 @@
                         "x": 72,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5095,7 +4968,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -15,
                         "y": 0
@@ -5133,7 +5005,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5161,7 +5032,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -15,
                         "y": 0
@@ -5199,7 +5069,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5245,7 +5114,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5285,7 +5153,6 @@
                         "x": 88,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 80,
@@ -5322,7 +5189,6 @@
                         "x": 66,
                         "y": 194
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5351,7 +5217,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5372,7 +5237,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 20
@@ -5398,7 +5262,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5431,7 +5294,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5457,7 +5319,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": -10
@@ -5504,7 +5365,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5568,7 +5428,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 3
@@ -5614,7 +5473,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -5643,7 +5501,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5664,7 +5521,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 15
@@ -5690,7 +5546,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5720,7 +5575,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5741,7 +5595,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 15
@@ -5767,7 +5620,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -5804,7 +5656,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -5828,10 +5679,6 @@
                         "width": 54
                     },
                     "defense_flag": 256,
-                    "gravity": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5840,12 +5687,11 @@
                             "width": 55
                         }
                     ],
-                    "rotation": 88.76000457974156,
+                    "rotation": 21.280001381436254,
                     "size": {
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5875,12 +5721,11 @@
                             "width": 55
                         }
                     ],
-                    "rotation": 90.9999860639607,
+                    "rotation": 24.64000032139371,
                     "size": {
                         "x": 56,
                         "y": 164
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 82,
@@ -5907,11 +5752,11 @@
                             "width": 64
                         }
                     ],
+                    "rotation": 26.880001233706487,
                     "size": {
                         "x": 62,
                         "y": 162
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 81,
@@ -5936,10 +5781,6 @@
                     },
                     "defense_flag": 256,
                     "duration": 2,
-                    "gravity": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5948,11 +5789,11 @@
                             "width": 55
                         }
                     ],
+                    "rotation": 340.76001978850746,
                     "size": {
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 98,
@@ -5970,10 +5811,6 @@
                     },
                     "defense_flag": 256,
                     "duration": 4,
-                    "gravity": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5982,14 +5819,10 @@
                             "width": 55
                         }
                     ],
+                    "rotation": 340.76001978850746,
                     "size": {
                         "x": 56,
                         "y": 164
-                    },
-                    "sound": "",
-                    "speed": {
-                        "x": -12,
-                        "y": -12
                     },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
@@ -6017,12 +5850,10 @@
                             "width": 68
                         }
                     ],
-                    "rotation": 14.559999858753779,
                     "size": {
                         "x": 62,
                         "y": 162
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 81,
@@ -6059,7 +5890,6 @@
                         "x": 54,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -6097,7 +5927,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6126,7 +5955,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 20
@@ -6160,7 +5988,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6204,7 +6031,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6233,7 +6059,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 7,
                         "y": 15
@@ -6267,7 +6092,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6305,7 +6129,6 @@
                         "x": 48,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6334,7 +6157,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": -7,
                         "y": 15
@@ -6380,7 +6202,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -6429,7 +6250,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6471,7 +6291,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6515,7 +6334,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6551,7 +6369,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6600,7 +6417,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6642,7 +6458,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6686,7 +6501,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6722,7 +6536,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6771,7 +6584,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6813,7 +6625,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6857,7 +6668,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6893,7 +6703,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -6942,7 +6751,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -6984,7 +6792,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7028,7 +6835,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7064,7 +6870,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7113,7 +6918,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7155,7 +6959,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7199,7 +7002,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7241,7 +7043,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7290,7 +7091,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7332,7 +7132,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7376,7 +7175,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7418,7 +7216,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7467,7 +7264,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7509,7 +7305,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7553,7 +7348,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7595,7 +7389,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7644,7 +7437,6 @@
                         "x": 104,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7686,7 +7478,6 @@
                         "x": 86,
                         "y": 128
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 64,
@@ -7730,7 +7521,6 @@
                         "x": 128,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7772,7 +7562,6 @@
                         "x": 100,
                         "y": 106
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 53,
@@ -7821,7 +7610,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7863,7 +7651,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -7907,7 +7694,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7943,7 +7729,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -7992,7 +7777,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8034,7 +7818,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8078,7 +7861,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8114,7 +7896,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8163,7 +7944,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8205,7 +7985,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8249,7 +8028,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8285,7 +8063,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8334,7 +8111,6 @@
                         "x": 68,
                         "y": 180
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8376,7 +8152,6 @@
                         "x": 46,
                         "y": 182
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 91,
@@ -8420,7 +8195,6 @@
                         "x": 68,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8456,7 +8230,6 @@
                         "x": 48,
                         "y": 174
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 87,
@@ -8497,7 +8270,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8556,7 +8328,6 @@
                         "x": 74,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8596,7 +8367,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8630,7 +8400,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -8677,7 +8446,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8722,7 +8490,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 5,
                         "y": 0
@@ -8772,7 +8539,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8846,7 +8612,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8890,7 +8655,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -8928,7 +8692,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 1,
                         "y": 0
@@ -8974,7 +8737,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9009,7 +8771,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9067,7 +8828,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9101,7 +8861,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9148,7 +8907,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9194,7 +8952,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9266,7 +9023,6 @@
                         "x": 110,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9313,7 +9069,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9354,7 +9109,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -9392,7 +9146,6 @@
                         "x": 60,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9447,7 +9200,6 @@
                         "x": 100,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9492,7 +9244,6 @@
                         "x": 100,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9523,7 +9274,6 @@
                         "x": 60,
                         "y": 140
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 70,
@@ -9566,7 +9316,6 @@
                         "x": 76,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -9636,7 +9385,6 @@
                         "x": 158,
                         "y": 124
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 62,
@@ -9683,7 +9431,6 @@
                         "x": 158,
                         "y": 124
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 62,
@@ -9720,7 +9467,6 @@
                         "x": 76,
                         "y": 158
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -9767,7 +9513,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9831,7 +9576,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9895,7 +9639,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -9965,7 +9708,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10026,7 +9768,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10073,7 +9814,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10138,7 +9878,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10199,7 +9938,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10264,7 +10002,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10321,7 +10058,6 @@
                         "x": 68,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10372,7 +10108,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10439,7 +10174,6 @@
                         "x": 46,
                         "y": 224
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 112,
@@ -10473,7 +10207,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10520,7 +10253,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10585,7 +10317,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10654,7 +10385,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10715,7 +10445,6 @@
                         "x": 62,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -10761,7 +10490,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10811,7 +10539,6 @@
                         "x": 60,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10869,7 +10596,6 @@
                         "x": 122,
                         "y": 254
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 127,
@@ -10903,7 +10629,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -10951,7 +10676,6 @@
                         "x": 92,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -10993,7 +10717,6 @@
                         "x": 70,
                         "y": 134
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 67,
@@ -11055,7 +10778,6 @@
                         "x": 100,
                         "y": 130
                     },
-                    "sound": "",
                     "speed": {
                         "x": 4,
                         "y": 0
@@ -11130,7 +10852,6 @@
                         "x": 188,
                         "y": 130
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 65,
@@ -11201,7 +10922,6 @@
                         "x": 188,
                         "y": 130
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 65,
@@ -11248,7 +10968,6 @@
                         "x": 88,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -11289,7 +11008,6 @@
                         "x": 70,
                         "y": 132
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -11339,7 +11057,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11375,7 +11092,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11433,7 +11149,6 @@
                         "x": 162,
                         "y": 330
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 165,
@@ -11469,7 +11184,6 @@
                         "x": 128,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11517,7 +11231,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11583,7 +11296,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 1
@@ -11628,7 +11340,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11671,7 +11382,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11735,7 +11445,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 3
@@ -11781,7 +11490,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -11833,7 +11541,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11902,7 +11609,6 @@
                         "x": 46,
                         "y": 224
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 112,
@@ -11936,7 +11642,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -11978,7 +11683,6 @@
                         "x": 46,
                         "y": 186
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 93,
@@ -12038,7 +11742,6 @@
                         "x": 94,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 93,
@@ -12078,7 +11781,6 @@
                         "x": 64,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -12112,7 +11814,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -12154,7 +11855,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 1,
                         "y": 0
@@ -12193,7 +11893,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12227,7 +11926,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12285,7 +11983,6 @@
                         "x": 58,
                         "y": 192
                     },
-                    "sound": "",
                     "speed": {
                         "x": 2,
                         "y": 0
@@ -12330,7 +12027,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12364,7 +12060,6 @@
                         "x": 46,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12393,7 +12088,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12441,7 +12135,6 @@
                         "x": 148,
                         "y": 220
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 110,
@@ -12471,7 +12164,6 @@
                         "x": 66,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12521,7 +12213,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12602,7 +12293,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12684,7 +12374,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12766,7 +12455,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12848,7 +12536,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12930,7 +12617,6 @@
                         "x": 104,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -12972,7 +12658,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13021,7 +12706,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets\\characters\\test\\sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13092,7 +12776,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets\\characters\\test\\sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13141,7 +12824,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets\\characters\\test\\sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13184,7 +12866,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets\\characters\\test\\sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13227,7 +12908,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13262,7 +12942,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13318,7 +12997,6 @@
                         "x": 170,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13354,7 +13032,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13395,7 +13072,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13459,7 +13135,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13510,7 +13185,6 @@
                         "x": 52,
                         "y": 192
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13559,7 +13233,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,
@@ -13623,7 +13296,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "speed": {
                         "x": 0,
                         "y": 3
@@ -13669,7 +13341,6 @@
                         "x": 128,
                         "y": 199
                     },
-                    "sound": "",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 99,

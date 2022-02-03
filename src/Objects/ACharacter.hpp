@@ -324,6 +324,7 @@ namespace Battle
 		unsigned _voidManaMax;
 		unsigned _spiritManaMax;
 		unsigned _matterManaMax;
+		unsigned _maxBlockStun = 120;
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
@@ -362,7 +363,7 @@ namespace Battle
 		virtual void _processInput(const InputStruct &input);
 		virtual bool _executeAirborneMoves(const InputStruct &input);
 		virtual bool _executeGroundMoves(const InputStruct &input);
-		virtual bool _isBlocking();
+		virtual bool _isBlocking() const;
 		virtual bool _canCancel(unsigned int action);
 		virtual int _getAttackTier(unsigned int action) const;
 		virtual bool _checkHitPos(const AObject *other) const;

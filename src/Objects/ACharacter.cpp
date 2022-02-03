@@ -15,6 +15,8 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define WALL_SLAM_HITSTUN_INCREASE 30
+#define GROUND_SLAM_HITSTUN_INCREASE 30
 #define WALL_SLAM_THRESHOLD 15
 #define GROUND_SLAM_THRESHOLD 20
 #define HJ_BUFFER 5
@@ -375,6 +377,25 @@ namespace Battle
 		game.screen->draw(this->_text);
 		game.screen->draw(this->_text2);
 #endif
+		if (isBlockingAction(this->_action)) {
+			sf::Color color{
+				0xFF,
+				static_cast<sf::Uint8>(0xFF * (1 - (static_cast<float>(this->_blockStun)) / this->_maxBlockStun)),
+				static_cast<sf::Uint8>(0xFF * max(0, 1 - (static_cast<float>(this->_blockStun) * 2) / this->_maxBlockStun))
+			};
+
+			game.screen->displayElement({
+				static_cast<int>(this->_position.x - this->_blockStun / 2),
+				static_cast<int>(10 - this->_position.y),
+				static_cast<int>(this->_blockStun),
+				10
+			}, color);
+		} else if (this->showBoxes) {
+			game.screen->displayElement(
+				{static_cast<int>(this->_position.x - this->_blockStun / 2), static_cast<int>(10 - this->_position.y), static_cast<int>(this->_blockStun), 10},
+				this->_isGrounded() ? sf::Color::Red : sf::Color{0xFF, 0x80, 0x00}
+			);
+		}
 	}
 
 	void ACharacter::update()
@@ -388,7 +409,7 @@ namespace Battle
 			if (this->_blockStun == 0) {
 				if (this->_isGrounded())
 					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
-				else if (this->_action != ACTION_AIR_HIT || this->_restand)
+				else if ((this->_action != ACTION_AIR_HIT && this->_action != ACTION_WALL_SLAM && this->_action != ACTION_GROUND_SLAM) || this->_restand)
 					this->_forceStartMove(ACTION_FALLING);
 			}
 		}
@@ -401,7 +422,10 @@ namespace Battle
 				this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
 			if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
 				this->_forceStartMove(ACTION_HARD_LAND);
-			else if (this->_action == ACTION_AIR_HIT) {
+			else if (
+				this->_speed.y <= 0 &&
+				(this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_SLAM || this->_action == ACTION_WALL_SLAM)
+			) {
 				this->_blockStun = 0;
 				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 			} else if ((
@@ -662,8 +686,12 @@ namespace Battle
 			for (auto limit : this->_limit)
 				if (limit >= 100)
 					return false;
-			return this->_action == ACTION_AIR_HIT;
+			return (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_SLAM || this->_action == ACTION_WALL_SLAM) && this->_blockStun == 0;
 		}
+		if (action == ACTION_NEUTRAL_TECH || action == ACTION_BACKWARD_TECH || action == ACTION_FORWARD_TECH)
+			return this->_isGrounded() && this->_action == ACTION_KNOCKED_DOWN;
+		if (action == ACTION_FALLING_TECH)
+			return !this->_isGrounded() && (this->_action == ACTION_NEUTRAL_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_BACKWARD_TECH);
 		if (action == ACTION_IDLE && this->_action == ACTION_STANDING_UP)
 			return false;
 		if (action == ACTION_CROUCHING && this->_action == ACTION_CROUCH)
@@ -707,9 +735,9 @@ namespace Battle
 		if (this->_action == ACTION_KNOCKED_DOWN) {
 			auto inputs = this->_input->getInputs();
 
-			if (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v)
+			if ((!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v) || !inputs.horizontalAxis)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
-			if (inputs.horizontalAxis && this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
+			if (this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
 				return;
 			return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 		}
@@ -788,7 +816,7 @@ namespace Battle
 			this->_getHitByMove(dynamic_cast<AObject *>(&other), *data);
 	}
 
-	bool ACharacter::_isBlocking()
+	bool ACharacter::_isBlocking() const
 	{
 		auto *data = this->getCurrentFrameData();
 
@@ -832,7 +860,22 @@ namespace Battle
 			}
 		} else if (action >= ACTION_5N)
 			this->_hasJumped = true;
-		if (action != ACTION_AIR_HIT && action != ACTION_GROUND_LOW_HIT && action != ACTION_GROUND_HIGH_HIT) {
+		if (
+			action != ACTION_AIR_HIT &&
+			action != ACTION_GROUND_LOW_HIT &&
+			action != ACTION_GROUND_HIGH_HIT &&
+			action != ACTION_GROUND_SLAM &&
+			action != ACTION_WALL_SLAM &&
+			action != ACTION_UP_AIR_TECH &&
+			action != ACTION_DOWN_AIR_TECH &&
+			action != ACTION_FORWARD_AIR_TECH &&
+			action != ACTION_BACKWARD_AIR_TECH &&
+			action != ACTION_NEUTRAL_TECH &&
+			action != ACTION_FORWARD_TECH &&
+			action != ACTION_BACKWARD_TECH &&
+			action != ACTION_BEING_KNOCKED_DOWN &&
+			action != ACTION_KNOCKED_DOWN
+		) {
 			this->_comboCtr = 0;
 			this->_prorate = 1;
 			this->_totalDamage = 0;
@@ -854,8 +897,6 @@ namespace Battle
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
-		if (action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH || action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH)
-			return this->_action == ACTION_AIR_HIT && this->_blockStun == 0;
 		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
 			return true;
 		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)) && this->_airDashesUsed < this->_maxAirDashes)
@@ -1883,7 +1924,7 @@ namespace Battle
 			this->_blockStun = data.hitStun * 1.5;
 			this->_speed.x -= data.counterHitSpeed.x * this->_dir;
 			this->_speed.x = max(-data.counterHitSpeed.x * 1.5, min(data.counterHitSpeed.x * 1.5, this->_speed.x));
-			this->_speed.y -= data.counterHitSpeed.y;
+			this->_speed.y += data.counterHitSpeed.y;
 			this->_prorate *= data.prorate / 100;
 			this->_limit[0] += data.neutralLimit;
 			this->_limit[1] += data.voidLimit;
@@ -1902,7 +1943,7 @@ namespace Battle
 				this->_blockStun = data.hitStun;
 				this->_speed.x -= data.hitSpeed.x * this->_dir;
 				this->_speed.x = max(-data.hitSpeed.x * 1.5, min(data.hitSpeed.x * 1.5, this->_speed.x));
-				this->_speed.y -= data.hitSpeed.y;
+				this->_speed.y += data.hitSpeed.y;
 				this->_prorate *= data.prorate / 100;
 				this->_limit[0] += data.neutralLimit;
 				this->_limit[1] += data.voidLimit;
@@ -1919,7 +1960,8 @@ namespace Battle
 			this->_position.x = 0;
 			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
-				) {
+			) {
+				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 				this->_forceStartMove(ACTION_WALL_SLAM);
 				this->_speed.x *= -0.8;
 				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
@@ -1934,6 +1976,7 @@ namespace Battle
 		if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
 			this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 		)) {
+			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 			this->_forceStartMove(ACTION_WALL_SLAM);
 			this->_speed.x *= -0.8;
 			this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
@@ -1952,6 +1995,7 @@ namespace Battle
 				this->_speed.x *= 0.8;
 				this->_speed.y *= -0.8;
 				this->_forceStartMove(ACTION_GROUND_SLAM);
+				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
 				this->_speed.y = 0;
 		} else if (this->_position.y > 1000) {
@@ -1963,6 +2007,7 @@ namespace Battle
 				this->_speed.x *= 0.8;
 				this->_speed.y *= -0.8;
 				this->_forceStartMove(ACTION_GROUND_SLAM);
+				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
 				this->_speed.y = 0;
 		}

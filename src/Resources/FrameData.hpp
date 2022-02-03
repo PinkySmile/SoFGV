@@ -112,7 +112,7 @@ namespace Battle
 		unsigned matterLimit = 0;
 		int pushBack = 0;
 		int pushBlock = 0;
-		unsigned subObjectSpawn = 0;
+		int subObjectSpawn = 0;
 		unsigned manaGain = 0;
 		unsigned manaCost = 0;
 		unsigned hitStop = 0;
