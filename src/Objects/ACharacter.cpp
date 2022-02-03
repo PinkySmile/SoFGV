@@ -400,16 +400,18 @@ namespace Battle
 
 	void ACharacter::update()
 	{
+		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
+
 		this->_tickMove();
 		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
 		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
 		this->_voidMana   += (this->_voidManaMax   - this->_voidMana)   * this->_regen;
 		if (this->_blockStun) {
 			this->_blockStun--;
-			if (this->_blockStun == 0) {
+			if (this->_blockStun == 0 && !limited) {
 				if (this->_isGrounded())
 					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
-				else if ((this->_action != ACTION_AIR_HIT && this->_action != ACTION_WALL_SLAM && this->_action != ACTION_GROUND_SLAM) || this->_restand)
+				else if (this->_restand)
 					this->_forceStartMove(ACTION_FALLING);
 			}
 		}
@@ -424,7 +426,12 @@ namespace Battle
 				this->_forceStartMove(ACTION_HARD_LAND);
 			else if (
 				this->_speed.y <= 0 &&
-				(this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_SLAM || this->_action == ACTION_WALL_SLAM)
+				(
+					this->_action == ACTION_AIR_HIT ||
+					this->_action == ACTION_GROUND_SLAM ||
+					this->_action == ACTION_WALL_SLAM ||
+					limited
+				)
 			) {
 				this->_blockStun = 0;
 				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
