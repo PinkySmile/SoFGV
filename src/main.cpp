@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <dbghelp.h>
 #endif
+#include <sys/stat.h>
 #include "Logger.hpp"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
@@ -49,7 +50,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 }
 #endif
 
-std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> loadPlayerInputs(std::ifstream &stream)
+std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> loadPlayerInputs(std::ifstream &stream, bool oldVersion)
 {
 	std::map<Battle::InputEnum, sf::Keyboard::Key> keyboardMap{
 		{ Battle::INPUT_LEFT,    sf::Keyboard::Left },
@@ -79,10 +80,18 @@ std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::Contro
 	std::map<sf::Keyboard::Key, Battle::InputEnum> realKeyboardMap;
 
 	if (!stream.fail()) {
+		if (!oldVersion) {
+			keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
+			controllerMap[Battle::INPUT_PAUSE] = {false, 7};
+		}
 		for (auto &pair : keyboardMap)
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
 		for (auto &pair : controllerMap)
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+	}
+	if (oldVersion) {
+		keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
+		controllerMap[Battle::INPUT_PAUSE] = {false, 7};
 	}
 	for (auto &pair : keyboardMap)
 		realKeyboardMap[pair.second] = pair.first;
@@ -117,9 +126,11 @@ void	saveSettings()
 void	loadSettings()
 {
 	std::ifstream stream{"settings.dat", std::istream::binary};
+	struct stat s;
+	auto result = stat("settings.dat", &s);
 
-	Battle::game.P1 = loadPlayerInputs(stream);
-	Battle::game.P2 = loadPlayerInputs(stream);
+	Battle::game.P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	Battle::game.P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
 }
 
 void	run()
@@ -127,7 +138,9 @@ void	run()
 	sf::Event event;
 
 	loadSettings();
+	Battle::game.font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
 	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9");
+	Battle::game.screen->setFont(Battle::game.font);
 	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);
 	while (Battle::game.screen->isOpen()) {
 		Battle::IScene *newScene = Battle::game.scene->update();

@@ -186,4 +186,24 @@ namespace Battle
 	{
 		this->_hitStop = std::max(stop, this->_hitStop);
 	}
+
+	const ACharacter *BattleManager::getLeftCharacter() const
+	{
+		return &*this->_leftCharacter;
+	}
+
+	const ACharacter *BattleManager::getRightCharacter() const
+	{
+		return &*this->_rightCharacter;
+	}
+
+	ACharacter *BattleManager::getLeftCharacter()
+	{
+		return &*this->_leftCharacter;
+	}
+
+	ACharacter *BattleManager::getRightCharacter()
+	{
+		return &*this->_rightCharacter;
+	}
 }

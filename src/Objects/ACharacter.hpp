@@ -421,6 +421,9 @@ namespace Battle
 		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
+		std::shared_ptr<IInput> &getInput();
+		const std::shared_ptr<IInput> &getInput() const;
+		const std::map<unsigned, std::vector<std::vector<FrameData>>> &getFrameData();
 
 		friend class BattleManager;
 	};

@@ -32,9 +32,11 @@ namespace Battle
 		_P1(std::move(P1)),
 		_P2(std::move(P2))
 	{
+		sf::View view{{0, 0, 1680, 960}};
+
+		game.screen->setView(view);
 		logger.info("Title scene created");
-		this->_font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
-		this->_inputs.resize(10);
+		this->_inputs.resize(INPUT_NUMBER);
 		this->_inputs[INPUT_LEFT].loadFromFile("assets/icons/inputs/4.png");
 		this->_inputs[INPUT_RIGHT].loadFromFile("assets/icons/inputs/6.png");
 		this->_inputs[INPUT_UP].loadFromFile("assets/icons/inputs/8.png");
@@ -45,12 +47,11 @@ namespace Battle
 		this->_inputs[INPUT_V].loadFromFile("assets/icons/inputs/void.png");
 		this->_inputs[INPUT_A].loadFromFile("assets/icons/inputs/ascend.png");
 		this->_inputs[INPUT_D].loadFromFile("assets/icons/inputs/dash.png");
+		this->_inputs[INPUT_PAUSE].loadFromFile("assets/icons/inputs/pause.png");
 	}
 
 	void TitleScreen::render() const
 	{
-		game.screen->setFont(this->_font);
-
 		game.screen->fillColor(this->_selectedEntry == 0 ? sf::Color::Red : sf::Color::Black);
 		game.screen->displayElement("Play", {100, 100});
 
@@ -166,12 +167,12 @@ namespace Battle
 				this->_changeInput = false;
 				return;
 			}
-			if (!this->_usingKeyboard || this->_cursorInputs == 0)
+			if (!this->_usingKeyboard)
 				return;
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
-			pair.first->changeInput(static_cast<InputEnum>(this->_cursorInputs - 1), ev.code);
+			pair.first->changeInput(static_cast<InputEnum>(this->_cursorInputs), ev.code);
 			this->_changeInput = false;
 			return;
 		}
@@ -208,12 +209,12 @@ namespace Battle
 
 		this->_oldStickValues[ev.joystickId][ev.axis] = ev.position;
 		if (this->_changeInput && this->_changingInputs) {
-			if (this->_usingKeyboard || this->_cursorInputs == 0)
+			if (this->_usingKeyboard)
 				return;
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
-			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs - 1), new ControllerAxis(ev.joystickId, ev.axis, std::copysign(30, ev.position)));
+			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerAxis(ev.joystickId, ev.axis, std::copysign(30, ev.position)));
 			this->_changeInput = false;
 			return;
 		}
@@ -247,12 +248,12 @@ namespace Battle
 	void TitleScreen::_onJoystickPressed(sf::Event::JoystickButtonEvent ev)
 	{
 		if (this->_changeInput && this->_changingInputs) {
-			if (this->_usingKeyboard || this->_cursorInputs == 0)
+			if (this->_usingKeyboard)
 				return;
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
-			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs - 1), new ControllerButton(ev.joystickId, ev.button));
+			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerButton(ev.joystickId, ev.button));
 			this->_changeInput = false;
 			return;
 		}
@@ -286,10 +287,12 @@ namespace Battle
 				this->_leftInput == 1 ?
 				this->_P1.first->getName() :
 				this->_P1.second->getName() + " #" + std::to_string(this->_leftInput - 1),
-				{540 + 70, 260}
+				{540, 260},
+				300,
+				Screen::ALIGN_CENTER
 			);
 		else
-			game.screen->displayElement("Press Z or (A)", {540 + 70, 260});
+			game.screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
 
 		if (this->_selectedEntry == 0)
 			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
@@ -303,14 +306,16 @@ namespace Battle
 					this->_rightInput == 1 ?
 					this->_P2.first->getName() :
 					this->_P2.second->getName() + " #" + std::to_string(this->_rightInput - 1),
-					{540 + 370, 260}
+					{840, 260},
+					300,
+					Screen::ALIGN_CENTER
 				);
 			else
-				game.screen->displayElement("Press Z or (A)", {540 + 370, 260});
+				game.screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
 		if (this->_leftInput && (this->_rightInput || this->_selectedEntry != 0))
-			game.screen->displayElement("Press Z or (A) to confirm", {540 + 120, 360});
+			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
 	void TitleScreen::_showEditKeysMenu() const
@@ -319,22 +324,21 @@ namespace Battle
 		auto input = this->_usingKeyboard ? static_cast<std::shared_ptr<IInput>>(pair.first) : static_cast<std::shared_ptr<IInput>>(pair.second);
 		auto strs = input->getKeyNames();
 
-		game.screen->displayElement({640, 80, 400, 800}, sf::Color{0x50, 0x50, 0x50});
-
-		game.screen->fillColor(this->_cursorInputs ? sf::Color::White : sf::Color::Red);
-		game.screen->displayElement(this->_changingInputs == 1 ? "P1" : "P2", {810, 85});
+		game.screen->displayElement({640, 80, 400, 830}, sf::Color{0x50, 0x50, 0x50});
 
 		game.screen->fillColor(sf::Color::White);
-		game.screen->displayElement(input->getName(), {680 + 70, 120});
+		game.screen->displayElement((this->_changingInputs == 1 ? "P1 | " : "P2 | ") + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
+
+		game.screen->fillColor(sf::Color::White);
 
 		for (unsigned i = 0; i < this->_inputs.size(); i++) {
-			game.screen->displayElement(this->_inputs[i], {680, 175 + i * 68.f});
-			if (this->_changeInput && this->_cursorInputs == i + 1) {
+			game.screen->displayElement(this->_inputs[i], {680, 135 + i * 68.f});
+			if (this->_changeInput && this->_cursorInputs == i) {
 				game.screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
-				game.screen->displayElement("Press a key", {760, 186 + i * 68.f});
+				game.screen->displayElement("Press a key", {760, 146 + i * 68.f});
 			} else {
-				game.screen->fillColor(this->_cursorInputs == i + 1 ? sf::Color::Red : sf::Color::White);
-				game.screen->displayElement(strs[i], {760, 186 + i * 68.f});
+				game.screen->fillColor(this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
+				game.screen->displayElement(strs[i], {760, 146 + i * 68.f});
 			}
 		}
 	}
@@ -342,9 +346,9 @@ namespace Battle
 	void TitleScreen::_onGoUp()
 	{
 		if (this->_changingInputs) {
-			this->_cursorInputs += this->_inputs.size() + 1;
+			this->_cursorInputs += this->_inputs.size();
 			this->_cursorInputs--;
-			this->_cursorInputs %= this->_inputs.size() + 1;
+			this->_cursorInputs %= this->_inputs.size();
 			return;
 		}
 		if (this->_askingInputs)
@@ -358,7 +362,7 @@ namespace Battle
 	{
 		if (this->_changingInputs) {
 			this->_cursorInputs++;
-			this->_cursorInputs %= this->_inputs.size() + 1;
+			this->_cursorInputs %= this->_inputs.size();
 			return;
 		}
 		if (this->_askingInputs)
@@ -386,7 +390,7 @@ namespace Battle
 	void TitleScreen::_onConfirm()
 	{
 		if (this->_changingInputs) {
-			this->_changeInput = this->_cursorInputs != 0;
+			this->_changeInput = true;
 			return;
 		}
 		if (this->_askingInputs) {

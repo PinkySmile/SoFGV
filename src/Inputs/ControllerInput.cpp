@@ -35,6 +35,7 @@ namespace Battle
 			this->_keyDuration[INPUT_V],
 			this->_keyDuration[INPUT_A],
 			this->_keyDuration[INPUT_D],
+			this->_keyDuration[INPUT_PAUSE],
 		};
 	}
 
@@ -66,8 +67,9 @@ namespace Battle
 
 	std::vector<std::string> ControllerInput::getKeyNames() const
 	{
-		std::vector<std::string> result{INPUT_NUMBER};
+		std::vector<std::string> result;
 
+		result.resize(INPUT_NUMBER, "Not mapped");
 		for (auto &pair : this->_keyMap)
 			result[pair.first] = pair.second->toString();
 		return result;

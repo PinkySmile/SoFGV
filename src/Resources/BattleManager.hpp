@@ -39,6 +39,10 @@ namespace Battle
 		void render();
 		void registerObject(const std::shared_ptr<IObject> &object);
 		void consumeEvent(const sf::Event &);
+		ACharacter *getLeftCharacter();
+		ACharacter *getRightCharacter();
+		const ACharacter *getLeftCharacter() const;
+		const ACharacter *getRightCharacter() const;
 		template <typename T, typename ...Args>
 		std::shared_ptr<IObject> registerObject(Args &... args)
 		{

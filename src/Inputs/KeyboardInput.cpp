@@ -161,6 +161,7 @@ namespace Battle
 			this->_keyDuration[INPUT_V],
 			this->_keyDuration[INPUT_A],
 			this->_keyDuration[INPUT_D],
+			this->_keyDuration[INPUT_PAUSE],
 		};
 	}
 

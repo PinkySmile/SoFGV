@@ -2143,4 +2143,19 @@ namespace Battle
 			return false;
 		}
 	}
+
+	const std::shared_ptr<IInput> &ACharacter::getInput() const
+	{
+		return this->_input;
+	}
+
+	std::shared_ptr<IInput> &ACharacter::getInput()
+	{
+		return this->_input;
+	}
+
+	const std::map<unsigned, std::vector<std::vector<FrameData>>> &ACharacter::getFrameData()
+	{
+		return this->_moves;
+	}
 }

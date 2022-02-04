@@ -19,6 +19,7 @@
 namespace Battle
 {
 	struct Game {
+		sf::Font font;
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		SoundManager soundMgr;

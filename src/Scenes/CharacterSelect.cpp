@@ -19,7 +19,6 @@ namespace Battle
 		std::ifstream stream{"assets/characters/list.json"};
 		nlohmann::json json;
 
-		this->_font.loadFromFile("assets/fonts/comicsansms.ttf");
 		game.screen->setView(view);
 		logger.info("CharacterSelect scene created");
 		stream >> json;
@@ -39,7 +38,6 @@ namespace Battle
 		auto rInputs = this->_rightInput->getInputs();
 
 		game.screen->fillColor(sf::Color::Black);
-		game.screen->setFont(this->_font);
 		game.screen->displayElement({0, 0, 1680, 960}, sf::Color{
 			static_cast<sf::Uint8>(lInputs.d),
 			static_cast<sf::Uint8>(rInputs.d),
