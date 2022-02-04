@@ -349,7 +349,7 @@ namespace Battle
 		{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
 	};
 
-	ACharacter::ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+	ACharacter::ACharacter(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
 #ifdef _DEBUG
@@ -367,6 +367,7 @@ namespace Battle
 #endif
 		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(frameData, palette);
+		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
 		this->_lastInputs.push_back({0, 0, 0});
 	}
 
@@ -402,6 +403,9 @@ namespace Battle
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
+		for (auto &obj : this->_subobjects)
+			if (obj && obj->isDead())
+				obj.reset();
 		this->_tickMove();
 		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
 		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
@@ -683,6 +687,8 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1])
+			return false;
 		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
 			return false;
 		if (data.oFlag.voidMana && this->_voidMana < data.manaCost)
@@ -2070,6 +2076,38 @@ namespace Battle
 				this->_spiritMana -= data->manaCost;
 			if (data->oFlag.matterMana)
 				this->_matterMana -= data->manaCost;
+		}
+		if (data->subObjectSpawn > 0) {
+			if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1])
+				this->_subobjects[data->subObjectSpawn - 1]->kill();
+			else if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1])
+				return;
+
+			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
+
+			if (data->subObjectSpawn > 128)
+				return;
+			this->_subobjects[data->subObjectSpawn - 1] = obj;
+		}
+	}
+
+	std::shared_ptr<IObject> ACharacter::_spawnSubobject(unsigned id)
+	{
+		auto data = this->getCurrentFrameData();
+		auto pos = this->_position + Vector2i{
+			0,
+			data->offset.y
+		} + data->size / 2;
+
+		try {
+			return game.battleMgr->registerObject<AProjectile>(
+				this->_subObjectsData.at(id),
+				this->_team,
+				this->_direction,
+				pos
+			);
+		} catch (std::out_of_range &e) {
+			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
 		}
 	}
 

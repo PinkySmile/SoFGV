@@ -128,6 +128,8 @@ add_executable(
 	src/FrameDataEditor/EditableObject.hpp
 	src/Objects/ACharacter.hpp
 	src/Objects/ACharacter.cpp
+	src/Objects/AProjectile.hpp
+	src/Objects/AProjectile.cpp
 	src/Resources/BattleManager.hpp
 	src/Resources/BattleManager.cpp
 	src/Resources/FrameData.cpp

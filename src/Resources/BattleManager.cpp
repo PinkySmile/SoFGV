@@ -177,9 +177,9 @@ namespace Battle
 			object->render();
 	}
 
-	void BattleManager::registerObject(IObject *object)
+	void BattleManager::registerObject(const std::shared_ptr<IObject> &object)
 	{
-		this->_objects.emplace_back(object);
+		this->_objects.push_back(object);
 	}
 
 	void BattleManager::addHitStop(unsigned int stop)

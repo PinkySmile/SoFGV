@@ -15,7 +15,7 @@ namespace Battle
 		Sprite _stage;
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
-		std::vector<std::unique_ptr<IObject>> _objects;
+		std::vector<std::shared_ptr<IObject>> _objects;
 		unsigned _hitStop = 0;
 		bool _step = false;
 		bool _next = false;
@@ -37,12 +37,15 @@ namespace Battle
 		void addHitStop(unsigned stop);
 		void update();
 		void render();
-		void registerObject(IObject *object);
+		void registerObject(const std::shared_ptr<IObject> &object);
 		void consumeEvent(const sf::Event &);
 		template <typename T, typename ...Args>
-		T *registerObject(Args &... args)
+		std::shared_ptr<IObject> registerObject(Args &... args)
 		{
-			this->registerObject(new T(args...));
+			auto obj = std::make_shared<T>(args...);
+
+			this->registerObject(obj);
+			return obj;
 		}
 	};
 }

@@ -87,6 +87,7 @@ namespace Battle
 		void collide(IObject &other) override;
 		bool collides(const IObject &other) const override;
 		const FrameData *getCurrentFrameData() const override;
+		void kill() override;
 
 		friend class BattleManager;
 		friend class ACharacter;

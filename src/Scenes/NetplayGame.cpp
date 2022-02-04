@@ -21,6 +21,7 @@ namespace Battle
 			BattleManager::CharacterParams{
 				new ACharacter{
 					"assets/characters/test/framedata.json",
+					"assets/characters/test/subobjects.json",
 					{{}, {}},
 					std::shared_ptr<IInput>(leftInput)
 				},
@@ -32,6 +33,7 @@ namespace Battle
 			BattleManager::CharacterParams{
 				new ACharacter{
 					"assets/characters/test/framedata.json",
+					"assets/characters/test/subobjects.json",
 					{{}, {}},
 					std::shared_ptr<IInput>(rightInput)
 				},

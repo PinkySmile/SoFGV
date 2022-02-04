@@ -193,6 +193,7 @@ namespace Battle
 		default:
 			return new ACharacter{
 				entry.framedataPath,
+				entry.subobjectDataPath,
 				palettes,
 				std::move(input)
 			};
@@ -210,6 +211,8 @@ namespace Battle
 			throw std::invalid_argument("name is missing");
 		if (!json.contains("framedata"))
 			throw std::invalid_argument("framedata is missing");
+		if (!json.contains("subobjects"))
+			throw std::invalid_argument("subobjects is missing");
 		if (!json.contains("framedata_char_select"))
 			throw std::invalid_argument("framedata_char_select is missing");
 		if (!json.contains("hp"))
@@ -260,6 +263,7 @@ namespace Battle
 		this->_class = json["class"];
 		this->name = json["name"];
 		this->framedataPath = json["framedata"];
+		this->subobjectDataPath = json["subobjects"];
 		this->data = FrameData::loadFile(json["framedata_char_select"]);
 		if (this->palettes.empty())
 			this->icon.emplace_back(), this->icon.back().textureHandle = game.textureMgr.load(json["icon"]);

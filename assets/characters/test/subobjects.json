@@ -1,0 +1,35 @@
+[
+    {
+        "action": 0,
+        "framedata": [
+            [
+                {
+                    "defense_flag": 262144,
+                    "hit_boxes": [
+                        {
+                            "height": 20,
+                            "left": -57,
+                            "top": -15,
+                            "width": 113
+                        }
+                    ],
+                    "size": {
+                        "x": 100,
+                        "y": 10
+                    },
+                    "speed": {
+                        "x": 10,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 10,
+                        "left": 0,
+                        "top": 0,
+                        "width": 100
+                    }
+                }
+            ]
+        ]
+    }
+]

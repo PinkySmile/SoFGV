@@ -11,6 +11,7 @@
         "gravity": {"x": 0, "y": -1},
         "icon": "assets/characters/test/icon.png",
         "framedata": "assets/characters/test/framedata.json",
+        "subobjects": "assets/characters/test/subobjects.json",
         "framedata_char_select": "assets/characters/test/charSelect.json",
         "palettes": [
             [{"r":   0, "g":   0, "b":   0}],

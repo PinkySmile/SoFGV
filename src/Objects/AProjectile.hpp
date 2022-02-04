@@ -12,7 +12,9 @@ namespace Battle
 {
 	class AProjectile : public AObject {
 	public:
-		AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team);
+		AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos);
+		bool isDead() const override;
+		void update() override;
 	};
 }
 

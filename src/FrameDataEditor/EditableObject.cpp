@@ -97,4 +97,9 @@ namespace Battle
 	void EditableObject::collide(IObject &)
 	{
 	}
+
+	void EditableObject::kill()
+	{
+
+	}
 }

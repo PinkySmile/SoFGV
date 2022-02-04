@@ -38,6 +38,7 @@ namespace Battle
 		void getHit(IObject &other, const FrameData *data) override;
 		const FrameData *getCurrentFrameData() const override;
 		void collide(IObject &other) override;
+		void kill() override;
 	};
 }
 

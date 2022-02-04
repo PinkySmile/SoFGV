@@ -10,6 +10,7 @@
 #include "AObject.hpp"
 #include "../Inputs/IInput.hpp"
 #include "../Data/Color.hpp"
+#include "AProjectile.hpp"
 
 namespace Battle
 {
@@ -302,9 +303,11 @@ namespace Battle
 		sf::Text _text;
 		sf::Text _text2;
 #endif
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		ACharacter *_opponent;
 		std::shared_ptr<IInput> _input;
 		std::list<LastInput> _lastInputs;
+		std::array<std::shared_ptr<IObject>, 128> _subobjects;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		unsigned _airDashesUsed = 0;
@@ -372,6 +375,7 @@ namespace Battle
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
+		virtual std::shared_ptr<IObject> _spawnSubobject(unsigned id);
 
 		static bool isBlockingAction(unsigned action);
 
@@ -405,7 +409,7 @@ namespace Battle
 		bool _check63146974Input();
 
 	public:
-		ACharacter(const std::string &frameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		ACharacter(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
 		bool hits(const IObject &other) const override;

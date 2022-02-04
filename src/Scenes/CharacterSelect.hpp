@@ -23,6 +23,7 @@ namespace Battle
 			unsigned _class;
 			std::string name;
 			std::string framedataPath;
+			std::string subobjectDataPath;
 			std::vector<std::vector<Color>> palettes;
 			std::vector<Sprite> icon;
 			std::map<unsigned, std::vector<std::vector<FrameData>>> data;

@@ -23,6 +23,7 @@ namespace Battle
 		virtual void getHit(IObject &other, const FrameData *data) = 0;
 		virtual const FrameData *getCurrentFrameData() const = 0;
 		virtual void collide(IObject &other) = 0;
+		virtual void kill() = 0;
 	};
 }
 

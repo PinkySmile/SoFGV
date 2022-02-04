@@ -1562,6 +1562,7 @@ void	newFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Menu
 {
 	object = std::make_unique<Battle::EditableObject>();
 	loadedPath.clear();
+	object->_moves[0].emplace_back();
 	refreshRightPanel(gui, object);
 	bar->setMenuEnabled({"New"}, true);
 	bar->setMenuEnabled({"Remove"}, true);

@@ -447,4 +447,9 @@ namespace Battle
 		}
 		game.screen->draw(arr2);
 	}
+
+	void AObject::kill()
+	{
+		this->_dead = true;
+	}
 }
