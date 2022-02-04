@@ -58,12 +58,10 @@ namespace Battle
 		auto &rightSprites = this->_entries[right].icon;
 		std::uniform_int_distribution<size_t> ldist{0, this->_entries[left].palettes.size() - 1};
 		std::uniform_int_distribution<size_t> rdist{0, this->_entries[right].palettes.size() - 1};
-		int realLPal = this->_leftPos == -1  ? -1 : this->_leftPalette;
-		int realRPal = this->_rightPos == -1 ? -1 : this->_rightPalette;
-		size_t lpal = realLPal == -1 ? ldist(game.random) : this->_leftPalette;
-		size_t rpal = realRPal == -1 ? ldist(game.random) : this->_rightPalette;
-		auto &leftSprite  = leftSprites[lpal];
-		auto &rightSprite = rightSprites[rpal];
+		int realLPal = this->_leftPos == -1  ? 0 : this->_leftPalette;
+		int realRPal = this->_rightPos == -1 ? 0 : this->_rightPalette;
+		auto &leftSprite  = leftSprites[realLPal % leftSprites.size()];
+		auto &rightSprite = rightSprites[realRPal % rightSprites.size()];
 		auto leftTexture  = game.textureMgr.getTextureSize(leftSprite.textureHandle);
 		auto rightTexture = game.textureMgr.getTextureSize(rightSprite.textureHandle);
 
@@ -106,24 +104,32 @@ namespace Battle
 
 		if (this->_leftPos >= 0) {
 			if (lInputs.verticalAxis == -1) {
-				if (this->_leftPalette == -1)
-					this->_leftPalette = static_cast<int>(this->_entries[this->_leftPos].palettes.size());
-				this->_leftPalette--;
+				do {
+					if (this->_leftPalette == 0)
+						this->_leftPalette = static_cast<int>(this->_entries[this->_leftPos].palettes.size());
+					this->_leftPalette--;
+				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
 			} else if (lInputs.verticalAxis == 1) {
-				this->_leftPalette++;
-				if (this->_leftPalette == static_cast<int>(this->_entries[this->_leftPos].palettes.size()))
-					this->_leftPalette = -1;
+				do {
+					this->_leftPalette++;
+					if (this->_leftPalette == static_cast<int>(this->_entries[this->_leftPos].palettes.size()))
+						this->_leftPalette = 0;
+				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
 			}
 		}
 		if (this->_rightPos >= 0) {
 			if (rInputs.verticalAxis == -1) {
-				if (this->_rightPalette == -1)
-					this->_rightPalette = static_cast<int>(this->_entries[this->_rightPos].palettes.size());
-				this->_rightPalette--;
+				do {
+					if (this->_rightPalette == 0)
+						this->_rightPalette = static_cast<int>(this->_entries[this->_rightPos].palettes.size());
+					this->_rightPalette--;
+				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
 			} else if (rInputs.verticalAxis == 1) {
-				this->_rightPalette++;
-				if (this->_rightPalette == static_cast<int>(this->_entries[this->_rightPos].palettes.size()))
-					this->_rightPalette = -1;
+				do {
+					this->_rightPalette++;
+					if (this->_rightPalette == static_cast<int>(this->_entries[this->_rightPos].palettes.size()))
+						this->_rightPalette = 0;
+				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
 			}
 		}
 
@@ -131,9 +137,9 @@ namespace Battle
 			std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 
 			if (this->_leftPos < 0)
-				this->_leftPalette = -1;
+				this->_leftPalette = 0;
 			if (this->_rightPos < 0)
-				this->_rightPalette = -1;
+				this->_rightPalette = 0;
 			if (this->_leftPos < 0)
 				this->_leftPos = dist(game.random);
 			if (this->_rightPos < 0)
@@ -144,17 +150,6 @@ namespace Battle
 			} else if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() == 2 && this->_leftPalette == this->_rightPalette) {
 				this->_leftPalette = 0;
 				this->_rightPalette = 1;
-			} else {
-				if (this->_leftPalette < 0) {
-					std::uniform_int_distribution<size_t> dist2{0, this->_entries[this->_leftPos].palettes.size() - 1};
-
-					this->_leftPalette = dist2(game.random);
-				}
-				if (this->_rightPalette < 0) {
-					std::uniform_int_distribution<size_t> dist2{0, this->_entries[this->_rightPos].palettes.size() - 1};
-
-					this->_rightPalette = dist2(game.random);
-				}
 			}
 			if (this->_leftPos == this->_rightPos && this->_leftPalette == this->_rightPalette && this->_entries[this->_leftPos].palettes.size() > 1) {
 				this->_rightPalette++;

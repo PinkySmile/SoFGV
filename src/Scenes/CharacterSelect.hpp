@@ -38,10 +38,10 @@ namespace Battle
 		std::shared_ptr<IInput> _leftInput;
 		std::shared_ptr<IInput> _rightInput;
 		mutable std::vector<CharacterEntry> _entries;
-		int _leftPos = -1;
-		int _rightPos = -1;
+		int _leftPos = 0;
+		int _rightPos = 0;
 		int _leftPalette = 0;
-		int _rightPalette = 0;
+		int _rightPalette = 1;
 
 		ACharacter *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
 
