@@ -5,19 +5,19 @@
             [
                 {
                     "collision_box": {
-                        "height": 164,
-                        "left": -23,
-                        "top": -165,
-                        "width": 49
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
-                    "defense_flag": 8704,
+                    "defense_flag": 262144,
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 194,
-                            "left": -24,
-                            "top": -193,
-                            "width": 52
+                            "height": 188,
+                            "left": -20,
+                            "top": -189,
+                            "width": 45
                         }
                     ],
                     "size": {
@@ -4896,12 +4896,6 @@
         "framedata": [
             [
                 {
-                    "collision_box": {
-                        "height": 147,
-                        "left": -27,
-                        "top": -137,
-                        "width": 71
-                    },
                     "defense_flag": 9,
                     "duration": 14,
                     "offset": {
@@ -4921,12 +4915,6 @@
                     }
                 },
                 {
-                    "collision_box": {
-                        "height": 151,
-                        "left": -18,
-                        "top": -149,
-                        "width": 59
-                    },
                     "duration": 5,
                     "offset": {
                         "x": 10,
@@ -4952,12 +4940,6 @@
         "framedata": [
             [
                 {
-                    "collision_box": {
-                        "height": 147,
-                        "left": -27,
-                        "top": -137,
-                        "width": 71
-                    },
                     "defense_flag": 2097161,
                     "duration": 17,
                     "offset": {
@@ -4982,19 +4964,25 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
-                        "left": -24,
-                        "top": -140,
-                        "width": 63
+                        "height": 117,
+                        "left": -21,
+                        "top": -119,
+                        "width": 59
                     },
-                    "defense_flag": 131080,
+                    "defense_flag": 131592,
                     "duration": 3,
                     "hurt_boxes": [
                         {
-                            "height": 101,
-                            "left": -21,
-                            "top": -97,
-                            "width": 53
+                            "height": 84,
+                            "left": -27,
+                            "top": -82,
+                            "width": 51
+                        },
+                        {
+                            "height": 93,
+                            "left": -15,
+                            "top": -172,
+                            "width": 69
                         }
                     ],
                     "offset": {
@@ -5016,12 +5004,6 @@
             ],
             [
                 {
-                    "collision_box": {
-                        "height": 147,
-                        "left": -27,
-                        "top": -137,
-                        "width": 71
-                    },
                     "defense_flag": 2097161,
                     "duration": 17,
                     "offset": {
@@ -5046,19 +5028,158 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
+                        "height": 114,
                         "left": -24,
-                        "top": -140,
-                        "width": 63
+                        "top": -111,
+                        "width": 51
                     },
-                    "defense_flag": 131080,
+                    "defense_flag": 131592,
                     "duration": 3,
                     "hurt_boxes": [
                         {
-                            "height": 101,
-                            "left": -21,
-                            "top": -97,
-                            "width": 53
+                            "height": 80,
+                            "left": -28,
+                            "top": -81,
+                            "width": 50
+                        },
+                        {
+                            "height": 88,
+                            "left": -16,
+                            "top": -170,
+                            "width": 69
+                        }
+                    ],
+                    "offset": {
+                        "x": 10,
+                        "y": -20
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 80,
+                        "left": 413,
+                        "top": 216,
+                        "width": 44
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 44,
+        "framedata": [
+            [
+                {
+                    "defense_flag": 2097161,
+                    "duration": 17,
+                    "offset": {
+                        "x": 10,
+                        "y": -20
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 192
+                    },
+                    "speed": {
+                        "x": 15,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 80,
+                        "left": 413,
+                        "top": 216,
+                        "width": 44
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 117,
+                        "left": -21,
+                        "top": -119,
+                        "width": 59
+                    },
+                    "defense_flag": 131592,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 89,
+                            "left": -27,
+                            "top": -82,
+                            "width": 51
+                        },
+                        {
+                            "height": 93,
+                            "left": -16,
+                            "top": -172,
+                            "width": 70
+                        }
+                    ],
+                    "offset": {
+                        "x": 10,
+                        "y": -20
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 80,
+                        "left": 413,
+                        "top": 216,
+                        "width": 44
+                    }
+                }
+            ],
+            [
+                {
+                    "defense_flag": 2097161,
+                    "duration": 17,
+                    "offset": {
+                        "x": 10,
+                        "y": -20
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 192
+                    },
+                    "speed": {
+                        "x": 15,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 80,
+                        "left": 413,
+                        "top": 216,
+                        "width": 44
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -24,
+                        "top": -111,
+                        "width": 51
+                    },
+                    "defense_flag": 131592,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 80,
+                            "left": -28,
+                            "top": -81,
+                            "width": 50
+                        },
+                        {
+                            "height": 88,
+                            "left": -16,
+                            "top": -170,
+                            "width": 69
                         }
                     ],
                     "offset": {
@@ -6899,7 +7020,7 @@
                             "height": 50,
                             "left": -54,
                             "top": -129,
-                            "width": 64
+                            "width": 88
                         },
                         {
                             "height": 79,
@@ -6940,7 +7061,7 @@
                             "height": 57,
                             "left": -55,
                             "top": -133,
-                            "width": 64
+                            "width": 87
                         },
                         {
                             "height": 82,
@@ -6983,7 +7104,7 @@
                             "height": 58,
                             "left": -69,
                             "top": -112,
-                            "width": 66
+                            "width": 105
                         },
                         {
                             "height": 68,
@@ -7024,7 +7145,7 @@
                             "height": 59,
                             "left": -71,
                             "top": -109,
-                            "width": 70
+                            "width": 100
                         },
                         {
                             "height": 68,
@@ -7072,7 +7193,7 @@
                             "height": 50,
                             "left": -54,
                             "top": -129,
-                            "width": 64
+                            "width": 88
                         },
                         {
                             "height": 79,
@@ -7113,7 +7234,7 @@
                             "height": 57,
                             "left": -55,
                             "top": -133,
-                            "width": 64
+                            "width": 87
                         },
                         {
                             "height": 82,
@@ -7156,7 +7277,7 @@
                             "height": 58,
                             "left": -69,
                             "top": -112,
-                            "width": 66
+                            "width": 104
                         },
                         {
                             "height": 68,
@@ -7197,7 +7318,7 @@
                             "height": 59,
                             "left": -71,
                             "top": -109,
-                            "width": 70
+                            "width": 99
                         },
                         {
                             "height": 68,
@@ -7245,7 +7366,7 @@
                             "height": 50,
                             "left": -54,
                             "top": -129,
-                            "width": 64
+                            "width": 88
                         },
                         {
                             "height": 79,
@@ -7286,7 +7407,7 @@
                             "height": 57,
                             "left": -55,
                             "top": -133,
-                            "width": 64
+                            "width": 87
                         },
                         {
                             "height": 82,
@@ -7329,7 +7450,7 @@
                             "height": 58,
                             "left": -69,
                             "top": -112,
-                            "width": 66
+                            "width": 104
                         },
                         {
                             "height": 68,
@@ -7370,7 +7491,7 @@
                             "height": 59,
                             "left": -71,
                             "top": -109,
-                            "width": 70
+                            "width": 102
                         },
                         {
                             "height": 68,
@@ -7418,7 +7539,7 @@
                             "height": 50,
                             "left": -54,
                             "top": -129,
-                            "width": 64
+                            "width": 88
                         },
                         {
                             "height": 79,
@@ -7459,7 +7580,7 @@
                             "height": 57,
                             "left": -55,
                             "top": -133,
-                            "width": 64
+                            "width": 88
                         },
                         {
                             "height": 82,
@@ -7502,7 +7623,7 @@
                             "height": 58,
                             "left": -69,
                             "top": -112,
-                            "width": 66
+                            "width": 104
                         },
                         {
                             "height": 68,
@@ -7543,7 +7664,7 @@
                             "height": 59,
                             "left": -71,
                             "top": -109,
-                            "width": 70
+                            "width": 103
                         },
                         {
                             "height": 68,
@@ -11047,7 +11168,7 @@
                     ],
                     "mana_cost": 5,
                     "matter_limit": 40,
-                    "offense_flag": 33619968,
+                    "offense_flag": 33554432,
                     "offset": {
                         "x": 12,
                         "y": 0
@@ -11128,6 +11249,7 @@
                         "y": 15
                     },
                     "hit_stop": 10,
+                    "hit_stun": 15,
                     "hurt_boxes": [
                         {
                             "height": 115,
