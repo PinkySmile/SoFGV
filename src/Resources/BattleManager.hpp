@@ -13,12 +13,26 @@ namespace Battle
 	class BattleManager {
 	private:
 		Sprite _stage;
+		sf::Sprite _roundSprite;
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
 		std::vector<std::shared_ptr<IObject>> _objects;
+		std::vector<sf::Texture> _roundSprites;
+		std::pair<unsigned char, unsigned char> _score{0, 0};
+		unsigned _currentRound = 0;
+		int _roundStartTimer = 0;
+		unsigned _roundEndTimer = 0;
 		unsigned _hitStop = 0;
 		bool _step = false;
 		bool _next = false;
+
+		void _gameUpdate();
+		bool _updateEndGameAnimation();
+		void _renderEndGameAnimation() const;
+		void _updateRoundEndAnimation();
+		void _renderRoundEndAnimation() const;
+		void _updateRoundStartAnimation();
+		void _renderRoundStartAnimation() const;
 
 	public:
 		struct CharacterParams {
@@ -35,7 +49,7 @@ namespace Battle
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		void addHitStop(unsigned stop);
-		void update();
+		bool update();
 		void render();
 		void registerObject(const std::shared_ptr<IObject> &object);
 		void consumeEvent(const sf::Event &);

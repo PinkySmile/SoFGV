@@ -335,18 +335,18 @@ namespace Battle
 		{ ACTION_WIN_MATCH2,                     "Win match2" },
 		{ ACTION_WIN_MATCH3,                     "Win match3" },
 		{ ACTION_WIN_MATCH4,                     "Win match4" },
-		{ ACTION_WIN_ROUND1,                     "Win round1" },
-		{ ACTION_WIN_ROUND2,                     "Win round2" },
-		{ ACTION_WIN_ROUND3,                     "Win round3" },
-		{ ACTION_WIN_ROUND4,                     "Win round4" },
-		{ ACTION_LOOSE_MATCH1,                   "Loose match1" },
-		{ ACTION_LOOSE_MATCH2,                   "Loose match2" },
-		{ ACTION_LOOSE_MATCH3,                   "Loose match3" },
-		{ ACTION_LOOSE_MATCH4,                   "Loose match4" },
-		{ ACTION_LOOSE_ROUND1,                   "Loose round1" },
-		{ ACTION_LOOSE_ROUND2,                   "Loose round2" },
-		{ ACTION_LOOSE_ROUND3,                   "Loose round3" },
-		{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
+		//{ ACTION_WIN_ROUND1,                     "Win round1" },
+		//{ ACTION_WIN_ROUND2,                     "Win round2" },
+		//{ ACTION_WIN_ROUND3,                     "Win round3" },
+		//{ ACTION_WIN_ROUND4,                     "Win round4" },
+		//{ ACTION_LOOSE_MATCH1,                   "Loose match1" },
+		//{ ACTION_LOOSE_MATCH2,                   "Loose match2" },
+		//{ ACTION_LOOSE_MATCH3,                   "Loose match3" },
+		//{ ACTION_LOOSE_MATCH4,                   "Loose match4" },
+		//{ ACTION_LOOSE_ROUND1,                   "Loose round1" },
+		//{ ACTION_LOOSE_ROUND2,                   "Loose round2" },
+		//{ ACTION_LOOSE_ROUND3,                   "Loose round3" },
+		//{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
 	};
 
 	ACharacter::ACharacter(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
@@ -434,7 +434,8 @@ namespace Battle
 					this->_action == ACTION_AIR_HIT ||
 					this->_action == ACTION_GROUND_SLAM ||
 					this->_action == ACTION_WALL_SLAM ||
-					limited
+					limited ||
+					(this->_hp <= 0 && this->_action != ACTION_BEING_KNOCKED_DOWN && this->_action != ACTION_KNOCKED_DOWN)
 				)
 			) {
 				this->_blockStun = 0;
@@ -500,10 +501,22 @@ namespace Battle
 		this->_input->consumeEvent(event);
 	}
 
-	void ACharacter::_processInput(const InputStruct &input)
+	void ACharacter::_processInput(InputStruct input)
 	{
 		auto data = this->getCurrentFrameData();
 
+		if (this->_atkDisabled || this->_inputDisabled) {
+			input.n = 0;
+			input.m = 0;
+			input.v = 0;
+			input.s = 0;
+			input.a = 0;
+			if (this->_inputDisabled) {
+				input.horizontalAxis = 0;
+				input.verticalAxis = 0;
+				input.d = 0;
+			}
+		}
 		if (
 			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
 			(!data->dFlag.airborne && this->_executeGroundMoves(input))
@@ -687,6 +700,8 @@ namespace Battle
 
 	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
+			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1])
 			return false;
 		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
@@ -746,9 +761,12 @@ namespace Battle
 		}
 
 		if (this->_action == ACTION_KNOCKED_DOWN) {
+			if (this->_hp <= 0)
+				return AObject::_onMoveEnd(lastData);
+
 			auto inputs = this->_input->getInputs();
 
-			if ((!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v) || !inputs.horizontalAxis)
+			if (this->_atkDisabled || this->_inputDisabled || (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v) || !inputs.horizontalAxis)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 			if (this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
 				return;
@@ -2152,5 +2170,15 @@ namespace Battle
 	const std::map<unsigned, std::vector<std::vector<FrameData>>> &ACharacter::getFrameData()
 	{
 		return this->_moves;
+	}
+
+	void ACharacter::setAttacksDisabled(bool disabled)
+	{
+		this->_atkDisabled = disabled;
+	}
+
+	void ACharacter::disableInputs(bool disabled)
+	{
+		this->_inputDisabled = disabled;
 	}
 }

@@ -89,7 +89,13 @@ namespace Battle
 		if (this->_moveList)
 			this->_moveListUpdate();
 		else if (!this->_paused) {
-			Battle::game.battleMgr->update();
+			if (!Battle::game.battleMgr->update()) {
+				this->_nextScene = new CharacterSelect(
+					game.battleMgr->getLeftCharacter()->getInput(),
+					game.battleMgr->getRightCharacter()->getInput()
+				);
+				return this->_nextScene;
+			}
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;
 			else if (rinput->getInputs().pause == 1)

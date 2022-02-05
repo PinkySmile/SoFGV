@@ -273,18 +273,6 @@ namespace Battle
 		/* 401 */ ACTION_WIN_MATCH2,
 		/* 402 */ ACTION_WIN_MATCH3,
 		/* 403 */ ACTION_WIN_MATCH4,
-		/* 404 */ ACTION_WIN_ROUND1,
-		/* 405 */ ACTION_WIN_ROUND2,
-		/* 406 */ ACTION_WIN_ROUND3,
-		/* 407 */ ACTION_WIN_ROUND4,
-		/* 408 */ ACTION_LOOSE_MATCH1,
-		/* 409 */ ACTION_LOOSE_MATCH2,
-		/* 410 */ ACTION_LOOSE_MATCH3,
-		/* 411 */ ACTION_LOOSE_MATCH4,
-		/* 412 */ ACTION_LOOSE_ROUND1,
-		/* 413 */ ACTION_LOOSE_ROUND2,
-		/* 414 */ ACTION_LOOSE_ROUND3,
-		/* 415 */ ACTION_LOOSE_ROUND4,
 	};
 
 	extern const std::map<CharacterActions, std::string> actionNames;
@@ -316,6 +304,8 @@ namespace Battle
 		unsigned _totalDamage = 0;
 		float _prorate = 1;
 		std::array<unsigned, 4> _limit;
+		bool _atkDisabled = false;
+		bool _inputDisabled = false;
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
@@ -362,7 +352,7 @@ namespace Battle
 		virtual bool _executeCrouch(const InputStruct &input);
 		virtual bool _executeWalking(const InputStruct &input);
 		virtual bool _executeAirTech(const InputStruct &input);
-		virtual void _processInput(const InputStruct &input);
+		virtual void _processInput(InputStruct input);
 		virtual bool _executeAirborneMoves(const InputStruct &input);
 		virtual bool _executeGroundMoves(const InputStruct &input);
 		virtual bool _isBlocking() const;
@@ -424,6 +414,8 @@ namespace Battle
 		const std::shared_ptr<IInput> &getInput() const;
 		const std::map<unsigned, std::vector<std::vector<FrameData>>> &getFrameData();
 		virtual int getAttackTier(unsigned int action) const;
+		virtual void setAttacksDisabled(bool disabled);
+		virtual void disableInputs(bool disabled);
 
 		friend class BattleManager;
 	};
