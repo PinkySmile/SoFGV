@@ -29,6 +29,7 @@ namespace Battle
 		std::map<unsigned, MoveData> _leftMoveData;
 		std::map<unsigned, MoveData> _rightMoveData;
 		std::unique_ptr<FakeObject> _moveListObject;
+		std::string _moveListName;
 		unsigned int _moveListCursorMax = 0;
 		unsigned int _moveListCursor = 0;
 		unsigned int _moveListTop = 0;

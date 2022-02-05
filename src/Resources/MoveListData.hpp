@@ -61,6 +61,7 @@ namespace Battle
 	};
 
 	extern const std::vector<unsigned> defaultMoveOrder;
+	extern const std::vector<unsigned> defaultCommandOrder;
 	extern const std::map<unsigned, MoveData> defaultMoveData;
 }
 

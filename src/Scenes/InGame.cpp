@@ -183,6 +183,16 @@ namespace Battle
 			this->_moveListCursor = 0;
 			this->_moveOrder = defaultMoveOrder;
 			this->_moveData = defaultMoveData;
+			this->_moveListName = "Move List";
+			this->_calculateMoveListOrder();
+			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
+			return false;
+		case 2:
+			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
+			this->_moveListCursor = 0;
+			this->_moveOrder = defaultCommandOrder;
+			this->_moveData = defaultMoveData;
+			this->_moveListName = "Command List";
 			this->_calculateMoveListOrder();
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
@@ -215,13 +225,13 @@ namespace Battle
 
 		game.screen->textSize(20);
 		game.screen->displayElement(
-			"P" + std::to_string(this->_paused) + " | " + relevent->name + "'s Movelist",
+			"P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName,
 			{140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER
 		);
 		game.screen->textSize(15);
 		if (this->_moveListTop > 0)
 			game.screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
-		if (this->_moveListTop != this->_moveListCursorMax - 10)
+		if (this->_moveListTop < this->_moveListCursorMax - 10 && this->_moveListCursorMax > 10)
 			game.screen->displayElement("VVVVVVVV", {140 - 50, 670 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = this->_moveListTop, k = 0; i < this->_moveOrder.size() && k < 10; i++) {
 			auto move = this->_moveList->find(this->_moveOrder[i]);
@@ -350,6 +360,7 @@ namespace Battle
 			this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
 			this->_moveListObject->_position = {500, 500};
 			this->_moveListObject->_speed = {0, 0};
+			this->_moveListObject->_rotation = 0;
 			this->_moveListTimer = 0;
 		} else if (relevent.verticalAxis == -1 || (relevent.verticalAxis <= -36 && relevent.verticalAxis % 6 == 0)) {
 			this->_moveListCursor++;
@@ -361,6 +372,7 @@ namespace Battle
 			this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
 			this->_moveListObject->_position = {500, 500};
 			this->_moveListObject->_speed = {0, 0};
+			this->_moveListObject->_rotation = 0;
 			this->_moveListTimer = 0;
 		}
 		this->_moveListObject->update();
@@ -370,6 +382,7 @@ namespace Battle
 				this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
 				this->_moveListObject->_position = {500, 500};
 				this->_moveListObject->_speed = {0, 0};
+				this->_moveListObject->_rotation = 0;
 				this->_moveListTimer = 0;
 			}
 		}
