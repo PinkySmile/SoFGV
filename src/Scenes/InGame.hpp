@@ -11,6 +11,7 @@
 #include "../Inputs/IInput.hpp"
 #include "../Objects/ACharacter.hpp"
 #include "../Resources/MoveListData.hpp"
+#include "../Objects/FakeObject.hpp"
 
 namespace Battle
 {
@@ -19,17 +20,25 @@ namespace Battle
 		constexpr static const char *_menuStrings[] = {
 			"Resume",
 			"Move list",
+			"Command list",
 			"Return to character select",
 			"Return to title screen"
 		};
 		const std::map<unsigned, std::vector<std::vector<FrameData>>> *_moveList = nullptr;
-		unsigned char _moveListCursor = 0;
-		unsigned char _moveListTop = 0;
+		std::map<unsigned, MoveData> _moveData;
+		std::map<unsigned, MoveData> _leftMoveData;
+		std::map<unsigned, MoveData> _rightMoveData;
+		std::unique_ptr<FakeObject> _moveListObject;
+		unsigned int _moveListCursorMax = 0;
+		unsigned int _moveListCursor = 0;
+		unsigned int _moveListTop = 0;
+		unsigned int _moveListTimer = 0;
 		unsigned char _paused = 0;
 		unsigned char _pauseCursor = 0;
 		IScene *_nextScene = nullptr;
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 		std::vector<unsigned> _moveOrder;
+		std::vector<unsigned> _moveDisplayed;
 
 		void _renderPause() const;
 		void _pauseUpdate();

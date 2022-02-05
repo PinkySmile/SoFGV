@@ -175,6 +175,7 @@ namespace Battle
 
 	ACharacter *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
 	{
+		ACharacter *chr;
 		auto &entry = this->_entries[pos];
 		std::pair<std::vector<Color>, std::vector<Color>> palettes;
 
@@ -184,13 +185,17 @@ namespace Battle
 		}
 		switch (entry._class) {
 		default:
-			return new ACharacter{
+			chr = new ACharacter{
 				entry.framedataPath,
 				entry.subobjectDataPath,
 				palettes,
 				std::move(input)
 			};
+			break;
 		}
+
+		chr->name = entry.name;
+		return chr;
 	}
 
 	CharacterSelect::CharacterEntry::CharacterEntry(const nlohmann::json &json) :

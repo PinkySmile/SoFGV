@@ -15,31 +15,32 @@ namespace Battle
 		"in the air",
 		"during transform",
 		"+",
-		"charge"
+		"charge",
+		"(also in the air)"
 	};
 
 	InGame::InGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
-		this->_moveSprites[SPRITE_2].loadFromFile("2.png");
-		this->_moveSprites[SPRITE_3].loadFromFile("3.png");
-		this->_moveSprites[SPRITE_4].loadFromFile("4.png");
-		this->_moveSprites[SPRITE_6].loadFromFile("6.png");
-		this->_moveSprites[SPRITE_8].loadFromFile("8.png");
-		this->_moveSprites[SPRITE_214].loadFromFile("214.png");
-		this->_moveSprites[SPRITE_236].loadFromFile("236.png");
-		this->_moveSprites[SPRITE_421].loadFromFile("421.png");
-		this->_moveSprites[SPRITE_426].loadFromFile("426.png");
-		this->_moveSprites[SPRITE_623].loadFromFile("623.png");
-		this->_moveSprites[SPRITE_624].loadFromFile("624.png");
-		this->_moveSprites[SPRITE_624684].loadFromFile("624684.png");
-		this->_moveSprites[SPRITE_N].loadFromFile("neutral.png");
-		this->_moveSprites[SPRITE_D].loadFromFile("dash.png");
-		this->_moveSprites[SPRITE_M].loadFromFile("matter.png");
-		this->_moveSprites[SPRITE_S].loadFromFile("spirit.png");
-		this->_moveSprites[SPRITE_V].loadFromFile("void.png");
-		this->_moveSprites[SPRITE_A].loadFromFile("ascend.png");
+		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
+		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
+		this->_moveSprites[SPRITE_4].loadFromFile("assets/icons/inputs/4.png");
+		this->_moveSprites[SPRITE_6].loadFromFile("assets/icons/inputs/6.png");
+		this->_moveSprites[SPRITE_8].loadFromFile("assets/icons/inputs/8.png");
+		this->_moveSprites[SPRITE_214].loadFromFile("assets/icons/inputs/214.png");
+		this->_moveSprites[SPRITE_236].loadFromFile("assets/icons/inputs/236.png");
+		this->_moveSprites[SPRITE_421].loadFromFile("assets/icons/inputs/421.png");
+		this->_moveSprites[SPRITE_426].loadFromFile("assets/icons/inputs/426.png");
+		this->_moveSprites[SPRITE_623].loadFromFile("assets/icons/inputs/623.png");
+		this->_moveSprites[SPRITE_624].loadFromFile("assets/icons/inputs/624.png");
+		this->_moveSprites[SPRITE_624684].loadFromFile("assets/icons/inputs/624684.png");
+		this->_moveSprites[SPRITE_N].loadFromFile("assets/icons/inputs/neutral.png");
+		this->_moveSprites[SPRITE_D].loadFromFile("assets/icons/inputs/dash.png");
+		this->_moveSprites[SPRITE_M].loadFromFile("assets/icons/inputs/matter.png");
+		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
+		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
+		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
 		logger.info("InGame scene created");
 		Battle::game.screen->setView(view);
 		game.battleMgr = std::make_unique<BattleManager>(
@@ -118,7 +119,7 @@ namespace Battle
 	{
 		if (this->_paused == 3)
 			return;
-		game.screen->displayElement({340 - 50, 240 - 600, 400, 150}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game.screen->displayElement({340 - 50, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 
 		game.screen->textSize(20);
 		game.screen->fillColor(sf::Color::White);
@@ -142,7 +143,7 @@ namespace Battle
 
 		if (this->_paused == 3) {
 			auto l = linput->getInputs();
-			auto r = linput->getInputs();
+			auto r = rinput->getInputs();
 
 			for (size_t i = 0; i < sizeof(l) / sizeof(int); i++)
 				if (((int *)&l)[i])
@@ -181,15 +182,17 @@ namespace Battle
 			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
 			this->_moveListCursor = 0;
 			this->_moveOrder = defaultMoveOrder;
+			this->_moveData = defaultMoveData;
 			this->_calculateMoveListOrder();
+			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
-		case 2:
+		case 3:
 			this->_nextScene = new CharacterSelect(
 				game.battleMgr->getLeftCharacter()->getInput(),
 				game.battleMgr->getRightCharacter()->getInput()
 			);
 			return false;
-		case 3:
+		case 4:
 			this->_nextScene = new TitleScreen(
 				game.P1,
 				game.P2
@@ -202,18 +205,181 @@ namespace Battle
 
 	void InGame::_renderMoveList() const
 	{
+		sf::Sprite sprite;
+		auto linput = game.battleMgr->getLeftCharacter();
+		auto rinput = game.battleMgr->getRightCharacter();
+		auto relevent = (this->_paused == 1 ? linput : rinput);
 
+		sprite.setScale(0.5f, 0.5f);
+		game.screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
+
+		game.screen->textSize(20);
+		game.screen->displayElement(
+			"P" + std::to_string(this->_paused) + " | " + relevent->name + "'s Movelist",
+			{140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER
+		);
+		game.screen->textSize(15);
+		if (this->_moveListTop > 0)
+			game.screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
+		if (this->_moveListTop != this->_moveListCursorMax - 10)
+			game.screen->displayElement("VVVVVVVV", {140 - 50, 670 - 600}, 400, Screen::ALIGN_CENTER);
+		for (size_t i = this->_moveListTop, k = 0; i < this->_moveOrder.size() && k < 10; i++) {
+			auto move = this->_moveList->find(this->_moveOrder[i]);
+
+			if (move == this->_moveList->end())
+				continue;
+
+			auto data = this->_moveData.find(this->_moveOrder[i]);
+			auto str = data->second.name;
+
+			if (data == this->_moveData.end() || !data->second.displayed)
+				continue;
+
+			Vector2f pos{150 - 50, 70 - 600 + k * 60.f};
+			auto prio = relevent->getAttackTier(this->_moveOrder[i]);
+
+			k++;
+			if (this->_moveListCursor == i)
+				game.screen->displayElement({
+					static_cast<int>(pos.x - 5),
+					static_cast<int>(pos.y - 5),
+					400, 60
+				}, sf::Color{0xA0, 0xA0, 0xFF, 0xC0});
+
+			game.screen->fillColor(sf::Color::White);
+			switch (prio) {
+			case 7:
+				game.screen->fillColor(sf::Color::Red);
+				str += " | Ultimate";
+				break;
+			case 6:
+				game.screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
+				str += " | Super";
+				break;
+			case 5:
+				str += " | Typed skill";
+				break;
+			case 4:
+				str += " | Skill";
+				break;
+			case 3:
+				str += " | Typed command normal";
+				break;
+			case 2:
+				str += " | Command normal";
+				break;
+			case 1:
+				str += " | Typed light attack";
+				break;
+			case 0:
+				str += " | Light attack";
+				break;
+			}
+			game.screen->displayElement(str, pos);
+			game.screen->fillColor(sf::Color::White);
+
+			for (auto input : data->second.input) {
+				if (input < NB_SPRITES) {
+					sprite.setPosition(pos + Vector2f{0, 18});
+					sprite.setTexture(this->_moveSprites[input]);
+					game.screen->displayElement(sprite);
+					pos.x += 35;
+				} else {
+					game.screen->displayElement(text[input - NB_SPRITES], pos + Vector2f{0, 25});
+					pos.x += strlen(text[input - NB_SPRITES]) * 10;
+				}
+			}
+		}
+		game.screen->displayElement({590 - 50, 75 - 600, 300, 360}, sf::Color::White);
+		for (int x = -static_cast<int>(this->_moveListObject->_position.x) % 16, i = 0; x < 300; x += 16, i++) {
+			bool color = static_cast<int>((this->_moveListObject->_position.x + x) / 16) % 2 == 1;
+
+			if (x <= -16)
+				continue;
+			for (int y = -static_cast<int>(this->_moveListObject->_position.y) % 32; y < 360; y += 16) {
+				Vector2i size{16, 16};
+				Vector2i pos{x, y};
+
+				color = !color;
+				if (y <= -16)
+					continue;
+				if (y < 0) {
+					size.y += y;
+					pos.y = 0;
+				} else if (y > 344)
+					size.y -= y - 344;
+				if (x < 0) {
+					size.x += x;
+					pos.x = 0;
+				} else if (x > 284)
+					size.x -= x - 284;
+				game.screen->displayElement({
+					590 - 50 + pos.x,
+					75 - 600 + pos.y,
+					size.x, size.y
+				}, color ? sf::Color{0xA0, 0xA0, 0xA0} : sf::Color::White);
+			}
+		}
+		this->_moveListObject->render();
+		game.screen->textSize(30);
 	}
 
 	void InGame::_moveListUpdate()
 	{
-		this->_moveList = nullptr;
+		auto linput = game.battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game.battleMgr->getRightCharacter()->getInput();
+
+		linput->update();
+		rinput->update();
+
+		auto relevent = (this->_paused == 1 ? linput : rinput)->getInputs();
+
+		if (relevent.pause == 1 || relevent.s == 1) {
+			this->_moveList = nullptr;
+			this->_moveListObject.reset();
+			return;
+		}
+		if (relevent.verticalAxis == 1 || (relevent.verticalAxis >= 36 && relevent.verticalAxis % 6 == 0)) {
+			this->_moveListCursor += this->_moveListCursorMax;
+			this->_moveListCursor--;
+			this->_moveListCursor %= this->_moveListCursorMax;
+			if (this->_moveListCursor < this->_moveListTop)
+				this->_moveListTop = this->_moveListCursor;
+			else if (this->_moveListCursor == this->_moveListCursorMax - 1)
+				this->_moveListTop = this->_moveListCursorMax < 10 ? 0 : this->_moveListCursorMax - 10;
+			this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
+			this->_moveListObject->_position = {500, 500};
+			this->_moveListObject->_speed = {0, 0};
+			this->_moveListTimer = 0;
+		} else if (relevent.verticalAxis == -1 || (relevent.verticalAxis <= -36 && relevent.verticalAxis % 6 == 0)) {
+			this->_moveListCursor++;
+			this->_moveListCursor %= this->_moveListCursorMax;
+			if (this->_moveListCursor >= this->_moveListTop + 10)
+				this->_moveListTop = this->_moveListCursor - 9;
+			else if (this->_moveListCursor == 0)
+				this->_moveListTop = 0;
+			this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
+			this->_moveListObject->_position = {500, 500};
+			this->_moveListObject->_speed = {0, 0};
+			this->_moveListTimer = 0;
+		}
+		this->_moveListObject->update();
+		if (this->_moveDisplayed[this->_moveListCursor]) {
+			this->_moveListTimer += this->_moveListObject->_action == ACTION_IDLE || this->_moveListObject->_action == ACTION_CROUCH || this->_moveListObject->_action == ACTION_FALLING;
+			if (this->_moveListTimer > 60) {
+				this->_moveListObject->_forceStartMove(this->_moveDisplayed[this->_moveListCursor]);
+				this->_moveListObject->_position = {500, 500};
+				this->_moveListObject->_speed = {0, 0};
+				this->_moveListTimer = 0;
+			}
+		}
 	}
 
 	void InGame::_calculateMoveListOrder()
 	{
 		std::vector<unsigned> ultimates;
 		std::vector<unsigned> supers;
+		auto moveData = this->_paused == 1 ? this->_leftMoveData : this->_rightMoveData;
 
 		for (size_t i = 0; i < this->_moveOrder.size(); i++) {
 			auto it = this->_moveList->find(this->_moveOrder[i]);
@@ -233,5 +399,27 @@ namespace Battle
 		}
 		this->_moveOrder.insert(this->_moveOrder.end(), supers.begin(), supers.end());
 		this->_moveOrder.insert(this->_moveOrder.end(), ultimates.begin(), ultimates.end());
+
+		for (auto &data : moveData)
+			this->_moveData[data.first] = data.second;
+
+		this->_moveListCursorMax = 0;
+		this->_moveDisplayed.clear();
+		this->_moveDisplayed.reserve(this->_moveOrder.size());
+		for (unsigned int id : this->_moveOrder) {
+			auto move = this->_moveList->find(id);
+
+			if (move == this->_moveList->end())
+				continue;
+
+			auto data = this->_moveData.find(id);
+			auto str = data->second.name;
+
+			if (data == this->_moveData.end() || !data->second.displayed)
+				continue;
+			this->_moveDisplayed.push_back(id);
+			this->_moveListCursorMax++;
+		}
+		this->_moveDisplayed.shrink_to_fit();
 	}
 }

@@ -13,7 +13,7 @@ namespace Battle
 		_rightCharacter(rightCharacter.character)
 	{
 		this->_stage.textureHandle = game.textureMgr.load("assets/stages/14687.png");
-		this->_stage.setPosition({-50, -600});
+		this->_stage.setPosition({-49, -600});
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
 		this->_leftCharacter->init(

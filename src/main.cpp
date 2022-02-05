@@ -15,6 +15,26 @@
 Battle::Logger	logger("./latest.log");
 
 #ifdef _WIN32
+std::string getLastError(int err = GetLastError())
+{
+	char *s = nullptr;
+	std::string str;
+
+	FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&s, 0, nullptr
+	);
+	str = s;
+	LocalFree(s);
+	return str;
+#else
+std::string getLastError(int err = errno)
+{
+	return strerror(err);
+#endif
+}
+
+#ifdef _WIN32
 LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 {
 	char buf[MAX_PATH], buf2[MAX_PATH];
@@ -22,12 +42,14 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	time_t timer;
 	char timebuffer[26];
 	struct tm* tm_info;
+
 	time(&timer);
 	tm_info = localtime(&timer);
 	strftime(timebuffer, 26, "%Y%m%d%H%M%S", tm_info);
+	sprintf(buf2, "crash_%s.dmp", timebuffer);
+
 	HANDLE hFile = CreateFile(buf2, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-	sprintf(buf2, "crash_%s.dmp", timebuffer);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		MINIDUMP_EXCEPTION_INFORMATION md;
@@ -37,16 +59,15 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 		BOOL win = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &md, 0, 0);
 
 		if (!win)
-			sprintf(buf, "Le jeu à un peu crash en fait. MiniDumpWriteDump failed. Error: %lu \n(%s)", GetLastError(), buf2);
+			sprintf(buf, "Le jeu a un peu crash en fait.\nMiniDumpWriteDump failed.\n%s: %s", getLastError().c_str(), buf2);
 		else
-			sprintf(buf, "Le jeu à un peu crash en fait. Minidump created:\n%s", buf2);
+			sprintf(buf, "Le jeu a un peu crash en fait.\nMinidump created %s", buf2);
 		CloseHandle(hFile);
-
 	} else
-		sprintf(buf, "Le jeu à un peu crash en fait. Could not create minidump:\n%s", buf2);
-	MessageBox(nullptr, "Alors...", buf, MB_ICONERROR);
+		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
+	MessageBox(nullptr, buf, "Alors...", MB_ICONERROR);
 	logger.fatal(buf);
-	exit(EXIT_FAILURE);    //do whatever u want here
+	exit(EXIT_FAILURE);
 }
 #endif
 

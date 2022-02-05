@@ -23,9 +23,10 @@ namespace Battle
 	void AProjectile::update()
 	{
 		AObject::update();
-		if (this->_position.x < -300)
-			this->_dead = true;
-		if (this->_position.x > 1300)
-			this->_dead = true;
+		this->_dead |=
+			this->_position.x < -300 ||
+			this->_position.x > 1300 ||
+			this->_position.y < -300 ||
+			this->_position.y > 1300;
 	}
 }

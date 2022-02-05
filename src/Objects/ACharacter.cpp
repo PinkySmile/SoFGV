@@ -838,11 +838,6 @@ namespace Battle
 		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
 	}
 
-	bool ACharacter::_isGrounded() const
-	{
-		return this->_position.y <= 0;
-	}
-
 	void ACharacter::_forceStartMove(unsigned int action)
 	{
 		if (
@@ -920,14 +915,14 @@ namespace Battle
 			return false;
 		if (action == this->_action && currentData->oFlag.jab)
 			return true;
-		if (this->_getAttackTier(action) > this->_getAttackTier(this->_action))
+		if (this->getAttackTier(action) > this->getAttackTier(this->_action))
 			return true;
-		if (currentData->oFlag.hitSwitch && this->_action != action && this->_getAttackTier(action) == this->_getAttackTier(this->_action))
+		if (currentData->oFlag.hitSwitch && this->_action != action && this->getAttackTier(action) == this->getAttackTier(this->_action))
 			return true;
 		return false;
 	}
 
-	int ACharacter::_getAttackTier(unsigned int action) const
+	int ACharacter::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
 		bool isTyped = action >= ACTION_5M;

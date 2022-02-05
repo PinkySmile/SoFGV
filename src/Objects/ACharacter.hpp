@@ -86,7 +86,6 @@ namespace Battle
 		/* 68  */ ACTION_AIR_MATTER_WRONG_BLOCK,
 		/* 69  */ ACTION_AIR_VOID_WRONG_BLOCK,
 
-
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
 		/* 102 */ ACTION_8N,
@@ -368,7 +367,6 @@ namespace Battle
 		virtual bool _executeGroundMoves(const InputStruct &input);
 		virtual bool _isBlocking() const;
 		virtual bool _canCancel(unsigned int action);
-		virtual int _getAttackTier(unsigned int action) const;
 		virtual bool _checkHitPos(const AObject *other) const;
 		virtual void _blockMove(const AObject *other, const FrameData &data);
 		virtual void _getHitByMove(const AObject *other, const FrameData &data);
@@ -380,7 +378,6 @@ namespace Battle
 		static bool isBlockingAction(unsigned action);
 
 		void _applyMoveAttributes() override;
-		bool _isGrounded() const override;
 		void _forceStartMove(unsigned action) override;
 		void _onMoveEnd(const FrameData &lastData) override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
@@ -409,6 +406,8 @@ namespace Battle
 		bool _check63146974Input();
 
 	public:
+		std::string name;
+
 		ACharacter(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
@@ -424,6 +423,7 @@ namespace Battle
 		std::shared_ptr<IInput> &getInput();
 		const std::shared_ptr<IInput> &getInput() const;
 		const std::map<unsigned, std::vector<std::vector<FrameData>>> &getFrameData();
+		virtual int getAttackTier(unsigned int action) const;
 
 		friend class BattleManager;
 	};

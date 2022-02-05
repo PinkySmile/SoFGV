@@ -35,13 +35,29 @@ namespace Battle
 		SPRITE_AIR = NB_SPRITES,
 		SPRITE_TRANSFORM,
 		SPRITE_PLUS,
-		SPRITE_CHARGE
+		SPRITE_CHARGE,
+		SPRITE_ALSO_AIR
 	};
 
 	struct MoveData {
 		std::string name;
 		std::string description;
 		std::vector<MoveSprite> input;
+		bool displayed = true;
+
+		MoveData() = default;
+		MoveData(
+			std::string name,
+			std::string description,
+			std::vector<MoveSprite> input,
+			bool displayed = true
+		) :
+			name(std::move(name)),
+			description(std::move(description)),
+			input(std::move(input)),
+			displayed(displayed)
+		{}
+
 	};
 
 	extern const std::vector<unsigned> defaultMoveOrder;

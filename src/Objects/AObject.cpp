@@ -301,9 +301,7 @@ namespace Battle
 
 	bool AObject::_isGrounded() const
 	{
-		auto data = this->getCurrentFrameData();
-
-		return !data || !data->dFlag.airborne;
+		return this->_position.y <= 0;
 	}
 
 	void AObject::collide(IObject &other)
@@ -436,7 +434,7 @@ namespace Battle
 
 		for (int i = 0; i < 4; i++) {
 			arr[i].color = color;
-			arr[i].color.a *= 0x60 / 255.f;
+			arr[i].color.a *= 0x30 / 255.f;
 			arr[i].position = (&box.pt1)[i];
 		}
 		game.screen->draw(arr);
