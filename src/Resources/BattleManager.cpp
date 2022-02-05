@@ -280,7 +280,12 @@ namespace Battle
 			alpha = 0xFF;
 			scale = 1 + (this->_roundStartTimer - 0x11) / 206.f;
 		} else {
-			alpha = 0xFF - ((this->_roundEndTimer - 120) * 0xFF / 0x11);
+			auto diff = (this->_roundEndTimer - 120) * 0xFF / 0x11;
+
+			if (diff > 0xFF)
+				alpha = 0xFF - diff;
+			else
+				alpha = 0;
 			scale = 1 + (this->_roundStartTimer - 0x11) / 206.f;
 		}
 

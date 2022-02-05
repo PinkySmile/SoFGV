@@ -176,7 +176,11 @@ namespace Battle
 
 		result.resize(INPUT_NUMBER, "Not mapped");
 		for (auto &pair : this->_keyMap)
-			result[pair.second] = keyToString[pair.first + 1];
+			try {
+				result[pair.second] = keyToString.at(pair.first + 1);
+			} catch (std::out_of_range &e) {
+				result[pair.second] = "Invalid key " + std::to_string(pair.first + 1);
+			}
 		return result;
 	}
 
