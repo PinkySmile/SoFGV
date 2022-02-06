@@ -10,7 +10,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 262144,
+                    "defense_flag": 512,
                     "duration": 10,
                     "hurt_boxes": [
                         {
@@ -4896,6 +4896,12 @@
         "framedata": [
             [
                 {
+                    "collision_box": {
+                        "height": 123,
+                        "left": -32,
+                        "top": -127,
+                        "width": 67
+                    },
                     "defense_flag": 9,
                     "duration": 14,
                     "offset": {
@@ -4915,6 +4921,12 @@
                     }
                 },
                 {
+                    "collision_box": {
+                        "height": 128,
+                        "left": -18,
+                        "top": -131,
+                        "width": 45
+                    },
                     "duration": 5,
                     "offset": {
                         "x": 10,
@@ -13018,8 +13030,9 @@
                         "x": 11,
                         "y": -2
                     },
-                    "push_back": 2,
-                    "push_block": 3,
+                    "prorate": 100.0,
+                    "push_back": 1,
+                    "push_block": 1,
                     "size": {
                         "x": 86,
                         "y": 130
@@ -13082,9 +13095,9 @@
                         "x": 12,
                         "y": -2
                     },
-                    "prorate": 100.0,
-                    "push_back": 10,
-                    "push_block": 14,
+                    "prorate": 90.0,
+                    "push_back": 1,
+                    "push_block": 1,
                     "size": {
                         "x": 88,
                         "y": 130
@@ -13148,9 +13161,9 @@
                         "x": 12,
                         "y": -2
                     },
-                    "prorate": 100.0,
+                    "prorate": 80.0,
                     "push_back": 5,
-                    "push_block": 7,
+                    "push_block": 5,
                     "size": {
                         "x": 88,
                         "y": 130
