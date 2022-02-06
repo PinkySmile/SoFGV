@@ -273,16 +273,19 @@ namespace Battle
 
 		this->_leftCharacter->disableInputs(true);
 		this->_rightCharacter->disableInputs(true);
-		if (this->_roundStartTimer < 0x11) {
+		if (this->_roundStartTimer < -120 + 0x11) {
 			alpha = this->_roundStartTimer * 15;
+			scale = this->_roundStartTimer / 17.f;
+		} else if (this->_roundStartTimer < 0x11) {
+			alpha = 0xFF;
 			scale = this->_roundStartTimer / 17.f;
 		} else if (this->_roundStartTimer < 120) {
 			alpha = 0xFF;
 			scale = 1 + (this->_roundStartTimer - 0x11) / 206.f;
 		} else {
-			auto diff = (this->_roundEndTimer - 120) * 0xFF / 0x11;
+			auto diff = (this->_roundStartTimer - 120) * 0xFF / 0x11;
 
-			if (diff > 0xFF)
+			if (diff < 0xFF)
 				alpha = 0xFF - diff;
 			else
 				alpha = 0;

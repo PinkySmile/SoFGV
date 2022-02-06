@@ -100,11 +100,11 @@ std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::Contro
 	std::map<Battle::InputEnum, Battle::ControllerKey *> realControllerMap;
 	std::map<sf::Keyboard::Key, Battle::InputEnum> realKeyboardMap;
 
+	if (!oldVersion) {
+		keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
+		controllerMap[Battle::INPUT_PAUSE] = {false, 7};
+	}
 	if (!stream.fail()) {
-		if (!oldVersion) {
-			keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
-			controllerMap[Battle::INPUT_PAUSE] = {false, 7};
-		}
 		for (auto &pair : keyboardMap)
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
 		for (auto &pair : controllerMap)

@@ -392,6 +392,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto lc = panel->get<tgui::CheckBox>("LC");
 	auto dc = panel->get<tgui::CheckBox>("DC");
 	auto resOPS = panel->get<tgui::CheckBox>("ResetOPSpeed");
+	auto neutralInvul = panel->get<tgui::CheckBox>("NInv");
+	auto matterInvul = panel->get<tgui::CheckBox>("MInv");
+	auto spiritInvul = panel->get<tgui::CheckBox>("SInv");
+	auto voidInvul = panel->get<tgui::CheckBox>("VInv");
 
 	actionName->connect("Clicked", [&gui, &object, block, action]{
 		auto window = Utils::openWindowWithFocus(gui, 500, "&.h - 100");
@@ -1426,7 +1430,51 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [projInvul, proj, resOPS, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+	neutralInvul->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.neutralInvul = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	matterInvul->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.matterInvul = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	spiritInvul->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.spiritInvul = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	voidInvul->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.voidInvul = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [neutralInvul, matterInvul, spiritInvul, voidInvul, projInvul, proj, resOPS, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
 		if (t.empty())
 			return;
 
@@ -1459,6 +1507,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		lc->setChecked(data.dFlag.landCancel);
 		dc->setChecked(data.dFlag.dashCancel);
 		resOPS->setChecked(data.dFlag.resetSpeed);
+		neutralInvul->setChecked(data.dFlag.neutralInvul);
+		matterInvul->setChecked(data.dFlag.matterInvul);
+		spiritInvul->setChecked(data.dFlag.spiritInvul);
+		voidInvul->setChecked(data.dFlag.voidInvul);
 		if (!g)
 			*c = false;
 	});

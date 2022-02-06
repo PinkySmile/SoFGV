@@ -47,6 +47,32 @@ Renderer.2 {
 }
 
 Renderer.3 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    checkcolor = #3C3C3C;
+    checkcolordisabled = #7D7D7D;
+    checkcolorhover = black;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolorhover = black;
+    textdistanceratio = 0.2;
+    texturechecked = None;
+    texturecheckeddisabled = None;
+    texturecheckedfocused = None;
+    texturecheckedhover = None;
+    textureunchecked = None;
+    textureuncheckeddisabled = None;
+    textureuncheckedfocused = None;
+    textureuncheckedhover = None;
+}
+
+Renderer.4 {
     backgroundcolor = transparent;
     bordercolor = #3C3C3C;
     borders = (0, 0, 0, 0);
@@ -54,7 +80,7 @@ Renderer.3 {
     texturebackground = None;
 }
 
-Renderer.4 {
+Renderer.5 {
     backgroundcolor = #F5F5F5;
     backgroundcolordisabled = #E6E6E6;
     backgroundcolorhover = white;
@@ -76,24 +102,10 @@ Renderer.4 {
     texturehover = None;
 }
 
-Renderer.5 {
+Renderer.6 {
     backgroundcolor = white;
     bordercolor = black;
     texturebackground = None;
-}
-
-Renderer.6 {
-    bordercolor = #3C3C3C;
-    bordercolorhover = black;
-    borders = (1, 1, 1, 1);
-    texturethumb = None;
-    texturethumbhover = None;
-    texturetrack = None;
-    texturetrackhover = None;
-    thumbcolor = #F5F5F5;
-    thumbcolorhover = white;
-    trackcolor = #F5F5F5;
-    trackcolorhover = white;
 }
 
 Renderer.7 {
@@ -111,6 +123,20 @@ Renderer.7 {
 }
 
 Renderer.8 {
+    bordercolor = #3C3C3C;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    texturethumb = None;
+    texturethumbhover = None;
+    texturetrack = None;
+    texturetrackhover = None;
+    thumbcolor = #F5F5F5;
+    thumbcolorhover = white;
+    trackcolor = #F5F5F5;
+    trackcolorhover = white;
+}
+
+Renderer.9 {
     backgroundcolor = transparent;
     bordercolor = #3C3C3C;
     borders = (1, 1, 1, 1);
@@ -137,7 +163,7 @@ Panel.Panel1 {
         Size = (43.2, 18);
         Text = Action;
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     SpinButton.Block {
@@ -157,7 +183,7 @@ Panel.Panel1 {
         Size = (48.2, 18);
         Text = "Block 0";
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     Label.Label2 {
@@ -167,7 +193,7 @@ Panel.Panel1 {
         Size = (56.2, 18);
         Text = "Frame 0";
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     EditBox.Action {
@@ -176,7 +202,7 @@ Panel.Panel1 {
         Size = (30, 22);
         Text = 300;
         TextSize = 13;
-        renderer = &4;
+        renderer = &5;
     }
 
     Slider.Progress {
@@ -188,7 +214,7 @@ Panel.Panel1 {
         Size = (350, 16);
         Step = 1;
         Value = 0;
-        renderer = &6;
+        renderer = &8;
     }
 
     Label.SpeedLabel {
@@ -198,7 +224,7 @@ Panel.Panel1 {
         Size = (19.2, 18);
         Text = x0;
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     Button.Play {
@@ -218,12 +244,12 @@ Panel.Panel1 {
     Panel.AnimPanel {
         Position = (0, 90);
         Size = (610, &.h - y);
-        renderer = &5;
+        renderer = &6;
 
         Panel.Panel2 {
             Position = (0, 40);
             Size = (&.w, &.h - y);
-            renderer = &5;
+            renderer = &6;
 
             Label.Label17 {
                 AutoSize = true;
@@ -232,7 +258,7 @@ Panel.Panel1 {
                 Size = (122.2, 40);
                 Text = "Offensive flags";
                 TextSize = 13;
-                renderer = &8;
+                renderer = &9;
             }
 
             Label.Label18 {
@@ -242,7 +268,7 @@ Panel.Panel1 {
                 Size = (38.2, 18);
                 Text = Value;
                 TextSize = 13;
-                renderer = &3;
+                renderer = &4;
             }
 
             EditBox.oFlags {
@@ -251,7 +277,7 @@ Panel.Panel1 {
                 Size = (240, 22);
                 Text = 0;
                 TextSize = 13;
-                renderer = &4;
+                renderer = &5;
             }
 
             Label.Label19 {
@@ -404,7 +430,7 @@ Panel.Panel1 {
                 Size = (125.2, 40);
                 Text = "Defensive flags";
                 TextSize = 13;
-                renderer = &8;
+                renderer = &9;
             }
 
             EditBox.dFlags {
@@ -413,7 +439,7 @@ Panel.Panel1 {
                 Size = (230, 22);
                 Text = 0;
                 TextSize = 13;
-                renderer = &4;
+                renderer = &5;
             }
 
             Label.Label21 {
@@ -423,7 +449,7 @@ Panel.Panel1 {
                 Size = (38.2, 18);
                 Text = Value;
                 TextSize = 13;
-                renderer = &3;
+                renderer = &4;
             }
 
             CheckBox.Invulnerable {
@@ -640,7 +666,7 @@ Panel.Panel1 {
                 Size = (140, 22);
                 Text = "(0,0)";
                 TextSize = 13;
-                renderer = &4;
+                renderer = &5;
             }
 
             CheckBox.Crouch {
@@ -690,6 +716,38 @@ Panel.Panel1 {
                 TextSize = 13;
                 renderer = &2;
             }
+
+            CheckBox.NInv {
+                Position = (330, 740);
+                Size = (20, 20);
+                Text = "Neutral Invul";
+                TextSize = 13;
+                renderer = &3;
+            }
+
+            CheckBox.MInv {
+                Position = (470, 740);
+                Size = (20, 20);
+                Text = "Matter Invul";
+                TextSize = 13;
+                renderer = &3;
+            }
+
+            CheckBox.SInv {
+                Position = (330, 770);
+                Size = (20, 20);
+                Text = "Spirit Invul";
+                TextSize = 13;
+                renderer = &3;
+            }
+
+            CheckBox.VInv {
+                Position = (470, 770);
+                Size = (20, 20);
+                Text = "Void Invul";
+                TextSize = 13;
+                renderer = &3;
+            }
         }
 
         Label.Label3 {
@@ -699,7 +757,7 @@ Panel.Panel1 {
             Size = (40.2, 18);
             Text = Sprite;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Sprite {
@@ -707,7 +765,7 @@ Panel.Panel1 {
             Position = (90, 10);
             Size = (330, 22);
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.Offset {
@@ -716,7 +774,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = "(0,0)";
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label4 {
@@ -726,7 +784,7 @@ Panel.Panel1 {
             Size = (43.2, 18);
             Text = Offset;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label5 {
@@ -736,7 +794,7 @@ Panel.Panel1 {
             Size = (29.2, 18);
             Text = Size;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Size {
@@ -745,7 +803,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = "(300,300)";
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.Bounds {
@@ -754,7 +812,7 @@ Panel.Panel1 {
             Size = (330, 22);
             Text = "(128,0,64,128)";
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label6 {
@@ -764,7 +822,7 @@ Panel.Panel1 {
             Size = (50.2, 18);
             Text = Bounds;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label7 {
@@ -774,7 +832,7 @@ Panel.Panel1 {
             Size = (57.2, 18);
             Text = Rotation;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Slider.Rotation {
@@ -786,7 +844,7 @@ Panel.Panel1 {
             Size = (320, 16);
             Step = 0.28;
             Value = 0;
-            renderer = &6;
+            renderer = &8;
         }
 
         EditBox.Duration {
@@ -795,7 +853,7 @@ Panel.Panel1 {
             Size = (210, 22);
             Text = 1;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label8 {
@@ -805,7 +863,7 @@ Panel.Panel1 {
             Size = (58.2, 18);
             Text = Duration;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label9 {
@@ -815,7 +873,7 @@ Panel.Panel1 {
             Size = (46.2, 18);
             Text = Marker;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Marker {
@@ -824,7 +882,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         CheckBox.Collision {
@@ -841,7 +899,7 @@ Panel.Panel1 {
             Size = (68.2, 18);
             Text = "Block stun";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.BlockStun {
@@ -850,7 +908,7 @@ Panel.Panel1 {
             Size = (110, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Level90 {
@@ -860,7 +918,7 @@ Panel.Panel1 {
             Size = (52.2, 18);
             Text = "Hit stun";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitStun {
@@ -869,7 +927,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.Rate {
@@ -878,7 +936,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label11 {
@@ -888,7 +946,7 @@ Panel.Panel1 {
             Size = (50.2, 18);
             Text = Prorate;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label12 {
@@ -898,7 +956,7 @@ Panel.Panel1 {
             Size = (68.2, 18);
             Text = "Push back";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.PushBack {
@@ -907,7 +965,7 @@ Panel.Panel1 {
             Size = (110, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label13 {
@@ -917,7 +975,7 @@ Panel.Panel1 {
             Size = (71.2, 18);
             Text = "Push block";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.PushBlock {
@@ -926,7 +984,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label14 {
@@ -936,7 +994,7 @@ Panel.Panel1 {
             Size = (70.2, 18);
             Text = "Spirit Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SpiritLimit {
@@ -945,7 +1003,7 @@ Panel.Panel1 {
             Size = (110, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.VoidLimit {
@@ -954,7 +1012,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label45 {
@@ -964,7 +1022,7 @@ Panel.Panel1 {
             Size = (65.2, 18);
             Text = "Void Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.MatterLimit {
@@ -973,7 +1031,7 @@ Panel.Panel1 {
             Size = (110, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label15 {
@@ -983,7 +1041,7 @@ Panel.Panel1 {
             Size = (79.2, 18);
             Text = "Matter Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SubObj {
@@ -992,7 +1050,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label16 {
@@ -1002,7 +1060,7 @@ Panel.Panel1 {
             Size = (66.2, 18);
             Text = Subobject;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitStop {
@@ -1011,7 +1069,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label22 {
@@ -1021,7 +1079,7 @@ Panel.Panel1 {
             Size = (53.2, 18);
             Text = "Hit Stop";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitSpeed {
@@ -1030,7 +1088,7 @@ Panel.Panel1 {
             Size = (110, 22);
             Text = "(0,0)";
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label10 {
@@ -1040,7 +1098,7 @@ Panel.Panel1 {
             Size = (83.2, 18);
             Text = "Collision box";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label23 {
@@ -1050,7 +1108,7 @@ Panel.Panel1 {
             Size = (64.2, 18);
             Text = "Hit Speed";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label24 {
@@ -1060,7 +1118,7 @@ Panel.Panel1 {
             Size = (70.2, 18);
             Text = "Mana Cost";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.ManaCost {
@@ -1069,7 +1127,7 @@ Panel.Panel1 {
             Size = (210, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.ManaGain {
@@ -1078,7 +1136,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.CHSpeed {
@@ -1087,7 +1145,7 @@ Panel.Panel1 {
             Size = (90, 22);
             Text = "(0,0)";
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label25 {
@@ -1097,7 +1155,7 @@ Panel.Panel1 {
             Size = (70.2, 18);
             Text = "Mana Gain";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label26 {
@@ -1107,7 +1165,7 @@ Panel.Panel1 {
             Size = (119.2, 18);
             Text = "Counter Hit Speed";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label27 {
@@ -1117,7 +1175,7 @@ Panel.Panel1 {
             Size = (43.2, 18);
             Text = Speed;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label28 {
@@ -1127,7 +1185,7 @@ Panel.Panel1 {
             Size = (58.2, 18);
             Text = Damage;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Damage {
@@ -1136,7 +1194,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.NLimit {
@@ -1145,7 +1203,7 @@ Panel.Panel1 {
             Size = (140, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.qdqzd {
@@ -1155,7 +1213,7 @@ Panel.Panel1 {
             Size = (84.2, 18);
             Text = "Neutral Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Gravity {
@@ -1163,7 +1221,7 @@ Panel.Panel1 {
             Position = (290, 280);
             Size = (90, 22);
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label29 {
@@ -1173,7 +1231,7 @@ Panel.Panel1 {
             Size = (50.2, 18);
             Text = Gravity;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SFX {
@@ -1181,7 +1239,7 @@ Panel.Panel1 {
             Position = (90, 130);
             Size = (330, 22);
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         Label.Label30 {
@@ -1191,7 +1249,7 @@ Panel.Panel1 {
             Size = (43.2, 18);
             Text = Sound;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
     }
 

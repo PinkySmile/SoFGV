@@ -2091,10 +2091,10 @@ namespace Battle
 				this->_matterMana -= data->manaCost;
 		}
 		if (data->subObjectSpawn > 0) {
-			if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1])
-				this->_subobjects[data->subObjectSpawn - 1]->kill();
-			else if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1])
+			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1])
 				return;
+			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1])
+				this->_subobjects[data->subObjectSpawn - 1]->kill();
 
 			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
 

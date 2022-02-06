@@ -48,6 +48,10 @@ namespace Battle
 			bool landCancel : 1;
 			bool dashCancel : 1;
 			bool resetSpeed : 1;
+			bool neutralInvul : 1;
+			bool matterInvul : 1;
+			bool spiritInvul : 1;
+			bool voidInvul : 1;
 		};
 	};
 
