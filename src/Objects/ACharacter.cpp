@@ -1302,7 +1302,9 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
-			if (found4 && foundOther && input.h < 0 && input.v == 0)
+			if (input.h < 0 && input.v != 0)
+				return false;
+			if (found4 && foundOther && input.h < 0)
 				return true;
 			found4 |= input.h < 0;
 			foundOther |= found4 && input.h >= 0;
@@ -1320,7 +1322,9 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
-			if (found6 && foundOther && input.h > 0 && input.v == 0)
+			if (input.h > 0 && input.v != 0)
+				return false;
+			if (found6 && foundOther && input.h > 0)
 				return true;
 			found6 |= input.h > 0;
 			foundOther |= found6 && input.h <= 0;
