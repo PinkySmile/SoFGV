@@ -45,6 +45,7 @@ namespace Battle
 			unsigned spiritManaMax;
 			unsigned matterManaMax;
 			float manaRegen;
+			unsigned maxBlockStun;
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);

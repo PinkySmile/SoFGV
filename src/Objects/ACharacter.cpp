@@ -466,14 +466,22 @@ namespace Battle
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
 		this->_processWallSlams();
-		if (this->_action < ACTION_LANDING && this->_opponent) {
+		if ((
+			this->_action == ACTION_IDLE ||
+			this->_action == ACTION_CROUCHING ||
+			this->_action == ACTION_CROUCH ||
+			this->_action == ACTION_STANDING_UP ||
+			this->_action == ACTION_WALK_FORWARD ||
+			this->_action == ACTION_WALK_BACKWARD ||
+			this->_action == ACTION_FALLING
+		) && this->_opponent) {
 			if (this->_opponent->_position.x - this->_position.x != 0)
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
 		}
 	}
 
-	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, Vector2f gravity)
+	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -489,6 +497,7 @@ namespace Battle
 		this->_spiritMana = maxSMana / 2.f;
 		this->_matterMana = maxMMana / 2.f;
 		this->_regen = manaRegen;
+		this->_maxBlockStun = maxBlockStun;
 		if (side) {
 			this->_position = {200, 0};
 		} else {
@@ -1940,6 +1949,17 @@ namespace Battle
 		} else if (wrongBlockLevel)
 			return this->_getHitByMove(other, data);
 		this->_speed.x += data.pushBlock * -this->_dir;
+		if (this->_blockStun >= this->_maxBlockStun) {
+			if (this->_isGrounded()) {
+				this->_blockStun = 60;
+				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				this->_speed = {this->_dir * -1, 0};
+			} else {
+				this->_blockStun = 12000;
+				this->_forceStartMove(ACTION_AIR_HIT);
+				this->_speed = {this->_dir * -1, 20};
+			}
+		}
 	}
 
 	void ACharacter::_getHitByMove(const AObject *, const FrameData &data)
@@ -2074,12 +2094,6 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		AObject::_applyMoveAttributes();
-		if (data->oFlag.voidMana && data->manaCost > this->_voidMana)
-			return this->_forceStartMove(ACTION_IDLE);
-		if (data->oFlag.spiritMana && data->manaCost > this->_spiritMana)
-			return this->_forceStartMove(ACTION_IDLE);
-		if (data->oFlag.matterMana && data->manaCost > this->_matterMana)
-			return this->_forceStartMove(ACTION_IDLE);
 
 		auto input = this->_input->getInputs();
 
@@ -2093,6 +2107,24 @@ namespace Battle
 				this->_spiritMana -= data->manaCost;
 			if (data->oFlag.matterMana)
 				this->_matterMana -= data->manaCost;
+			if (
+				this->_voidMana < 0 ||
+				this->_spiritMana < 0 ||
+				this->_matterMana < 0
+			) {
+				this->_voidMana = this->_voidManaMax / 10;
+				this->_spiritMana = this->_spiritManaMax / 10;
+				this->_matterMana = this->_matterManaMax / 10;
+				if (this->_isGrounded()) {
+					this->_blockStun = 60;
+					this->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+					this->_speed = {this->_dir * -1, 0};
+				} else {
+					this->_blockStun = 12000;
+					this->_forceStartMove(ACTION_AIR_HIT);
+					this->_speed = {this->_dir * -1, 20};
+				}
+			}
 		}
 		if (data->subObjectSpawn > 0) {
 			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1])

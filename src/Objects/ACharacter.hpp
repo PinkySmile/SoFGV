@@ -316,7 +316,7 @@ namespace Battle
 		unsigned _voidManaMax;
 		unsigned _spiritManaMax;
 		unsigned _matterManaMax;
-		unsigned _maxBlockStun = 120;
+		unsigned _maxBlockStun = 0;
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
@@ -407,7 +407,7 @@ namespace Battle
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, Vector2f gravity);
+		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
 		std::shared_ptr<IInput> &getInput();

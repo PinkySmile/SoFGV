@@ -215,6 +215,8 @@ namespace Battle
 			throw std::invalid_argument("framedata_char_select is missing");
 		if (!json.contains("hp"))
 			throw std::invalid_argument("hp is missing");
+		if (!json.contains("max_block_stun"))
+			throw std::invalid_argument("max_block_stun is missing");
 		if (!json.contains("gravity"))
 			throw std::invalid_argument("gravity is missing");
 		if (!json["gravity"].contains("x"))

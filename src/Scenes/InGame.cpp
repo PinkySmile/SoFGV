@@ -53,7 +53,8 @@ namespace Battle
 				lJson["void_mana_max"],
 				lJson["spirit_mana_max"],
 				lJson["matter_mana_max"],
-				lJson["mana_regen"]
+				lJson["mana_regen"],
+				lJson["max_block_stun"]
 			},
 			BattleManager::CharacterParams{
 				rightChr,
@@ -64,7 +65,8 @@ namespace Battle
 				rJson["void_mana_max"],
 				rJson["spirit_mana_max"],
 				rJson["matter_mana_max"],
-				rJson["mana_regen"]
+				rJson["mana_regen"],
+				lJson["max_block_stun"]
 			}
 		);
 	}

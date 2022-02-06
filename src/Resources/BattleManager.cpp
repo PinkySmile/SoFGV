@@ -27,6 +27,7 @@ namespace Battle
 			leftCharacter.voidManaMax,
 			leftCharacter.spiritManaMax,
 			leftCharacter.manaRegen,
+			leftCharacter.maxBlockStun,
 			leftCharacter.gravity
 		);
 		this->_rightCharacter->init(
@@ -38,6 +39,7 @@ namespace Battle
 			rightCharacter.voidManaMax,
 			rightCharacter.spiritManaMax,
 			rightCharacter.manaRegen,
+			rightCharacter.maxBlockStun,
 			rightCharacter.gravity
 		);
 		this->_leftCharacter->setAttacksDisabled(true);
