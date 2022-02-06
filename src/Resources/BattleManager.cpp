@@ -92,6 +92,23 @@ namespace Battle
 
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
+
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(0, -590);
+		rect.setSize({400.f, 20});
+		game.screen->draw(rect);
+		rect.setPosition(600.f, -590);
+		rect.setSize({400.f, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
+		rect.setPosition(0, -590);
+		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + this->_leftCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
+		game.screen->draw(rect);
+		rect.setPosition(1000 - 400.f * std::max<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
+		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
+		game.screen->draw(rect);
+
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(0, -590);
 		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
@@ -101,6 +118,29 @@ namespace Battle
 		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
 		if (this->_rightCharacter->_hp > 0)
 			game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::White);
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(390 - i * 15, -560);
+			rect.setSize({10, 8});
+			game.screen->draw(rect);
+		}
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(600 + i * 15, -560);
+			rect.setSize({10, 8});
+			game.screen->draw(rect);
+		}
+		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
+		for (int i = 0; i < this->_score.first; i++) {
+			rect.setPosition(392 - i * 15, -558);
+			rect.setSize({6, 4});
+			game.screen->draw(rect);
+		}
+		for (int i = 0; i < this->_score.second; i++) {
+			rect.setPosition(602 + i * 15, -558);
+			rect.setSize({6, 4});
+			game.screen->draw(rect);
+		}
 
 		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(100, 40);
