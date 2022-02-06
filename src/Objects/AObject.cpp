@@ -217,6 +217,16 @@ namespace Battle
 			return false;
 		if (oData->dFlag.grabInvulnerable && mData->oFlag.grab)
 			return false;
+		if (oData->dFlag.airborne != mData->dFlag.airborne && mData->oFlag.grab)
+			return false;
+		if (mData->dFlag.spiritInvul && oData->oFlag.spiritElement)
+			return false;
+		if (mData->dFlag.voidInvul && oData->oFlag.voidElement)
+			return false;
+		if (mData->dFlag.matterInvul && oData->oFlag.matterElement)
+			return false;
+		if (mData->dFlag.neutralInvul && (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement))
+			return false;
 
 		for (auto &hurtBox : asAObject->_getModifiedHurtBoxes())
 			for (auto &hitBox : this->_getModifiedHitBoxes())
