@@ -190,7 +190,7 @@ namespace Battle
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[2]);
 		ggpoPlayers[1].player_num = 2;
-		strcpy(ggpoPlayers[1].u.remote.ip_address, "127.0.0.1");
+		strcpy(ggpoPlayers[1].u.remote.ip_address, "90.93.184.132");
 		ggpoPlayers[1].u.remote.port = 10900;
 		//strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
 		//ggpoPlayers[1].u.remote.port = playerPort;
@@ -246,6 +246,7 @@ namespace Battle
 			}
 		} catch (GGPOError &e) {
 			logger.warn("Inputs are being ignored: " + std::string(e.what()));
+			return;
 		}
 
 		this->advanceState();

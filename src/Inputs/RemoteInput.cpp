@@ -40,7 +40,7 @@ namespace Battle
 
 	void RemoteInput::update()
 	{
-		for (int i = 0; i < INPUT_NUMBER; i++)
+		for (size_t i = 0; i < this->_keyStates.size(); i++)
 			if (this->_keyStates[i])
 				this->_keyDuration[i]++;
 			else
