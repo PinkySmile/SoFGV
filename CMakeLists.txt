@@ -26,56 +26,56 @@ endif ()
 add_executable(
 	Battle
 	src/main.cpp
+	src/Data/Color.hpp
+	src/Data/Vector.hpp
+	src/Inputs/ControllerInput.cpp
+	src/Inputs/ControllerInput.hpp
+	src/Inputs/IInput.hpp
+	src/Inputs/InputEnum.hpp
+	src/Inputs/KeyboardInput.cpp
+	src/Inputs/KeyboardInput.hpp
+	src/Inputs/RemoteInput.cpp
+	src/Inputs/RemoteInput.hpp
 	src/Logger.cpp
 	src/Logger.hpp
-	src/Data/Vector.hpp
-	src/Resources/Screen.cpp
-	src/Resources/Screen.hpp
-	src/Resources/BattleManager.hpp
-	src/Resources/BattleManager.cpp
-	src/Resources/TextureManager.hpp
-	src/Resources/TextureManager.cpp
-	src/Resources/SoundManager.hpp
-	src/Resources/SoundManager.cpp
-	src/Inputs/InputEnum.hpp
-	src/Objects/ACharacter.hpp
 	src/Objects/ACharacter.cpp
-	src/Objects/AObject.hpp
+	src/Objects/ACharacter.hpp
 	src/Objects/AObject.cpp
+	src/Objects/AObject.hpp
+	src/Objects/AProjectile.cpp
+	src/Objects/AProjectile.hpp
+	src/Objects/FakeObject.cpp
+	src/Objects/FakeObject.hpp
 	src/Objects/IObject.hpp
-	src/Resources/Game.hpp
-	src/Resources/Game.cpp
-	src/Resources/Sprite.hpp
-	src/Data/Color.hpp
+	src/Resources/BattleManager.cpp
+	src/Resources/BattleManager.hpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
-	src/Scenes/TitleScreen.cpp
-	src/Scenes/TitleScreen.hpp
+	src/Resources/Game.cpp
+	src/Resources/Game.hpp
+	src/Resources/MoveListData.cpp
+	src/Resources/MoveListData.hpp
+	src/Resources/NetManager.cpp
+	src/Resources/NetManager.hpp
+	src/Resources/Screen.cpp
+	src/Resources/Screen.hpp
+	src/Resources/SoundManager.cpp
+	src/Resources/SoundManager.hpp
+	src/Resources/Sprite.hpp
+	src/Resources/TextureManager.cpp
+	src/Resources/TextureManager.hpp
+	src/Scenes/CharacterSelect.cpp
+	src/Scenes/CharacterSelect.hpp
 	src/Scenes/IScene.hpp
 	src/Scenes/InGame.cpp
 	src/Scenes/InGame.hpp
-	src/Inputs/IInput.hpp
-	src/Inputs/KeyboardInput.cpp
-	src/Inputs/KeyboardInput.hpp
-	src/Inputs/ControllerInput.cpp
-	src/Inputs/ControllerInput.hpp
-	src/Inputs/RemoteInput.cpp
-	src/Inputs/RemoteInput.hpp
-	src/Scenes/NetplayInGame.cpp
-	src/Scenes/NetplayInGame.hpp
-	src/Scenes/CharacterSelect.cpp
-	src/Scenes/CharacterSelect.hpp
-	src/Objects/AProjectile.cpp
-	src/Objects/AProjectile.hpp
-	src/Resources/MoveListData.cpp
-	src/Resources/MoveListData.hpp
-	src/Objects/FakeObject.cpp
-	src/Objects/FakeObject.hpp
-	src/Resources/NetManager.cpp
-	src/Resources/NetManager.hpp
 	src/Scenes/NetplayCharacterSelect.cpp
 	src/Scenes/NetplayCharacterSelect.hpp
+	src/Scenes/NetplayInGame.cpp
+	src/Scenes/NetplayInGame.hpp
 	src/Scenes/NetplayScene.hpp
+	src/Scenes/TitleScreen.cpp
+	src/Scenes/TitleScreen.hpp
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -118,33 +118,58 @@ target_link_libraries(
 add_executable(
 	FrameDataEditor
 	src/dataEditor.cpp
-	src/Logger.cpp
-	src/Logger.hpp
-	src/Data/Vector.hpp
-	src/Resources/Screen.cpp
-	src/Resources/Screen.hpp
-	src/Resources/TextureManager.hpp
-	src/Resources/TextureManager.cpp
-	src/Resources/SoundManager.hpp
-	src/Resources/SoundManager.cpp
-	src/Inputs/InputEnum.hpp
-	src/Objects/AObject.hpp
-	src/Objects/AObject.cpp
-	src/Objects/IObject.hpp
-	src/Resources/Game.hpp
-	src/Resources/Game.cpp
-	src/Resources/Sprite.hpp
 	src/Data/Color.hpp
+	src/Data/Vector.hpp
 	src/FrameDataEditor/EditableObject.cpp
 	src/FrameDataEditor/EditableObject.hpp
-	src/Objects/ACharacter.hpp
+	src/Inputs/ControllerInput.cpp
+	src/Inputs/ControllerInput.hpp
+	src/Inputs/IInput.hpp
+	src/Inputs/InputEnum.hpp
+	src/Inputs/KeyboardInput.cpp
+	src/Inputs/KeyboardInput.hpp
+	src/Inputs/RemoteInput.cpp
+	src/Inputs/RemoteInput.hpp
+	src/Logger.cpp
+	src/Logger.hpp
 	src/Objects/ACharacter.cpp
-	src/Objects/AProjectile.hpp
+	src/Objects/ACharacter.hpp
+	src/Objects/AObject.cpp
+	src/Objects/AObject.hpp
 	src/Objects/AProjectile.cpp
-	src/Resources/BattleManager.hpp
+	src/Objects/AProjectile.hpp
+	src/Objects/FakeObject.cpp
+	src/Objects/FakeObject.hpp
+	src/Objects/IObject.hpp
 	src/Resources/BattleManager.cpp
+	src/Resources/BattleManager.hpp
 	src/Resources/FrameData.cpp
 	src/Resources/FrameData.hpp
+	src/Resources/Game.cpp
+	src/Resources/Game.hpp
+	src/Resources/MoveListData.cpp
+	src/Resources/MoveListData.hpp
+	src/Resources/NetManager.cpp
+	src/Resources/NetManager.hpp
+	src/Resources/Screen.cpp
+	src/Resources/Screen.hpp
+	src/Resources/SoundManager.cpp
+	src/Resources/SoundManager.hpp
+	src/Resources/Sprite.hpp
+	src/Resources/TextureManager.cpp
+	src/Resources/TextureManager.hpp
+	src/Scenes/CharacterSelect.cpp
+	src/Scenes/CharacterSelect.hpp
+	src/Scenes/IScene.hpp
+	src/Scenes/InGame.cpp
+	src/Scenes/InGame.hpp
+	src/Scenes/NetplayCharacterSelect.cpp
+	src/Scenes/NetplayCharacterSelect.hpp
+	src/Scenes/NetplayInGame.cpp
+	src/Scenes/NetplayInGame.hpp
+	src/Scenes/NetplayScene.hpp
+	src/Scenes/TitleScreen.cpp
+	src/Scenes/TitleScreen.hpp
 	src/Utils.cpp
 	src/Utils.hpp
 )
@@ -155,5 +180,8 @@ target_link_libraries(
 	${SFML_SYSTEM_LIB}
 	${SFML_WINDOW_LIB}
 	${SFML_AUDIO_LIB}
+	${SFML_NETWORK_LIB}
 	${TGUI_LIB}
+	${GGPO_DIR}/libGGPO.dll.a
+	ws2_32
 )

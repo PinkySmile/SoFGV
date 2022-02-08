@@ -103,8 +103,23 @@ namespace Battle
 
 	}
 
-	std::shared_ptr<IObject> EditableObject::copy()
+	unsigned int EditableObject::getBufferSize() const
 	{
-		return std::shared_ptr<IObject>();
+		return 0;
+	}
+
+	void EditableObject::copyToBuffer(void *) const
+	{
+
+	}
+
+	void EditableObject::restoreFromBuffer(void *)
+	{
+
+	}
+
+	unsigned int EditableObject::getClassId() const
+	{
+		return 0;
 	}
 }

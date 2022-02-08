@@ -39,7 +39,10 @@ namespace Battle
 		const FrameData *getCurrentFrameData() const override;
 		void collide(IObject &other) override;
 		void kill() override;
-		std::shared_ptr<IObject> copy() override;
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		unsigned int getClassId() const override;
 	};
 }
 
