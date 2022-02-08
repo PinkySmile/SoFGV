@@ -12,19 +12,32 @@ namespace Battle
 {
 	class BattleManager {
 	private:
+		struct Data {
+			std::pair<unsigned char, unsigned char> _score;
+			unsigned _currentRound;
+			int _roundStartTimer;
+			unsigned _roundEndTimer;
+			unsigned _hitStop;
+			unsigned _nbObjects;
+		};
+
+		// Non Game State
 		Sprite _stage;
 		sf::Sprite _roundSprite;
+		std::vector<sf::Texture> _roundSprites;
+		bool _step = false;
+		bool _next = false;
+		unsigned _lastObjectId = 0;
+
+		// Game State
 		std::unique_ptr<ACharacter> _leftCharacter;
 		std::unique_ptr<ACharacter> _rightCharacter;
-		std::vector<std::shared_ptr<IObject>> _objects;
-		std::vector<sf::Texture> _roundSprites;
+		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
 		std::pair<unsigned char, unsigned char> _score{0, 0};
 		unsigned _currentRound = 0;
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;
 		unsigned _hitStop = 0;
-		bool _step = false;
-		bool _next = false;
 
 		void _gameUpdate();
 		bool _updateEndGameAnimation();
@@ -52,20 +65,23 @@ namespace Battle
 		void addHitStop(unsigned stop);
 		bool update();
 		void render();
-		void registerObject(const std::shared_ptr<IObject> &object);
+		unsigned registerObject(const std::shared_ptr<IObject> &object);
 		void consumeEvent(const sf::Event &);
+		std::shared_ptr<IObject> getObjectFromId(unsigned id) const;
 		ACharacter *getLeftCharacter();
 		ACharacter *getRightCharacter();
 		const ACharacter *getLeftCharacter() const;
 		const ACharacter *getRightCharacter() const;
 		template <typename T, typename ...Args>
-		std::shared_ptr<IObject> registerObject(Args &... args)
+		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(Args &... args)
 		{
 			auto obj = std::make_shared<T>(args...);
 
-			this->registerObject(obj);
-			return obj;
+			return {this->registerObject(obj), obj};
 		}
+		unsigned int getBufferSize() const;
+		void copyToBuffer(void *data) const;
+		void restoreFromBuffer(void *data);
 	};
 }
 

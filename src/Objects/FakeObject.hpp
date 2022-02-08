@@ -11,14 +11,12 @@
 namespace Battle
 {
 	class FakeObject : public AObject {
-	public:
-		FakeObject(const std::map<unsigned, std::vector<std::vector<FrameData>>> &frameData);
-		void render() const override;
-
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
 
 	public:
+		FakeObject(const std::map<unsigned, std::vector<std::vector<FrameData>>> &frameData);
+		void render() const override;
 
 		friend class InGame;
 	};

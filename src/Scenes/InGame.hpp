@@ -16,7 +16,7 @@
 namespace Battle
 {
 	class InGame : public IScene {
-	private:
+	protected:
 		constexpr static const char *_menuStrings[] = {
 			"Resume",
 			"Move list",

@@ -61,13 +61,22 @@ add_executable(
 	src/Inputs/ControllerInput.hpp
 	src/Inputs/RemoteInput.cpp
 	src/Inputs/RemoteInput.hpp
-	src/Inputs/NetworkInput.cpp
-	src/Inputs/NetworkInput.hpp
-	src/Scenes/NetplayGame.cpp
-	src/Scenes/NetplayGame.hpp
+	src/Scenes/NetplayInGame.cpp
+	src/Scenes/NetplayInGame.hpp
 	src/Scenes/CharacterSelect.cpp
 	src/Scenes/CharacterSelect.hpp
-	src/Objects/AProjectile.cpp src/Objects/AProjectile.hpp src/Resources/MoveListData.cpp src/Resources/MoveListData.hpp src/Objects/FakeObject.cpp src/Objects/FakeObject.hpp)
+	src/Objects/AProjectile.cpp
+	src/Objects/AProjectile.hpp
+	src/Resources/MoveListData.cpp
+	src/Resources/MoveListData.hpp
+	src/Objects/FakeObject.cpp
+	src/Objects/FakeObject.hpp
+	src/Resources/NetManager.cpp
+	src/Resources/NetManager.hpp
+	src/Scenes/NetplayCharacterSelect.cpp
+	src/Scenes/NetplayCharacterSelect.hpp
+	src/Scenes/NetplayScene.hpp
+)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
@@ -102,6 +111,8 @@ target_link_libraries(
 	${SFML_SYSTEM_LIB}
 	${SFML_WINDOW_LIB}
 	${SFML_NETWORK_LIB}
+	${GGPO_DIR}/libGGPO.dll.a
+	ws2_32
 )
 
 add_executable(

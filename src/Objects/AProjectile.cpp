@@ -29,4 +29,9 @@ namespace Battle
 			this->_position.y < -300 ||
 			this->_position.y > 1300;
 	}
+
+	unsigned int AProjectile::getClassId() const
+	{
+		return 2;
+	}
 }

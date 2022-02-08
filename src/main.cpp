@@ -5,6 +5,7 @@
 #include <dbghelp.h>
 #endif
 #include <sys/stat.h>
+#include <crtdbg.h>
 #include "Logger.hpp"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
@@ -177,6 +178,7 @@ void	run()
 		}
 		if (newScene)
 			Battle::game.scene.reset(newScene);
+		Battle::game.networkMgr.update();
 	}
 	saveSettings();
 }
@@ -185,6 +187,9 @@ int	main()
 {
 #ifdef _WIN32
 	SetUnhandledExceptionFilter(UnhandledExFilter);
+#if defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 #endif
 	logger.info("Starting game.");
 	#ifndef _DEBUG

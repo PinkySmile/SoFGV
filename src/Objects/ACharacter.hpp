@@ -281,42 +281,31 @@ namespace Battle
 	protected:
 		struct LastInput {
 			unsigned nbFrames : 28;
-			int h : 2;
-			int v : 2;
+			char h : 2;
+			char v : 2;
 		};
-
-#ifdef _DEBUG
-		sf::Font _font;
-		sf::Text _text;
-		sf::Text _text2;
-#endif
-		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
-		ACharacter *_opponent;
-		std::shared_ptr<IInput> _input;
-		std::list<LastInput> _lastInputs;
-		std::array<std::shared_ptr<IObject>, 128> _subobjects;
-		unsigned _blockStun = 0;
-		unsigned _jumpsUsed = 0;
-		unsigned _airDashesUsed = 0;
-		unsigned _maxJumps = 0;
-		unsigned _maxAirDashes = 0;
-		unsigned _comboCtr = 0;
-		unsigned _totalDamage = 0;
-		float _prorate = 1;
-		std::array<unsigned, 4> _limit;
-		bool _atkDisabled = false;
-		bool _inputDisabled = false;
-		bool _hasJumped = false;
-		bool _restand = false;
-		bool _justGotCorner = false;
-		float _regen;
-		float _voidMana;
-		float _spiritMana;
-		float _matterMana;
-		unsigned _voidManaMax;
-		unsigned _spiritManaMax;
-		unsigned _matterManaMax;
-		unsigned _maxBlockStun = 0;
+		struct Data {
+			unsigned _blockStun;
+			unsigned _jumpsUsed;
+			unsigned _airDashesUsed;
+			unsigned _comboCtr;
+			unsigned _totalDamage;
+			float _prorate;
+			unsigned _limit[4];
+			bool _atkDisabled;
+			bool _inputDisabled;
+			bool _hasJumped;
+			bool _restand;
+			bool _justGotCorner;
+			float _regen;
+			float _voidMana;
+			float _spiritMana;
+			float _matterMana;
+			unsigned _maxBlockStun;
+			unsigned _specialInputs;
+			unsigned _subObjects[128];
+			unsigned _nbLastInputs;
+		};
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
@@ -341,7 +330,43 @@ namespace Battle
 				bool _6246974: 1;
 				bool _63146974: 1;
 			};
-		} _specialInputs;
+		};
+
+		// Game State
+		std::list<LastInput> _lastInputs;
+		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
+		unsigned _blockStun = 0;
+		unsigned _jumpsUsed = 0;
+		unsigned _airDashesUsed = 0;
+		unsigned _comboCtr = 0;
+		unsigned _totalDamage = 0;
+		float _prorate = 1;
+		std::array<unsigned, 4> _limit;
+		bool _atkDisabled = false;
+		bool _inputDisabled = false;
+		bool _hasJumped = false;
+		bool _restand = false;
+		bool _justGotCorner = false;
+		float _regen;
+		float _voidMana;
+		float _spiritMana;
+		float _matterMana;
+		unsigned _maxBlockStun = 0;
+		SpecialInputs _specialInputs;
+
+		// Non Game State
+#ifdef _DEBUG
+		sf::Text _text;
+		sf::Text _text2;
+#endif
+		ACharacter *_opponent;
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
+		std::shared_ptr<IInput> _input;
+		unsigned _maxJumps = 0;
+		unsigned _maxAirDashes = 0;
+		unsigned _voidManaMax;
+		unsigned _spiritManaMax;
+		unsigned _matterManaMax;
 
 		virtual bool _executeAirDashes(const InputStruct &input);
 		virtual bool _executeAirBlock(const InputStruct &input);
@@ -363,7 +388,7 @@ namespace Battle
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
-		virtual std::shared_ptr<IObject> _spawnSubobject(unsigned id);
+		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id);
 
 		static bool isBlockingAction(unsigned action);
 
@@ -398,6 +423,7 @@ namespace Battle
 	public:
 		std::string name;
 
+		ACharacter() = default;
 		ACharacter(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~ACharacter() override = default;
 		void setOpponent(ACharacter *opponent);
@@ -416,6 +442,11 @@ namespace Battle
 		virtual int getAttackTier(unsigned int action) const;
 		virtual void setAttacksDisabled(bool disabled);
 		virtual void disableInputs(bool disabled);
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		void resolveSubObjects(const BattleManager &manager);
+		unsigned int getClassId() const override;
 
 		friend class BattleManager;
 	};

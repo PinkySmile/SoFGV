@@ -353,13 +353,12 @@ namespace Battle
 		_input(std::move(input))
 	{
 #ifdef _DEBUG
-		this->_font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
-		this->_text.setFont(this->_font);
+		this->_text.setFont(game.font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
 		this->_text.setOutlineThickness(2);
 		this->_text.setCharacterSize(10);
-		this->_text2.setFont(this->_font);
+		this->_text2.setFont(game.font);
 		this->_text2.setFillColor(sf::Color::White);
 		this->_text2.setOutlineColor(sf::Color::Black);
 		this->_text2.setOutlineThickness(2);
@@ -404,8 +403,10 @@ namespace Battle
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
 		for (auto &obj : this->_subobjects)
-			if (obj && obj->isDead())
-				obj.reset();
+			if (obj.second && obj.second->isDead()) {
+				obj.first = 0;
+				obj.second.reset();
+			}
 		this->_tickMove();
 		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
 		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
@@ -549,8 +550,8 @@ namespace Battle
 		)
 			this->_lastInputs.push_front({
 				0,
-				static_cast<int>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
-				static_cast<int>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
+				static_cast<char>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
+				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
 			});
 		this->_lastInputs.front().nbFrames++;
 		if (this->_lastInputs.front().nbFrames > 45)
@@ -711,7 +712,7 @@ namespace Battle
 	{
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
-		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1])
+		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
 			return false;
 		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
 			return false;
@@ -2127,10 +2128,10 @@ namespace Battle
 			}
 		}
 		if (data->subObjectSpawn > 0) {
-			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1])
+			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
 				return;
-			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1])
-				this->_subobjects[data->subObjectSpawn - 1]->kill();
+			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
+				this->_subobjects[data->subObjectSpawn - 1].second->kill();
 
 			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
 
@@ -2140,7 +2141,7 @@ namespace Battle
 		}
 	}
 
-	std::shared_ptr<IObject> ACharacter::_spawnSubobject(unsigned id)
+	std::pair<unsigned, std::shared_ptr<IObject>> ACharacter::_spawnSubobject(unsigned id)
 	{
 		auto data = this->getCurrentFrameData();
 		auto pos = this->_position + Vector2i{
@@ -2216,5 +2217,88 @@ namespace Battle
 	void ACharacter::disableInputs(bool disabled)
 	{
 		this->_inputDisabled = disabled;
+	}
+
+	unsigned int ACharacter::getBufferSize() const
+	{
+		return AObject::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size();
+	}
+
+	void ACharacter::copyToBuffer(void *data) const
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + AObject::getBufferSize());
+		size_t i = 0;
+
+		AObject::copyToBuffer(data);
+		dat->_blockStun = this->_blockStun;
+		dat->_jumpsUsed = this->_jumpsUsed;
+		dat->_airDashesUsed = this->_airDashesUsed;
+		dat->_comboCtr = this->_comboCtr;
+		dat->_totalDamage = this->_totalDamage;
+		dat->_prorate = this->_prorate;
+		dat->_atkDisabled = this->_atkDisabled;
+		dat->_inputDisabled = this->_inputDisabled;
+		dat->_hasJumped = this->_hasJumped;
+		dat->_restand = this->_restand;
+		dat->_justGotCorner = this->_justGotCorner;
+		dat->_regen = this->_regen;
+		dat->_voidMana = this->_voidMana;
+		dat->_spiritMana = this->_spiritMana;
+		dat->_matterMana = this->_matterMana;
+		dat->_maxBlockStun = this->_maxBlockStun;
+		dat->_specialInputs = this->_specialInputs._value;
+		dat->_nbLastInputs = this->_lastInputs.size();
+		for (i = 0; i < this->_limit.size(); i++)
+			dat->_limit[i] = this->_limit[i];
+		i = 0;
+		for (auto it = this->_lastInputs.begin(); it != this->_lastInputs.end(); it++, i++)
+			((LastInput *)&dat[1])[i] = *it;
+		for (i = 0; i < this->_subobjects.size(); i++)
+			dat->_subObjects[i] = this->_subobjects[i].first;
+	}
+
+	void ACharacter::restoreFromBuffer(void *data)
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + AObject::getBufferSize());
+
+		AObject::restoreFromBuffer(data);
+		this->_blockStun = dat->_blockStun;
+		this->_jumpsUsed = dat->_jumpsUsed;
+		this->_airDashesUsed = dat->_airDashesUsed;
+		this->_comboCtr = dat->_comboCtr;
+		this->_totalDamage = dat->_totalDamage;
+		this->_prorate = dat->_prorate;
+		this->_atkDisabled = dat->_atkDisabled;
+		this->_inputDisabled = dat->_inputDisabled;
+		this->_hasJumped = dat->_hasJumped;
+		this->_restand = dat->_restand;
+		this->_justGotCorner = dat->_justGotCorner;
+		this->_regen = dat->_regen;
+		this->_voidMana = dat->_voidMana;
+		this->_spiritMana = dat->_spiritMana;
+		this->_matterMana = dat->_matterMana;
+		this->_maxBlockStun = dat->_maxBlockStun;
+		this->_specialInputs._value = dat->_specialInputs;
+		this->_lastInputs.clear();
+		for (size_t i = 0; i < dat->_nbLastInputs; i++)
+			this->_lastInputs.push_back(((LastInput *)&dat[1])[i]);
+		for (size_t i = 0; i < this->_limit.size(); i++)
+			this->_limit[i] = dat->_limit[i];
+		for (size_t i = 0; i < this->_subobjects.size(); i++) {
+			this->_subobjects[i].first = dat->_subObjects[i];
+			this->_subobjects[i].second.reset();
+		}
+	}
+
+	void ACharacter::resolveSubObjects(const BattleManager &manager)
+	{
+		for (auto &subobject : this->_subobjects)
+			if (subobject.first)
+				subobject.second = manager.getObjectFromId(subobject.first);
+	}
+
+	unsigned int ACharacter::getClassId() const
+	{
+		return 1;
 	}
 }

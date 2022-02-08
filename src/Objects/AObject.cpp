@@ -460,4 +460,60 @@ namespace Battle
 	{
 		this->_dead = true;
 	}
+
+	unsigned int AObject::getBufferSize() const
+	{
+		return sizeof(Data);
+	}
+
+	void AObject::copyToBuffer(void *data) const
+	{
+		auto dat = reinterpret_cast<Data *>(data);
+
+		dat->_position = this->_position;
+		dat->_speed = this->_speed;
+		dat->_gravity = this->_gravity;
+		dat->_airDrag = this->_airDrag;
+		dat->_groundDrag = this->_groundDrag;
+		dat->_action = this->_action;
+		dat->_actionBlock = this->_actionBlock;
+		dat->_animation = this->_animation;
+		dat->_animationCtr = this->_animationCtr;
+		dat->_hp = this->_hp;
+		dat->_rotation = this->_rotation;
+		dat->_team = this->_team;
+		dat->_dead = this->_dead;
+		dat->_hasHit = this->_hasHit;
+		dat->_direction = this->_direction;
+		dat->_cornerPriority = this->_cornerPriority;
+		dat->_dir = this->_dir;
+	}
+
+	void AObject::restoreFromBuffer(void *data)
+	{
+		auto dat = reinterpret_cast<Data *>(data);
+
+		this->_position = dat->_position;
+		this->_speed = dat->_speed;
+		this->_gravity = dat->_gravity;
+		this->_airDrag = dat->_airDrag;
+		this->_groundDrag = dat->_groundDrag;
+		this->_action = dat->_action;
+		this->_actionBlock = dat->_actionBlock;
+		this->_animation = dat->_animation;
+		this->_animationCtr = dat->_animationCtr;
+		this->_hp = dat->_hp;
+		this->_rotation = dat->_rotation;
+		this->_team = dat->_team;
+		this->_dead = dat->_dead;
+		this->_hasHit = dat->_hasHit;
+		this->_direction = dat->_direction;
+		this->_cornerPriority = dat->_cornerPriority;
+		this->_dir = dat->_dir;
+	}
+
+	unsigned int AObject::getClassId() const
+	{
+		return 0;
+	}
 }

@@ -16,7 +16,7 @@
 namespace Battle
 {
 	class CharacterSelect : public IScene {
-	private:
+	protected:
 		struct CharacterEntry {
 			nlohmann::json entry;
 			int pos;

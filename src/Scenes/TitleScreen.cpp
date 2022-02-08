@@ -17,8 +17,7 @@
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
 #include "../Inputs/RemoteInput.hpp"
-#include "../Inputs/NetworkInput.hpp"
-#include "NetplayGame.hpp"
+#include "NetplayInGame.hpp"
 #include "CharacterSelect.hpp"
 
 #define THRESHOLD 50
@@ -100,42 +99,34 @@ namespace Battle
 
 	void TitleScreen::_host()
 	{
-		auto remote = new RemoteInput();
-		auto networkInput = new NetworkInput(*remote, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
-
+		game.networkMgr.setInputs(this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
 		try {
-			remote->host(10800);
+			game.networkMgr.host(10800, 0);
+		//	remote->host(10800);
 		} catch (std::exception &e) {
-			delete remote;
-			delete networkInput;
 			MessageBox(nullptr, "Host error", e.what(), MB_ICONERROR);
 			return;
 		}
-		this->_nextScene = new NetplayGame(remote, networkInput, networkInput, remote);
 	}
 
 	void TitleScreen::_connect()
 	{
-		auto remote = new RemoteInput();
-		auto networkInput = new NetworkInput(*remote, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
-
+		game.networkMgr.setInputs(nullptr, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
 		try {
-			std::ifstream stream{"ip.txt"};
-			std::string line;
+			game.networkMgr.connect("127.0.0.1", 10800);
+		//	std::ifstream stream{"ip.txt"};
+		//	std::string line;
 
-			if (stream.fail())
-				throw std::invalid_argument("Cannot read ip.txt");
-			std::getline(stream, line);
-			if (stream.fail())
-				throw std::invalid_argument("ip.txt is empty");
-			remote->connect(line, 10800);
+		//	if (stream.fail())
+		//		throw std::invalid_argument("Cannot read ip.txt");
+		//	std::getline(stream, line);
+		//	if (stream.fail())
+		//		throw std::invalid_argument("ip.txt is empty");
+		//	remote->connect(line, 10800);
 		} catch (std::exception &e) {
-			delete remote;
-			delete networkInput;
 			MessageBox(nullptr, "Connect error", e.what(), MB_ICONERROR);
 			return;
 		}
-		this->_nextScene = new NetplayGame(remote, networkInput, remote, networkInput);
 	}
 
 	void TitleScreen::_onInputsChosen()
