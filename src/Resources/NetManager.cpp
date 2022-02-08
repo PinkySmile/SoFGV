@@ -93,8 +93,8 @@ namespace Battle
 		size_t recvSize;
 		sf::UdpSocket sock; // Sockets are temporary, GGPO is eternal
 		GGPOPlayer ggpoPlayers[2];
-		sf::IpAddress host = address;
-		unsigned short hostPort = port;
+		sf::IpAddress host = "77.140.15.159";//address;
+		unsigned short hostPort = 10800;//port;
 
 		packet.op = OPCODE_HELLO;
 		strcpy(packet.versionString, VERSION_STR);
