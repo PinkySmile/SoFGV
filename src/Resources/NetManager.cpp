@@ -138,11 +138,11 @@ namespace Battle
 		sf::UdpSocket sock; // Sockets are temporary, GGPO is eternal
 		sf::IpAddress tmp = sf::IpAddress::Any;
 		unsigned short tmpPort = port;
-		GGPOPlayer ggpoPlayers[2 + spectators];
+		auto ggpoPlayers = new GGPOPlayer[2 + spectators];
 		sf::IpAddress player;
 		unsigned short playerPort;
-		sf::IpAddress spectator[spectators];
-		unsigned short spectatorPort[spectators];
+		auto spectator = new sf::IpAddress[spectators];
+		auto spectatorPort = new unsigned short[spectators];
 
 		logger.info("Bind socket on port " + std::to_string(port));
 		sock.bind(port);
@@ -196,6 +196,9 @@ namespace Battle
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 		logger.debug("All done!");
+		delete[] ggpoPlayers;
+		delete[] spectator;
+		delete[] spectatorPort;
 	}
 
 	void NetManager::nextFrame()
