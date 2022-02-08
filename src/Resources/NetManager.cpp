@@ -246,6 +246,7 @@ namespace Battle
 			}
 		} catch (GGPOError &e) {
 			logger.warn("Inputs are being ignored: " + std::string(e.what()));
+			ggpo_idle(this->_ggpoSession, 1000 / 60);
 			return;
 		}
 
