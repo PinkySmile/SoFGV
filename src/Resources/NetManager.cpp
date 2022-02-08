@@ -213,8 +213,8 @@ namespace Battle
 
 				auto input = this->_leftRealInput->getInputs();
 
-				for (int i = 0; i < INPUT_NUMBER - 1; i++)
-					inputs[i] = ((int *)&input)[i] != 0;
+				for (int i = 4; i < INPUT_NUMBER - 1; i++)
+					inputs[i] = ((int *)&input)[i - 2] != 0;
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[0], &inputs, sizeof(inputs));
 
 				if (result)
@@ -225,8 +225,12 @@ namespace Battle
 
 				auto input = this->_rightRealInput->getInputs();
 
-				for (int i = 0; i < INPUT_NUMBER - 1; i++)
-					inputs[i] = ((int *)&input)[i] != 0;
+				inputs[INPUT_UP] = input.verticalAxis > 0;
+				inputs[INPUT_DOWN] = input.verticalAxis < 0;
+				inputs[INPUT_LEFT] = input.horizontalAxis < 0;
+				inputs[INPUT_RIGHT] = input.horizontalAxis > 0;
+				for (int i = 4; i < INPUT_NUMBER - 1; i++)
+					inputs[i] = ((int *)&input)[i - 2] != 0;
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[1], &inputs, sizeof(inputs));
 
 				if (result)

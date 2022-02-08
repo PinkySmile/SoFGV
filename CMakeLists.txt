@@ -7,6 +7,7 @@ add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
+find_package(GGPO REQUIRED)
 include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS})
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
@@ -111,7 +112,7 @@ target_link_libraries(
 	${SFML_SYSTEM_LIB}
 	${SFML_WINDOW_LIB}
 	${SFML_NETWORK_LIB}
-	${GGPO_DIR}/libGGPO.dll.a
+	${GGPO_LIBRARIES}
 	ws2_32
 )
 
@@ -182,6 +183,6 @@ target_link_libraries(
 	${SFML_AUDIO_LIB}
 	${SFML_NETWORK_LIB}
 	${TGUI_LIB}
-	${GGPO_DIR}/libGGPO.dll.a
+	${GGPO_LIBRARIES}
 	ws2_32
 )
