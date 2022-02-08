@@ -26,9 +26,27 @@ namespace Battle
 
 	class AObject : public IObject {
 	protected:
-		mutable Sprite _sprite;
+		struct Data {
+			Vector2f _position;
+			Vector2f _speed;
+			Vector2f _gravity;
+			Vector2f _airDrag;
+			Vector2f _groundDrag;
+			unsigned short _action;
+			unsigned short _actionBlock;
+			unsigned short _animation;
+			unsigned short _animationCtr;
+			short _hp;
+			float _rotation;
+			unsigned _team;
+			bool _dead;
+			bool _hasHit;
+			bool _direction;
+			char _cornerPriority;
+			float _dir;
+		};
 
-		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
+		// Game State
 		Vector2f _position = {0, 0};
 		Vector2f _speed = {0, 0};
 		Vector2f _gravity = {0, 0};
@@ -47,13 +65,15 @@ namespace Battle
 		char _cornerPriority = 0;
 		float _dir = -1;
 
+		// Non Game State
+		mutable Sprite _sprite;
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
 		Vector2f _baseGroundDrag = {0, 0};
 		Vector2f _baseAirDrag = {0, 0};
 		short _baseHp = 0;
 
-		AObject() = default;
 		void _drawBox(const Rectangle &box, const sf::Color &color) const;
 		std::vector<Rectangle> _getModifiedBoxes(const FrameData &data, const std::vector<Box> &) const;
 		std::vector<Rectangle> _getModifiedHurtBoxes() const;
@@ -76,6 +96,7 @@ namespace Battle
 		bool showBoxes = false;
 		#endif
 
+		AObject() = default;
 		~AObject() override = default;
 		void render() const override;
 		void update() override;
@@ -88,6 +109,10 @@ namespace Battle
 		bool collides(const IObject &other) const override;
 		const FrameData *getCurrentFrameData() const override;
 		void kill() override;
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		unsigned int getClassId() const override;
 
 		friend class BattleManager;
 		friend class ACharacter;

@@ -102,4 +102,9 @@ namespace Battle
 	{
 
 	}
+
+	std::shared_ptr<IObject> EditableObject::copy()
+	{
+		return std::shared_ptr<IObject>();
+	}
 }

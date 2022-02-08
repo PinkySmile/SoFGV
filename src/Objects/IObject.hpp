@@ -10,6 +10,8 @@
 
 namespace Battle
 {
+	class BattleManager;
+
 	class IObject {
 	public:
 		virtual ~IObject() = default;
@@ -24,6 +26,10 @@ namespace Battle
 		virtual const FrameData *getCurrentFrameData() const = 0;
 		virtual void collide(IObject &other) = 0;
 		virtual void kill() = 0;
+		virtual unsigned getBufferSize() const = 0;
+		virtual void copyToBuffer(void *data) const = 0;
+		virtual void restoreFromBuffer(void *data) = 0;
+		virtual unsigned getClassId() const = 0;
 	};
 }
 
