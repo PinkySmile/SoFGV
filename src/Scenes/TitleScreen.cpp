@@ -99,7 +99,7 @@ namespace Battle
 
 	void TitleScreen::_host()
 	{
-		game.networkMgr.setInputs(this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
+		game.networkMgr.setInputs(this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
 		try {
 			game.networkMgr.host(10800, 0);
 		//	remote->host(10800);
@@ -111,7 +111,7 @@ namespace Battle
 
 	void TitleScreen::_connect()
 	{
-		game.networkMgr.setInputs(nullptr, this->_leftInput ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
+		game.networkMgr.setInputs(nullptr, this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
 		try {
 			game.networkMgr.connect("127.0.0.1", 10800);
 		//	std::ifstream stream{"ip.txt"};

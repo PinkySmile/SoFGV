@@ -96,34 +96,36 @@ namespace Battle
 		sf::IpAddress host = address;
 		unsigned short hostPort = port;
 
-		packet.op = OPCODE_HELLO;
-		strcpy(packet.versionString, VERSION_STR);
-		sock.send(&packet, sizeof(packet), host, hostPort);
-		logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
-		sock.receive(&packet, sizeof(packet), recvSize, host, hostPort);
-		logger.info("Server responded with opcode " + std::to_string(packet.op));
-		if (recvSize != sizeof(Packet)) {
-			logger.error("Bad packet.");
-			return false;
-		}
-		if (packet.op != OPCODE_OLLEH) {
-			logger.error("Connection failed.");
-			return false;
-		}
-		sock.setBlocking(false);
-		sock.unbind();
+		//packet.op = OPCODE_HELLO;
+		//strcpy(packet.versionString, VERSION_STR);
+		//sock.send(&packet, sizeof(packet), host, hostPort);
+		//logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
+		//sock.receive(&packet, sizeof(packet), recvSize, host, hostPort);
+		//logger.info("Server responded with opcode " + std::to_string(packet.op));
+		//if (recvSize != sizeof(Packet)) {
+		//	logger.error("Bad packet.");
+		//	return false;
+		//}
+		//if (packet.op != OPCODE_OLLEH) {
+		//	logger.error("Connection failed.");
+		//	return false;
+		//}
+		//sock.setBlocking(false);
+		//sock.unbind();
 
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 2;
-		strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
-		ggpoPlayers[0].u.remote.port = hostPort;
+		//strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
+		//ggpoPlayers[0].u.remote.port = hostPort;
+		strcpy(ggpoPlayers[0].u.remote.ip_address, "77.140.15.159");
+		ggpoPlayers[0].u.remote.port = 10800;
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 1;
 
-		this->_initGGPO(hostPort, 0);
+		this->_initGGPO(10900, 0);
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
@@ -144,42 +146,42 @@ namespace Battle
 		auto spectator = new sf::IpAddress[spectators];
 		auto spectatorPort = new unsigned short[spectators];
 
-		logger.info("Bind socket on port " + std::to_string(port));
-		sock.bind(port);
-		while (true) {
-			player = sf::IpAddress::Any;
-			playerPort = port;
-			sock.receive(&packet, sizeof(packet), recvSize, player, playerPort);
-			logger.info("Received packet from " + player.toString() + ":" + std::to_string(playerPort));
-			if (recvSize != sizeof(Packet)) {
-				logger.error("Bad packet");
-				packet.op = OPCODE_ERROR;
-				packet.error = ERROR_BAD_PACKET;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				continue;
-			}
-			if (packet.op == OPCODE_HELLO) {
-				if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) == 0) {
-					packet.op = OPCODE_OLLEH;
-					sock.send(&packet, sizeof(packet), player, playerPort);
-					break;
-				} else {
-					logger.error("Version mismatch (expected " VERSION_STR " but got " + std::string(packet.versionString));
-					packet.op = OPCODE_ERROR;
-					packet.error = ERROR_VERSION_MISMATCH;
-					sock.send(&packet, sizeof(packet), player, playerPort);
-					continue;
-				}
-			} else {
-				logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
-				packet.op = OPCODE_ERROR;
-				packet.error = ERROR_UNEXPECTED_OPCODE;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				continue;
-			}
-		}
-		sock.setBlocking(false);
-		sock.unbind();
+		//logger.info("Bind socket on port " + std::to_string(port));
+		//sock.bind(port);
+		//while (true) {
+		//	player = sf::IpAddress::Any;
+		//	playerPort = port;
+		//	sock.receive(&packet, sizeof(packet), recvSize, player, playerPort);
+		//	logger.info("Received packet from " + player.toString() + ":" + std::to_string(playerPort));
+		//	if (recvSize != sizeof(Packet)) {
+		//		logger.error("Bad packet");
+		//		packet.op = OPCODE_ERROR;
+		//		packet.error = ERROR_BAD_PACKET;
+		//		sock.send(&packet, sizeof(packet), player, playerPort);
+		//		continue;
+		//	}
+		//	if (packet.op == OPCODE_HELLO) {
+		//		if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) == 0) {
+		//			packet.op = OPCODE_OLLEH;
+		//			sock.send(&packet, sizeof(packet), player, playerPort);
+		//			break;
+		//		} else {
+		//			logger.error("Version mismatch (expected " VERSION_STR " but got " + std::string(packet.versionString));
+		//			packet.op = OPCODE_ERROR;
+		//			packet.error = ERROR_VERSION_MISMATCH;
+		//			sock.send(&packet, sizeof(packet), player, playerPort);
+		//			continue;
+		//		}
+		//	} else {
+		//		logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
+		//		packet.op = OPCODE_ERROR;
+		//		packet.error = ERROR_UNEXPECTED_OPCODE;
+		//		sock.send(&packet, sizeof(packet), player, playerPort);
+		//		continue;
+		//	}
+		//}
+		//sock.setBlocking(false);
+		//sock.unbind();
 
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
@@ -188,10 +190,12 @@ namespace Battle
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[2]);
 		ggpoPlayers[1].player_num = 2;
-		strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
-		ggpoPlayers[1].u.remote.port = playerPort;
+		strcpy(ggpoPlayers[1].u.remote.ip_address, "127.0.0.1");
+		ggpoPlayers[1].u.remote.port = 10900;
+		//strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
+		//ggpoPlayers[1].u.remote.port = playerPort;
 
-		this->_initGGPO(playerPort, spectators);
+		this->_initGGPO(10800, spectators);
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
@@ -213,6 +217,10 @@ namespace Battle
 
 				auto input = this->_leftRealInput->getInputs();
 
+				inputs[INPUT_UP] = input.verticalAxis > 0;
+				inputs[INPUT_DOWN] = input.verticalAxis < 0;
+				inputs[INPUT_LEFT] = input.horizontalAxis < 0;
+				inputs[INPUT_RIGHT] = input.horizontalAxis > 0;
 				for (int i = 4; i < INPUT_NUMBER - 1; i++)
 					inputs[i] = ((int *)&input)[i - 2] != 0;
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[0], &inputs, sizeof(inputs));
