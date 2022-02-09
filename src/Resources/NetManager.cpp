@@ -129,6 +129,8 @@ namespace Battle
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
 		logger.debug("All done!");
 		return true;
 	}
@@ -190,15 +192,15 @@ namespace Battle
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[2]);
 		ggpoPlayers[1].player_num = 2;
-		//strcpy(ggpoPlayers[1].u.remote.ip_address, "90.93.184.132");
 		ggpoPlayers[1].u.remote.port = 10900;
 		strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
-		//ggpoPlayers[1].u.remote.port = playerPort;
 
-		this->_initGGPO(10800, spectators);
+		this->_initGGPO(port, spectators);
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
 		logger.debug("All done!");
 		delete[] ggpoPlayers;
 		delete[] spectator;
