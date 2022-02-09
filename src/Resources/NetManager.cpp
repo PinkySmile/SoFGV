@@ -129,7 +129,6 @@ namespace Battle
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
-		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
 		logger.debug("All done!");
 		return true;
@@ -200,7 +199,6 @@ namespace Battle
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
-		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
 		logger.debug("All done!");
 		delete[] ggpoPlayers;
 		delete[] spectator;
