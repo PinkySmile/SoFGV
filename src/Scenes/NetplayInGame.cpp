@@ -7,9 +7,15 @@
 #include "../Logger.hpp"
 #include "NetplayInGame.hpp"
 #include "NetplayCharacterSelect.hpp"
+#include "TitleScreen.hpp"
 
 namespace Battle
 {
+	NetplayInGame::~NetplayInGame()
+	{
+		logger.debug("NetplayInGame scene destroyed");
+	}
+
 	NetplayInGame::NetplayInGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(leftChr, rightChr, lJson, rJson)
 	{
@@ -30,6 +36,8 @@ namespace Battle
 		auto linput = game.battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game.battleMgr->getRightCharacter()->getInput();
 
+		if( !game.networkMgr.isConnected())
+			return new TitleScreen(game.P1, game.P2);
 		if (this->_moveList)
 			this->_moveListUpdate();
 		else if (!this->_paused) {
@@ -42,7 +50,7 @@ namespace Battle
 		if (!this->_nextScene)
 			game.networkMgr.nextFrame();
 		else
-			game.networkMgr.endSession();
+			return game.networkMgr.endSession(), new TitleScreen(game.P1, game.P2);
 		return this->_nextScene;
 	}
 
@@ -58,7 +66,8 @@ namespace Battle
 
 		if (data)
 			game.battleMgr->copyToBuffer(data);
-		*len = size;
+		if (len)
+			*len = size;
 	}
 
 	void NetplayInGame::_loadState(void *data)
@@ -68,11 +77,8 @@ namespace Battle
 
 	IScene *NetplayInGame::_realUpdate()
 	{
-		if (this->_nextScene)
-			return this->_nextScene;
-
 		if (!Battle::game.battleMgr->update())
-			this->_nextScene = new NetplayCharacterSelect();
-		return this->_nextScene;
+			return new NetplayCharacterSelect();
+		return nullptr;
 	}
 }

@@ -22,10 +22,9 @@ namespace Battle
 
 	public:
 		NetplayInGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		~NetplayInGame();
 		IScene *update() override;
-
 		void render() const override;
-
 		void consumeEvent(const sf::Event &event) override;
 	};
 }

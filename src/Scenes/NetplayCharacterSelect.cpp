@@ -5,16 +5,32 @@
 #include "NetplayCharacterSelect.hpp"
 #include "../Resources/Game.hpp"
 #include "NetplayInGame.hpp"
+#include "TitleScreen.hpp"
+#include "../Logger.hpp"
 
 namespace Battle
 {
 	NetplayCharacterSelect::NetplayCharacterSelect() :
 		CharacterSelect(game.networkMgr._leftInput, game.networkMgr._rightInput)
 	{
+		logger.info("NetplayCharacterSelect scene created");
+	}
+
+	NetplayCharacterSelect::~NetplayCharacterSelect()
+	{
+		logger.info("NetplayCharacterSelect scene destroyed");
+	}
+
+	void NetplayCharacterSelect::consumeEvent(const sf::Event &event)
+	{
+		CharacterSelect::consumeEvent(event);
+		game.networkMgr.consumeEvent(event);
 	}
 
 	IScene *NetplayCharacterSelect::update()
 	{
+		if (!game.networkMgr.isConnected())
+			return new TitleScreen(game.P1, game.P2);
 		game.networkMgr.nextFrame();
 		return nullptr;
 	}
@@ -29,7 +45,8 @@ namespace Battle
 			savedData[2] = this->_leftPalette;
 			savedData[3] = this->_rightPalette;
 		}
-		*len = 4 * sizeof(int);
+		if (len)
+			*len = 4 * sizeof(int);
 	}
 
 	void NetplayCharacterSelect::_loadState(void *data)

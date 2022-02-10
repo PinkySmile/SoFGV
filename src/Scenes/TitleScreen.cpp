@@ -24,6 +24,17 @@
 
 namespace Battle
 {
+	static const char * const menuItems[] = {
+		"Play",
+		"Host",
+		"Connect",
+		"Settings",
+		"Quit",
+#ifdef _DEBUG
+		"GGPO sync test"
+#endif
+	};
+
 	TitleScreen::TitleScreen(
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
@@ -51,20 +62,10 @@ namespace Battle
 
 	void TitleScreen::render() const
 	{
-		game.screen->fillColor(this->_selectedEntry == 0 ? sf::Color::Red : sf::Color::Black);
-		game.screen->displayElement("Play", {100, 100});
-
-		game.screen->fillColor(this->_selectedEntry == 1 ? sf::Color::Red : sf::Color::Black);
-		game.screen->displayElement("Host", {100, 140});
-
-		game.screen->fillColor(this->_selectedEntry == 2 ? sf::Color::Red : sf::Color::Black);
-		game.screen->displayElement("Connect", {100, 180});
-
-		game.screen->fillColor(this->_selectedEntry == 3 ? sf::Color::Red : sf::Color::Black);
-		game.screen->displayElement("Settings", {100, 220});
-
-		game.screen->fillColor(this->_selectedEntry == 4 ? sf::Color::Red : sf::Color::Black);
-		game.screen->displayElement("Quit", {100, 260});
+		for (unsigned i = 0; i < sizeof(menuItems) / sizeof(*menuItems); i++) {
+			game.screen->fillColor(this->_selectedEntry == i ? sf::Color::Red : sf::Color::Black);
+			game.screen->displayElement(menuItems[i], {100, static_cast<float>(100 + i * 40)});
+		}
 
 		if (this->_askingInputs)
 			this->_showAskInputBox();
@@ -147,6 +148,13 @@ namespace Battle
 			break;
 		case 2:
 			this->_connect();
+			break;
+		case 5:
+			game.networkMgr.setInputs(
+				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
+				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
+			);
+			game.networkMgr.startSyncTest();
 			break;
 		}
 	}
@@ -251,7 +259,7 @@ namespace Battle
 
 		this->_usingKeyboard = false;
 		if (this->_askingInputs && ev.button == 0) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0))
+			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 5))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (this->_leftInput != ev.joystickId + 2)
@@ -285,13 +293,13 @@ namespace Battle
 		else
 			game.screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		if (this->_selectedEntry == 0)
+		if (this->_selectedEntry == 0 || this->_selectedEntry == 5)
 			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game.screen->displayElement("P2", {540 + 420, 190});
 		game.screen->fillColor(sf::Color::White);
-		if (this->_leftInput && this->_selectedEntry == 0) {
+		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 5)) {
 			if (this->_rightInput)
 				game.screen->displayElement(
 					this->_rightInput == 1 ?
@@ -305,7 +313,7 @@ namespace Battle
 				game.screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || this->_selectedEntry != 0))
+		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 5)))
 			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -344,9 +352,9 @@ namespace Battle
 		}
 		if (this->_askingInputs)
 			return;
-		this->_selectedEntry += 5;
+		this->_selectedEntry += sizeof(menuItems) / sizeof(*menuItems);
 		this->_selectedEntry--;
-		this->_selectedEntry %= 5;
+		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
 	}
 
 	void TitleScreen::_onGoDown()
@@ -359,7 +367,7 @@ namespace Battle
 		if (this->_askingInputs)
 			return;
 		this->_selectedEntry++;
-		this->_selectedEntry %= 5;
+		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
 	}
 
 	void TitleScreen::_onGoLeft()
@@ -385,7 +393,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0))
+			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 5)))
 				this->_onInputsChosen();
 			else if (this->_leftInput)
 				this->_rightInput = 1;
@@ -407,6 +415,9 @@ namespace Battle
 		case 4:
 			game.screen->close();
 			break;
+		case 5:
+			this->_askingInputs = true;
+			break;
 		default:
 			break;
 		}
@@ -419,7 +430,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput && this->_selectedEntry == 0)
+			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 5))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;

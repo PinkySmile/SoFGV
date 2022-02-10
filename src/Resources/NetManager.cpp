@@ -81,6 +81,32 @@ namespace Battle
 		ggpo_set_disconnect_notify_start(this->_ggpoSession, 1000);
 	}
 
+	void NetManager::_initGGPOSyncTest()
+	{
+		WSADATA wd;
+		GGPOErrorCode result;
+		GGPOSessionCallbacks cb;
+
+		logger.debug("Starting GGPO sync test.");
+		WSAStartup(MAKEWORD(2, 2), &wd);
+		assert(!this->_ggpoSession);
+		/* fill in all callback functions */
+		cb.begin_game = GGPONetplay::startGame;
+		cb.save_game_state = GGPONetplay::saveState;
+		cb.load_game_state = GGPONetplay::loadState;
+		cb.log_game_state = GGPONetplay::logState;
+		cb.free_buffer = GGPONetplay::freeBuffer;
+		cb.advance_frame = GGPONetplay::updateGame;
+		cb.on_event = GGPONetplay::onEvent;
+
+		/* Start a new session */
+		result = ggpo_start_synctest(&this->_ggpoSession, &cb, "stickman_fighter_v0.0.1", 2, sizeof(RemoteInput::_keyStates), 1);
+		if (result)
+			throw GGPOError(result);
+		ggpo_set_disconnect_timeout(this->_ggpoSession, 4000);
+		ggpo_set_disconnect_notify_start(this->_ggpoSession, 1000);
+	}
+
 	bool NetManager::spectate(const std::string &address, unsigned short port)
 	{
 		//this->_initGGPO(myPort, 0);
@@ -189,7 +215,7 @@ namespace Battle
 		ggpoPlayers[0].player_num = 1;
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
-		ggpoPlayers[1].size = sizeof(ggpoPlayers[2]);
+		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 2;
 		ggpoPlayers[1].u.remote.port = 10900;
 		strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
@@ -203,6 +229,27 @@ namespace Battle
 		delete[] ggpoPlayers;
 		delete[] spectator;
 		delete[] spectatorPort;
+	}
+
+	void NetManager::startSyncTest()
+	{
+		GGPOPlayer ggpoPlayers[2];
+
+		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
+		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
+		ggpoPlayers[0].player_num = 1;
+
+		ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
+		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
+		ggpoPlayers[1].player_num = 2;
+
+		this->_initGGPOSyncTest();
+		logger.debug("Adding GGPO players.");
+		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
+		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
+		logger.debug("All done!");
 	}
 
 	void NetManager::nextFrame()
@@ -223,6 +270,15 @@ namespace Battle
 				inputs[INPUT_RIGHT] = input.horizontalAxis > 0;
 				for (int i = 4; i < INPUT_NUMBER - 1; i++)
 					inputs[i] = ((int *)&input)[i - 2] != 0;
+#ifdef _DEBUG
+				std::string str;
+
+				str.reserve(INPUT_NUMBER - 1);
+				for (int i = 0; i < INPUT_NUMBER - 1; i++)
+					str += inputs[i] ? "1" : "0";
+
+				logger.debug("Adding left inputs (" + str + ")");
+#endif
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[0], &inputs, sizeof(inputs));
 
 				if (result)
@@ -239,6 +295,15 @@ namespace Battle
 				inputs[INPUT_RIGHT] = input.horizontalAxis > 0;
 				for (int i = 4; i < INPUT_NUMBER - 1; i++)
 					inputs[i] = ((int *)&input)[i - 2] != 0;
+#ifdef _DEBUG
+				std::string str;
+
+				str.reserve(INPUT_NUMBER - 1);
+				for (int i = 0; i < INPUT_NUMBER - 1; i++)
+					str += inputs[i] ? "1" : "0";
+
+				logger.debug("Adding right inputs (" + str + ")");
+#endif
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[1], &inputs, sizeof(inputs));
 
 				if (result)
@@ -273,27 +338,10 @@ namespace Battle
 
 		stream >> json;
 
-		auto scene = std::make_shared<NetplayInGame>(
-			new ACharacter{
-				json[0]["framedata"],
-				json[0]["subobjects"],
-				std::pair<std::vector<Color>, std::vector<Color>>{{}, {}},
-				game.networkMgr._leftInput
-			},
-			new ACharacter{
-				json[0]["framedata"],
-				json[0]["subobjects"],
-				std::pair<std::vector<Color>, std::vector<Color>>{
-					std::vector<Color>{Color{{0, 0, 0, 0xFF}}},
-					std::vector<Color>{Color{{255, 0, 0, 0xFF}}}
-				},
-				game.networkMgr._rightInput
-			},
-			json[0],
-			json[0]
-		);
+		auto scene = std::make_shared<NetplayCharacterSelect>();
 
 		this->_netScene = &*scene;
+		this->_characterSelect = scene;
 		this->_scene = scene;
 		game.scene = scene;
 	}
@@ -318,15 +366,35 @@ namespace Battle
 			this->_rightInput->_keyStates = inputs[1];
 
 			auto scene = this->_netScene->_realUpdate();
+#ifdef _DEBUG
+			std::string str;
+
+			str.reserve(INPUT_NUMBER * 2);
+			for (int i = 0; i < INPUT_NUMBER - 1; i++)
+				str += this->_leftInput->_keyStates[i] ? "1" : "0";
+			str += ", ";
+			for (int i = 0; i < INPUT_NUMBER - 1; i++)
+				str += this->_rightInput->_keyStates[i] ? "1" : "0";
+
+			logger.debug("Frame advance (" + str + ")");
+#endif
 
 			if (scene) {
 				auto netScene = dynamic_cast<NetplayScene *>(scene);
+				auto characterSelect = dynamic_cast<NetplayCharacterSelect *>(scene);
+				auto inGame = dynamic_cast<NetplayInGame *>(scene);
 
-				game.scene.reset(scene);
 				assert(netScene);
+				assert(characterSelect || inGame);
+				if (characterSelect) {
+					this->_characterSelect.reset(characterSelect);
+					game.scene = this->_characterSelect;
+				} else {
+					this->_inGame.reset(inGame);
+					game.scene = this->_inGame;
+				}
 				this->_netScene = netScene;
 			}
-			logger.debug("Frame advance");
 			ggpo_advance_frame(this->_ggpoSession);
 		} catch (GGPOError &e) {
 			logger.warn("Frame skipped: " + std::string(e.what()));
@@ -344,22 +412,33 @@ namespace Battle
 		this->_netScene->_saveState(nullptr, len);
 		*len += sizeof(Data);
 		*buffer = new char[*len];
+		memset(*buffer, 0, *len);
 
 		auto data = reinterpret_cast<Data *>(*buffer);
 
-		data->isCharSelect = dynamic_cast<NetplayInGame *>(this->_netScene) != nullptr;
-		data->leftInputs = this->_leftInput->_keyDuration;
-		data->rightInputs = this->_rightInput->_keyDuration;
-		this->_netScene->_saveState(&data[1], len);
+		data->isCharSelect = &*this->_characterSelect == this->_netScene;
+		for (size_t i = 0; i < this->_leftInput->_keyDuration.size(); i++)
+			data->leftInputs[i] = this->_leftInput->_keyDuration[i];
+		for (size_t i = 0; i < this->_rightInput->_keyDuration.size(); i++)
+			data->rightInputs[i] = this->_rightInput->_keyDuration[i];
+		this->_netScene->_saveState(&data[1], nullptr);
 	}
 
 	void NetManager::load(void *buffer)
 	{
 		auto data = reinterpret_cast<Data *>(buffer);
 
-		assert(data->isCharSelect == (dynamic_cast<NetplayInGame *>(this->_netScene) != nullptr));
-		this->_leftInput->_keyDuration = data->leftInputs;
-		this->_rightInput->_keyDuration = data->rightInputs;
+		if (data->isCharSelect) {
+			this->_netScene = &*this->_characterSelect;
+			game.scene = this->_characterSelect;
+		} else {
+			this->_netScene = &*this->_inGame;
+			game.scene = this->_inGame;
+		}
+		for (size_t i = 0; i < this->_leftInput->_keyDuration.size(); i++)
+			this->_leftInput->_keyDuration[i] = data->leftInputs[i];
+		for (size_t i = 0; i < this->_rightInput->_keyDuration.size(); i++)
+			this->_rightInput->_keyDuration[i] = data->rightInputs[i];
 		this->_netScene->_loadState(&data[1]);
 	}
 
@@ -415,7 +494,7 @@ namespace Battle
 		shape.setFillColor(sf::Color{0x00, 0x00, 0x00, 0x80});
 		shape.setOutlineColor(sf::Color::Transparent);
 		if (this->_interrupted) {
-			this->_interruptedSprite.setTextureRect({0, static_cast<int>(this->_timer) / 60 % 2 * 163, 264, 163});
+			this->_interruptedSprite.setTextureRect({0, static_cast<int>(this->_timer) / 60 % 2 * 164, 264, 164});
 			game.screen->draw(shape);
 			game.screen->draw(this->_interruptedSprite);
 		}

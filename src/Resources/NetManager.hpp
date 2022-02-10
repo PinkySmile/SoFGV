@@ -11,6 +11,8 @@
 #include "../Inputs/RemoteInput.hpp"
 #include "../Scenes/NetplayScene.hpp"
 #include "../Scenes/IScene.hpp"
+#include "../Scenes/NetplayInGame.hpp"
+#include "../Scenes/NetplayCharacterSelect.hpp"
 
 namespace Battle
 {
@@ -27,8 +29,8 @@ namespace Battle
 	private:
 		struct Data {
 			bool isCharSelect;
-			std::array<int, INPUT_NUMBER - 1> leftInputs;
-			std::array<int, INPUT_NUMBER - 1> rightInputs;
+			int leftInputs[INPUT_NUMBER - 1];
+			int rightInputs[INPUT_NUMBER - 1];
 		};
 
 		unsigned _timer = 0;
@@ -38,11 +40,14 @@ namespace Battle
 		NetplayScene *_netScene;
 		GGPOSession *_ggpoSession;
 		std::shared_ptr<IScene> _scene;
+		std::shared_ptr<NetplayInGame> _inGame;
+		std::shared_ptr<NetplayCharacterSelect> _characterSelect;
 		GGPOPlayerHandle _playerHandles[2];
 		std::shared_ptr<IInput> _leftRealInput;
 		std::shared_ptr<IInput> _rightRealInput;
 
 		void _initGGPO(unsigned short port, unsigned int spectators);
+		void _initGGPOSyncTest();
 
 	public:
 		NetManager();
@@ -50,6 +55,7 @@ namespace Battle
 		std::shared_ptr<RemoteInput> _leftInput;
 		std::shared_ptr<RemoteInput> _rightInput;
 
+		void startSyncTest();
 		void consumeEvent(const sf::Event &event);
 		void consumeEvent(GGPOEvent *event);
 		bool isConnected() const;

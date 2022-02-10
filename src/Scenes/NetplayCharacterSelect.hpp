@@ -19,7 +19,10 @@ namespace Battle
 
 	public:
 		NetplayCharacterSelect();
+		~NetplayCharacterSelect();
 		IScene *update() override;
+
+		void consumeEvent(const sf::Event &event) override;
 	};
 }
 
