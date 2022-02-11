@@ -33,6 +33,9 @@ namespace Battle
 			int rightInputs[INPUT_NUMBER - 1];
 		};
 
+		unsigned _myPlayer = 0;
+		bool _host = false;
+		bool _connect = false;
 		unsigned _timer = 0;
 		sf::Texture _interruptedLogo;
 		sf::Sprite _interruptedSprite;
@@ -72,6 +75,10 @@ namespace Battle
 		void update();
 		void renderHUD();
 		void postRender();
+		void cancelHost();
+		bool isHosting();
+		bool isConnecting();
+
 		static void free(void *buffer);
 	};
 }

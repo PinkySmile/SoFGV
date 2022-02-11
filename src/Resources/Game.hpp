@@ -25,6 +25,7 @@ namespace Battle
 		bool hosting;
 		std::mt19937 random;
 		sf::Font font;
+		std::string lastIp = "127.0.0.1";
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		SoundManager soundMgr;

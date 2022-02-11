@@ -8,6 +8,7 @@
 
 #include <SFML/Graphics/Font.hpp>
 #include <memory>
+#include <thread>
 #include "IScene.hpp"
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
@@ -19,11 +20,12 @@ namespace Battle
 		std::vector<sf::Texture> _inputs;
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P1;
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P2;
-		sf::Font _font;
+		std::thread _thread;
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		unsigned _selectedEntry = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
+		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;
 		bool _usingKeyboard = false;
@@ -38,7 +40,9 @@ namespace Battle
 		void _onJoystickMoved(sf::Event::JoystickMoveEvent ev);
 		void _onJoystickPressed(sf::Event::JoystickButtonEvent ev);
 		void _showAskInputBox() const;
+		void _showHostMessage() const;
 		void _showEditKeysMenu() const;
+		void _showConnectMessage() const;
 		void _onGoUp();
 		void _onGoDown();
 		void _onGoLeft();
@@ -51,6 +55,7 @@ namespace Battle
 			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
 			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
 		);
+		~TitleScreen();
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

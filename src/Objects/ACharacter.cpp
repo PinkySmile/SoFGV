@@ -431,12 +431,18 @@ namespace Battle
 				this->_forceStartMove(ACTION_HARD_LAND);
 			else if (
 				this->_speed.y <= 0 &&
+				this->_action != ACTION_BEING_KNOCKED_DOWN &&
+				this->_action != ACTION_KNOCKED_DOWN &&
+				this->_action != ACTION_NEUTRAL_TECH &&
+				this->_action != ACTION_FORWARD_TECH &&
+				this->_action != ACTION_BACKWARD_TECH &&
+				this->_action != ACTION_FALLING_TECH &&
 				(
 					this->_action == ACTION_AIR_HIT ||
 					this->_action == ACTION_GROUND_SLAM ||
 					this->_action == ACTION_WALL_SLAM ||
 					limited ||
-					(this->_hp <= 0 && this->_action != ACTION_BEING_KNOCKED_DOWN && this->_action != ACTION_KNOCKED_DOWN)
+					this->_hp <= 0
 				)
 			) {
 				this->_blockStun = 0;
@@ -906,9 +912,6 @@ namespace Battle
 			action != ACTION_DOWN_AIR_TECH &&
 			action != ACTION_FORWARD_AIR_TECH &&
 			action != ACTION_BACKWARD_AIR_TECH &&
-			action != ACTION_NEUTRAL_TECH &&
-			action != ACTION_FORWARD_TECH &&
-			action != ACTION_BACKWARD_TECH &&
 			action != ACTION_BEING_KNOCKED_DOWN &&
 			action != ACTION_KNOCKED_DOWN
 		) {

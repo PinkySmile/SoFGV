@@ -119,22 +119,39 @@ namespace Battle
 		size_t recvSize;
 		sf::UdpSocket sock; // Sockets are temporary, GGPO is eternal
 		GGPOPlayer ggpoPlayers[2];
-		sf::IpAddress host = "77.140.15.159";//address;
-		unsigned short hostPort = 10800;//port;
+		sf::IpAddress host;
+		unsigned short hostPort;
+		auto attempts = 0;
+		sf::Socket::Status status;
 
-		packet.op = OPCODE_HELLO;
-		strcpy(packet.versionString, VERSION_STR);
-		sock.send(&packet, sizeof(packet), host, hostPort);
-		logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
-		sock.receive(&packet, sizeof(packet), recvSize, host, hostPort);
+		this->_myPlayer = 1;
+		this->_connect = true;
+		sock.setBlocking(false);
+		do {
+			host = address;
+			hostPort = port;
+			packet.op = OPCODE_HELLO;
+			strcpy(packet.versionString, VERSION_STR);
+			sock.send(&packet, sizeof(packet), host, hostPort);
+			logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
+			if (!this->_connect)
+				return false;
+			std::this_thread::sleep_for(std::chrono::milliseconds(50));
+			status = sock.receive(&packet, sizeof(packet), recvSize, host, hostPort);
+			if (status != sf::Socket::NotReady)
+				break;
+			attempts++;
+			if (attempts > 50)
+				return false;
+		} while (true);
 		logger.info("Server responded with opcode " + std::to_string(packet.op));
 		if (recvSize != sizeof(Packet)) {
-			logger.error("Bad packet.");
-			return false;
+			this->_connect = false;
+			throw std::invalid_argument("Bad packet (Received " + std::to_string(recvSize) + " bytes instead of " + std::to_string(sizeof(Packet)) + " bytes)");
 		}
 		if (packet.op != OPCODE_OLLEH) {
-			logger.error("Connection failed.");
-			return false;
+			this->_connect = false;
+			throw std::invalid_argument("Invalid opcode received (Received opcode " + std::to_string(packet.op) + " but expected opcode " + std::to_string(OPCODE_OLLEH) + ").");
 		}
 		sock.setBlocking(false);
 		sock.unbind();
@@ -143,8 +160,6 @@ namespace Battle
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 2;
 		strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
-		//ggpoPlayers[0].u.remote.port = hostPort;
-		//strcpy(ggpoPlayers[0].u.remote.ip_address, "77.140.15.159");
 		ggpoPlayers[0].u.remote.port = 10800;
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
@@ -157,6 +172,7 @@ namespace Battle
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
 		logger.debug("All done!");
+		this->_connect = false;
 		return true;
 	}
 
@@ -173,12 +189,23 @@ namespace Battle
 		auto spectator = new sf::IpAddress[spectators];
 		auto spectatorPort = new unsigned short[spectators];
 
+		this->_myPlayer = 0;
+		this->_host = true;
 		logger.info("Bind socket on port " + std::to_string(port));
 		sock.bind(port);
+		sock.setBlocking(false);
 		while (true) {
-			player = sf::IpAddress::Any;
-			playerPort = port;
-			sock.receive(&packet, sizeof(packet), recvSize, player, playerPort);
+			sf::Socket::Status status;
+
+			do {
+				player = sf::IpAddress::Any;
+				playerPort = port;
+				status = sock.receive(&packet, sizeof(packet), recvSize, player, playerPort);
+				if (!this->_host)
+					return;
+				if (status == sf::Socket::NotReady)
+					std::this_thread::sleep_for(std::chrono::milliseconds(50));
+			} while (status == sf::Socket::NotReady);
 			logger.info("Received packet from " + player.toString() + ":" + std::to_string(playerPort));
 			if (recvSize != sizeof(Packet)) {
 				logger.error("Bad packet");
@@ -207,7 +234,6 @@ namespace Battle
 				continue;
 			}
 		}
-		sock.setBlocking(false);
 		sock.unbind();
 
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
@@ -235,6 +261,7 @@ namespace Battle
 	{
 		GGPOPlayer ggpoPlayers[2];
 
+		this->_myPlayer = 0;
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
@@ -342,7 +369,7 @@ namespace Battle
 
 		this->_netScene = &*scene;
 		this->_characterSelect = scene;
-		this->_scene = scene;
+		this->_scene = game.scene;
 		game.scene = scene;
 	}
 
@@ -362,8 +389,8 @@ namespace Battle
 				this->endSession();
 				game.scene.reset(screen);
 			}
-			this->_leftInput->_keyStates = inputs[0];
-			this->_rightInput->_keyStates = inputs[1];
+			this->_leftInput->_keyStates = inputs[this->_myPlayer];
+			this->_rightInput->_keyStates = inputs[!this->_myPlayer];
 
 			auto scene = this->_netScene->_realUpdate();
 #ifdef _DEBUG
@@ -506,6 +533,22 @@ namespace Battle
 			this->_leftRealInput->consumeEvent(event);
 		if (this->_rightRealInput)
 			this->_rightRealInput->consumeEvent(event);
+	}
+
+	void NetManager::cancelHost()
+	{
+		this->_host = false;
+		this->_connect = false;
+	}
+
+	bool NetManager::isHosting()
+	{
+		return this->_host;
+	}
+
+	bool NetManager::isConnecting()
+	{
+		return this->_connect;
 	}
 
 	GGPOError::GGPOError(GGPOErrorCode code) :

@@ -4,21 +4,21 @@
 
 #ifdef _WIN32
 #include <windows.h>
-
-#include <utility>
 #else
 // TODO: Add proper message boxes on non windows systems
 #define MessageBox(...)
 #endif
+#include <utility>
+#include <clip.h>
 #include "TitleScreen.hpp"
-#include "../Resources/Game.hpp"
 #include "InGame.hpp"
+#include "NetplayInGame.hpp"
+#include "CharacterSelect.hpp"
+#include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
 #include "../Inputs/RemoteInput.hpp"
-#include "NetplayInGame.hpp"
-#include "CharacterSelect.hpp"
 
 #define THRESHOLD 50
 
@@ -60,6 +60,13 @@ namespace Battle
 		this->_inputs[INPUT_PAUSE].loadFromFile("assets/icons/inputs/pause.png");
 	}
 
+	TitleScreen::~TitleScreen()
+	{
+		logger.debug("~TitleScreen");
+		if (this->_thread.joinable())
+			this->_thread.join();
+	}
+
 	void TitleScreen::render() const
 	{
 		for (unsigned i = 0; i < sizeof(menuItems) / sizeof(*menuItems); i++) {
@@ -67,7 +74,11 @@ namespace Battle
 			game.screen->displayElement(menuItems[i], {100, static_cast<float>(100 + i * 40)});
 		}
 
-		if (this->_askingInputs)
+		if (this->_connecting)
+			this->_showConnectMessage();
+		else if (game.networkMgr.isHosting())
+			this->_showHostMessage();
+		else if (this->_askingInputs)
 			this->_showAskInputBox();
 		if (this->_changingInputs)
 			this->_showEditKeysMenu();
@@ -101,33 +112,41 @@ namespace Battle
 	void TitleScreen::_host()
 	{
 		game.networkMgr.setInputs(this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
-		try {
-			game.networkMgr.host(10800, 0);
-		//	remote->host(10800);
-		} catch (std::exception &e) {
-			MessageBox(nullptr, "Host error", e.what(), MB_ICONERROR);
-			return;
-		}
+		if (this->_thread.joinable())
+			this->_thread.join();
+		this->_thread = std::thread{[] {
+			try {
+				game.networkMgr.host(10800, 0);
+			} catch (std::exception &e) {
+				MessageBox(nullptr, e.what(), "Host error", MB_ICONERROR);
+			} catch (...) {
+				MessageBox(nullptr, "WTF???", "Host error", MB_ICONERROR);
+			}
+		}};
 	}
 
 	void TitleScreen::_connect()
 	{
 		game.networkMgr.setInputs(nullptr, this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
-		try {
-			game.networkMgr.connect("127.0.0.1", 10800);
-		//	std::ifstream stream{"ip.txt"};
-		//	std::string line;
+		if (this->_thread.joinable())
+			this->_thread.join();
+		this->_thread = std::thread{[this]{
+			if (clip::has(clip::text_format())) {
+				std::string ip;
 
-		//	if (stream.fail())
-		//		throw std::invalid_argument("Cannot read ip.txt");
-		//	std::getline(stream, line);
-		//	if (stream.fail())
-		//		throw std::invalid_argument("ip.txt is empty");
-		//	remote->connect(line, 10800);
-		} catch (std::exception &e) {
-			MessageBox(nullptr, "Connect error", e.what(), MB_ICONERROR);
-			return;
-		}
+				clip::get_text(ip);
+				if (inet_addr(ip.c_str()) != -1)
+					game.lastIp = ip;
+			}
+			try {
+				this->_connecting = true;
+				if (!game.networkMgr.connect(game.lastIp, 10800) && this->_connecting)
+					throw std::invalid_argument("Failed to connect to " + game.lastIp);
+			} catch (std::exception &e) {
+				MessageBox(nullptr, e.what(), "Connect error", MB_ICONERROR);
+			}
+			this->_connecting = false;
+		}};
 	}
 
 	void TitleScreen::_onInputsChosen()
@@ -179,23 +198,28 @@ namespace Battle
 		this->_usingKeyboard = true;
 		switch (ev.code) {
 		case sf::Keyboard::Up:
-			this->_onGoUp();
+			if (!this->_connecting && !game.networkMgr.isHosting())
+				this->_onGoUp();
 			break;
 		case sf::Keyboard::Down:
-			this->_onGoDown();
+			if (!this->_connecting && !game.networkMgr.isHosting())
+				this->_onGoDown();
 			break;
 		case sf::Keyboard::Left:
-			this->_onGoLeft();
+			if (!this->_connecting && !game.networkMgr.isHosting())
+				this->_onGoLeft();
 			break;
 		case sf::Keyboard::Right:
-			this->_onGoRight();
+			if (!this->_connecting && !game.networkMgr.isHosting())
+				this->_onGoRight();
 			break;
 		case sf::Keyboard::Escape:
 		case sf::Keyboard::X:
 			this->_onCancel();
 			break;
 		case sf::Keyboard::Z:
-			this->_onConfirm();
+			if (!this->_connecting && !game.networkMgr.isHosting())
+				this->_onConfirm();
 			break;
 		default:
 			break;
@@ -317,6 +341,22 @@ namespace Battle
 			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
+	void TitleScreen::_showHostMessage() const
+	{
+		game.screen->displayElement({640, 280, 400, 100}, sf::Color{0x50, 0x50, 0x50});
+
+		game.screen->fillColor(sf::Color::White);
+		game.screen->displayElement("Hosting on port 10800", {640, 300}, 400, Screen::ALIGN_CENTER);
+	}
+
+	void TitleScreen::_showConnectMessage() const
+	{
+		game.screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
+
+		game.screen->fillColor(sf::Color::White);
+		game.screen->displayElement("Connecting to " + game.lastIp + " on port 10800", {540, 300}, 600, Screen::ALIGN_CENTER);
+	}
+
 	void TitleScreen::_showEditKeysMenu() const
 	{
 		auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
@@ -425,6 +465,11 @@ namespace Battle
 
 	void TitleScreen::_onCancel()
 	{
+		if (this->_connecting || game.networkMgr.isHosting()) {
+			this->_connecting = false;
+			game.networkMgr.cancelHost();
+			return;
+		}
 		if (this->_changingInputs) {
 			this->_changingInputs = 0;
 			return;

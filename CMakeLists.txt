@@ -8,7 +8,8 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
 find_package(GGPO REQUIRED)
-include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS})
+find_package(clip REQUIRED)
+include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} ${clip_INCLUDE_DIRS})
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -113,6 +114,7 @@ target_link_libraries(
 	${SFML_WINDOW_LIB}
 	${SFML_NETWORK_LIB}
 	${GGPO_LIBRARIES}
+	${clip_LIBRARIES}
 	ws2_32
 )
 
@@ -184,5 +186,6 @@ target_link_libraries(
 	${SFML_NETWORK_LIB}
 	${TGUI_LIB}
 	${GGPO_LIBRARIES}
+	${clip_LIBRARIES}
 	ws2_32
 )
