@@ -58,10 +58,16 @@ namespace Battle
 	{
 		this->_leftCharacter->consumeEvent(event);
 		this->_rightCharacter->consumeEvent(event);
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::J)
-			this->_step = !this->_step;
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)
-			this->_next = true;
+		if (!game.networkMgr.isConnected()) {
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::J)
+				this->_step = !this->_step;
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)
+				this->_next = true;
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::U)
+				this->_speed--;
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I)
+				this->_speed++;
+		}
 	}
 
 	bool BattleManager::update()
@@ -70,19 +76,25 @@ namespace Battle
 			return true;
 		this->_next = false;
 
-		if (
-			this->_roundEndTimer > 120 ||
-			(this->_leftCharacter->_hp > 0 && this->_rightCharacter->_hp > 0 && !this->_roundEndTimer) ||
-			this->_roundEndTimer % 2 == 0
-		)
-			this->_gameUpdate();
+		this->_time += this->_speed / 60.f;
+		while (this->_time > 1) {
+			this->_time -= 1;
+			if (
+				this->_roundEndTimer > 120 ||
+				(this->_leftCharacter->_hp > 0 && this->_rightCharacter->_hp > 0 && !this->_roundEndTimer) ||
+				this->_roundEndTimer % 2 == 0
+			)
+				this->_gameUpdate();
 
-		if (this->_roundEndTimer <= 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
-			this->_updateRoundEndAnimation();
-		else if (this->_score.first == FIRST_TO || this->_score.second == FIRST_TO)
-			return this->_updateEndGameAnimation();
-		else if (this->_roundStartTimer < 140)
-			this->_updateRoundStartAnimation();
+			if (this->_roundEndTimer <= 120 &&
+			    (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
+				this->_updateRoundEndAnimation();
+			else if (this->_score.first == FIRST_TO || this->_score.second == FIRST_TO) {
+				if (!this->_updateEndGameAnimation())
+					return false;
+			} else if (this->_roundStartTimer < 140)
+				this->_updateRoundStartAnimation();
+		}
 		return true;
 	}
 

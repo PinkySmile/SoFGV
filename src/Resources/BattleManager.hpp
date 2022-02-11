@@ -27,6 +27,8 @@ namespace Battle
 		std::vector<sf::Texture> _roundSprites;
 		bool _step = false;
 		bool _next = false;
+		unsigned char _speed = 60;
+		float _time = 0;
 		unsigned _lastObjectId = 0;
 
 		// Game State
