@@ -284,6 +284,7 @@ namespace Battle
 			char h : 2;
 			char v : 2;
 		};
+#pragma pack(push, 1)
 		struct Data {
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
@@ -306,6 +307,7 @@ namespace Battle
 			unsigned _subObjects[128];
 			unsigned _nbLastInputs;
 		};
+#pragma pack(pop)
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {

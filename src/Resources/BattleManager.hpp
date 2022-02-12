@@ -12,6 +12,7 @@ namespace Battle
 {
 	class BattleManager {
 	private:
+#pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
 			unsigned _currentRound;
@@ -20,6 +21,7 @@ namespace Battle
 			unsigned _hitStop;
 			unsigned _nbObjects;
 		};
+#pragma pack(pop)
 
 		// Non Game State
 		Sprite _stage;
@@ -42,6 +44,7 @@ namespace Battle
 		unsigned _hitStop = 0;
 
 		void _gameUpdate();
+		bool _updateLoop();
 		bool _updateEndGameAnimation();
 		void _renderEndGameAnimation() const;
 		void _updateRoundEndAnimation();

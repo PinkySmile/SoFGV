@@ -27,11 +27,13 @@ namespace Battle
 
 	class NetManager {
 	private:
+#pragma pack(push, 1)
 		struct Data {
 			bool isCharSelect;
 			int leftInputs[INPUT_NUMBER - 1];
 			int rightInputs[INPUT_NUMBER - 1];
 		};
+#pragma pack(pop)
 
 		unsigned _myPlayer = 0;
 		bool _host = false;
