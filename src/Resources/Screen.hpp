@@ -32,6 +32,7 @@ namespace Battle
 		void              handleEvents();
 		const std::string &getTitle() const;
 		void              setTitle(const std::string &);
+		void              borderColor(float thickness = 0, const sf::Color &color = sf::Color(0, 0, 0, 255));
 		void              fillColor(const sf::Color &color = sf::Color(255, 255, 255, 255));
 		void              setFont(const sf::Font &font);
 		void              textSize(const size_t &size);

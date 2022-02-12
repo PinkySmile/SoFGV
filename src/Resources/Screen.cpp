@@ -57,6 +57,14 @@ namespace Battle
 		this->draw(this->_rect);
 	}
 
+	void    Screen::borderColor(float thickness, const sf::Color &color)
+	{
+		this->_rect.setOutlineColor(color);
+		this->_text.setOutlineColor(color);
+		this->_rect.setOutlineThickness(thickness);
+		this->_text.setOutlineThickness(thickness);
+	}
+
 	void    Screen::fillColor(const sf::Color &color)
 	{
 		this->_rect.setFillColor(color);

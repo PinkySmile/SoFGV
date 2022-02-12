@@ -90,85 +90,10 @@ namespace Battle
 
 	void BattleManager::render()
 	{
-		sf::RectangleShape rect;
-
 		game.textureMgr.render(this->_stage);
 
-		rect.setOutlineThickness(1);
-		rect.setOutlineColor(sf::Color::Black);
-
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(0, -590);
-		rect.setSize({400.f, 20});
-		game.screen->draw(rect);
-		rect.setPosition(600.f, -590);
-		rect.setSize({400.f, 20});
-		game.screen->draw(rect);
-
-		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
-		rect.setPosition(0, -590);
-		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + this->_leftCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
-		game.screen->draw(rect);
-		rect.setPosition(1000 - 400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
-		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
-		game.screen->draw(rect);
-
-		rect.setFillColor(sf::Color::Yellow);
-		rect.setPosition(0, -590);
-		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
-		if (this->_leftCharacter->_hp > 0)
-			game.screen->draw(rect);
-		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -590);
-		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
-		if (this->_rightCharacter->_hp > 0)
-			game.screen->draw(rect);
-
-		rect.setFillColor(sf::Color::White);
-		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(390 - i * 15, -560);
-			rect.setSize({10, 8});
-			game.screen->draw(rect);
-		}
-		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(600 + i * 15, -560);
-			rect.setSize({10, 8});
-			game.screen->draw(rect);
-		}
-		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
-		for (int i = 0; i < this->_score.first; i++) {
-			rect.setPosition(392 - i * 15, -558);
-			rect.setSize({6, 4});
-			game.screen->draw(rect);
-		}
-		for (int i = 0; i < this->_score.second; i++) {
-			rect.setPosition(602 + i * 15, -558);
-			rect.setSize({6, 4});
-			game.screen->draw(rect);
-		}
-
-		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(100, 40);
-		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
-		game.screen->draw(rect);
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
-		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
-		game.screen->draw(rect);
-
-		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(100, 55);
-		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
-		game.screen->draw(rect);
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
-		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
-		game.screen->draw(rect);
-
-		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(100, 70);
-		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
-		game.screen->draw(rect);
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
-		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
-		game.screen->draw(rect);
+		this->_renderLeftHUD();
+		this->_renderRightHUD();
 
 		game.networkMgr.renderHUD();
 
@@ -380,6 +305,30 @@ namespace Battle
 		auto lchr = &*this->_leftCharacter;
 		auto rchr = &*this->_rightCharacter;
 
+		if (this->_leftComboCtr)
+			this->_leftComboCtr--;
+		if (this->_rightComboCtr)
+			this->_rightComboCtr--;
+		if (this->_rightCharacter->_comboCtr) {
+			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
+			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
+			this->_leftVoidLimit    = this->_rightCharacter->_limit[1];
+			this->_leftSpiritLimit  = this->_rightCharacter->_limit[2];
+			this->_leftMatterLimit  = this->_rightCharacter->_limit[3];
+			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
+			this->_leftProration    = this->_rightCharacter->_prorate;
+			this->_leftComboCtr     = 180;
+		}
+		if (this->_leftCharacter->_comboCtr) {
+			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
+			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
+			this->_rightVoidLimit    = this->_leftCharacter->_limit[1];
+			this->_rightSpiritLimit  = this->_leftCharacter->_limit[2];
+			this->_rightMatterLimit  = this->_leftCharacter->_limit[3];
+			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
+			this->_rightProration    = this->_leftCharacter->_prorate;
+			this->_rightComboCtr     = 180;
+		}
 		if (!rdata->dFlag.flash || ldata->dFlag.flash)
 			lchr->update();
 		if (!ldata->dFlag.flash)
@@ -464,6 +413,22 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		dat->_leftComboCtr = this->_leftComboCtr;
+		dat->_leftHitCtr = this->_leftHitCtr;
+		dat->_leftNeutralLimit = this->_leftNeutralLimit;
+		dat->_leftVoidLimit = this->_leftVoidLimit;
+		dat->_leftMatterLimit = this->_leftMatterLimit;
+		dat->_leftSpiritLimit = this->_leftSpiritLimit;
+		dat->_leftTotalDamage = this->_leftTotalDamage;
+		dat->_leftProration = this->_leftProration;
+		dat->_rightComboCtr = this->_rightComboCtr;
+		dat->_rightHitCtr = this->_rightHitCtr;
+		dat->_rightNeutralLimit = this->_rightNeutralLimit;
+		dat->_rightVoidLimit = this->_rightVoidLimit;
+		dat->_rightSpiritLimit = this->_rightSpiritLimit;
+		dat->_rightMatterLimit = this->_rightMatterLimit;
+		dat->_rightTotalDamage = this->_rightTotalDamage;
+		dat->_rightProration = this->_rightProration;
 		dat->_score = this->_score;
 		dat->_currentRound = this->_currentRound;
 		dat->_roundStartTimer = this->_roundStartTimer;
@@ -489,6 +454,22 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		this->_leftComboCtr = dat->_leftComboCtr;
+		this->_leftHitCtr = dat->_leftHitCtr;
+		this->_leftNeutralLimit = dat->_leftNeutralLimit;
+		this->_leftVoidLimit = dat->_leftVoidLimit;
+		this->_leftMatterLimit = dat->_leftMatterLimit;
+		this->_leftSpiritLimit = dat->_leftSpiritLimit;
+		this->_leftTotalDamage = dat->_leftTotalDamage;
+		this->_leftProration = dat->_leftProration;
+		this->_rightComboCtr = dat->_rightComboCtr;
+		this->_rightHitCtr = dat->_rightHitCtr;
+		this->_rightNeutralLimit = dat->_rightNeutralLimit;
+		this->_rightVoidLimit = dat->_rightVoidLimit;
+		this->_rightSpiritLimit = dat->_rightSpiritLimit;
+		this->_rightMatterLimit = dat->_rightMatterLimit;
+		this->_rightTotalDamage = dat->_rightTotalDamage;
+		this->_rightProration = dat->_rightProration;
 		this->_score = dat->_score;
 		this->_currentRound = dat->_currentRound;
 		this->_roundStartTimer = dat->_roundStartTimer;
@@ -545,5 +526,153 @@ namespace Battle
 		} else if (this->_roundStartTimer < 140)
 			this->_updateRoundStartAnimation();
 		return true;
+	}
+
+	void BattleManager::_renderLeftHUD() const
+	{
+		sf::RectangleShape rect;
+
+		rect.setOutlineThickness(1);
+		rect.setOutlineColor(sf::Color::Black);
+
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(0, -590);
+		rect.setSize({400.f, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
+		rect.setPosition(0, -590);
+		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + this->_leftCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::Yellow);
+		rect.setPosition(0, -590);
+		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
+		if (this->_leftCharacter->_hp > 0)
+			game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::White);
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(390 - i * 15, -560);
+			rect.setSize({10, 8});
+			game.screen->draw(rect);
+		}
+		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
+		for (int i = 0; i < this->_score.first; i++) {
+			rect.setPosition(392 - i * 15, -558);
+			rect.setSize({6, 4});
+			game.screen->draw(rect);
+		}
+
+		rect.setFillColor(sf::Color{51, 204, 204});
+		rect.setPosition(100, 40);
+		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{187, 94, 0});
+		rect.setPosition(100, 55);
+		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
+		rect.setPosition(100, 70);
+		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
+		game.screen->draw(rect);
+
+		if (this->_leftComboCtr) {
+			unsigned char alpha = this->_leftComboCtr > 51 ? 0xFF : this->_leftComboCtr * 5;
+
+			game.screen->borderColor(2, sf::Color{0, 0, 0, alpha});
+			game.screen->fillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
+			game.screen->displayElement(std::to_string(this->_leftHitCtr) + " Hit" + (this->_leftHitCtr < 2 ? "" : "s"), {0, -560}, 400, Screen::ALIGN_LEFT);
+			game.screen->textSize(20);
+			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
+			game.screen->displayElement(std::to_string(this->_leftTotalDamage) + " damage" + (this->_leftTotalDamage < 2 ? "" : "s"), {0, -510}, 400, Screen::ALIGN_LEFT);
+			game.screen->textSize(15);
+			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
+			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_leftNeutralLimit), {0, -475}, 400, Screen::ALIGN_LEFT);
+			game.screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
+			game.screen->displayElement("Void Limit: " + std::to_string(this->_leftVoidLimit), {0, -450}, 400, Screen::ALIGN_LEFT);
+			game.screen->fillColor(sf::Color{187, 94, 0, alpha});
+			game.screen->displayElement("Matter Limit: " + std::to_string(this->_leftMatterLimit), {0, -425}, 400, Screen::ALIGN_LEFT);
+			game.screen->fillColor(sf::Color{51, 204, 204, alpha});
+			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_leftSpiritLimit), {0, -400}, 400, Screen::ALIGN_LEFT);
+			game.screen->borderColor(0, sf::Color{0, 0, 0, 0});
+			game.screen->textSize(30);
+		}
+	}
+
+	void BattleManager::_renderRightHUD() const
+	{
+		sf::RectangleShape rect;
+
+		rect.setOutlineThickness(1);
+		rect.setOutlineColor(sf::Color::Black);
+
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(600.f, -590);
+		rect.setSize({400.f, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
+		rect.setPosition(1000 - 400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
+		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::Yellow);
+		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -590);
+		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
+		if (this->_rightCharacter->_hp > 0)
+			game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color::White);
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(600 + i * 15, -560);
+			rect.setSize({10, 8});
+			game.screen->draw(rect);
+		}
+		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
+		for (int i = 0; i < this->_score.second; i++) {
+			rect.setPosition(602 + i * 15, -558);
+			rect.setSize({6, 4});
+			game.screen->draw(rect);
+		}
+
+		rect.setFillColor(sf::Color{51, 204, 204});
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
+		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{187, 94, 0});
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
+		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
+		game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
+		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
+		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
+		game.screen->draw(rect);
+
+		if (this->_rightComboCtr) {
+			unsigned char alpha = this->_rightComboCtr > 51 ? 0xFF : this->_rightComboCtr * 5;
+
+			game.screen->borderColor(2, sf::Color{0, 0, 0, alpha});
+			game.screen->fillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
+			game.screen->displayElement(std::to_string(this->_rightHitCtr) + " Hit" + (this->_rightHitCtr < 2 ? "" : "s"), {600, -560}, 400, Screen::ALIGN_RIGHT);
+			game.screen->textSize(20);
+			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
+			game.screen->displayElement(std::to_string(this->_rightTotalDamage) + " damage" + (this->_rightTotalDamage < 2 ? "" : "s"), {600, -510}, 400, Screen::ALIGN_RIGHT);
+			game.screen->textSize(15);
+			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
+			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_rightNeutralLimit), {600, -475}, 400, Screen::ALIGN_RIGHT);
+			game.screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
+			game.screen->displayElement("Void Limit: " + std::to_string(this->_rightVoidLimit), {600, -450}, 400, Screen::ALIGN_RIGHT);
+			game.screen->fillColor(sf::Color{187, 94, 0, alpha});
+			game.screen->displayElement("Matter Limit: " + std::to_string(this->_rightMatterLimit), {600, -425}, 400, Screen::ALIGN_RIGHT);
+			game.screen->fillColor(sf::Color{51, 204, 204, alpha});
+			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_rightSpiritLimit), {600, -400}, 400, Screen::ALIGN_RIGHT);
+			game.screen->borderColor(0, sf::Color{0, 0, 0, 0});
+			game.screen->textSize(30);
+		}
 	}
 }

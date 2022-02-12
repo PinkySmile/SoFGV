@@ -20,6 +20,22 @@ namespace Battle
 			unsigned _roundEndTimer;
 			unsigned _hitStop;
 			unsigned _nbObjects;
+			unsigned _leftComboCtr = 0;
+			unsigned _leftHitCtr = 0;
+			unsigned _leftNeutralLimit = 0;
+			unsigned _leftVoidLimit = 0;
+			unsigned _leftMatterLimit = 0;
+			unsigned _leftSpiritLimit = 0;
+			unsigned _leftTotalDamage = 0;
+			float _leftProration = 0;
+			unsigned _rightComboCtr = 0;
+			unsigned _rightHitCtr = 0;
+			unsigned _rightNeutralLimit = 0;
+			unsigned _rightVoidLimit = 0;
+			unsigned _rightSpiritLimit = 0;
+			unsigned _rightMatterLimit = 0;
+			unsigned _rightTotalDamage = 0;
+			float _rightProration = 0;
 		};
 #pragma pack(pop)
 
@@ -42,6 +58,22 @@ namespace Battle
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;
 		unsigned _hitStop = 0;
+		unsigned _leftComboCtr = 0;
+		unsigned _leftHitCtr = 0;
+		unsigned _leftNeutralLimit = 0;
+		unsigned _leftVoidLimit = 0;
+		unsigned _leftMatterLimit = 0;
+		unsigned _leftSpiritLimit = 0;
+		unsigned _leftTotalDamage = 0;
+		float _leftProration = 0;
+		unsigned _rightComboCtr = 0;
+		unsigned _rightHitCtr = 0;
+		unsigned _rightNeutralLimit = 0;
+		unsigned _rightVoidLimit = 0;
+		unsigned _rightSpiritLimit = 0;
+		unsigned _rightMatterLimit = 0;
+		unsigned _rightTotalDamage = 0;
+		float _rightProration = 0;
 
 		void _gameUpdate();
 		bool _updateLoop();
@@ -51,6 +83,8 @@ namespace Battle
 		void _renderRoundEndAnimation() const;
 		void _updateRoundStartAnimation();
 		void _renderRoundStartAnimation() const;
+		void _renderLeftHUD() const;
+		void _renderRightHUD() const;
 
 	public:
 		struct CharacterParams {
