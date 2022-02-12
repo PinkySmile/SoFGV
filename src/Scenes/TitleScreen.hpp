@@ -25,6 +25,11 @@ namespace Battle
 		unsigned _selectedEntry = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
+		float _totalPing = 0;
+		unsigned _nbPings = 0;
+		unsigned _lastPing = 0;
+		unsigned _peakPing = 0;
+		unsigned _delay = 0;
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;
@@ -32,6 +37,9 @@ namespace Battle
 		unsigned char _changingInputs = 0;
 		unsigned char _cursorInputs = 0;
 		IScene *_nextScene = nullptr;
+		bool _connected = false;
+		std::string _remote;
+		std::string _oldRemote;
 
 		void _onInputsChosen();
 		void _host();
@@ -49,6 +57,10 @@ namespace Battle
 		void _onGoRight();
 		void _onCancel();
 		void _onConfirm();
+		void _onDisconnect(const std::string &address);
+		void _onConnect(const std::string &address);
+		void _pingUpdate(unsigned ping);
+		void _specUpdate(std::pair<unsigned, unsigned> spec);
 
 	public:
 		TitleScreen(

@@ -27,6 +27,54 @@ namespace Battle
 
 	class NetManager {
 	private:
+		enum Opcode {
+			OPCODE_HELLO,
+			OPCODE_OLLEH,
+			OPCODE_ERROR,
+			OPCODE_WAIT,
+			OPCODE_START,
+			OPCODE_QUIT,
+			OPCODE_GAME_START,
+			OPCODE_PING,
+			OPCODE_PONG,
+		};
+
+		enum ErrorCode {
+			ERROR_VERSION_MISMATCH,
+			ERROR_BAD_PACKET,
+			ERROR_INVALID_OPCODE,
+			ERROR_UNEXPECTED_OPCODE,
+		};
+
+		union Packet {
+			Opcode op;
+			struct {
+				Opcode _1;
+				char versionString[32];
+			};
+			struct {
+				Opcode _2;
+				ErrorCode error;
+			};
+			struct {
+				Opcode _3;
+				unsigned int currentSpecs;
+				unsigned int maxSpec;
+			};
+			struct {
+				Opcode _4;
+				unsigned pingId;
+			};
+			struct {
+				Opcode _5;
+				bool spectator;
+			};
+			struct {
+				Opcode _6;
+				bool delay;
+			};
+		};
+
 #pragma pack(push, 1)
 		struct Data {
 			bool isCharSelect;
@@ -36,8 +84,9 @@ namespace Battle
 #pragma pack(pop)
 
 		unsigned _myPlayer = 0;
-		bool _host = false;
-		bool _connect = false;
+		volatile bool _host = false;
+		volatile bool _connect = false;
+		volatile unsigned _delay = 0;
 		unsigned _timer = 0;
 		sf::Texture _interruptedLogo;
 		sf::Sprite _interruptedSprite;
@@ -54,6 +103,8 @@ namespace Battle
 		void _initGGPO(unsigned short port, unsigned int spectators);
 		void _initGGPOSyncTest();
 
+		static void _checkPacket(const Packet &, size_t size);
+
 	public:
 		NetManager();
 
@@ -66,12 +117,29 @@ namespace Battle
 		bool isConnected() const;
 		void beginSession();
 		void setInputs(std::shared_ptr<IInput> left, std::shared_ptr<IInput> right);
-		bool spectate(const std::string &address, unsigned short port);
-		bool connect(const std::string &address, unsigned short port);
-		void host(unsigned short port, unsigned int spectators);
+		bool spectate(
+			const std::string &address,
+			unsigned short port,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (unsigned, unsigned)> &spectatorUpdate
+		);
+		bool connect(
+			const std::string &address,
+			unsigned short port,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (unsigned, unsigned)> &spectatorUpdate
+		);
+		void host(
+			unsigned short port,
+			unsigned int spectators,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (unsigned)> &pingUpdate
+		);
 		void advanceState();
 		void nextFrame();
 		void endSession();
+		void setDelay(unsigned delay);
 		void save(void **buffer, int *len);
 		void load(void *buffer);
 		void update();

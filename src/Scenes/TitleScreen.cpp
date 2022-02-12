@@ -63,6 +63,7 @@ namespace Battle
 	TitleScreen::~TitleScreen()
 	{
 		logger.debug("~TitleScreen");
+		game.networkMgr.cancelHost();
 		if (this->_thread.joinable())
 			this->_thread.join();
 	}
@@ -87,6 +88,9 @@ namespace Battle
 	IScene *TitleScreen::update()
 	{
 		game.random();
+		if ((game.networkMgr.isHosting() || this->_connecting) && !this->_oldRemote.empty() && this->_remote.empty())
+			MessageBox(nullptr, (this->_oldRemote + " disconnected...").c_str(), "Disconnected", MB_ICONINFORMATION);
+		this->_oldRemote = this->_remote;
 		return this->_nextScene;
 	}
 
@@ -111,12 +115,23 @@ namespace Battle
 
 	void TitleScreen::_host()
 	{
+		this->_delay = 4;
+		this->_totalPing = 0;
+		this->_nbPings = 0;
+		this->_peakPing = 0;
+		this->_lastPing = 0;
 		game.networkMgr.setInputs(this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
 		if (this->_thread.joinable())
 			this->_thread.join();
-		this->_thread = std::thread{[] {
+		this->_thread = std::thread{[this] {
 			try {
-				game.networkMgr.host(10800, 0);
+				game.networkMgr.host(10800, 0, [this](const sf::IpAddress &addr, unsigned short port){
+					this->_onDisconnect(addr.toString() + ":" + std::to_string(port));
+				}, [this](const sf::IpAddress &addr, unsigned short port){
+					this->_onConnect(addr.toString() + ":" + std::to_string(port));
+				}, [this](unsigned ping){
+					this->_pingUpdate(ping);
+				});
 			} catch (std::exception &e) {
 				MessageBox(nullptr, e.what(), "Host error", MB_ICONERROR);
 			} catch (...) {
@@ -140,7 +155,11 @@ namespace Battle
 			}
 			try {
 				this->_connecting = true;
-				if (!game.networkMgr.connect(game.lastIp, 10800) && this->_connecting)
+				if (!game.networkMgr.connect(game.lastIp, 10800, [this](const sf::IpAddress &addr, unsigned short port){
+					this->_onConnect(addr.toString() + ":" + std::to_string(port));
+				}, [this](unsigned spec, unsigned maxSpec){
+					this->_specUpdate({spec, maxSpec});
+				}) && this->_connecting)
 					throw std::invalid_argument("Failed to connect to " + game.lastIp);
 			} catch (std::exception &e) {
 				MessageBox(nullptr, e.what(), "Connect error", MB_ICONERROR);
@@ -151,6 +170,8 @@ namespace Battle
 
 	void TitleScreen::_onInputsChosen()
 	{
+		if (game.networkMgr.isHosting() || this->_connecting)
+			return;
 		if (this->_leftInput > 1)
 			this->_P1.second->setJoystickId(this->_leftInput - 2);
 		if (this->_rightInput > 1)
@@ -198,28 +219,23 @@ namespace Battle
 		this->_usingKeyboard = true;
 		switch (ev.code) {
 		case sf::Keyboard::Up:
-			if (!this->_connecting && !game.networkMgr.isHosting())
-				this->_onGoUp();
+			this->_onGoUp();
 			break;
 		case sf::Keyboard::Down:
-			if (!this->_connecting && !game.networkMgr.isHosting())
-				this->_onGoDown();
+			this->_onGoDown();
 			break;
 		case sf::Keyboard::Left:
-			if (!this->_connecting && !game.networkMgr.isHosting())
-				this->_onGoLeft();
+			this->_onGoLeft();
 			break;
 		case sf::Keyboard::Right:
-			if (!this->_connecting && !game.networkMgr.isHosting())
-				this->_onGoRight();
+			this->_onGoRight();
 			break;
 		case sf::Keyboard::Escape:
 		case sf::Keyboard::X:
 			this->_onCancel();
 			break;
 		case sf::Keyboard::Z:
-			if (!this->_connecting && !game.networkMgr.isHosting())
-				this->_onConfirm();
+			this->_onConfirm();
 			break;
 		default:
 			break;
@@ -343,18 +359,36 @@ namespace Battle
 
 	void TitleScreen::_showHostMessage() const
 	{
-		game.screen->displayElement({640, 280, 400, 100}, sf::Color{0x50, 0x50, 0x50});
-
 		game.screen->fillColor(sf::Color::White);
-		game.screen->displayElement("Hosting on port 10800", {640, 300}, 400, Screen::ALIGN_CENTER);
+		if (this->_remote.empty()) {
+			game.screen->displayElement({640, 280, 400, 100}, sf::Color{0x50, 0x50, 0x50});
+			game.screen->displayElement("Hosting on port 10800", {640, 300}, 400, Screen::ALIGN_CENTER);
+		} else {
+			game.screen->displayElement({620, 280, 440, 200}, sf::Color{0x50, 0x50, 0x50});
+			game.screen->displayElement(this->_remote + " joined.", {640, 300}, 400, Screen::ALIGN_CENTER);
+			game.screen->displayElement("Select delay   < " + std::to_string(this->_delay) + " frame(s) >", {640, 340}, 400, Screen::ALIGN_CENTER);
+			if (this->_nbPings) {
+				game.screen->textSize(20);
+				game.screen->displayElement("Last ping: " + std::to_string(this->_lastPing) + "ms", {620, 380}, 440, Screen::ALIGN_CENTER);
+				game.screen->displayElement("Peak ping: " + std::to_string(this->_peakPing) + "ms", {620, 400}, 440, Screen::ALIGN_CENTER);
+				game.screen->displayElement("Average ping: " + std::to_string(static_cast<int>(std::round(this->_totalPing / this->_nbPings))) + "ms", {620, 420}, 440, Screen::ALIGN_CENTER);
+				game.screen->textSize(30);
+			} else
+				game.screen->displayElement("Calculating ping...", {620, 380}, 440, Screen::ALIGN_CENTER);
+		}
 	}
 
 	void TitleScreen::_showConnectMessage() const
 	{
-		game.screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
-
 		game.screen->fillColor(sf::Color::White);
-		game.screen->displayElement("Connecting to " + game.lastIp + " on port 10800", {540, 300}, 600, Screen::ALIGN_CENTER);
+		if (this->_remote.empty()) {
+			game.screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
+			game.screen->displayElement("Connecting to " + game.lastIp + " on port 10800", {540, 300}, 600, Screen::ALIGN_CENTER);
+		} else {
+			game.screen->displayElement({540, 280, 600, 130}, sf::Color{0x50, 0x50, 0x50});
+			game.screen->displayElement("Connected to " + this->_remote + ".", {540, 300}, 600, Screen::ALIGN_CENTER);
+			game.screen->displayElement("Waiting for host to select delay.", {540, 330}, 600, Screen::ALIGN_CENTER);
+		}
 	}
 
 	void TitleScreen::_showEditKeysMenu() const
@@ -384,6 +418,9 @@ namespace Battle
 
 	void TitleScreen::_onGoUp()
 	{
+		if (this->_connecting || game.networkMgr.isHosting()) {
+			return;
+		}
 		if (this->_changingInputs) {
 			this->_cursorInputs += this->_inputs.size();
 			this->_cursorInputs--;
@@ -412,6 +449,14 @@ namespace Battle
 
 	void TitleScreen::_onGoLeft()
 	{
+		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
+			if (this->_delay)
+				this->_delay--;
+			return;
+		}
+		if (this->_connecting || game.networkMgr.isHosting()) {
+			return;
+		}
 		if (this->_changingInputs) {
 			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
 			return;
@@ -420,6 +465,13 @@ namespace Battle
 
 	void TitleScreen::_onGoRight()
 	{
+		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
+			this->_delay++;
+			return;
+		}
+		if (this->_connecting || game.networkMgr.isHosting()) {
+			return;
+		}
 		if (this->_changingInputs) {
 			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
 			return;
@@ -428,6 +480,13 @@ namespace Battle
 
 	void TitleScreen::_onConfirm()
 	{
+		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
+			game.networkMgr.setDelay(this->_delay + 1);
+			return;
+		}
+		if (this->_connecting || game.networkMgr.isHosting()) {
+			return;
+		}
 		if (this->_changingInputs) {
 			this->_changeInput = true;
 			return;
@@ -484,5 +543,33 @@ namespace Battle
 			return;
 		}
 		this->_selectedEntry = 4;
+	}
+
+	void TitleScreen::_onDisconnect(const std::string &address)
+	{
+		if (this->_remote == address) {
+			this->_connected = false;
+			this->_remote.clear();
+		}
+	}
+
+	void TitleScreen::_onConnect(const std::string &address)
+	{
+		this->_connected = true;
+		if (this->_remote.empty())
+			this->_remote = address;
+	}
+
+	void TitleScreen::_pingUpdate(unsigned int ping)
+	{
+		this->_totalPing += ping;
+		this->_nbPings++;
+		this->_peakPing = std::max(ping, this->_peakPing);
+		this->_lastPing = ping;
+	}
+
+	void TitleScreen::_specUpdate(std::pair<unsigned, unsigned> spec)
+	{
+
 	}
 }
