@@ -229,7 +229,7 @@ namespace Battle
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 2;
-		ggpoPlayers[1].u.remote.port = 10900;
+		ggpoPlayers[1].u.remote.port = 10800;
 		strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
 
 		this->_initGGPO(port, spectators);
@@ -347,7 +347,7 @@ namespace Battle
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 1;
 
-		this->_initGGPO(10900, 0);
+		this->_initGGPO(10800, 0);
 		logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
