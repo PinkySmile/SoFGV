@@ -8449,7 +8449,7 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 7168,
+                    "offense_flag": 7296,
                     "offset": {
                         "x": 16,
                         "y": 0
@@ -9274,7 +9274,6 @@
                             "width": 55
                         }
                     ],
-                    "prorate": 80.0,
                     "size": {
                         "x": 60,
                         "y": 140
@@ -9321,12 +9320,12 @@
                             "width": 60
                         }
                     ],
-                    "offense_flag": 7168,
+                    "offense_flag": 7232,
                     "offset": {
                         "x": 24,
                         "y": -2
                     },
-                    "prorate": 100.0,
+                    "prorate": 70.0,
                     "push_back": 3,
                     "push_block": 5,
                     "size": {
@@ -10362,7 +10361,7 @@
                         "top": -141,
                         "width": 47
                     },
-                    "defense_flag": 2113792,
+                    "defense_flag": 2638080,
                     "duration": 7,
                     "hurt_boxes": [
                         {
@@ -10407,7 +10406,7 @@
                         "y": 0
                     },
                     "damage": 400,
-                    "defense_flag": 16640,
+                    "defense_flag": 540928,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -10475,7 +10474,7 @@
                         "y": 0
                     },
                     "damage": 400,
-                    "defense_flag": 16640,
+                    "defense_flag": 540928,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -10543,8 +10542,8 @@
                         "y": 0
                     },
                     "damage": 400,
-                    "defense_flag": 256,
-                    "duration": 2,
+                    "defense_flag": 524544,
+                    "duration": 16,
                     "hit_speed": {
                         "x": 10,
                         "y": 0
@@ -11179,7 +11178,7 @@
                         }
                     ],
                     "mana_cost": 5,
-                    "matter_limit": 40,
+                    "matter_limit": 100,
                     "offense_flag": 33554432,
                     "offset": {
                         "x": 12,
@@ -11271,7 +11270,7 @@
                         }
                     ],
                     "mana_cost": 5,
-                    "matter_limit": 40,
+                    "matter_limit": 100,
                     "offense_flag": 33620512,
                     "offset": {
                         "x": 19,
@@ -14017,7 +14016,7 @@
         ]
     },
     {
-        "action": 255,
+        "action": 260,
         "framedata": [
             [
                 {
@@ -14027,8 +14026,42 @@
                         "top": -193,
                         "width": 56
                     },
-                    "defense_flag": 16448,
-                    "duration": 6,
+                    "defense_flag": 16384,
+                    "hurt_boxes": [
+                        {
+                            "height": 195,
+                            "left": -21,
+                            "top": -197,
+                            "width": 78
+                        }
+                    ],
+                    "mana_cost": 1000,
+                    "offense_flag": 65536,
+                    "offset": {
+                        "x": 17,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 92,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 6,
+                        "top": 339,
+                        "width": 46
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 192,
+                        "left": -15,
+                        "top": -193,
+                        "width": 56
+                    },
+                    "defense_flag": 16384,
+                    "duration": 7,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -14062,8 +14095,8 @@
                         "top": -193,
                         "width": 56
                     },
-                    "defense_flag": 32777,
-                    "duration": 7,
+                    "defense_flag": 32776,
+                    "duration": 45,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -14098,11 +14131,10 @@
                         "width": 56
                     },
                     "damage": 200,
-                    "defense_flag": 64,
                     "duration": 4,
                     "hit_boxes": [
                         {
-                            "height": 112,
+                            "height": 75,
                             "left": 29,
                             "top": -159,
                             "width": 114
@@ -14124,6 +14156,7 @@
                             "width": 102
                         }
                     ],
+                    "matter_limit": 1,
                     "offense_flag": 8454146,
                     "offset": {
                         "x": 55,
@@ -14153,7 +14186,7 @@
                         "width": 56
                     },
                     "defense_flag": 16384,
-                    "duration": 5,
+                    "duration": 7,
                     "hurt_boxes": [
                         {
                             "height": 195,

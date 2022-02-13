@@ -4,6 +4,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#undef max
+#undef min
 #else
 // TODO: Add proper message boxes on non windows systems
 #define MessageBox(...)
