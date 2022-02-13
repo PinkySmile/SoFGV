@@ -71,7 +71,7 @@ namespace Battle
 			};
 			struct {
 				Opcode _6;
-				bool delay;
+				unsigned delay;
 			};
 		};
 
