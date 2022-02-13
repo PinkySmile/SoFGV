@@ -2144,7 +2144,7 @@ namespace Battle
 		}
 	}
 
-	std::pair<unsigned, std::shared_ptr<IObject>> ACharacter::_spawnSubobject(unsigned id)
+	std::pair<unsigned, std::shared_ptr<IObject>> ACharacter::_spawnSubobject(unsigned id, bool needRegister)
 	{
 		auto data = this->getCurrentFrameData();
 		auto pos = this->_position + Vector2i{
@@ -2154,10 +2154,13 @@ namespace Battle
 
 		try {
 			return game.battleMgr->registerObject<AProjectile>(
+				needRegister,
 				this->_subObjectsData.at(id),
 				this->_team,
 				this->_direction,
-				pos
+				pos,
+				this->_team,
+				id
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
@@ -2256,8 +2259,12 @@ namespace Battle
 		i = 0;
 		for (auto it = this->_lastInputs.begin(); it != this->_lastInputs.end(); it++, i++)
 			((LastInput *)&dat[1])[i] = *it;
-		for (i = 0; i < this->_subobjects.size(); i++)
-			dat->_subObjects[i] = this->_subobjects[i].first;
+		for (i = 0; i < this->_subobjects.size(); i++) {
+			if (this->_subobjects[i].first && this->_subobjects[i].second && !this->_subobjects[i].second->isDead())
+				dat->_subObjects[i] = this->_subobjects[i].first;
+			else
+				dat->_subObjects[i] = 0;
+		}
 	}
 
 	void ACharacter::restoreFromBuffer(void *data)
@@ -2303,5 +2310,11 @@ namespace Battle
 	unsigned int ACharacter::getClassId() const
 	{
 		return 1;
+	}
+
+	void ACharacter::_removeSubobjects()
+	{
+		for (auto &obj : this->_subobjects)
+			obj.second.reset();
 	}
 }

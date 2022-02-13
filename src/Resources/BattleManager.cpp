@@ -403,8 +403,10 @@ namespace Battle
 	{
 		size_t size = sizeof(Data) + this->_leftCharacter->getBufferSize() + this->_rightCharacter->getBufferSize() + this->_objects.size() * (sizeof(unsigned) + sizeof(unsigned char));
 
-		for (auto &object : this->_objects)
+		for (auto &object : this->_objects) {
 			size += object.second->getBufferSize();
+			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
+		}
 		return size;
 	}
 
@@ -413,6 +415,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
 		dat->_leftHitCtr = this->_leftHitCtr;
 		dat->_leftNeutralLimit = this->_leftNeutralLimit;
@@ -444,6 +447,17 @@ namespace Battle
 			ptr += sizeof(unsigned);
 			*(unsigned char *)ptr = object.second->getClassId();
 			ptr += sizeof(unsigned char);
+			if (object.second->getClassId() == 2) {
+#ifdef _DEBUG
+				assert(dynamic_cast<AProjectile *>(&*object.second));
+#endif
+				auto obj = reinterpret_cast<AProjectile *>(&*object.second);
+
+				*(bool *)ptr = obj->getOwner();
+				ptr += sizeof(bool);
+				*(unsigned *)ptr = obj->getId();
+				ptr += sizeof(unsigned);
+			}
 			object.second->copyToBuffer((void *)ptr);
 			ptr += object.second->getBufferSize();
 		}
@@ -454,6 +468,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftComboCtr = dat->_leftComboCtr;
 		this->_leftHitCtr = dat->_leftHitCtr;
 		this->_leftNeutralLimit = dat->_leftNeutralLimit;
@@ -475,12 +490,15 @@ namespace Battle
 		this->_roundStartTimer = dat->_roundStartTimer;
 		this->_roundEndTimer = dat->_roundEndTimer;
 		this->_hitStop = dat->_hitStop;
-		this->_objects.clear();
-		this->_objects.reserve(dat->_nbObjects);
+		this->_leftCharacter->_removeSubobjects();
+		this->_rightCharacter->_removeSubobjects();
 		this->_leftCharacter->restoreFromBuffer((void *)ptr);
 		ptr += this->_leftCharacter->getBufferSize();
 		this->_rightCharacter->restoreFromBuffer((void *)ptr);
 		ptr += this->_rightCharacter->getBufferSize();
+
+		this->_objects.clear();
+		this->_objects.reserve(dat->_nbObjects);
 		for (size_t i = 0; i < dat->_nbObjects; i++) {
 			std::shared_ptr<IObject> obj;
 			auto id = *(unsigned *)ptr;
@@ -489,6 +507,7 @@ namespace Battle
 
 			auto cl = *(unsigned char *)ptr;
 
+			ptr += sizeof(unsigned char);
 			switch (cl) {
 			case 0:
 				obj.reset(new AObject());
@@ -496,9 +515,19 @@ namespace Battle
 			case 1:
 				obj.reset(new ACharacter());
 				break;
-			case 2:
-				obj.reset(new AProjectile());
+			case 2: {
+				auto owner = *(bool *)ptr;
+
+				ptr += sizeof(bool);
+
+				auto subobjid = *(unsigned *)ptr;
+
+				ptr += sizeof(unsigned);
+				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubobject(subobjid, false).second;
 				break;
+			}
+			default:
+				throw std::invalid_argument("Wtf?" + std::to_string(cl));
 			}
 
 			obj->restoreFromBuffer((void *)ptr);

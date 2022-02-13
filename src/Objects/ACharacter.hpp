@@ -390,7 +390,7 @@ namespace Battle
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
-		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id);
+		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);
 
@@ -421,6 +421,7 @@ namespace Battle
 		bool _check6314684Input();
 		bool _check6246974Input();
 		bool _check63146974Input();
+		void _removeSubobjects();
 
 	public:
 		std::string name;

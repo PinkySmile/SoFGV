@@ -11,12 +11,18 @@
 namespace Battle
 {
 	class AProjectile : public AObject {
+	private:
+		bool owner;
+		unsigned id;
+
 	public:
-		AProjectile() = default;
-		AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos);
+		AProjectile(bool owner, unsigned id);
+		AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id);
 		bool isDead() const override;
 		void update() override;
 		unsigned int getClassId() const override;
+		bool getOwner() const;
+		unsigned int getId() const;
 	};
 }
 

@@ -6,7 +6,14 @@
 
 namespace Battle
 {
-	AProjectile::AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos)
+	AProjectile::AProjectile(bool owner, unsigned int id) :
+		owner(owner),
+		id(id)
+	{
+	}
+
+	AProjectile::AProjectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id) :
+		AProjectile(owner, id)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -33,5 +40,15 @@ namespace Battle
 	unsigned int AProjectile::getClassId() const
 	{
 		return 2;
+	}
+
+	bool AProjectile::getOwner() const
+	{
+		return owner;
+	}
+
+	unsigned int AProjectile::getId() const
+	{
+		return id;
 	}
 }

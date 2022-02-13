@@ -15,6 +15,7 @@ namespace Battle
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
+			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
 			unsigned _roundEndTimer;
@@ -112,11 +113,11 @@ namespace Battle
 		const ACharacter *getLeftCharacter() const;
 		const ACharacter *getRightCharacter() const;
 		template <typename T, typename ...Args>
-		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(Args &... args)
+		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
 		{
 			auto obj = std::make_shared<T>(args...);
 
-			return {this->registerObject(obj), obj};
+			return {needRegister ? this->registerObject(obj) : 0, obj};
 		}
 		unsigned int getBufferSize() const;
 		void copyToBuffer(void *data) const;
