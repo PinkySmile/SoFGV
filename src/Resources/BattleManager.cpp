@@ -409,6 +409,7 @@ namespace Battle
 			this->_leftSpiritLimit  = this->_rightCharacter->_limit[3];
 			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
 			this->_leftProration    = this->_rightCharacter->_prorate;
+			this->_leftCounter      = this->_rightCharacter->_counter;
 			this->_leftComboCtr     = 120;
 		}
 		if (this->_leftCharacter->_comboCtr) {
@@ -419,6 +420,7 @@ namespace Battle
 			this->_rightSpiritLimit  = this->_leftCharacter->_limit[3];
 			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
 			this->_rightProration    = this->_leftCharacter->_prorate;
+			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
 	}
@@ -654,15 +656,21 @@ namespace Battle
 			game.screen->textSize(20);
 			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
 			game.screen->displayElement(std::to_string(this->_leftTotalDamage) + " damage" + (this->_leftTotalDamage < 2 ? "" : "s"), {0, -510}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement(std::to_string(static_cast<int>(this->_leftProration * 100)) + "% proration", {0, -480}, 400, Screen::ALIGN_LEFT);
 			game.screen->textSize(15);
 			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
-			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_leftNeutralLimit), {0, -475}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_leftNeutralLimit), {0, -445}, 400, Screen::ALIGN_LEFT);
 			game.screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
-			game.screen->displayElement("Void Limit: " + std::to_string(this->_leftVoidLimit), {0, -450}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement("Void Limit: " + std::to_string(this->_leftVoidLimit), {0, -415}, 400, Screen::ALIGN_LEFT);
 			game.screen->fillColor(sf::Color{187, 94, 0, alpha});
-			game.screen->displayElement("Matter Limit: " + std::to_string(this->_leftMatterLimit), {0, -425}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement("Matter Limit: " + std::to_string(this->_leftMatterLimit), {0, -390}, 400, Screen::ALIGN_LEFT);
 			game.screen->fillColor(sf::Color{51, 204, 204, alpha});
-			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_leftSpiritLimit), {0, -400}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_leftSpiritLimit), {0, -365}, 400, Screen::ALIGN_LEFT);
+			if (this->_leftCounter) {
+				game.screen->textSize(20);
+				game.screen->fillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
+				game.screen->displayElement("Counter !", {0, -340}, 400, Screen::ALIGN_LEFT);
+			}
 			game.screen->borderColor(0, sf::Color{0, 0, 0, 0});
 			game.screen->textSize(30);
 		}
@@ -728,15 +736,21 @@ namespace Battle
 			game.screen->textSize(20);
 			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
 			game.screen->displayElement(std::to_string(this->_rightTotalDamage) + " damage" + (this->_rightTotalDamage < 2 ? "" : "s"), {600, -510}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement(std::to_string(static_cast<int>(this->_rightProration * 100)) + "% proration", {600, -480}, 400, Screen::ALIGN_RIGHT);
 			game.screen->textSize(15);
 			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
-			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_rightNeutralLimit), {600, -475}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement("Neutral Limit: " + std::to_string(this->_rightNeutralLimit), {600, -445}, 400, Screen::ALIGN_RIGHT);
 			game.screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
-			game.screen->displayElement("Void Limit: " + std::to_string(this->_rightVoidLimit), {600, -450}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement("Void Limit: " + std::to_string(this->_rightVoidLimit), {600, -415}, 400, Screen::ALIGN_RIGHT);
 			game.screen->fillColor(sf::Color{187, 94, 0, alpha});
-			game.screen->displayElement("Matter Limit: " + std::to_string(this->_rightMatterLimit), {600, -425}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement("Matter Limit: " + std::to_string(this->_rightMatterLimit), {600, -390}, 400, Screen::ALIGN_RIGHT);
 			game.screen->fillColor(sf::Color{51, 204, 204, alpha});
-			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_rightSpiritLimit), {600, -400}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement("Spirit Limit: " + std::to_string(this->_rightSpiritLimit), {600, -365}, 400, Screen::ALIGN_RIGHT);
+			if (this->_rightCounter) {
+				game.screen->textSize(20);
+				game.screen->fillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
+				game.screen->displayElement("Counter !", {600, -340}, 400, Screen::ALIGN_RIGHT);
+			}
 			game.screen->borderColor(0, sf::Color{0, 0, 0, 0});
 			game.screen->textSize(30);
 		}

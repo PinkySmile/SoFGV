@@ -286,6 +286,7 @@ namespace Battle
 		};
 #pragma pack(push, 1)
 		struct Data {
+			bool _counter;
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
 			unsigned _airDashesUsed;
@@ -342,6 +343,7 @@ namespace Battle
 		unsigned _airDashesUsed = 0;
 		unsigned _comboCtr = 0;
 		unsigned _totalDamage = 0;
+		bool _counter = false;
 		float _prorate = 1;
 		std::array<unsigned, 4> _limit;
 		bool _atkDisabled = false;

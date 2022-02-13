@@ -70,6 +70,7 @@ namespace Battle
 		unsigned _leftMatterLimit = 0;
 		unsigned _leftSpiritLimit = 0;
 		unsigned _leftTotalDamage = 0;
+		bool _leftCounter = false;
 		float _leftProration = 0;
 		unsigned _rightComboCtr = 0;
 		unsigned _rightHitCtr = 0;
@@ -78,6 +79,7 @@ namespace Battle
 		unsigned _rightSpiritLimit = 0;
 		unsigned _rightMatterLimit = 0;
 		unsigned _rightTotalDamage = 0;
+		bool _rightCounter = false;
 		float _rightProration = 0;
 
 		void _gameUpdate();

@@ -923,6 +923,7 @@ namespace Battle
 			this->_prorate = 1;
 			this->_totalDamage = 0;
 			this->_limit.fill(0);
+			this->_counter = false;
 		}
 		Object::_forceStartMove(action);
 	}
@@ -1981,6 +1982,7 @@ namespace Battle
 				this->_forceStartMove(ACTION_AIR_HIT);
 			this->_hp -= data.damage * 1.5 * this->_prorate;
 			this->_totalDamage += data.damage * 1.5 * this->_prorate;
+			this->_counter = true;
 			this->_comboCtr++;
 			this->_blockStun = data.hitStun * 1.5;
 			this->_speed.x -= data.counterHitSpeed.x * this->_dir;
@@ -2240,6 +2242,7 @@ namespace Battle
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+		dat->_counter = this->_counter;
 		dat->_blockStun = this->_blockStun;
 		dat->_jumpsUsed = this->_jumpsUsed;
 		dat->_airDashesUsed = this->_airDashesUsed;
@@ -2276,6 +2279,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_counter = dat->_counter;
 		this->_blockStun = dat->_blockStun;
 		this->_jumpsUsed = dat->_jumpsUsed;
 		this->_airDashesUsed = dat->_airDashesUsed;
