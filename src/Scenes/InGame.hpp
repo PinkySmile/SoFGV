@@ -9,7 +9,7 @@
 #include <memory>
 #include "IScene.hpp"
 #include "../Inputs/IInput.hpp"
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 #include "../Resources/MoveListData.hpp"
 #include "../Objects/FakeObject.hpp"
 
@@ -49,7 +49,7 @@ namespace Battle
 		void _calculateMoveListOrder();
 
 	public:
-		InGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

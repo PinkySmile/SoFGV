@@ -6,11 +6,11 @@
 #define BATTLE_FAKEOBJECT_HPP
 
 
-#include "AObject.hpp"
+#include "Object.hpp"
 
 namespace Battle
 {
-	class FakeObject : public AObject {
+	class FakeObject : public Object {
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
 

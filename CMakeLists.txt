@@ -40,12 +40,12 @@ add_executable(
 	src/Inputs/RemoteInput.hpp
 	src/Logger.cpp
 	src/Logger.hpp
-	src/Objects/ACharacter.cpp
-	src/Objects/ACharacter.hpp
-	src/Objects/AObject.cpp
-	src/Objects/AObject.hpp
-	src/Objects/AProjectile.cpp
-	src/Objects/AProjectile.hpp
+	src/Objects/Character.cpp
+	src/Objects/Character.hpp
+	src/Objects/Object.cpp
+	src/Objects/Object.hpp
+	src/Objects/Projectile.cpp
+	src/Objects/Projectile.hpp
 	src/Objects/FakeObject.cpp
 	src/Objects/FakeObject.hpp
 	src/Objects/IObject.hpp
@@ -135,12 +135,12 @@ add_executable(
 	src/Inputs/RemoteInput.hpp
 	src/Logger.cpp
 	src/Logger.hpp
-	src/Objects/ACharacter.cpp
-	src/Objects/ACharacter.hpp
-	src/Objects/AObject.cpp
-	src/Objects/AObject.hpp
-	src/Objects/AProjectile.cpp
-	src/Objects/AProjectile.hpp
+	src/Objects/Character.cpp
+	src/Objects/Character.hpp
+	src/Objects/Object.cpp
+	src/Objects/Object.hpp
+	src/Objects/Projectile.cpp
+	src/Objects/Projectile.hpp
 	src/Objects/FakeObject.cpp
 	src/Objects/FakeObject.hpp
 	src/Objects/IObject.hpp

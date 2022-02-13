@@ -3,7 +3,7 @@
 //
 
 #include "InGame.hpp"
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 #include "CharacterSelect.hpp"
@@ -19,7 +19,7 @@ namespace Battle
 		"(also in the air)"
 	};
 
-	InGame::InGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
+	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 

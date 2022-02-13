@@ -2,8 +2,8 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#ifndef BATTLE_AOBJECT_HPP
-#define BATTLE_AOBJECT_HPP
+#ifndef BATTLE_OBJECT_HPP
+#define BATTLE_OBJECT_HPP
 
 
 #include "IObject.hpp"
@@ -24,7 +24,7 @@ namespace Battle
 		bool isIn(const Rectangle &other);
 	};
 
-	class AObject : public IObject {
+	class Object : public IObject {
 	protected:
 		struct Data {
 			Vector2f _position;
@@ -96,8 +96,8 @@ namespace Battle
 		bool showBoxes = false;
 		#endif
 
-		AObject() = default;
-		~AObject() override = default;
+		Object() = default;
+		~Object() override = default;
 		void render() const override;
 		void update() override;
 		void reset() override;
@@ -115,9 +115,9 @@ namespace Battle
 		unsigned int getClassId() const override;
 
 		friend class BattleManager;
-		friend class ACharacter;
+		friend class Character;
 	};
 }
 
 
-#endif //BATTLE_AOBJECT_HPP
+#endif //BATTLE_OBJECT_HPP

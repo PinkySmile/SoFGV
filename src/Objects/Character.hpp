@@ -2,15 +2,15 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#ifndef BATTLE_ACHARACTER_HPP
-#define BATTLE_ACHARACTER_HPP
+#ifndef BATTLE_CHARACTER_HPP
+#define BATTLE_CHARACTER_HPP
 
 
 #include <list>
-#include "AObject.hpp"
+#include "Object.hpp"
 #include "../Inputs/IInput.hpp"
 #include "../Data/Color.hpp"
-#include "AProjectile.hpp"
+#include "Projectile.hpp"
 
 namespace Battle
 {
@@ -277,7 +277,7 @@ namespace Battle
 
 	extern const std::map<CharacterActions, std::string> actionNames;
 
-	class ACharacter : public AObject {
+	class Character : public Object {
 	protected:
 		struct LastInput {
 			unsigned nbFrames : 28;
@@ -361,7 +361,7 @@ namespace Battle
 		sf::Text _text;
 		sf::Text _text2;
 #endif
-		ACharacter *_opponent;
+		Character *_opponent;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
 		unsigned _maxJumps = 0;
@@ -384,9 +384,9 @@ namespace Battle
 		virtual bool _executeGroundMoves(const InputStruct &input);
 		virtual bool _isBlocking() const;
 		virtual bool _canCancel(unsigned int action);
-		virtual bool _checkHitPos(const AObject *other) const;
-		virtual void _blockMove(const AObject *other, const FrameData &data);
-		virtual void _getHitByMove(const AObject *other, const FrameData &data);
+		virtual bool _checkHitPos(const Object *other) const;
+		virtual void _blockMove(const Object *other, const FrameData &data);
+		virtual void _getHitByMove(const Object *other, const FrameData &data);
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
@@ -426,10 +426,10 @@ namespace Battle
 	public:
 		std::string name;
 
-		ACharacter() = default;
-		ACharacter(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
-		~ACharacter() override = default;
-		void setOpponent(ACharacter *opponent);
+		Character() = default;
+		Character(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		~Character() override = default;
+		void setOpponent(Character *opponent);
 		bool hits(const IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
 		void getHit(IObject &other, const FrameData *data) override;
@@ -456,4 +456,4 @@ namespace Battle
 }
 
 
-#endif //BATTLE_ACHARACTER_HPP
+#endif //BATTLE_CHARACTER_HPP

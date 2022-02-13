@@ -2,7 +2,7 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#include "AObject.hpp"
+#include "Object.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 
@@ -101,7 +101,7 @@ namespace Battle
 		return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
 	}
 
-	void AObject::render() const
+	void Object::render() const
 	{
 		auto &data = *this->getCurrentFrameData();
 		auto scale = Vector2f{
@@ -161,13 +161,13 @@ namespace Battle
 		}
 	}
 
-	void AObject::update()
+	void Object::update()
 	{
 		this->_tickMove();
 		this->_applyMoveAttributes();
 	}
 
-	void AObject::reset()
+	void Object::reset()
 	{
 		this->_rotation = this->_baseRotation;
 		this->_gravity = this->_baseGravity;
@@ -176,12 +176,12 @@ namespace Battle
 		this->_groundDrag = this->_baseGroundDrag;
 	}
 
-	bool AObject::isDead() const
+	bool Object::isDead() const
 	{
 		return this->_dead;
 	}
 
-	void AObject::hit(IObject &other, const FrameData *)
+	void Object::hit(IObject &other, const FrameData *)
 	{
 		char buffer[36];
 
@@ -190,7 +190,7 @@ namespace Battle
 		this->_hasHit = true;
 	}
 
-	void AObject::getHit(IObject &other, const FrameData *)
+	void Object::getHit(IObject &other, const FrameData *)
 	{
 		char buffer[38];
 
@@ -198,7 +198,7 @@ namespace Battle
 		logger.debug(buffer);
 	}
 
-	bool AObject::hits(const IObject &other) const
+	bool Object::hits(const IObject &other) const
 	{
 		auto *oData = other.getCurrentFrameData();
 		auto *mData = this->getCurrentFrameData();
@@ -206,7 +206,7 @@ namespace Battle
 		if (!mData || !oData || this->_hasHit)
 			return false;
 
-		auto asAObject = dynamic_cast<const AObject *>(&other);
+		auto asAObject = dynamic_cast<const Object *>(&other);
 
 		if (!asAObject || asAObject->_team == this->_team)
 			return false;
@@ -235,7 +235,7 @@ namespace Battle
 		return false;
 	}
 
-	const FrameData *AObject::getCurrentFrameData() const
+	const FrameData *Object::getCurrentFrameData() const
 	{
 		try {
 			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
@@ -245,7 +245,7 @@ namespace Battle
 		}
 	}
 
-	Box AObject::_applyModifiers(Box box) const
+	Box Object::_applyModifiers(Box box) const
 	{
 		if (this->_direction)
 			return box;
@@ -256,7 +256,7 @@ namespace Battle
 		};
 	}
 
-	void AObject::_applyNewAnimFlags()
+	void Object::_applyNewAnimFlags()
 	{
 		auto data = this->getCurrentFrameData();
 
@@ -268,12 +268,12 @@ namespace Battle
 		Battle::game.soundMgr.play(data->soundHandle);
 	}
 
-	bool AObject::_hasMove(unsigned action) const
+	bool Object::_hasMove(unsigned action) const
 	{
 		return this->_moves.find(action) != this->_moves.end();
 	}
 
-	bool AObject::_startMove(unsigned int action)
+	bool Object::_startMove(unsigned int action)
 	{
 		if (!this->_hasMove(action)) {
 			logger.debug("Cannot start action " + std::to_string(action));
@@ -288,12 +288,12 @@ namespace Battle
 		return true;
 	}
 
-	bool AObject::_canStartMove(unsigned, const FrameData &)
+	bool Object::_canStartMove(unsigned, const FrameData &)
 	{
 		return true;
 	}
 
-	void AObject::_forceStartMove(unsigned int action)
+	void Object::_forceStartMove(unsigned int action)
 	{
 		this->_action = action;
 		this->_actionBlock = 0;
@@ -303,22 +303,22 @@ namespace Battle
 		this->_applyNewAnimFlags();
 	}
 
-	void AObject::_onMoveEnd(const FrameData &)
+	void Object::_onMoveEnd(const FrameData &)
 	{
 		this->_animation = 0;
 		this->_applyNewAnimFlags();
 	}
 
-	bool AObject::_isGrounded() const
+	bool Object::_isGrounded() const
 	{
 		return this->_position.y <= 0;
 	}
 
-	void AObject::collide(IObject &other)
+	void Object::collide(IObject &other)
 	{
 		auto myData = this->getCurrentFrameData();
 		auto data = other.getCurrentFrameData();
-		auto asAObject = dynamic_cast<AObject *>(&other);
+		auto asAObject = dynamic_cast<Object *>(&other);
 
 		if (!asAObject)
 			return;
@@ -339,7 +339,7 @@ namespace Battle
 		asAObject->_position.x += opDiff * 0.5f;
 	}
 
-	bool AObject::collides(const IObject &other) const
+	bool Object::collides(const IObject &other) const
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -351,7 +351,7 @@ namespace Battle
 		if (!data || !data->collisionBox)
 			return false;
 
-		auto asAObject = dynamic_cast<const AObject *>(&other);
+		auto asAObject = dynamic_cast<const Object *>(&other);
 
 		if (!asAObject)
 			return false;
@@ -369,7 +369,7 @@ namespace Battle
 		       static_cast<float>(_hurtBox.pos.y) + _hurtBox.size.y > static_cast<float>(_hitBox.pos.y);
 	}
 
-	void AObject::_applyMoveAttributes()
+	void Object::_applyMoveAttributes()
 	{
 		auto data = this->getCurrentFrameData();
 
@@ -387,7 +387,7 @@ namespace Battle
 			this->_speed *= 0.75;
 	}
 
-	void AObject::_tickMove()
+	void Object::_tickMove()
 	{
 		auto data = this->getCurrentFrameData();
 
@@ -405,7 +405,7 @@ namespace Battle
 		}
 	}
 
-	std::vector<Rectangle> AObject::_getModifiedBoxes(const FrameData &data, const std::vector<Box> &boxes) const
+	std::vector<Rectangle> Object::_getModifiedBoxes(const FrameData &data, const std::vector<Box> &boxes) const
 	{
 		std::vector<Rectangle> result;
 		Vector2f center{
@@ -427,17 +427,17 @@ namespace Battle
 		return result;
 	}
 
-	std::vector<Rectangle> AObject::_getModifiedHurtBoxes() const
+	std::vector<Rectangle> Object::_getModifiedHurtBoxes() const
 	{
 		return this->_getModifiedBoxes(*this->getCurrentFrameData(), this->getCurrentFrameData()->hurtBoxes);
 	}
 
-	std::vector<Rectangle> AObject::_getModifiedHitBoxes() const
+	std::vector<Rectangle> Object::_getModifiedHitBoxes() const
 	{
 		return this->_getModifiedBoxes(*this->getCurrentFrameData(), this->getCurrentFrameData()->hitBoxes);
 	}
 
-	void AObject::_drawBox(const Rectangle &box, const sf::Color &color) const
+	void Object::_drawBox(const Rectangle &box, const sf::Color &color) const
 	{
 		sf::VertexArray arr{sf::Quads, 4};
 		sf::VertexArray arr2{sf::LineStrip, 5};
@@ -456,17 +456,17 @@ namespace Battle
 		game.screen->draw(arr2);
 	}
 
-	void AObject::kill()
+	void Object::kill()
 	{
 		this->_dead = true;
 	}
 
-	unsigned int AObject::getBufferSize() const
+	unsigned int Object::getBufferSize() const
 	{
 		return sizeof(Data);
 	}
 
-	void AObject::copyToBuffer(void *data) const
+	void Object::copyToBuffer(void *data) const
 	{
 		auto dat = reinterpret_cast<Data *>(data);
 
@@ -489,7 +489,7 @@ namespace Battle
 		dat->_dir = this->_dir;
 	}
 
-	void AObject::restoreFromBuffer(void *data)
+	void Object::restoreFromBuffer(void *data)
 	{
 		auto dat = reinterpret_cast<Data *>(data);
 
@@ -512,7 +512,7 @@ namespace Battle
 		this->_dir = dat->_dir;
 	}
 
-	unsigned int AObject::getClassId() const
+	unsigned int Object::getClassId() const
 	{
 		return 0;
 	}

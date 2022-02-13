@@ -2,7 +2,7 @@
 // Created by Gegel85 on 28/09/2021.
 //
 
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 #include "NetplayInGame.hpp"
@@ -16,7 +16,7 @@ namespace Battle
 		logger.debug("NetplayInGame scene destroyed");
 	}
 
-	NetplayInGame::NetplayInGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+	NetplayInGame::NetplayInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(leftChr, rightChr, lJson, rJson)
 	{
 		sf::View view{{-50, -600, 1100, 700}};

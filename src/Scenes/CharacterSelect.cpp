@@ -173,9 +173,9 @@ namespace Battle
 		this->_rightInput->consumeEvent(event);
 	}
 
-	ACharacter *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
+	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
 	{
-		ACharacter *chr;
+		Character *chr;
 		auto &entry = this->_entries[pos];
 		std::pair<std::vector<Color>, std::vector<Color>> palettes;
 
@@ -185,7 +185,7 @@ namespace Battle
 		}
 		switch (entry._class) {
 		default:
-			chr = new ACharacter{
+			chr = new Character{
 				entry.framedataPath,
 				entry.subobjectDataPath,
 				palettes,

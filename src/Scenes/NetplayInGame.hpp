@@ -9,7 +9,7 @@
 #include "InGame.hpp"
 #include "../Inputs/IInput.hpp"
 #include "../Inputs/RemoteInput.hpp"
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 #include "NetplayScene.hpp"
 
 namespace Battle
@@ -21,7 +21,7 @@ namespace Battle
 		IScene *_realUpdate() override;
 
 	public:
-		NetplayInGame(ACharacter *leftChr, ACharacter *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		NetplayInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
 		~NetplayInGame() override;
 		IScene *update() override;
 		void render() const override;

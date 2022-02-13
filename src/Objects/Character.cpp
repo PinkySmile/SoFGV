@@ -5,7 +5,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include "ACharacter.hpp"
+#include "Character.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 #ifndef max
@@ -349,7 +349,7 @@ namespace Battle
 		//{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
 	};
 
-	ACharacter::ACharacter(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+	Character::Character(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
 #ifdef _DEBUG
@@ -370,9 +370,9 @@ namespace Battle
 		this->_lastInputs.push_back({0, 0, 0});
 	}
 
-	void ACharacter::render() const
+	void Character::render() const
 	{
-		AObject::render();
+		Object::render();
 #ifdef _DEBUG
 		game.screen->draw(this->_text);
 		game.screen->draw(this->_text2);
@@ -398,7 +398,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::update()
+	void Character::update()
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
@@ -488,7 +488,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity)
+	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -512,12 +512,12 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::consumeEvent(const sf::Event &event)
+	void Character::consumeEvent(const sf::Event &event)
 	{
 		this->_input->consumeEvent(event);
 	}
 
-	void ACharacter::_processInput(InputStruct input)
+	void Character::_processInput(InputStruct input)
 	{
 		auto data = this->getCurrentFrameData();
 		auto airborne =
@@ -548,7 +548,7 @@ namespace Battle
 			this->_startMove(ACTION_FALLING);
 	}
 
-	InputStruct ACharacter::updateInputs()
+	InputStruct Character::updateInputs()
 	{
 		this->_input->update();
 
@@ -571,7 +571,7 @@ namespace Battle
 		return input;
 	}
 
-	bool ACharacter::_executeAirborneMoves(const InputStruct &input)
+	bool Character::_executeAirborneMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 			this->_executeAirTech(input) ||
@@ -638,7 +638,7 @@ namespace Battle
 		        this->_executeAirJump(input);
 	}
 
-	bool ACharacter::_executeGroundMoves(const InputStruct &input)
+	bool Character::_executeGroundMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874N)) ||
@@ -718,7 +718,7 @@ namespace Battle
 			this->_executeWalking(input);
 	}
 
-	bool ACharacter::_canStartMove(unsigned action, const FrameData &data)
+	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
@@ -763,7 +763,7 @@ namespace Battle
 		return false;
 	}
 
-	void ACharacter::_onMoveEnd(const FrameData &lastData)
+	void Character::_onMoveEnd(const FrameData &lastData)
 	{
 		logger.debug(std::to_string(this->_action) + " ended");
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
@@ -776,13 +776,13 @@ namespace Battle
 			if (this->_moves.at(this->_action).size() == 1)
 				//TODO: make proper exceptions
 				throw std::invalid_argument("Action " + std::to_string(this->_action) + " is missing block 1");
-			AObject::_onMoveEnd(lastData);
+			Object::_onMoveEnd(lastData);
 			return;
 		}
 
 		if (this->_action == ACTION_KNOCKED_DOWN) {
 			if (this->_hp <= 0)
-				return AObject::_onMoveEnd(lastData);
+				return Object::_onMoveEnd(lastData);
 
 			auto inputs = this->_input->getInputs();
 
@@ -826,10 +826,10 @@ namespace Battle
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
 			return this->_forceStartMove(idleAction);
-		AObject::_onMoveEnd(lastData);
+		Object::_onMoveEnd(lastData);
 	}
 
-	void ACharacter::hit(IObject &other, const FrameData *data)
+	void Character::hit(IObject &other, const FrameData *data)
 	{
 		this->_speed.x += data->pushBack * -this->_dir;
 		if (data->oFlag.grab) {
@@ -837,16 +837,16 @@ namespace Battle
 			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
 				//TODO: make proper exceptions
 				throw std::invalid_argument("Grab action " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
-			AObject::_onMoveEnd(*data);
+			Object::_onMoveEnd(*data);
 		}
-		AObject::hit(other, data);
+		Object::hit(other, data);
 	}
 
-	void ACharacter::getHit(IObject &other, const FrameData *data)
+	void Character::getHit(IObject &other, const FrameData *data)
 	{
 		auto myData = this->getCurrentFrameData();
 
-		AObject::getHit(other, data);
+		Object::getHit(other, data);
 
 		if (!data)
 			return;
@@ -862,12 +862,12 @@ namespace Battle
 			!data->oFlag.unblockable &&
 			!data->oFlag.grab
 		)
-			this->_blockMove(dynamic_cast<AObject *>(&other), *data);
+			this->_blockMove(dynamic_cast<Object *>(&other), *data);
 		else
-			this->_getHitByMove(dynamic_cast<AObject *>(&other), *data);
+			this->_getHitByMove(dynamic_cast<Object *>(&other), *data);
 	}
 
-	bool ACharacter::_isBlocking() const
+	bool Character::_isBlocking() const
 	{
 		auto *data = this->getCurrentFrameData();
 
@@ -876,7 +876,7 @@ namespace Battle
 		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
 	}
 
-	void ACharacter::_forceStartMove(unsigned int action)
+	void Character::_forceStartMove(unsigned int action)
 	{
 		if (
 			action == ACTION_NEUTRAL_JUMP ||
@@ -924,15 +924,15 @@ namespace Battle
 			this->_totalDamage = 0;
 			this->_limit.fill(0);
 		}
-		AObject::_forceStartMove(action);
+		Object::_forceStartMove(action);
 	}
 
-	void ACharacter::setOpponent(ACharacter *opponent)
+	void Character::setOpponent(Character *opponent)
 	{
 		this->_opponent = opponent;
 	}
 
-	bool ACharacter::_canCancel(unsigned int action)
+	bool Character::_canCancel(unsigned int action)
 	{
 		auto currentData = this->getCurrentFrameData();
 
@@ -957,7 +957,7 @@ namespace Battle
 		return false;
 	}
 
-	int ACharacter::getAttackTier(unsigned int action) const
+	int Character::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
 		bool isTyped = action >= ACTION_5M;
@@ -1010,7 +1010,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::_checkSpecialInputs()
+	void Character::_checkSpecialInputs()
 	{
 		this->_clearLastInputs();
 		this->_specialInputs._value = 0;
@@ -1036,7 +1036,7 @@ namespace Battle
 		this->_specialInputs._63146974 = this->_check63146974Input();
 	}
 
-	bool ACharacter::_check236Input()
+	bool Character::_check236Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1056,7 +1056,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check214Input()
+	bool Character::_check214Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1076,7 +1076,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check623Input()
+	bool Character::_check623Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1096,7 +1096,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check421Input()
+	bool Character::_check421Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1116,7 +1116,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check624Input()
+	bool Character::_check624Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1136,7 +1136,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check426Input()
+	bool Character::_check426Input()
 	{
 		unsigned total = 0;
 		bool found2 = false;
@@ -1156,7 +1156,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check6314Input()
+	bool Character::_check6314Input()
 	{
 		unsigned total = 0;
 		bool found1 = false;
@@ -1178,7 +1178,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check4136Input()
+	bool Character::_check4136Input()
 	{
 		unsigned total = 0;
 		bool found1 = false;
@@ -1200,7 +1200,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check624684Input()
+	bool Character::_check624684Input()
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1226,7 +1226,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check6314684Input()
+	bool Character::_check6314684Input()
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1254,7 +1254,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check6246974Input()
+	bool Character::_check6246974Input()
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1282,7 +1282,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check63146974Input()
+	bool Character::_check63146974Input()
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1312,7 +1312,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check44Input()
+	bool Character::_check44Input()
 	{
 		unsigned total = 0;
 		bool found4 = false;
@@ -1332,7 +1332,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check66Input()
+	bool Character::_check66Input()
 	{
 		unsigned total = 0;
 		bool found6 = false;
@@ -1352,7 +1352,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check27Input()
+	bool Character::_check27Input()
 	{
 		unsigned total = 0;
 		bool found7 = false;
@@ -1368,7 +1368,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check28Input()
+	bool Character::_check28Input()
 	{
 		unsigned total = 0;
 		bool found8 = false;
@@ -1384,7 +1384,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_check29Input()
+	bool Character::_check29Input()
 	{
 		unsigned total = 0;
 		bool found9 = false;
@@ -1400,7 +1400,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_checkc28Input()
+	bool Character::_checkc28Input()
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
@@ -1426,7 +1426,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_checkc46Input()
+	bool Character::_checkc46Input()
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
@@ -1452,7 +1452,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_checkc64Input()
+	bool Character::_checkc64Input()
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
@@ -1478,7 +1478,7 @@ namespace Battle
 		return false;
 	}
 
-	void ACharacter::_clearLastInputs()
+	void Character::_clearLastInputs()
 	{
 		auto it = this->_lastInputs.begin();
 		unsigned total = 0;
@@ -1490,7 +1490,7 @@ namespace Battle
 		this->_lastInputs.erase(it, this->_lastInputs.end());
 	}
 
-	bool ACharacter::_executeAirDashes(const InputStruct &input)
+	bool Character::_executeAirDashes(const InputStruct &input)
 	{
 		if (this->_specialInputs._44 && this->_startMove(ACTION_AIR_DASH_4))
 			return true;
@@ -1508,7 +1508,7 @@ namespace Battle
 			(                                                                   this->_startMove(ACTION_AIR_DASH_4));
 	}
 
-	bool ACharacter::_executeAirBlock(const InputStruct &input)
+	bool Character::_executeAirBlock(const InputStruct &input)
 	{
 		if (input.n && input.horizontalAxis * this->_dir < 0) {
 			if (this->_action == ACTION_AIR_NEUTRAL_BLOCK || this->_startMove(ACTION_AIR_NEUTRAL_BLOCK))
@@ -1538,7 +1538,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_executeAirJump(const InputStruct &input)
+	bool Character::_executeAirJump(const InputStruct &input)
 	{
 		if (this->_hasJumped)
 			return false;
@@ -1551,7 +1551,7 @@ namespace Battle
 		return this->_startMove(ACTION_NEUTRAL_AIR_JUMP);
 	}
 
-	bool ACharacter::_executeGroundDashes(const InputStruct &input)
+	bool Character::_executeGroundDashes(const InputStruct &input)
 	{
 		if (this->_specialInputs._44 && this->_startMove(ACTION_BACKWARD_DASH))
 			return true;
@@ -1562,7 +1562,7 @@ namespace Battle
 		return this->_startMove(this->_dir * input.horizontalAxis > 0 ? ACTION_FORWARD_DASH : ACTION_BACKWARD_DASH);
 	}
 
-	bool ACharacter::_executeGroundBlock(const InputStruct &input)
+	bool Character::_executeGroundBlock(const InputStruct &input)
 	{
 		if (input.n && input.horizontalAxis * this->_dir < 0) {
 			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK;
@@ -1603,7 +1603,7 @@ namespace Battle
 		return false;
 	}
 
-	bool ACharacter::_executeGroundJump(const InputStruct &input)
+	bool Character::_executeGroundJump(const InputStruct &input)
 	{
 		if (this->_specialInputs._29 && this->_startMove(ACTION_FORWARD_HIGH_JUMP))
 			return true;
@@ -1628,7 +1628,7 @@ namespace Battle
 		return this->_startMove(ACTION_NEUTRAL_JUMP);
 	}
 
-	bool ACharacter::_executeCrouch(const InputStruct &input)
+	bool Character::_executeCrouch(const InputStruct &input)
 	{
 		if (input.verticalAxis >= 0)
 			return false;
@@ -1636,7 +1636,7 @@ namespace Battle
 		return this->_action == ACTION_CROUCHING || this->_action == ACTION_CROUCH;
 	}
 
-	bool ACharacter::_executeWalking(const InputStruct &input)
+	bool Character::_executeWalking(const InputStruct &input)
 	{
 		if (!input.horizontalAxis)
 			return false;
@@ -1644,7 +1644,7 @@ namespace Battle
 		return true;
 	}
 
-	bool ACharacter::_executeAirTech(const InputStruct &input)
+	bool Character::_executeAirTech(const InputStruct &input)
 	{
 		if (!input.d & !input.n & !input.v & !input.m & !input.a & !input.s)
 			return false;
@@ -1654,18 +1654,18 @@ namespace Battle
 			(this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
 	}
 
-	bool ACharacter::hits(const IObject &other) const
+	bool Character::hits(const IObject &other) const
 	{
-		auto otherChr = dynamic_cast<const ACharacter *>(&other);
+		auto otherChr = dynamic_cast<const Character *>(&other);
 
 		if (otherChr)
 			for (auto limit : otherChr->_limit)
 				if (limit >= 100)
 					return false;
-		return AObject::hits(other);
+		return Object::hits(other);
 	}
 
-	void ACharacter::postUpdate()
+	void Character::postUpdate()
 	{
 		if (this->_position.x < 0)
 			this->_position.x = 0;
@@ -1813,7 +1813,7 @@ namespace Battle
 #endif
 	}
 
-	bool ACharacter::_checkHitPos(const AObject *other) const
+	bool Character::_checkHitPos(const Object *other) const
 	{
 		if (!other)
 			return false;
@@ -1898,7 +1898,7 @@ namespace Battle
 			oData->dFlag.highBlock || !this->_input->isPressed(INPUT_DOWN);
 	}
 
-	void ACharacter::_blockMove(const AObject *other, const FrameData &data)
+	void Character::_blockMove(const Object *other, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 		unsigned wrongBlockLevel = 0;
@@ -1970,7 +1970,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::_getHitByMove(const AObject *, const FrameData &data)
+	void Character::_getHitByMove(const Object *, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -2015,7 +2015,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::_processWallSlams()
+	void Character::_processWallSlams()
 	{
 		if (this->_position.x < 0) {
 			this->_position.x = 0;
@@ -2045,7 +2045,7 @@ namespace Battle
 			this->_speed.x = 0;
 	}
 
-	void ACharacter::_processGroundSlams()
+	void Character::_processGroundSlams()
 	{
 		if (this->_position.y < 0) {
 			this->_position.y = 0;
@@ -2074,7 +2074,7 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::_calculateCornerPriority()
+	void Character::_calculateCornerPriority()
 	{
 		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
 
@@ -2097,11 +2097,11 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::_applyMoveAttributes()
+	void Character::_applyMoveAttributes()
 	{
 		auto data = this->getCurrentFrameData();
 
-		AObject::_applyMoveAttributes();
+		Object::_applyMoveAttributes();
 
 		auto input = this->_input->getInputs();
 
@@ -2148,7 +2148,7 @@ namespace Battle
 		}
 	}
 
-	std::pair<unsigned, std::shared_ptr<IObject>> ACharacter::_spawnSubobject(unsigned id, bool needRegister)
+	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
 	{
 		auto data = this->getCurrentFrameData();
 		auto pos = this->_position + Vector2i{
@@ -2157,7 +2157,7 @@ namespace Battle
 		} + data->size / 2;
 
 		try {
-			return game.battleMgr->registerObject<AProjectile>(
+			return game.battleMgr->registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(id),
 				this->_team,
@@ -2171,7 +2171,7 @@ namespace Battle
 		}
 	}
 
-	bool ACharacter::isBlockingAction(unsigned int action)
+	bool Character::isBlockingAction(unsigned int action)
 	{
 		switch (action) {
 		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
@@ -2204,42 +2204,42 @@ namespace Battle
 		}
 	}
 
-	const std::shared_ptr<IInput> &ACharacter::getInput() const
+	const std::shared_ptr<IInput> &Character::getInput() const
 	{
 		return this->_input;
 	}
 
-	std::shared_ptr<IInput> &ACharacter::getInput()
+	std::shared_ptr<IInput> &Character::getInput()
 	{
 		return this->_input;
 	}
 
-	const std::map<unsigned, std::vector<std::vector<FrameData>>> &ACharacter::getFrameData()
+	const std::map<unsigned, std::vector<std::vector<FrameData>>> &Character::getFrameData()
 	{
 		return this->_moves;
 	}
 
-	void ACharacter::setAttacksDisabled(bool disabled)
+	void Character::setAttacksDisabled(bool disabled)
 	{
 		this->_atkDisabled = disabled;
 	}
 
-	void ACharacter::disableInputs(bool disabled)
+	void Character::disableInputs(bool disabled)
 	{
 		this->_inputDisabled = disabled;
 	}
 
-	unsigned int ACharacter::getBufferSize() const
+	unsigned int Character::getBufferSize() const
 	{
-		return AObject::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size();
+		return Object::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size();
 	}
 
-	void ACharacter::copyToBuffer(void *data) const
+	void Character::copyToBuffer(void *data) const
 	{
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + AObject::getBufferSize());
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 		size_t i = 0;
 
-		AObject::copyToBuffer(data);
+		Object::copyToBuffer(data);
 		dat->_blockStun = this->_blockStun;
 		dat->_jumpsUsed = this->_jumpsUsed;
 		dat->_airDashesUsed = this->_airDashesUsed;
@@ -2271,11 +2271,11 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::restoreFromBuffer(void *data)
+	void Character::restoreFromBuffer(void *data)
 	{
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + AObject::getBufferSize());
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
-		AObject::restoreFromBuffer(data);
+		Object::restoreFromBuffer(data);
 		this->_blockStun = dat->_blockStun;
 		this->_jumpsUsed = dat->_jumpsUsed;
 		this->_airDashesUsed = dat->_airDashesUsed;
@@ -2304,19 +2304,19 @@ namespace Battle
 		}
 	}
 
-	void ACharacter::resolveSubObjects(const BattleManager &manager)
+	void Character::resolveSubObjects(const BattleManager &manager)
 	{
 		for (auto &subobject : this->_subobjects)
 			if (subobject.first)
 				subobject.second = manager.getObjectFromId(subobject.first);
 	}
 
-	unsigned int ACharacter::getClassId() const
+	unsigned int Character::getClassId() const
 	{
 		return 1;
 	}
 
-	void ACharacter::_removeSubobjects()
+	void Character::_removeSubobjects()
 	{
 		for (auto &obj : this->_subobjects)
 			obj.second.reset();

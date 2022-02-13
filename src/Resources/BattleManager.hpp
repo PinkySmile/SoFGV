@@ -6,7 +6,7 @@
 #define BATTLE_BATTLEMANAGER_HPP
 
 
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 
 namespace Battle
 {
@@ -55,8 +55,8 @@ namespace Battle
 		unsigned _lastObjectId = 0;
 
 		// Game State
-		std::unique_ptr<ACharacter> _leftCharacter;
-		std::unique_ptr<ACharacter> _rightCharacter;
+		std::unique_ptr<Character> _leftCharacter;
+		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
 		std::pair<unsigned char, unsigned char> _score{0, 0};
 		unsigned _currentRound = 0;
@@ -93,7 +93,7 @@ namespace Battle
 
 	public:
 		struct CharacterParams {
-			ACharacter *character;
+			Character *character;
 			unsigned hp;
 			Vector2f gravity;
 			unsigned char maxJumps;
@@ -112,10 +112,10 @@ namespace Battle
 		unsigned registerObject(const std::shared_ptr<IObject> &object);
 		void consumeEvent(const sf::Event &);
 		std::shared_ptr<IObject> getObjectFromId(unsigned id) const;
-		ACharacter *getLeftCharacter();
-		ACharacter *getRightCharacter();
-		const ACharacter *getLeftCharacter() const;
-		const ACharacter *getRightCharacter() const;
+		Character *getLeftCharacter();
+		Character *getRightCharacter();
+		const Character *getLeftCharacter() const;
+		const Character *getRightCharacter() const;
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
 		{

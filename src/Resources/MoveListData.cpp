@@ -3,7 +3,7 @@
 //
 
 #include "MoveListData.hpp"
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 
 namespace Battle
 {

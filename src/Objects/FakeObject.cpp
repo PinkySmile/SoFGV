@@ -3,7 +3,7 @@
 //
 
 #include "FakeObject.hpp"
-#include "ACharacter.hpp"
+#include "Character.hpp"
 
 Battle::FakeObject::FakeObject(const std::map<unsigned int, std::vector<std::vector<FrameData>>> &frameData)
 {
@@ -16,7 +16,7 @@ void Battle::FakeObject::render() const
 	auto oldPos = this->_position;
 
 	const_cast<FakeObject *>(this)->_position = {700 , 190};
-	AObject::render();
+	Object::render();
 	const_cast<FakeObject *>(this)->_position = oldPos;
 }
 
@@ -61,5 +61,5 @@ void Battle::FakeObject::_onMoveEnd(const Battle::FrameData &lastData)
 		return this->_forceStartMove(idleAction);
 	if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
 		return this->_forceStartMove(idleAction);
-	AObject::_onMoveEnd(lastData);
+	Object::_onMoveEnd(lastData);
 }

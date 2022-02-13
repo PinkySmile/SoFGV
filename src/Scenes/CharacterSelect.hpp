@@ -11,7 +11,7 @@
 #include "IScene.hpp"
 #include "../Inputs/IInput.hpp"
 #include "../Resources/FrameData.hpp"
-#include "../Objects/ACharacter.hpp"
+#include "../Objects/Character.hpp"
 
 namespace Battle
 {
@@ -43,7 +43,7 @@ namespace Battle
 		int _leftPalette = 0;
 		int _rightPalette = 1;
 
-		ACharacter *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
+		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
 
 	public:
 		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput);

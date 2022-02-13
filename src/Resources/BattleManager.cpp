@@ -161,22 +161,22 @@ namespace Battle
 		this->_hitStop = std::max(stop, this->_hitStop);
 	}
 
-	const ACharacter *BattleManager::getLeftCharacter() const
+	const Character *BattleManager::getLeftCharacter() const
 	{
 		return &*this->_leftCharacter;
 	}
 
-	const ACharacter *BattleManager::getRightCharacter() const
+	const Character *BattleManager::getRightCharacter() const
 	{
 		return &*this->_rightCharacter;
 	}
 
-	ACharacter *BattleManager::getLeftCharacter()
+	Character *BattleManager::getLeftCharacter()
 	{
 		return &*this->_leftCharacter;
 	}
 
-	ACharacter *BattleManager::getRightCharacter()
+	Character *BattleManager::getRightCharacter()
 	{
 		return &*this->_rightCharacter;
 	}
@@ -484,7 +484,7 @@ namespace Battle
 #ifdef _DEBUG
 				assert(dynamic_cast<AProjectile *>(&*object.second));
 #endif
-				auto obj = reinterpret_cast<AProjectile *>(&*object.second);
+				auto obj = reinterpret_cast<Projectile *>(&*object.second);
 
 				*(bool *)ptr = obj->getOwner();
 				ptr += sizeof(bool);
@@ -543,10 +543,10 @@ namespace Battle
 			ptr += sizeof(unsigned char);
 			switch (cl) {
 			case 0:
-				obj.reset(new AObject());
+				obj.reset(new Object());
 				break;
 			case 1:
-				obj.reset(new ACharacter());
+				obj.reset(new Character());
 				break;
 			case 2: {
 				auto owner = *(bool *)ptr;
