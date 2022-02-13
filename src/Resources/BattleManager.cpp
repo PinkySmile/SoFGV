@@ -2,6 +2,7 @@
 // Created by PinkySmile on 18/09/2021
 //
 
+#include <sstream>
 #include "BattleManager.hpp"
 #include "../Logger.hpp"
 #include "Game.hpp"
@@ -90,11 +91,43 @@ namespace Battle
 
 	void BattleManager::render()
 	{
+		float total = 0;
+
+		while (this->_fpsTimes.size() >= 15)
+			this->_fpsTimes.pop_front();
+		this->_fpsTimes.push_back(this->_fpsClock.restart().asMilliseconds());
 		game.textureMgr.render(this->_stage);
 
 		this->_renderLeftHUD();
 		this->_renderRightHUD();
 
+		for (auto time : this->_tpsTimes)
+			total += time;
+		if (!this->_tpsTimes.empty()) {
+			char buffer[12];
+
+			sprintf(buffer, "%.2f TPS", 1000.f / (total / this->_tpsTimes.size()));
+			game.screen->borderColor(2, sf::Color::Black);
+			game.screen->fillColor(sf::Color::White);
+			game.screen->textSize(20);
+			game.screen->displayElement(buffer, {900, 75}, 145, Screen::ALIGN_RIGHT);
+			game.screen->textSize(30);
+			game.screen->borderColor(0, sf::Color::Transparent);
+		}
+		total = 0;
+		for (auto time : this->_fpsTimes)
+			total += time;
+		if (!this->_fpsTimes.empty()) {
+			char buffer[12];
+
+			sprintf(buffer, "%.2f FPS", 1000.f / (total / this->_fpsTimes.size()));
+			game.screen->borderColor(2, sf::Color::Black);
+			game.screen->fillColor(sf::Color::White);
+			game.screen->textSize(20);
+			game.screen->displayElement(buffer, {900, 50}, 145, Screen::ALIGN_RIGHT);
+			game.screen->textSize(30);
+			game.screen->borderColor(0, sf::Color::Transparent);
+		}
 		game.networkMgr.renderHUD();
 
 		this->_leftCharacter->render();
@@ -305,30 +338,6 @@ namespace Battle
 		auto lchr = &*this->_leftCharacter;
 		auto rchr = &*this->_rightCharacter;
 
-		if (this->_leftComboCtr)
-			this->_leftComboCtr--;
-		if (this->_rightComboCtr)
-			this->_rightComboCtr--;
-		if (this->_rightCharacter->_comboCtr) {
-			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
-			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
-			this->_leftVoidLimit    = this->_rightCharacter->_limit[1];
-			this->_leftSpiritLimit  = this->_rightCharacter->_limit[2];
-			this->_leftMatterLimit  = this->_rightCharacter->_limit[3];
-			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
-			this->_leftProration    = this->_rightCharacter->_prorate;
-			this->_leftComboCtr     = 180;
-		}
-		if (this->_leftCharacter->_comboCtr) {
-			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
-			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
-			this->_rightVoidLimit    = this->_leftCharacter->_limit[1];
-			this->_rightSpiritLimit  = this->_leftCharacter->_limit[2];
-			this->_rightMatterLimit  = this->_leftCharacter->_limit[3];
-			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
-			this->_rightProration    = this->_leftCharacter->_prorate;
-			this->_rightComboCtr     = 180;
-		}
 		if (!rdata->dFlag.flash || ldata->dFlag.flash)
 			lchr->update();
 		if (!ldata->dFlag.flash)
@@ -388,6 +397,30 @@ namespace Battle
 		}
 		lchr->postUpdate();
 		rchr->postUpdate();
+		if (this->_leftComboCtr)
+			this->_leftComboCtr--;
+		if (this->_rightComboCtr)
+			this->_rightComboCtr--;
+		if (this->_rightCharacter->_comboCtr) {
+			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
+			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
+			this->_leftVoidLimit    = this->_rightCharacter->_limit[1];
+			this->_leftMatterLimit  = this->_rightCharacter->_limit[2];
+			this->_leftSpiritLimit  = this->_rightCharacter->_limit[3];
+			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
+			this->_leftProration    = this->_rightCharacter->_prorate;
+			this->_leftComboCtr     = 120;
+		}
+		if (this->_leftCharacter->_comboCtr) {
+			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
+			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
+			this->_rightVoidLimit    = this->_leftCharacter->_limit[1];
+			this->_rightMatterLimit  = this->_leftCharacter->_limit[2];
+			this->_rightSpiritLimit  = this->_leftCharacter->_limit[3];
+			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
+			this->_rightProration    = this->_leftCharacter->_prorate;
+			this->_rightComboCtr     = 120;
+		}
 	}
 
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
@@ -540,6 +573,10 @@ namespace Battle
 
 	bool BattleManager::_updateLoop()
 	{
+		while (this->_tpsTimes.size() >= 15)
+			this->_tpsTimes.pop_front();
+		this->_tpsTimes.push_back(this->_tpsClock.restart().asMilliseconds());
+
 		if (
 			this->_roundEndTimer > 120 ||
 			(this->_leftCharacter->_hp > 0 && this->_rightCharacter->_hp > 0 && !this->_roundEndTimer) ||

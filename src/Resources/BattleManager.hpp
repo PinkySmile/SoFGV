@@ -41,6 +41,10 @@ namespace Battle
 #pragma pack(pop)
 
 		// Non Game State
+		sf::Clock _tpsClock;
+		std::list<unsigned> _tpsTimes;
+		mutable sf::Clock _fpsClock;
+		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
 		sf::Sprite _roundSprite;
 		std::vector<sf::Texture> _roundSprites;

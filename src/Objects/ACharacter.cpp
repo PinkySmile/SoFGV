@@ -520,6 +520,10 @@ namespace Battle
 	void ACharacter::_processInput(InputStruct input)
 	{
 		auto data = this->getCurrentFrameData();
+		auto airborne =
+			(this->_action == ACTION_BACKWARD_AIR_JUMP || this->_action == ACTION_NEUTRAL_AIR_JUMP || this->_action == ACTION_FORWARD_AIR_JUMP) ?
+			data->dFlag.airborne :
+			!this->_isGrounded();
 
 		if (this->_atkDisabled || this->_inputDisabled) {
 			input.n = 0;
@@ -534,8 +538,8 @@ namespace Battle
 			}
 		}
 		if (
-			(data->dFlag.airborne && this->_executeAirborneMoves(input)) ||
-			(!data->dFlag.airborne && this->_executeGroundMoves(input))
+			(airborne && this->_executeAirborneMoves(input)) ||
+			(!airborne && this->_executeGroundMoves(input))
 		)
 			return;
 		if (this->_isGrounded())
