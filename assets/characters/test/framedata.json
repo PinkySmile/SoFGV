@@ -10,7 +10,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 512,
+                    "defense_flag": 8704,
                     "duration": 10,
                     "hurt_boxes": [
                         {
@@ -14070,7 +14070,7 @@
                         }
                     ],
                     "mana_cost": 1000,
-                    "offense_flag": 65536,
+                    "offense_flag": 8454144,
                     "offset": {
                         "x": 17,
                         "y": 0
