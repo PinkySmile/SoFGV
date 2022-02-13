@@ -83,7 +83,6 @@ namespace Battle
 		};
 #pragma pack(pop)
 
-		unsigned _myPlayer = 0;
 		volatile bool _host = false;
 		volatile bool _connect = false;
 		volatile unsigned _delay = 0;

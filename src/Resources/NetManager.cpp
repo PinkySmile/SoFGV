@@ -98,7 +98,6 @@ namespace Battle
 		auto spectator = new sf::IpAddress[spectators];
 		auto spectatorPort = new unsigned short[spectators];
 
-		this->_myPlayer = 0;
 		this->_host = true;
 		logger.info("Bind socket on port " + std::to_string(port));
 		sock.bind(port);
@@ -261,7 +260,6 @@ namespace Battle
 		auto attempts = 0;
 		sf::Socket::Status status;
 
-		this->_myPlayer = 1;
 		this->_connect = true;
 		sock.setBlocking(false);
 		do {
@@ -337,15 +335,16 @@ namespace Battle
 			sock.send(&packet, sizeof(packet), host, hostPort);
 		}
 
+		logger.debug("Host selected " + std::to_string(this->_delay) + " frames of delay");
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
-		ggpoPlayers[0].player_num = 2;
+		ggpoPlayers[0].player_num = 1;
 		strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
 		ggpoPlayers[0].u.remote.port = port;
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
-		ggpoPlayers[1].player_num = 1;
+		ggpoPlayers[1].player_num = 2;
 
 		this->_initGGPO(10800, 0);
 		logger.debug("Adding GGPO players.");
@@ -361,7 +360,6 @@ namespace Battle
 	{
 		GGPOPlayer ggpoPlayers[2];
 
-		this->_myPlayer = 0;
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
@@ -489,8 +487,8 @@ namespace Battle
 				this->endSession();
 				game.scene.reset(screen);
 			}
-			this->_leftInput->_keyStates = inputs[this->_myPlayer];
-			this->_rightInput->_keyStates = inputs[!this->_myPlayer];
+			this->_leftInput->_keyStates = inputs[0];
+			this->_rightInput->_keyStates = inputs[1];
 
 			auto scene = this->_netScene->_realUpdate();
 #ifdef _DEBUG
