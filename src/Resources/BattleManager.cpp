@@ -482,7 +482,7 @@ namespace Battle
 			ptr += sizeof(unsigned char);
 			if (object.second->getClassId() == 2) {
 #ifdef _DEBUG
-				assert(dynamic_cast<AProjectile *>(&*object.second));
+				assert(dynamic_cast<Projectile *>(&*object.second));
 #endif
 				auto obj = reinterpret_cast<Projectile *>(&*object.second);
 
