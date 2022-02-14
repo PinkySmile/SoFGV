@@ -831,15 +831,16 @@ namespace Battle
 
 	void Character::hit(IObject &other, const FrameData *data)
 	{
+        Object::hit(other, data);
 		this->_speed.x += data->pushBack * -this->_dir;
 		if (data->oFlag.grab) {
 			this->_actionBlock++;
+            this->_animationCtr = 0;
 			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
 				//TODO: make proper exceptions
 				throw std::invalid_argument("Grab action " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			Object::_onMoveEnd(*data);
 		}
-		Object::hit(other, data);
 	}
 
 	void Character::getHit(IObject &other, const FrameData *data)

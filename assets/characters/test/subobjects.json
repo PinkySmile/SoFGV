@@ -5,7 +5,7 @@
             [
                 {
                     "block_stun": 8,
-                    "damage": 300,
+                    "damage": 500,
                     "defense_flag": 35913728,
                     "hit_boxes": [
                         {
@@ -19,8 +19,8 @@
                         "x": 4,
                         "y": 0
                     },
-                    "hit_stop": 2,
-                    "hit_stun": 12,
+                    "hit_stop": 4,
+                    "hit_stun": 18,
                     "hurt_boxes": [
                         {
                             "height": 59,
