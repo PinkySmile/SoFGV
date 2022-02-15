@@ -217,6 +217,8 @@ namespace Battle
 			throw std::invalid_argument("hp is missing");
 		if (!json.contains("max_block_stun"))
 			throw std::invalid_argument("max_block_stun is missing");
+		if (!json.contains("overdrive_cooldown"))
+			throw std::invalid_argument("overdrive_cooldown is missing");
 		if (!json.contains("gravity"))
 			throw std::invalid_argument("gravity is missing");
 		if (!json["gravity"].contains("x"))

@@ -9,6 +9,7 @@
         "jump_count": 2,
         "air_dash_count": 2,
         "max_block_stun": 45,
+        "overdrive_cooldown": 360,
         "gravity": {"x": 0, "y": -1},
         "icon": "assets/characters/test/icon.png",
         "framedata": "assets/characters/test/framedata.json",

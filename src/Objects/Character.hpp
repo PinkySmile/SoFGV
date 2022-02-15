@@ -286,6 +286,7 @@ namespace Battle
 		};
 #pragma pack(push, 1)
 		struct Data {
+			unsigned _odCooldown = 0;
 			bool _counter;
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
@@ -339,6 +340,7 @@ namespace Battle
 		// Game State
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
+		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		unsigned _airDashesUsed = 0;
@@ -367,6 +369,7 @@ namespace Battle
 		Character *_opponent;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
+		unsigned _maxOdCooldown;
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
 		unsigned _voidManaMax;
@@ -404,6 +407,7 @@ namespace Battle
 		void _checkPlatforms(Vector2f oldPos) override;
 		bool _isOnPlatform() const override;
 
+		void _removeSubobjects();
 		void _checkSpecialInputs();
 		void _clearLastInputs();
 		bool _check22Input();
@@ -427,7 +431,6 @@ namespace Battle
 		bool _check6314684Input();
 		bool _check6246974Input();
 		bool _check63146974Input();
-		void _removeSubobjects();
 
 	public:
 		std::string name;
@@ -442,7 +445,7 @@ namespace Battle
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity);
+		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, unsigned odCd, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
 		std::shared_ptr<IInput> &getInput();

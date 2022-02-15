@@ -108,6 +108,7 @@ namespace Battle
 			unsigned matterManaMax;
 			float manaRegen;
 			unsigned maxBlockStun;
+			unsigned odCd;
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);

@@ -402,6 +402,8 @@ namespace Battle
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
+		if (this->_odCooldown)
+			this->_odCooldown--;
 		for (auto &obj : this->_subobjects)
 			if (obj.second && obj.second->isDead()) {
 				obj.first = 0;
@@ -488,7 +490,7 @@ namespace Battle
 		}
 	}
 
-	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, Vector2f gravity)
+	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, unsigned odCd, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -505,6 +507,7 @@ namespace Battle
 		this->_matterMana = maxMMana / 2.f;
 		this->_regen = manaRegen;
 		this->_maxBlockStun = maxBlockStun;
+		this->_maxOdCooldown = odCd;
 		if (side) {
 			this->_position = {200, 0};
 		} else {
@@ -720,6 +723,13 @@ namespace Battle
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (
+			action == ACTION_VOID_OVERDRIVE ||
+			action == ACTION_SPIRIT_OVERDRIVE ||
+			action == ACTION_MATTER_OVERDRIVE ||
+			action == ACTION_NEUTRAL_OVERDRIVE
+		)
+			return !this->_odCooldown;
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
@@ -880,6 +890,13 @@ namespace Battle
 	void Character::_forceStartMove(unsigned int action)
 	{
 		if (
+			action == ACTION_VOID_OVERDRIVE ||
+			action == ACTION_SPIRIT_OVERDRIVE ||
+			action == ACTION_MATTER_OVERDRIVE ||
+			action == ACTION_NEUTRAL_OVERDRIVE
+		)
+			this->_odCooldown = this->_maxOdCooldown;
+		else if (
 			action == ACTION_NEUTRAL_JUMP ||
 			action == ACTION_FORWARD_JUMP ||
 			action == ACTION_BACKWARD_JUMP ||
@@ -1750,7 +1767,8 @@ namespace Battle
 			"matterLimit: %u\n"
 			"spiritLimit: %u\n"
 			"BaseGravityX: %f\n"
-			"BaseGravityY: %f",
+			"BaseGravityY: %f\n"
+			"Overdrive CD: %u/%u",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -1787,7 +1805,9 @@ namespace Battle
 			this->_limit[2],
 			this->_limit[3],
 			this->_baseGravity.x,
-			this->_baseGravity.y
+			this->_baseGravity.y,
+			this->_odCooldown,
+			this->_maxOdCooldown
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
@@ -2285,6 +2305,7 @@ namespace Battle
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+		dat->_odCooldown = this->_odCooldown;
 		dat->_counter = this->_counter;
 		dat->_blockStun = this->_blockStun;
 		dat->_jumpsUsed = this->_jumpsUsed;
@@ -2322,6 +2343,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_odCooldown = dat->_odCooldown;
 		this->_counter = dat->_counter;
 		this->_blockStun = dat->_blockStun;
 		this->_jumpsUsed = dat->_jumpsUsed;

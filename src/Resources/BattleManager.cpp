@@ -35,6 +35,7 @@ namespace Battle
 			leftCharacter.spiritManaMax,
 			leftCharacter.manaRegen,
 			leftCharacter.maxBlockStun,
+			leftCharacter.odCd,
 			leftCharacter.gravity
 		);
 		this->_rightCharacter->init(
@@ -47,6 +48,7 @@ namespace Battle
 			rightCharacter.spiritManaMax,
 			rightCharacter.manaRegen,
 			rightCharacter.maxBlockStun,
+			rightCharacter.odCd,
 			rightCharacter.gravity
 		);
 		this->_leftCharacter->setAttacksDisabled(true);
@@ -643,7 +645,7 @@ namespace Battle
 
 		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
 		rect.setPosition(0, -590);
-		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + this->_leftCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
+		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + static_cast<float>(this->_leftCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
 		rect.setFillColor(sf::Color::Yellow);
@@ -651,6 +653,16 @@ namespace Battle
 		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
 		if (this->_leftCharacter->_hp > 0)
 			game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(290 - 15 * FIRST_TO, -562);
+		rect.setSize({100, 12});
+		game.screen->draw(rect);
+
+		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color::Red : sf::Color::Cyan);
+		rect.setPosition(290 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, -562);
+		rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, 12});
+		game.screen->draw(rect);
 
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
@@ -723,7 +735,7 @@ namespace Battle
 
 		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
 		rect.setPosition(1000 - 400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
-		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
+		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + static_cast<float>(this->_rightCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
 		rect.setFillColor(sf::Color::Yellow);
@@ -731,6 +743,16 @@ namespace Battle
 		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
 		if (this->_rightCharacter->_hp > 0)
 			game.screen->draw(rect);
+
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(600 + 15 * FIRST_TO, -562);
+		rect.setSize({100, 12});
+		game.screen->draw(rect);
+
+		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color::Red : sf::Color::Cyan);
+		rect.setPosition(600 + 15 * FIRST_TO, -562);
+		rect.setSize({static_cast<float>(100 - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_maxOdCooldown), 12});
+		game.screen->draw(rect);
 
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
