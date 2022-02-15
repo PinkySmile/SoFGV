@@ -79,6 +79,7 @@ namespace Battle
 		std::vector<Rectangle> _getModifiedHurtBoxes() const;
 		std::vector<Rectangle> _getModifiedHitBoxes() const;
 		bool _hasMove(unsigned action) const;
+		virtual void _checkPlatforms(Vector2f oldPos);
 		virtual void _forceStartMove(unsigned action);
 		virtual void _onMoveEnd(const FrameData &lastData);
 		virtual bool _canStartMove(unsigned action, const FrameData &data);

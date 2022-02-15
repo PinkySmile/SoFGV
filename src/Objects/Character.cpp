@@ -1012,10 +1012,27 @@ namespace Battle
 		}
 	}
 
+	void Character::_checkPlatforms(Vector2f oldPos)
+	{
+		auto updatedY = this->_position.y;
+
+		if (this->_specialInputs._22)
+			return;
+		this->_position.y = oldPos.y;
+
+		auto result = !this->_isOnPlatform() && this->_input->isPressed(INPUT_DOWN);
+
+		this->_position.y = updatedY;
+		if (result)
+			return;
+		Object::_checkPlatforms(oldPos);
+	}
+
 	void Character::_checkSpecialInputs()
 	{
 		this->_clearLastInputs();
 		this->_specialInputs._value = 0;
+		this->_specialInputs._22 = this->_check22Input();
 		this->_specialInputs._44 = this->_check44Input();
 		this->_specialInputs._66 = this->_check66Input();
 		this->_specialInputs._27 = this->_check27Input();
@@ -1310,6 +1327,24 @@ namespace Battle
 			total += input.nbFrames;
 			if (total > SPIRAL_BUFFER)
 				break;
+		}
+		return false;
+	}
+
+	bool Character::_check22Input()
+	{
+		unsigned total = 0;
+		bool found2 = false;
+		bool foundOther = false;
+
+		for (auto &input : this->_lastInputs) {
+			if (found2 && foundOther && input.v < 0)
+				return true;
+			found2 |= input.v < 0;
+			foundOther |= found2 && input.v >= 0;
+			total += input.nbFrames;
+			if (total > DASH_BUFFER)
+				return false;
 		}
 		return false;
 	}
@@ -1970,6 +2005,13 @@ namespace Battle
 				this->_speed = {this->_dir * -1, 20};
 			}
 		}
+	}
+
+	bool Character::_isOnPlatform() const
+	{
+		if (this->_specialInputs._22)
+			return false;
+		return Object::_isOnPlatform();
 	}
 
 	void Character::_getHitByMove(const Object *, const FrameData &data)

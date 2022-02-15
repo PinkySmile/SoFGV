@@ -312,6 +312,7 @@ namespace Battle
 		union SpecialInputs {
 			unsigned short _value = 0;
 			struct {
+				bool _22: 1;
 				bool _44: 1;
 				bool _66: 1;
 				bool _27: 1;
@@ -400,9 +401,12 @@ namespace Battle
 		void _forceStartMove(unsigned action) override;
 		void _onMoveEnd(const FrameData &lastData) override;
 		bool _canStartMove(unsigned action, const FrameData &data) override;
-		void _checkSpecialInputs();
+		void _checkPlatforms(Vector2f oldPos) override;
+		bool _isOnPlatform() const override;
 
+		void _checkSpecialInputs();
 		void _clearLastInputs();
+		bool _check22Input();
 		bool _check44Input();
 		bool _check66Input();
 		bool _check27Input();

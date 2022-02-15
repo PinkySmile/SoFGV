@@ -381,12 +381,19 @@ namespace Battle
 		this->_rotation += data->rotation;
 		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 		this->_position += this->_speed;
+		this->_checkPlatforms(oldPos);
 		if (!this->_isGrounded()) {
 			this->_speed *= 0.99;
 			this->_speed += this->_gravity;
 		} else
 			this->_speed *= 0.75;
+	}
+
+	void Object::_checkPlatforms(Vector2f oldPos)
+	{
 		for (auto &platform : game.battleMgr->getPlatforms()) {
+			if (platform->isDestructed())
+				continue;
 			if (this->_position.x < platform->_position.x - platform->getWidth() / 2)
 				continue;
 			if (this->_position.x > platform->_position.x + platform->getWidth() / 2)
@@ -396,8 +403,7 @@ namespace Battle
 			if (oldPos.y < platform->_position.y)
 				continue;
 			this->_position.y = platform->_position.y;
-			this->_speed = {0, 0};
-			break;
+			return;
 		}
 	}
 
@@ -537,6 +543,8 @@ namespace Battle
 			game.battleMgr->getPlatforms().begin(),
 			game.battleMgr->getPlatforms().end(),
 			[this](auto &obj) {
+				if (obj->isDestructed())
+					return false;
 				if (this->_position.y != obj->_position.y)
 					return false;
 				if (this->_position.x < obj->_position.x - obj->getWidth() / 2)
