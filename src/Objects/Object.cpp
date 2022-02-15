@@ -262,7 +262,7 @@ namespace Battle
 
 		if (!data)
 			return;
-		this->_hasHit &= data->oFlag.resetHits;
+		this->_hasHit &= !data->oFlag.resetHits;
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
 		Battle::game.soundMgr.play(data->soundHandle);
