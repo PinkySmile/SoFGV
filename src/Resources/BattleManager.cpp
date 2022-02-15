@@ -54,6 +54,7 @@ namespace Battle
 		this->_leftCharacter->setAttacksDisabled(true);
 		this->_rightCharacter->setAttacksDisabled(true);
 		this->_roundSprites.resize(5 + FIRST_TO * 2 - 1);
+		this->_cross.loadFromFile("assets/icons/netplay/twitter.png");
 		this->_roundSprites[0].loadFromFile("assets/icons/rounds/ko.png");
 		this->_roundSprites[1].loadFromFile("assets/icons/rounds/start.png");
 		this->_roundSprites[2].loadFromFile("assets/icons/rounds/p1win.png");
@@ -634,6 +635,7 @@ namespace Battle
 	void BattleManager::_renderLeftHUD() const
 	{
 		sf::RectangleShape rect;
+		sf::Sprite sprite;
 
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
@@ -655,14 +657,25 @@ namespace Battle
 			game.screen->draw(rect);
 
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(290 - 15 * FIRST_TO, -562);
+		rect.setPosition(300 - 15 * FIRST_TO, -562);
 		rect.setSize({100, 12});
 		game.screen->draw(rect);
 
-		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color::Red : sf::Color::Cyan);
-		rect.setPosition(290 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, -562);
+		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		rect.setPosition(300 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, -562);
 		rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, 12});
 		game.screen->draw(rect);
+		game.screen->textSize(10);
+		game.screen->borderColor(1, sf::Color::Black);
+		game.screen->displayElement("OD", {202.f - 15 * FIRST_TO, -562}, 95, Screen::ALIGN_RIGHT);
+		game.screen->borderColor(0, sf::Color::Transparent);
+		game.screen->textSize(30);
+
+		if (this->_leftCharacter->_odCooldown % 60 > 30) {
+			sprite.setTexture(this->_cross, true);
+			sprite.setPosition(300 - 15 * FIRST_TO + 50 - 8, -564);
+			game.screen->draw(sprite);
+		}
 
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
@@ -724,6 +737,7 @@ namespace Battle
 	void BattleManager::_renderRightHUD() const
 	{
 		sf::RectangleShape rect;
+		sf::Sprite sprite;
 
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
@@ -749,10 +763,21 @@ namespace Battle
 		rect.setSize({100, 12});
 		game.screen->draw(rect);
 
-		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color::Red : sf::Color::Cyan);
+		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
 		rect.setPosition(600 + 15 * FIRST_TO, -562);
 		rect.setSize({static_cast<float>(100 - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_maxOdCooldown), 12});
 		game.screen->draw(rect);
+		game.screen->textSize(10);
+		game.screen->borderColor(1, sf::Color::Black);
+		game.screen->displayElement("OD", {703.f + 15 * FIRST_TO, -562}, 95, Screen::ALIGN_LEFT);
+		game.screen->borderColor(0, sf::Color::Transparent);
+		game.screen->textSize(30);
+
+		if (this->_rightCharacter->_odCooldown % 60 > 30) {
+			sprite.setTexture(this->_cross, true);
+			sprite.setPosition(600 + 15 * FIRST_TO + 50 - 8, -564);
+			game.screen->draw(sprite);
+		}
 
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {

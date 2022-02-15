@@ -49,6 +49,7 @@ namespace Battle
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
 		sf::Sprite _roundSprite;
+		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;
 		bool _step = false;
 		bool _next = false;
