@@ -7,6 +7,7 @@
 
 
 #include "../Objects/Character.hpp"
+#include "../Objects/Platform.hpp"
 
 namespace Battle
 {
@@ -41,6 +42,7 @@ namespace Battle
 #pragma pack(pop)
 
 		// Non Game State
+		unsigned _nbPlatform = 0;
 		sf::Clock _tpsClock;
 		std::list<unsigned> _tpsTimes;
 		mutable sf::Clock _fpsClock;
@@ -57,6 +59,7 @@ namespace Battle
 		// Game State
 		std::unique_ptr<Character> _leftCharacter;
 		std::unique_ptr<Character> _rightCharacter;
+		std::vector<std::shared_ptr<Platform>> _platforms;
 		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
 		std::pair<unsigned char, unsigned char> _score{0, 0};
 		unsigned _currentRound = 0;
@@ -128,6 +131,7 @@ namespace Battle
 		unsigned int getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
+		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;
 	};
 }
 

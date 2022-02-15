@@ -44,6 +44,8 @@ add_executable(
 	src/Objects/Character.hpp
 	src/Objects/Object.cpp
 	src/Objects/Object.hpp
+	src/Objects/Platform.cpp
+	src/Objects/Platform.hpp
 	src/Objects/Projectile.cpp
 	src/Objects/Projectile.hpp
 	src/Objects/FakeObject.cpp
@@ -139,6 +141,8 @@ add_executable(
 	src/Objects/Character.hpp
 	src/Objects/Object.cpp
 	src/Objects/Object.hpp
+	src/Objects/Platform.cpp
+	src/Objects/Platform.hpp
 	src/Objects/Projectile.cpp
 	src/Objects/Projectile.hpp
 	src/Objects/FakeObject.cpp

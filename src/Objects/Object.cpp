@@ -311,7 +311,7 @@ namespace Battle
 
 	bool Object::_isGrounded() const
 	{
-		return this->_position.y <= 0;
+		return this->_position.y <= 0 || this->_isOnPlatform();
 	}
 
 	void Object::collide(IObject &other)
@@ -372,6 +372,7 @@ namespace Battle
 	void Object::_applyMoveAttributes()
 	{
 		auto data = this->getCurrentFrameData();
+		auto oldPos = this->_position;
 
 		if (data->dFlag.resetSpeed)
 			this->_speed = {0, 0};
@@ -385,6 +386,19 @@ namespace Battle
 			this->_speed += this->_gravity;
 		} else
 			this->_speed *= 0.75;
+		for (auto &platform : game.battleMgr->getPlatforms()) {
+			if (this->_position.x < platform->_position.x - platform->getWidth() / 2)
+				continue;
+			if (this->_position.x > platform->_position.x + platform->getWidth() / 2)
+				continue;
+			if (this->_position.y > platform->_position.y)
+				continue;
+			if (oldPos.y < platform->_position.y)
+				continue;
+			this->_position.y = platform->_position.y;
+			this->_speed = {0, 0};
+			break;
+		}
 	}
 
 	void Object::_tickMove()
@@ -515,5 +529,22 @@ namespace Battle
 	unsigned int Object::getClassId() const
 	{
 		return 0;
+	}
+
+	bool Object::_isOnPlatform() const
+	{
+		return std::any_of(
+			game.battleMgr->getPlatforms().begin(),
+			game.battleMgr->getPlatforms().end(),
+			[this](auto &obj) {
+				if (this->_position.y != obj->_position.y)
+					return false;
+				if (this->_position.x < obj->_position.x - obj->getWidth() / 2)
+					return false;
+				if (this->_position.x > obj->_position.x + obj->getWidth() / 2)
+					return false;
+				return true;
+			}
+		);
 	}
 }

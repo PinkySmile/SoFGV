@@ -85,6 +85,7 @@ namespace Battle
 		virtual bool _startMove(unsigned action);
 		virtual void _applyNewAnimFlags();
 		virtual bool _isGrounded() const;
+		virtual bool _isOnPlatform() const;
 		virtual Box _applyModifiers(Box box) const;
 		virtual void _tickMove();
 		virtual void _applyMoveAttributes();

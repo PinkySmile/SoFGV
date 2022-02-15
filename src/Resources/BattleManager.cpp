@@ -15,8 +15,14 @@ namespace Battle
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character)
 	{
+		//TODO: Move this in another function
 		this->_stage.textureHandle = game.textureMgr.load("assets/stages/14687.png");
 		this->_stage.setPosition({-50, -600});
+		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {250, 300}));
+		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {500, 150}));
+		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {750, 300}));
+		this->_nbPlatform = 3;
+
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
 		this->_leftCharacter->init(
@@ -130,6 +136,8 @@ namespace Battle
 		}
 		game.networkMgr.renderHUD();
 
+		for (auto &platform : this->_platforms)
+			platform->render();
 		this->_leftCharacter->render();
 		this->_rightCharacter->render();
 		for (auto &object : this->_objects)
@@ -338,6 +346,8 @@ namespace Battle
 		auto lchr = &*this->_leftCharacter;
 		auto rchr = &*this->_rightCharacter;
 
+		for (auto &platform : this->_platforms)
+			platform->update();
 		if (!rdata->dFlag.flash || ldata->dFlag.flash)
 			lchr->update();
 		if (!ldata->dFlag.flash)
@@ -350,6 +360,18 @@ namespace Battle
 				collisions.emplace_back(&*lchr, &*rchr, lchr->getCurrentFrameData());
 			if (rchr->hits(*lchr))
 				collisions.emplace_back(&*rchr, &*lchr, rchr->getCurrentFrameData());
+
+			for (auto &platform: this->_platforms) {
+				if (lchr->hits(*platform))
+					collisions.emplace_back(&*lchr, &*platform, lchr->getCurrentFrameData());
+				if (platform->hits(*lchr))
+					collisions.emplace_back(&*platform, &*lchr, platform->getCurrentFrameData());
+
+				if (rchr->hits(*platform))
+					collisions.emplace_back(&*rchr, &*platform, rchr->getCurrentFrameData());
+				if (platform->hits(*rchr))
+					collisions.emplace_back(&*platform, &*rchr, platform->getCurrentFrameData());
+			}
 
 			for (auto &object: this->_objects) {
 				if (lchr->hits(*object.second))
@@ -442,6 +464,8 @@ namespace Battle
 			size += object.second->getBufferSize();
 			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
 		}
+		for (size_t i = 0; i < this->_nbPlatform; i++)
+			size += this->_platforms[i]->getBufferSize();
 		return size;
 	}
 
@@ -496,6 +520,10 @@ namespace Battle
 			object.second->copyToBuffer((void *)ptr);
 			ptr += object.second->getBufferSize();
 		}
+		for (size_t i = 0; i < this->_nbPlatform; i++) {
+			this->_platforms[i]->copyToBuffer((void *)ptr);
+			ptr += this->_platforms[i]->getBufferSize();
+		}
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)
@@ -534,6 +562,7 @@ namespace Battle
 
 		this->_objects.clear();
 		this->_objects.reserve(dat->_nbObjects);
+		this->_platforms.erase(this->_platforms.begin() + this->_nbPlatform, this->_platforms.end());
 		for (size_t i = 0; i < dat->_nbObjects; i++) {
 			std::shared_ptr<IObject> obj;
 			auto id = *(unsigned *)ptr;
@@ -568,6 +597,10 @@ namespace Battle
 			obj->restoreFromBuffer((void *)ptr);
 			ptr += obj->getBufferSize();
 			this->_objects.emplace_back(id, obj);
+		}
+		for (size_t i = 0; i < this->_nbPlatform; i++) {
+			this->_platforms[i]->restoreFromBuffer((void *)ptr);
+			ptr += this->_platforms[i]->getBufferSize();
 		}
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
@@ -754,5 +787,10 @@ namespace Battle
 			game.screen->borderColor(0, sf::Color{0, 0, 0, 0});
 			game.screen->textSize(30);
 		}
+	}
+
+	const std::vector<std::shared_ptr<Platform>> &BattleManager::getPlatforms() const
+	{
+		return this->_platforms;
 	}
 }
