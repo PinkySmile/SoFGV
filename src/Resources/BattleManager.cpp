@@ -34,7 +34,8 @@ namespace Battle
 			leftCharacter.voidManaMax,
 			leftCharacter.spiritManaMax,
 			leftCharacter.manaRegen,
-			leftCharacter.maxBlockStun,
+			leftCharacter.maxGuard,
+			leftCharacter.guardCooldown,
 			leftCharacter.odCd,
 			leftCharacter.gravity
 		);
@@ -47,7 +48,8 @@ namespace Battle
 			rightCharacter.voidManaMax,
 			rightCharacter.spiritManaMax,
 			rightCharacter.manaRegen,
-			rightCharacter.maxBlockStun,
+			rightCharacter.maxGuard,
+			rightCharacter.guardCooldown,
 			rightCharacter.odCd,
 			rightCharacter.gravity
 		);
@@ -394,8 +396,8 @@ namespace Battle
 			}
 
 			for (auto &[attacker, defender, data]: collisions) {
-				attacker->hit(*defender, data);
 				defender->getHit(*attacker, data);
+				attacker->hit(*defender, data);
 			}
 		}
 
@@ -640,43 +642,84 @@ namespace Battle
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
 
+		//HP Back
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		rect.setPosition(0, -590);
 		rect.setSize({400.f, 20});
 		game.screen->draw(rect);
 
+		//HP Red bar
+		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
 		rect.setPosition(0, -590);
 		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + static_cast<float>(this->_leftCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
+		//HP left
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(0, -590);
 		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
 		if (this->_leftCharacter->_hp > 0)
 			game.screen->draw(rect);
 
+		//OD bar back
+		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		rect.setPosition(300 - 15 * FIRST_TO, -562);
 		rect.setSize({100, 12});
 		game.screen->draw(rect);
 
+		//OD bar
+		rect.setOutlineThickness(0);
 		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
 		rect.setPosition(300 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, -562);
 		rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, 12});
 		game.screen->draw(rect);
 		game.screen->textSize(10);
+		game.screen->fillColor(sf::Color::White);
 		game.screen->borderColor(1, sf::Color::Black);
-		game.screen->displayElement("OD", {202.f - 15 * FIRST_TO, -562}, 95, Screen::ALIGN_RIGHT);
+		game.screen->displayElement("OVERDRIVE", {300.f - 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
 		game.screen->borderColor(0, sf::Color::Transparent);
 		game.screen->textSize(30);
 
+		//OD Cross
 		if (this->_leftCharacter->_odCooldown % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(300 - 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);
 		}
 
+		//Guard bar back
+		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(190 - 15 * FIRST_TO, -562);
+		rect.setSize({100, 12});
+		game.screen->draw(rect);
+
+		//Guard bar
+		auto guardVals = this->_leftCharacter->_guardCooldown ?
+			std::pair<int, int>(this->_leftCharacter->_maxGuardCooldown - this->_leftCharacter->_guardCooldown, this->_leftCharacter->_maxGuardCooldown) :
+			std::pair<int, int>(this->_leftCharacter->_guardBar, this->_leftCharacter->_maxGuardBar);
+
+		rect.setOutlineThickness(0);
+		rect.setFillColor(this->_leftCharacter->_guardCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		rect.setPosition(290 - 15 * FIRST_TO - 100.f * guardVals.first / guardVals.second, -562);
+		rect.setSize({100.f * guardVals.first / guardVals.second, 12});
+		game.screen->draw(rect);
+		game.screen->textSize(10);
+		game.screen->borderColor(1, sf::Color::Black);
+		game.screen->displayElement("GUARD", {190 - 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
+		game.screen->borderColor(0, sf::Color::Transparent);
+		game.screen->textSize(30);
+
+		//Guard Cross
+		if (this->_leftCharacter->_guardCooldown % 60 > 30) {
+			sprite.setTexture(this->_cross, true);
+			sprite.setPosition(190 - 15 * FIRST_TO + 50 - 8, -564);
+			game.screen->draw(sprite);
+		}
+
+		//Score
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
 			rect.setPosition(390 - i * 15, -560);
@@ -690,16 +733,20 @@ namespace Battle
 			game.screen->draw(rect);
 		}
 
+		//Spirit mana
+		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(100, 40);
 		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
 		game.screen->draw(rect);
 
+		//Matter mana
 		rect.setFillColor(sf::Color{187, 94, 0});
 		rect.setPosition(100, 55);
 		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
 		game.screen->draw(rect);
 
+		//Void mana
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
 		rect.setPosition(100, 70);
 		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
@@ -742,43 +789,85 @@ namespace Battle
 		rect.setOutlineThickness(1);
 		rect.setOutlineColor(sf::Color::Black);
 
+		//HP Back
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		rect.setPosition(600.f, -590);
 		rect.setSize({400.f, 20});
 		game.screen->draw(rect);
 
+		//HP Red bar
+		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
 		rect.setPosition(1000 - 400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
 		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + static_cast<float>(this->_rightCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
 		game.screen->draw(rect);
 
+		//HP left
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -590);
 		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
 		if (this->_rightCharacter->_hp > 0)
 			game.screen->draw(rect);
 
+		//OD bar back
+		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		rect.setPosition(600 + 15 * FIRST_TO, -562);
 		rect.setSize({100, 12});
 		game.screen->draw(rect);
 
+		//OD bar
+		rect.setOutlineThickness(0);
 		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
 		rect.setPosition(600 + 15 * FIRST_TO, -562);
 		rect.setSize({static_cast<float>(100 - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_maxOdCooldown), 12});
 		game.screen->draw(rect);
 		game.screen->textSize(10);
+		game.screen->fillColor(sf::Color::White);
 		game.screen->borderColor(1, sf::Color::Black);
-		game.screen->displayElement("OD", {703.f + 15 * FIRST_TO, -562}, 95, Screen::ALIGN_LEFT);
+		game.screen->displayElement("OVERDRIVE", {600.f + 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
 		game.screen->borderColor(0, sf::Color::Transparent);
 		game.screen->textSize(30);
 
+		//OD Cross
 		if (this->_rightCharacter->_odCooldown % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(600 + 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);
 		}
 
+		//Guard bar back
+		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(710 + 15 * FIRST_TO, -562);
+		rect.setSize({100, 12});
+		game.screen->draw(rect);
+
+		//Guard bar
+		auto guardVals = this->_rightCharacter->_guardCooldown ?
+			std::pair<int, int>(this->_rightCharacter->_maxGuardCooldown - this->_rightCharacter->_guardCooldown, this->_rightCharacter->_maxGuardCooldown) :
+			std::pair<int, int>(this->_rightCharacter->_guardBar, this->_rightCharacter->_maxGuardBar);
+
+		rect.setOutlineThickness(0);
+		rect.setFillColor(this->_rightCharacter->_guardCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		rect.setPosition(710 + 15 * FIRST_TO, -562);
+		rect.setSize({100.f * guardVals.first / guardVals.second, 12});
+		game.screen->draw(rect);
+		game.screen->textSize(10);
+		game.screen->fillColor(sf::Color::White);
+		game.screen->borderColor(1, sf::Color::Black);
+		game.screen->displayElement("GUARD", {710.f + 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
+		game.screen->borderColor(0, sf::Color::Transparent);
+		game.screen->textSize(30);
+
+		//Guard Cross
+		if (this->_rightCharacter->_guardCooldown % 60 > 30) {
+			sprite.setTexture(this->_cross, true);
+			sprite.setPosition(710 + 15 * FIRST_TO + 50 - 8, -564);
+			game.screen->draw(sprite);
+		}
+
+		//Score
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
 			rect.setPosition(600 + i * 15, -560);
@@ -792,16 +881,20 @@ namespace Battle
 			game.screen->draw(rect);
 		}
 
+		//Spirit mana
+		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
 		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
 		game.screen->draw(rect);
 
+		//Matter mana
 		rect.setFillColor(sf::Color{187, 94, 0});
 		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
 		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
 		game.screen->draw(rect);
 
+		//Void mana
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
 		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
 		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});

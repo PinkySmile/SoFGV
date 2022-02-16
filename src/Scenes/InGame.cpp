@@ -54,7 +54,8 @@ namespace Battle
 				lJson["spirit_mana_max"],
 				lJson["matter_mana_max"],
 				lJson["mana_regen"],
-				lJson["max_block_stun"],
+				lJson["guard_bar"],
+				lJson["guard_break_cooldown"],
 				lJson["overdrive_cooldown"]
 			},
 			BattleManager::CharacterParams{
@@ -67,7 +68,8 @@ namespace Battle
 				rJson["spirit_mana_max"],
 				rJson["matter_mana_max"],
 				rJson["mana_regen"],
-				rJson["max_block_stun"],
+				rJson["guard_bar"],
+				rJson["guard_break_cooldown"],
 				rJson["overdrive_cooldown"]
 			}
 		);

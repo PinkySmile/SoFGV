@@ -114,19 +114,22 @@ namespace Battle
 		{ ACTION_AIR_DASH_9,                     "Down forward air dash" },
 		{ ACTION_AIR_TRANSFORM,                  "Air transform" },
 		{ ACTION_GROUND_HIGH_NEUTRAL_BLOCK,      "Ground high neutral block" },
-		{ ACTION_GROUND_HIGH_SPIRIT_BLOCK,       "Ground high spirit block" },
-		{ ACTION_GROUND_HIGH_MATTER_BLOCK,       "Ground high matter block" },
-		{ ACTION_GROUND_HIGH_VOID_BLOCK,         "Ground high void block" },
+		{ ACTION_GROUND_HIGH_NEUTRAL_PARRY,      "Ground high neutral parry" },
+		{ ACTION_GROUND_HIGH_SPIRIT_PARRY,       "Ground high spirit parry" },
+		{ ACTION_GROUND_HIGH_MATTER_PARRY,       "Ground high matter parry" },
+		{ ACTION_GROUND_HIGH_VOID_PARRY,         "Ground high void parry" },
 		{ ACTION_GROUND_HIGH_HIT,                "Ground high hit" },
 		{ ACTION_GROUND_LOW_NEUTRAL_BLOCK,       "Ground low neutral block" },
-		{ ACTION_GROUND_LOW_SPIRIT_BLOCK,        "Ground low spirit block" },
-		{ ACTION_GROUND_LOW_MATTER_BLOCK,        "Ground low matter block" },
-		{ ACTION_GROUND_LOW_VOID_BLOCK,          "Ground low void block" },
+		{ ACTION_GROUND_LOW_NEUTRAL_PARRY,       "Ground low neutral parry" },
+		{ ACTION_GROUND_LOW_SPIRIT_PARRY,        "Ground low spirit parry" },
+		{ ACTION_GROUND_LOW_MATTER_PARRY,        "Ground low matter parry" },
+		{ ACTION_GROUND_LOW_VOID_PARRY,          "Ground low void parry" },
 		{ ACTION_GROUND_LOW_HIT,                 "Ground low hit" },
 		{ ACTION_AIR_NEUTRAL_BLOCK,              "Air neutral block" },
-		{ ACTION_AIR_SPIRIT_BLOCK,               "Air spirit block" },
-		{ ACTION_AIR_MATTER_BLOCK,               "Air matter block" },
-		{ ACTION_AIR_VOID_BLOCK,                 "Air void block" },
+		{ ACTION_AIR_NEUTRAL_PARRY,              "Air neutral parry" },
+		{ ACTION_AIR_SPIRIT_PARRY,               "Air spirit parry" },
+		{ ACTION_AIR_MATTER_PARRY,               "Air matter parry" },
+		{ ACTION_AIR_VOID_PARRY,                 "Air void parry" },
 		{ ACTION_AIR_HIT,                        "Air hit" },
 		{ ACTION_BEING_KNOCKED_DOWN,             "Being knocked down" },
 		{ ACTION_KNOCKED_DOWN,                   "Knocked down" },
@@ -147,17 +150,8 @@ namespace Battle
 		{ ACTION_FORWARD_AIR_JUMP,               "Forward air jump" },
 		{ ACTION_BACKWARD_AIR_JUMP,              "Backward air jump" },
 		{ ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK,"Ground high neutral wrong block" },
-		{ ACTION_GROUND_HIGH_SPIRIT_WRONG_BLOCK, "Ground high spirit wrong block" },
-		{ ACTION_GROUND_HIGH_MATTER_WRONG_BLOCK, "Ground high matter wrong block" },
-		{ ACTION_GROUND_HIGH_VOID_WRONG_BLOCK,   "Ground high void wrong block" },
 		{ ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK, "Ground low neutral wrong block" },
-		{ ACTION_GROUND_LOW_SPIRIT_WRONG_BLOCK,  "Ground low spirit wrong block" },
-		{ ACTION_GROUND_LOW_MATTER_WRONG_BLOCK,  "Ground low matter wrong block" },
-		{ ACTION_GROUND_LOW_VOID_WRONG_BLOCK,    "Ground low void wrong block" },
 		{ ACTION_AIR_NEUTRAL_WRONG_BLOCK,        "Air neutral wrong block" },
-		{ ACTION_AIR_SPIRIT_WRONG_BLOCK,         "Air spirit wrong block" },
-		{ ACTION_AIR_MATTER_WRONG_BLOCK,         "Air matter wrong block" },
-		{ ACTION_AIR_VOID_WRONG_BLOCK,           "Air void wrong block" },
 		{ ACTION_5N,                             "5n" },
 		{ ACTION_6N,                             "6n" },
 		{ ACTION_8N,                             "8n" },
@@ -377,24 +371,19 @@ namespace Battle
 		game.screen->draw(this->_text);
 		game.screen->draw(this->_text2);
 #endif
-		if (isBlockingAction(this->_action)) {
-			sf::Color color{
-				0xFF,
-				static_cast<sf::Uint8>(0xFF * (1 - (static_cast<float>(this->_blockStun)) / this->_maxBlockStun)),
-				static_cast<sf::Uint8>(0xFF * max(0, 1 - (static_cast<float>(this->_blockStun) * 2) / this->_maxBlockStun))
-			};
-
-			game.screen->displayElement({
-				static_cast<int>(this->_position.x - this->_blockStun / 2),
-				static_cast<int>(10 - this->_position.y),
-				static_cast<int>(this->_blockStun),
-				10
-			}, color);
-		} else if (this->showBoxes) {
-			game.screen->displayElement(
-				{static_cast<int>(this->_position.x - this->_blockStun / 2), static_cast<int>(10 - this->_position.y), static_cast<int>(this->_blockStun), 10},
-				this->_isGrounded() ? sf::Color::Red : sf::Color{0xFF, 0x80, 0x00}
-			);
+		if (this->showBoxes) {
+			if (isBlockingAction(this->_action))
+				game.screen->displayElement({
+					static_cast<int>(this->_position.x - this->_blockStun / 2),
+					static_cast<int>(10 - this->_position.y),
+					static_cast<int>(this->_blockStun),
+					10
+				}, sf::Color::White);
+			else
+				game.screen->displayElement(
+					{static_cast<int>(this->_position.x - this->_blockStun / 2), static_cast<int>(10 - this->_position.y), static_cast<int>(this->_blockStun), 10},
+					this->_isGrounded() ? sf::Color::Red : sf::Color{0xFF, 0x80, 0x00}
+				);
 		}
 	}
 
@@ -404,6 +393,11 @@ namespace Battle
 
 		if (this->_odCooldown)
 			this->_odCooldown--;
+		if (this->_guardCooldown)
+			this->_guardCooldown--;
+		else if (this->_guardBar < this->_maxGuardBar)
+			this->_guardBar++;
+
 		for (auto &obj : this->_subobjects)
 			if (obj.second && obj.second->isDead()) {
 				obj.first = 0;
@@ -451,10 +445,11 @@ namespace Battle
 				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 			} else if ((
 				this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
-				this->_action == ACTION_AIR_MATTER_BLOCK ||
-				this->_action == ACTION_AIR_VOID_BLOCK ||
-				this->_action == ACTION_AIR_SPIRIT_BLOCK ||
-				(this->_action >= ACTION_AIR_NEUTRAL_WRONG_BLOCK && this->_action <= ACTION_AIR_VOID_WRONG_BLOCK)
+				this->_action == ACTION_AIR_NEUTRAL_PARRY ||
+				this->_action == ACTION_AIR_MATTER_PARRY ||
+				this->_action == ACTION_AIR_VOID_PARRY ||
+				this->_action == ACTION_AIR_SPIRIT_PARRY ||
+				this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK
 			)) {
 				this->_blockStun = 0;
 				this->_forceStartMove(ACTION_IDLE);
@@ -490,7 +485,7 @@ namespace Battle
 		}
 	}
 
-	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, unsigned odCd, Vector2f gravity)
+	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxGuardBar, unsigned maxGuardCooldown, unsigned odCd, Vector2f gravity)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -506,7 +501,8 @@ namespace Battle
 		this->_spiritMana = maxSMana / 2.f;
 		this->_matterMana = maxMMana / 2.f;
 		this->_regen = manaRegen;
-		this->_maxBlockStun = maxBlockStun;
+		this->_maxGuardCooldown = maxGuardCooldown;
+		this->_guardBar = this->_maxGuardBar = maxGuardBar;
 		this->_maxOdCooldown = odCd;
 		if (side) {
 			this->_position = {200, 0};
@@ -606,18 +602,18 @@ namespace Battle
 		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623M)) ||
 		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421M)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214M)) ||
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236V)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214V)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236S)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214S)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236M)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214M)) ||
 
-		        this->_executeAirBlock(input) ||
+				this->_executeAirParry(input) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
+				(input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
 		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
 		        (input.n && input.n <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6N)) ||
 		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
@@ -683,19 +679,19 @@ namespace Battle
 			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28N)) ||
-			(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64V)) ||
-			(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46V)) ||
-			(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28V)) ||
-			(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64S)) ||
-			(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46S)) ||
-			(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28S)) ||
-			(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64M)) ||
-			(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46M)) ||
-			(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28M)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64V)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46V)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28V)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64S)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46S)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28S)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64M)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46M)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28M)) ||
 
-			this->_executeGroundBlock(input) ||
+				this->_executeGroundParry(input) ||
 
-			(input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
+				(input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
 			(input.n && input.n <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
 			(input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
@@ -811,6 +807,8 @@ namespace Battle
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
+			return this->_forceStartMove(idleAction);
+		if (isParryAction(this->_action))
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_STANDING_UP)
 			return this->_forceStartMove(idleAction);
@@ -1562,30 +1560,32 @@ namespace Battle
 			(                                                                   this->_startMove(ACTION_AIR_DASH_4));
 	}
 
-	bool Character::_executeAirBlock(const InputStruct &input)
+	bool Character::_executeAirParry(const InputStruct &input)
 	{
-		if (input.n && input.horizontalAxis * this->_dir < 0) {
-			if (this->_action == ACTION_AIR_NEUTRAL_BLOCK || this->_startMove(ACTION_AIR_NEUTRAL_BLOCK))
+		if (!input.a || input.horizontalAxis * this->_dir >= 0)
+			return false;
+		if (input.n && input.n <= NORMAL_BUFFER) {
+			if (this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY))
 				return true;
 		}
-		if (input.m && input.horizontalAxis * this->_dir < 0) {
+		if (input.m && input.m <= NORMAL_BUFFER) {
 			if (
-				this->_action == ACTION_AIR_MATTER_BLOCK || this->_startMove(ACTION_AIR_MATTER_BLOCK) ||
-				this->_action == ACTION_AIR_NEUTRAL_BLOCK || this->_startMove(ACTION_AIR_NEUTRAL_BLOCK)
+				this->_action == ACTION_AIR_MATTER_PARRY || this->_startMove(ACTION_AIR_MATTER_PARRY) ||
+				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
 			)
 				return true;
 		}
-		if (input.s && input.horizontalAxis * this->_dir < 0) {
+		if (input.s && input.s <= NORMAL_BUFFER) {
 			if (
-				this->_action == ACTION_AIR_SPIRIT_BLOCK || this->_startMove(ACTION_AIR_SPIRIT_BLOCK) ||
-				this->_action == ACTION_AIR_NEUTRAL_BLOCK || this->_startMove(ACTION_AIR_NEUTRAL_BLOCK)
+				this->_action == ACTION_AIR_SPIRIT_PARRY || this->_startMove(ACTION_AIR_SPIRIT_PARRY) ||
+				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
 			)
 				return true;
 		}
-		if (input.v && input.horizontalAxis * this->_dir < 0) {
+		if (input.v && input.v <= NORMAL_BUFFER) {
 			if (
-				this->_action == ACTION_AIR_VOID_BLOCK || this->_startMove(ACTION_AIR_VOID_BLOCK) ||
-				this->_action == ACTION_AIR_NEUTRAL_BLOCK || this->_startMove(ACTION_AIR_NEUTRAL_BLOCK)
+				this->_action == ACTION_AIR_VOID_PARRY || this->_startMove(ACTION_AIR_VOID_PARRY) ||
+				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
 			)
 				return true;
 		}
@@ -1616,17 +1616,19 @@ namespace Battle
 		return this->_startMove(this->_dir * input.horizontalAxis > 0 ? ACTION_FORWARD_DASH : ACTION_BACKWARD_DASH);
 	}
 
-	bool Character::_executeGroundBlock(const InputStruct &input)
+	bool Character::_executeGroundParry(const InputStruct &input)
 	{
-		if (input.n && input.horizontalAxis * this->_dir < 0) {
-			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK;
+		if (!input.a || input.horizontalAxis * this->_dir >= 0)
+			return false;
+		if (input.n && input.n <= NORMAL_BUFFER) {
+			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
 			if (this->_action == move || this->_startMove(move))
 				return true;
 		}
-		if (input.m && input.horizontalAxis * this->_dir < 0) {
-			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_BLOCK : ACTION_GROUND_HIGH_MATTER_BLOCK;
-			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK;
+		if (input.m && input.m <= NORMAL_BUFFER) {
+			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_PARRY : ACTION_GROUND_HIGH_MATTER_PARRY;
+			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
 			if (
 				this->_action == move  || this->_startMove(move) ||
@@ -1634,9 +1636,9 @@ namespace Battle
 			)
 				return true;
 		}
-		if (input.s && input.horizontalAxis * this->_dir < 0) {
-			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_BLOCK : ACTION_GROUND_HIGH_SPIRIT_BLOCK;
-			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK;
+		if (input.s && input.s <= NORMAL_BUFFER) {
+			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_PARRY : ACTION_GROUND_HIGH_SPIRIT_PARRY;
+			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
 			if (
 				this->_action == move  || this->_startMove(move) ||
@@ -1644,9 +1646,9 @@ namespace Battle
 			)
 				return true;
 		}
-		if (input.v && input.horizontalAxis * this->_dir < 0) {
-			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_BLOCK : ACTION_GROUND_HIGH_VOID_BLOCK;
-			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK;
+		if (input.v && input.v <= NORMAL_BUFFER) {
+			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_PARRY : ACTION_GROUND_HIGH_VOID_PARRY;
+			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
 			if (
 				this->_action == move  || this->_startMove(move) ||
@@ -1955,76 +1957,55 @@ namespace Battle
 			oData->dFlag.highBlock || !this->_input->isPressed(INPUT_DOWN);
 	}
 
-	void Character::_blockMove(const Object *other, const FrameData &data)
+	void Character::_blockMove(Object *other, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
-		unsigned wrongBlockLevel = 0;
 		bool low = this->_input->isPressed(INPUT_DOWN);
+		bool wrongBlock = (data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) && (
+			(data.oFlag.lowHit && !myData->dFlag.lowBlock && !low) ||
+			(data.oFlag.highHit && !myData->dFlag.highBlock && low) ||
+			(data.oFlag.autoHitPos && this->_checkHitPos(other))
+		);
 
-		if (
-			(data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) && (
-				(data.oFlag.lowHit && !myData->dFlag.lowBlock && !low) ||
-				(data.oFlag.highHit && !myData->dFlag.highBlock && low) ||
-				(data.oFlag.autoHitPos && this->_checkHitPos(other))
-			)
-		)
-			wrongBlockLevel += 2;
-
-		if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
-			wrongBlockLevel++;
-		else if (data.oFlag.matterElement) {
-			if (myData->dFlag.voidBlock);
-			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock)
-				wrongBlockLevel += 1;
-			else if (myData->dFlag.spiritBlock)
-				wrongBlockLevel += 2;
-		} else if (data.oFlag.voidElement) {
-			if (myData->dFlag.spiritBlock);
-			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock)
-				wrongBlockLevel += 1;
-			else if (myData->dFlag.matterBlock)
-				wrongBlockLevel += 2;
-		} else if (data.oFlag.spiritElement) {
-			if (myData->dFlag.matterBlock);
-			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock)
-				wrongBlockLevel += 1;
-			else if (myData->dFlag.voidBlock)
-				wrongBlockLevel += 2;
-		}
-
-		if (
-			(
-				this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
-			) || isBlockingAction(this->_action)
-		) {
-			if (wrongBlockLevel) {
+		if ((
+			this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
+		) || isBlockingAction(this->_action)) {
+			if (wrongBlock) {
+				if (this->_guardCooldown)
+					return this->_getHitByMove(other, data);
 				if (this->_isGrounded())
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
+				this->_blockStun = data.blockStun * 5 / 3;
 			} else {
 				if (this->_isGrounded())
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
-				this->_blockStun *= 3;
-				this->_blockStun /= 4;
+				this->_blockStun = data.blockStun;
 			}
-			this->_blockStun += data.blockStun * (3 + wrongBlockLevel) / 3;
-		} else if (wrongBlockLevel)
+			this->_processGuardLoss(wrongBlock);
+		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
-		this->_speed.x += data.pushBlock * -this->_dir;
-		if (this->_blockStun >= this->_maxBlockStun) {
-			if (this->_isGrounded()) {
-				this->_blockStun = 60;
-				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				this->_speed = {this->_dir * -1, 0};
-			} else {
-				this->_blockStun = 12000;
-				this->_forceStartMove(ACTION_AIR_HIT);
-				this->_speed = {this->_dir * -1, 20};
-			}
+		else if (isParryAction(this->_action))
+			this->_parryEffect(other);
+		else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
+			return this->_getHitByMove(other, data);
+		else if (data.oFlag.matterElement) {
+			if (myData->dFlag.voidBlock);
+			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
+				return this->_getHitByMove(other, data);
+		} else if (data.oFlag.voidElement) {
+			if (myData->dFlag.spiritBlock);
+			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock || myData->dFlag.matterBlock)
+				return this->_getHitByMove(other, data);
+		} else if (data.oFlag.spiritElement) {
+			if (myData->dFlag.matterBlock);
+			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
+				return this->_getHitByMove(other, data);
 		}
+		this->_speed.x += data.pushBlock * -this->_dir;
 	}
 
 	bool Character::_isOnPlatform() const
@@ -2034,7 +2015,7 @@ namespace Battle
 		return Object::_isOnPlatform();
 	}
 
-	void Character::_getHitByMove(const Object *, const FrameData &data)
+	void Character::_getHitByMove(Object *, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -2240,29 +2221,32 @@ namespace Battle
 	{
 		switch (action) {
 		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
-		case ACTION_GROUND_HIGH_SPIRIT_BLOCK:
-		case ACTION_GROUND_HIGH_MATTER_BLOCK:
-		case ACTION_GROUND_HIGH_VOID_BLOCK:
 		case ACTION_GROUND_LOW_NEUTRAL_BLOCK:
-		case ACTION_GROUND_LOW_SPIRIT_BLOCK:
-		case ACTION_GROUND_LOW_MATTER_BLOCK:
-		case ACTION_GROUND_LOW_VOID_BLOCK:
 		case ACTION_AIR_NEUTRAL_BLOCK:
-		case ACTION_AIR_SPIRIT_BLOCK:
-		case ACTION_AIR_MATTER_BLOCK:
-		case ACTION_AIR_VOID_BLOCK:
 		case ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK:
-		case ACTION_GROUND_HIGH_SPIRIT_WRONG_BLOCK:
-		case ACTION_GROUND_HIGH_MATTER_WRONG_BLOCK:
-		case ACTION_GROUND_HIGH_VOID_WRONG_BLOCK:
 		case ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK:
-		case ACTION_GROUND_LOW_SPIRIT_WRONG_BLOCK:
-		case ACTION_GROUND_LOW_MATTER_WRONG_BLOCK:
-		case ACTION_GROUND_LOW_VOID_WRONG_BLOCK:
 		case ACTION_AIR_NEUTRAL_WRONG_BLOCK:
-		case ACTION_AIR_SPIRIT_WRONG_BLOCK:
-		case ACTION_AIR_MATTER_WRONG_BLOCK:
-		case ACTION_AIR_VOID_WRONG_BLOCK:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool Character::isParryAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_GROUND_HIGH_NEUTRAL_PARRY:
+		case ACTION_GROUND_HIGH_SPIRIT_PARRY:
+		case ACTION_GROUND_HIGH_MATTER_PARRY:
+		case ACTION_GROUND_HIGH_VOID_PARRY:
+		case ACTION_GROUND_LOW_NEUTRAL_PARRY:
+		case ACTION_GROUND_LOW_SPIRIT_PARRY:
+		case ACTION_GROUND_LOW_MATTER_PARRY:
+		case ACTION_GROUND_LOW_VOID_PARRY:
+		case ACTION_AIR_NEUTRAL_PARRY:
+		case ACTION_AIR_SPIRIT_PARRY:
+		case ACTION_AIR_MATTER_PARRY:
+		case ACTION_AIR_VOID_PARRY:
 			return true;
 		default:
 			return false;
@@ -2322,7 +2306,8 @@ namespace Battle
 		dat->_voidMana = this->_voidMana;
 		dat->_spiritMana = this->_spiritMana;
 		dat->_matterMana = this->_matterMana;
-		dat->_maxBlockStun = this->_maxBlockStun;
+		dat->_guardCooldown = this->_guardCooldown;
+		dat->_guardBar = this->_guardBar;
 		dat->_specialInputs = this->_specialInputs._value;
 		dat->_nbLastInputs = this->_lastInputs.size();
 		for (i = 0; i < this->_limit.size(); i++)
@@ -2360,7 +2345,8 @@ namespace Battle
 		this->_voidMana = dat->_voidMana;
 		this->_spiritMana = dat->_spiritMana;
 		this->_matterMana = dat->_matterMana;
-		this->_maxBlockStun = dat->_maxBlockStun;
+		this->_guardCooldown = dat->_guardCooldown;
+		this->_guardBar = dat->_guardBar;
 		this->_specialInputs._value = dat->_specialInputs;
 		this->_lastInputs.clear();
 		for (size_t i = 0; i < dat->_nbLastInputs; i++)
@@ -2389,5 +2375,84 @@ namespace Battle
 	{
 		for (auto &obj : this->_subobjects)
 			obj.second.reset();
+	}
+
+	void Character::_processGuardLoss(bool wrongBlock)
+	{
+		auto loss = this->_blockStun * 10;
+
+		if (this->_guardCooldown)
+			return;
+		if (loss >= this->_guardBar) {
+			this->_guardBar = this->_maxGuardBar;
+			this->_guardCooldown = this->_maxGuardCooldown;
+		} else
+			this->_guardBar -= loss;
+	}
+
+	void Character::_parryEffect(Object *other)
+	{
+		auto data = this->getCurrentFrameData();
+		auto oData = other->getCurrentFrameData();
+		bool isStrongest = (oData->oFlag.matterElement && data->dFlag.voidBlock) ||
+			(oData->oFlag.voidElement && data->dFlag.spiritBlock) ||
+			(oData->oFlag.spiritElement && data->dFlag.matterBlock) ||
+			(oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement && data->dFlag.neutralBlock);
+
+		if (data->dFlag.spiritBlock) {
+			this->_blockStun += 5;
+			other->_speed.x += this->_dir * (2 + isStrongest * 5);
+			this->_speed.x -= this->_dir * (2 + isStrongest * 5);
+		}
+		if (data->dFlag.voidBlock)
+			other->_speed.x -= this->_dir * (5 + isStrongest * 10);
+		if (data->dFlag.matterBlock) {
+			auto chr = dynamic_cast<Character *>(other);
+
+			if (chr) {
+				if (data->oFlag.voidMana)
+					chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
+				if (data->oFlag.spiritMana)
+					chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
+				if (data->oFlag.matterMana)
+					chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
+				if (
+					chr->_voidMana < 0 ||
+					chr->_spiritMana < 0 ||
+					chr->_matterMana < 0
+				) {
+					chr->_voidMana = chr->_voidManaMax / 10;
+					chr->_spiritMana = chr->_spiritManaMax / 10;
+					chr->_matterMana = chr->_matterManaMax / 10;
+					if (this->_isGrounded()) {
+						chr->_blockStun = 60;
+						chr->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+						chr->_speed = {chr->_dir * -1, 0};
+					} else {
+						chr->_blockStun = 12000;
+						chr->_forceStartMove(ACTION_AIR_HIT);
+						chr->_speed = {chr->_dir * -1, 20};
+					}
+				}
+			} else {
+				other->_team = this->_team;
+				other->_speed.x *= -1;
+				other->_dir *= -1;
+				other->_direction = !other->_direction;
+			}
+		}
+		if (data->dFlag.neutralBlock) {
+			this->_forceStartMove(this->_getReversalAction());
+			this->_blockStun = 0;
+		} else if (isStrongest) {
+			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
+			this->_blockStun = 0;
+		} else
+			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
+	}
+
+	unsigned Character::_getReversalAction()
+	{
+		return this->_isGrounded() ? ACTION_3M : ACTION_j6N;
 	}
 }

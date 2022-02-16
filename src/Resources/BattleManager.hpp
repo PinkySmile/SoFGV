@@ -108,7 +108,8 @@ namespace Battle
 			unsigned spiritManaMax;
 			unsigned matterManaMax;
 			float manaRegen;
-			unsigned maxBlockStun;
+			unsigned maxGuard;
+			unsigned guardCooldown;
 			unsigned odCd;
 		};
 

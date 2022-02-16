@@ -184,7 +184,10 @@ namespace Battle
 	void Object::hit(IObject &other, const FrameData *)
 	{
 		char buffer[36];
+		auto obj = dynamic_cast<Object *>(&other);
 
+		if (obj && obj->_team == this->_team)
+			return;
 		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		logger.debug(buffer);
 		this->_hasHit = true;

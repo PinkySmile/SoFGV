@@ -155,12 +155,13 @@ namespace Battle
 		while (this->_delay == 0) {
 			if (received) {
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000 - clock2.getElapsedTime().asMilliseconds()));
-				clock.restart();
+				lastPingId++;
 				packet.op = OPCODE_PING;
 				packet.pingId = lastPingId;
 				sock.send(&packet, sizeof(packet), player, playerPort);
 				received = false;
 				clock2.restart();
+				clock.restart();
 			} else if (clock2.getElapsedTime().asSeconds() >= 1) {
 				packet.op = OPCODE_PING;
 				packet.pingId = lastPingId;
@@ -202,17 +203,16 @@ namespace Battle
 				continue;
 			}
 			if (packet.pingId >= pingId) {
-				pingId = lastPingId;
 				if (packet.pingId == pingId) {
 					pingUpdate(clock.getElapsedTime().asMilliseconds());
 					received = true;
 				}
+				pingId = lastPingId;
 			}
 			if (pingId - lastPingId > 20) {
 				onDisconnect(player, playerPort);
 				goto start;
 			}
-			lastPingId++;
 		}
 		this->_delay--;
 		logger.debug("Starting game with " + std::to_string(this->_delay) + " frames of delay !");

@@ -41,19 +41,19 @@ namespace Battle
 		/* 23  */ ACTION_AIR_DASH_9,
 		/* 24  */ ACTION_AIR_TRANSFORM,
 		/* 25  */ ACTION_GROUND_HIGH_NEUTRAL_BLOCK,
-		/* 26  */ ACTION_GROUND_HIGH_SPIRIT_BLOCK,
-		/* 27  */ ACTION_GROUND_HIGH_MATTER_BLOCK,
-		/* 28  */ ACTION_GROUND_HIGH_VOID_BLOCK,
+		/* 26  */ ACTION_GROUND_HIGH_SPIRIT_PARRY,
+		/* 27  */ ACTION_GROUND_HIGH_MATTER_PARRY,
+		/* 28  */ ACTION_GROUND_HIGH_VOID_PARRY,
 		/* 29  */ ACTION_GROUND_HIGH_HIT,
 		/* 30  */ ACTION_GROUND_LOW_NEUTRAL_BLOCK,
-		/* 31  */ ACTION_GROUND_LOW_SPIRIT_BLOCK,
-		/* 32  */ ACTION_GROUND_LOW_MATTER_BLOCK,
-		/* 33  */ ACTION_GROUND_LOW_VOID_BLOCK,
+		/* 31  */ ACTION_GROUND_LOW_SPIRIT_PARRY,
+		/* 32  */ ACTION_GROUND_LOW_MATTER_PARRY,
+		/* 33  */ ACTION_GROUND_LOW_VOID_PARRY,
 		/* 34  */ ACTION_GROUND_LOW_HIT,
 		/* 35  */ ACTION_AIR_NEUTRAL_BLOCK,
-		/* 36  */ ACTION_AIR_SPIRIT_BLOCK,
-		/* 37  */ ACTION_AIR_MATTER_BLOCK,
-		/* 38  */ ACTION_AIR_VOID_BLOCK,
+		/* 36  */ ACTION_AIR_SPIRIT_PARRY,
+		/* 37  */ ACTION_AIR_MATTER_PARRY,
+		/* 38  */ ACTION_AIR_VOID_PARRY,
 		/* 39  */ ACTION_AIR_HIT,
 		/* 40  */ ACTION_BEING_KNOCKED_DOWN,
 		/* 41  */ ACTION_KNOCKED_DOWN,
@@ -74,17 +74,11 @@ namespace Battle
 		/* 56  */ ACTION_FORWARD_AIR_JUMP,
 		/* 57  */ ACTION_BACKWARD_AIR_JUMP,
 		/* 58  */ ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK,
-		/* 59  */ ACTION_GROUND_HIGH_SPIRIT_WRONG_BLOCK,
-		/* 60  */ ACTION_GROUND_HIGH_MATTER_WRONG_BLOCK,
-		/* 61  */ ACTION_GROUND_HIGH_VOID_WRONG_BLOCK,
-		/* 62  */ ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK,
-		/* 63  */ ACTION_GROUND_LOW_SPIRIT_WRONG_BLOCK,
-		/* 64  */ ACTION_GROUND_LOW_MATTER_WRONG_BLOCK,
-		/* 65  */ ACTION_GROUND_LOW_VOID_WRONG_BLOCK,
-		/* 66  */ ACTION_AIR_NEUTRAL_WRONG_BLOCK,
-		/* 67  */ ACTION_AIR_SPIRIT_WRONG_BLOCK,
-		/* 68  */ ACTION_AIR_MATTER_WRONG_BLOCK,
-		/* 69  */ ACTION_AIR_VOID_WRONG_BLOCK,
+		/* 59  */ ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK,
+		/* 60  */ ACTION_AIR_NEUTRAL_WRONG_BLOCK,
+		/* 61  */ ACTION_GROUND_HIGH_NEUTRAL_PARRY,
+		/* 62  */ ACTION_GROUND_LOW_NEUTRAL_PARRY,
+		/* 63  */ ACTION_AIR_NEUTRAL_PARRY,
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
@@ -286,15 +280,18 @@ namespace Battle
 		};
 #pragma pack(push, 1)
 		struct Data {
-			unsigned _odCooldown = 0;
-			bool _counter;
+			unsigned _limit[4];
+			unsigned _subObjects[128];
+			unsigned _odCooldown;
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
 			unsigned _airDashesUsed;
 			unsigned _comboCtr;
 			unsigned _totalDamage;
+			unsigned _guardCooldown;
+			unsigned _guardBar;
+			bool _counter;
 			float _prorate;
-			unsigned _limit[4];
 			bool _atkDisabled;
 			bool _inputDisabled;
 			bool _hasJumped;
@@ -304,9 +301,7 @@ namespace Battle
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			unsigned _maxBlockStun;
 			unsigned _specialInputs;
-			unsigned _subObjects[128];
 			unsigned _nbLastInputs;
 		};
 #pragma pack(pop)
@@ -340,15 +335,17 @@ namespace Battle
 		// Game State
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
+		std::array<unsigned, 4> _limit;
 		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		unsigned _airDashesUsed = 0;
 		unsigned _comboCtr = 0;
 		unsigned _totalDamage = 0;
+		unsigned _guardCooldown = 0;
+		unsigned _guardBar = 0;
 		bool _counter = false;
 		float _prorate = 1;
-		std::array<unsigned, 4> _limit;
 		bool _atkDisabled = false;
 		bool _inputDisabled = false;
 		bool _hasJumped = false;
@@ -358,7 +355,6 @@ namespace Battle
 		float _voidMana;
 		float _spiritMana;
 		float _matterMana;
-		unsigned _maxBlockStun = 0;
 		SpecialInputs _specialInputs;
 
 		// Non Game State
@@ -375,12 +371,17 @@ namespace Battle
 		unsigned _voidManaMax;
 		unsigned _spiritManaMax;
 		unsigned _matterManaMax;
+		unsigned _maxGuardCooldown = 0;
+		unsigned _maxGuardBar = 0;
 
+		virtual unsigned _getReversalAction();
+		virtual void _parryEffect(Object *other);
+		virtual void _processGuardLoss(bool wrongBlock);
 		virtual bool _executeAirDashes(const InputStruct &input);
-		virtual bool _executeAirBlock(const InputStruct &input);
+		virtual bool _executeAirParry(const InputStruct &input);
 		virtual bool _executeAirJump(const InputStruct &input);
 		virtual bool _executeGroundDashes(const InputStruct &input);
-		virtual bool _executeGroundBlock(const InputStruct &input);
+		virtual bool _executeGroundParry(const InputStruct &input);
 		virtual bool _executeGroundJump(const InputStruct &input);
 		virtual bool _executeCrouch(const InputStruct &input);
 		virtual bool _executeWalking(const InputStruct &input);
@@ -391,14 +392,15 @@ namespace Battle
 		virtual bool _isBlocking() const;
 		virtual bool _canCancel(unsigned int action);
 		virtual bool _checkHitPos(const Object *other) const;
-		virtual void _blockMove(const Object *other, const FrameData &data);
-		virtual void _getHitByMove(const Object *other, const FrameData &data);
+		virtual void _blockMove(Object *other, const FrameData &data);
+		virtual void _getHitByMove(Object *other, const FrameData &data);
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
 		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);
+		static bool isParryAction(unsigned action);
 
 		void _applyMoveAttributes() override;
 		void _forceStartMove(unsigned action) override;
@@ -445,7 +447,7 @@ namespace Battle
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxBlockStun, unsigned odCd, Vector2f gravity);
+		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxGuardBar, unsigned maxGuardCooldown, unsigned odCd, Vector2f gravity);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
 		std::shared_ptr<IInput> &getInput();

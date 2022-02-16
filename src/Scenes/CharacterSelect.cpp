@@ -215,8 +215,10 @@ namespace Battle
 			throw std::invalid_argument("framedata_char_select is missing");
 		if (!json.contains("hp"))
 			throw std::invalid_argument("hp is missing");
-		if (!json.contains("max_block_stun"))
-			throw std::invalid_argument("max_block_stun is missing");
+		if (!json.contains("guard_bar"))
+			throw std::invalid_argument("guard_bar is missing");
+		if (!json.contains("guard_break_cooldown"))
+			throw std::invalid_argument("guard_break_cooldown is missing");
 		if (!json.contains("overdrive_cooldown"))
 			throw std::invalid_argument("overdrive_cooldown is missing");
 		if (!json.contains("gravity"))
