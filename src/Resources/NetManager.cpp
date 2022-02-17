@@ -195,8 +195,10 @@ namespace Battle
 				onDisconnect(player, playerPort);
 				goto start;
 			}
+			if (packet.op == OPCODE_HELLO)
+				continue;
 			if (packet.op != OPCODE_PONG) {
-				logger.error("Bad packet");
+				logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
 				sock.send(&packet, sizeof(packet), player, playerPort);
