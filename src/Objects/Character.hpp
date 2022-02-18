@@ -273,6 +273,26 @@ namespace Battle
 
 	class Character : public Object {
 	protected:
+		enum GroundTech {
+			GROUNDTECH_NONE,
+			GROUNDTECH_FORWARD,
+			GROUNDTECH_BACKWARD,
+			GROUNDTECH_RANDOM
+		};
+		enum AirTech {
+			AIRTECH_NONE,
+			AIRTECH_FORWARD,
+			AIRTECH_BACKWARD,
+			AIRTECH_UP,
+			AIRTECH_DOWN,
+			AIRTECH_RANDOM
+		};
+		enum DummyState {
+			DUMMYSTATE_STANDING,
+			DUMMYSTATE_JUMP,
+			DUMMYSTATE_HIGH_JUMP,
+			DUMMYSTATE_CROUCH
+		};
 		enum ForceBlock {
 			NO_BLOCK,
 			ALL_RIGHT_BLOCK,
@@ -347,6 +367,9 @@ namespace Battle
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit;
+		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
+		AirTech _dummyAirTech = AIRTECH_NONE;
+		DummyState _dummyState = DUMMYSTATE_STANDING;
 		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;

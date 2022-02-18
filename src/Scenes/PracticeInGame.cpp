@@ -85,14 +85,14 @@ namespace Battle
 
 	char const *PracticeInGame::dummyGroundTechToString() const
 	{
-		switch (this->_dummyGroundTech) {
-		case GROUNDTECH_NONE:
+		switch (this->_manager->_rightCharacter->_dummyGroundTech) {
+		case Character::GROUNDTECH_NONE:
 			return "None";
-		case GROUNDTECH_FORWARD:
+		case Character::GROUNDTECH_FORWARD:
 			return "Forward";
-		case GROUNDTECH_BACKWARD:
+		case Character::GROUNDTECH_BACKWARD:
 			return "Backward";
-		case GROUNDTECH_RANDOM:
+		case Character::GROUNDTECH_RANDOM:
 			return "Random";
 		}
 		return nullptr;
@@ -100,18 +100,18 @@ namespace Battle
 
 	char const *PracticeInGame::dummyAirTechToString() const
 	{
-		switch (this->_dummyAirTech) {
-		case AIRTECH_NONE:
+		switch (this->_manager->_rightCharacter->_dummyAirTech) {
+		case Character::AIRTECH_NONE:
 			return "None";
-		case AIRTECH_FORWARD:
+		case Character::AIRTECH_FORWARD:
 			return "Forward";
-		case AIRTECH_BACKWARD:
+		case Character::AIRTECH_BACKWARD:
 			return "Backward";
-		case AIRTECH_UP:
+		case Character::AIRTECH_UP:
 			return "Up";
-		case AIRTECH_DOWN:
+		case Character::AIRTECH_DOWN:
 			return "Down";
-		case AIRTECH_RANDOM:
+		case Character::AIRTECH_RANDOM:
 			return "Random";
 		}
 		return nullptr;
@@ -119,14 +119,14 @@ namespace Battle
 
 	char const *PracticeInGame::dummyStateToString() const
 	{
-		switch (this->_dummyState) {
-		case DUMMYSTATE_STANDING:
+		switch (this->_manager->_rightCharacter->_dummyState) {
+		case Character::DUMMYSTATE_STANDING:
 			return "Standing";
-		case DUMMYSTATE_JUMP:
+		case Character::DUMMYSTATE_JUMP:
 			return "Jump";
-		case DUMMYSTATE_HIGH_JUMP:
+		case Character::DUMMYSTATE_HIGH_JUMP:
 			return "High Jump";
-		case DUMMYSTATE_CROUCH:
+		case Character::DUMMYSTATE_CROUCH:
 			return "Crouch";
 		}
 		return nullptr;
@@ -225,19 +225,19 @@ namespace Battle
 	{
 		switch (this->_practiceCursor) {
 		case 0:
-			this->_dummyGroundTech = static_cast<GroundTech>(this->_dummyGroundTech + 1);
-			if (this->_dummyGroundTech == GROUNDTECH_RANDOM + 1)
-				this->_dummyGroundTech = GROUNDTECH_NONE;
+			this->_manager->_rightCharacter->_dummyGroundTech = static_cast<Character::GroundTech>(this->_manager->_rightCharacter->_dummyGroundTech + 1);
+			if (this->_manager->_rightCharacter->_dummyGroundTech == Character::GROUNDTECH_RANDOM + 1)
+				this->_manager->_rightCharacter->_dummyGroundTech = Character::GROUNDTECH_NONE;
 			break;
 		case 1:
-			this->_dummyAirTech = static_cast<AirTech>(this->_dummyAirTech + 1);
-			if (this->_dummyAirTech == AIRTECH_RANDOM + 1)
-				this->_dummyAirTech = AIRTECH_NONE;
+			this->_manager->_rightCharacter->_dummyAirTech = static_cast<Character::AirTech>(this->_manager->_rightCharacter->_dummyAirTech + 1);
+			if (this->_manager->_rightCharacter->_dummyAirTech == Character::AIRTECH_RANDOM + 1)
+				this->_manager->_rightCharacter->_dummyAirTech = Character::AIRTECH_NONE;
 			break;
 		case 2:
-			this->_dummyState = static_cast<DummyState>(this->_dummyState + 1);
-			if (this->_dummyState == DUMMYSTATE_CROUCH + 1)
-				this->_dummyState = DUMMYSTATE_STANDING;
+			this->_manager->_rightCharacter->_dummyState = static_cast<Character::DummyState>(this->_manager->_rightCharacter->_dummyState + 1);
+			if (this->_manager->_rightCharacter->_dummyState == Character::DUMMYSTATE_CROUCH + 1)
+				this->_manager->_rightCharacter->_dummyState = Character::DUMMYSTATE_STANDING;
 			break;
 		case 3:
 			this->_block++;
@@ -305,7 +305,7 @@ namespace Battle
 		if (this->_block == Character::BLOCK_1ST_HIT) {
 			if (this->_manager->_rightCharacter->_blockStun) {
 				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
-				this->_rightCounter = 60;
+				this->_rightCounter = 15;
 			} else if (this->_rightCounter == 0)
 				this->_manager->_rightCharacter->_forceBlock = Character::ALL_RIGHT_BLOCK;
 			else
@@ -313,7 +313,7 @@ namespace Battle
 		} else if (this->_block == Character::BLOCK_AFTER_HIT) {
 			if (this->_manager->_rightCharacter->_blockStun) {
 				this->_manager->_rightCharacter->_forceBlock = Character::ALL_RIGHT_BLOCK;
-				this->_rightCounter = 60;
+				this->_rightCounter = 15;
 			} else if (this->_rightCounter == 0)
 				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
 			else

@@ -12,33 +12,9 @@ namespace Battle
 {
 	class PracticeInGame : public InGame {
 	protected:
-		enum GroundTech {
-			GROUNDTECH_NONE,
-			GROUNDTECH_FORWARD,
-			GROUNDTECH_BACKWARD,
-			GROUNDTECH_RANDOM
-		};
-		enum AirTech {
-			AIRTECH_NONE,
-			AIRTECH_FORWARD,
-			AIRTECH_BACKWARD,
-			AIRTECH_UP,
-			AIRTECH_DOWN,
-			AIRTECH_RANDOM
-		};
-		enum DummyState {
-			DUMMYSTATE_STANDING,
-			DUMMYSTATE_JUMP,
-			DUMMYSTATE_HIGH_JUMP,
-			DUMMYSTATE_CROUCH
-		};
-
 		class PracticeBattleManager *_manager;
 		unsigned _practiceCursor = 0;
 		bool _practice = false;
-		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
-		AirTech _dummyAirTech = AIRTECH_NONE;
-		DummyState _dummyState = DUMMYSTATE_STANDING;
 		unsigned char _block = 0;
 		unsigned char _inputDelay = 0;
 		unsigned char _guardBar = 0;
