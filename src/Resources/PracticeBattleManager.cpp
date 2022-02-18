@@ -3,6 +3,7 @@
 //
 
 #include "PracticeBattleManager.hpp"
+#include "game.hpp"
 
 namespace Battle
 {
