@@ -1222,7 +1222,7 @@
                         "width": 39
                     },
                     "defense_flag": 2117640,
-                    "duration": 7,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
                             "height": 182,
@@ -1284,7 +1284,7 @@
                         "width": 37
                     },
                     "defense_flag": 16640,
-                    "duration": 4,
+                    "duration": 2,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -1320,7 +1320,7 @@
                         "width": 39
                     },
                     "defense_flag": 2117640,
-                    "duration": 7,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
                             "height": 182,
@@ -1382,7 +1382,7 @@
                         "width": 43
                     },
                     "defense_flag": 16640,
-                    "duration": 4,
+                    "duration": 2,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -1418,7 +1418,7 @@
                         "width": 39
                     },
                     "defense_flag": 2117640,
-                    "duration": 7,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
                             "height": 182,
@@ -1480,7 +1480,7 @@
                         "width": 40
                     },
                     "defense_flag": 16640,
-                    "duration": 4,
+                    "duration": 2,
                     "hurt_boxes": [
                         {
                             "height": 188,
