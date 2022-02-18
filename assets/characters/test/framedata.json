@@ -10415,7 +10415,7 @@
                             "width": 31
                         }
                     ],
-                    "matter_limit": 10,
+                    "matter_limit": 50,
                     "offense_flag": 264832,
                     "offset": {
                         "x": 2,
