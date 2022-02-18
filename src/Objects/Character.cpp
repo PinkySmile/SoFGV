@@ -81,7 +81,11 @@ static const char *dFlags[] = {
 	"projectile",
 	"landCancel",
 	"dashCancel",
-	"resetSpeed"
+	"resetSpeed",
+	"neutralInvul",
+	"matterInvul",
+	"spiritInvul",
+	"voidInvul"
 };
 
 namespace Battle
@@ -807,6 +811,32 @@ namespace Battle
 
 			auto inputs = this->_input->getInputs();
 
+			switch (this->_dummyGroundTech) {
+			case GROUNDTECH_NONE:
+				break;
+			case GROUNDTECH_FORWARD:
+				if (this->_startMove(ACTION_FORWARD_TECH))
+					return;
+				break;
+			case GROUNDTECH_BACKWARD:
+				if (this->_startMove(ACTION_BACKWARD_TECH))
+					return;
+				break;
+			case GROUNDTECH_RANDOM:
+				switch (game.random() % 3) {
+				case 0:
+					break;
+				case 1:
+					if (this->_startMove(ACTION_FORWARD_TECH))
+						return;
+					break;
+				case 2:
+					if (this->_startMove(ACTION_BACKWARD_TECH))
+						return;
+					break;
+				}
+				break;
+			}
 			if (this->_atkDisabled || this->_inputDisabled || (!inputs.a && !inputs.s && !inputs.d && !inputs.m && !inputs.n && !inputs.v) || !inputs.horizontalAxis)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 			if (this->_startMove(inputs.horizontalAxis * this->_dir < 0 ? ACTION_BACKWARD_TECH : ACTION_FORWARD_TECH))
@@ -1724,6 +1754,46 @@ namespace Battle
 
 	bool Character::_executeAirTech(const InputStruct &input)
 	{
+		switch (this->_dummyAirTech) {
+		case AIRTECH_NONE:
+			break;
+		case AIRTECH_FORWARD:
+			if (this->_startMove(ACTION_FORWARD_AIR_TECH))
+				return true;
+			break;
+		case AIRTECH_BACKWARD:
+			if (this->_startMove(ACTION_BACKWARD_AIR_TECH))
+				return true;
+			break;
+		case AIRTECH_UP:
+			if (this->_startMove(ACTION_UP_AIR_TECH))
+				return true;
+			break;
+		case AIRTECH_DOWN:
+			if (this->_startMove(ACTION_DOWN_AIR_TECH))
+				return true;
+			break;
+		case AIRTECH_RANDOM:
+			switch (game.random() % 4) {
+			case 0:
+				if (this->_startMove(ACTION_FORWARD_AIR_TECH))
+					return true;
+				break;
+			case 1:
+				if (this->_startMove(ACTION_BACKWARD_AIR_TECH))
+					return true;
+				break;
+			case 2:
+				if (this->_startMove(ACTION_UP_AIR_TECH))
+					return true;
+				break;
+			case 3:
+				if (this->_startMove(ACTION_DOWN_AIR_TECH))
+					return true;
+				break;
+			}
+			break;
+		}
 		if (!input.d & !input.n & !input.v & !input.m & !input.a & !input.s)
 			return false;
 		return  (input.verticalAxis > 0 &&                this->_startMove(ACTION_UP_AIR_TECH)) ||
