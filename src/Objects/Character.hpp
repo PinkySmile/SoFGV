@@ -273,6 +273,15 @@ namespace Battle
 
 	class Character : public Object {
 	protected:
+		enum ForceBlock {
+			NO_BLOCK,
+			ALL_RIGHT_BLOCK,
+			ALL_WRONG_BLOCK,
+			HIGH_BLOCK,
+			LOW_BLOCK,
+			RANDOM_HEIGHT_BLOCK,
+			RANDOM_BLOCK = 8
+		};
 		struct LastInput {
 			unsigned nbFrames : 28;
 			char h : 2;
@@ -358,10 +367,8 @@ namespace Battle
 		SpecialInputs _specialInputs;
 
 		// Non Game State
-#ifdef _DEBUG
 		sf::Text _text;
 		sf::Text _text2;
-#endif
 		Character *_opponent;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
@@ -373,6 +380,7 @@ namespace Battle
 		unsigned _matterManaMax;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		unsigned char _forceBlock = 0;
 
 		virtual unsigned _getReversalAction();
 		virtual void _parryEffect(Object *other);
@@ -391,7 +399,7 @@ namespace Battle
 		virtual bool _executeGroundMoves(const InputStruct &input);
 		virtual bool _isBlocking() const;
 		virtual bool _canCancel(unsigned int action);
-		virtual bool _checkHitPos(const Object *other) const;
+		virtual unsigned char _checkHitPos(const Object *other) const;
 		virtual void _blockMove(Object *other, const FrameData &data);
 		virtual void _getHitByMove(Object *other, const FrameData &data);
 		virtual void _processWallSlams();
@@ -436,6 +444,7 @@ namespace Battle
 
 	public:
 		std::string name;
+		bool showAttributes = false;
 
 		Character() = default;
 		Character(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
@@ -462,6 +471,8 @@ namespace Battle
 		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
 
+		friend class PracticeBattleManager;
+		friend class PracticeInGame;
 		friend class BattleManager;
 	};
 }

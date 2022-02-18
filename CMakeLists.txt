@@ -80,6 +80,10 @@ add_executable(
 	src/Scenes/NetplayScene.hpp
 	src/Scenes/TitleScreen.cpp
 	src/Scenes/TitleScreen.hpp
+	src/Resources/PracticeBattleManager.cpp
+	src/Resources/PracticeBattleManager.hpp
+	src/Scenes/PracticeInGame.cpp
+	src/Scenes/PracticeInGame.hpp
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

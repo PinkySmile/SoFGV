@@ -92,11 +92,7 @@ namespace Battle
 		virtual void _applyMoveAttributes();
 
 	public:
-		#ifdef _DEBUG
-		bool showBoxes = true;
-		#else
 		bool showBoxes = false;
-		#endif
 
 		Object() = default;
 		~Object() override = default;
@@ -116,6 +112,7 @@ namespace Battle
 		void restoreFromBuffer(void *data) override;
 		unsigned int getClassId() const override;
 
+		friend class PracticeBattleManager;
 		friend class BattleManager;
 		friend class Character;
 	};

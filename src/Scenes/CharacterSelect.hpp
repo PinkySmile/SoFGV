@@ -42,11 +42,12 @@ namespace Battle
 		int _rightPos = 0;
 		int _leftPalette = 0;
 		int _rightPalette = 1;
+		bool _practice = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
 
 	public:
-		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput);
+		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice = false);
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

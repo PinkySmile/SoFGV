@@ -41,12 +41,14 @@ namespace Battle
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
 
-		void _renderPause() const;
-		void _pauseUpdate();
-		bool _pauseConfirm();
+		virtual void _renderPause() const;
+		virtual void _pauseUpdate();
+		virtual bool _pauseConfirm();
 		void _renderMoveList() const;
 		void _moveListUpdate();
 		void _calculateMoveListOrder();
+
+		InGame();
 
 	public:
 		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);

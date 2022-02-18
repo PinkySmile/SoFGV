@@ -12,7 +12,7 @@
 namespace Battle
 {
 	class BattleManager {
-	private:
+	protected:
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
@@ -115,10 +115,10 @@ namespace Battle
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		void addHitStop(unsigned stop);
-		bool update();
-		void render();
+		virtual bool update();
+		virtual void render();
 		unsigned registerObject(const std::shared_ptr<IObject> &object);
-		void consumeEvent(const sf::Event &);
+		virtual void consumeEvent(const sf::Event &);
 		std::shared_ptr<IObject> getObjectFromId(unsigned id) const;
 		Character *getLeftCharacter();
 		Character *getRightCharacter();

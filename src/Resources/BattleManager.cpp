@@ -70,16 +70,6 @@ namespace Battle
 	{
 		this->_leftCharacter->consumeEvent(event);
 		this->_rightCharacter->consumeEvent(event);
-		if (!game.networkMgr.isConnected()) {
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::J)
-				this->_step = !this->_step;
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::K)
-				this->_next = true;
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::U)
-				this->_speed--;
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I)
-				this->_speed++;
-		}
 	}
 
 	bool BattleManager::update()

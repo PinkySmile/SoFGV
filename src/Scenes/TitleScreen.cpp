@@ -28,6 +28,7 @@ namespace Battle
 {
 	static const char * const menuItems[] = {
 		"Play",
+		"Practice",
 		"Host",
 		"Connect",
 		"Settings",
@@ -186,12 +187,19 @@ namespace Battle
 			);
 			break;
 		case 1:
-			this->_host();
+			this->_nextScene = new CharacterSelect(
+				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
+				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
+				true
+			);
 			break;
 		case 2:
+			this->_host();
+			break;
+		case 3:
 			this->_connect();
 			break;
-		case 5:
+		case 6:
 			game.networkMgr.setInputs(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
 				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
@@ -301,7 +309,7 @@ namespace Battle
 
 		this->_usingKeyboard = false;
 		if (this->_askingInputs && ev.button == 0) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 5))
+			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (this->_leftInput != ev.joystickId + 2)
@@ -335,13 +343,13 @@ namespace Battle
 		else
 			game.screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		if (this->_selectedEntry == 0 || this->_selectedEntry == 5)
+		if (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5)
 			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game.screen->displayElement("P2", {540 + 420, 190});
 		game.screen->fillColor(sf::Color::White);
-		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 5)) {
+		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5)) {
 			if (this->_rightInput)
 				game.screen->displayElement(
 					this->_rightInput == 1 ?
@@ -355,7 +363,7 @@ namespace Battle
 				game.screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 5)))
+		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5)))
 			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -494,7 +502,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 5)))
+			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5)))
 				this->_onInputsChosen();
 			else if (this->_leftInput)
 				this->_rightInput = 1;
@@ -507,16 +515,17 @@ namespace Battle
 		case 0:
 		case 1:
 		case 2:
+		case 3:
 			this->_askingInputs = true;
 			break;
-		case 3:
+		case 4:
 			this->_changingInputs = 1;
 			this->_cursorInputs = 0;
 			break;
-		case 4:
+		case 5:
 			game.screen->close();
 			break;
-		case 5:
+		case 6:
 			this->_askingInputs = true;
 			break;
 		default:
@@ -536,7 +545,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 5))
+			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;

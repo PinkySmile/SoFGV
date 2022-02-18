@@ -30,7 +30,6 @@
 #define CHARGE_BUFFER 5
 #define CHARGE_TIME 25
 
-#ifdef _DEBUG
 static const char *oFlags[] = {
 	"grab",
 	"airUnblockable",
@@ -84,7 +83,7 @@ static const char *dFlags[] = {
 	"dashCancel",
 	"resetSpeed"
 };
-#endif
+
 namespace Battle
 {
 	const std::map<CharacterActions, std::string> actionNames{
@@ -346,7 +345,6 @@ namespace Battle
 	Character::Character(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
-#ifdef _DEBUG
 		this->_text.setFont(game.font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
@@ -357,7 +355,6 @@ namespace Battle
 		this->_text2.setOutlineColor(sf::Color::Black);
 		this->_text2.setOutlineThickness(2);
 		this->_text2.setCharacterSize(10);
-#endif
 		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
@@ -367,10 +364,10 @@ namespace Battle
 	void Character::render() const
 	{
 		Object::render();
-#ifdef _DEBUG
-		game.screen->draw(this->_text);
-		game.screen->draw(this->_text2);
-#endif
+		if (this->showAttributes) {
+			game.screen->draw(this->_text);
+			game.screen->draw(this->_text2);
+		}
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
 				game.screen->displayElement({
@@ -895,6 +892,8 @@ namespace Battle
 		auto *data = this->getCurrentFrameData();
 
 		if (this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
+			return true;
+		if ((this->_forceBlock & 7) && ((this->_forceBlock & RANDOM_BLOCK) == 0 || game.random() % 8 != 0) && data->dFlag.canBlock)
 			return true;
 		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
 	}
@@ -1747,8 +1746,6 @@ namespace Battle
 		else if (this->_position.y > 1000)
 			this->_position.y = 1000;
 
-
-#ifdef _DEBUG
 		auto data = this->getCurrentFrameData();
 		char buffer[8194];
 
@@ -1829,7 +1826,6 @@ namespace Battle
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
 
-
 		sprintf(
 			buffer,
 			"voidMana: %.2f/%u\n"
@@ -1884,13 +1880,12 @@ namespace Battle
 			}
 		this->_text2.setString(buffer);
 		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -550});
-#endif
 	}
 
-	bool Character::_checkHitPos(const Object *other) const
+	unsigned char Character::_checkHitPos(const Object *other) const
 	{
 		if (!other)
-			return false;
+			return 0;
 
 		auto *oData = this->getCurrentFrameData();
 		auto *mData = other->getCurrentFrameData();
@@ -1953,8 +1948,7 @@ namespace Battle
 			if (found)
 				break;
 		}
-		if (!found)
-			return true;
+		assert(found);
 
 		auto height = 0;
 		auto pts = hurtbox.getIntersectionPoints(hitbox);
@@ -1964,27 +1958,40 @@ namespace Battle
 			for (auto &pt : arr)
 				height += (pt.y > center) - (pt.y < center);
 		if (height == 0)
-			return true;
+			return 0;
 		if (pts.size() == 1)
-			return true; // TODO: Handle this case
-		return height > 0 ?
-			oData->dFlag.lowBlock || this->_input->isPressed(INPUT_DOWN) :
-			oData->dFlag.highBlock || !this->_input->isPressed(INPUT_DOWN);
+			return 0; // TODO: Handle this case
+		return height > 0 ? 1 : 2;
 	}
 
 	void Character::_blockMove(Object *other, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
-		bool low = this->_input->isPressed(INPUT_DOWN);
-		bool wrongBlock = (data.oFlag.lowHit || data.oFlag.highHit || data.oFlag.autoHitPos) && (
-			(data.oFlag.lowHit && !myData->dFlag.lowBlock && !low) ||
-			(data.oFlag.highHit && !myData->dFlag.highBlock && low) ||
-			(data.oFlag.autoHitPos && this->_checkHitPos(other))
+		bool low = (
+			this->_input->isPressed(INPUT_DOWN) ||
+			(this->_forceBlock & 7) == LOW_BLOCK ||
+			((this->_forceBlock & 7) == RANDOM_HEIGHT_BLOCK && game.random() % 2)
 		);
+		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
-		if ((
-			this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && myData->dFlag.canBlock
-		) || isBlockingAction(this->_action)) {
+		if (data.oFlag.autoHitPos)
+			height |= this->_checkHitPos(other);
+		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
+			low = height & 1;
+		if ((this->_forceBlock & 7) == ALL_WRONG_BLOCK)
+			low = height & 2;
+
+		bool wrongBlock =
+			(height & 1) && !myData->dFlag.lowBlock && (!low || !myData->dFlag.canBlock) ||
+			(height & 2) && !myData->dFlag.highBlock && (low || !myData->dFlag.canBlock);
+
+		if (
+			(
+				(
+					(this->_forceBlock & 7) || this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT)
+				) && myData->dFlag.canBlock
+			) || isBlockingAction(this->_action)
+		) {
 			if (wrongBlock) {
 				if (this->_guardCooldown)
 					return this->_getHitByMove(other, data);

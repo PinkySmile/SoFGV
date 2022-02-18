@@ -8,12 +8,14 @@
 #include "InGame.hpp"
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
+#include "PracticeInGame.hpp"
 
 namespace Battle
 {
-	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput)	:
+	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice)	:
 		_leftInput(std::move(leftInput)),
-		_rightInput(std::move(rightInput))
+		_rightInput(std::move(rightInput)),
+		_practice(practice)
 	{
 		sf::View view{{0, 0, 1680, 960}};
 		std::ifstream stream{"assets/characters/list.json"};
@@ -157,6 +159,13 @@ namespace Battle
 			auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 			auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
 
+			if (this->_practice)
+				return new PracticeInGame(
+					lchr,
+					rchr,
+					this->_entries[this->_leftPos].entry,
+					this->_entries[this->_rightPos].entry
+				);
 			return new InGame(
 				lchr,
 				rchr,

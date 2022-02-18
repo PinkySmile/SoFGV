@@ -5,6 +5,7 @@
 #include "InGame.hpp"
 #include "../Objects/Character.hpp"
 #include "../Resources/Game.hpp"
+#include "../Resources/PracticeBattleManager.hpp"
 #include "../Logger.hpp"
 #include "CharacterSelect.hpp"
 #include "TitleScreen.hpp"
@@ -19,7 +20,7 @@ namespace Battle
 		"(also in the air)"
 	};
 
-	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson)
+	InGame::InGame()
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
@@ -43,6 +44,11 @@ namespace Battle
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
 		logger.info("InGame scene created");
 		Battle::game.screen->setView(view);
+	}
+
+	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+		InGame()
+	{
 		game.battleMgr = std::make_unique<BattleManager>(
 			BattleManager::CharacterParams{
 				leftChr,
@@ -137,7 +143,7 @@ namespace Battle
 		game.screen->fillColor(sf::Color::White);
 		game.screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = 0; i < sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings); i++) {
-			game.screen->fillColor(i == this->_pauseCursor ? sf::Color::Red : sf::Color::White);
+			game.screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
 			game.screen->displayElement(InGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
 		}
 		game.screen->textSize(30);
