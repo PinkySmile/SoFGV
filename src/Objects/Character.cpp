@@ -2044,9 +2044,8 @@ namespace Battle
 			this->_counter = true;
 			this->_comboCtr++;
 			this->_blockStun = data.hitStun * 1.5;
-			this->_speed.x -= data.counterHitSpeed.x * this->_dir;
-			this->_speed.x = max(-data.counterHitSpeed.x * 1.5, min(data.counterHitSpeed.x * 1.5, this->_speed.x));
-			this->_speed.y += data.counterHitSpeed.y;
+			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
+			this->_speed.y =  data.counterHitSpeed.y;
 			this->_prorate *= data.prorate / 100;
 			this->_limit[0] += data.neutralLimit;
 			this->_limit[1] += data.voidLimit;
@@ -2063,9 +2062,8 @@ namespace Battle
 				this->_totalDamage += data.damage * this->_prorate;
 				this->_comboCtr++;
 				this->_blockStun = data.hitStun;
-				this->_speed.x -= data.hitSpeed.x * this->_dir;
-				this->_speed.x = max(-data.hitSpeed.x * 1.5, min(data.hitSpeed.x * 1.5, this->_speed.x));
-				this->_speed.y += data.hitSpeed.y;
+				this->_speed.x = -data.hitSpeed.x * this->_dir;
+				this->_speed.y =  data.hitSpeed.y;
 				this->_prorate *= data.prorate / 100;
 				this->_limit[0] += data.neutralLimit;
 				this->_limit[1] += data.voidLimit;
