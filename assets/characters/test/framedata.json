@@ -9466,7 +9466,7 @@
                         "width": 43
                     },
                     "defense_flag": 81920,
-                    "duration": 10,
+                    "duration": 8,
                     "hurt_boxes": [
                         {
                             "height": 61,
@@ -9507,7 +9507,7 @@
                     },
                     "damage": 300,
                     "defense_flag": 81920,
-                    "duration": 10,
+                    "duration": 8,
                     "hurt_boxes": [
                         {
                             "height": 61,
@@ -10840,7 +10840,7 @@
                         }
                     ],
                     "mana_gain": 6,
-                    "offense_flag": 58722386,
+                    "offense_flag": 58984530,
                     "offset": {
                         "x": 72,
                         "y": 0
@@ -10882,7 +10882,7 @@
                             "width": 106
                         }
                     ],
-                    "offense_flag": 2064,
+                    "offense_flag": 264208,
                     "offset": {
                         "x": 21,
                         "y": 0
