@@ -603,6 +603,14 @@ namespace Battle
 
 	bool BattleManager::_updateLoop()
 	{
+		if (this->_leftCharacter->_guardCooldown)
+			this->_leftGuardCrossTimer++;
+		if (this->_rightCharacter->_guardCooldown)
+			this->_rightGuardCrossTimer++;
+		if (this->_leftCharacter->_odCooldown)
+			this->_leftOverdriveCrossTimer++;
+		if (this->_rightCharacter->_odCooldown)
+			this->_rightOverdriveCrossTimer++;
 		while (this->_tpsTimes.size() >= 15)
 			this->_tpsTimes.pop_front();
 		this->_tpsTimes.push_back(this->_tpsClock.restart().asMilliseconds());
@@ -673,7 +681,7 @@ namespace Battle
 		game.screen->textSize(30);
 
 		//OD Cross
-		if (this->_leftCharacter->_odCooldown % 60 > 30) {
+		if (this->_leftOverdriveCrossTimer % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(300 - 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);
@@ -703,7 +711,7 @@ namespace Battle
 		game.screen->textSize(30);
 
 		//Guard Cross
-		if (this->_leftCharacter->_guardCooldown % 60 > 30) {
+		if (this->_leftGuardCrossTimer % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(190 - 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);
@@ -820,7 +828,7 @@ namespace Battle
 		game.screen->textSize(30);
 
 		//OD Cross
-		if (this->_rightCharacter->_odCooldown % 60 > 30) {
+		if (this->_rightOverdriveCrossTimer % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(600 + 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);
@@ -851,7 +859,7 @@ namespace Battle
 		game.screen->textSize(30);
 
 		//Guard Cross
-		if (this->_rightCharacter->_guardCooldown % 60 > 30) {
+		if (this->_rightGuardCrossTimer % 60 > 30) {
 			sprite.setTexture(this->_cross, true);
 			sprite.setPosition(710 + 15 * FIRST_TO + 50 - 8, -564);
 			game.screen->draw(sprite);

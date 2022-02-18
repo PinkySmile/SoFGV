@@ -280,6 +280,8 @@ namespace Battle
 			HIGH_BLOCK,
 			LOW_BLOCK,
 			RANDOM_HEIGHT_BLOCK,
+			BLOCK_1ST_HIT,
+			BLOCK_AFTER_HIT,
 			RANDOM_BLOCK = 8
 		};
 		struct LastInput {

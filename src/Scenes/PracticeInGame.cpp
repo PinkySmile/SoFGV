@@ -67,7 +67,7 @@ namespace Battle
 
 	void PracticeInGame::_pauseUpdate()
 	{
-		if (this->_practice)
+		if (this->_paused != 3 && this->_practice)
 			return this->_practiceUpdate();
 		InGame::_pauseUpdate();
 	}
@@ -147,6 +147,10 @@ namespace Battle
 			return "Low Block";
 		case Character::RANDOM_HEIGHT_BLOCK:
 			return "Random Height Block";
+		case Character::BLOCK_1ST_HIT:
+			return "Block 1st hit";
+		case Character::BLOCK_AFTER_HIT:
+			return "Block after hit";
 		case Character::RANDOM_BLOCK | Character::ALL_RIGHT_BLOCK:
 			return "87.5% | All Rightblock";
 		case Character::RANDOM_BLOCK | Character::ALL_WRONG_BLOCK:
@@ -171,10 +175,10 @@ namespace Battle
 		values[2] = this->dummyStateToString();
 		values[3] = this->blockToString();
 		values[4] = delay.c_str();
-		values[5] = this->_guardBar  ? "Normal"   : "Broken";
-		values[6] = this->_overdrive ? "Normal"   : "Disabled";
-		values[7] = this->_hitboxes  ? "Hidden"   : "Shown";
-		values[8] = this->_debug     ? "Disabled" : "Enabled";
+		values[5] = this->_guardBar == 0  ? "Normal"   : (this->_guardBar == 1  ? "Disabled" : "Instant regeneration");
+		values[6] = this->_overdrive == 0 ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
+		values[7] = !this->_hitboxes      ? "Hidden"   : "Shown";
+		values[8] = !this->_debug         ? "Disabled" : "Enabled";
 
 		game.screen->displayElement({340 - 50, 190 - 600, 400, 275}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game.screen->textSize(20);
@@ -236,7 +240,7 @@ namespace Battle
 			break;
 		case 3:
 			this->_block++;
-			if (this->_block == Character::RANDOM_HEIGHT_BLOCK + 1)
+			if (this->_block == Character::BLOCK_AFTER_HIT + 1)
 				this->_block = Character::RANDOM_BLOCK | Character::ALL_RIGHT_BLOCK;
 			if (this->_block == (Character::RANDOM_BLOCK | Character::RANDOM_HEIGHT_BLOCK) + 1)
 				this->_block = 0;
@@ -244,21 +248,58 @@ namespace Battle
 			break;
 		case 4:
 			this->_inputDelay++;
-			this->_inputDelay %= 8;
+			this->_inputDelay %= 11;
 			break;
 		case 5:
-			this->_guardBar = !this->_guardBar;
+			this->_guardBar = (this->_guardBar + 1) % 3;
 			break;
 		case 6:
-			this->_overdrive = !this->_overdrive;
+			this->_overdrive = (this->_overdrive + 1) % 3;
 			break;
 		case 7:
 			this->_hitboxes = !this->_hitboxes;
+			this->_manager->_leftCharacter->showBoxes = this->_hitboxes;
+			this->_manager->_rightCharacter->showBoxes = this->_hitboxes;
 			break;
 		case 8:
 			this->_debug = !this->_debug;
+			this->_manager->_leftCharacter->showAttributes = this->_debug;
+			this->_manager->_rightCharacter->showAttributes = this->_debug;
 			break;
 		}
 		return false;
+	}
+
+	IScene *PracticeInGame::update()
+	{
+		auto result = InGame::update();
+
+		if (this->_paused)
+			return result;
+		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun) {
+			if (this->_overdrive == 1)
+				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
+			else if (this->_overdrive == 2)
+				this->_manager->_leftCharacter->_odCooldown = 0;
+			if (this->_guardBar == 1)
+				this->_manager->_leftCharacter->_guardCooldown = this->_manager->_leftCharacter->_maxGuardCooldown;
+			else if (this->_guardBar == 2) {
+				this->_manager->_leftCharacter->_guardCooldown = 0;
+				this->_manager->_leftCharacter->_guardBar = this->_manager->_leftCharacter->_maxGuardBar;
+			}
+		}
+		if (!this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
+			if (this->_overdrive == 1)
+				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
+			else if (this->_overdrive == 2)
+				this->_manager->_rightCharacter->_odCooldown = 0;
+			if (this->_guardBar == 1)
+				this->_manager->_rightCharacter->_guardCooldown = this->_manager->_rightCharacter->_maxGuardCooldown;
+			else if (this->_guardBar == 2) {
+				this->_manager->_rightCharacter->_guardCooldown = 0;
+				this->_manager->_rightCharacter->_guardBar = this->_manager->_rightCharacter->_maxGuardBar;
+			}
+		}
+		return result;
 	}
 }

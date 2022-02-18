@@ -48,6 +48,10 @@ namespace Battle
 		mutable sf::Clock _fpsClock;
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
+		unsigned int _leftGuardCrossTimer = 0;
+		unsigned int _rightGuardCrossTimer = 0;
+		unsigned int _leftOverdriveCrossTimer = 0;
+		unsigned int _rightOverdriveCrossTimer = 0;
 		sf::Sprite _roundSprite;
 		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;

@@ -553,7 +553,7 @@ namespace Battle
 				this->_askingInputs = false;
 			return;
 		}
-		this->_selectedEntry = 4;
+		this->_selectedEntry = 5;
 	}
 
 	void TitleScreen::_onDisconnect(const std::string &address)

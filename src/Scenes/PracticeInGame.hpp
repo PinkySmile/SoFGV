@@ -41,8 +41,8 @@ namespace Battle
 		DummyState _dummyState = DUMMYSTATE_STANDING;
 		unsigned char _block = 0;
 		unsigned char _inputDelay = 0;
-		bool _guardBar = false;
-		bool _overdrive = false;
+		unsigned char _guardBar = 0;
+		unsigned char _overdrive = 0;
 		bool _hitboxes = false;
 		bool _debug = false;
 
@@ -77,6 +77,8 @@ namespace Battle
 
 	public:
 		PracticeInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+
+		IScene *update() override;
 	};
 }
 
