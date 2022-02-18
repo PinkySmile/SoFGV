@@ -734,7 +734,11 @@ namespace Battle
 			action == ACTION_VOID_OVERDRIVE ||
 			action == ACTION_SPIRIT_OVERDRIVE ||
 			action == ACTION_MATTER_OVERDRIVE ||
-			action == ACTION_NEUTRAL_OVERDRIVE
+			action == ACTION_NEUTRAL_OVERDRIVE ||
+			action == ACTION_j421V ||
+			action == ACTION_j421S ||
+			action == ACTION_j421M ||
+			action == ACTION_j421N
 		)
 			return !this->_odCooldown;
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
@@ -904,7 +908,11 @@ namespace Battle
 			action == ACTION_VOID_OVERDRIVE ||
 			action == ACTION_SPIRIT_OVERDRIVE ||
 			action == ACTION_MATTER_OVERDRIVE ||
-			action == ACTION_NEUTRAL_OVERDRIVE
+			action == ACTION_NEUTRAL_OVERDRIVE ||
+			action == ACTION_j421V ||
+			action == ACTION_j421S ||
+			action == ACTION_j421M ||
+			action == ACTION_j421N
 		) {
 			this->_blockStun = 0;
 			this->_odCooldown = this->_maxOdCooldown;

@@ -9,6 +9,7 @@
 #include "../Logger.hpp"
 #include "CharacterSelect.hpp"
 #include "TitleScreen.hpp"
+#include "PracticeInGame.hpp"
 
 namespace Battle
 {
@@ -104,7 +105,8 @@ namespace Battle
 			if (!Battle::game.battleMgr->update()) {
 				this->_nextScene = new CharacterSelect(
 					game.battleMgr->getLeftCharacter()->getInput(),
-					game.battleMgr->getRightCharacter()->getInput()
+					game.battleMgr->getRightCharacter()->getInput(),
+					dynamic_cast<PracticeInGame *>(this) != nullptr
 				);
 				return this->_nextScene;
 			}
@@ -217,7 +219,8 @@ namespace Battle
 		case 3:
 			this->_nextScene = new CharacterSelect(
 				game.battleMgr->getLeftCharacter()->getInput(),
-				game.battleMgr->getRightCharacter()->getInput()
+				game.battleMgr->getRightCharacter()->getInput(),
+				dynamic_cast<PracticeInGame *>(this) != nullptr
 			);
 			return false;
 		case 4:

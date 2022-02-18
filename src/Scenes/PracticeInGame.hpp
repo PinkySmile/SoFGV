@@ -43,8 +43,10 @@ namespace Battle
 		unsigned char _inputDelay = 0;
 		unsigned char _guardBar = 0;
 		unsigned char _overdrive = 0;
+		unsigned _rightCounter = 0;
 		bool _hitboxes = false;
 		bool _debug = false;
+		bool _mana = false;
 
 		constexpr static const char *_menuStrings[] = {
 			"Resume",
@@ -62,7 +64,8 @@ namespace Battle
 			"Guard bar: %s",
 			"Overdrive: %s",
 			"Hitboxes: %s",
-			"Debug: %s"
+			"Debug: %s",
+			"Mana: %s"
 		};
 		char const *dummyGroundTechToString() const;
 		char const *dummyAirTechToString() const;

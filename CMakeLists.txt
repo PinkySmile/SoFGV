@@ -183,6 +183,10 @@ add_executable(
 	src/Scenes/TitleScreen.hpp
 	src/Utils.cpp
 	src/Utils.hpp
+	src/Resources/PracticeBattleManager.cpp
+	src/Resources/PracticeBattleManager.hpp
+	src/Scenes/PracticeInGame.cpp
+	src/Scenes/PracticeInGame.hpp
 )
 
 target_link_libraries(

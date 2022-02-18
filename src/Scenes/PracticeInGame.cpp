@@ -179,8 +179,9 @@ namespace Battle
 		values[6] = this->_overdrive == 0 ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
 		values[7] = !this->_hitboxes      ? "Hidden"   : "Shown";
 		values[8] = !this->_debug         ? "Disabled" : "Enabled";
+		values[9] = !this->_mana          ? "Normal"   : "Instant regeneration";
 
-		game.screen->displayElement({340 - 50, 190 - 600, 400, 275}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game.screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game.screen->textSize(20);
 		game.screen->fillColor(sf::Color::White);
 		game.screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Options", {340 - 50, 195 - 600}, 400, Screen::ALIGN_CENTER);
@@ -244,7 +245,12 @@ namespace Battle
 				this->_block = Character::RANDOM_BLOCK | Character::ALL_RIGHT_BLOCK;
 			if (this->_block == (Character::RANDOM_BLOCK | Character::RANDOM_HEIGHT_BLOCK) + 1)
 				this->_block = 0;
-			this->_manager->_rightCharacter->_forceBlock = this->_block;
+			if (this->_block == Character::BLOCK_1ST_HIT)
+				this->_manager->_rightCharacter->_forceBlock = Character::ALL_RIGHT_BLOCK;
+			else if (this->_block == Character::BLOCK_AFTER_HIT)
+				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
+			else
+				this->_manager->_rightCharacter->_forceBlock = this->_block;
 			break;
 		case 4:
 			this->_inputDelay++;
@@ -266,6 +272,9 @@ namespace Battle
 			this->_manager->_leftCharacter->showAttributes = this->_debug;
 			this->_manager->_rightCharacter->showAttributes = this->_debug;
 			break;
+		case 9:
+			this->_mana = !this->_mana;
+			break;
 		}
 		return false;
 	}
@@ -277,6 +286,11 @@ namespace Battle
 		if (this->_paused)
 			return result;
 		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun) {
+			if (this->_mana) {
+				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
+				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
+				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
+			}
 			if (this->_overdrive == 1)
 				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)
@@ -288,7 +302,29 @@ namespace Battle
 				this->_manager->_leftCharacter->_guardBar = this->_manager->_leftCharacter->_maxGuardBar;
 			}
 		}
+		if (this->_block == Character::BLOCK_1ST_HIT) {
+			if (this->_manager->_rightCharacter->_blockStun) {
+				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
+				this->_rightCounter = 60;
+			} else if (this->_rightCounter == 0)
+				this->_manager->_rightCharacter->_forceBlock = Character::ALL_RIGHT_BLOCK;
+			else
+				this->_rightCounter--;
+		} else if (this->_block == Character::BLOCK_AFTER_HIT) {
+			if (this->_manager->_rightCharacter->_blockStun) {
+				this->_manager->_rightCharacter->_forceBlock = Character::ALL_RIGHT_BLOCK;
+				this->_rightCounter = 60;
+			} else if (this->_rightCounter == 0)
+				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
+			else
+				this->_rightCounter--;
+		}
 		if (!this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
+			if (this->_mana) {
+				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
+				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
+				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
+			}
 			if (this->_overdrive == 1)
 				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)

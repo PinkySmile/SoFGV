@@ -15,8 +15,8 @@ IF (NOT clip_INCLUDE_DIRS OR NOT clip_LIBRARIES)
             /usr/include/                 # Default Fedora28 system include path
             /usr/local/include/           # Default Fedora28 local include path
             ${CMAKE_MODULE_PATH}/include/ # Expected to contain the path to this file for Windows10
-            ${clip_DIR}/include/         # clip root directory (if provided)
-            ${clip_DIR}                  # clip root directory (if provided)
+            ${clip_DIR}/include/          # clip root directory (if provided)
+            ${clip_DIR}                   # clip root directory (if provided)
     )
 
     IF (MSVC)     # Windows
@@ -38,7 +38,6 @@ IF (NOT clip_INCLUDE_DIRS OR NOT clip_LIBRARIES)
             /usr/local/lib64/             # Some more Linux library path
             ${clip_DIR}/lib/              # clip root directory (if provided)
             ${clip_DIR}                   # clip root directory (if provided)
-            ${CMAKE_MODULE_PATH}/lib/     # Expected to contain the path to this file for Windows10
     )
 ENDIF (NOT clip_INCLUDE_DIRS OR NOT clip_LIBRARIES)
 
