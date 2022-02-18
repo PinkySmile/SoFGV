@@ -1284,7 +1284,7 @@
                         "width": 37
                     },
                     "defense_flag": 16640,
-                    "duration": 10,
+                    "duration": 4,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -1382,7 +1382,7 @@
                         "width": 43
                     },
                     "defense_flag": 16640,
-                    "duration": 10,
+                    "duration": 4,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -1480,7 +1480,7 @@
                         "width": 40
                     },
                     "defense_flag": 16640,
-                    "duration": 10,
+                    "duration": 4,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -8982,6 +8982,7 @@
                             "width": 31
                         }
                     ],
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 2,
                         "y": -28
@@ -13375,7 +13376,7 @@
                         }
                     ],
                     "mana_cost": 3,
-                    "offense_flag": 10520712,
+                    "offense_flag": 10521736,
                     "offset": {
                         "x": 6,
                         "y": -6
@@ -13411,7 +13412,7 @@
                         "x": 1,
                         "y": 2
                     },
-                    "defense_flag": 524544,
+                    "defense_flag": 528640,
                     "duration": 6,
                     "hit_stun": 10,
                     "hurt_boxes": [
@@ -13422,7 +13423,7 @@
                             "width": 53
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 265216,
                     "offset": {
                         "x": 6,
                         "y": -6
