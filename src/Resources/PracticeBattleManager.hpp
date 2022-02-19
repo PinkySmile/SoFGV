@@ -32,6 +32,7 @@ namespace Battle
 		BlockingState _left;
 		BlockingState _right;
 		bool _showBoxes = false;
+		unsigned char *_savedState = nullptr;
 
 		static bool _isBlocking(const Character &me);
 		static bool _isAttacking(const Character &me);
@@ -47,6 +48,7 @@ namespace Battle
 
 	public:
 		PracticeBattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
+		~PracticeBattleManager();
 		bool update() override;
 		void render() override;
 		void consumeEvent(const sf::Event &event) override;

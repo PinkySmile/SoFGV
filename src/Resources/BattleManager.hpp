@@ -118,6 +118,7 @@ namespace Battle
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
+		virtual ~BattleManager() = default;
 		void addHitStop(unsigned stop);
 		virtual bool update();
 		virtual void render();

@@ -12,6 +12,11 @@ namespace Battle
 	{
 	}
 
+	PracticeBattleManager::~PracticeBattleManager()
+	{
+		delete[] _savedState;
+	}
+
 	bool PracticeBattleManager::update()
 	{
 		auto result = BattleManager::update();
@@ -61,6 +66,13 @@ namespace Battle
 			this->_speed--;
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F10)
 			this->_speed++;
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F8 && this->_savedState)
+			this->restoreFromBuffer(this->_savedState);
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F7) {
+			delete[] this->_savedState;
+			this->_savedState = new unsigned char[this->getBufferSize()];
+			this->copyToBuffer(this->_savedState);
+		}
 	}
 
 	void PracticeBattleManager::_updateFrameStuff()
