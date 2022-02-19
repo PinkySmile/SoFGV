@@ -12011,7 +12011,7 @@
                         "y": 4
                     },
                     "damage": 500,
-                    "defense_flag": 524544,
+                    "defense_flag": 256,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12065,7 +12065,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 80.0,
                     "push_block": 1,
                     "rotation": 46.20000181686906,
                     "size": {
@@ -12093,7 +12093,7 @@
                         "y": 4
                     },
                     "damage": 500,
-                    "defense_flag": 524544,
+                    "defense_flag": 256,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12175,7 +12175,7 @@
                         "y": 4
                     },
                     "damage": 500,
-                    "defense_flag": 524544,
+                    "defense_flag": 256,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12258,7 +12258,7 @@
                         "y": 4
                     },
                     "damage": 500,
-                    "defense_flag": 524544,
+                    "defense_flag": 256,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12341,7 +12341,7 @@
                         "y": 4
                     },
                     "damage": 500,
-                    "defense_flag": 524544,
+                    "defense_flag": 256,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12395,7 +12395,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 90.0,
+                    "prorate": 100.0,
                     "push_block": 1,
                     "rotation": 49.560003185338225,
                     "size": {
