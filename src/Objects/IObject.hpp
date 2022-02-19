@@ -14,6 +14,8 @@ namespace Battle
 
 	class IObject {
 	public:
+		bool showBoxes = false;
+
 		virtual ~IObject() = default;
 		virtual void render() const = 0;
 		virtual void update() = 0;

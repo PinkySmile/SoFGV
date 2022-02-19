@@ -176,12 +176,12 @@ namespace Battle
 		values[2] = this->dummyStateToString();
 		values[3] = this->blockToString();
 		values[4] = delay.c_str();
-		values[5] = chVal == 0            ? "Normal"   : (chVal == 1            ? "Always"   : "Never");
-		values[6] = this->_guardBar == 0  ? "Normal"   : (this->_guardBar == 1  ? "Disabled" : "Instant regeneration");
-		values[7] = this->_overdrive == 0 ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
-		values[8] = !this->_hitboxes      ? "Hidden"   : "Shown";
-		values[9] = !this->_debug         ? "Disabled" : "Enabled";
-		values[10]= !this->_mana          ? "Normal"   : "Instant regeneration";
+		values[5] = chVal == 0                 ? "Normal"   : (chVal == 1            ? "Always"   : "Never");
+		values[6] = this->_guardBar == 0       ? "Normal"   : (this->_guardBar == 1  ? "Disabled" : "Instant regeneration");
+		values[7] = this->_overdrive == 0      ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
+		values[8] = this->_manager->_showBoxes ? "Shown"    : "Hidden";
+		values[9] = !this->_debug              ? "Disabled" : "Enabled";
+		values[10]= !this->_mana               ? "Normal"   : "Instant regeneration";
 
 		game.screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game.screen->textSize(20);
@@ -269,9 +269,7 @@ namespace Battle
 			this->_overdrive = (this->_overdrive + 1) % 3;
 			break;
 		case 8:
-			this->_hitboxes = !this->_hitboxes;
-			this->_manager->_leftCharacter->showBoxes = this->_hitboxes;
-			this->_manager->_rightCharacter->showBoxes = this->_hitboxes;
+			this->_manager->_showBoxes = !this->_manager->_showBoxes;
 			break;
 		case 9:
 			this->_debug = !this->_debug;

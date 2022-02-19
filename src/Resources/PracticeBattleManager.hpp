@@ -31,6 +31,7 @@ namespace Battle
 
 		BlockingState _left;
 		BlockingState _right;
+		bool _showBoxes = false;
 
 		static bool _isBlocking(const Character &me);
 		static bool _isAttacking(const Character &me);

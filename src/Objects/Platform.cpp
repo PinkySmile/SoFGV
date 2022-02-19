@@ -65,14 +65,20 @@ namespace Battle
 	void Platform::render() const
 	{
 		Object::render();
-#ifdef _DEBUG
-		if (this->_deathTimer) {
-			game.screen->textSize(20);
-			game.screen->fillColor(sf::Color::Red);
-			game.screen->displayElement(std::to_string(this->_deathTimer), {this->_position.x - 200, -this->_position.y}, 400, Screen::ALIGN_CENTER);
-			game.screen->textSize(30);
+		if (this->showBoxes) {
+			if (this->_deathTimer) {
+				game.screen->textSize(20);
+				game.screen->fillColor(sf::Color::Red);
+				game.screen->displayElement(std::to_string(this->_deathTimer), {this->_position.x - 200, -this->_position.y}, 400, Screen::ALIGN_CENTER);
+				game.screen->textSize(30);
+			} else
+				game.screen->displayElement({
+					static_cast<int>(this->_position.x - this->_width / 2),
+					static_cast<int>(-this->_position.y - 1),
+					static_cast<int>(this->_width),
+					2
+				}, sf::Color::White);
 		}
-#endif
 	}
 
 	Vector2f Platform::getPosition()

@@ -92,8 +92,6 @@ namespace Battle
 		virtual void _applyMoveAttributes();
 
 	public:
-		bool showBoxes = false;
-
 		Object() = default;
 		~Object() override = default;
 		void render() const override;

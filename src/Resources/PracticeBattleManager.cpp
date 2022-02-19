@@ -34,7 +34,18 @@ namespace Battle
 
 	void PracticeBattleManager::render()
 	{
+		this->_leftCharacter->showBoxes = this->_showBoxes;
+		this->_rightCharacter->showBoxes = this->_showBoxes;
+		for (auto &platform : this->_platforms)
+			platform->showBoxes = this->_showBoxes;
+		for (auto &obj : this->_objects)
+			obj.second->showBoxes = this->_showBoxes;
 		BattleManager::render();
+		if (this->_showBoxes) {
+			game.screen->borderColor(2, sf::Color::White);
+			game.screen->displayElement({0, 0, 1000, -1000}, sf::Color::Transparent);
+			game.screen->borderColor(0, sf::Color::Transparent);
+		}
 		this->_displayFrameStuff();
 	}
 
