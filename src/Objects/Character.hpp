@@ -433,6 +433,7 @@ namespace Battle
 		virtual void _processWallSlams();
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
+		virtual InputStruct _getInputs();
 		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);

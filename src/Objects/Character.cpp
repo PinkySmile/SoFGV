@@ -571,7 +571,7 @@ namespace Battle
 	{
 		this->_input->update();
 
-		InputStruct input = this->_input->getInputs();
+		InputStruct input = this->_getInputs();
 
 		if (
 			std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis) != this->_lastInputs.front().h ||
@@ -814,7 +814,7 @@ namespace Battle
 			if (this->_hp <= 0)
 				return Object::_onMoveEnd(lastData);
 
-			auto inputs = this->_input->getInputs();
+			auto inputs = this->_getInputs();
 
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
@@ -1107,7 +1107,7 @@ namespace Battle
 		this->_specialInputs._44 = this->_check44Input();
 		this->_specialInputs._66 = this->_check66Input();
 		this->_specialInputs._27 = this->_check27Input();
-		this->_specialInputs._28 = this->_check28Input();
+		this->_specialInputs._28 = this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP;
 		this->_specialInputs._29 = this->_check29Input();
 		this->_specialInputs._c28 = this->_checkc28Input();
 		this->_specialInputs._c46 = this->_checkc46Input();
@@ -2259,7 +2259,7 @@ namespace Battle
 
 		Object::_applyMoveAttributes();
 
-		auto input = this->_input->getInputs();
+		auto input = this->_getInputs();
 
 		if (
 			((input.n || input.v || input.m || input.s) && input.horizontalAxis * this->_dir < 0) ||
@@ -2564,5 +2564,16 @@ namespace Battle
 	unsigned Character::_getReversalAction()
 	{
 		return this->_isGrounded() ? ACTION_3M : ACTION_j6N;
+	}
+
+	InputStruct Character::_getInputs()
+	{
+		auto result = this->_input->getInputs();
+
+		if (this->_dummyState == DUMMYSTATE_JUMP)
+			result.verticalAxis = 1;
+		if (this->_dummyState == DUMMYSTATE_CROUCH)
+			result.verticalAxis = -1;
+		return result;
 	}
 }
