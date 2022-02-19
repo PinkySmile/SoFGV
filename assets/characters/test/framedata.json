@@ -11981,7 +11981,6 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 3,
                     "offset": {
                         "x": 1,
                         "y": 0
@@ -12428,7 +12427,7 @@
                             "width": 56
                         }
                     ],
-                    "offense_flag": 2162688,
+                    "offense_flag": 2164736,
                     "offset": {
                         "x": 1,
                         "y": 0
