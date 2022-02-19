@@ -11821,7 +11821,7 @@
                         "top": -166,
                         "width": 34
                     },
-                    "defense_flag": 8449,
+                    "defense_flag": 24833,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -11856,7 +11856,7 @@
                         "top": -166,
                         "width": 34
                     },
-                    "defense_flag": 8449,
+                    "defense_flag": 24833,
                     "duration": 7,
                     "hurt_boxes": [
                         {
@@ -11896,7 +11896,7 @@
                         "y": 4
                     },
                     "damage": 200,
-                    "defense_flag": 256,
+                    "defense_flag": 16640,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -11950,7 +11950,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 80.0,
+                    "prorate": 100.0,
                     "push_block": 1,
                     "rotation": 46.20000181686906,
                     "size": {
@@ -11960,7 +11960,7 @@
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 225,
+                        "left": 223,
                         "top": 402,
                         "width": 52
                     }
@@ -11978,7 +11978,7 @@
                         "y": 4
                     },
                     "damage": 200,
-                    "defense_flag": 256,
+                    "defense_flag": 16640,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12042,7 +12042,7 @@
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 225,
+                        "left": 223,
                         "top": 402,
                         "width": 52
                     }
@@ -12060,7 +12060,7 @@
                         "y": 4
                     },
                     "damage": 200,
-                    "defense_flag": 256,
+                    "defense_flag": 16640,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12125,7 +12125,7 @@
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 225,
+                        "left": 223,
                         "top": 402,
                         "width": 52
                     }
@@ -12143,7 +12143,7 @@
                         "y": 4
                     },
                     "damage": 200,
-                    "defense_flag": 256,
+                    "defense_flag": 16640,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12208,7 +12208,7 @@
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 225,
+                        "left": 223,
                         "top": 402,
                         "width": 52
                     }
@@ -12226,7 +12226,7 @@
                         "y": 4
                     },
                     "damage": 200,
-                    "defense_flag": 256,
+                    "defense_flag": 16640,
                     "duration": 2,
                     "hit_boxes": [
                         {
@@ -12274,8 +12274,8 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 2,
-                    "offense_flag": 2107904,
+                    "mana_gain": 15,
+                    "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
                         "y": 0
@@ -12290,7 +12290,7 @@
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
-                        "left": 225,
+                        "left": 223,
                         "top": 402,
                         "width": 52
                     }
