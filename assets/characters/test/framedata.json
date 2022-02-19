@@ -9853,7 +9853,6 @@
                         "y": 20
                     },
                     "defense_flag": 16384,
-                    "duration": 10,
                     "hit_stun": 40,
                     "hurt_boxes": [
                         {
@@ -9863,9 +9862,50 @@
                             "width": 66
                         }
                     ],
-                    "mana_cost": 5,
+                    "mana_cost": 1000,
                     "matter_limit": 100,
-                    "offense_flag": 33554432,
+                    "offense_flag": 33619968,
+                    "offset": {
+                        "x": 12,
+                        "y": 0
+                    },
+                    "prorate": 80.0,
+                    "size": {
+                        "x": 128,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 235,
+                        "top": 298,
+                        "width": 64
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 180,
+                        "left": -27,
+                        "top": -181,
+                        "width": 56
+                    },
+                    "counter_hit_speed": {
+                        "x": 20,
+                        "y": 20
+                    },
+                    "defense_flag": 16384,
+                    "duration": 15,
+                    "hit_stun": 40,
+                    "hurt_boxes": [
+                        {
+                            "height": 103,
+                            "left": -32,
+                            "top": -105,
+                            "width": 66
+                        }
+                    ],
+                    "matter_limit": 100,
+                    "offense_flag": 65536,
                     "offset": {
                         "x": 12,
                         "y": 0
@@ -9891,7 +9931,7 @@
                         "width": 56
                     },
                     "defense_flag": 49161,
-                    "duration": 8,
+                    "duration": 48,
                     "hurt_boxes": [
                         {
                             "height": 99,
@@ -9900,7 +9940,6 @@
                             "width": 48
                         }
                     ],
-                    "mana_cost": 5,
                     "offense_flag": 65536,
                     "offset": {
                         "x": 12,
@@ -9955,9 +9994,8 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 5,
                     "matter_limit": 100,
-                    "offense_flag": 33620514,
+                    "offense_flag": 66082,
                     "offset": {
                         "x": 19,
                         "y": 0
@@ -9983,7 +10021,6 @@
                         "top": -195,
                         "width": 56
                     },
-                    "defense_flag": 16384,
                     "duration": 12,
                     "hurt_boxes": [
                         {
@@ -9993,7 +10030,6 @@
                             "width": 82
                         }
                     ],
-                    "mana_cost": 5,
                     "offense_flag": 65536,
                     "offset": {
                         "x": 12,
