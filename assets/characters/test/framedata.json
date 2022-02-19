@@ -9344,7 +9344,6 @@
                             "width": 80
                         }
                     ],
-                    "matter_limit": 30,
                     "offense_flag": 2688,
                     "offset": {
                         "x": 9,
@@ -9402,6 +9401,7 @@
                             "width": 79
                         }
                     ],
+                    "matter_limit": 35,
                     "offense_flag": 2562,
                     "offset": {
                         "x": 40,
