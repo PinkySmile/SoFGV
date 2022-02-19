@@ -909,9 +909,8 @@ namespace Battle
 
 		if (!data)
 			return;
-		game.battleMgr->addHitStop(data->hitStop);
 		if (myData->dFlag.invulnerableArmor)
-			return;
+			return game.battleMgr->addHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		if (data->oFlag.resetSpeed)
 			this->_speed = {0, 0};
@@ -2057,6 +2056,7 @@ namespace Battle
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
+		game.battleMgr->addHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -2145,6 +2145,7 @@ namespace Battle
 			this->_limit[1] += data.voidLimit;
 			this->_limit[2] += data.matterLimit;
 			this->_limit[3] += data.spiritLimit;
+			game.battleMgr->addHitStop(data.hitStop * 1.5);
 			logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			this->_hp -= data.damage * this->_prorate;
@@ -2164,6 +2165,7 @@ namespace Battle
 				this->_limit[2] += data.matterLimit;
 				this->_limit[3] += data.spiritLimit;
 			}
+			game.battleMgr->addHitStop(data.hitStop);
 			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 	}

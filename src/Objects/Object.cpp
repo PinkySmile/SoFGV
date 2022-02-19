@@ -222,13 +222,13 @@ namespace Battle
 			return false;
 		if (oData->dFlag.airborne != mData->dFlag.airborne && mData->oFlag.grab)
 			return false;
-		if (mData->dFlag.spiritInvul && oData->oFlag.spiritElement)
+		if (oData->dFlag.spiritInvul && mData->oFlag.spiritElement)
 			return false;
-		if (mData->dFlag.voidInvul && oData->oFlag.voidElement)
+		if (oData->dFlag.voidInvul && mData->oFlag.voidElement)
 			return false;
-		if (mData->dFlag.matterInvul && oData->oFlag.matterElement)
+		if (oData->dFlag.matterInvul && mData->oFlag.matterElement)
 			return false;
-		if (mData->dFlag.neutralInvul && (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement))
+		if (oData->dFlag.neutralInvul && (mData->oFlag.matterElement == mData->oFlag.voidElement && mData->oFlag.voidElement == mData->oFlag.spiritElement))
 			return false;
 
 		for (auto &hurtBox : asAObject->_getModifiedHurtBoxes())

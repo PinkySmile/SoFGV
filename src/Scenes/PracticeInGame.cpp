@@ -342,6 +342,53 @@ namespace Battle
 				this->_manager->_rightCharacter->_guardBar = this->_manager->_rightCharacter->_maxGuardBar;
 			}
 		}
+		this->_updateFrameStuff();
 		return result;
+	}
+
+	bool PracticeInGame::hasControl(const Character &chr)
+	{
+		if (chr._blockStun)
+			return chr._blockStun == 1;
+		if (chr._action == ACTION_BEING_KNOCKED_DOWN)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_KNOCKED_DOWN)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_NEUTRAL_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_FORWARD_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_BACKWARD_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_UP_AIR_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_DOWN_AIR_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_FORWARD_AIR_TECH)
+			return isOnLastFrame(chr);
+		if (chr._action == ACTION_BACKWARD_AIR_TECH)
+			return isOnLastFrame(chr);
+		return true;
+	}
+
+	bool PracticeInGame::isOnLastFrame(const Character &chr)
+	{
+		return chr._animationCtr == chr._moves.at(chr._action).at(chr._actionBlock).at(chr._animation).duration - 1;
+	}
+
+	void PracticeInGame::render() const
+	{
+		InGame::render();
+		this->_displayFrameStuff();
+	}
+
+	void PracticeInGame::_updateFrameStuff()
+	{
+
+	}
+
+	void PracticeInGame::_displayFrameStuff() const
+	{
+
 	}
 }
