@@ -13334,7 +13334,7 @@
                         "top": 182,
                         "width": 30
                     },
-                    "void_limit": 20
+                    "void_limit": 40
                 },
                 {
                     "block_stun": 7,
