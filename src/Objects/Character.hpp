@@ -367,9 +367,6 @@ namespace Battle
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit;
-		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
-		AirTech _dummyAirTech = AIRTECH_NONE;
-		DummyState _dummyState = DUMMYSTATE_STANDING;
 		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
@@ -405,7 +402,13 @@ namespace Battle
 		unsigned _matterManaMax;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+
+		//Practice
+		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
+		AirTech _dummyAirTech = AIRTECH_NONE;
+		DummyState _dummyState = DUMMYSTATE_STANDING;
 		unsigned char _forceBlock = 0;
+		unsigned char _counterHit = 0;
 
 		virtual unsigned _getReversalAction();
 		virtual void _parryEffect(Object *other);

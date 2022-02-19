@@ -413,7 +413,7 @@ namespace Battle
 			if (this->_blockStun == 0 && !limited) {
 				if (this->_isGrounded())
 					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
-				else if (this->_restand)
+				else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
 					this->_forceStartMove(ACTION_FALLING);
 			}
 		}
@@ -2123,8 +2123,12 @@ namespace Battle
 	void Character::_getHitByMove(Object *, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
+		auto counter = this->_counterHit == 1;
 
-		if (myData->dFlag.counterHit && data.oFlag.canCounterHit && !data.dFlag.superarmor) {
+		counter &= this->_action != ACTION_AIR_HIT;
+		counter &= this->_action != ACTION_GROUND_LOW_HIT;
+		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
+		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !data.dFlag.superarmor) {
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else
@@ -2196,8 +2200,9 @@ namespace Battle
 
 	void Character::_processGroundSlams()
 	{
-		if (this->_position.y < 0) {
-			this->_position.y = 0;
+		if (this->_isGrounded()) {
+			if (this->_position.y < 0)
+				this->_position.y = 0;
 
 			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT

@@ -37,11 +37,12 @@ namespace Battle
 			"Dummy state: %s",
 			"Dummy block: %s",
 			"Input delay: %s",
+			"Counter hit: %s",
 			"Guard bar: %s",
 			"Overdrive: %s",
 			"Hitboxes: %s",
 			"Debug: %s",
-			"Mana: %s"
+			"Mana: %s",
 		};
 		char const *dummyGroundTechToString() const;
 		char const *dummyAirTechToString() const;
