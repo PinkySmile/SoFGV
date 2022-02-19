@@ -758,7 +758,7 @@ namespace Battle
 			game.screen->displayElement(std::to_string(this->_leftHitCtr) + " Hit" + (this->_leftHitCtr < 2 ? "" : "s"), {0, -560}, 400, Screen::ALIGN_LEFT);
 			game.screen->textSize(20);
 			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
-			game.screen->displayElement(std::to_string(this->_leftTotalDamage) + " damage" + (this->_leftTotalDamage < 2 ? "" : "s"), {0, -510}, 400, Screen::ALIGN_LEFT);
+			game.screen->displayElement(std::to_string(this->_leftTotalDamage) + " damage", {0, -510}, 400, Screen::ALIGN_LEFT);
 			game.screen->displayElement(std::to_string(static_cast<int>(this->_leftProration * 100)) + "% proration", {0, -480}, 400, Screen::ALIGN_LEFT);
 			game.screen->textSize(15);
 			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
@@ -906,7 +906,7 @@ namespace Battle
 			game.screen->displayElement(std::to_string(this->_rightHitCtr) + " Hit" + (this->_rightHitCtr < 2 ? "" : "s"), {600, -560}, 400, Screen::ALIGN_RIGHT);
 			game.screen->textSize(20);
 			game.screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
-			game.screen->displayElement(std::to_string(this->_rightTotalDamage) + " damage" + (this->_rightTotalDamage < 2 ? "" : "s"), {600, -510}, 400, Screen::ALIGN_RIGHT);
+			game.screen->displayElement(std::to_string(this->_rightTotalDamage) + " damage", {600, -510}, 400, Screen::ALIGN_RIGHT);
 			game.screen->displayElement(std::to_string(static_cast<int>(this->_rightProration * 100)) + "% proration", {600, -480}, 400, Screen::ALIGN_RIGHT);
 			game.screen->textSize(15);
 			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});

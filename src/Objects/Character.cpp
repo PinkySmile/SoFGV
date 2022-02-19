@@ -433,8 +433,7 @@ namespace Battle
 				this->_action != ACTION_NEUTRAL_TECH &&
 				this->_action != ACTION_FORWARD_TECH &&
 				this->_action != ACTION_BACKWARD_TECH &&
-				this->_action != ACTION_FALLING_TECH &&
-				(
+				this->_action != ACTION_FALLING_TECH && (
 					this->_action == ACTION_AIR_HIT ||
 					this->_action == ACTION_GROUND_SLAM ||
 					this->_action == ACTION_WALL_SLAM ||
@@ -442,8 +441,14 @@ namespace Battle
 					this->_hp <= 0
 				)
 			) {
-				this->_blockStun = 0;
-				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+				if (!this->_restand) {
+					this->_blockStun = 0;
+					this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+				} else {
+					this->_restand = false;
+					this->_forceStartMove(ACTION_GROUND_HIGH_HIT);
+					this->_actionBlock = 1;
+				}
 			} else if ((
 				this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
 				this->_action == ACTION_AIR_NEUTRAL_PARRY ||
@@ -2060,8 +2065,8 @@ namespace Battle
 			low = height & 2;
 
 		bool wrongBlock =
-			(height & 1) && !myData->dFlag.lowBlock && (!low || !myData->dFlag.canBlock) ||
-			(height & 2) && !myData->dFlag.highBlock && (low || !myData->dFlag.canBlock);
+			((height & 1) && !myData->dFlag.lowBlock && (!low || !myData->dFlag.canBlock)) ||
+			((height & 2) && !myData->dFlag.highBlock && (low || !myData->dFlag.canBlock));
 
 		if (
 			(
