@@ -342,7 +342,6 @@ namespace Battle
 				this->_manager->_rightCharacter->_guardBar = this->_manager->_rightCharacter->_maxGuardBar;
 			}
 		}
-		this->_updateFrameStuff();
 		return result;
 	}
 
@@ -379,16 +378,5 @@ namespace Battle
 	void PracticeInGame::render() const
 	{
 		InGame::render();
-		this->_displayFrameStuff();
-	}
-
-	void PracticeInGame::_updateFrameStuff()
-	{
-
-	}
-
-	void PracticeInGame::_displayFrameStuff() const
-	{
-
 	}
 }

@@ -11,6 +11,39 @@
 namespace Battle
 {
 	class PracticeBattleManager : public BattleManager {
+	private:
+		struct GapElem {
+			int timer;
+			int gap;
+
+			GapElem() = default;
+			GapElem(int timer, int gap): timer(timer), gap(gap) {};
+		};
+		struct BlockingState {
+			GapElem fa{240, 0};
+			std::list<GapElem> gaps;
+			unsigned gapTimer = 0;
+			unsigned faTimer = 0;
+			bool atk = false;
+			bool blk = false;
+			bool hasBlocked = false;
+		};
+
+		BlockingState _left;
+		BlockingState _right;
+
+		static bool _isBlocking(const Character &me);
+		static bool _isAttacking(const Character &me);
+		static bool _canMashNextFrame(const Character &me);
+		static void _renderGapState(const BlockingState &state, Vector2f pos);
+		static void _updateGapState(BlockingState &state, const Character &me, const Character &op);
+
+		void _updateFrameStuff();
+		void _displayFrameStuff() const;
+
+	protected:
+		bool _updateLoop() override;
+
 	public:
 		PracticeBattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		bool update() override;

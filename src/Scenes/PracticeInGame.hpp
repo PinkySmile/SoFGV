@@ -12,31 +12,6 @@ namespace Battle
 {
 	class PracticeInGame : public InGame {
 	protected:
-		struct BlockingState
-		{
-			int lastFrame;
-			unsigned lastAction;
-			unsigned hitTimer = 0;
-			unsigned timer = 0;
-			int gapCounter = -1;
-			bool wasBlocking = false;
-			bool wasAttacking = false;
-			bool started = false;
-		};
-		struct GapElem {
-			int timer;
-			int gap;
-
-			GapElem() = default;
-			GapElem(int timer, int gap): timer(timer), gap(gap) {};
-		};
-
-		std::pair<int, int> fas;
-		BlockingState left;
-		BlockingState right;
-		std::pair<unsigned, unsigned> timers = {400, 400};
-		std::pair<std::list<GapElem>, std::list<GapElem>> gaps;
-
 		class PracticeBattleManager *_manager;
 		unsigned _practiceCursor = 0;
 		bool _practice = false;
@@ -81,8 +56,6 @@ namespace Battle
 		void _practiceRender() const;
 		void _practiceUpdate();
 		bool _practiceConfirm();
-		void _updateFrameStuff();
-		void _displayFrameStuff() const;
 
 	public:
 		PracticeInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);

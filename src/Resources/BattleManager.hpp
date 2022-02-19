@@ -91,7 +91,7 @@ namespace Battle
 		float _rightProration = 0;
 
 		void _gameUpdate();
-		bool _updateLoop();
+		virtual bool _updateLoop();
 		bool _updateEndGameAnimation();
 		void _renderEndGameAnimation() const;
 		void _updateRoundEndAnimation();
