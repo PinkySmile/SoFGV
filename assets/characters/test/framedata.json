@@ -8364,7 +8364,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 10,
+                        "x": 5,
                         "y": 0
                     },
                     "hit_stop": 7,
@@ -8390,7 +8390,7 @@
                     },
                     "prorate": 90.0,
                     "push_back": 2,
-                    "push_block": 10,
+                    "push_block": 6,
                     "size": {
                         "x": 62,
                         "y": 192
@@ -8427,7 +8427,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 10,
+                        "x": 6,
                         "y": 5
                     },
                     "hit_stop": 7,
@@ -8452,8 +8452,8 @@
                         "y": 0
                     },
                     "prorate": 90.0,
-                    "push_back": 10,
-                    "push_block": 10,
+                    "push_back": 6,
+                    "push_block": 6,
                     "size": {
                         "x": 68,
                         "y": 192
@@ -8490,8 +8490,8 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 5,
-                        "y": 10
+                        "x": 2,
+                        "y": 12
                     },
                     "hit_stop": 7,
                     "hit_stun": 22,
@@ -8521,8 +8521,8 @@
                         "y": 0
                     },
                     "prorate": 90.0,
-                    "push_back": 10,
-                    "push_block": 10,
+                    "push_back": 4,
+                    "push_block": 5,
                     "size": {
                         "x": 58,
                         "y": 192
@@ -8665,7 +8665,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 5,
+                        "x": 2,
                         "y": 10
                     },
                     "hit_stop": 7,
@@ -8729,8 +8729,8 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 10,
-                        "y": 5
+                        "x": 3,
+                        "y": 7
                     },
                     "hit_stop": 7,
                     "hit_stun": 20,
@@ -8789,8 +8789,8 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 15,
-                        "y": 0
+                        "x": 8,
+                        "y": 2
                     },
                     "hit_stop": 7,
                     "hit_stun": 20,
@@ -9096,7 +9096,7 @@
                     },
                     "damage": 400,
                     "defense_flag": 540928,
-                    "duration": 6,
+                    "duration": 10,
                     "hit_boxes": [
                         {
                             "height": 44,
@@ -9106,7 +9106,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 10,
+                        "x": 6,
                         "y": 0
                     },
                     "hit_stop": 5,
@@ -9164,7 +9164,7 @@
                     },
                     "damage": 400,
                     "defense_flag": 540928,
-                    "duration": 6,
+                    "duration": 10,
                     "hit_boxes": [
                         {
                             "height": 38,
@@ -9174,7 +9174,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 10,
+                        "x": 6,
                         "y": 0
                     },
                     "hit_stop": 5,
@@ -13223,7 +13223,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 3,
+                        "x": 2,
                         "y": 4
                     },
                     "hit_stop": 6,
