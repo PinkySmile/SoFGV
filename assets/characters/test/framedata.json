@@ -13242,7 +13242,7 @@
                     }
                 },
                 {
-                    "block_stun": 7,
+                    "block_stun": 10,
                     "collision_box": {
                         "height": 141,
                         "left": -18,
@@ -13271,11 +13271,11 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 1,
-                        "y": 2
+                        "x": 3,
+                        "y": 4
                     },
-                    "hit_stop": 2,
-                    "hit_stun": 8,
+                    "hit_stop": 6,
+                    "hit_stun": 18,
                     "hurt_boxes": [
                         {
                             "height": 194,
