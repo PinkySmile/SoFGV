@@ -201,6 +201,7 @@ namespace Battle
 		case 1:
 			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
 			this->_moveListCursor = 0;
+			this->_moveListTop = 0;
 			this->_moveOrder = defaultMoveOrder;
 			this->_moveData = defaultMoveData;
 			this->_moveListName = "Move List";
@@ -210,6 +211,7 @@ namespace Battle
 		case 2:
 			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
 			this->_moveListCursor = 0;
+			this->_moveListTop = 0;
 			this->_moveOrder = defaultCommandOrder;
 			this->_moveData = defaultMoveData;
 			this->_moveListName = "Command List";
@@ -263,7 +265,7 @@ namespace Battle
 			auto data = this->_moveData.find(this->_moveOrder[i]);
 			auto str = data->second.name;
 
-			if (data == this->_moveData.end() || !data->second.displayed)
+			if (data == this->_moveData.end())
 				continue;
 
 			Vector2f pos{150 - 50, 70 - 600 + k * 60.f};
@@ -417,8 +419,13 @@ namespace Battle
 
 		for (size_t i = 0; i < this->_moveOrder.size(); i++) {
 			auto it = this->_moveList->find(this->_moveOrder[i]);
+			auto data = this->_moveData.find(this->_moveOrder[i]);
+			auto str = data->second.name;
 
-			if (it == this->_moveList->end()) {
+			if (data == this->_moveData.end() || !data->second.displayed){
+				this->_moveOrder.erase(this->_moveOrder.begin() + i);
+				i--;
+			} else if (it == this->_moveList->end()) {
 				this->_moveOrder.erase(this->_moveOrder.begin() + i);
 				i--;
 			} else if (it->second.front().front().oFlag.ultimate) {
