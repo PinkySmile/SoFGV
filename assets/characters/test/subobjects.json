@@ -7,6 +7,7 @@
                     "block_stun": 8,
                     "damage": 500,
                     "defense_flag": 35913728,
+                    "hitSound": "assets/sfxs/se/011.wav",
                     "hit_boxes": [
                         {
                             "height": 59,

@@ -36,3 +36,6 @@ cmake-build-*
 
 # CLion config files
 .idea
+
+# Placeholder files
+assets/sfxs/se

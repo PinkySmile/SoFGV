@@ -13,8 +13,6 @@
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
 
-Battle::Logger	logger("./latest.log");
-
 #ifdef _WIN32
 std::string getLastError(int err = GetLastError())
 {
@@ -67,7 +65,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	} else
 		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
 	MessageBox(nullptr, buf, "Alors...", MB_ICONERROR);
-	logger.fatal(buf);
+	Battle::game.logger.fatal(buf);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -191,17 +189,17 @@ int	main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 #endif
-	logger.info("Starting game.");
+	Battle::game.logger.info("Starting game.");
 	#ifndef _DEBUG
 	try {
 	#endif
 		run();
 	#ifndef _DEBUG
 	} catch (std::exception &e) {
-		logger.fatal(e.what());
+		Battle::game.logger.fatal(e.what());
 		MessageBox(nullptr, e.what(), "Fatal error", MB_ICONERROR);
 	}
 	#endif
-	logger.info("Goodbye !");
+	Battle::game.logger.info("Goodbye !");
 	return EXIT_SUCCESS;
 }

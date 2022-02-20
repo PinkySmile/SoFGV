@@ -191,6 +191,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto gravity = panel->get<tgui::EditBox>("Gravity");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto sound = panel->get<tgui::EditBox>("SFX");
+	auto hitSound = panel->get<tgui::EditBox>("HitSFX");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -218,7 +219,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto actionName = panel->get<tgui::Button>("ActionName");
 	auto name = Battle::actionNames.find(static_cast<Battle::CharacterActions>(object->_action));
 
-	logger.debug("Soft refresh");
+	Battle::game.logger.debug("Soft refresh");
 	*c = true;
 	actionName->setText(name == Battle::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
 	dFlags->setText(std::to_string(data.dFlag.flags));
@@ -228,6 +229,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	progress->setValue(object->_animation);
 	sprite->setText(data.spritePath);
 	sound->setText(data.soundPath);
+	hitSound->setText(data.hitSoundPath);
 	damage->setText(std::to_string(data.damage));
 	duration->setText(std::to_string(data.duration));
 	marker->setText(std::to_string(data.specialMarker));
@@ -279,7 +281,7 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &
 	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto frame = panel->get<tgui::SpinButton>("Frame");
 
-	logger.debug("Hard refresh");
+	Battle::game.logger.debug("Hard refresh");
 	panel->setEnabled(static_cast<bool>(object));
 	if (!object)
 		return gui.get<tgui::Panel>("Boxes")->removeAllWidgets();
@@ -315,6 +317,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto sfx = panel->get<tgui::EditBox>("SFX");
+	auto hitSound = panel->get<tgui::EditBox>("HitSFX");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -497,6 +500,15 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		data.spritePath = t;
 		data.reloadTexture();
+	});
+	hitSound->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.hitSoundPath = t;
+		data.reloadSound();
 	});
 	sfx->connect("TextChanged", [&object](std::string t){
 		if (*c)
@@ -1795,7 +1807,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto boxes = gui.get<tgui::Panel>("Boxes");
 
-	logger.debug("Placing hooks");
+	Battle::game.logger.debug("Placing hooks");
 	placeAnimPanelHooks(gui, panel, boxes, object);
 
 	bar->setMenuEnabled({"New"}, false);
@@ -2174,8 +2186,8 @@ void	run()
 
 int	main()
 {
-	logger.info("Starting editor.");
+	Battle::game.logger.info("Starting editor.");
 	run();
-	logger.info("Goodbye !");
+	Battle::game.logger.info("Goodbye !");
 	return EXIT_SUCCESS;
 }

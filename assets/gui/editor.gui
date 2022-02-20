@@ -83,20 +83,6 @@ Renderer.5 {
 }
 
 Renderer.6 {
-    bordercolor = #3C3C3C;
-    bordercolorhover = black;
-    borders = (1, 1, 1, 1);
-    texturethumb = None;
-    texturethumbhover = None;
-    texturetrack = None;
-    texturetrackhover = None;
-    thumbcolor = #F5F5F5;
-    thumbcolorhover = white;
-    trackcolor = #F5F5F5;
-    trackcolorhover = white;
-}
-
-Renderer.7 {
     arrowcolor = #3C3C3C;
     arrowcolorhover = black;
     backgroundcolor = #F5F5F5;
@@ -108,6 +94,20 @@ Renderer.7 {
     texturearrowdownhover = None;
     texturearrowup = None;
     texturearrowuphover = None;
+}
+
+Renderer.7 {
+    bordercolor = #3C3C3C;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    texturethumb = None;
+    texturethumbhover = None;
+    texturetrack = None;
+    texturetrackhover = None;
+    thumbcolor = #F5F5F5;
+    thumbcolorhover = white;
+    trackcolor = #F5F5F5;
+    trackcolorhover = white;
 }
 
 Renderer.8 {
@@ -147,7 +147,7 @@ Panel.Panel1 {
         Size = (20, 42);
         Step = 1;
         Value = 0;
-        renderer = &7;
+        renderer = &6;
     }
 
     Label.Label1 {
@@ -188,7 +188,7 @@ Panel.Panel1 {
         Size = (350, 16);
         Step = 1;
         Value = 0;
-        renderer = &6;
+        renderer = &7;
     }
 
     Label.SpeedLabel {
@@ -815,16 +815,16 @@ Panel.Panel1 {
             Maximum = 360;
             Minimum = 0;
             Position = (100, 72);
-            Size = (320, 16);
+            Size = (160, 16);
             Step = 0.28;
             Value = 0;
-            renderer = &6;
+            renderer = &7;
         }
 
         EditBox.Duration {
             InputValidator = UInt;
-            Position = (90, 100);
-            Size = (210, 22);
+            Position = (360, 70);
+            Size = (100, 22);
             Text = 1;
             TextSize = 13;
             renderer = &3;
@@ -832,7 +832,7 @@ Panel.Panel1 {
 
         Label.Label8 {
             AutoSize = true;
-            Position = (10, 102);
+            Position = (300, 72);
             ScrollbarPolicy = Never;
             Size = (58.2, 18);
             Text = Duration;
@@ -1039,8 +1039,8 @@ Panel.Panel1 {
 
         EditBox.HitStop {
             InputValidator = UInt;
-            Position = (450, 100);
-            Size = (140, 22);
+            Position = (500, 100);
+            Size = (90, 22);
             Text = 0;
             TextSize = 13;
             renderer = &3;
@@ -1048,7 +1048,7 @@ Panel.Panel1 {
 
         Label.Label22 {
             AutoSize = true;
-            Position = (320, 102);
+            Position = (440, 102);
             ScrollbarPolicy = Never;
             Size = (53.2, 18);
             Text = "Hit Stop";
@@ -1225,6 +1225,52 @@ Panel.Panel1 {
             TextSize = 13;
             renderer = &4;
         }
+
+        Label.Label31 {
+            AutoSize = true;
+            Position = (10, 102);
+            ScrollbarPolicy = Never;
+            Size = (64.2, 18);
+            Text = "Hit Sound";
+            TextSize = 13;
+
+            Renderer {
+                backgroundcolor = transparent;
+                bordercolor = #3C3C3C;
+                borders = (0, 0, 0, 0);
+                textcolor = #3C3C3C;
+                texturebackground = None;
+            }
+        }
+
+        EditBox.HitSFX {
+            DefaultText = "assets/....";
+            Position = (90, 100);
+            Size = (330, 22);
+            TextSize = 13;
+
+            Renderer {
+                backgroundcolor = #F5F5F5;
+                backgroundcolordisabled = #E6E6E6;
+                backgroundcolorhover = white;
+                bordercolor = #3C3C3C;
+                bordercolordisabled = #7D7D7D;
+                bordercolorhover = black;
+                borders = (1, 1, 1, 1);
+                caretcolor = black;
+                caretwidth = 1;
+                defaulttextcolor = #A0A0A0;
+                padding = (0, 0, 0, 0);
+                selectedtextbackgroundcolor = #006EFF;
+                selectedtextcolor = white;
+                textcolor = #3C3C3C;
+                textcolordisabled = #7D7D7D;
+                texture = None;
+                texturedisabled = None;
+                texturefocused = None;
+                texturehover = None;
+            }
+        }
     }
 
     SpinButton.Speed {
@@ -1234,7 +1280,7 @@ Panel.Panel1 {
         Size = (42, 20);
         Step = 0.05;
         Value = 0;
-        renderer = &7;
+        renderer = &6;
     }
 
     Button.ActionName {

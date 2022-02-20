@@ -43,7 +43,7 @@ namespace Battle
 		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
 		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
-		logger.info("InGame scene created");
+		game.logger.info("InGame scene created");
 		Battle::game.screen->setView(view);
 	}
 

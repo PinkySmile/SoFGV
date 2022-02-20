@@ -13,12 +13,12 @@ namespace Battle
 	NetplayCharacterSelect::NetplayCharacterSelect() :
 		CharacterSelect(game.networkMgr._leftInput, game.networkMgr._rightInput)
 	{
-		logger.info("NetplayCharacterSelect scene created");
+		game.logger.info("NetplayCharacterSelect scene created");
 	}
 
 	NetplayCharacterSelect::~NetplayCharacterSelect()
 	{
-		logger.info("NetplayCharacterSelect scene destroyed");
+		game.logger.info("NetplayCharacterSelect scene destroyed");
 	}
 
 	void NetplayCharacterSelect::consumeEvent(const sf::Event &event)

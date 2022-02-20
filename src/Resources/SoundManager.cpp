@@ -15,7 +15,7 @@ namespace Battle
 			file[pos] = '/';
 		if (this->_allocatedSounds[file].second != 0) {
 			this->_allocatedSounds[file].second++;
-			logger.debug("Returning already loaded file " + file);
+			game.logger.debug("Returning already loaded file " + file);
 			return this->_allocatedSounds[file].first;
 		}
 
@@ -30,7 +30,7 @@ namespace Battle
 			this->_freedIndexes.pop_back();
 		}
 
-		logger.debug("Loading file " + file);
+		game.logger.debug("Loading file " + file);
 		if (!this->_sounds[index].loadFromFile(file)) {
 			this->_freedIndexes.push_back(index);
 			return 0;
@@ -50,16 +50,17 @@ namespace Battle
 			if (attr.first == id && attr.second) {
 				attr.second--;
 				if (attr.second) {
-					logger.debug("Remove ref to " + loadedPath);
+					game.logger.debug("Remove ref to " + loadedPath);
 					return;
 				}
-				logger.debug("Destroying sound " + loadedPath);
+				game.logger.debug("Destroying sound " + loadedPath);
 				break;
 			}
 
 		auto it = this->_sounds.find(id);
 
-		assert(it != this->_sounds.end());
+		if (it == this->_sounds.end())
+			return game.logger.warn("Trying to remove invalid index " + std::to_string(id));
 		this->_sounds.erase(it);
 		this->_freedIndexes.push_back(id);
 	}
@@ -68,12 +69,16 @@ namespace Battle
 	{
 		if (!id)
 			return;
+		game.logger.debug("Playing sound " + std::to_string(id));
 
-		auto &sound = this->_sound[this->_lastSound++];
+		auto &sound = this->_sound[this->_lastSound];
 
-		this->_lastSound %= 64;
-		sound.setBuffer(this->_sounds.at(id));
-		sound.play();
+		try {
+			sound.setBuffer(this->_sounds.at(id));
+			sound.play();
+			this->_lastSound++;
+			this->_lastSound %= 64;
+		} catch (...) {}
 	}
 
 	void SoundManager::addRef(unsigned int id)
@@ -82,11 +87,13 @@ namespace Battle
 			return;
 		for (auto &[loadedPath, attr] : this->_allocatedSounds)
 			if (attr.first == id && attr.second) {
+				if (attr.second < 1)
+					return game.logger.warn("Cannot add ref to " + loadedPath + " (" + std::to_string(id) + ") because it was unloaded");
+				game.logger.debug("Adding ref to " + loadedPath);
 				attr.second++;
-				assert(attr.second > 1);
-				logger.debug("Adding ref to " + loadedPath);
 				return;
 			}
+		game.logger.warn("Cannot add ref to unknown sound " + std::to_string(id));
 	}
 
 	void SoundManager::setVolume(float volume)

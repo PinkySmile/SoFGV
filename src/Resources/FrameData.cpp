@@ -14,7 +14,7 @@ namespace Battle
 		std::ifstream stream{path};
 		nlohmann::json json;
 
-		logger.debug("Loading framedata file " + path);
+		game.logger.debug("Loading framedata file " + path);
 		if (stream.fail())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument(path + ": " + strerror(errno));
@@ -26,7 +26,7 @@ namespace Battle
 	{
 		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
-		logger.debug("Loading json");
+		game.logger.debug("Loading json");
 		if (!json.is_array())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument("Invalid json");
@@ -87,6 +87,12 @@ namespace Battle
 				// TODO: Create proper exceptions
 				throw std::invalid_argument("Invalid json");
 			this->soundPath = data["sound"];
+		}
+		if (data.contains("hitSound")) {
+			if (!data["hitSound"].is_string())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->hitSoundPath = data["hitSound"];
 		}
 
 		if (data.contains("offset")) {
@@ -474,8 +480,20 @@ namespace Battle
 
 		this->_palette = palette;
 		this->textureHandle = game.textureMgr.load(this->spritePath, palette, &textureSize);
-		if (!this->soundPath.empty())
-			this->soundHandle = game.soundMgr.load(this->soundPath);
+		if (!this->soundPath.empty()) {
+			if (this->soundPath[0] != 'a') {
+				this->soundHandle = std::stoul(this->soundPath);
+				game.soundMgr.addRef(this->soundHandle);
+			} else
+				this->soundHandle = game.soundMgr.load(this->soundPath);
+		}
+		if (!this->hitSoundPath.empty()){
+			if (this->hitSoundPath[0] != 'a') {
+				this->hitSoundHandle = std::stoul(this->hitSoundPath);
+				game.soundMgr.addRef(this->hitSoundHandle);
+			} else
+				this->hitSoundHandle = game.soundMgr.load(this->hitSoundPath);
+		}
 		if (!this->textureBounds.size.x)
 			this->textureBounds.size.x = textureSize.x;
 		if (!this->textureBounds.size.y)
@@ -505,6 +523,8 @@ namespace Battle
 		this->textureHandle = other.textureHandle;
 		this->soundPath = other.soundPath;
 		this->soundHandle = other.soundHandle;
+		this->hitSoundPath = other.hitSoundPath;
+		this->hitSoundHandle = other.hitSoundHandle;
 		this->offset = other.offset;
 		this->size = other.size;
 		this->textureBounds = other.textureBounds;
@@ -540,9 +560,9 @@ namespace Battle
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
-		//TODO: Add ref to sound manager
 		game.textureMgr.addRef(this->textureHandle);
 		game.soundMgr.addRef(this->soundHandle);
+		game.soundMgr.addRef(this->hitSoundHandle);
 		return *this;
 	}
 
@@ -555,8 +575,23 @@ namespace Battle
 	void FrameData::reloadSound()
 	{
 		game.soundMgr.remove(this->soundHandle);
-		if (!this->soundPath.empty())
-			this->soundHandle = game.soundMgr.load(this->soundPath);
+		game.soundMgr.remove(this->hitSoundHandle);
+		this->soundHandle = 0;
+		this->hitSoundHandle = 0;
+		if (!this->soundPath.empty()) {
+			if (this->soundPath[0] != 'a') {
+				this->soundHandle = std::stoul(this->soundPath);
+				game.soundMgr.addRef(this->soundHandle);
+			} else
+				this->soundHandle = game.soundMgr.load(this->soundPath);
+		}
+		if (!this->hitSoundPath.empty()){
+			if (this->hitSoundPath[0] != 'a') {
+				this->hitSoundHandle = std::stoul(this->hitSoundPath);
+				game.soundMgr.addRef(this->hitSoundHandle);
+			} else
+				this->hitSoundHandle = game.soundMgr.load(this->hitSoundPath);
+		}
 	}
 
 	nlohmann::json FrameData::toJson() const
@@ -566,6 +601,8 @@ namespace Battle
 		result["sprite"] = this->spritePath;
 		if (!this->soundPath.empty())
 			result["sound"] = this->soundPath;
+		if (!this->hitSoundPath.empty())
+			result["hitSound"] = this->hitSoundPath;
 		if (this->offset.x || this->offset.y)
 			result["offset"] = {
 				{"x", this->offset.x},

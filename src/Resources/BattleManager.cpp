@@ -193,6 +193,7 @@ namespace Battle
 			return;
 		}
 		if (this->_roundEndTimer == 0) {
+			game.soundMgr.play(BASICSOUND_KNOCK_OUT);
 			this->_score.first += this->_rightCharacter->_hp <= 0;
 			this->_score.second += this->_leftCharacter->_hp <= 0;
 			this->_currentRound++;

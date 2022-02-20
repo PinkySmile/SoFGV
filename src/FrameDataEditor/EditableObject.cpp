@@ -57,6 +57,7 @@ namespace Battle
 			this->_animation++;
 			this->_animation %= this->_moves.at(this->_action)[this->_actionBlock].size();
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+			game.soundMgr.play(data->soundHandle);
 		}
 		this->_position += this->_speed;
 		this->_speed.y += this->_gravity;

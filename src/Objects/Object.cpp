@@ -189,16 +189,17 @@ namespace Battle
 		if (obj && obj->_team == this->_team)
 			return;
 		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		logger.debug(buffer);
+		game.logger.debug(buffer);
 		this->_hasHit = true;
 	}
 
-	void Object::getHit(IObject &other, const FrameData *)
+	void Object::getHit(IObject &other, const FrameData *data)
 	{
 		char buffer[38];
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		logger.debug(buffer);
+		game.logger.debug(buffer);
+		game.soundMgr.play(data->hitSoundHandle);
 	}
 
 	bool Object::hits(const IObject &other) const
@@ -268,7 +269,7 @@ namespace Battle
 		this->_hasHit &= !data->oFlag.resetHits;
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
-		Battle::game.soundMgr.play(data->soundHandle);
+		game.soundMgr.play(data->soundHandle);
 	}
 
 	bool Object::_hasMove(unsigned action) const
@@ -279,7 +280,7 @@ namespace Battle
 	bool Object::_startMove(unsigned int action)
 	{
 		if (!this->_hasMove(action)) {
-			logger.debug("Cannot start action " + std::to_string(action));
+			game.logger.debug("Cannot start action " + std::to_string(action));
 			return false;
 		}
 
@@ -424,7 +425,7 @@ namespace Battle
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 			this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 			this->_hasHit &= !data->oFlag.resetHits;
-			Battle::game.soundMgr.play(data->soundHandle);
+			game.soundMgr.play(data->soundHandle);
 		}
 	}
 

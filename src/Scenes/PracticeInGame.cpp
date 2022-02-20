@@ -44,7 +44,7 @@ namespace Battle
 			}
 		);
 		game.battleMgr.reset(this->_manager);
-		logger.debug("Practice session started");
+		game.logger.debug("Practice session started");
 	}
 
 	void PracticeInGame::_renderPause() const

@@ -27,7 +27,5 @@ namespace Battle
 	};
 }
 
-extern Battle::Logger	logger;
-
 
 #endif //THFGAME_LOGGER_HPP

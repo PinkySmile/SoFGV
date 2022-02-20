@@ -22,7 +22,7 @@ namespace Battle
 		nlohmann::json json;
 
 		game.screen->setView(view);
-		logger.info("CharacterSelect scene created");
+		game.logger.info("CharacterSelect scene created");
 		stream >> json;
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);

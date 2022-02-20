@@ -48,7 +48,7 @@ namespace Battle
 		sf::View view{{0, 0, 1680, 960}};
 
 		game.screen->setView(view);
-		logger.info("Title scene created");
+		game.logger.info("Title scene created");
 		this->_inputs.resize(INPUT_NUMBER);
 		this->_inputs[INPUT_LEFT].loadFromFile("assets/icons/inputs/4.png");
 		this->_inputs[INPUT_RIGHT].loadFromFile("assets/icons/inputs/6.png");
@@ -65,7 +65,7 @@ namespace Battle
 
 	TitleScreen::~TitleScreen()
 	{
-		logger.debug("~TitleScreen");
+		game.logger.debug("~TitleScreen");
 		game.networkMgr.cancelHost();
 		if (this->_thread.joinable())
 			this->_thread.join();
@@ -213,6 +213,7 @@ namespace Battle
 	{
 		if (this->_changeInput && this->_changingInputs) {
 			if (sf::Keyboard::Escape == ev.code) {
+				game.soundMgr.play(BASICSOUND_MENU_CANCEL);
 				this->_changeInput = false;
 				return;
 			}
@@ -221,6 +222,7 @@ namespace Battle
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.first->changeInput(static_cast<InputEnum>(this->_cursorInputs), ev.code);
 			this->_changeInput = false;
 			return;
@@ -263,6 +265,7 @@ namespace Battle
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerAxis(ev.joystickId, ev.axis, std::copysign(30, ev.position)));
 			this->_changeInput = false;
 			return;
@@ -302,6 +305,7 @@ namespace Battle
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerButton(ev.joystickId, ev.button));
 			this->_changeInput = false;
 			return;
@@ -309,13 +313,18 @@ namespace Battle
 
 		this->_usingKeyboard = false;
 		if (this->_askingInputs && ev.button == 0) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6))
+			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)) {
 				this->_onInputsChosen();
-			else if (this->_leftInput) {
-				if (this->_leftInput != ev.joystickId + 2)
+				game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			} else if (this->_leftInput) {
+				if (this->_leftInput != ev.joystickId + 2) {
 					this->_rightInput = ev.joystickId + 2;
-			} else
+					game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+				}
+			} else {
 				this->_leftInput = ev.joystickId + 2;
+				game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			}
 			return;
 		}
 		if (ev.button == 0)
@@ -432,6 +441,7 @@ namespace Battle
 			return;
 		}
 		if (this->_changingInputs) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_cursorInputs += this->_inputs.size();
 			this->_cursorInputs--;
 			this->_cursorInputs %= this->_inputs.size();
@@ -439,6 +449,7 @@ namespace Battle
 		}
 		if (this->_askingInputs)
 			return;
+		game.soundMgr.play(BASICSOUND_MENU_MOVE);
 		this->_selectedEntry += sizeof(menuItems) / sizeof(*menuItems);
 		this->_selectedEntry--;
 		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
@@ -447,12 +458,14 @@ namespace Battle
 	void TitleScreen::_onGoDown()
 	{
 		if (this->_changingInputs) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_cursorInputs++;
 			this->_cursorInputs %= this->_inputs.size();
 			return;
 		}
 		if (this->_askingInputs)
 			return;
+		game.soundMgr.play(BASICSOUND_MENU_MOVE);
 		this->_selectedEntry++;
 		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
 	}
@@ -460,6 +473,7 @@ namespace Battle
 	void TitleScreen::_onGoLeft()
 	{
 		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_delay)
 				this->_delay--;
 			return;
@@ -468,6 +482,7 @@ namespace Battle
 			return;
 		}
 		if (this->_changingInputs) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
 			return;
 		}
@@ -477,12 +492,14 @@ namespace Battle
 	{
 		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
 			this->_delay++;
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			return;
 		}
 		if (this->_connecting || game.networkMgr.isHosting()) {
 			return;
 		}
 		if (this->_changingInputs) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
 			return;
 		}
@@ -492,11 +509,13 @@ namespace Battle
 	{
 		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
 			game.networkMgr.setDelay(this->_delay + 1);
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
 		if (this->_connecting || game.networkMgr.isHosting()) {
 			return;
 		}
+		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		if (this->_changingInputs) {
 			this->_changeInput = true;
 			return;
@@ -535,6 +554,7 @@ namespace Battle
 
 	void TitleScreen::_onCancel()
 	{
+		game.soundMgr.play(BASICSOUND_MENU_CANCEL);
 		if (this->_connecting || game.networkMgr.isHosting()) {
 			this->_connecting = false;
 			game.networkMgr.cancelHost();

@@ -392,10 +392,15 @@ namespace Battle
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
-		if (this->_odCooldown)
+		if (this->_odCooldown) {
 			this->_odCooldown--;
+			if (!this->_odCooldown)
+				game.soundMgr.play(BASICSOUND_OVERDRIVE_RECOVER);
+		}
 		if (this->_guardCooldown) {
 			this->_guardCooldown--;
+			if (!this->_guardCooldown)
+				game.soundMgr.play(BASICSOUND_GUARD_RECOVER);
 			this->_guardRegenCd = 0;
 		} else if (this->_guardRegenCd)
 			this->_guardRegenCd--;
@@ -446,6 +451,7 @@ namespace Battle
 			) {
 				if (!this->_restand) {
 					this->_blockStun = 0;
+					game.soundMgr.play(BASICSOUND_KNOCKDOWN);
 					this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 				} else {
 					this->_restand = false;
@@ -802,7 +808,7 @@ namespace Battle
 
 	void Character::_onMoveEnd(const FrameData &lastData)
 	{
-		logger.debug(std::to_string(this->_action) + " ended");
+		game.logger.debug(std::to_string(this->_action) + " ended");
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
@@ -863,6 +869,8 @@ namespace Battle
 
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 			return this->_forceStartMove(idleAction);
+		if (this->_action == ACTION_LANDING)
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
 			return this->_forceStartMove(idleAction);
 		if (isParryAction(this->_action))
@@ -896,11 +904,11 @@ namespace Battle
 
 	void Character::hit(IObject &other, const FrameData *data)
 	{
-        Object::hit(other, data);
+		Object::hit(other, data);
 		this->_speed.x += data->pushBack * -this->_dir;
 		if (data->oFlag.grab) {
 			this->_actionBlock++;
-            this->_animationCtr = 0;
+			this->_animationCtr = 0;
 			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
 				//TODO: make proper exceptions
 				throw std::invalid_argument("Grab action " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
@@ -911,9 +919,10 @@ namespace Battle
 	void Character::getHit(IObject &other, const FrameData *data)
 	{
 		auto myData = this->getCurrentFrameData();
+		char buffer[38];
 
-		Object::getHit(other, data);
-
+		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
+		game.logger.debug(buffer);
 		if (!data)
 			return;
 		if (myData->dFlag.invulnerableArmor)
@@ -945,6 +954,14 @@ namespace Battle
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		if (action == ACTION_IDLE) {
+			auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
+
+			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne)
+				return this->_forceStartMove(ACTION_LANDING);
+		}
+		if (action == ACTION_LANDING)
+			game.soundMgr.play(BASICSOUND_LAND);
 		if (
 			action == ACTION_VOID_OVERDRIVE ||
 			action == ACTION_SPIRIT_OVERDRIVE ||
@@ -2092,12 +2109,14 @@ namespace Battle
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
 				this->_blockStun = data.blockStun * 5 / 3;
+				game.soundMgr.play(BASICSOUND_WRONG_BLOCK);
 			} else {
 				if (this->_isGrounded())
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
 				this->_blockStun = data.blockStun;
+				game.soundMgr.play(BASICSOUND_BLOCK);
 			}
 			this->_processGuardLoss(wrongBlock);
 		} else if (wrongBlock)
@@ -2138,6 +2157,7 @@ namespace Battle
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !data.dFlag.superarmor) {
+			game.soundMgr.play(BASICSOUND_COUNTER_HIT);
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else
@@ -2155,8 +2175,9 @@ namespace Battle
 			this->_limit[2] += data.matterLimit;
 			this->_limit[3] += data.spiritLimit;
 			game.battleMgr->addHitStop(data.hitStop * 1.5);
-			logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
+			game.logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
+			game.soundMgr.play(data.hitSoundHandle);
 			this->_hp -= data.damage * this->_prorate;
 			if (!data.dFlag.superarmor) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
@@ -2175,7 +2196,7 @@ namespace Battle
 				this->_limit[3] += data.spiritLimit;
 			}
 			game.battleMgr->addHitStop(data.hitStop);
-			logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+			game.logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 	}
 
@@ -2187,6 +2208,7 @@ namespace Battle
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
 			) {
 				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
+				game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
 				this->_forceStartMove(ACTION_WALL_SLAM);
 				this->_speed.x *= -0.8;
 				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
@@ -2202,6 +2224,7 @@ namespace Battle
 			this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 		)) {
 			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
+			game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
 			this->_speed.x *= -0.8;
 			this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
@@ -2220,6 +2243,7 @@ namespace Battle
 			)) {
 				this->_speed.x *= 0.8;
 				this->_speed.y *= -0.8;
+				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
 				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
@@ -2232,6 +2256,7 @@ namespace Battle
 			)) {
 				this->_speed.x *= 0.8;
 				this->_speed.y *= -0.8;
+				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
 				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
@@ -2505,6 +2530,7 @@ namespace Battle
 		if (this->_guardCooldown)
 			return;
 		if (loss >= this->_guardBar) {
+			game.soundMgr.play(BASICSOUND_GUARD_BREAK);
 			this->_guardBar = this->_maxGuardBar;
 			this->_guardCooldown = this->_maxGuardCooldown;
 		} else

@@ -18,12 +18,35 @@
 #include "../Inputs/ControllerInput.hpp"
 #include "../Inputs/RemoteInput.hpp"
 #include "NetManager.hpp"
+#include "../Logger.hpp"
 
 namespace Battle
 {
+	enum BasicSounds {
+		/*  1 */ BASICSOUND_MENU_MOVE = 1,
+		/*  2 */ BASICSOUND_MENU_CANCEL,
+		/*  3 */ BASICSOUND_MENU_CONFIRM,
+		/*  4 */ BASICSOUND_KNOCKDOWN,
+		/*  5 */ BASICSOUND_KNOCK_OUT,
+		/*  6 */ BASICSOUND_GUARD_BREAK,
+		/*  7 */ BASICSOUND_GUARD_RECOVER,
+		/*  8 */ BASICSOUND_OVERDRIVE,
+		/*  9 */ BASICSOUND_OVERDRIVE_RECOVER,
+		/* 10 */ BASICSOUND_HIGH_JUMP,
+		/* 11 */ BASICSOUND_LAND,
+		/* 12 */ BASICSOUND_COUNTER_HIT,
+		/* 13 */ BASICSOUND_DASH,
+		/* 14 */ BASICSOUND_BLOCK,
+		/* 15 */ BASICSOUND_WRONG_BLOCK,
+		/* 16 */ BASICSOUND_SPELLFLASH,
+		/*  4 */ BASICSOUND_WALL_BOUNCE = BASICSOUND_KNOCKDOWN,
+		/*  4 */ BASICSOUND_GROUND_SLAM = BASICSOUND_KNOCKDOWN,
+	};
+
 	struct Game {
-		bool hosting;
+		bool hosting = false;
 		std::mt19937 random;
+		Logger logger{"./latest.log"};
 		sf::Font font;
 		std::string lastIp = "127.0.0.1";
 		std::unique_ptr<Screen> screen;
@@ -34,6 +57,8 @@ namespace Battle
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1;
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2;
 		std::shared_ptr<IScene> scene;
+
+		Game();
 	};
 
 	namespace GGPONetplay {

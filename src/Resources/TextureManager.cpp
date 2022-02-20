@@ -15,7 +15,7 @@ namespace Battle
 			file[pos] = '/';
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
-			logger.debug("Returning already loaded file " + file);
+			game.logger.debug("Returning already loaded file " + file);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
 			return this->_allocatedTextures[file].first;
@@ -32,7 +32,7 @@ namespace Battle
 			this->_freedIndexes.pop_back();
 		}
 
-		logger.debug("Loading file " + file);
+		game.logger.debug("Loading file " + file);
 		if (!this->_textures[index].loadFromFile(file)) {
 			this->_freedIndexes.push_back(index);
 			return 0;
@@ -67,7 +67,7 @@ namespace Battle
 		}
 		if (this->_allocatedTextures[allocName].second != 0) {
 			this->_allocatedTextures[allocName].second++;
-			logger.debug("Returning already loaded paletted file " + allocName);
+			game.logger.debug("Returning already loaded paletted file " + allocName);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[allocName].first].getSize();
 			return this->_allocatedTextures[allocName].first;
@@ -142,10 +142,10 @@ namespace Battle
 			if (attr.first == id && attr.second) {
 				attr.second--;
 				if (attr.second) {
-					logger.debug("Remove ref to " + loadedPath);
+					game.logger.debug("Remove ref to " + loadedPath);
 					return;
 				}
-				logger.debug("Destroying texture " + loadedPath);
+				game.logger.debug("Destroying texture " + loadedPath);
 				break;
 			}
 
@@ -172,7 +172,7 @@ namespace Battle
 			if (attr.first == id && attr.second) {
 				attr.second++;
 				assert(attr.second > 1);
-				logger.debug("Adding ref to " + loadedPath);
+				game.logger.debug("Adding ref to " + loadedPath);
 				return;
 			}
 	}

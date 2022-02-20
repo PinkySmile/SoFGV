@@ -13,7 +13,7 @@ namespace Battle
 {
 	NetplayInGame::~NetplayInGame()
 	{
-		logger.debug("NetplayInGame scene destroyed");
+		game.logger.debug("NetplayInGame scene destroyed");
 	}
 
 	NetplayInGame::NetplayInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
@@ -21,7 +21,7 @@ namespace Battle
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
-		logger.info("NetplayGame scene created");
+		game.logger.info("NetplayGame scene created");
 		Battle::game.screen->setView(view);
 	}
 
