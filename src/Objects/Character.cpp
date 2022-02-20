@@ -751,8 +751,12 @@ namespace Battle
 			action == ACTION_j421S ||
 			action == ACTION_j421M ||
 			action == ACTION_j421N
-		)
+		) {
+			for (auto limit : this->_limit)
+				if (limit >= 100)
+					return false;
 			return !this->_odCooldown;
+		}
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
