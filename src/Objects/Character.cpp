@@ -394,8 +394,11 @@ namespace Battle
 
 		if (this->_odCooldown)
 			this->_odCooldown--;
-		if (this->_guardCooldown)
+		if (this->_guardCooldown) {
 			this->_guardCooldown--;
+			this->_guardRegenCd = 0;
+		} else if (this->_guardRegenCd)
+			this->_guardRegenCd--;
 		else if (this->_guardBar < this->_maxGuardBar)
 			this->_guardBar++;
 
@@ -2056,6 +2059,8 @@ namespace Battle
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
+		if (!Character::isParryAction(this->_action))
+			this->_guardRegenCd = 120;
 		game.battleMgr->addHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
@@ -2399,6 +2404,7 @@ namespace Battle
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+		dat->_guardRegenCd = this->_guardRegenCd;
 		dat->_odCooldown = this->_odCooldown;
 		dat->_counter = this->_counter;
 		dat->_blockStun = this->_blockStun;
@@ -2438,6 +2444,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_guardRegenCd = dat->_guardRegenCd;
 		this->_odCooldown = dat->_odCooldown;
 		this->_counter = dat->_counter;
 		this->_blockStun = dat->_blockStun;
@@ -2489,7 +2496,7 @@ namespace Battle
 
 	void Character::_processGuardLoss(bool wrongBlock)
 	{
-		auto loss = this->_blockStun * 10;
+		auto loss = this->_blockStun * 4;
 
 		if (this->_guardCooldown)
 			return;

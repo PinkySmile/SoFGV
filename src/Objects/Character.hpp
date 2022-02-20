@@ -321,6 +321,7 @@ namespace Battle
 			unsigned _totalDamage;
 			unsigned _guardCooldown;
 			unsigned _guardBar;
+			unsigned _guardRegenCd;
 			bool _counter;
 			float _prorate;
 			bool _atkDisabled;
@@ -375,6 +376,7 @@ namespace Battle
 		unsigned _totalDamage = 0;
 		unsigned _guardCooldown = 0;
 		unsigned _guardBar = 0;
+		unsigned _guardRegenCd = 0;
 		bool _counter = false;
 		float _prorate = 1;
 		bool _atkDisabled = false;
