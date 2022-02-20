@@ -309,7 +309,7 @@ namespace Battle
 
 		this->_usingKeyboard = false;
 		if (this->_askingInputs && ev.button == 0) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5))
+			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (this->_leftInput != ev.joystickId + 2)
@@ -343,13 +343,13 @@ namespace Battle
 		else
 			game.screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		if (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5)
+		if (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6)
 			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game.screen->displayElement("P2", {540 + 420, 190});
 		game.screen->fillColor(sf::Color::White);
-		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5)) {
+		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6)) {
 			if (this->_rightInput)
 				game.screen->displayElement(
 					this->_rightInput == 1 ?
@@ -363,7 +363,7 @@ namespace Battle
 				game.screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5)))
+		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
 			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -502,7 +502,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 5)))
+			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
 				this->_onInputsChosen();
 			else if (this->_leftInput)
 				this->_rightInput = 1;
@@ -545,7 +545,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 5))
+			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;
