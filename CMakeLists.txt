@@ -7,7 +7,9 @@ add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
-find_package(GGPO REQUIRED)
+if (WIN32)
+	find_package(GGPO REQUIRED)
+endif()
 find_package(clip REQUIRED)
 include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} ${clip_INCLUDE_DIRS})
 
@@ -111,18 +113,33 @@ else ()
 	set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
 endif ()
 
-target_link_libraries(
-	Battle
-	dbghelp
-	${SFML_GRAPHICS_LIB}
-	${SFML_AUDIO_LIB}
-	${SFML_SYSTEM_LIB}
-	${SFML_WINDOW_LIB}
-	${SFML_NETWORK_LIB}
-	${GGPO_LIBRARIES}
-	${clip_LIBRARIES}
-	ws2_32
-)
+if (WIN32)
+	target_link_libraries(
+		Battle
+		dbghelp
+		${SFML_GRAPHICS_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_NETWORK_LIB}
+		${GGPO_LIBRARIES}
+		${clip_LIBRARIES}
+		ws2_32
+	)
+else ()
+	target_link_libraries(
+		Battle
+		${SFML_GRAPHICS_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_NETWORK_LIB}
+		${clip_LIBRARIES}
+		pthread
+		png
+		xcb
+	)
+endif ()
 
 add_executable(
 	FrameDataEditor
@@ -189,15 +206,31 @@ add_executable(
 	src/Scenes/PracticeInGame.hpp
 )
 
-target_link_libraries(
-	FrameDataEditor
-	${SFML_GRAPHICS_LIB}
-	${SFML_SYSTEM_LIB}
-	${SFML_WINDOW_LIB}
-	${SFML_AUDIO_LIB}
-	${SFML_NETWORK_LIB}
-	${TGUI_LIB}
-	${GGPO_LIBRARIES}
-	${clip_LIBRARIES}
-	ws2_32
-)
+if (WIN32)
+	target_link_libraries(
+		FrameDataEditor
+		${SFML_GRAPHICS_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_NETWORK_LIB}
+		${TGUI_LIB}
+		${GGPO_LIBRARIES}
+		${clip_LIBRARIES}
+		ws2_32
+	)
+else()
+	target_link_libraries(
+		FrameDataEditor
+		${SFML_GRAPHICS_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_NETWORK_LIB}
+		${TGUI_LIB}
+		${clip_LIBRARIES}
+		pthread
+		png
+		xcb
+	)
+endif()
