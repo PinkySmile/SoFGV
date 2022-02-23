@@ -2,7 +2,9 @@
 // Created by Gegel85 on 07/02/2022.
 //
 
+#ifdef _WIN32
 #include <winsock.h>
+#endif
 #include "NetManager.hpp"
 #include "Game.hpp"
 #include "../Scenes/NetplayInGame.hpp"
@@ -13,6 +15,7 @@
 
 namespace Battle
 {
+#ifdef _WIN32
 	NetManager::NetManager()
 	{
 		this->_interruptedLogo.loadFromFile("assets/icons/netplay/disconnected.png");
@@ -24,12 +27,14 @@ namespace Battle
 
 	void NetManager::_initGGPO(unsigned short port, unsigned int spectators)
 	{
+#ifdef _WIN32
 		WSADATA wd;
+		WSAStartup(MAKEWORD(2, 2), &wd);
+#endif
 		GGPOErrorCode result;
 		GGPOSessionCallbacks cb;
 
 		game.logger.debug("Starting GGPO for " + std::to_string(spectators + 2) + " players.");
-		WSAStartup(MAKEWORD(2, 2), &wd);
 		assert(!this->_ggpoSession);
 		/* fill in all callback functions */
 		cb.begin_game = GGPONetplay::startGame;
@@ -50,12 +55,16 @@ namespace Battle
 
 	void NetManager::_initGGPOSyncTest()
 	{
+#ifdef _WIN32
 		WSADATA wd;
+#endif
 		GGPOErrorCode result;
 		GGPOSessionCallbacks cb;
 
 		game.logger.debug("Starting GGPO sync test.");
+#ifdef _WIN32
 		WSAStartup(MAKEWORD(2, 2), &wd);
+#endif
 		assert(!this->_ggpoSession);
 		/* fill in all callback functions */
 		cb.begin_game = GGPONetplay::startGame;
@@ -455,7 +464,9 @@ namespace Battle
 	{
 		ggpo_close_session(this->_ggpoSession);
 		this->_ggpoSession = nullptr;
+#ifdef _WIN32
 		WSACleanup();
+#endif
 	}
 
 	void NetManager::beginSession()
@@ -710,4 +721,48 @@ namespace Battle
 			return "Unknown error";
 		}
 	}
+#else
+	void NetManager::_initGGPO(unsigned short, unsigned int) {}
+	void NetManager::_initGGPOSyncTest() {}
+	void NetManager::_checkPacket(const NetManager::Packet &, size_t) {}
+	NetManager::NetManager() {}
+	void NetManager::startSyncTest() {}
+	void NetManager::consumeEvent(const sf::Event &) {}
+	void NetManager::consumeEvent(GGPOEvent *) {}
+	bool NetManager::isConnected() const { return false; }
+	void NetManager::beginSession() {}
+	void NetManager::setInputs(std::shared_ptr<IInput>, std::shared_ptr<IInput>) {}
+	bool NetManager::spectate(
+		const std::string &,
+		unsigned short,
+		const std::function<void(const sf::IpAddress &, unsigned short)> &,
+		const std::function<void(unsigned int, unsigned int)> &)
+	{ return false; }
+	bool NetManager::connect(
+		const std::string &,
+		unsigned short,
+		const std::function<void(const sf::IpAddress &, unsigned short)> &,
+		const std::function<void(unsigned int,unsigned int)> &)
+	{ return false; }
+	void NetManager::host(
+		unsigned short,
+		unsigned int,
+		const std::function<void(const sf::IpAddress &, unsigned short)> &,
+		const std::function<void(const sf::IpAddress &, unsigned short)> &,
+		const std::function<void(unsigned int)> &)
+	{}
+	void NetManager::advanceState() {}
+	void NetManager::nextFrame() {}
+	void NetManager::endSession() {}
+	void NetManager::setDelay(unsigned int) {}
+	void NetManager::save(void **, int *) {}
+	void NetManager::load(void *) {}
+	void NetManager::update() {}
+	void NetManager::renderHUD() {}
+	void NetManager::postRender() {}
+	void NetManager::cancelHost() {}
+	bool NetManager::isHosting() { return false; }
+	bool NetManager::isConnecting() { return false; }
+	void NetManager::free(void *) {}
+#endif
 }

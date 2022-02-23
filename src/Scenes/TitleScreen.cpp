@@ -9,6 +9,7 @@
 #else
 // TODO: Add proper message boxes on non windows systems
 #define MessageBox(...)
+#include <arpa/inet.h>
 #endif
 #include <utility>
 #include <clip.h>
