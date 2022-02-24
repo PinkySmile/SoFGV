@@ -101,6 +101,7 @@ namespace Battle
 		/* 117 */ ACTION_j214N,
 		/* 118 */ ACTION_j236N,
 		/* 119 */ ACTION_j421N,
+		/* 119 */ ACTION_NEUTRAL_AIR_OVERDRIVE = ACTION_j421N,
 		/* 120 */ ACTION_j623N,
 		/* 121 */ ACTION_j41236N,
 		/* 122 */ ACTION_j63214N,
@@ -112,6 +113,8 @@ namespace Battle
 		/* 128 */ ACTION_c28N,
 		/* 129 */ ACTION_c46N,
 		/* 130 */ ACTION_c64N,
+		/* 131 */ ACTION_NEUTRAL_ROMAN_CANCEL,
+		/* 132 */ ACTION_NEUTRAL_AIR_ROMAN_CANCEL,
 
 		/* 150 */ ACTION_5M = 150,
 		/* 151 */ ACTION_6M,
@@ -134,6 +137,7 @@ namespace Battle
 		/* 167 */ ACTION_j214M,
 		/* 168 */ ACTION_j236M,
 		/* 169 */ ACTION_j421M,
+		/* 169 */ ACTION_MATTER_AIR_OVERDRIVE = ACTION_j421M,
 		/* 170 */ ACTION_j623M,
 		/* 171 */ ACTION_j41236M,
 		/* 172 */ ACTION_j63214M,
@@ -145,6 +149,8 @@ namespace Battle
 		/* 178 */ ACTION_c28M,
 		/* 179 */ ACTION_c46M,
 		/* 180 */ ACTION_c64M,
+		/* 181 */ ACTION_MATTER_ROMAN_CANCEL,
+		/* 182 */ ACTION_MATTER_AIR_ROMAN_CANCEL,
 
 		/* 200 */ ACTION_5S = 200,
 		/* 201 */ ACTION_6S,
@@ -167,6 +173,7 @@ namespace Battle
 		/* 217 */ ACTION_j214S,
 		/* 218 */ ACTION_j236S,
 		/* 219 */ ACTION_j421S,
+		/* 219 */ ACTION_SPIRIT_AIR_OVERDRIVE = ACTION_j421S,
 		/* 220 */ ACTION_j623S,
 		/* 221 */ ACTION_j41236S,
 		/* 222 */ ACTION_j63214S,
@@ -178,6 +185,8 @@ namespace Battle
 		/* 228 */ ACTION_c28S,
 		/* 229 */ ACTION_c46S,
 		/* 230 */ ACTION_c64S,
+		/* 231 */ ACTION_SPIRIT_ROMAN_CANCEL,
+		/* 232 */ ACTION_SPIRIT_AIR_ROMAN_CANCEL,
 
 		/* 250 */ ACTION_5V = 250,
 		/* 251 */ ACTION_6V,
@@ -200,6 +209,7 @@ namespace Battle
 		/* 267 */ ACTION_j214V,
 		/* 268 */ ACTION_j236V,
 		/* 269 */ ACTION_j421V,
+		/* 269 */ ACTION_VOID_AIR_OVERDRIVE = ACTION_j421V,
 		/* 270 */ ACTION_j623V,
 		/* 271 */ ACTION_j41236V,
 		/* 272 */ ACTION_j63214V,
@@ -211,6 +221,8 @@ namespace Battle
 		/* 278 */ ACTION_c28V,
 		/* 279 */ ACTION_c46V,
 		/* 280 */ ACTION_c64V,
+		/* 281 */ ACTION_VOID_ROMAN_CANCEL,
+		/* 282 */ ACTION_VOID_AIR_ROMAN_CANCEL,
 
 		/* 300 */ ACTION_5A = 300,
 		/* 301 */ ACTION_6A,
@@ -368,6 +380,7 @@ namespace Battle
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit;
+		unsigned _barMaxOdCooldown = 0;
 		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
@@ -440,6 +453,8 @@ namespace Battle
 
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);
+		static bool isOverdriveAction(unsigned action);
+		static bool isRomanCancelAction(unsigned action);
 
 		void _applyMoveAttributes() override;
 		void _forceStartMove(unsigned action) override;

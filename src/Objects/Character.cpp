@@ -162,7 +162,6 @@ namespace Battle
 		{ ACTION_2N,                             "2n" },
 		{ ACTION_214N,                           "214n" },
 		{ ACTION_236N,                           "236n" },
-		{ ACTION_NEUTRAL_OVERDRIVE,              "Neutral overdrive" },
 		{ ACTION_623N,                           "623n" },
 		{ ACTION_41236N,                         "41236n" },
 		{ ACTION_63214N,                         "63214n" },
@@ -174,7 +173,6 @@ namespace Battle
 		{ ACTION_j2N,                            "j2n" },
 		{ ACTION_j214N,                          "j214n" },
 		{ ACTION_j236N,                          "j236n" },
-		{ ACTION_j421N,                          "j421n" },
 		{ ACTION_j623N,                          "j623n" },
 		{ ACTION_j41236N,                        "j41236n" },
 		{ ACTION_j63214N,                        "j63214n" },
@@ -193,7 +191,6 @@ namespace Battle
 		{ ACTION_2M,                             "2m" },
 		{ ACTION_214M,                           "214m" },
 		{ ACTION_236M,                           "236m" },
-		{ ACTION_MATTER_OVERDRIVE,               "Matter overdrive" },
 		{ ACTION_623M,                           "623m" },
 		{ ACTION_41236M,                         "41236m" },
 		{ ACTION_63214M,                         "63214m" },
@@ -205,7 +202,6 @@ namespace Battle
 		{ ACTION_j2M,                            "j2m" },
 		{ ACTION_j214M,                          "j214m" },
 		{ ACTION_j236M,                          "j236m" },
-		{ ACTION_j421M,                          "j421m" },
 		{ ACTION_j623M,                          "j623m" },
 		{ ACTION_j41236M,                        "j41236m" },
 		{ ACTION_j63214M,                        "j63214m" },
@@ -224,7 +220,6 @@ namespace Battle
 		{ ACTION_2S,                             "2s" },
 		{ ACTION_214S,                           "214s" },
 		{ ACTION_236S,                           "236s" },
-		{ ACTION_SPIRIT_OVERDRIVE,               "Spirit overdrive" },
 		{ ACTION_623S,                           "623s" },
 		{ ACTION_41236S,                         "41236s" },
 		{ ACTION_63214S,                         "63214s" },
@@ -236,7 +231,6 @@ namespace Battle
 		{ ACTION_j2S,                            "j2s" },
 		{ ACTION_j214S,                          "j214s" },
 		{ ACTION_j236S,                          "j236s" },
-		{ ACTION_j421S,                          "j421s" },
 		{ ACTION_j623S,                          "j623s" },
 		{ ACTION_j41236S,                        "j41236s" },
 		{ ACTION_j63214S,                        "j63214s" },
@@ -255,7 +249,6 @@ namespace Battle
 		{ ACTION_2V,                             "2v" },
 		{ ACTION_214V,                           "214v" },
 		{ ACTION_236V,                           "236v" },
-		{ ACTION_VOID_OVERDRIVE,                 "Void overdrive" },
 		{ ACTION_623V,                           "623v" },
 		{ ACTION_41236V,                         "41236v" },
 		{ ACTION_63214V,                         "63214v" },
@@ -267,7 +260,6 @@ namespace Battle
 		{ ACTION_j2V,                            "j2v" },
 		{ ACTION_j214V,                          "j214v" },
 		{ ACTION_j236V,                          "j236v" },
-		{ ACTION_j421V,                          "j421v" },
 		{ ACTION_j623V,                          "j623v" },
 		{ ACTION_j41236V,                        "j41236v" },
 		{ ACTION_j63214V,                        "j63214v" },
@@ -328,6 +320,24 @@ namespace Battle
 		{ ACTION_t6D,                            "t6d" },
 		{ ACTION_t8D,                            "t8d" },
 		{ ACTION_t2D,                            "t2d" },
+
+		{ ACTION_NEUTRAL_OVERDRIVE,              "Neutral overdrive" },
+		{ ACTION_MATTER_OVERDRIVE,               "Matter overdrive" },
+		{ ACTION_SPIRIT_OVERDRIVE,               "Spirit overdrive" },
+		{ ACTION_VOID_OVERDRIVE,                 "Void overdrive" },
+		{ ACTION_NEUTRAL_AIR_OVERDRIVE,          "Neutral air overdrive" },
+		{ ACTION_MATTER_AIR_OVERDRIVE,           "Matter air overdrive" },
+		{ ACTION_SPIRIT_AIR_OVERDRIVE,           "Spirit air overdrive" },
+		{ ACTION_VOID_AIR_OVERDRIVE,             "Void air overdrive" },
+		{ ACTION_NEUTRAL_ROMAN_CANCEL,           "Neutral roman cancel" },
+		{ ACTION_MATTER_ROMAN_CANCEL,            "Matter roman cancel" },
+		{ ACTION_SPIRIT_ROMAN_CANCEL,            "Spirit roman cancel" },
+		{ ACTION_VOID_ROMAN_CANCEL,              "Void roman cancel" },
+		{ ACTION_NEUTRAL_AIR_ROMAN_CANCEL,       "Neutral air roman cancel" },
+		{ ACTION_MATTER_AIR_ROMAN_CANCEL,        "Matter air roman cancel" },
+		{ ACTION_SPIRIT_AIR_ROMAN_CANCEL,        "Spirit air roman cancel" },
+		{ ACTION_VOID_AIR_ROMAN_CANCEL,          "Void air roman cancel" },
+
 		{ ACTION_WIN_MATCH1,                     "Win match1" },
 		{ ACTION_WIN_MATCH2,                     "Win match2" },
 		{ ACTION_WIN_MATCH3,                     "Win match3" },
@@ -484,15 +494,15 @@ namespace Battle
 			auto input = this->updateInputs();
 
 			if (this->_isGrounded())
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_421N)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_421V)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_421S)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_421M));
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_j421N)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_j421V)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_j421S)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_j421M));
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
 		this->_applyMoveAttributes();
@@ -623,13 +633,13 @@ namespace Battle
 		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236M)) ||
 
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
 		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
 		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421S)) ||
+		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
 		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_j421M)) ||
+		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
 
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
@@ -688,13 +698,13 @@ namespace Battle
 		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236M)) ||
 
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421N)) ||
+		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
 		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421V)) ||
+		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
 		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421S)) ||
+		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
 		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_421M)) ||
+		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
 
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236N)) ||
 		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214N)) ||
@@ -748,21 +758,14 @@ namespace Battle
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (
-			action == ACTION_VOID_OVERDRIVE ||
-			action == ACTION_SPIRIT_OVERDRIVE ||
-			action == ACTION_MATTER_OVERDRIVE ||
-			action == ACTION_NEUTRAL_OVERDRIVE ||
-			action == ACTION_j421V ||
-			action == ACTION_j421S ||
-			action == ACTION_j421M ||
-			action == ACTION_j421N
-		) {
+		if (isOverdriveAction(action)) {
 			for (auto limit : this->_limit)
 				if (limit >= 100)
 					return false;
 			return !this->_odCooldown;
 		}
+		if (isRomanCancelAction(action))
+			return !this->_odCooldown && this->_action >= ACTION_5N;
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
@@ -790,7 +793,7 @@ namespace Battle
 		if (this->_canCancel(action))
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
-			return this->_airDashesUsed < this->_maxAirDashes && (this->_action < ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING;
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
 			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action == action)
@@ -954,26 +957,36 @@ namespace Battle
 
 	void Character::_forceStartMove(unsigned int action)
 	{
-		if (action == ACTION_IDLE) {
+		if (
+			action == ACTION_IDLE ||
+			action == ACTION_WALK_FORWARD ||
+			action == ACTION_WALK_BACKWARD ||
+			action == ACTION_NEUTRAL_JUMP ||
+			action == ACTION_FORWARD_JUMP ||
+			action == ACTION_BACKWARD_JUMP ||
+			action == ACTION_NEUTRAL_HIGH_JUMP ||
+			action == ACTION_FORWARD_HIGH_JUMP ||
+			action == ACTION_BACKWARD_HIGH_JUMP
+		) {
 			auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 
-			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne)
-				return this->_forceStartMove(ACTION_LANDING);
+			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
+				game.soundMgr.play(BASICSOUND_LAND);
+				if (action == ACTION_IDLE)
+					return this->_forceStartMove(ACTION_LANDING);
+			}
 		}
-		if (action == ACTION_LANDING)
-			game.soundMgr.play(BASICSOUND_LAND);
-		if (
-			action == ACTION_VOID_OVERDRIVE ||
-			action == ACTION_SPIRIT_OVERDRIVE ||
-			action == ACTION_MATTER_OVERDRIVE ||
-			action == ACTION_NEUTRAL_OVERDRIVE ||
-			action == ACTION_j421V ||
-			action == ACTION_j421S ||
-			action == ACTION_j421M ||
-			action == ACTION_j421N
-		) {
+		if (isOverdriveAction(action) || isRomanCancelAction(action)) {
+			auto currentCd = this->_maxOdCooldown;
+
+			if (isRomanCancelAction(action))
+				currentCd /= 2;
+			if (action == ACTION_NEUTRAL_OVERDRIVE || action == ACTION_NEUTRAL_ROMAN_CANCEL) {
+				currentCd *= 3;
+				currentCd /= 4;
+			}
 			this->_blockStun = 0;
-			this->_odCooldown = this->_maxOdCooldown;
+			this->_odCooldown = this->_barMaxOdCooldown = currentCd;
 		} else if (
 			action == ACTION_NEUTRAL_JUMP ||
 			action == ACTION_FORWARD_JUMP ||
@@ -1037,11 +1050,15 @@ namespace Battle
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.charaCancel)
 			return false;
-		if (action == ACTION_BACKWARD_DASH && currentData->oFlag.backDashCancelable)
+		if (currentData->oFlag.backDashCancelable && action == ACTION_BACKWARD_DASH)
 			return true;
-		if (currentData->oFlag.dashCancelable && (action == ACTION_FORWARD_DASH || (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)) && this->_airDashesUsed < this->_maxAirDashes)
+		if (currentData->oFlag.dashCancelable && action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9 && this->_airDashesUsed < this->_maxAirDashes)
 			return true;
-		if (currentData->oFlag.jumpCancelable && ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP)) && this->_jumpsUsed < this->_maxJumps)
+		if (currentData->oFlag.dashCancelable && action == ACTION_FORWARD_DASH)
+			return true;
+		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP && this->_jumpsUsed < this->_maxJumps)
+			return true;
+		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
 		if (action < 100)
 			return false;
@@ -1834,10 +1851,47 @@ namespace Battle
 	{
 		auto otherChr = dynamic_cast<const Character *>(&other);
 
-		if (otherChr)
+		if (otherChr) {
 			for (auto limit : otherChr->_limit)
 				if (limit >= 100)
 					return false;
+
+			if (
+				(otherChr->_action == ACTION_SPIRIT_ROMAN_CANCEL || otherChr->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.spiritElement) &&
+				(this->_action == ACTION_MATTER_OVERDRIVE        || this->_action == ACTION_MATTER_AIR_OVERDRIVE)
+			)
+				return false;
+			if (
+				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.matterElement) &&
+				(this->_action == ACTION_VOID_OVERDRIVE          || this->_action == ACTION_VOID_AIR_OVERDRIVE)
+			)
+				return false;
+			if (
+				(otherChr->_action == ACTION_VOID_ROMAN_CANCEL || otherChr->_action == ACTION_VOID_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.voidElement) &&
+				(this->_action == ACTION_SPIRIT_OVERDRIVE      || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
+			)
+				return false;
+
+			if (
+				(this->_action == ACTION_SPIRIT_ROMAN_CANCEL || this->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.spiritElement) &&
+				(otherChr->_action == ACTION_VOID_OVERDRIVE  || otherChr->_action == ACTION_VOID_AIR_OVERDRIVE)
+			)
+				return Object::hits(other);
+			if (
+				(this->_action == ACTION_MATTER_ROMAN_CANCEL  || this->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.matterElement) &&
+				(otherChr->_action == ACTION_SPIRIT_OVERDRIVE || otherChr->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
+			)
+				return Object::hits(other);
+			if (
+				(this->_action == ACTION_VOID_ROMAN_CANCEL    || this->_action == ACTION_VOID_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.voidElement) &&
+				(otherChr->_action == ACTION_MATTER_OVERDRIVE || otherChr->_action == ACTION_MATTER_AIR_OVERDRIVE)
+			)
+				return Object::hits(other);
+			if (isOverdriveAction(otherChr->_action))
+				return false;
+		}
+		if (isRomanCancelAction(this->_action))
+			return false;
 		return Object::hits(other);
 	}
 
@@ -2361,42 +2415,6 @@ namespace Battle
 		}
 	}
 
-	bool Character::isBlockingAction(unsigned int action)
-	{
-		switch (action) {
-		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
-		case ACTION_GROUND_LOW_NEUTRAL_BLOCK:
-		case ACTION_AIR_NEUTRAL_BLOCK:
-		case ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK:
-		case ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK:
-		case ACTION_AIR_NEUTRAL_WRONG_BLOCK:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	bool Character::isParryAction(unsigned int action)
-	{
-		switch (action) {
-		case ACTION_GROUND_HIGH_NEUTRAL_PARRY:
-		case ACTION_GROUND_HIGH_SPIRIT_PARRY:
-		case ACTION_GROUND_HIGH_MATTER_PARRY:
-		case ACTION_GROUND_HIGH_VOID_PARRY:
-		case ACTION_GROUND_LOW_NEUTRAL_PARRY:
-		case ACTION_GROUND_LOW_SPIRIT_PARRY:
-		case ACTION_GROUND_LOW_MATTER_PARRY:
-		case ACTION_GROUND_LOW_VOID_PARRY:
-		case ACTION_AIR_NEUTRAL_PARRY:
-		case ACTION_AIR_SPIRIT_PARRY:
-		case ACTION_AIR_MATTER_PARRY:
-		case ACTION_AIR_VOID_PARRY:
-			return true;
-		default:
-			return false;
-		}
-	}
-
 	const std::shared_ptr<IInput> &Character::getInput() const
 	{
 		return this->_input;
@@ -2612,5 +2630,75 @@ namespace Battle
 		if (this->_dummyState == DUMMYSTATE_CROUCH)
 			result.verticalAxis = -1;
 		return result;
+	}
+
+	bool Character::isBlockingAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:
+		case ACTION_GROUND_LOW_NEUTRAL_BLOCK:
+		case ACTION_AIR_NEUTRAL_BLOCK:
+		case ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK:
+		case ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK:
+		case ACTION_AIR_NEUTRAL_WRONG_BLOCK:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool Character::isParryAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_GROUND_HIGH_NEUTRAL_PARRY:
+		case ACTION_GROUND_HIGH_SPIRIT_PARRY:
+		case ACTION_GROUND_HIGH_MATTER_PARRY:
+		case ACTION_GROUND_HIGH_VOID_PARRY:
+		case ACTION_GROUND_LOW_NEUTRAL_PARRY:
+		case ACTION_GROUND_LOW_SPIRIT_PARRY:
+		case ACTION_GROUND_LOW_MATTER_PARRY:
+		case ACTION_GROUND_LOW_VOID_PARRY:
+		case ACTION_AIR_NEUTRAL_PARRY:
+		case ACTION_AIR_SPIRIT_PARRY:
+		case ACTION_AIR_MATTER_PARRY:
+		case ACTION_AIR_VOID_PARRY:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool Character::isOverdriveAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_NEUTRAL_OVERDRIVE:
+		case ACTION_MATTER_OVERDRIVE:
+		case ACTION_SPIRIT_OVERDRIVE:
+		case ACTION_VOID_OVERDRIVE:
+		case ACTION_NEUTRAL_AIR_OVERDRIVE:
+		case ACTION_MATTER_AIR_OVERDRIVE:
+		case ACTION_SPIRIT_AIR_OVERDRIVE:
+		case ACTION_VOID_AIR_OVERDRIVE:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	bool Character::isRomanCancelAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_NEUTRAL_ROMAN_CANCEL:
+		case ACTION_MATTER_ROMAN_CANCEL:
+		case ACTION_SPIRIT_ROMAN_CANCEL:
+		case ACTION_VOID_ROMAN_CANCEL:
+		case ACTION_NEUTRAL_AIR_ROMAN_CANCEL:
+		case ACTION_MATTER_AIR_ROMAN_CANCEL:
+		case ACTION_SPIRIT_AIR_ROMAN_CANCEL:
+		case ACTION_VOID_AIR_ROMAN_CANCEL:
+			return true;
+		default:
+			return false;
+		}
 	}
 }

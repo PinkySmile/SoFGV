@@ -39,6 +39,7 @@ namespace Battle
 		loadSound(this->soundMgr, "assets/sfxs/se/020.wav", BASICSOUND_BLOCK);
 		loadSound(this->soundMgr, "assets/sfxs/se/021.wav", BASICSOUND_WRONG_BLOCK);
 		loadSound(this->soundMgr, "assets/sfxs/se/053.wav", BASICSOUND_SPELLFLASH);
+		loadSound(this->soundMgr, "assets/sfxs/se/035.wav", BASICSOUND_ROMAN_CANCEL);
 		loadSound(this->soundMgr, "assets/sfxs/se/022.wav", BASICSOUND_WALL_BOUNCE);
 		loadSound(this->soundMgr, "assets/sfxs/se/022.wav", BASICSOUND_GROUND_SLAM);
 	}

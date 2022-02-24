@@ -60,7 +60,11 @@ namespace Battle
 		assert(!game.networkMgr.isConnected());
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F11)
 			this->_step = !this->_step;
+#ifdef _DEBUG
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F1)
+#else
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F12)
+#endif
 			this->_next = true;
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F9)
 			this->_speed--;

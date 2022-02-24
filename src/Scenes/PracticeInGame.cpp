@@ -289,23 +289,6 @@ namespace Battle
 
 		if (this->_paused)
 			return result;
-		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun) {
-			if (this->_mana) {
-				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
-				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
-				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
-			}
-			if (this->_overdrive == 1)
-				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
-			else if (this->_overdrive == 2)
-				this->_manager->_leftCharacter->_odCooldown = 0;
-			if (this->_guardBar == 1)
-				this->_manager->_leftCharacter->_guardCooldown = this->_manager->_leftCharacter->_maxGuardCooldown;
-			else if (this->_guardBar == 2) {
-				this->_manager->_leftCharacter->_guardCooldown = 0;
-				this->_manager->_leftCharacter->_guardBar = this->_manager->_leftCharacter->_maxGuardBar;
-			}
-		}
 		if (this->_block == Character::BLOCK_1ST_HIT) {
 			if (this->_manager->_rightCharacter->_blockStun) {
 				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
@@ -323,14 +306,29 @@ namespace Battle
 			else
 				this->_rightCounter--;
 		}
-		if (!this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
+		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun && !this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
+			if (this->_mana) {
+				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
+				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
+				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
+			}
+			if (this->_overdrive == 1)
+				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_barMaxOdCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
+			else if (this->_overdrive == 2)
+				this->_manager->_leftCharacter->_odCooldown = 0;
+			if (this->_guardBar == 1)
+				this->_manager->_leftCharacter->_guardCooldown = this->_manager->_leftCharacter->_maxGuardCooldown;
+			else if (this->_guardBar == 2) {
+				this->_manager->_leftCharacter->_guardCooldown = 0;
+				this->_manager->_leftCharacter->_guardBar = this->_manager->_leftCharacter->_maxGuardBar;
+			}
 			if (this->_mana) {
 				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
 				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
 				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
 			}
 			if (this->_overdrive == 1)
-				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
+				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_barMaxOdCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)
 				this->_manager->_rightCharacter->_odCooldown = 0;
 			if (this->_guardBar == 1)
