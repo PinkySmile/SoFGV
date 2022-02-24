@@ -83,6 +83,8 @@ namespace Battle
 			this->_showConnectMessage();
 		else if (game.networkMgr.isHosting())
 			this->_showHostMessage();
+		else if (this->_chooseSpecCount)
+			this->_showChooseSpecCount();
 		else if (this->_askingInputs)
 			this->_showAskInputBox();
 		if (this->_changingInputs)
@@ -117,22 +119,25 @@ namespace Battle
 		}
 	}
 
-	void TitleScreen::_host()
+	void TitleScreen::_host(unsigned spec)
 	{
 		this->_delay = 4;
 		this->_totalPing = 0;
 		this->_nbPings = 0;
 		this->_peakPing = 0;
 		this->_lastPing = 0;
+		this->_spec = {0, spec};
 		game.networkMgr.setInputs(this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
 		if (this->_thread.joinable())
 			this->_thread.join();
-		this->_thread = std::thread{[this] {
+		this->_thread = std::thread{[this, spec] {
 			try {
-				game.networkMgr.host(10800, 0, [this](const sf::IpAddress &addr, unsigned short port){
+				game.networkMgr.host(10800, spec, [this](const sf::IpAddress &addr, unsigned short port){
 					this->_onDisconnect(addr.toString() + ":" + std::to_string(port));
 				}, [this](const sf::IpAddress &addr, unsigned short port){
 					this->_onConnect(addr.toString() + ":" + std::to_string(port));
+				}, [this](unsigned spec, unsigned maxSpec){
+					this->_specUpdate({spec, maxSpec});
 				}, [this](unsigned ping){
 					this->_pingUpdate(ping);
 				});
@@ -149,6 +154,7 @@ namespace Battle
 		game.networkMgr.setInputs(nullptr, this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second));
 		if (this->_thread.joinable())
 			this->_thread.join();
+		this->_spec = {0, 0};
 		this->_thread = std::thread{[this]{
 			if (clip::has(clip::text_format())) {
 				std::string ip;
@@ -195,7 +201,7 @@ namespace Battle
 			);
 			break;
 		case 2:
-			this->_host();
+			this->_chooseSpecCount = true;
 			break;
 		case 3:
 			this->_connect();
@@ -248,7 +254,7 @@ namespace Battle
 			this->_onCancel();
 			break;
 		case sf::Keyboard::Z:
-			this->_onConfirm();
+			this->_onConfirm(1);
 			break;
 		default:
 			break;
@@ -313,23 +319,8 @@ namespace Battle
 		}
 
 		this->_usingKeyboard = false;
-		if (this->_askingInputs && ev.button == 0) {
-			if (this->_rightInput || (this->_leftInput && this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)) {
-				this->_onInputsChosen();
-				game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
-			} else if (this->_leftInput) {
-				if (this->_leftInput != ev.joystickId + 2) {
-					this->_rightInput = ev.joystickId + 2;
-					game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
-				}
-			} else {
-				this->_leftInput = ev.joystickId + 2;
-				game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
-			}
-			return;
-		}
 		if (ev.button == 0)
-			this->_onConfirm();
+			this->_onConfirm(ev.joystickId + 2);
 		else if (ev.button == 1)
 			this->_onCancel();
 	}
@@ -386,7 +377,10 @@ namespace Battle
 		} else {
 			game.screen->displayElement({620, 280, 440, 200}, sf::Color{0x50, 0x50, 0x50});
 			game.screen->displayElement(this->_remote + " joined.", {640, 300}, 400, Screen::ALIGN_CENTER);
-			game.screen->displayElement("Select delay   < " + std::to_string(this->_delay) + " frame(s) >", {640, 340}, 400, Screen::ALIGN_CENTER);
+			if (this->_spec.first == this->_spec.second)
+				game.screen->displayElement("Select delay   < " + std::to_string(this->_delay) + " frame(s) >", {640, 340}, 400, Screen::ALIGN_CENTER);
+			else
+				game.screen->displayElement("Waiting for spectator(s) (" + std::to_string(this->_spec.first) + "/" + std::to_string(this->_spec.second) + ").", {640, 340}, 400, Screen::ALIGN_CENTER);
 			if (this->_nbPings) {
 				game.screen->textSize(20);
 				game.screen->displayElement("Last ping: " + std::to_string(this->_lastPing) + "ms", {620, 380}, 440, Screen::ALIGN_CENTER);
@@ -407,7 +401,10 @@ namespace Battle
 		} else {
 			game.screen->displayElement({540, 280, 600, 130}, sf::Color{0x50, 0x50, 0x50});
 			game.screen->displayElement("Connected to " + this->_remote + ".", {540, 300}, 600, Screen::ALIGN_CENTER);
-			game.screen->displayElement("Waiting for host to select delay.", {540, 330}, 600, Screen::ALIGN_CENTER);
+			if (this->_spec.first == this->_spec.second)
+				game.screen->displayElement("Waiting for host to select delay.", {540, 330}, 600, Screen::ALIGN_CENTER);
+			else
+				game.screen->displayElement("Waiting for spectator(s) (" + std::to_string(this->_spec.first) + "/" + std::to_string(this->_spec.second) + ").", {540, 330}, 600, Screen::ALIGN_CENTER);
 		}
 	}
 
@@ -438,9 +435,10 @@ namespace Battle
 
 	void TitleScreen::_onGoUp()
 	{
-		if (this->_connecting || game.networkMgr.isHosting()) {
+		if (this->_connecting || game.networkMgr.isHosting())
 			return;
-		}
+		if (this->_chooseSpecCount)
+			return;
 		if (this->_changingInputs) {
 			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_cursorInputs += this->_inputs.size();
@@ -464,6 +462,8 @@ namespace Battle
 			this->_cursorInputs %= this->_inputs.size();
 			return;
 		}
+		if (this->_chooseSpecCount)
+			return;
 		if (this->_askingInputs)
 			return;
 		game.soundMgr.play(BASICSOUND_MENU_MOVE);
@@ -479,7 +479,11 @@ namespace Battle
 				this->_delay--;
 			return;
 		}
-		if (this->_connecting || game.networkMgr.isHosting()) {
+		if (this->_connecting || game.networkMgr.isHosting())
+			return;
+		if (this->_chooseSpecCount) {
+			if (this->_specCount)
+				this->_specCount--;
 			return;
 		}
 		if (this->_changingInputs) {
@@ -496,7 +500,10 @@ namespace Battle
 			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			return;
 		}
-		if (this->_connecting || game.networkMgr.isHosting()) {
+		if (this->_connecting || game.networkMgr.isHosting())
+			return;
+		if (this->_chooseSpecCount) {
+			this->_specCount++;
 			return;
 		}
 		if (this->_changingInputs) {
@@ -506,17 +513,21 @@ namespace Battle
 		}
 	}
 
-	void TitleScreen::_onConfirm()
+	void TitleScreen::_onConfirm(unsigned stickId)
 	{
 		if (game.networkMgr.isHosting() && !this->_remote.empty()) {
 			game.networkMgr.setDelay(this->_delay + 1);
 			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
-		if (this->_connecting || game.networkMgr.isHosting()) {
+		if (this->_connecting || game.networkMgr.isHosting())
+			return;
+		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+		if (this->_chooseSpecCount) {
+			this->_chooseSpecCount = false;
+			this->_host(this->_specCount);
 			return;
 		}
-		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		if (this->_changingInputs) {
 			this->_changeInput = true;
 			return;
@@ -525,9 +536,9 @@ namespace Battle
 			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
 				this->_onInputsChosen();
 			else if (this->_leftInput)
-				this->_rightInput = 1;
+				this->_rightInput = stickId;
 			else
-				this->_leftInput = 1;
+				this->_leftInput = stickId;
 			return;
 		}
 
@@ -556,6 +567,10 @@ namespace Battle
 	void TitleScreen::_onCancel()
 	{
 		game.soundMgr.play(BASICSOUND_MENU_CANCEL);
+		if (this->_chooseSpecCount) {
+			this->_chooseSpecCount = false;
+			return;
+		}
 		if (this->_connecting || game.networkMgr.isHosting()) {
 			this->_connecting = false;
 			game.networkMgr.cancelHost();
@@ -602,6 +617,14 @@ namespace Battle
 
 	void TitleScreen::_specUpdate(std::pair<unsigned, unsigned> spec)
 	{
+		this->_spec = spec;
+	}
 
+	void TitleScreen::_showChooseSpecCount() const
+	{
+		game.screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
+		game.screen->fillColor(sf::Color::White);
+		game.screen->displayElement("Select spectator count.", {640, 280}, 400, Screen::ALIGN_CENTER);
+		game.screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + " spectator" + (this->_specCount > 1 ? "s slot." : " slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
 }

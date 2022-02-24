@@ -25,7 +25,7 @@ namespace Battle
 		this->_rightInput = std::make_shared<RemoteInput>();
 	}
 
-	void NetManager::_initGGPO(unsigned short port, unsigned int spectators)
+	void NetManager::_initGGPO(unsigned short port, unsigned int spectators, bool spectator)
 	{
 #ifdef _WIN32
 		WSADATA wd;
@@ -83,126 +83,43 @@ namespace Battle
 		ggpo_set_disconnect_notify_start(this->_ggpoSession, 1000);
 	}
 
-	void NetManager::host(
-		unsigned short port,
-		unsigned int spectators,
+	bool NetManager::_tickClient(
+		Client &client,
+		size_t index,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
-		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
-		const std::function<void (unsigned)> &pingUpdate
+		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
 	)
 	{
-		bool received = false;
-		Packet packet;
 		size_t recvSize;
-		sf::Clock clock;
-		sf::Clock clock2;
-		sf::UdpSocket sock; // Sockets are temporary, GGPO is eternal
-		sf::IpAddress tmp = sf::IpAddress::Any;
-		unsigned short tmpPort = port;
-		auto ggpoPlayers = new GGPOPlayer[2 + spectators];
-		sf::IpAddress player;
-		unsigned short playerPort;
-		unsigned pingId = 0;
-		unsigned lastPingId = 0;
-		auto spectator = new sf::IpAddress[spectators];
-		auto spectatorPort = new unsigned short[spectators];
+		Packet packet;
 
-		this->_host = true;
-		game.logger.info("Bind socket on port " + std::to_string(port));
-		sock.bind(port);
-	start:
-		sock.setBlocking(false);
 		while (true) {
-			sf::Socket::Status status;
+			auto status = client.sock.receive(&packet, sizeof(packet), recvSize, client.addr, client.port);
 
-			do {
-				player = sf::IpAddress::Any;
-				playerPort = port;
-				status = sock.receive(&packet, sizeof(packet), recvSize, player, playerPort);
-				if (!this->_host) {
-					delete[] ggpoPlayers;
-					delete[] spectator;
-					delete[] spectatorPort;
-					return;
-				}
-				if (status == sf::Socket::NotReady)
-					std::this_thread::sleep_for(std::chrono::milliseconds(50));
-			} while (status == sf::Socket::NotReady);
-			game.logger.info("Received packet from " + player.toString() + ":" + std::to_string(playerPort));
+			if (!this->_host)
+				return false;
+			if (client.pingClock2.getElapsedTime().asSeconds() >= 10) {
+				client.lastPingId++;
+				packet.op = OPCODE_PING;
+				packet.pingId = client.lastPingId;
+				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
+				client.pingClock2.restart();
+				client.pingClock.restart();
+			}
+			if (status == sf::Socket::NotReady)
+				return true;
 			if (recvSize != sizeof(Packet)) {
 				game.logger.error("Bad packet");
 				memset(&packet, 0, sizeof(packet));
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_BAD_PACKET;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				continue;
-			}
-			if (packet.op == OPCODE_HELLO) {
-				if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) == 0) {
-					packet.op = OPCODE_OLLEH;
-					packet.spectator = false;
-					sock.send(&packet, sizeof(packet), player, playerPort);
-					onConnect(player, playerPort);
-					break;
-				} else {
-					game.logger.error("Version mismatch (expected " VERSION_STR " but got " + std::string(packet.versionString));
-					packet.op = OPCODE_ERROR;
-					packet.error = ERROR_VERSION_MISMATCH;
-					sock.send(&packet, sizeof(packet), player, playerPort);
-					continue;
-				}
-			} else {
-				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
-				packet.op = OPCODE_ERROR;
-				packet.error = ERROR_UNEXPECTED_OPCODE;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				continue;
-			}
-		}
-		this->_delay = 0;
-		clock.restart();
-		while (this->_delay == 0) {
-			if (received) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(1000 - clock2.getElapsedTime().asMilliseconds()));
-				lastPingId++;
-				packet.op = OPCODE_PING;
-				packet.pingId = lastPingId;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				received = false;
-				clock2.restart();
-				clock.restart();
-			} else if (clock2.getElapsedTime().asSeconds() >= 1) {
-				packet.op = OPCODE_PING;
-				packet.pingId = lastPingId;
-				sock.send(&packet, sizeof(packet), player, playerPort);
-				clock2.restart();
-			}
-			tmp = player;
-			tmpPort = playerPort;
-
-			auto status = sock.receive(&packet, sizeof(packet), recvSize, tmp, tmpPort);
-
-			if (!this->_host) {
-				delete[] ggpoPlayers;
-				delete[] spectator;
-				delete[] spectatorPort;
-				return;
-			}
-			if (status == sf::Socket::NotReady) {
-				continue;
-			}
-			if (recvSize != sizeof(Packet)) {
-				game.logger.error("Bad packet");
-				memset(&packet, 0, sizeof(packet));
-				packet.op = OPCODE_ERROR;
-				packet.error = ERROR_BAD_PACKET;
-				sock.send(&packet, sizeof(packet), player, playerPort);
+				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
 				continue;
 			}
 			if (packet.op == OPCODE_QUIT) {
 				game.logger.error("Player left");
-				onDisconnect(player, playerPort);
-				goto start;
+				onDisconnect(client.addr, client.port);
+				return false;
 			}
 			if (packet.op == OPCODE_HELLO)
 				continue;
@@ -210,18 +127,199 @@ namespace Battle
 				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
-				sock.send(&packet, sizeof(packet), player, playerPort);
+				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
 				continue;
 			}
-			if (packet.pingId >= pingId) {
-				if (packet.pingId == pingId) {
-					pingUpdate(clock.getElapsedTime().asMilliseconds());
-					received = true;
-				}
-				pingId = lastPingId;
+			if (packet.pingId >= client.pingId) {
+				if (packet.pingId == client.pingId)
+					pingUpdate(client, index, client.pingClock.getElapsedTime().asMilliseconds());
+				client.pingId = client.lastPingId;
 			}
-			if (pingId - lastPingId > 20) {
-				onDisconnect(player, playerPort);
+			if (client.pingId - client.lastPingId > 20) {
+				onDisconnect(client.addr, client.port);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	void NetManager::_tickClients(
+		std::vector<std::shared_ptr<Client>> &otherClients,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
+	)
+	{
+		for (size_t i = 0; i < otherClients.size(); i++) {
+			auto client = otherClients[i];
+
+			if (!this->_tickClient(*client, i, onDisconnect, pingUpdate)) {
+				if (!this->_host)
+					return;
+				otherClients.erase(otherClients.begin() + i);
+				onDisconnect(client->addr, client->port);
+				i--;
+			}
+		}
+	}
+
+	bool NetManager::_acceptClientConnection(
+		std::shared_ptr<Client> &client,
+		std::vector<std::shared_ptr<Client>> &otherClients,
+		unsigned short port,
+		bool spectator,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
+	)
+	{
+		Packet packet;
+		size_t recvSize;
+
+		game.logger.info("Bind socket on port " + std::to_string(port));
+		client = std::make_unique<Client>();
+		client->sock.bind(port);
+		client->sock.setBlocking(false);
+		while (true) {
+			sf::Socket::Status status;
+
+			do {
+				client->addr = sf::IpAddress::Any;
+				client->port = port;
+				status = client->sock.receive(&packet, sizeof(packet), recvSize, client->addr, client->port);
+				if (!this->_host)
+					return false;
+				if (status == sf::Socket::NotReady)
+					std::this_thread::sleep_for(std::chrono::milliseconds(50));
+				this->_tickClients(otherClients, onDisconnect, pingUpdate);
+			} while (status == sf::Socket::NotReady);
+			game.logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));
+			if (recvSize != sizeof(Packet)) {
+				game.logger.error("Bad packet");
+				memset(&packet, 0, sizeof(packet));
+				packet.op = OPCODE_ERROR;
+				packet.error = ERROR_BAD_PACKET;
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				continue;
+			}
+			if (packet.op != OPCODE_HELLO) {
+				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
+				packet.op = OPCODE_ERROR;
+				packet.error = ERROR_UNEXPECTED_OPCODE;
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				continue;
+			}
+			if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) == 0) {
+				game.logger.error("Version mismatch (expected " VERSION_STR " but got " + std::string(packet.versionString));
+				packet.op = OPCODE_ERROR;
+				packet.error = ERROR_VERSION_MISMATCH;
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				continue;
+			}
+			packet.op = OPCODE_OLLEH;
+			packet.spectator = spectator;
+			client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+			onConnect(client->addr, client->port);
+			break;
+		}
+		client->sock.unbind();
+	}
+
+	bool NetManager::_acceptSpectators(
+		std::vector<std::shared_ptr<Client>> &clients,
+		unsigned short port,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+		const std::function<void (Client &, size_t, unsigned)> &pingUpdate,
+		unsigned spectatorCount
+	)
+	{
+		std::shared_ptr<Client> tmp;
+		bool restart = false;
+
+		while (clients.size() != spectatorCount) {
+			this->_acceptClientConnection(tmp, clients, port, false, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
+				onDisconnect(addr, port);
+				if (clients[0]->addr == addr && clients[0]->port == port)
+					restart = false;
+			}, onConnect, pingUpdate);
+			if (restart)
+				return false;
+			if (!this->_host)
+				return false;
+			clients.push_back(tmp);
+		}
+		return true;
+	}
+
+	void NetManager::host(
+		unsigned short port,
+		unsigned int spectators,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+		const std::function<void (unsigned, unsigned)> &spectatorUpdate,
+		const std::function<void (unsigned)> &pingUpdate
+	)
+	{
+		Packet packet;
+		bool restart;
+		std::shared_ptr<Client> tmp;
+		std::vector<std::shared_ptr<Client>> clients;
+		std::vector<GGPOPlayer> ggpoPlayers{2 + spectators};
+
+		this->_host = true;
+	start:
+		restart = false;
+		do {
+			if (!this->_host)
+				return;
+			this->_acceptClientConnection(tmp, clients, port, false, onDisconnect, onConnect, [&pingUpdate](Client &, size_t index, unsigned ping){
+				if (!index)
+					pingUpdate(ping);
+			});
+			if (!this->_host)
+				return;
+			clients.push_back(tmp);
+			spectatorUpdate(clients.size() - 1, spectators);
+			packet.op = OPCODE_WAIT;
+			packet.currentSpecs = clients.size() - 1;
+			packet.maxSpec = spectators;
+			for (auto &client : clients)
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+		} while (!this->_acceptSpectators(clients, port, [&onDisconnect, &spectatorUpdate, &clients, spectators, &packet](const sf::IpAddress &ip, unsigned short port){
+			spectatorUpdate(clients.size() - 1, spectators);
+			packet.op = OPCODE_WAIT;
+			packet.currentSpecs = clients.size() - 1;
+			packet.maxSpec = spectators;
+			for (auto &client : clients)
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+			onDisconnect(ip, port);
+		}, [&spectatorUpdate, &clients, spectators, &packet](const sf::IpAddress &, unsigned short){
+			spectatorUpdate(clients.size() - 1, spectators);
+			packet.op = OPCODE_WAIT;
+			packet.currentSpecs = clients.size();
+			packet.maxSpec = spectators;
+			for (auto &client : clients)
+				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+		}, [&pingUpdate](Client &, size_t index, unsigned ping){
+			if (!index)
+				pingUpdate(ping);
+		}, spectators));
+
+		this->_delay = 0;
+		while (this->_delay == 0) {
+			this->_tickClients(clients, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
+				onDisconnect(addr, port);
+				if (clients[0]->addr == addr && clients[0]->port == port)
+					restart = true;
+			}, [&pingUpdate](Client &, size_t index, unsigned ping) {
+				if (!index)
+					pingUpdate(ping);
+			});
+			if (restart) {
+				packet.op = OPCODE_QUIT;
+				for (auto &client : clients)
+					client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				clients.clear();
 				goto start;
 			}
 		}
@@ -229,28 +327,35 @@ namespace Battle
 		game.logger.debug("Starting game with " + std::to_string(this->_delay) + " frames of delay !");
 		packet.op = OPCODE_GAME_START;
 		packet.delay = this->_delay;
-		sock.send(&packet, sizeof(packet), player, playerPort);
+		for (auto &client : clients)
+			client->sock.send(&packet, sizeof(packet), client->addr, client->port);
 
-		sock.unbind();
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
+		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 2;
 		ggpoPlayers[1].u.remote.port = 10800;
-		strcpy(ggpoPlayers[1].u.remote.ip_address, player.toString().c_str());
-
-		this->_initGGPO(port, spectators);
-		game.logger.debug("Adding GGPO players.");
-		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
+		strcpy(ggpoPlayers[1].u.remote.ip_address, clients[1]->addr.toString().c_str());
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
+
+		for (size_t i = 1; i < clients.size(); i++) {
+			GGPOPlayerHandle trashCan;
+
+			ggpoPlayers[i + 1].type = GGPO_PLAYERTYPE_SPECTATOR;
+			ggpoPlayers[i + 1].size = sizeof(ggpoPlayers[1 + i]);
+			ggpoPlayers[i + 1].u.remote.port = 10800;
+			strcpy(ggpoPlayers[i + 1].u.remote.ip_address, clients[i]->addr.toString().c_str());
+			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1 + i], &trashCan);
+		}
+
+		this->_initGGPO(port, spectators, false);
+		game.logger.debug("Adding GGPO players.");
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], this->_delay);
 		game.logger.debug("All done!");
-		delete[] ggpoPlayers;
-		delete[] spectator;
-		delete[] spectatorPort;
 	}
 
 	bool NetManager::spectate(const std::string &address, unsigned short port, const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect, const std::function<void (unsigned, unsigned)> &spectatorUpdate)
@@ -261,6 +366,7 @@ namespace Battle
 
 	bool NetManager::connect(const std::string &address, unsigned short port, const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect, const std::function<void (unsigned, unsigned)> &spectatorUpdate)
 	{
+		bool spectator;
 		Packet packet;
 		size_t recvSize;
 		sf::UdpSocket sock; // Sockets are temporary, GGPO is eternal
@@ -305,6 +411,9 @@ namespace Battle
 			this->_connect = false;
 			throw std::invalid_argument("Invalid opcode received (Received opcode " + std::to_string(packet.op) + " but expected opcode " + std::to_string(OPCODE_OLLEH) + ").");
 		}
+		spectator = packet.spectator;
+		if (spectator)
+			this->setInputs(nullptr, nullptr);
 		onConnect(host, hostPort);
 		while (true) {
 			status = sock.receive(&packet, sizeof(packet), recvSize, host, hostPort);
@@ -346,23 +455,26 @@ namespace Battle
 			sock.send(&packet, sizeof(packet), host, hostPort);
 		}
 
-		game.logger.debug("Host selected " + std::to_string(this->_delay) + " frames of delay");
-		ggpoPlayers[0].type = GGPO_PLAYERTYPE_REMOTE;
-		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
-		ggpoPlayers[0].player_num = 1;
-		strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
-		ggpoPlayers[0].u.remote.port = port;
+		if (!spectator) {
+			game.logger.debug("Host selected " + std::to_string(this->_delay) + " frames of delay");
+			ggpoPlayers[0].type = GGPO_PLAYERTYPE_REMOTE;
+			ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
+			ggpoPlayers[0].player_num = 1;
+			strcpy(ggpoPlayers[0].u.remote.ip_address, host.toString().c_str());
+			ggpoPlayers[0].u.remote.port = port;
 
-		ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
-		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
-		ggpoPlayers[1].player_num = 2;
+			ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
+			ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
+			ggpoPlayers[1].player_num = 2;
 
-		this->_initGGPO(10800, 0);
-		game.logger.debug("Adding GGPO players.");
-		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
-		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
-		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
-		game.logger.debug("All done!");
+			this->_initGGPO(10800, 0, false);
+			game.logger.debug("Adding GGPO players.");
+			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
+			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
+			ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
+			game.logger.debug("All done!");
+		} else
+			this->_initGGPO(10800, 0, true);
 		this->_connect = false;
 		return true;
 	}
