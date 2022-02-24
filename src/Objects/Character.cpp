@@ -401,6 +401,7 @@ namespace Battle
 	void Character::update()
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
+		auto input = this->updateInputs();
 
 		if (this->_odCooldown) {
 			this->_odCooldown--;
@@ -431,8 +432,16 @@ namespace Battle
 			if (this->_blockStun == 0 && !limited) {
 				if (this->_isGrounded())
 					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
-				else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
-					this->_forceStartMove(ACTION_FALLING);
+				else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
+					if (!input.d & !input.n & !input.v & !input.m & !input.a & !input.s)
+						this->_forceStartMove(ACTION_FALLING);
+					else if (input.verticalAxis > 0 && this->_startMove(ACTION_UP_AIR_TECH));
+					else if (input.verticalAxis < 0 && this->_startMove(ACTION_DOWN_AIR_TECH));
+					else if (this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH));
+					else if (this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
+					else
+						this->_forceStartMove(ACTION_FALLING);
+				}
 			}
 		}
 		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel)
@@ -489,10 +498,8 @@ namespace Battle
 				this->_jumpsUsed = 0;
 		}
 		if (!this->_blockStun)
-			this->_processInput(this->updateInputs());
+			this->_processInput(input);
 		else {
-			auto input = this->updateInputs();
-
 			if (this->_isGrounded())
 				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
 				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
