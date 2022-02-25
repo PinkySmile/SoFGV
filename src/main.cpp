@@ -160,7 +160,7 @@ void	run()
 
 	loadSettings();
 #ifdef _WIN32
-	font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
+	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
 #else
 	std::string font = "/usr/share/fonts/TTF/DejaVuSerif.ttf";
 #endif
