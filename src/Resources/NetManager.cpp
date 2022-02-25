@@ -855,7 +855,7 @@ namespace Battle
 		}
 	}
 #else
-	void NetManager::_initGGPO(unsigned short, unsigned int) {}
+	void NetManager::_initGGPO(unsigned short, unsigned int, bool, const std::string &, unsigned short) {}
 	void NetManager::_initGGPOSyncTest() {}
 	void NetManager::_checkPacket(const NetManager::Packet &, size_t) {}
 	NetManager::NetManager() {}
@@ -882,6 +882,7 @@ namespace Battle
 		unsigned int,
 		const std::function<void(const sf::IpAddress &, unsigned short)> &,
 		const std::function<void(const sf::IpAddress &, unsigned short)> &,
+		const std::function<void (unsigned, unsigned)> &,
 		const std::function<void(unsigned int)> &)
 	{}
 	void NetManager::advanceState() {}
