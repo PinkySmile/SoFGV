@@ -441,7 +441,7 @@ namespace Battle
 				return false;
 			}
 			if (status == sf::Socket::NotReady) {
-				if (ctr == 1000) {
+				if (ctr == 3000) {
 					this->_connect = false;
 					throw std::invalid_argument("Timed out");
 				}
