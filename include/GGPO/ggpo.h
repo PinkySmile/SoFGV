@@ -370,7 +370,7 @@ GGPO_API GGPOErrorCode __cdecl ggpo_add_player(GGPOSession *session,
  */
 GGPO_API GGPOErrorCode __cdecl ggpo_start_synctest(GGPOSession **session,
                                                    GGPOSessionCallbacks *cb,
-                                                   char *game,
+                                                   const char *game,
                                                    int num_players,
                                                    int input_size,
                                                    int frames);
@@ -406,7 +406,7 @@ GGPO_API GGPOErrorCode __cdecl ggpo_start_spectating(GGPOSession **session,
                                                      int num_players,
                                                      int input_size,
                                                      unsigned short local_port,
-                                                     char *host_ip,
+                                                     const char *host_ip,
                                                      unsigned short host_port);
 
 /*

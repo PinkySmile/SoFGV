@@ -127,6 +127,7 @@ namespace Battle
 		this->_peakPing = 0;
 		this->_lastPing = 0;
 		this->_spec = {0, spec};
+		this->_remote.clear();
 		game.networkMgr.setInputs(this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second), nullptr);
 		if (this->_thread.joinable())
 			this->_thread.join();
@@ -155,6 +156,7 @@ namespace Battle
 		if (this->_thread.joinable())
 			this->_thread.join();
 		this->_spec = {0, 0};
+		this->_remote.clear();
 		this->_thread = std::thread{[this]{
 			if (clip::has(clip::text_format())) {
 				std::string ip;
@@ -625,6 +627,6 @@ namespace Battle
 		game.screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
 		game.screen->fillColor(sf::Color::White);
 		game.screen->displayElement("Select spectator count.", {640, 280}, 400, Screen::ALIGN_CENTER);
-		game.screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + " spectator" + (this->_specCount > 1 ? "s slot." : " slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
+		game.screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + (this->_specCount > 1 ? " spectator slots." : " spectator slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
 }

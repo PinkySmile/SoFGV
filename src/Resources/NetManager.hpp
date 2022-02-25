@@ -113,7 +113,7 @@ namespace Battle
 			unsigned short port;
 		};
 
-		void _initGGPO(unsigned short port, unsigned int spectators, bool spectator);
+		void _initGGPO(unsigned short port, unsigned int spectators, bool spectator, const std::string &host = "", unsigned short hostPort = 10800);
 		void _initGGPOSyncTest();
 		bool _tickClient(
 			Client &client,

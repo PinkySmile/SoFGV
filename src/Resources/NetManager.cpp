@@ -25,7 +25,7 @@ namespace Battle
 		this->_rightInput = std::make_shared<RemoteInput>();
 	}
 
-	void NetManager::_initGGPO(unsigned short port, unsigned int spectators, bool spectator)
+	void NetManager::_initGGPO(unsigned short port, unsigned int spectators, bool spectator, const std::string &host, unsigned short hostPort)
 	{
 #ifdef _WIN32
 		WSADATA wd;
@@ -46,7 +46,10 @@ namespace Battle
 		cb.on_event = GGPONetplay::onEvent;
 
 		/* Start a new session */
-		result = ggpo_start_session(&this->_ggpoSession, &cb, "stickman_fighter_v0.0.1", 2 + spectators, sizeof(RemoteInput::_keyStates), port);
+		if (spectator)
+			result = ggpo_start_spectating(&this->_ggpoSession, &cb, VERSION_STR, 2, sizeof(RemoteInput::_keyStates), port, host.c_str(), hostPort);
+		else
+			result = ggpo_start_session(&this->_ggpoSession, &cb, VERSION_STR, 2 + spectators, sizeof(RemoteInput::_keyStates), port);
 		if (result)
 			throw GGPOError(result);
 		ggpo_set_disconnect_timeout(this->_ggpoSession, 4000);
@@ -76,7 +79,7 @@ namespace Battle
 		cb.on_event = GGPONetplay::onEvent;
 
 		/* Start a new session */
-		result = ggpo_start_synctest(&this->_ggpoSession, &cb, "stickman_fighter_v0.0.1", 2, sizeof(RemoteInput::_keyStates), 1);
+		result = ggpo_start_synctest(&this->_ggpoSession, &cb, VERSION_STR, 2, sizeof(RemoteInput::_keyStates), 1);
 		if (result)
 			throw GGPOError(result);
 		ggpo_set_disconnect_timeout(this->_ggpoSession, 4000);
@@ -94,20 +97,30 @@ namespace Battle
 		Packet packet;
 
 		while (true) {
-			auto status = client.sock.receive(&packet, sizeof(packet), recvSize, client.addr, client.port);
+			auto ip = client.addr;
+			unsigned short port = client.port;
+			auto status = client.sock.receive(&packet, sizeof(packet), recvSize, ip, port);
 
-			if (!this->_host)
+			if (!this->_host) {
+				game.logger.info("Host canceled");
 				return false;
-			if (client.pingClock2.getElapsedTime().asSeconds() >= 10) {
-				client.lastPingId++;
+			}
+			if (client.pingClock2.getElapsedTime().asSeconds() >= 1) {
 				packet.op = OPCODE_PING;
-				packet.pingId = client.lastPingId;
+				packet.pingId = client.lastPingId++;
+				game.logger.debug("Send PING to " + client.addr.toString() + ":" + std::to_string(client.port));
 				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
 				client.pingClock2.restart();
 				client.pingClock.restart();
 			}
-			if (status == sf::Socket::NotReady)
+			if (status == sf::Socket::NotReady) {
+				if (client.lastPingId - client.pingId > 5) {
+					game.logger.debug("Too many unanswered pings: " + std::to_string(client.lastPingId) + " - " + std::to_string(client.pingId) + " > 20");
+					onDisconnect(client.addr, client.port);
+					return false;
+				}
 				return true;
+			}
 			if (recvSize != sizeof(Packet)) {
 				game.logger.error("Bad packet");
 				memset(&packet, 0, sizeof(packet));
@@ -131,14 +144,13 @@ namespace Battle
 				continue;
 			}
 			if (packet.pingId >= client.pingId) {
-				if (packet.pingId == client.pingId)
-					pingUpdate(client, index, client.pingClock.getElapsedTime().asMilliseconds());
+				if (packet.pingId == client.pingId) {
+					auto ms = client.pingClock.restart().asMilliseconds();
+					pingUpdate(client, index, ms);
+				}
 				client.pingId = client.lastPingId;
 			}
-			if (client.pingId - client.lastPingId > 20) {
-				onDisconnect(client.addr, client.port);
-				return false;
-			}
+			game.logger.debug("PONG! " + std::to_string(packet.pingId));
 		}
 		return true;
 	}
@@ -155,6 +167,7 @@ namespace Battle
 			if (!this->_tickClient(*client, i, onDisconnect, pingUpdate)) {
 				if (!this->_host)
 					return;
+				game.logger.debug("Disconnected.");
 				otherClients.erase(otherClients.begin() + i);
 				onDisconnect(client->addr, client->port);
 				i--;
@@ -176,7 +189,7 @@ namespace Battle
 		size_t recvSize;
 
 		game.logger.info("Bind socket on port " + std::to_string(port));
-		client = std::make_unique<Client>();
+		client = std::make_shared<Client>();
 		client->sock.bind(port);
 		client->sock.setBlocking(false);
 		while (true) {
@@ -188,8 +201,6 @@ namespace Battle
 				status = client->sock.receive(&packet, sizeof(packet), recvSize, client->addr, client->port);
 				if (!this->_host)
 					return false;
-				if (status == sf::Socket::NotReady)
-					std::this_thread::sleep_for(std::chrono::milliseconds(50));
 				this->_tickClients(otherClients, onDisconnect, pingUpdate);
 			} while (status == sf::Socket::NotReady);
 			game.logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));
@@ -208,8 +219,8 @@ namespace Battle
 				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
 				continue;
 			}
-			if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) == 0) {
-				game.logger.error("Version mismatch (expected " VERSION_STR " but got " + std::string(packet.versionString));
+			if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) != 0) {
+				game.logger.error("Version mismatch (expected \"" VERSION_STR "\" but got \"" + std::string(packet.versionString) + "\")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_VERSION_MISMATCH;
 				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
@@ -222,6 +233,7 @@ namespace Battle
 			break;
 		}
 		client->sock.unbind();
+		return true;
 	}
 
 	bool NetManager::_acceptSpectators(
@@ -236,7 +248,8 @@ namespace Battle
 		std::shared_ptr<Client> tmp;
 		bool restart = false;
 
-		while (clients.size() != spectatorCount) {
+		game.logger.debug("Waiting for " + std::to_string(spectatorCount) + " (" + std::to_string(clients.size()) + ")");
+		while (clients.size() <= spectatorCount) {
 			this->_acceptClientConnection(tmp, clients, port, false, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
 				onDisconnect(addr, port);
 				if (clients[0]->addr == addr && clients[0]->port == port)
@@ -312,9 +325,12 @@ namespace Battle
 				if (clients[0]->addr == addr && clients[0]->port == port)
 					restart = true;
 			}, [&pingUpdate](Client &, size_t index, unsigned ping) {
+				game.logger.debug(std::to_string(index) + " ping is " + std::to_string(ping) + "ms");
 				if (!index)
 					pingUpdate(ping);
 			});
+			if (!this->_host)
+				return;
 			if (restart) {
 				packet.op = OPCODE_QUIT;
 				for (auto &client : clients)
@@ -339,12 +355,14 @@ namespace Battle
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 2;
 		ggpoPlayers[1].u.remote.port = 10800;
-		strcpy(ggpoPlayers[1].u.remote.ip_address, clients[1]->addr.toString().c_str());
+		game.logger.info("Fighting " + clients[0]->addr.toString());
+		strcpy(ggpoPlayers[1].u.remote.ip_address, clients[0]->addr.toString().c_str());
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 
 		for (size_t i = 1; i < clients.size(); i++) {
 			GGPOPlayerHandle trashCan;
 
+			game.logger.info("Adding spectator " + clients[i]->addr.toString());
 			ggpoPlayers[i + 1].type = GGPO_PLAYERTYPE_SPECTATOR;
 			ggpoPlayers[i + 1].size = sizeof(ggpoPlayers[1 + i]);
 			ggpoPlayers[i + 1].u.remote.port = 10800;
@@ -423,11 +441,11 @@ namespace Battle
 				return false;
 			}
 			if (status == sf::Socket::NotReady) {
-				if (ctr == 10) {
+				if (ctr == 1000) {
 					this->_connect = false;
 					throw std::invalid_argument("Timed out");
 				}
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				ctr++;
 				continue;
 			}
@@ -467,6 +485,7 @@ namespace Battle
 			ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 			ggpoPlayers[1].player_num = 2;
 
+			game.logger.info("Fighting " + host.toString());
 			this->_initGGPO(10800, 0, false);
 			game.logger.debug("Adding GGPO players.");
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
@@ -474,7 +493,7 @@ namespace Battle
 			ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
 			game.logger.debug("All done!");
 		} else
-			this->_initGGPO(10800, 0, true);
+			this->_initGGPO(10800, 0, true, host.toString(), port);
 		this->_connect = false;
 		return true;
 	}
@@ -793,7 +812,9 @@ namespace Battle
 
 			throw std::invalid_argument("Server responded with error " + std::to_string(packet.error) + " (" + (packet.error <= ERROR_UNEXPECTED_OPCODE ? errs[packet.error] : "ERROR_UNKNOWN") + ").");
 		}
+#ifdef _DEBUG
 		game.logger.debug("Received opcode " + std::to_string(packet.op));
+#endif
 	}
 
 	GGPOError::GGPOError(GGPOErrorCode code) :
