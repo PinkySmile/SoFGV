@@ -1898,6 +1898,8 @@ namespace Battle
 
 	void Character::postUpdate()
 	{
+		if (this->_blockStun == 0 && (this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) && this->_opponent->_action < ACTION_5N)
+			this->_blockStun = 60;
 		if (this->_position.x < 0)
 			this->_position.x = 0;
 		else if (this->_position.x > 1000)
