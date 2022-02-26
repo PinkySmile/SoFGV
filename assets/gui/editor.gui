@@ -1330,4 +1330,9 @@ MenuBar.main_bar {
         Items = ["Frame (Ctrl + Shift + Del)", "Animation block (Shift + Del)", "Action (Ctrl + Del)", "Selected box (Del)"];
         Text = Remove;
     }
+
+    Menu {
+    	Items = ["Copy boxes from last frame", "Copy boxes from next frame", "Flatten all collision boxes", "Flatten this move collision boxes"];
+    	Text = Misc;
+    }
 }

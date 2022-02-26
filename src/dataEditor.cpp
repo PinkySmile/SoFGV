@@ -1632,6 +1632,7 @@ void	newFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Menu
 	refreshRightPanel(gui, object);
 	bar->setMenuEnabled({"New"}, true);
 	bar->setMenuEnabled({"Remove"}, true);
+	bar->setMenuEnabled({"Misc"}, true);
 }
 
 void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
@@ -1647,12 +1648,14 @@ void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Men
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, true);
 		bar->setMenuEnabled({"Remove"}, true);
+		bar->setMenuEnabled({"Misc"}, true);
 	} catch (std::exception &e) {
 		Utils::dispMsg("Error", e.what(), MB_ICONERROR);
 		loadedPath = path;
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, false);
 		bar->setMenuEnabled({"Remove"}, false);
+		bar->setMenuEnabled({"Misc"}, false);
 	}
 }
 
@@ -1704,59 +1707,19 @@ void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
 
 	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
-	auto button = tgui::Button::create();
-	auto renderer = button->getRenderer();
 
-	renderer->setBackgroundColor({0x00, 0xFF, 0x00, 0x4C});
-	renderer->setBackgroundColorDown({0x00, 0xFF, 0x00, 0xA0});
-	renderer->setBackgroundColorHover({0x00, 0xFF, 0x00, 0x80});
-	renderer->setBackgroundColorDisabled({0x00, 0xFF, 0x00, 0x4C});
-	renderer->setBackgroundColorFocused({0x00, 0xFF, 0x00, 0xA0});
-	renderer->setBorderColor({0x00, 0xFF, 0x00});
-	renderer->setBorderColorDown({0x00, 0xFF, 0x00});
-	renderer->setBorderColorHover({0x00, 0xFF, 0x00});
-	renderer->setBorderColorDisabled({0x00, 0xFF, 0x00});
-	renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
-	renderer->setBorders(1);
-	button->setSize(box.size.x, box.size.y);
-	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
-	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
-		selectBox(self.lock(), &box);
-		canDrag = true;
-	}, std::weak_ptr<tgui::Button>(button));
-	boxes->add(button, "HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1));
 	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
-	selectBox(button, &box);
+	selectBox(boxes->get<tgui::Button>("HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
 }
 
 void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
 
-	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.back();
-	auto button = tgui::Button::create();
-	auto renderer = button->getRenderer();
+	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
 
-	renderer->setBackgroundColor({0xFF, 0x00, 0x00, 0x4C});
-	renderer->setBackgroundColorDown({0xFF, 0x00, 0x00, 0xA0});
-	renderer->setBackgroundColorHover({0xFF, 0x00, 0x00, 0x80});
-	renderer->setBackgroundColorDisabled({0xFF, 0x00, 0x00, 0x4C});
-	renderer->setBackgroundColorFocused({0xFF, 0x00, 0x00, 0xA0});
-	renderer->setBorderColor({0xFF, 0x00, 0x00});
-	renderer->setBorderColorDown({0xFF, 0x00, 0x00});
-	renderer->setBorderColorHover({0xFF, 0x00, 0x00});
-	renderer->setBorderColorDisabled({0xFF, 0x00, 0x00});
-	renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
-	renderer->setBorders(1);
-	button->setSize(box.size.x, box.size.y);
-	button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
-	button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
-		selectBox(self.lock(), &box);
-		canDrag = true;
-	}, std::weak_ptr<tgui::Button>(button));
-	boxes->add(button, "HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.size() - 1));
 	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
-	selectBox(button, &box);
+	selectBox(boxes->get<tgui::Button>("HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
 }
 
 void	removeFrameCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
@@ -1801,6 +1764,68 @@ void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject
 	refreshRightPanel(gui, object);
 }
 
+void	copyBoxesFromFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes, Battle::FrameData &other)
+{
+	auto &frame = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+	frame.hurtBoxes = other.hurtBoxes;
+	frame.hitBoxes = other.hitBoxes;
+	refreshBoxes(boxes, frame, object);
+}
+
+void	copyBoxesFromLastFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	if (object->_animation)
+		return;
+	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation - 1]);
+}
+
+void	copyBoxesFromNextFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	if (object->_animation >= object->_moves.at(object->_action)[object->_actionBlock].size() - 1)
+		return;
+	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation + 1]);
+}
+
+void	flattenCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, std::vector<std::vector<Battle::FrameData>> &action, Battle::FrameData *base)
+{
+	if (!base)
+		for (auto &block : action)
+			for (auto &frame : block)
+				if (frame.collisionBox) {
+					base = &frame;
+					goto allGood;
+				}
+	if (!base || !base->collisionBox)
+		return;
+
+allGood:
+	for (auto &block : action)
+		for (auto &frame : block)
+			if (frame.collisionBox && &frame != base) {
+				delete frame.collisionBox;
+				frame.collisionBox = new Battle::Box(*base->collisionBox);
+			}
+}
+
+void	flattenAllCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	for (auto &[id, action] : object->_moves) {
+		if (id < 100 && action.front().front().collisionBox && id) {
+			delete action.front().front().collisionBox;
+			action.front().front().collisionBox = new Battle::Box(*object->_moves.at(0)[0][0].collisionBox);
+		}
+		flattenCollisionBoxes(object, action, nullptr);
+	}
+	refreshBoxes(std::move(boxes), object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
+}
+
+void	flattenThisMoveCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+{
+	flattenCollisionBoxes(object, object->_moves.at(object->_action), &object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
+	refreshBoxes(std::move(boxes), object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
+}
+
 void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
@@ -1812,6 +1837,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 
 	bar->setMenuEnabled({"New"}, false);
 	bar->setMenuEnabled({"Remove"}, false);
+	bar->setMenuEnabled({"Misc"}, false);
 
 	bar->connectMenuItem({"File", "Save (Ctrl + S)"}, saveCallback, std::ref(object));
 	bar->connectMenuItem({"File", "Save as (Ctrl + Shift + S)"}, saveAsCallback, std::ref(object));
@@ -1829,6 +1855,11 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, removeAnimationBlockCallback, std::ref(object));
 	bar->connectMenuItem({"Remove", "Action (Ctrl + Del)"}, removeActionCallback, std::ref(gui), std::ref(object));
 	bar->connectMenuItem({"Remove", "Selected box (Del)"}, removeBoxCallback, boxes, std::ref(object), panel);
+
+	bar->connectMenuItem({"Misc", "Copy boxes from last frame"}, copyBoxesFromLastFrame, std::ref(object), boxes);
+	bar->connectMenuItem({"Misc", "Copy boxes from next frame"}, copyBoxesFromNextFrame, std::ref(object), boxes);
+	bar->connectMenuItem({"Misc", "Flatten all collision boxes"}, flattenAllCollisionBoxes, std::ref(object), boxes);
+	bar->connectMenuItem({"Misc", "Flatten this move collision boxes"}, flattenThisMoveCollisionBoxes, std::ref(object), boxes);
 
 	for (unsigned i = 0; i < resizeButtons.size(); i++) {
 		auto &resizeButton = resizeButtons[i];
