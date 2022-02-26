@@ -115,7 +115,7 @@ namespace Battle
 			}
 			if (status == sf::Socket::NotReady) {
 				if (client.lastPingId - client.pingId > 5) {
-					game.logger.debug("Too many unanswered pings: " + std::to_string(client.lastPingId) + " - " + std::to_string(client.pingId) + " > 20");
+					game.logger.debug("Too many unanswered pings: " + std::to_string(client.lastPingId) + " - " + std::to_string(client.pingId) + " > 5");
 					onDisconnect(client.addr, client.port);
 					return false;
 				}
@@ -232,7 +232,7 @@ namespace Battle
 			onConnect(client->addr, client->port);
 			break;
 		}
-		client->sock.unbind();
+		//client->sock.unbind();
 		return true;
 	}
 
@@ -346,6 +346,9 @@ namespace Battle
 		for (auto &client : clients)
 			client->sock.send(&packet, sizeof(packet), client->addr, client->port);
 
+		clients[0]->sock.unbind();
+		this->_initGGPO(port, spectators, false);
+		game.logger.debug("Adding GGPO players.");
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
@@ -370,8 +373,6 @@ namespace Battle
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1 + i], &trashCan);
 		}
 
-		this->_initGGPO(port, spectators, false);
-		game.logger.debug("Adding GGPO players.");
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], this->_delay);
 		game.logger.debug("All done!");
 	}
