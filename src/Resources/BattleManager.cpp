@@ -358,15 +358,18 @@ namespace Battle
 				collisions.emplace_back(&*rchr, &*lchr, rchr->getCurrentFrameData());
 
 			for (auto &platform: this->_platforms) {
-				if (lchr->hits(*platform))
-					collisions.emplace_back(&*lchr, &*platform, lchr->getCurrentFrameData());
-				if (platform->hits(*lchr))
-					collisions.emplace_back(&*platform, &*lchr, platform->getCurrentFrameData());
-
-				if (rchr->hits(*platform))
-					collisions.emplace_back(&*rchr, &*platform, rchr->getCurrentFrameData());
-				if (platform->hits(*rchr))
-					collisions.emplace_back(&*platform, &*rchr, platform->getCurrentFrameData());
+				if (rchr->_comboCtr == 0) {
+					if (lchr->hits(*platform))
+						collisions.emplace_back(&*lchr, &*platform, lchr->getCurrentFrameData());
+					if (platform->hits(*lchr))
+						collisions.emplace_back(&*platform, &*lchr, platform->getCurrentFrameData());
+				}
+				if (lchr->_comboCtr == 0) {
+					if (rchr->hits(*platform))
+						collisions.emplace_back(&*rchr, &*platform, rchr->getCurrentFrameData());
+					if (platform->hits(*rchr))
+						collisions.emplace_back(&*platform, &*rchr, platform->getCurrentFrameData());
+				}
 			}
 
 			for (auto &object: this->_objects) {
