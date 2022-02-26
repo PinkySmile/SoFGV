@@ -20,7 +20,7 @@
 #define WALL_SLAM_THRESHOLD 15
 #define GROUND_SLAM_THRESHOLD 20
 #define HJ_BUFFER 15
-#define DASH_BUFFER 10
+#define DASH_BUFFER 15
 #define QUARTER_CIRCLE_BUFFER 10
 #define DP_BUFFER 15
 #define HALF_CIRCLE_BUFFER 20
@@ -433,13 +433,7 @@ namespace Battle
 				if (this->_isGrounded())
 					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 				else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
-					if (!input.d & !input.n & !input.v & !input.m & !input.a & !input.s)
-						this->_forceStartMove(ACTION_FALLING);
-					else if (input.verticalAxis > 0 && this->_startMove(ACTION_UP_AIR_TECH));
-					else if (input.verticalAxis < 0 && this->_startMove(ACTION_DOWN_AIR_TECH));
-					else if (this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_FORWARD_AIR_TECH));
-					else if (this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
-					else
+					if (!this->_executeAirTech(input))
 						this->_forceStartMove(ACTION_FALLING);
 				}
 			}
@@ -1182,14 +1176,14 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > QUARTER_CIRCLE_BUFFER)
+				break;
 			found6 |= !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
 			if (found2 && found3 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > QUARTER_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1202,14 +1196,14 @@ namespace Battle
 		bool found4 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > QUARTER_CIRCLE_BUFFER)
+				break;
 			found4 |= !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
 			if (found2 && found1 && found4)
 				return true;
-			total += input.nbFrames;
-			if (total > QUARTER_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1222,14 +1216,14 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > DP_BUFFER)
+				break;
 			found3 |= input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
 			found6 |= found2 && !input.v && input.h > 0;
 			if (found2 && found3 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > DP_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1242,14 +1236,14 @@ namespace Battle
 		bool found4 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > DP_BUFFER)
+				break;
 			found1 |= input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (found2 && found1 && found4)
 				return true;
-			total += input.nbFrames;
-			if (total > DP_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1262,14 +1256,14 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > HALF_CIRCLE_BUFFER)
+				break;
 			found4 |= !input.v && input.h < 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found6 |= found2 && !input.v && input.h > 0;
 			if (found2 && found4 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1282,14 +1276,14 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > HALF_CIRCLE_BUFFER)
+				break;
 			found6 |= !input.v && input.h > 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (found2 && found4 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1303,15 +1297,15 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > HALF_CIRCLE_BUFFER)
+				break;
 			found4 |= !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
 			found3 |= found1 && input.v < 0 && input.h > 0;
 			found6 |= found3 && !input.v && input.h > 0;
 			if (found1 && found3 && found4 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1325,15 +1319,15 @@ namespace Battle
 		bool found6 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > HALF_CIRCLE_BUFFER)
+				break;
 			found6 |= !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
 			found1 |= found3 && input.v < 0 && input.h < 0;
 			found4 |= found1 && !input.v && input.h < 0;
 			if (found1 && found3 && found4 && found6)
 				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1349,6 +1343,9 @@ namespace Battle
 		bool found4_2 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > SPIRAL_BUFFER)
+				break;
 			found4_2 |= !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
 			found6_2 |= found8   && !input.v && input.h > 0;
@@ -1357,9 +1354,6 @@ namespace Battle
 			found6_1 |= found2   && !input.v && input.h > 0;
 			if (found6_1 && found2 && found4_1 && found6_2 && found8 && found4_2)
 				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1376,6 +1370,9 @@ namespace Battle
 		bool found4_2 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > SPIRAL_BUFFER)
+				break;
 			found4_2 |= !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
 			found6_2 |= found8   && !input.v && input.h > 0;
@@ -1385,9 +1382,6 @@ namespace Battle
 			found6_1 |= found3   && !input.v && input.h > 0;
 			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found8 && found4_2)
 				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1404,6 +1398,9 @@ namespace Battle
 		bool found4_2 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > SPIRAL_BUFFER)
+				break;
 			found4_2 |= !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
 			found9   |= found7   && input.v > 0 && input.h > 0;
@@ -1413,9 +1410,6 @@ namespace Battle
 			found6_1 |= found2   && !input.v && input.h > 0;
 			if (found6_1 && found2 && found4_1 && found6_2 && found9 && found7 && found4_2)
 				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1433,6 +1427,9 @@ namespace Battle
 		bool found4_2 = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > SPIRAL_BUFFER)
+				break;
 			found4_2 |= !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
 			found9   |= found7   && input.v > 0 && input.h > 0;
@@ -1443,9 +1440,6 @@ namespace Battle
 			found6_1 |= found3   && !input.v && input.h > 0;
 			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found9 && found7 && found4_2)
 				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1457,13 +1451,13 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > DASH_BUFFER)
+				return false;
 			if (found2 && foundOther && input.v < 0)
 				return true;
 			found2 |= input.v < 0;
 			foundOther |= found2 && input.v >= 0;
-			total += input.nbFrames;
-			if (total > DASH_BUFFER)
-				return false;
 		}
 		return false;
 	}
@@ -1475,15 +1469,15 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > DASH_BUFFER)
+				break;
 			if (input.h < 0 && input.v != 0)
 				return false;
 			if (found4 && foundOther && input.h < 0)
 				return true;
 			found4 |= input.h < 0;
 			foundOther |= found4 && input.h >= 0;
-			total += input.nbFrames;
-			if (total > DASH_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1495,15 +1489,15 @@ namespace Battle
 		bool foundOther = false;
 
 		for (auto &input : this->_lastInputs) {
+			total += input.nbFrames;
+			if (total > DASH_BUFFER)
+				break;
 			if (input.h > 0 && input.v != 0)
 				return false;
 			if (found6 && foundOther && input.h > 0)
 				return true;
 			found6 |= input.h > 0;
 			foundOther |= found6 && input.h <= 0;
-			total += input.nbFrames;
-			if (total > DASH_BUFFER)
-				break;
 		}
 		return false;
 	}
@@ -1514,12 +1508,12 @@ namespace Battle
 		bool found7 = false;
 
 		for (auto &input : this->_lastInputs) {
-			found7 |= input.v > 0 && input.h < 0;
-			if (input.v < 0 && found7)
-				return true;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
+			found7 |= input.v > 0 && input.h < 0;
+			if (input.v < 0 && found7)
+				return true;
 		}
 		return false;
 	}
@@ -1530,12 +1524,12 @@ namespace Battle
 		bool found8 = false;
 
 		for (auto &input : this->_lastInputs) {
-			found8 |= input.v > 0;
-			if (found8 && input.v < 0)
-				return true;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
+			found8 |= input.v > 0;
+			if (found8 && input.v < 0)
+				return true;
 		}
 		return false;
 	}
@@ -1546,12 +1540,12 @@ namespace Battle
 		bool found9 = false;
 
 		for (auto &input : this->_lastInputs) {
-			found9 |= input.v > 0 && input.h > 0;
-			if (found9 && input.v < 0)
-				return true;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
+			found9 |= input.v > 0 && input.h > 0;
+			if (found9 && input.v < 0)
+				return true;
 		}
 		return false;
 	}

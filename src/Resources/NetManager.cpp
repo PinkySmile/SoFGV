@@ -353,6 +353,7 @@ namespace Battle
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
+		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], this->_delay);
 
 		ggpoPlayers[1].type = GGPO_PLAYERTYPE_REMOTE;
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
@@ -373,7 +374,6 @@ namespace Battle
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1 + i], &trashCan);
 		}
 
-		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], this->_delay);
 		game.logger.debug("All done!");
 	}
 
@@ -485,13 +485,13 @@ namespace Battle
 			ggpoPlayers[1].type = GGPO_PLAYERTYPE_LOCAL;
 			ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 			ggpoPlayers[1].player_num = 2;
+			ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
 
 			game.logger.info("Fighting " + host.toString());
 			this->_initGGPO(10800, 0, false);
 			game.logger.debug("Adding GGPO players.");
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
-			ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
 			game.logger.debug("All done!");
 		} else
 			this->_initGGPO(10800, 0, true, host.toString(), port);
