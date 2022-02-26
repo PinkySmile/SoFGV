@@ -89,6 +89,7 @@ namespace Battle
 	bool NetManager::_tickClient(
 		Client &client,
 		size_t index,
+		sf::UdpSocket &sock,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
 	)
@@ -99,7 +100,7 @@ namespace Battle
 		while (true) {
 			auto ip = client.addr;
 			unsigned short port = client.port;
-			auto status = client.sock.receive(&packet, sizeof(packet), recvSize, ip, port);
+			auto status = sock.receive(&packet, sizeof(packet), recvSize, ip, port);
 
 			if (!this->_host) {
 				game.logger.info("Host canceled");
@@ -109,7 +110,7 @@ namespace Battle
 				packet.op = OPCODE_PING;
 				packet.pingId = client.lastPingId++;
 				game.logger.debug("Send PING to " + client.addr.toString() + ":" + std::to_string(client.port));
-				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
+				sock.send(&packet, sizeof(packet), client.addr, client.port);
 				client.pingClock2.restart();
 				client.pingClock.restart();
 			}
@@ -126,7 +127,7 @@ namespace Battle
 				memset(&packet, 0, sizeof(packet));
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_BAD_PACKET;
-				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
+				sock.send(&packet, sizeof(packet), client.addr, client.port);
 				continue;
 			}
 			if (packet.op == OPCODE_QUIT) {
@@ -140,7 +141,7 @@ namespace Battle
 				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
-				client.sock.send(&packet, sizeof(packet), client.addr, client.port);
+				sock.send(&packet, sizeof(packet), client.addr, client.port);
 				continue;
 			}
 			if (packet.pingId >= client.pingId) {
@@ -157,6 +158,7 @@ namespace Battle
 
 	void NetManager::_tickClients(
 		std::vector<std::shared_ptr<Client>> &otherClients,
+		sf::UdpSocket &sock,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
 	)
@@ -164,7 +166,7 @@ namespace Battle
 		for (size_t i = 0; i < otherClients.size(); i++) {
 			auto client = otherClients[i];
 
-			if (!this->_tickClient(*client, i, onDisconnect, pingUpdate)) {
+			if (!this->_tickClient(*client, i, sock, onDisconnect, pingUpdate)) {
 				if (!this->_host)
 					return;
 				game.logger.debug("Disconnected.");
@@ -180,6 +182,7 @@ namespace Battle
 		std::vector<std::shared_ptr<Client>> &otherClients,
 		unsigned short port,
 		bool spectator,
+		sf::UdpSocket &sock,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
 		const std::function<void (Client &, size_t, unsigned)> &pingUpdate
@@ -188,20 +191,18 @@ namespace Battle
 		Packet packet;
 		size_t recvSize;
 
-		game.logger.info("Bind socket on port " + std::to_string(port));
 		client = std::make_shared<Client>();
-		client->sock.bind(port);
-		client->sock.setBlocking(false);
+		sock.setBlocking(false);
 		while (true) {
 			sf::Socket::Status status;
 
 			do {
 				client->addr = sf::IpAddress::Any;
 				client->port = port;
-				status = client->sock.receive(&packet, sizeof(packet), recvSize, client->addr, client->port);
+				status = sock.receive(&packet, sizeof(packet), recvSize, client->addr, client->port);
 				if (!this->_host)
 					return false;
-				this->_tickClients(otherClients, onDisconnect, pingUpdate);
+				this->_tickClients(otherClients, sock, onDisconnect, pingUpdate);
 			} while (status == sf::Socket::NotReady);
 			game.logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));
 			if (recvSize != sizeof(Packet)) {
@@ -209,36 +210,37 @@ namespace Battle
 				memset(&packet, 0, sizeof(packet));
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_BAD_PACKET;
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
 				continue;
 			}
 			if (packet.op != OPCODE_HELLO) {
 				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
 				continue;
 			}
 			if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) != 0) {
 				game.logger.error("Version mismatch (expected \"" VERSION_STR "\" but got \"" + std::string(packet.versionString) + "\")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_VERSION_MISMATCH;
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
 				continue;
 			}
 			packet.op = OPCODE_OLLEH;
 			packet.spectator = spectator;
-			client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+			sock.send(&packet, sizeof(packet), client->addr, client->port);
 			onConnect(client->addr, client->port);
 			break;
 		}
-		//client->sock.unbind();
+		//sock.unbind();
 		return true;
 	}
 
 	bool NetManager::_acceptSpectators(
 		std::vector<std::shared_ptr<Client>> &clients,
 		unsigned short port,
+		sf::UdpSocket &sock,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 		const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
 		const std::function<void (Client &, size_t, unsigned)> &pingUpdate,
@@ -250,7 +252,7 @@ namespace Battle
 
 		game.logger.debug("Waiting for " + std::to_string(spectatorCount) + " (" + std::to_string(clients.size()) + ")");
 		while (clients.size() <= spectatorCount) {
-			this->_acceptClientConnection(tmp, clients, port, false, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
+			this->_acceptClientConnection(tmp, clients, port, false, sock, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
 				onDisconnect(addr, port);
 				if (clients[0]->addr == addr && clients[0]->port == port)
 					restart = false;
@@ -275,17 +277,20 @@ namespace Battle
 	{
 		Packet packet;
 		bool restart;
+		sf::UdpSocket sock;
 		std::shared_ptr<Client> tmp;
 		std::vector<std::shared_ptr<Client>> clients;
 		std::vector<GGPOPlayer> ggpoPlayers{2 + spectators};
 
 		this->_host = true;
+		game.logger.info("Bind socket on port " + std::to_string(port));
+		sock.bind(port);
 	start:
 		restart = false;
 		do {
 			if (!this->_host)
 				return;
-			this->_acceptClientConnection(tmp, clients, port, false, onDisconnect, onConnect, [&pingUpdate](Client &, size_t index, unsigned ping){
+			this->_acceptClientConnection(tmp, clients, port, false, sock, onDisconnect, onConnect, [&pingUpdate](Client &, size_t index, unsigned ping){
 				if (!index)
 					pingUpdate(ping);
 			});
@@ -297,22 +302,22 @@ namespace Battle
 			packet.currentSpecs = clients.size() - 1;
 			packet.maxSpec = spectators;
 			for (auto &client : clients)
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
-		} while (!this->_acceptSpectators(clients, port, [&onDisconnect, &spectatorUpdate, &clients, spectators, &packet](const sf::IpAddress &ip, unsigned short port){
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
+		} while (!this->_acceptSpectators(clients, port, sock, [&onDisconnect, &spectatorUpdate, &clients, spectators, &packet, &sock](const sf::IpAddress &ip, unsigned short port){
 			spectatorUpdate(clients.size() - 1, spectators);
 			packet.op = OPCODE_WAIT;
 			packet.currentSpecs = clients.size() - 1;
 			packet.maxSpec = spectators;
 			for (auto &client : clients)
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
 			onDisconnect(ip, port);
-		}, [&spectatorUpdate, &clients, spectators, &packet](const sf::IpAddress &, unsigned short){
+		}, [&spectatorUpdate, &clients, spectators, &packet, &sock](const sf::IpAddress &, unsigned short){
 			spectatorUpdate(clients.size() - 1, spectators);
 			packet.op = OPCODE_WAIT;
 			packet.currentSpecs = clients.size();
 			packet.maxSpec = spectators;
 			for (auto &client : clients)
-				client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+				sock.send(&packet, sizeof(packet), client->addr, client->port);
 		}, [&pingUpdate](Client &, size_t index, unsigned ping){
 			if (!index)
 				pingUpdate(ping);
@@ -320,7 +325,7 @@ namespace Battle
 
 		this->_delay = 0;
 		while (this->_delay == 0) {
-			this->_tickClients(clients, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
+			this->_tickClients(clients, sock, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
 				onDisconnect(addr, port);
 				if (clients[0]->addr == addr && clients[0]->port == port)
 					restart = true;
@@ -334,7 +339,7 @@ namespace Battle
 			if (restart) {
 				packet.op = OPCODE_QUIT;
 				for (auto &client : clients)
-					client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+					sock.send(&packet, sizeof(packet), client->addr, client->port);
 				clients.clear();
 				goto start;
 			}
@@ -344,9 +349,9 @@ namespace Battle
 		packet.op = OPCODE_GAME_START;
 		packet.delay = this->_delay;
 		for (auto &client : clients)
-			client->sock.send(&packet, sizeof(packet), client->addr, client->port);
+			sock.send(&packet, sizeof(packet), client->addr, client->port);
 
-		clients[0]->sock.unbind();
+		sock.unbind();
 		this->_initGGPO(port, spectators, false);
 		game.logger.debug("Adding GGPO players.");
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;

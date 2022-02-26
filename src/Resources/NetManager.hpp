@@ -108,7 +108,6 @@ namespace Battle
 			unsigned pingId = 0;
 			sf::Clock pingClock;
 			sf::Clock pingClock2;
-			sf::UdpSocket sock;
 			sf::IpAddress addr;
 			unsigned short port;
 		};
@@ -118,11 +117,13 @@ namespace Battle
 		bool _tickClient(
 			Client &client,
 			size_t index,
+			sf::UdpSocket &sock,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
 		);
 		void _tickClients(
 			std::vector<std::shared_ptr<Client>> &otherClients,
+			sf::UdpSocket &sock,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
 		);
@@ -131,6 +132,7 @@ namespace Battle
 			std::vector<std::shared_ptr<Client>> &otherClients,
 			unsigned short port,
 			bool spectator,
+			sf::UdpSocket &sock,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
 			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
@@ -138,6 +140,7 @@ namespace Battle
 		bool _acceptSpectators(
 			std::vector<std::shared_ptr<Client>> &clients,
 			unsigned short port,
+			sf::UdpSocket &sock,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
 			const std::function<void (Client &, size_t, unsigned)> &pingUpdate,
