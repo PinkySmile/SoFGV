@@ -100,8 +100,21 @@ namespace Battle
 		while (true) {
 			auto ip = client.addr;
 			unsigned short port = client.port;
-			auto status = sock.receive(&packet, sizeof(packet), recvSize, ip, port);
+			auto status = sf::Socket::Done;
 
+			for (size_t i = 0; i < this->_packetQueue.size(); i++) {
+				auto &pack = this->_packetQueue[i];
+
+				if (std::get<0>(pack) == ip && std::get<1>(pack)) {
+					packet = std::get<2>(pack);
+					recvSize = std::get<3>(pack);
+					this->_packetQueue.erase(this->_packetQueue.begin() + i);
+					goto found;
+				}
+			}
+			status = sock.receive(&packet, sizeof(packet), recvSize, ip, port);
+
+		found:
 			if (!this->_host) {
 				game.logger.info("Host canceled");
 				return false;
@@ -202,6 +215,14 @@ namespace Battle
 				status = sock.receive(&packet, sizeof(packet), recvSize, client->addr, client->port);
 				if (!this->_host)
 					return false;
+				for (auto &cli : otherClients) {
+					if (cli->addr == client->addr && cli->port == client->port) {
+						this->_packetQueue.emplace_back(cli->addr, cli->port, packet, recvSize);
+						status = sf::Socket::NotReady;
+						goto found;
+					}
+				}
+			found:
 				this->_tickClients(otherClients, sock, onDisconnect, pingUpdate);
 			} while (status == sf::Socket::NotReady);
 			game.logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));

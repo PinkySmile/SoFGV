@@ -90,6 +90,7 @@ namespace Battle
 		volatile bool _host = false;
 		volatile bool _connect = false;
 		volatile unsigned _delay = 0;
+		std::vector<std::tuple<sf::IpAddress, unsigned short, NetManager::Packet, size_t>> _packetQueue;
 		unsigned _timer = 0;
 		sf::Texture _interruptedLogo;
 		sf::Sprite _interruptedSprite;
