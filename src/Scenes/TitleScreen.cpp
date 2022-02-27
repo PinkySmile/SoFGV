@@ -271,6 +271,8 @@ namespace Battle
 		if (this->_changeInput && this->_changingInputs) {
 			if (this->_usingKeyboard)
 				return;
+			if (std::abs(ev.position) < THRESHOLD)
+				return;
 
 			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
 
