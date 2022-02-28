@@ -73,6 +73,10 @@ namespace Battle
 				Opcode _6;
 				unsigned delay;
 			};
+			struct {
+				Opcode _7;
+				char clientIp[16];
+			};
 		};
 
 #pragma pack(push, 1)
@@ -86,6 +90,7 @@ namespace Battle
 		volatile bool _host = false;
 		volatile bool _connect = false;
 		volatile unsigned _delay = 0;
+		std::vector<std::tuple<sf::IpAddress, unsigned short, NetManager::Packet, size_t>> _packetQueue;
 		unsigned _timer = 0;
 		sf::Texture _interruptedLogo;
 		sf::Sprite _interruptedSprite;
@@ -99,8 +104,49 @@ namespace Battle
 		std::shared_ptr<IInput> _leftRealInput;
 		std::shared_ptr<IInput> _rightRealInput;
 
-		void _initGGPO(unsigned short port, unsigned int spectators);
+		struct Client {
+			unsigned lastPingId = 0;
+			unsigned pingId = 0;
+			sf::Clock pingClock;
+			sf::Clock pingClock2;
+			sf::IpAddress addr;
+			unsigned short port;
+		};
+
+		void _initGGPO(unsigned short port, unsigned int spectators, bool spectator, const std::string &host = "", unsigned short hostPort = 10800);
 		void _initGGPOSyncTest();
+		bool _tickClient(
+			Client &client,
+			size_t index,
+			sf::UdpSocket &sock,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
+		);
+		void _tickClients(
+			std::vector<std::shared_ptr<Client>> &otherClients,
+			sf::UdpSocket &sock,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
+		);
+		bool _acceptClientConnection(
+			std::shared_ptr<Client> &client,
+			std::vector<std::shared_ptr<Client>> &otherClients,
+			unsigned short port,
+			bool spectator,
+			sf::UdpSocket &sock,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (Client &, size_t, unsigned)> &pingUpdate
+		);
+		bool _acceptSpectators(
+			std::vector<std::shared_ptr<Client>> &clients,
+			unsigned short port,
+			sf::UdpSocket &sock,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
+			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (Client &, size_t, unsigned)> &pingUpdate,
+			unsigned spectatorCount
+		);
 
 		static void _checkPacket(const Packet &, size_t size);
 
@@ -133,6 +179,7 @@ namespace Battle
 			unsigned int spectators,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onDisconnect,
 			const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect,
+			const std::function<void (unsigned, unsigned)> &spectatorUpdate,
 			const std::function<void (unsigned)> &pingUpdate
 		);
 		void advanceState();

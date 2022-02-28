@@ -358,15 +358,18 @@ namespace Battle
 				collisions.emplace_back(&*rchr, &*lchr, rchr->getCurrentFrameData());
 
 			for (auto &platform: this->_platforms) {
-				if (lchr->hits(*platform))
-					collisions.emplace_back(&*lchr, &*platform, lchr->getCurrentFrameData());
-				if (platform->hits(*lchr))
-					collisions.emplace_back(&*platform, &*lchr, platform->getCurrentFrameData());
-
-				if (rchr->hits(*platform))
-					collisions.emplace_back(&*rchr, &*platform, rchr->getCurrentFrameData());
-				if (platform->hits(*rchr))
-					collisions.emplace_back(&*platform, &*rchr, platform->getCurrentFrameData());
+				if (rchr->_comboCtr == 0) {
+					if (lchr->hits(*platform))
+						collisions.emplace_back(&*lchr, &*platform, lchr->getCurrentFrameData());
+					if (platform->hits(*lchr))
+						collisions.emplace_back(&*platform, &*lchr, platform->getCurrentFrameData());
+				}
+				if (lchr->_comboCtr == 0) {
+					if (rchr->hits(*platform))
+						collisions.emplace_back(&*rchr, &*platform, rchr->getCurrentFrameData());
+					if (platform->hits(*rchr))
+						collisions.emplace_back(&*platform, &*rchr, platform->getCurrentFrameData());
+				}
 			}
 
 			for (auto &object: this->_objects) {
@@ -671,8 +674,13 @@ namespace Battle
 		//OD bar
 		rect.setOutlineThickness(0);
 		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
-		rect.setPosition(300 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, -562);
-		rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_maxOdCooldown, 12});
+		if (this->_leftCharacter->_odCooldown) {
+			rect.setPosition(300 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_barMaxOdCooldown, -562);
+			rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_barMaxOdCooldown, 12});
+		} else {
+			rect.setPosition(300 - 15 * FIRST_TO, -562);
+			rect.setSize({100.f, 12});
+		}
 		game.screen->draw(rect);
 		game.screen->textSize(10);
 		game.screen->fillColor(sf::Color::White);
@@ -819,7 +827,10 @@ namespace Battle
 		rect.setOutlineThickness(0);
 		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
 		rect.setPosition(600 + 15 * FIRST_TO, -562);
-		rect.setSize({static_cast<float>(100 - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_maxOdCooldown), 12});
+		if (this->_rightCharacter->_odCooldown)
+			rect.setSize({100.f - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_barMaxOdCooldown, 12});
+		else
+			rect.setSize({100, 12});
 		game.screen->draw(rect);
 		game.screen->textSize(10);
 		game.screen->fillColor(sf::Color::White);

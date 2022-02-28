@@ -3,9 +3,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <dbghelp.h>
+#include <crtdbg.h>
 #endif
 #include <sys/stat.h>
-#include <crtdbg.h>
 #include "Logger.hpp"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
@@ -27,6 +27,7 @@ std::string getLastError(int err = GetLastError())
 	LocalFree(s);
 	return str;
 #else
+#define MessageBox(...) ((void)0)
 std::string getLastError(int err = errno)
 {
 	return strerror(err);
@@ -158,7 +159,14 @@ void	run()
 	sf::Event event;
 
 	loadSettings();
-	Battle::game.font.loadFromFile(getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf"));
+#ifdef _WIN32
+	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
+#else
+	std::string font = "/usr/share/fonts/TTF/DejaVuSerif.ttf";
+#endif
+	if (getenv("BATTLE_FONT"))
+		font = getenv("BATTLE_FONT");
+	Battle::game.font.loadFromFile(font);
 	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9");
 	Battle::game.screen->setFont(Battle::game.font);
 	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);

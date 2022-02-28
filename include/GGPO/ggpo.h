@@ -27,6 +27,7 @@ extern "C" {
 #     define GGPO_API
 #  endif
 #else
+#  define __cdecl
 #  define GGPO_API
 #endif
 
@@ -60,7 +61,7 @@ typedef enum {
  *       In the game (e.g. in a 2 player game, either 1 or 2).
  *
  * If type == GGPO_PLAYERTYPE_REMOTE:
- * 
+ *
  * u.remote.ip_address:  The ip address of the ggpo session which will host this
  *       player.
  *
@@ -122,7 +123,7 @@ typedef enum {
  *
  * GGPO_EVENTCODE_CONNECTED_TO_PEER - Handshake with the game running on the
  * other side of the network has been completed.
- * 
+ *
  * GGPO_EVENTCODE_SYNCHRONIZING_WITH_PEER - Beginning the synchronization
  * process with the client on the other end of the networking.  The count
  * and total fields in the u.synchronizing struct of the GGPOEvent
@@ -134,7 +135,7 @@ typedef enum {
  * GGPO_EVENTCODE_RUNNING - All the clients have synchronized.  You may begin
  * sending inputs with ggpo_synchronize_inputs.
  *
- * GGPO_EVENTCODE_DISCONNECTED_FROM_PEER - The network connection on 
+ * GGPO_EVENTCODE_DISCONNECTED_FROM_PEER - The network connection on
  * the other end of the network has closed.
  *
  * GGPO_EVENTCODE_TIMESYNC - The time synchronziation code has determined
@@ -242,7 +243,7 @@ typedef struct {
     */
    bool (__cdecl *advance_frame)(int flags);
 
-   /* 
+   /*
     * on_event - Notification that something has happened.  See the GGPOEventCode
     * structure above for more information.
     */
@@ -369,7 +370,7 @@ GGPO_API GGPOErrorCode __cdecl ggpo_add_player(GGPOSession *session,
  */
 GGPO_API GGPOErrorCode __cdecl ggpo_start_synctest(GGPOSession **session,
                                                    GGPOSessionCallbacks *cb,
-                                                   char *game,
+                                                   const char *game,
                                                    int num_players,
                                                    int input_size,
                                                    int frames);
@@ -405,7 +406,7 @@ GGPO_API GGPOErrorCode __cdecl ggpo_start_spectating(GGPOSession **session,
                                                      int num_players,
                                                      int input_size,
                                                      unsigned short local_port,
-                                                     char *host_ip,
+                                                     const char *host_ip,
                                                      unsigned short host_port);
 
 /*
