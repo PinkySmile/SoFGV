@@ -372,7 +372,7 @@ namespace Battle
 		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
-		this->_lastInputs.push_back({0, 0, 0});
+		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, 0, 0});
 	}
 
 	void Character::render() const
@@ -495,15 +495,15 @@ namespace Battle
 			this->_processInput(input);
 		else {
 			if (this->_isGrounded())
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_VOID_OVERDRIVE));
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421v && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
+				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
 		this->_applyMoveAttributes();
@@ -594,11 +594,21 @@ namespace Battle
 		InputStruct input = this->_getInputs();
 
 		if (
+			!!input.n != this->_lastInputs.front().n ||
+			!!input.m != this->_lastInputs.front().m ||
+			!!input.s != this->_lastInputs.front().s ||
+			!!input.v != this->_lastInputs.front().o ||
+			!!input.d != this->_lastInputs.front().d ||
 			std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis) != this->_lastInputs.front().h ||
 			std::copysign(!!input.verticalAxis,   this->_dir * input.verticalAxis)   != this->_lastInputs.front().v
 		)
 			this->_lastInputs.push_front({
 				0,
+				!!input.n,
+				!!input.m,
+				!!input.s,
+				!!input.v,
+				!!input.d,
 				static_cast<char>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
 				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
 			});
@@ -607,7 +617,15 @@ namespace Battle
 			this->_lastInputs.front().nbFrames = 45;
 		this->_checkSpecialInputs();
 		this->_hasJumped &= input.verticalAxis > 0;
-		return input;
+		this->_inputBuffer.horizontalAxis = input.horizontalAxis;
+		this->_inputBuffer.verticalAxis = input.verticalAxis;
+		for (unsigned i = 2; i < sizeof(this->_inputBuffer) / sizeof(int); i++) {
+			if (((int *)&this->_inputBuffer)[i])
+				((int *)&this->_inputBuffer)[i]--;
+			else if (std::abs(((int *)&input)[i]) == 1)
+				((int *)&this->_inputBuffer)[i] = NORMAL_BUFFER;
+		}
+		return this->_inputBuffer;
 	}
 
 	bool Character::_executeAirborneMoves(const InputStruct &input)
@@ -615,64 +633,72 @@ namespace Battle
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 		        this->_executeAirTech(input) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_j6321469874M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_j6321469874M)) ||
+		        ((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_j6321469874N)) ||
+		        ((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_j6321469874N)) ||
+		        ((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_j6321469874V)) ||
+		        ((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_j6321469874V)) ||
+		        ((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_j6321469874S)) ||
+		        ((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_j6321469874S)) ||
+		        ((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_j6321469874M)) ||
+		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_j6321469874M)) ||
+			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_j6321469874D)) ||
+			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_j6321469874D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_j63214M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_j41236M)) ||
+		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_j63214N)) ||
+		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_j41236N)) ||
+		        ((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_j63214V)) ||
+		        ((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_j41236V)) ||
+		        ((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_j63214S)) ||
+		        ((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_j41236S)) ||
+		        ((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_j63214M)) ||
+		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_j41236M)) ||
+			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_j63214D)) ||
+			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_j41236D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_j623M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
+		        (this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623v && this->_startMove(ACTION_j623V)) ||
+		        (this->_specialInputs._421v && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623s && this->_startMove(ACTION_j623S)) ||
+		        (this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623m && this->_startMove(ACTION_j623M)) ||
+		        (this->_specialInputs._421m && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
+			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_j236M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_j214M)) ||
+		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
+		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
+		        (this->_specialInputs._236v && this->_startMove(ACTION_j236V)) ||
+		        (this->_specialInputs._214v && this->_startMove(ACTION_j214V)) ||
+		        (this->_specialInputs._236s && this->_startMove(ACTION_j236S)) ||
+		        (this->_specialInputs._214s && this->_startMove(ACTION_j214S)) ||
+		        (this->_specialInputs._236m && this->_startMove(ACTION_j236M)) ||
+		        (this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
+			(this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
+			(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
 
 		        this->_executeAirParry(input) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_j5M)) ||
+		        (input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
+		        (input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
+		        (input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6N)) ||
+		        (input.n && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
+		        (input.n &&                                                                      this->_startMove(ACTION_j5N)) ||
+		        (input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
+		        (input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
+		        (input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6V)) ||
+		        (input.v && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
+		        (input.v &&                                                                      this->_startMove(ACTION_j5V)) ||
+		        (input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8S)) ||
+		        (input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3S)) ||
+		        (input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6S)) ||
+		        (input.s && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2S)) ||
+		        (input.s &&                                                                      this->_startMove(ACTION_j5S)) ||
+		        (input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8M)) ||
+		        (input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3M)) ||
+		        (input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
+		        (input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2M)) ||
+		        (input.m &&                                                                      this->_startMove(ACTION_j5M)) ||
 			this->_executeAirDashes(input) ||
 		        this->_executeAirJump(input);
 	}
@@ -680,77 +706,73 @@ namespace Battle
 	bool Character::_executeGroundMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._624684  || this->_specialInputs._6314684)  && this->_startMove(ACTION_6321469874M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._6246974 || this->_specialInputs._63146974) && this->_startMove(ACTION_6321469874M)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._624 || this->_specialInputs._6314) &&         this->_startMove(ACTION_63214M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && (this->_specialInputs._426 || this->_specialInputs._4136) &&         this->_startMove(ACTION_41236M)) ||
+			((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
+			((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
+			((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_6321469874V)) ||
+			((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_6321469874V)) ||
+			((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_6321469874S)) ||
+			((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_6321469874S)) ||
+			((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_6321469874M)) ||
+			((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_6321469874M)) ||
+			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_6321469874D)) ||
+			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_6321469874D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._623 &&                                         this->_startMove(ACTION_623M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421 &&                                         this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
+			((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_63214N)) ||
+			((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_41236N)) ||
+			((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_63214V)) ||
+			((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_41236V)) ||
+			((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_63214S)) ||
+			((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_41236S)) ||
+			((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_63214M)) ||
+			((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_41236M)) ||
+			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_63214D)) ||
+			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_41236D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._236 &&                                         this->_startMove(ACTION_236M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._214 &&                                         this->_startMove(ACTION_214M)) ||
+			(this->_specialInputs._623n && this->_startMove(ACTION_623N)) ||
+			(this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623v && this->_startMove(ACTION_623V)) ||
+			(this->_specialInputs._421v && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623s && this->_startMove(ACTION_623S)) ||
+			(this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623m && this->_startMove(ACTION_623M)) ||
+			(this->_specialInputs._421m && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623d && this->_startMove(ACTION_623D)) ||
+			(this->_specialInputs._421d && this->_startMove(ACTION_421D)) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c64 &&                                         this->_startMove(ACTION_c64M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c46 &&                                         this->_startMove(ACTION_c46M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._c28 &&                                         this->_startMove(ACTION_c28M)) ||
+			(this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
+			(this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
+			(this->_specialInputs._236v && this->_startMove(ACTION_236V)) ||
+			(this->_specialInputs._214v && this->_startMove(ACTION_214V)) ||
+			(this->_specialInputs._236s && this->_startMove(ACTION_236S)) ||
+			(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
+			(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
+			(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
+			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
+			(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
 
-		        this->_executeGroundParry(input) ||
+			this->_executeGroundParry(input) ||
 
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
-		        (input.n && input.n <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5N)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2V)) ||
-		        (input.v && input.v <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5V)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2S)) ||
-		        (input.s && input.s <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5S)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2M)) ||
-		        (input.m && input.m <= NORMAL_BUFFER &&                                                                      this->_startMove(ACTION_5M)) ||
+			(input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
+			(input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
+			(input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
+			(input.n && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
+			(input.n &&                                                                      this->_startMove(ACTION_5N)) ||
+			(input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
+			(input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
+			(input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
+			(input.v && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2V)) ||
+			(input.v &&                                                                      this->_startMove(ACTION_5V)) ||
+			(input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8S)) ||
+			(input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3S)) ||
+			(input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6S)) ||
+			(input.s && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2S)) ||
+			(input.s &&                                                                      this->_startMove(ACTION_5S)) ||
+			(input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8M)) ||
+			(input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3M)) ||
+			(input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
+			(input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2M)) ||
+			(input.m &&                                                                      this->_startMove(ACTION_5M)) ||
 		        this->_executeGroundJump(input)   ||
 		        this->_executeGroundDashes(input) ||
 		        this->_executeCrouch(input)       ||
@@ -831,7 +853,7 @@ namespace Battle
 			if (this->_hp <= 0)
 				return Object::_onMoveEnd(lastData);
 
-			auto inputs = this->_getInputs();
+			auto inputs = this->_inputBuffer;
 
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
@@ -1143,6 +1165,12 @@ namespace Battle
 
 	void Character::_checkSpecialInputs()
 	{
+		std::function<bool (const LastInput &)> getInputN = [](const LastInput &input) { return input.n; };
+		std::function<bool (const LastInput &)> getInputM = [](const LastInput &input) { return input.m; };
+		std::function<bool (const LastInput &)> getInputS = [](const LastInput &input) { return input.s; };
+		std::function<bool (const LastInput &)> getInputV = [](const LastInput &input) { return input.o; };
+		std::function<bool (const LastInput &)> getInputD = [](const LastInput &input) { return input.d; };
+
 		this->_clearLastInputs();
 		this->_specialInputs._value = 0;
 		this->_specialInputs._22 = this->_check22Input();
@@ -1151,32 +1179,94 @@ namespace Battle
 		this->_specialInputs._27 = this->_check27Input();
 		this->_specialInputs._28 = this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP;
 		this->_specialInputs._29 = this->_check29Input();
-		this->_specialInputs._c28 = this->_checkc28Input();
-		this->_specialInputs._c46 = this->_checkc46Input();
-		this->_specialInputs._c64 = this->_checkc64Input();
-		this->_specialInputs._236 = this->_check236Input();
-		this->_specialInputs._214 = this->_check214Input();
-		this->_specialInputs._623 = this->_check623Input();
-		this->_specialInputs._421 = this->_check421Input();
-		this->_specialInputs._624 = this->_check624Input();
-		this->_specialInputs._426 = this->_check426Input();
-		this->_specialInputs._6314 = this->_check6314Input();
-		this->_specialInputs._4136 = this->_check4136Input();
-		this->_specialInputs._624684 = this->_check624684Input();
-		this->_specialInputs._6314684 = this->_check6314684Input();
-		this->_specialInputs._6246974 = this->_check6246974Input();
-		this->_specialInputs._63146974 = this->_check63146974Input();
+		this->_specialInputs._c28n = this->_checkc28Input(getInputN);
+		this->_specialInputs._c28m = this->_checkc28Input(getInputM);
+		this->_specialInputs._c28s = this->_checkc28Input(getInputS);
+		this->_specialInputs._c28v = this->_checkc28Input(getInputV);
+		this->_specialInputs._c28d = this->_checkc28Input(getInputD);
+		this->_specialInputs._c46n = this->_checkc46Input(getInputN);
+		this->_specialInputs._c46m = this->_checkc46Input(getInputM);
+		this->_specialInputs._c46s = this->_checkc46Input(getInputS);
+		this->_specialInputs._c46v = this->_checkc46Input(getInputV);
+		this->_specialInputs._c46d = this->_checkc46Input(getInputD);
+		this->_specialInputs._c64n = this->_checkc64Input(getInputN);
+		this->_specialInputs._c64m = this->_checkc64Input(getInputM);
+		this->_specialInputs._c64s = this->_checkc64Input(getInputS);
+		this->_specialInputs._c64v = this->_checkc64Input(getInputV);
+		this->_specialInputs._c64d = this->_checkc64Input(getInputD);
+		this->_specialInputs._236n = this->_check236Input(getInputN);
+		this->_specialInputs._236m = this->_check236Input(getInputM);
+		this->_specialInputs._236s = this->_check236Input(getInputS);
+		this->_specialInputs._236v = this->_check236Input(getInputV);
+		this->_specialInputs._236d = this->_check236Input(getInputD);
+		this->_specialInputs._214n = this->_check214Input(getInputN);
+		this->_specialInputs._214m = this->_check214Input(getInputM);
+		this->_specialInputs._214s = this->_check214Input(getInputS);
+		this->_specialInputs._214v = this->_check214Input(getInputV);
+		this->_specialInputs._214d = this->_check214Input(getInputD);
+		this->_specialInputs._623n = this->_check623Input(getInputN);
+		this->_specialInputs._623m = this->_check623Input(getInputM);
+		this->_specialInputs._623s = this->_check623Input(getInputS);
+		this->_specialInputs._623v = this->_check623Input(getInputV);
+		this->_specialInputs._623d = this->_check623Input(getInputD);
+		this->_specialInputs._421n = this->_check421Input(getInputN);
+		this->_specialInputs._421m = this->_check421Input(getInputM);
+		this->_specialInputs._421s = this->_check421Input(getInputS);
+		this->_specialInputs._421v = this->_check421Input(getInputV);
+		this->_specialInputs._421d = this->_check421Input(getInputD);
+		this->_specialInputs._624n = this->_check624Input(getInputN);
+		this->_specialInputs._624m = this->_check624Input(getInputM);
+		this->_specialInputs._624s = this->_check624Input(getInputS);
+		this->_specialInputs._624v = this->_check624Input(getInputV);
+		this->_specialInputs._624d = this->_check624Input(getInputD);
+		this->_specialInputs._426n = this->_check426Input(getInputN);
+		this->_specialInputs._426m = this->_check426Input(getInputM);
+		this->_specialInputs._426s = this->_check426Input(getInputS);
+		this->_specialInputs._426v = this->_check426Input(getInputV);
+		this->_specialInputs._426d = this->_check426Input(getInputD);
+		this->_specialInputs._6314n = this->_check6314Input(getInputN);
+		this->_specialInputs._6314m = this->_check6314Input(getInputM);
+		this->_specialInputs._6314s = this->_check6314Input(getInputS);
+		this->_specialInputs._6314v = this->_check6314Input(getInputV);
+		this->_specialInputs._6314d = this->_check6314Input(getInputD);
+		this->_specialInputs._4136n = this->_check4136Input(getInputN);
+		this->_specialInputs._4136m = this->_check4136Input(getInputM);
+		this->_specialInputs._4136s = this->_check4136Input(getInputS);
+		this->_specialInputs._4136v = this->_check4136Input(getInputV);
+		this->_specialInputs._4136d = this->_check4136Input(getInputD);
+		this->_specialInputs._624684n = this->_check624684Input(getInputN);
+		this->_specialInputs._624684m = this->_check624684Input(getInputM);
+		this->_specialInputs._624684s = this->_check624684Input(getInputS);
+		this->_specialInputs._624684v = this->_check624684Input(getInputV);
+		this->_specialInputs._624684d = this->_check624684Input(getInputD);
+		this->_specialInputs._6314684n = this->_check6314684Input(getInputN);
+		this->_specialInputs._6314684m = this->_check6314684Input(getInputM);
+		this->_specialInputs._6314684s = this->_check6314684Input(getInputS);
+		this->_specialInputs._6314684v = this->_check6314684Input(getInputV);
+		this->_specialInputs._6314684d = this->_check6314684Input(getInputD);
+		this->_specialInputs._6246974n = this->_check6246974Input(getInputN);
+		this->_specialInputs._6246974m = this->_check6246974Input(getInputM);
+		this->_specialInputs._6246974s = this->_check6246974Input(getInputS);
+		this->_specialInputs._6246974v = this->_check6246974Input(getInputV);
+		this->_specialInputs._6246974d = this->_check6246974Input(getInputD);
+		this->_specialInputs._63146974n = this->_check63146974Input(getInputN);
+		this->_specialInputs._63146974m = this->_check63146974Input(getInputM);
+		this->_specialInputs._63146974s = this->_check63146974Input(getInputS);
+		this->_specialInputs._63146974v = this->_check63146974Input(getInputV);
+		this->_specialInputs._63146974d = this->_check63146974Input(getInputD);
 	}
 
-	bool Character::_check236Input()
+	bool Character::_check236Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found3 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found6 |= !input.v && input.h > 0;
+			foundAtk |= atkInput(input);
+			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
 			if (found2 && found3 && found6)
@@ -1188,15 +1278,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check214Input()
+	bool Character::_check214Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found1 = false;
 		bool found4 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
 			if (found2 && found1 && found4)
@@ -1208,15 +1300,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check623Input()
+	bool Character::_check623Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found3 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found3 |= input.v < 0 && input.h > 0;
+			foundAtk |= atkInput(input);
+			found3 |= foundAtk && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
 			found6 |= found2 && !input.v && input.h > 0;
 			if (found2 && found3 && found6)
@@ -1228,15 +1322,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check421Input()
+	bool Character::_check421Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found1 = false;
 		bool found4 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found1 |= input.v < 0 && input.h < 0;
+			foundAtk |= atkInput(input);
+			found1 |= foundAtk && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (found2 && found1 && found4)
@@ -1248,15 +1344,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check624Input()
+	bool Character::_check624Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found4 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4 |= foundAtk && !input.v && input.h < 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found6 |= found2 && !input.v && input.h > 0;
 			if (found2 && found4 && found6)
@@ -1268,15 +1366,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check426Input()
+	bool Character::_check426Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found2 = false;
 		bool found4 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found6 |= !input.v && input.h > 0;
+			foundAtk |= atkInput(input);
+			found6 |= foundAtk && !input.v && input.h > 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (found2 && found4 && found6)
@@ -1288,16 +1388,18 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check6314Input()
+	bool Character::_check6314Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found1 = false;
 		bool found3 = false;
 		bool found4 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
 			found3 |= found1 && input.v < 0 && input.h > 0;
 			found6 |= found3 && !input.v && input.h > 0;
@@ -1310,16 +1412,18 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check4136Input()
+	bool Character::_check4136Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found1 = false;
 		bool found3 = false;
 		bool found4 = false;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found6 |= !input.v && input.h > 0;
+			foundAtk |= atkInput(input);
+			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
 			found1 |= found3 && input.v < 0 && input.h < 0;
 			found4 |= found1 && !input.v && input.h < 0;
@@ -1332,7 +1436,7 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check624684Input()
+	bool Character::_check624684Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1341,9 +1445,11 @@ namespace Battle
 		bool found6_2 = false;
 		bool found8 = false;
 		bool found4_2 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4_2 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
 			found6_2 |= found8   && !input.v && input.h > 0;
 			found4_1 |= found6_2 && !input.v && input.h < 0;
@@ -1358,7 +1464,7 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check6314684Input()
+	bool Character::_check6314684Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1368,9 +1474,11 @@ namespace Battle
 		bool found6_2 = false;
 		bool found8 = false;
 		bool found4_2 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4_2 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
 			found6_2 |= found8   && !input.v && input.h > 0;
 			found4_1 |= found6_2 && !input.v && input.h < 0;
@@ -1386,7 +1494,7 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check6246974Input()
+	bool Character::_check6246974Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1396,9 +1504,11 @@ namespace Battle
 		bool found9 = false;
 		bool found7 = false;
 		bool found4_2 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4_2 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
 			found9   |= found7   && input.v > 0 && input.h > 0;
 			found6_2 |= found9   && !input.v && input.h > 0;
@@ -1414,7 +1524,7 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_check63146974Input()
+	bool Character::_check63146974Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned total = 0;
 		bool found6_1 = false;
@@ -1425,9 +1535,11 @@ namespace Battle
 		bool found9 = false;
 		bool found7 = false;
 		bool found4_2 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4_2 |= !input.v && input.h < 0;
+			foundAtk |= atkInput(input);
+			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
 			found9   |= found7   && input.v > 0 && input.h > 0;
 			found6_2 |= found9   && !input.v && input.h > 0;
@@ -1550,15 +1662,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_checkc28Input()
+	bool Character::_checkc28Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
 		unsigned total = 0;
 		bool found8 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found8 |= input.v > 0;
+			foundAtk |= atkInput(input);
+			found8 |= foundAtk && input.v > 0;
 			if (input.v < 0) {
 				timer += input.nbFrames;
 				timer2 = 0;
@@ -1576,15 +1690,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_checkc46Input()
+	bool Character::_checkc46Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
 		unsigned total = 0;
 		bool found6 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found6 |= input.h > 0;
+			foundAtk |= atkInput(input);
+			found6 |= foundAtk && input.h > 0;
 			if (input.h < 0) {
 				timer += input.nbFrames;
 				timer2 = 0;
@@ -1602,15 +1718,17 @@ namespace Battle
 		return false;
 	}
 
-	bool Character::_checkc64Input()
+	bool Character::_checkc64Input(const std::function<bool (const LastInput &)> &atkInput)
 	{
 		unsigned timer2 = 0;
 		unsigned timer = 0;
 		unsigned total = 0;
 		bool found4 = false;
+		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
-			found4 |= input.h < 0;
+			foundAtk |= atkInput(input);
+			found4 |= foundAtk && input.h < 0;
 			if (input.h > 0) {
 				timer += input.nbFrames;
 				timer2 = 0;
@@ -2350,7 +2468,7 @@ namespace Battle
 
 		Object::_applyMoveAttributes();
 
-		auto input = this->_getInputs();
+		auto input = this->_inputBuffer;
 
 		if (
 			((input.n || input.v || input.m || input.s) && input.horizontalAxis * this->_dir < 0) ||
