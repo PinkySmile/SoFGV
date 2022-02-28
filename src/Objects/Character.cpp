@@ -625,7 +625,7 @@ namespace Battle
 			else if (std::abs(((int *)&input)[i]) == 1)
 				((int *)&this->_inputBuffer)[i] = NORMAL_BUFFER;
 		}
-		return this->_getInputs();
+		return this->_inputBuffer;
 	}
 
 	bool Character::_executeAirborneMoves(const InputStruct &input)
@@ -853,7 +853,7 @@ namespace Battle
 			if (this->_hp <= 0)
 				return Object::_onMoveEnd(lastData);
 
-			auto inputs = this->_getInputs();
+			auto inputs = this->_inputBuffer;
 
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
@@ -2468,7 +2468,7 @@ namespace Battle
 
 		Object::_applyMoveAttributes();
 
-		auto input = this->_getInputs();
+		auto input = this->_inputBuffer;
 
 		if (
 			((input.n || input.v || input.m || input.s) && input.horizontalAxis * this->_dir < 0) ||
@@ -2744,7 +2744,7 @@ namespace Battle
 
 	InputStruct Character::_getInputs()
 	{
-		auto result = this->_inputBuffer;
+		auto result = this->_input->getInputs();
 
 		if (this->_dummyState == DUMMYSTATE_JUMP)
 			result.verticalAxis = 1;
