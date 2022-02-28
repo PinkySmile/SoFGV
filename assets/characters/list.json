@@ -11,6 +11,8 @@
         "guard_bar": 900,
         "guard_break_cooldown": 600,
         "overdrive_cooldown": 3600,
+        "ground_drag": 0.75,
+        "air_drag": {"x": 0.99, "y": 1},
         "gravity": {"x": 0, "y": -1},
         "icon": "assets/characters/test/icon.png",
         "framedata": "assets/characters/test/framedata.json",

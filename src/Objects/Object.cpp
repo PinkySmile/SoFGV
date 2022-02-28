@@ -172,8 +172,6 @@ namespace Battle
 		this->_rotation = this->_baseRotation;
 		this->_gravity = this->_baseGravity;
 		this->_hp = this->_baseHp;
-		this->_airDrag = this->_baseAirDrag;
-		this->_groundDrag = this->_baseGroundDrag;
 	}
 
 	bool Object::isDead() const
@@ -387,10 +385,11 @@ namespace Battle
 		this->_position += this->_speed;
 		this->_checkPlatforms(oldPos);
 		if (!this->_isGrounded()) {
-			this->_speed *= 0.99;
+			this->_speed.x *= this->_airDrag.x;
+			this->_speed.y *= this->_airDrag.y;
 			this->_speed += this->_gravity;
 		} else
-			this->_speed *= 0.75;
+			this->_speed *= this->_groundDrag;
 	}
 
 	void Object::_checkPlatforms(Vector2f oldPos)
@@ -497,8 +496,6 @@ namespace Battle
 		dat->_position = this->_position;
 		dat->_speed = this->_speed;
 		dat->_gravity = this->_gravity;
-		dat->_airDrag = this->_airDrag;
-		dat->_groundDrag = this->_groundDrag;
 		dat->_action = this->_action;
 		dat->_actionBlock = this->_actionBlock;
 		dat->_animation = this->_animation;
@@ -520,8 +517,6 @@ namespace Battle
 		this->_position = dat->_position;
 		this->_speed = dat->_speed;
 		this->_gravity = dat->_gravity;
-		this->_airDrag = dat->_airDrag;
-		this->_groundDrag = dat->_groundDrag;
 		this->_action = dat->_action;
 		this->_actionBlock = dat->_actionBlock;
 		this->_animation = dat->_animation;
@@ -543,7 +538,7 @@ namespace Battle
 
 	bool Object::_isOnPlatform() const
 	{
-		return std::any_of(
+		return this->_speed.y <= 0 && std::any_of(
 			game.battleMgr->getPlatforms().begin(),
 			game.battleMgr->getPlatforms().end(),
 			[this](auto &obj) {

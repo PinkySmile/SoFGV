@@ -525,7 +525,22 @@ namespace Battle
 		}
 	}
 
-	void Character::init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxGuardBar, unsigned maxGuardCooldown, unsigned odCd, Vector2f gravity)
+	void Character::init(
+		bool side,
+		unsigned short maxHp,
+		unsigned char maxJumps,
+		unsigned char maxAirDash,
+		unsigned maxMMana,
+		unsigned maxVMana,
+		unsigned maxSMana,
+		float manaRegen,
+		unsigned maxGuardBar,
+		unsigned maxGuardCooldown,
+		unsigned odCd,
+		float groundDrag,
+		Vector2f airDrag,
+		Vector2f gravity
+	)
 	{
 		this->_dir = side ? 1 : -1;
 		this->_direction = side;
@@ -544,6 +559,8 @@ namespace Battle
 		this->_maxGuardCooldown = maxGuardCooldown;
 		this->_guardBar = this->_maxGuardBar = maxGuardBar;
 		this->_maxOdCooldown = odCd;
+		this->_groundDrag = groundDrag;
+		this->_airDrag = airDrag;
 		if (side) {
 			this->_position = {200, 0};
 		} else {

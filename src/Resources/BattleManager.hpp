@@ -115,6 +115,8 @@ namespace Battle
 			unsigned maxGuard;
 			unsigned guardCooldown;
 			unsigned odCd;
+			float groundDrag;
+			Vector2f airDrag;
 		};
 
 		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
