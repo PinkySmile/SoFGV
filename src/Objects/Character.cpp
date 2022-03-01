@@ -2228,7 +2228,7 @@ namespace Battle
 			return true;
 		if (this->_specialInputs._66 && this->_startMove(ACTION_FORWARD_DASH))
 			return true;
-		if (!input.d || !input.horizontalAxis)
+		if (!this->_input->isPressed(INPUT_DASH) || !input.horizontalAxis)
 			return false;
 		return this->_startMove(this->_dir * input.horizontalAxis > 0 ? ACTION_FORWARD_DASH : ACTION_BACKWARD_DASH);
 	}
@@ -2286,7 +2286,7 @@ namespace Battle
 			return true;
 		if (input.verticalAxis <= 0)
 			return false;
-		if (input.d) {
+		if (this->_input->isPressed(INPUT_DASH)) {
 			if (input.horizontalAxis * this->_dir > 0 && this->_startMove(ACTION_FORWARD_HIGH_JUMP))
 				return true;
 			if (input.horizontalAxis * this->_dir < 0 && this->_startMove(ACTION_BACKWARD_HIGH_JUMP))
