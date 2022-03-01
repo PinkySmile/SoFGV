@@ -15,17 +15,24 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define MAX_FRAME_IN_BUFFER 60
+
 #define WALL_SLAM_HITSTUN_INCREASE 30
 #define GROUND_SLAM_HITSTUN_INCREASE 30
 #define WALL_SLAM_THRESHOLD 15
 #define GROUND_SLAM_THRESHOLD 20
+
+#define SPECIAL_INPUT_BUFFER_PERSIST 10
+#define DASH_BUFFER_PERSIST 6
+#define HJ_BUFFER_PERSIST 6
+
+#define NORMAL_BUFFER 4
 #define HJ_BUFFER 15
 #define DASH_BUFFER 15
 #define QUARTER_CIRCLE_BUFFER 10
 #define DP_BUFFER 15
 #define HALF_CIRCLE_BUFFER 20
 #define SPIRAL_BUFFER 30
-#define NORMAL_BUFFER 4
 #define CHARGE_PART_BUFFER 10
 #define CHARGE_BUFFER 5
 #define CHARGE_TIME 25
@@ -495,15 +502,15 @@ namespace Battle
 			this->_processInput(input);
 		else {
 			if (this->_isGrounded())
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421v && this->_startMove(ACTION_VOID_OVERDRIVE));
+				(input.n && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(input.v && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(input.s && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(input.m && this->_specialInputs._421v && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(input.n && input.n <= NORMAL_BUFFER && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
-				(input.v && input.v <= NORMAL_BUFFER && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
-				(input.s && input.s <= NORMAL_BUFFER && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
-				(input.m && input.m <= NORMAL_BUFFER && this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
+				(input.n && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(input.v && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(input.s && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(input.m && this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
 		this->_applyMoveAttributes();
@@ -630,8 +637,8 @@ namespace Battle
 				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
 			});
 		this->_lastInputs.front().nbFrames++;
-		if (this->_lastInputs.front().nbFrames > 45)
-			this->_lastInputs.front().nbFrames = 45;
+		if (this->_lastInputs.front().nbFrames > MAX_FRAME_IN_BUFFER)
+			this->_lastInputs.front().nbFrames = MAX_FRAME_IN_BUFFER;
 		this->_checkSpecialInputs();
 		this->_hasJumped &= input.verticalAxis > 0;
 		this->_inputBuffer.horizontalAxis = input.horizontalAxis;
@@ -723,6 +730,19 @@ namespace Battle
 	bool Character::_executeGroundMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
+
+			(this->_specialInputs._c28n && this->_startMove(ACTION_c28N)) ||
+			(this->_specialInputs._c46n && this->_startMove(ACTION_c46N)) ||
+			(this->_specialInputs._c64n && this->_startMove(ACTION_c64N)) ||
+			(this->_specialInputs._c28v && this->_startMove(ACTION_c28V)) ||
+			(this->_specialInputs._c46v && this->_startMove(ACTION_c46V)) ||
+			(this->_specialInputs._c64v && this->_startMove(ACTION_c64V)) ||
+			(this->_specialInputs._c28s && this->_startMove(ACTION_c28S)) ||
+			(this->_specialInputs._c46s && this->_startMove(ACTION_c46S)) ||
+			(this->_specialInputs._c64s && this->_startMove(ACTION_c64S)) ||
+			(this->_specialInputs._c28m && this->_startMove(ACTION_c28M)) ||
+			(this->_specialInputs._c46m && this->_startMove(ACTION_c46M)) ||
+			(this->_specialInputs._c64m && this->_startMove(ACTION_c64M)) ||
 
 			((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
 			((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
@@ -870,7 +890,7 @@ namespace Battle
 			if (this->_hp <= 0)
 				return Object::_onMoveEnd(lastData);
 
-			auto inputs = this->_inputBuffer;
+			auto inputs = this->_getInputs();
 
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
@@ -1182,6 +1202,11 @@ namespace Battle
 
 	void Character::_checkSpecialInputs()
 	{
+		if (this->_inputDisabled) {
+			memset(this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
+			return;
+		}
+
 		std::function<bool (const LastInput &)> getInputN = [](const LastInput &input) { return input.n; };
 		std::function<bool (const LastInput &)> getInputM = [](const LastInput &input) { return input.m; };
 		std::function<bool (const LastInput &)> getInputS = [](const LastInput &input) { return input.s; };
@@ -1189,88 +1214,412 @@ namespace Battle
 		std::function<bool (const LastInput &)> getInputD = [](const LastInput &input) { return input.d; };
 
 		this->_clearLastInputs();
-		this->_specialInputs._value = 0;
 		this->_specialInputs._22 = this->_check22Input();
-		this->_specialInputs._44 = this->_check44Input();
-		this->_specialInputs._66 = this->_check66Input();
-		this->_specialInputs._27 = this->_check27Input();
-		this->_specialInputs._28 = this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP;
-		this->_specialInputs._29 = this->_check29Input();
-		this->_specialInputs._c28n = this->_checkc28Input(getInputN);
-		this->_specialInputs._c28m = this->_checkc28Input(getInputM);
-		this->_specialInputs._c28s = this->_checkc28Input(getInputS);
-		this->_specialInputs._c28v = this->_checkc28Input(getInputV);
-		this->_specialInputs._c28d = this->_checkc28Input(getInputD);
-		this->_specialInputs._c46n = this->_checkc46Input(getInputN);
-		this->_specialInputs._c46m = this->_checkc46Input(getInputM);
-		this->_specialInputs._c46s = this->_checkc46Input(getInputS);
-		this->_specialInputs._c46v = this->_checkc46Input(getInputV);
-		this->_specialInputs._c46d = this->_checkc46Input(getInputD);
-		this->_specialInputs._c64n = this->_checkc64Input(getInputN);
-		this->_specialInputs._c64m = this->_checkc64Input(getInputM);
-		this->_specialInputs._c64s = this->_checkc64Input(getInputS);
-		this->_specialInputs._c64v = this->_checkc64Input(getInputV);
-		this->_specialInputs._c64d = this->_checkc64Input(getInputD);
-		this->_specialInputs._236n = this->_check236Input(getInputN);
-		this->_specialInputs._236m = this->_check236Input(getInputM);
-		this->_specialInputs._236s = this->_check236Input(getInputS);
-		this->_specialInputs._236v = this->_check236Input(getInputV);
-		this->_specialInputs._236d = this->_check236Input(getInputD);
-		this->_specialInputs._214n = this->_check214Input(getInputN);
-		this->_specialInputs._214m = this->_check214Input(getInputM);
-		this->_specialInputs._214s = this->_check214Input(getInputS);
-		this->_specialInputs._214v = this->_check214Input(getInputV);
-		this->_specialInputs._214d = this->_check214Input(getInputD);
-		this->_specialInputs._623n = this->_check623Input(getInputN);
-		this->_specialInputs._623m = this->_check623Input(getInputM);
-		this->_specialInputs._623s = this->_check623Input(getInputS);
-		this->_specialInputs._623v = this->_check623Input(getInputV);
-		this->_specialInputs._623d = this->_check623Input(getInputD);
-		this->_specialInputs._421n = this->_check421Input(getInputN);
-		this->_specialInputs._421m = this->_check421Input(getInputM);
-		this->_specialInputs._421s = this->_check421Input(getInputS);
-		this->_specialInputs._421v = this->_check421Input(getInputV);
-		this->_specialInputs._421d = this->_check421Input(getInputD);
-		this->_specialInputs._624n = this->_check624Input(getInputN);
-		this->_specialInputs._624m = this->_check624Input(getInputM);
-		this->_specialInputs._624s = this->_check624Input(getInputS);
-		this->_specialInputs._624v = this->_check624Input(getInputV);
-		this->_specialInputs._624d = this->_check624Input(getInputD);
-		this->_specialInputs._426n = this->_check426Input(getInputN);
-		this->_specialInputs._426m = this->_check426Input(getInputM);
-		this->_specialInputs._426s = this->_check426Input(getInputS);
-		this->_specialInputs._426v = this->_check426Input(getInputV);
-		this->_specialInputs._426d = this->_check426Input(getInputD);
-		this->_specialInputs._6314n = this->_check6314Input(getInputN);
-		this->_specialInputs._6314m = this->_check6314Input(getInputM);
-		this->_specialInputs._6314s = this->_check6314Input(getInputS);
-		this->_specialInputs._6314v = this->_check6314Input(getInputV);
-		this->_specialInputs._6314d = this->_check6314Input(getInputD);
-		this->_specialInputs._4136n = this->_check4136Input(getInputN);
-		this->_specialInputs._4136m = this->_check4136Input(getInputM);
-		this->_specialInputs._4136s = this->_check4136Input(getInputS);
-		this->_specialInputs._4136v = this->_check4136Input(getInputV);
-		this->_specialInputs._4136d = this->_check4136Input(getInputD);
-		this->_specialInputs._624684n = this->_check624684Input(getInputN);
-		this->_specialInputs._624684m = this->_check624684Input(getInputM);
-		this->_specialInputs._624684s = this->_check624684Input(getInputS);
-		this->_specialInputs._624684v = this->_check624684Input(getInputV);
-		this->_specialInputs._624684d = this->_check624684Input(getInputD);
-		this->_specialInputs._6314684n = this->_check6314684Input(getInputN);
-		this->_specialInputs._6314684m = this->_check6314684Input(getInputM);
-		this->_specialInputs._6314684s = this->_check6314684Input(getInputS);
-		this->_specialInputs._6314684v = this->_check6314684Input(getInputV);
-		this->_specialInputs._6314684d = this->_check6314684Input(getInputD);
-		this->_specialInputs._6246974n = this->_check6246974Input(getInputN);
-		this->_specialInputs._6246974m = this->_check6246974Input(getInputM);
-		this->_specialInputs._6246974s = this->_check6246974Input(getInputS);
-		this->_specialInputs._6246974v = this->_check6246974Input(getInputV);
-		this->_specialInputs._6246974d = this->_check6246974Input(getInputD);
-		this->_specialInputs._63146974n = this->_check63146974Input(getInputN);
-		this->_specialInputs._63146974m = this->_check63146974Input(getInputM);
-		this->_specialInputs._63146974s = this->_check63146974Input(getInputS);
-		this->_specialInputs._63146974v = this->_check63146974Input(getInputV);
-		this->_specialInputs._63146974d = this->_check63146974Input(getInputD);
+
+		if (this->_specialInputs._44)
+			this->_specialInputs._44--;
+		else
+			this->_specialInputs._44 = this->_check44Input() * DASH_BUFFER_PERSIST;
+
+		if (this->_specialInputs._66)
+			this->_specialInputs._66--;
+		else
+			this->_specialInputs._66 = this->_check66Input() * DASH_BUFFER_PERSIST;
+
+		if (this->_specialInputs._27)
+			this->_specialInputs._27--;
+		else
+			this->_specialInputs._27 = this->_check27Input() * HJ_BUFFER_PERSIST;
+
+		if (this->_specialInputs._28)
+			this->_specialInputs._28--;
+		else
+			this->_specialInputs._28 = (this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP) * HJ_BUFFER_PERSIST;
+
+		if (this->_specialInputs._29)
+			this->_specialInputs._29--;
+		else
+			this->_specialInputs._29 = this->_check29Input() * HJ_BUFFER_PERSIST;
+
+		if (this->_atkDisabled) {
+			memset(&this->_specialInputs._value[3], 0, sizeof(this->_specialInputs._value) - 3);
+			return;
+		}
+		if (this->_specialInputs._c28n)
+			this->_specialInputs._c28n--;
+		else
+			this->_specialInputs._c28n = this->_checkc28Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c28m)
+			this->_specialInputs._c28m--;
+		else
+			this->_specialInputs._c28m = this->_checkc28Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c28s)
+			this->_specialInputs._c28s--;
+		else
+			this->_specialInputs._c28s = this->_checkc28Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c28v)
+			this->_specialInputs._c28v--;
+		else
+			this->_specialInputs._c28v = this->_checkc28Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c28d)
+			this->_specialInputs._c28d--;
+		else
+			this->_specialInputs._c28d = this->_checkc28Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c46n)
+			this->_specialInputs._c46n--;
+		else
+			this->_specialInputs._c46n = this->_checkc46Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c46m)
+			this->_specialInputs._c46m--;
+		else
+			this->_specialInputs._c46m = this->_checkc46Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c46s)
+			this->_specialInputs._c46s--;
+		else
+			this->_specialInputs._c46s = this->_checkc46Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c46v)
+			this->_specialInputs._c46v--;
+		else
+			this->_specialInputs._c46v = this->_checkc46Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c46d)
+			this->_specialInputs._c46d--;
+		else
+			this->_specialInputs._c46d = this->_checkc46Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c64n)
+			this->_specialInputs._c64n--;
+		else
+			this->_specialInputs._c64n = this->_checkc64Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c64m)
+			this->_specialInputs._c64m--;
+		else
+			this->_specialInputs._c64m = this->_checkc64Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c64s)
+			this->_specialInputs._c64s--;
+		else
+			this->_specialInputs._c64s = this->_checkc64Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c64v)
+			this->_specialInputs._c64v--;
+		else
+			this->_specialInputs._c64v = this->_checkc64Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._c64d)
+			this->_specialInputs._c64d--;
+		else
+			this->_specialInputs._c64d = this->_checkc64Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._236n)
+			this->_specialInputs._236n--;
+		else
+			this->_specialInputs._236n = this->_check236Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._236m)
+			this->_specialInputs._236m--;
+		else
+			this->_specialInputs._236m = this->_check236Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._236s)
+			this->_specialInputs._236s--;
+		else
+			this->_specialInputs._236s = this->_check236Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._236v)
+			this->_specialInputs._236v--;
+		else
+			this->_specialInputs._236v = this->_check236Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._236d)
+			this->_specialInputs._236d--;
+		else
+			this->_specialInputs._236d = this->_check236Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._214n)
+			this->_specialInputs._214n--;
+		else
+			this->_specialInputs._214n = this->_check214Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._214m)
+			this->_specialInputs._214m--;
+		else
+			this->_specialInputs._214m = this->_check214Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._214s)
+			this->_specialInputs._214s--;
+		else
+			this->_specialInputs._214s = this->_check214Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._214v)
+			this->_specialInputs._214v--;
+		else
+			this->_specialInputs._214v = this->_check214Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._214d)
+			this->_specialInputs._214d--;
+		else
+			this->_specialInputs._214d = this->_check214Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._623n)
+			this->_specialInputs._623n--;
+		else
+			this->_specialInputs._623n = this->_check623Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._623m)
+			this->_specialInputs._623m--;
+		else
+			this->_specialInputs._623m = this->_check623Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._623s)
+			this->_specialInputs._623s--;
+		else
+			this->_specialInputs._623s = this->_check623Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._623v)
+			this->_specialInputs._623v--;
+		else
+			this->_specialInputs._623v = this->_check623Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._623d)
+			this->_specialInputs._623d--;
+		else
+			this->_specialInputs._623d = this->_check623Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._421n)
+			this->_specialInputs._421n--;
+		else
+			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._421m)
+			this->_specialInputs._421m--;
+		else
+			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._421s)
+			this->_specialInputs._421s--;
+		else
+			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._421v)
+			this->_specialInputs._421v--;
+		else
+			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._421d)
+			this->_specialInputs._421d--;
+		else
+			this->_specialInputs._421d = this->_check421Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624n)
+			this->_specialInputs._624n--;
+		else
+			this->_specialInputs._624n = this->_check624Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624m)
+			this->_specialInputs._624m--;
+		else
+			this->_specialInputs._624m = this->_check624Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624s)
+			this->_specialInputs._624s--;
+		else
+			this->_specialInputs._624s = this->_check624Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624v)
+			this->_specialInputs._624v--;
+		else
+			this->_specialInputs._624v = this->_check624Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624d)
+			this->_specialInputs._624d--;
+		else
+			this->_specialInputs._624d = this->_check624Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._426n)
+			this->_specialInputs._426n--;
+		else
+			this->_specialInputs._426n = this->_check426Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._426m)
+			this->_specialInputs._426m--;
+		else
+			this->_specialInputs._426m = this->_check426Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._426s)
+			this->_specialInputs._426s--;
+		else
+			this->_specialInputs._426s = this->_check426Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._426v)
+			this->_specialInputs._426v--;
+		else
+			this->_specialInputs._426v = this->_check426Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._426d)
+			this->_specialInputs._426d--;
+		else
+			this->_specialInputs._426d = this->_check426Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314n)
+			this->_specialInputs._6314n--;
+		else
+			this->_specialInputs._6314n = this->_check6314Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314m)
+			this->_specialInputs._6314m--;
+		else
+			this->_specialInputs._6314m = this->_check6314Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314s)
+			this->_specialInputs._6314s--;
+		else
+			this->_specialInputs._6314s = this->_check6314Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314v)
+			this->_specialInputs._6314v--;
+		else
+			this->_specialInputs._6314v = this->_check6314Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314d)
+			this->_specialInputs._6314d--;
+		else
+			this->_specialInputs._6314d = this->_check6314Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._4136n)
+			this->_specialInputs._4136n--;
+		else
+			this->_specialInputs._4136n = this->_check4136Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._4136m)
+			this->_specialInputs._4136m--;
+		else
+			this->_specialInputs._4136m = this->_check4136Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._4136s)
+			this->_specialInputs._4136s--;
+		else
+			this->_specialInputs._4136s = this->_check4136Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._4136v)
+			this->_specialInputs._4136v--;
+		else
+			this->_specialInputs._4136v = this->_check4136Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._4136d)
+			this->_specialInputs._4136d--;
+		else
+			this->_specialInputs._4136d = this->_check4136Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624684n)
+			this->_specialInputs._624684n--;
+		else
+			this->_specialInputs._624684n = this->_check624684Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624684m)
+			this->_specialInputs._624684m--;
+		else
+			this->_specialInputs._624684m = this->_check624684Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624684s)
+			this->_specialInputs._624684s--;
+		else
+			this->_specialInputs._624684s = this->_check624684Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624684v)
+			this->_specialInputs._624684v--;
+		else
+			this->_specialInputs._624684v = this->_check624684Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._624684d)
+			this->_specialInputs._624684d--;
+		else
+			this->_specialInputs._624684d = this->_check624684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314684n)
+			this->_specialInputs._6314684n--;
+		else
+			this->_specialInputs._6314684n = this->_check6314684Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314684m)
+			this->_specialInputs._6314684m--;
+		else
+			this->_specialInputs._6314684m = this->_check6314684Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314684s)
+			this->_specialInputs._6314684s--;
+		else
+			this->_specialInputs._6314684s = this->_check6314684Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314684v)
+			this->_specialInputs._6314684v--;
+		else
+			this->_specialInputs._6314684v = this->_check6314684Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6314684d)
+			this->_specialInputs._6314684d--;
+		else
+			this->_specialInputs._6314684d = this->_check6314684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6246974n)
+			this->_specialInputs._6246974n--;
+		else
+			this->_specialInputs._6246974n = this->_check6246974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6246974m)
+			this->_specialInputs._6246974m--;
+		else
+			this->_specialInputs._6246974m = this->_check6246974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6246974s)
+			this->_specialInputs._6246974s--;
+		else
+			this->_specialInputs._6246974s = this->_check6246974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6246974v)
+			this->_specialInputs._6246974v--;
+		else
+			this->_specialInputs._6246974v = this->_check6246974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._6246974d)
+			this->_specialInputs._6246974d--;
+		else
+			this->_specialInputs._6246974d = this->_check6246974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._63146974n)
+			this->_specialInputs._63146974n--;
+		else
+			this->_specialInputs._63146974n = this->_check63146974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._63146974m)
+			this->_specialInputs._63146974m--;
+		else
+			this->_specialInputs._63146974m = this->_check63146974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._63146974s)
+			this->_specialInputs._63146974s--;
+		else
+			this->_specialInputs._63146974s = this->_check63146974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._63146974v)
+			this->_specialInputs._63146974v--;
+		else
+			this->_specialInputs._63146974v = this->_check63146974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+		if (this->_specialInputs._63146974d)
+			this->_specialInputs._63146974d--;
+		else
+			this->_specialInputs._63146974d = this->_check63146974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
+
 	}
 
 	bool Character::_check236Input(const std::function<bool (const LastInput &)> &atkInput)
@@ -1768,7 +2117,7 @@ namespace Battle
 		auto it = this->_lastInputs.begin();
 		unsigned total = 0;
 
-		while (it != this->_lastInputs.end() && total < 45) {
+		while (it != this->_lastInputs.end() && total < MAX_FRAME_IN_BUFFER) {
 			total += it->nbFrames;
 			it++;
 		}
@@ -2484,36 +2833,28 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
-
-		auto input = this->_inputBuffer;
-
+		if (data->oFlag.voidMana)
+			this->_voidMana -= data->manaCost;
+		if (data->oFlag.spiritMana)
+			this->_spiritMana -= data->manaCost;
+		if (data->oFlag.matterMana)
+			this->_matterMana -= data->manaCost;
 		if (
-			((input.n || input.v || input.m || input.s) && input.horizontalAxis * this->_dir < 0) ||
-			!isBlockingAction(this->_action)
+			this->_voidMana < 0 ||
+			this->_spiritMana < 0 ||
+			this->_matterMana < 0
 		) {
-			if (data->oFlag.voidMana)
-				this->_voidMana -= data->manaCost;
-			if (data->oFlag.spiritMana)
-				this->_spiritMana -= data->manaCost;
-			if (data->oFlag.matterMana)
-				this->_matterMana -= data->manaCost;
-			if (
-				this->_voidMana < 0 ||
-				this->_spiritMana < 0 ||
-				this->_matterMana < 0
-			) {
-				this->_voidMana = this->_voidManaMax / 10;
-				this->_spiritMana = this->_spiritManaMax / 10;
-				this->_matterMana = this->_matterManaMax / 10;
-				if (this->_isGrounded()) {
-					this->_blockStun = 60;
-					this->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-					this->_speed = {this->_dir * -1, 0};
-				} else {
-					this->_blockStun = 12000;
-					this->_forceStartMove(ACTION_AIR_HIT);
-					this->_speed = {this->_dir * -1, 20};
-				}
+			this->_voidMana = this->_voidManaMax / 10;
+			this->_spiritMana = this->_spiritManaMax / 10;
+			this->_matterMana = this->_matterManaMax / 10;
+			if (this->_isGrounded()) {
+				this->_blockStun = 60;
+				this->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				this->_speed = {this->_dir * -1, 0};
+			} else {
+				this->_blockStun = 12000;
+				this->_forceStartMove(ACTION_AIR_HIT);
+				this->_speed = {this->_dir * -1, 20};
 			}
 		}
 		if (data->subObjectSpawn > 0) {
@@ -2609,7 +2950,7 @@ namespace Battle
 		dat->_matterMana = this->_matterMana;
 		dat->_guardCooldown = this->_guardCooldown;
 		dat->_guardBar = this->_guardBar;
-		dat->_specialInputs = this->_specialInputs._value;
+		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
 		dat->_nbLastInputs = this->_lastInputs.size();
 		for (i = 0; i < this->_limit.size(); i++)
 			dat->_limit[i] = this->_limit[i];
@@ -2649,7 +2990,7 @@ namespace Battle
 		this->_matterMana = dat->_matterMana;
 		this->_guardCooldown = dat->_guardCooldown;
 		this->_guardBar = dat->_guardBar;
-		this->_specialInputs._value = dat->_specialInputs;
+		memcpy(this->_specialInputs._value, dat->_specialInputs, sizeof(dat->_specialInputs));
 		this->_lastInputs.clear();
 		for (size_t i = 0; i < dat->_nbLastInputs; i++)
 			this->_lastInputs.push_back(((LastInput *)&dat[1])[i]);
