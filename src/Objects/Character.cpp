@@ -2165,7 +2165,7 @@ namespace Battle
 			return true;
 		if (this->_specialInputs._66 && this->_startMove(ACTION_AIR_DASH_6))
 			return true;
-		if (!input.d || (!input.verticalAxis && !input.horizontalAxis))
+		if (!this->_input->isPressed(INPUT_DASH) || (!input.verticalAxis && !input.horizontalAxis))
 			return false;
 		return  (input.verticalAxis > 0 && this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_9)) ||
 			(input.verticalAxis > 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_7)) ||
@@ -2179,27 +2179,27 @@ namespace Battle
 
 	bool Character::_executeAirParry(const InputStruct &input)
 	{
-		if (!input.a || input.horizontalAxis * this->_dir >= 0)
+		if (!this->_input->isPressed(INPUT_ASCEND) || input.horizontalAxis * this->_dir >= 0)
 			return false;
-		if (input.n && input.n <= NORMAL_BUFFER) {
+		if (input.n) {
 			if (this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY))
 				return true;
 		}
-		if (input.m && input.m <= NORMAL_BUFFER) {
+		if (input.m) {
 			if (
 				this->_action == ACTION_AIR_MATTER_PARRY || this->_startMove(ACTION_AIR_MATTER_PARRY) ||
 				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
 			)
 				return true;
 		}
-		if (input.s && input.s <= NORMAL_BUFFER) {
+		if (input.s) {
 			if (
 				this->_action == ACTION_AIR_SPIRIT_PARRY || this->_startMove(ACTION_AIR_SPIRIT_PARRY) ||
 				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
 			)
 				return true;
 		}
-		if (input.v && input.v <= NORMAL_BUFFER) {
+		if (input.v) {
 			if (
 				this->_action == ACTION_AIR_VOID_PARRY || this->_startMove(ACTION_AIR_VOID_PARRY) ||
 				this->_action == ACTION_AIR_NEUTRAL_PARRY || this->_startMove(ACTION_AIR_NEUTRAL_PARRY)
@@ -2235,15 +2235,15 @@ namespace Battle
 
 	bool Character::_executeGroundParry(const InputStruct &input)
 	{
-		if (!input.a || input.horizontalAxis * this->_dir >= 0)
+		if (!this->_input->isPressed(INPUT_ASCEND) || input.horizontalAxis * this->_dir >= 0)
 			return false;
-		if (input.n && input.n <= NORMAL_BUFFER) {
+		if (input.n) {
 			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
 			if (this->_action == move || this->_startMove(move))
 				return true;
 		}
-		if (input.m && input.m <= NORMAL_BUFFER) {
+		if (input.m) {
 			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_MATTER_PARRY : ACTION_GROUND_HIGH_MATTER_PARRY;
 			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
@@ -2253,7 +2253,7 @@ namespace Battle
 			)
 				return true;
 		}
-		if (input.s && input.s <= NORMAL_BUFFER) {
+		if (input.s) {
 			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_SPIRIT_PARRY : ACTION_GROUND_HIGH_SPIRIT_PARRY;
 			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
@@ -2263,7 +2263,7 @@ namespace Battle
 			)
 				return true;
 		}
-		if (input.v && input.v <= NORMAL_BUFFER) {
+		if (input.v) {
 			auto move = input.verticalAxis < 0 ? ACTION_GROUND_LOW_VOID_PARRY : ACTION_GROUND_HIGH_VOID_PARRY;
 			auto move2 = input.verticalAxis < 0 ? ACTION_GROUND_LOW_NEUTRAL_PARRY : ACTION_GROUND_HIGH_NEUTRAL_PARRY;
 
