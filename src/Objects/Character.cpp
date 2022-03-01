@@ -430,6 +430,7 @@ namespace Battle
 				obj.first = 0;
 				obj.second.reset();
 			}
+
 		this->_tickMove();
 		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
 		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
@@ -445,6 +446,23 @@ namespace Battle
 				}
 			}
 		}
+
+		if (
+			(this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) &&
+			this->_moves.at(this->_action).size() > 1 &&
+			this->_actionBlock == 1 && (
+			!this->_input->isPressed(
+				(this->_direction ? this->_action == ACTION_BACKWARD_DASH : this->_action == ACTION_FORWARD_DASH) ?
+				INPUT_LEFT :
+				INPUT_RIGHT
+			) || !this->_isGrounded()
+		)) {
+			auto data = this->getCurrentFrameData();
+
+			this->_actionBlock++;
+			Object::_onMoveEnd(*data);
+		}
+
 		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel)
 			this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 
@@ -875,6 +893,13 @@ namespace Battle
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
+		}
+
+		if ((this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) && this->_moves.at(this->_action).size() > 1) {
+			if (this->_actionBlock == 0)
+				this->_actionBlock++;
+			if (this->_actionBlock == 1)
+				return Object::_onMoveEnd(lastData);
 		}
 
 		if (this->_blockStun && !this->_actionBlock) {
