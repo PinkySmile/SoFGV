@@ -9,6 +9,7 @@
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 #include "PracticeInGame.hpp"
+#include "../Objects/Characters/Stickman.hpp"
 
 namespace Battle
 {
@@ -193,6 +194,14 @@ namespace Battle
 			palettes.second = entry.palettes[palette];
 		}
 		switch (entry._class) {
+		case 0:
+			chr = new Stickman{
+				entry.framedataPath,
+				entry.subobjectDataPath,
+				palettes,
+				std::move(input)
+			};
+			break;
 		default:
 			chr = new Character{
 				entry.framedataPath,
