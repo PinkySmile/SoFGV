@@ -363,6 +363,13 @@ namespace Battle
 		//{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
 	};
 
+	static std::string actionToString(int action)
+	{
+		auto name = actionNames.find(static_cast<Battle::CharacterActions>(action));
+
+		return name == Battle::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
+	}
+
 	Character::Character(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input))
 	{
@@ -460,6 +467,9 @@ namespace Battle
 			auto data = this->getCurrentFrameData();
 
 			this->_actionBlock++;
+			if (this->_actionBlock == this->_moves.at(this->_action).size())
+				//TODO : Create custom exceptions
+				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 2");
 			Object::_onMoveEnd(*data);
 		}
 
@@ -906,7 +916,7 @@ namespace Battle
 			this->_actionBlock++;
 			if (this->_moves.at(this->_action).size() == 1)
 				//TODO: make proper exceptions
-				throw std::invalid_argument("Action " + std::to_string(this->_action) + " is missing block 1");
+				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 1");
 			Object::_onMoveEnd(lastData);
 			return;
 		}
@@ -999,7 +1009,7 @@ namespace Battle
 			this->_animationCtr = 0;
 			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
 				//TODO: make proper exceptions
-				throw std::invalid_argument("Grab action " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+				throw std::invalid_argument("Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			Object::_onMoveEnd(*data);
 		}
 	}
