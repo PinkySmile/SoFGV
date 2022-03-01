@@ -37,6 +37,8 @@ namespace Battle
 			leftCharacter.maxGuard,
 			leftCharacter.guardCooldown,
 			leftCharacter.odCd,
+			leftCharacter.groundDrag,
+			leftCharacter.airDrag,
 			leftCharacter.gravity
 		);
 		this->_rightCharacter->init(
@@ -51,6 +53,8 @@ namespace Battle
 			rightCharacter.maxGuard,
 			rightCharacter.guardCooldown,
 			rightCharacter.odCd,
+			rightCharacter.groundDrag,
+			rightCharacter.airDrag,
 			rightCharacter.gravity
 		);
 		this->_leftCharacter->setAttacksDisabled(true);

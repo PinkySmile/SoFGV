@@ -1775,7 +1775,7 @@ void	copyBoxesFromFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 
 void	copyBoxesFromLastFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
 {
-	if (object->_animation)
+	if (!object->_animation)
 		return;
 	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation - 1]);
 }

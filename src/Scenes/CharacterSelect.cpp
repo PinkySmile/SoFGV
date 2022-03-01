@@ -216,6 +216,14 @@ namespace Battle
 			throw std::invalid_argument("class is missing");
 		if (!json.contains("name"))
 			throw std::invalid_argument("name is missing");
+		if (!json.contains("ground_drag"))
+			throw std::invalid_argument("ground_drag is missing");
+		if (!json.contains("air_drag"))
+			throw std::invalid_argument("air_drag is missing");
+		if (!json["air_drag"].contains("x"))
+			throw std::invalid_argument("air_drag.x is missing");
+		if (!json["air_drag"].contains("y"))
+			throw std::invalid_argument("air_drag.y is missing");
 		if (!json.contains("framedata"))
 			throw std::invalid_argument("framedata is missing");
 		if (!json.contains("subobjects"))

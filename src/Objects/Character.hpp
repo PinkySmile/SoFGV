@@ -350,96 +350,97 @@ namespace Battle
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			unsigned _specialInputs;
+			char _specialInputs[41];
 			unsigned _nbLastInputs;
 		};
 #pragma pack(pop)
 		union SpecialInputs {
-			unsigned short _value = 0;
+			unsigned char _value[41] = {0};
 			struct {
-				bool _22: 1;
-				bool _44: 1;
-				bool _66: 1;
-				bool _27: 1;
-				bool _28: 1;
-				bool _29: 1;
-				bool _c28n: 1;
-				bool _c28m: 1;
-				bool _c28s: 1;
-				bool _c28v: 1;
-				bool _c28d: 1;
-				bool _c46n: 1;
-				bool _c46m: 1;
-				bool _c46s: 1;
-				bool _c46v: 1;
-				bool _c46d: 1;
-				bool _c64n: 1;
-				bool _c64m: 1;
-				bool _c64s: 1;
-				bool _c64v: 1;
-				bool _c64d: 1;
-				bool _236n: 1;
-				bool _236m: 1;
-				bool _236s: 1;
-				bool _236v: 1;
-				bool _236d: 1;
-				bool _214n: 1;
-				bool _214m: 1;
-				bool _214s: 1;
-				bool _214v: 1;
-				bool _214d: 1;
-				bool _623n: 1;
-				bool _623m: 1;
-				bool _623s: 1;
-				bool _623v: 1;
-				bool _623d: 1;
-				bool _421n: 1;
-				bool _421m: 1;
-				bool _421s: 1;
-				bool _421v: 1;
-				bool _421d: 1;
-				bool _624n: 1;
-				bool _624m: 1;
-				bool _624s: 1;
-				bool _624v: 1;
-				bool _624d: 1;
-				bool _426n: 1;
-				bool _426m: 1;
-				bool _426s: 1;
-				bool _426v: 1;
-				bool _426d: 1;
-				bool _6314n: 1;
-				bool _6314m: 1;
-				bool _6314s: 1;
-				bool _6314v: 1;
-				bool _6314d: 1;
-				bool _4136n: 1;
-				bool _4136m: 1;
-				bool _4136s: 1;
-				bool _4136v: 1;
-				bool _4136d: 1;
-				bool _624684n: 1;
-				bool _624684m: 1;
-				bool _624684s: 1;
-				bool _624684v: 1;
-				bool _624684d: 1;
-				bool _6314684n: 1;
-				bool _6314684m: 1;
-				bool _6314684s: 1;
-				bool _6314684v: 1;
-				bool _6314684d: 1;
-				bool _6246974n: 1;
-				bool _6246974m: 1;
-				bool _6246974s: 1;
-				bool _6246974v: 1;
-				bool _6246974d: 1;
-				bool _63146974n: 1;
-				bool _63146974m: 1;
-				bool _63146974s: 1;
-				bool _63146974v: 1;
-				bool _63146974d: 1;
+				unsigned char _22: 4;
+				unsigned char _44: 4;
+				unsigned char _66: 4;
+				unsigned char _27: 4;
+				unsigned char _28: 4;
+				unsigned char _29: 4;
+				unsigned char _c28n: 4;
+				unsigned char _c28m: 4;
+				unsigned char _c28s: 4;
+				unsigned char _c28v: 4;
+				unsigned char _c28d: 4;
+				unsigned char _c46n: 4;
+				unsigned char _c46m: 4;
+				unsigned char _c46s: 4;
+				unsigned char _c46v: 4;
+				unsigned char _c46d: 4;
+				unsigned char _c64n: 4;
+				unsigned char _c64m: 4;
+				unsigned char _c64s: 4;
+				unsigned char _c64v: 4;
+				unsigned char _c64d: 4;
+				unsigned char _236n: 4;
+				unsigned char _236m: 4;
+				unsigned char _236s: 4;
+				unsigned char _236v: 4;
+				unsigned char _236d: 4;
+				unsigned char _214n: 4;
+				unsigned char _214m: 4;
+				unsigned char _214s: 4;
+				unsigned char _214v: 4;
+				unsigned char _214d: 4;
+				unsigned char _623n: 4;
+				unsigned char _623m: 4;
+				unsigned char _623s: 4;
+				unsigned char _623v: 4;
+				unsigned char _623d: 4;
+				unsigned char _421n: 4;
+				unsigned char _421m: 4;
+				unsigned char _421s: 4;
+				unsigned char _421v: 4;
+				unsigned char _421d: 4;
+				unsigned char _624n: 4;
+				unsigned char _624m: 4;
+				unsigned char _624s: 4;
+				unsigned char _624v: 4;
+				unsigned char _624d: 4;
+				unsigned char _426n: 4;
+				unsigned char _426m: 4;
+				unsigned char _426s: 4;
+				unsigned char _426v: 4;
+				unsigned char _426d: 4;
+				unsigned char _6314n: 4;
+				unsigned char _6314m: 4;
+				unsigned char _6314s: 4;
+				unsigned char _6314v: 4;
+				unsigned char _6314d: 4;
+				unsigned char _4136n: 4;
+				unsigned char _4136m: 4;
+				unsigned char _4136s: 4;
+				unsigned char _4136v: 4;
+				unsigned char _4136d: 4;
+				unsigned char _624684n: 4;
+				unsigned char _624684m: 4;
+				unsigned char _624684s: 4;
+				unsigned char _624684v: 4;
+				unsigned char _624684d: 4;
+				unsigned char _6314684n: 4;
+				unsigned char _6314684m: 4;
+				unsigned char _6314684s: 4;
+				unsigned char _6314684v: 4;
+				unsigned char _6314684d: 4;
+				unsigned char _6246974n: 4;
+				unsigned char _6246974m: 4;
+				unsigned char _6246974s: 4;
+				unsigned char _6246974v: 4;
+				unsigned char _6246974d: 4;
+				unsigned char _63146974n: 4;
+				unsigned char _63146974m: 4;
+				unsigned char _63146974s: 4;
+				unsigned char _63146974v: 4;
+				unsigned char _63146974d: 4;
 			};
 		};
+		static_assert(sizeof(Data::_specialInputs) == sizeof(SpecialInputs::_value));
 
 		// Game State
 		std::list<LastInput> _lastInputs;
@@ -568,7 +569,22 @@ namespace Battle
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(bool side, unsigned short maxHp, unsigned char maxJumps, unsigned char maxAirDash, unsigned maxMMana, unsigned maxVMana, unsigned maxSMana, float manaRegen, unsigned maxGuardBar, unsigned maxGuardCooldown, unsigned odCd, Vector2f gravity);
+		void init(
+			bool side,
+			unsigned short maxHp,
+			unsigned char maxJumps,
+			unsigned char maxAirDash,
+			unsigned maxMMana,
+			unsigned maxVMana,
+			unsigned maxSMana,
+			float manaRegen,
+			unsigned maxGuardBar,
+			unsigned maxGuardCooldown,
+			unsigned odCd,
+			float groundDrag,
+			Vector2f airDrag,
+			Vector2f gravity
+		);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
 		std::shared_ptr<IInput> &getInput();

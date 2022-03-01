@@ -63,7 +63,9 @@ namespace Battle
 				lJson["mana_regen"],
 				lJson["guard_bar"],
 				lJson["guard_break_cooldown"],
-				lJson["overdrive_cooldown"]
+				lJson["overdrive_cooldown"],
+				lJson["ground_drag"],
+				{lJson["air_drag"]["x"], lJson["air_drag"]["y"]}
 			},
 			BattleManager::CharacterParams{
 				rightChr,
@@ -77,7 +79,9 @@ namespace Battle
 				rJson["mana_regen"],
 				rJson["guard_bar"],
 				rJson["guard_break_cooldown"],
-				rJson["overdrive_cooldown"]
+				rJson["overdrive_cooldown"],
+				rJson["ground_drag"],
+				{rJson["air_drag"]["x"], rJson["air_drag"]["y"]}
 			}
 		);
 	}
