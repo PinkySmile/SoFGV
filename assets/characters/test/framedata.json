@@ -34,10 +34,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
-                        "left": -23,
-                        "top": -144,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 512,
                     "duration": 10,
@@ -64,9 +64,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -27,
-                        "top": -134,
-                        "width": 54
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 512,
                     "duration": 10,
@@ -92,10 +92,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
-                        "left": -23,
-                        "top": -147,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 512,
                     "duration": 10,
@@ -128,10 +128,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -123,
-                        "width": 50
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 74240,
                     "duration": 5,
@@ -164,10 +164,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 95,
-                        "left": -23,
-                        "top": -96,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 66048,
                     "hurt_boxes": [
@@ -199,10 +199,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 131,
-                        "left": -28,
-                        "top": -130,
-                        "width": 54
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 512,
                     "duration": 5,
@@ -235,10 +235,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 145,
-                        "left": -25,
-                        "top": -145,
-                        "width": 52
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -274,10 +274,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
-                        "left": -22,
-                        "top": -143,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -311,10 +311,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 140,
-                        "left": -21,
-                        "top": -141,
-                        "width": 43
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -354,10 +354,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
-                        "left": -26,
-                        "top": -140,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -398,10 +398,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 145,
-                        "left": -25,
-                        "top": -145,
-                        "width": 52
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -437,10 +437,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
-                        "left": -22,
-                        "top": -143,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -474,10 +474,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 140,
-                        "left": -21,
-                        "top": -141,
-                        "width": 43
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -517,10 +517,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
-                        "left": -26,
-                        "top": -140,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097664,
                     "duration": 6,
@@ -561,10 +561,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -24,
-                        "top": -152,
-                        "width": 49
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097152,
                     "duration": 6,
@@ -597,10 +597,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -36,
-                        "top": -151,
-                        "width": 59
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2101248,
                     "duration": 3,
@@ -729,10 +729,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -23,
-                        "top": -154,
-                        "width": 50
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2101248,
                     "duration": 3,
@@ -816,10 +816,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 152,
+                        "height": 136,
                         "left": -19,
-                        "top": -152,
-                        "width": 55
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097153,
                     "duration": 5,
@@ -860,10 +860,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -10,
-                        "top": -153,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097152,
                     "duration": 11,
@@ -897,10 +897,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -20,
-                        "top": -140,
-                        "width": 38
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097152,
                     "duration": 5,
@@ -944,10 +944,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -24,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 44
+                        "width": 40
                     },
                     "defense_flag": 4104,
                     "duration": 5,
@@ -974,10 +974,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -24,
-                        "top": -139,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -1006,10 +1006,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
+                        "height": 136,
                         "left": -19,
-                        "top": -140,
-                        "width": 41
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -1042,10 +1042,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -23,
-                        "top": -137,
-                        "width": 42
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 4104,
                     "duration": 5,
@@ -1078,10 +1078,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
+                        "height": 136,
                         "left": -19,
-                        "top": -138,
-                        "width": 42
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -1110,10 +1110,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 142,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -1146,10 +1146,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 4104,
                     "duration": 5,
@@ -1176,10 +1176,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -1208,9 +1208,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -18,
-                        "top": -133,
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
                         "width": 40
                     },
                     "defense_flag": 256,
@@ -1244,10 +1244,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 2117640,
                     "duration": 6,
@@ -1274,10 +1274,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "hurt_boxes": [
@@ -1307,10 +1307,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -17,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 37
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "duration": 2,
@@ -1343,10 +1343,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 2117640,
                     "duration": 6,
@@ -1373,10 +1373,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "hurt_boxes": [
@@ -1406,10 +1406,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -21,
-                        "top": -135,
-                        "width": 43
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "duration": 2,
@@ -1442,10 +1442,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 2117640,
                     "duration": 6,
@@ -1472,10 +1472,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "hurt_boxes": [
@@ -1505,8 +1505,8 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -20,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
                         "width": 40
                     },
@@ -1541,10 +1541,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -23,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 48
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "hurt_boxes": [
@@ -1576,10 +1576,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -22,
-                        "top": -137,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 6,
                     "hurt_boxes": [
@@ -1611,10 +1611,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -45,
-                        "top": -161,
-                        "width": 68
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -1650,10 +1650,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 130,
-                        "left": -34,
-                        "top": -158,
-                        "width": 72
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -1684,10 +1684,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 126,
-                        "left": -28,
-                        "top": -152,
-                        "width": 59
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -1725,10 +1725,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 45,
-                        "left": -96,
-                        "top": -120,
-                        "width": 141
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -1760,10 +1760,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 48,
-                        "left": -96,
-                        "top": -120,
-                        "width": 159
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -1790,10 +1790,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 45,
-                        "left": -96,
-                        "top": -120,
-                        "width": 141
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -1827,10 +1827,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 131,
-                        "left": -37,
-                        "top": -158,
-                        "width": 65
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -1866,10 +1866,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 119,
-                        "left": -27,
-                        "top": -149,
-                        "width": 65
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -1900,10 +1900,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 128,
-                        "left": -41,
-                        "top": -161,
-                        "width": 65
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -1945,10 +1945,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -20,
-                        "top": -166,
-                        "width": 37
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097408,
                     "duration": 4,
@@ -1983,10 +1983,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -17,
-                        "top": -168,
-                        "width": 38
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 8,
@@ -2016,10 +2016,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 158,
-                        "left": -24,
-                        "top": -175,
-                        "width": 43
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 768,
                     "duration": 4,
@@ -2056,10 +2056,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 163,
-                        "left": -21,
-                        "top": -175,
-                        "width": 43
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097408,
                     "duration": 4,
@@ -2094,10 +2094,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 152,
+                        "height": 136,
                         "left": -19,
-                        "top": -169,
-                        "width": 43
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 9,
@@ -2127,10 +2127,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 152,
-                        "left": -22,
-                        "top": -169,
-                        "width": 49
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 768,
                     "duration": 3,
@@ -2167,10 +2167,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 129,
-                        "left": -43,
-                        "top": -165,
-                        "width": 62
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -2206,10 +2206,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -33,
-                        "top": -162,
-                        "width": 57
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -2240,10 +2240,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 130,
-                        "left": -42,
-                        "top": -162,
-                        "width": 62
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -2281,10 +2281,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 45,
-                        "left": -69,
-                        "top": -119,
-                        "width": 141
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -2320,10 +2320,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 48,
-                        "left": -78,
-                        "top": -117,
-                        "width": 159
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -2354,10 +2354,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 45,
-                        "left": -70,
-                        "top": -120,
-                        "width": 141
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -2395,10 +2395,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 142,
-                        "left": -25,
-                        "top": -164,
-                        "width": 70
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2105600,
                     "duration": 4,
@@ -2434,10 +2434,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 114,
-                        "left": -26,
-                        "top": -160,
-                        "width": 70
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 8,
@@ -2469,9 +2469,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -24,
-                        "top": -161,
-                        "width": 65
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8960,
                     "duration": 4,
@@ -2513,10 +2513,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 6,
@@ -2552,10 +2552,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 2,
@@ -2593,10 +2593,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 6,
@@ -2632,10 +2632,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 2,
@@ -2678,10 +2678,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1064,
                     "duration": 4,
@@ -2717,10 +2717,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 520,
                     "duration": 6,
@@ -2763,10 +2763,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1096,
                     "duration": 4,
@@ -2802,10 +2802,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 520,
                     "duration": 6,
@@ -2848,10 +2848,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1048,
                     "duration": 4,
@@ -2887,10 +2887,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8,
                     "duration": 10,
@@ -2933,10 +2933,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 144,
-                        "left": -24,
-                        "top": -143,
-                        "width": 49
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 5,
                     "hurt_boxes": [
@@ -2967,10 +2967,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 144,
-                        "left": -24,
-                        "top": -143,
-                        "width": 49
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 5,
                     "hurt_boxes": [
@@ -3006,10 +3006,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 6,
@@ -3039,10 +3039,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 2,
@@ -3074,10 +3074,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 6,
@@ -3107,10 +3107,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 2,
@@ -3147,10 +3147,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 67624,
                     "duration": 4,
@@ -3180,10 +3180,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 66056,
                     "duration": 4,
@@ -3220,10 +3220,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 67656,
                     "duration": 4,
@@ -3253,10 +3253,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 66056,
                     "duration": 6,
@@ -3293,10 +3293,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 67608,
                     "duration": 4,
@@ -3326,10 +3326,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 66056,
                     "duration": 6,
@@ -3366,10 +3366,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 81,
-                        "left": -33,
-                        "top": -80,
-                        "width": 54
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -3407,10 +3407,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 74,
-                        "left": -26,
-                        "top": -78,
-                        "width": 57
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -3449,10 +3449,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -20,
-                        "top": -148,
-                        "width": 46
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3976,
                     "duration": 6,
@@ -3482,10 +3482,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -21,
-                        "top": -146,
-                        "width": 46
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3976,
                     "duration": 2,
@@ -3517,10 +3517,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -144,
-                        "width": 44
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3976,
                     "duration": 6,
@@ -3562,10 +3562,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -144,
-                        "width": 45
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3976,
                     "duration": 2,
@@ -3614,10 +3614,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -14,
-                        "top": -143,
-                        "width": 39
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3368,
                     "duration": 4,
@@ -3659,10 +3659,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -144,
-                        "width": 46
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 776,
                     "duration": 6,
@@ -3711,10 +3711,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 44
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3400,
                     "duration": 4,
@@ -3756,10 +3756,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -22,
-                        "top": -144,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 264,
                     "duration": 10,
@@ -3808,10 +3808,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -18,
-                        "top": -147,
-                        "width": 41
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3352,
                     "duration": 4,
@@ -3853,9 +3853,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -20,
-                        "top": -149,
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
                         "width": 40
                     },
                     "defense_flag": 776,
@@ -3905,10 +3905,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -21,
-                        "top": -140,
-                        "width": 42
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8448,
                     "duration": 5,
@@ -3936,10 +3936,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -20,
-                        "top": -140,
-                        "width": 42
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -3970,10 +3970,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -14,
-                        "top": -139,
-                        "width": 15
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -4016,10 +4016,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -14,
-                        "top": -139,
-                        "width": 15
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -4067,10 +4067,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 52,
-                        "left": -42,
-                        "top": -49,
-                        "width": 92
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 8192,
                     "duration": 5,
@@ -4095,10 +4095,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 44,
-                        "left": -39,
-                        "top": -48,
-                        "width": 79
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1,
                     "duration": 25,
@@ -4123,10 +4123,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -32,
-                        "top": -127,
-                        "width": 67
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 9,
                     "duration": 14,
@@ -4148,10 +4148,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 128,
-                        "left": -18,
-                        "top": -131,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 5,
                     "offset": {
@@ -4266,10 +4266,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 114,
-                        "left": -24,
-                        "top": -111,
-                        "width": 51
+                        "height": 117,
+                        "left": -21,
+                        "top": -119,
+                        "width": 59
                     },
                     "defense_flag": 131592,
                     "duration": 3,
@@ -4399,10 +4399,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 114,
-                        "left": -24,
-                        "top": -111,
-                        "width": 51
+                        "height": 117,
+                        "left": -21,
+                        "top": -119,
+                        "width": 59
                     },
                     "defense_flag": 131592,
                     "duration": 3,
@@ -4445,10 +4445,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 126,
-                        "left": -29,
-                        "top": -128,
-                        "width": 55
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097920,
                     "hurt_boxes": [
@@ -4483,10 +4483,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 126,
-                        "left": -29,
-                        "top": -128,
-                        "width": 55
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 768,
                     "duration": 10,
@@ -4524,10 +4524,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 129,
-                        "left": -32,
-                        "top": -128,
-                        "width": 66
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 776,
                     "hurt_boxes": [
@@ -4565,10 +4565,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -24,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 44
+                        "width": 40
                     },
                     "defense_flag": 2097408,
                     "duration": 5,
@@ -4586,10 +4586,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -24,
-                        "top": -139,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "size": {
@@ -4610,10 +4610,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
+                        "height": 136,
                         "left": -19,
-                        "top": -140,
-                        "width": 41
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 15,
@@ -4638,10 +4638,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097408,
                     "duration": 5,
@@ -4663,10 +4663,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 30,
@@ -4694,10 +4694,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16640,
                     "duration": 7,
@@ -4735,10 +4735,10 @@
                 {
                     "block_stun": 15,
                     "collision_box": {
-                        "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "counter_hit_speed": {
                         "x": 0,
@@ -4802,10 +4802,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 150,
-                        "left": -18,
-                        "top": -163,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16648,
                     "duration": 5,
@@ -4849,10 +4849,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
+                        "height": 136,
                         "left": -19,
-                        "top": -138,
-                        "width": 42
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2097408,
                     "duration": 5,
@@ -4870,10 +4870,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
+                        "height": 136,
                         "left": -19,
-                        "top": -138,
-                        "width": 42
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "size": {
@@ -4894,10 +4894,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 142,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 11,
@@ -4922,10 +4922,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 2097160,
                     "duration": 5,
@@ -4944,10 +4944,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "size": {
@@ -4968,10 +4968,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -18,
-                        "top": -133,
-                        "width": 42
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 11,
@@ -4996,10 +4996,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -123,
-                        "width": 50
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 73728,
                     "duration": 10,
@@ -5032,10 +5032,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -31,
-                        "top": -161,
-                        "width": 54
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -5061,10 +5061,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -30,
-                        "top": -161,
-                        "width": 53
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 4,
@@ -5097,10 +5097,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 120,
-                        "left": -31,
-                        "top": -138,
-                        "width": 62
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 30,
                     "hurt_boxes": [
@@ -5133,10 +5133,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -28,
-                        "top": -161,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -5163,10 +5163,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -45,
-                        "top": -161,
-                        "width": 68
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 4,
@@ -5195,10 +5195,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 110,
-                        "left": -31,
-                        "top": -109,
-                        "width": 62
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 30,
                     "hurt_boxes": [
@@ -5230,10 +5230,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -123,
-                        "width": 50
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 73728,
                     "duration": 6,
@@ -5267,10 +5267,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -24,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 44
+                        "width": 40
                     },
                     "defense_flag": 2101256,
                     "duration": 5,
@@ -5297,10 +5297,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -24,
-                        "top": -139,
-                        "width": 45
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -5329,10 +5329,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 141,
+                        "height": 136,
                         "left": -19,
-                        "top": -140,
-                        "width": 41
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -5365,10 +5365,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -23,
-                        "top": -137,
-                        "width": 42
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 2101256,
                     "duration": 5,
@@ -5401,10 +5401,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
+                        "height": 136,
                         "left": -19,
-                        "top": -138,
-                        "width": 42
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -5433,10 +5433,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 142,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -5469,10 +5469,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 137,
-                        "left": -21,
+                        "height": 136,
+                        "left": -19,
                         "top": -136,
-                        "width": 39
+                        "width": 40
                     },
                     "defense_flag": 2101256,
                     "duration": 5,
@@ -5499,10 +5499,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
-                        "left": -22,
-                        "top": -140,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "hurt_boxes": [
@@ -5531,10 +5531,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 132,
-                        "left": -9,
-                        "top": -132,
-                        "width": 14
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 256,
                     "duration": 2,
@@ -5579,10 +5579,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 6,
@@ -5620,10 +5620,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 2,
@@ -5663,10 +5663,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 6,
@@ -5704,10 +5704,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1672,
                     "duration": 2,
@@ -5746,10 +5746,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -25,
-                        "top": -95,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 6,
@@ -5787,10 +5787,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 2,
@@ -5830,10 +5830,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -24,
-                        "top": -93,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 6,
@@ -5871,10 +5871,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 68232,
                     "duration": 2,
@@ -5919,10 +5919,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1928,
                     "duration": 6,
@@ -5960,10 +5960,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1928,
                     "duration": 2,
@@ -6003,10 +6003,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1928,
                     "duration": 6,
@@ -6044,10 +6044,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1928,
                     "duration": 2,
@@ -6086,10 +6086,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 136,
                     "duration": 4,
@@ -6125,10 +6125,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 520,
                     "duration": 6,
@@ -6171,10 +6171,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 67720,
                     "duration": 4,
@@ -6204,10 +6204,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 90,
-                        "left": -22,
-                        "top": -87,
-                        "width": 51
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 66056,
                     "duration": 6,
@@ -6244,10 +6244,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -20,
-                        "top": -148,
-                        "width": 46
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 3464,
                     "duration": 4,
@@ -6277,10 +6277,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -21,
-                        "top": -146,
-                        "width": 46
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 776,
                     "duration": 6,
@@ -6317,10 +6317,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1832,
                     "duration": 6,
@@ -6358,10 +6358,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1832,
                     "duration": 2,
@@ -6401,10 +6401,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1832,
                     "duration": 6,
@@ -6442,10 +6442,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1832,
                     "duration": 2,
@@ -6484,10 +6484,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1864,
                     "duration": 6,
@@ -6525,10 +6525,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1864,
                     "duration": 2,
@@ -6568,10 +6568,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1864,
                     "duration": 6,
@@ -6609,10 +6609,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1864,
                     "duration": 2,
@@ -6651,10 +6651,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1816,
                     "duration": 6,
@@ -6692,10 +6692,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1816,
                     "duration": 2,
@@ -6735,10 +6735,10 @@
             [
                 {
                     "collision_box": {
-                        "height": 143,
+                        "height": 136,
                         "left": -19,
-                        "top": -142,
-                        "width": 54
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1816,
                     "duration": 6,
@@ -6776,10 +6776,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 143,
-                        "left": -16,
-                        "top": -143,
-                        "width": 48
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 1816,
                     "duration": 2,
@@ -6853,10 +6853,10 @@
                 {
                     "block_stun": 13,
                     "collision_box": {
-                        "height": 134,
+                        "height": 138,
                         "left": -19,
-                        "top": -139,
-                        "width": 46
+                        "top": -143,
+                        "width": 40
                     },
                     "damage": 500,
                     "duration": 2,
@@ -6912,10 +6912,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -17,
-                        "top": -138,
-                        "width": 41
+                        "height": 138,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "duration": 6,
                     "hurt_boxes": [
@@ -6951,10 +6951,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -18,
-                        "top": -135,
-                        "width": 38
+                        "height": 138,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "duration": 6,
                     "hurt_boxes": [
@@ -7035,9 +7035,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -18,
-                        "top": -139,
-                        "width": 39
+                        "left": -17,
+                        "top": -138,
+                        "width": 37
                     },
                     "defense_flag": 20480,
                     "duration": 4,
@@ -7079,8 +7079,8 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -18,
-                        "top": -142,
+                        "left": -17,
+                        "top": -138,
                         "width": 37
                     },
                     "defense_flag": 20480,
@@ -7129,9 +7129,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -142,
-                        "width": 40
+                        "left": -17,
+                        "top": -138,
+                        "width": 37
                     },
                     "counter_hit_speed": {
                         "x": 22,
@@ -7203,9 +7203,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -23,
-                        "top": -142,
-                        "width": 49
+                        "left": -17,
+                        "top": -138,
+                        "width": 37
                     },
                     "duration": 8,
                     "hurt_boxes": [
@@ -7246,9 +7246,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -18,
-                        "top": -140,
-                        "width": 42
+                        "left": -17,
+                        "top": -138,
+                        "width": 37
                     },
                     "duration": 10,
                     "hurt_boxes": [
@@ -7359,9 +7359,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 138,
-                        "left": -23,
-                        "top": -142,
-                        "width": 46
+                        "left": -20,
+                        "top": -139,
+                        "width": 38
                     },
                     "counter_hit_speed": {
                         "x": 2,
@@ -7418,9 +7418,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -137,
-                        "width": 43
+                        "left": -20,
+                        "top": -139,
+                        "width": 38
                     },
                     "duration": 15,
                     "hurt_boxes": [
@@ -7496,10 +7496,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 73,
-                        "left": -19,
-                        "top": -74,
-                        "width": 38
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 81920,
                     "duration": 8,
@@ -7542,10 +7542,10 @@
                 {
                     "block_stun": 14,
                     "collision_box": {
-                        "height": 73,
-                        "left": -25,
-                        "top": -75,
-                        "width": 50
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 750,
                     "defense_flag": 81920,
@@ -7615,10 +7615,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 73,
-                        "left": -27,
-                        "top": -75,
-                        "width": 52
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 4,
@@ -7662,9 +7662,9 @@
                 {
                     "collision_box": {
                         "height": 71,
-                        "left": -27,
-                        "top": -75,
-                        "width": 56
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -7739,9 +7739,9 @@
                     "block_stun": 9,
                     "collision_box": {
                         "height": 95,
-                        "left": -21,
-                        "top": -100,
-                        "width": 43
+                        "left": -23,
+                        "top": -98,
+                        "width": 47
                     },
                     "damage": 500,
                     "defense_flag": 65536,
@@ -7800,9 +7800,9 @@
                     "block_stun": 5,
                     "collision_box": {
                         "height": 95,
-                        "left": -20,
-                        "top": -99,
-                        "width": 41
+                        "left": -23,
+                        "top": -98,
+                        "width": 47
                     },
                     "damage": 500,
                     "defense_flag": 65536,
@@ -7843,9 +7843,9 @@
                 {
                     "collision_box": {
                         "height": 95,
-                        "left": -22,
-                        "top": -101,
-                        "width": 46
+                        "left": -23,
+                        "top": -98,
+                        "width": 47
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -7908,10 +7908,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
-                        "left": -21,
-                        "top": -151,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16384,
                     "duration": 3,
@@ -7958,10 +7958,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 147,
-                        "left": -21,
-                        "top": -151,
-                        "width": 47
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "defense_flag": 16384,
                     "duration": 10,
@@ -8000,9 +8000,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -27,
-                        "top": -134,
-                        "width": 54
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 15,
                     "hurt_boxes": [
@@ -8030,9 +8030,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "damage": 500,
                     "duration": 6,
@@ -8067,9 +8067,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "duration": 6,
                     "offset": {
@@ -8092,9 +8092,9 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -20,
-                        "top": -141,
-                        "width": 44
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
                     },
                     "damage": 500,
                     "duration": 6,
@@ -8178,9 +8178,9 @@
                     "block_stun": 15,
                     "collision_box": {
                         "height": 99,
-                        "left": -29,
-                        "top": -102,
-                        "width": 62
+                        "left": -20,
+                        "top": -103,
+                        "width": 42
                     },
                     "counter_hit_speed": {
                         "x": 7,
@@ -8247,9 +8247,9 @@
                 {
                     "collision_box": {
                         "height": 99,
-                        "left": -25,
+                        "left": -20,
                         "top": -103,
-                        "width": 52
+                        "width": 42
                     },
                     "defense_flag": 524544,
                     "duration": 4,
@@ -8295,7 +8295,7 @@
                         "height": 99,
                         "left": -20,
                         "top": -103,
-                        "width": 41
+                        "width": 42
                     },
                     "defense_flag": 524544,
                     "duration": 3,
@@ -8375,10 +8375,10 @@
                 {
                     "block_stun": 8,
                     "collision_box": {
-                        "height": 150,
-                        "left": -20,
-                        "top": -154,
-                        "width": 51
+                        "height": 137,
+                        "left": -22,
+                        "top": -142,
+                        "width": 45
                     },
                     "counter_hit_speed": {
                         "x": 20,
@@ -8442,8 +8442,8 @@
                     "collision_box": {
                         "height": 137,
                         "left": -22,
-                        "top": -141,
-                        "width": 47
+                        "top": -142,
+                        "width": 45
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -8506,8 +8506,8 @@
                     "collision_box": {
                         "height": 137,
                         "left": -22,
-                        "top": -140,
-                        "width": 46
+                        "top": -142,
+                        "width": 45
                     },
                     "counter_hit_speed": {
                         "x": 5,
@@ -8576,8 +8576,8 @@
                     "collision_box": {
                         "height": 137,
                         "left": -22,
-                        "top": -140,
-                        "width": 46
+                        "top": -142,
+                        "width": 45
                     },
                     "counter_hit_speed": {
                         "x": 5,
@@ -8681,9 +8681,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 137,
-                        "left": -21,
-                        "top": -140,
-                        "width": 41
+                        "left": -16,
+                        "top": -142,
+                        "width": 37
                     },
                     "counter_hit_speed": {
                         "x": 5,
@@ -8747,9 +8747,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 137,
-                        "left": -20,
-                        "top": -141,
-                        "width": 40
+                        "left": -16,
+                        "top": -142,
+                        "width": 37
                     },
                     "counter_hit_speed": {
                         "x": 20,
@@ -8808,9 +8808,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 137,
-                        "left": -18,
-                        "top": -140,
-                        "width": 42
+                        "left": -16,
+                        "top": -142,
+                        "width": 37
                     },
                     "counter_hit_speed": {
                         "x": 25,
@@ -8873,9 +8873,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 137,
-                        "left": -18,
-                        "top": -140,
-                        "width": 42
+                        "left": -16,
+                        "top": -142,
+                        "width": 37
                     },
                     "counter_hit_speed": {
                         "x": 25,
@@ -8979,9 +8979,9 @@
                     "block_stun": 8,
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -145,
-                        "width": 38
+                        "left": -15,
+                        "top": -142,
+                        "width": 35
                     },
                     "counter_hit_speed": {
                         "x": 0,
@@ -9047,9 +9047,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -18,
-                        "top": -143,
-                        "width": 39
+                        "left": -15,
+                        "top": -142,
+                        "width": 35
                     },
                     "defense_flag": 256,
                     "duration": 9,
@@ -9130,7 +9130,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9200,7 +9200,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9270,7 +9270,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9340,7 +9340,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9410,7 +9410,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9480,7 +9480,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9550,7 +9550,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9620,7 +9620,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9690,7 +9690,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9760,7 +9760,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 15,
@@ -9830,7 +9830,7 @@
                         "height": 137,
                         "left": -21,
                         "top": -141,
-                        "width": 48
+                        "width": 47
                     },
                     "counter_hit_speed": {
                         "x": 20,
@@ -9925,9 +9925,9 @@
                     "block_stun": 10,
                     "collision_box": {
                         "height": 138,
-                        "left": -23,
-                        "top": -142,
-                        "width": 46
+                        "left": -20,
+                        "top": -139,
+                        "width": 38
                     },
                     "counter_hit_speed": {
                         "x": 2,
@@ -9974,9 +9974,9 @@
                     "block_stun": 14,
                     "collision_box": {
                         "height": 138,
-                        "left": -23,
-                        "top": -142,
-                        "width": 46
+                        "left": -20,
+                        "top": -139,
+                        "width": 38
                     },
                     "counter_hit_speed": {
                         "x": 5,
@@ -10033,9 +10033,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -137,
-                        "width": 43
+                        "left": -20,
+                        "top": -139,
+                        "width": 38
                     },
                     "duration": 18,
                     "hurt_boxes": [
@@ -10112,10 +10112,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 76,
-                        "left": -36,
-                        "top": -79,
-                        "width": 58
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 300,
                     "defense_flag": 81920,
@@ -10155,10 +10155,10 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 73,
-                        "left": -19,
-                        "top": -74,
-                        "width": 38
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 300,
                     "defense_flag": 81920,
@@ -10221,10 +10221,10 @@
                 {
                     "block_stun": 10,
                     "collision_box": {
-                        "height": 73,
-                        "left": -35,
-                        "top": -75,
-                        "width": 60
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "counter_hit_speed": {
                         "x": -6,
@@ -10299,10 +10299,10 @@
                 {
                     "block_stun": 15,
                     "collision_box": {
-                        "height": 73,
-                        "left": -35,
-                        "top": -75,
-                        "width": 60
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "counter_hit_speed": {
                         "x": -6,
@@ -10369,10 +10369,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 73,
-                        "left": -27,
-                        "top": -75,
-                        "width": 52
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 6,
@@ -10416,9 +10416,9 @@
                 {
                     "collision_box": {
                         "height": 71,
-                        "left": -27,
-                        "top": -75,
-                        "width": 56
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 4,
@@ -10489,8 +10489,8 @@
                     "block_stun": 2,
                     "collision_box": {
                         "height": 176,
-                        "left": -35,
-                        "top": -175,
+                        "left": -28,
+                        "top": -183,
                         "width": 57
                     },
                     "counter_hit_speed": {
@@ -10656,9 +10656,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 192,
-                        "left": -22,
-                        "top": -195,
+                        "height": 180,
+                        "left": -27,
+                        "top": -181,
                         "width": 56
                     },
                     "defense_flag": 49161,
@@ -10692,9 +10692,9 @@
                 {
                     "block_stun": 20,
                     "collision_box": {
-                        "height": 192,
+                        "height": 180,
                         "left": -27,
-                        "top": -195,
+                        "top": -181,
                         "width": 56
                     },
                     "counter_hit_speed": {
@@ -10750,9 +10750,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 192,
-                        "left": -22,
-                        "top": -195,
+                        "height": 180,
+                        "left": -27,
+                        "top": -181,
                         "width": 56
                     },
                     "duration": 12,
@@ -11144,9 +11144,9 @@
                     "block_stun": 4,
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -145,
-                        "width": 38
+                        "left": -15,
+                        "top": -142,
+                        "width": 35
                     },
                     "counter_hit_speed": {
                         "x": 0,
@@ -11210,9 +11210,9 @@
                     "block_stun": 12,
                     "collision_box": {
                         "height": 138,
-                        "left": -19,
-                        "top": -145,
-                        "width": 38
+                        "left": -15,
+                        "top": -142,
+                        "width": 35
                     },
                     "counter_hit_speed": {
                         "x": 2,
@@ -11277,9 +11277,9 @@
                 {
                     "collision_box": {
                         "height": 138,
-                        "left": -18,
-                        "top": -143,
-                        "width": 39
+                        "left": -15,
+                        "top": -142,
+                        "width": 35
                     },
                     "defense_flag": 524544,
                     "duration": 13,
@@ -11352,10 +11352,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 134,
+                        "height": 138,
                         "left": -19,
-                        "top": -139,
-                        "width": 46
+                        "top": -143,
+                        "width": 40
                     },
                     "damage": 600,
                     "defense_flag": 16384,
@@ -11412,10 +11412,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -17,
-                        "top": -138,
-                        "width": 41
+                        "height": 138,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "duration": 5,
                     "hurt_boxes": [
@@ -11451,10 +11451,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -18,
-                        "top": -135,
-                        "width": 38
+                        "height": 138,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "duration": 5,
                     "hurt_boxes": [
@@ -11536,10 +11536,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 76,
-                        "left": -22,
-                        "top": -77,
-                        "width": 49
+                        "height": 71,
+                        "left": -20,
+                        "top": -73,
+                        "width": 45
                     },
                     "defense_flag": 16384,
                     "duration": 9,
@@ -11572,10 +11572,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 92,
-                        "left": -26,
-                        "top": -94,
-                        "width": 49
+                        "height": 71,
+                        "left": -20,
+                        "top": -73,
+                        "width": 45
                     },
                     "damage": 600,
                     "defense_flag": 16384,
@@ -11635,10 +11635,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 107,
-                        "left": -23,
-                        "top": -106,
-                        "width": 49
+                        "height": 71,
+                        "left": -20,
+                        "top": -73,
+                        "width": 45
                     },
                     "damage": 600,
                     "defense_flag": 16384,
@@ -11696,10 +11696,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 89,
-                        "left": -24,
-                        "top": -90,
-                        "width": 50
+                        "height": 71,
+                        "left": -20,
+                        "top": -73,
+                        "width": 45
                     },
                     "duration": 10,
                     "hurt_boxes": [
@@ -11769,8 +11769,8 @@
                     "block_stun": 2,
                     "collision_box": {
                         "height": 176,
-                        "left": -35,
-                        "top": -175,
+                        "left": -28,
+                        "top": -183,
                         "width": 57
                     },
                     "counter_hit_speed": {
@@ -11888,7 +11888,7 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
+                        "height": 143,
                         "left": -19,
                         "top": -143,
                         "width": 40
@@ -11926,7 +11926,7 @@
                 },
                 {
                     "collision_box": {
-                        "height": 138,
+                        "height": 143,
                         "left": -19,
                         "top": -143,
                         "width": 40
@@ -11965,10 +11965,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 134,
+                        "height": 143,
                         "left": -19,
-                        "top": -139,
-                        "width": 46
+                        "top": -143,
+                        "width": 40
                     },
                     "damage": 300,
                     "defense_flag": 20736,
@@ -12032,10 +12032,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 134,
+                        "height": 143,
                         "left": -19,
-                        "top": -139,
-                        "width": 46
+                        "top": -143,
+                        "width": 40
                     },
                     "damage": 300,
                     "defense_flag": 16640,
@@ -12097,10 +12097,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 134,
+                        "height": 143,
                         "left": -19,
-                        "top": -139,
-                        "width": 46
+                        "top": -143,
+                        "width": 40
                     },
                     "damage": 300,
                     "defense_flag": 16640,
@@ -12161,10 +12161,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -17,
-                        "top": -138,
-                        "width": 41
+                        "height": 143,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "defense_flag": 528640,
                     "duration": 7,
@@ -12205,10 +12205,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 134,
-                        "left": -18,
-                        "top": -135,
-                        "width": 38
+                        "height": 143,
+                        "left": -19,
+                        "top": -143,
+                        "width": 40
                     },
                     "defense_flag": 4352,
                     "duration": 7,
@@ -12285,10 +12285,10 @@
                 {
                     "block_stun": 9,
                     "collision_box": {
-                        "height": 165,
+                        "height": 142,
                         "left": -20,
-                        "top": -168,
-                        "width": 49
+                        "top": -144,
+                        "width": 45
                     },
                     "damage": 200,
                     "defense_flag": 2638080,
@@ -12344,10 +12344,10 @@
                 {
                     "block_stun": 9,
                     "collision_box": {
-                        "height": 165,
-                        "left": -22,
-                        "top": -175,
-                        "width": 49
+                        "height": 142,
+                        "left": -20,
+                        "top": -144,
+                        "width": 45
                     },
                     "damage": 200,
                     "defense_flag": 2638080,
@@ -12416,10 +12416,10 @@
                 {
                     "block_stun": 9,
                     "collision_box": {
-                        "height": 107,
-                        "left": -25,
-                        "top": -107,
-                        "width": 49
+                        "height": 142,
+                        "left": -20,
+                        "top": -144,
+                        "width": 45
                     },
                     "damage": 200,
                     "defense_flag": 2638080,
@@ -12511,10 +12511,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -24,
-                        "top": -124,
-                        "width": 50
+                        "height": 142,
+                        "left": -20,
+                        "top": -144,
+                        "width": 45
                     },
                     "defense_flag": 524544,
                     "hurt_boxes": [
@@ -12554,10 +12554,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 123,
-                        "left": -24,
-                        "top": -124,
-                        "width": 50
+                        "height": 142,
+                        "left": -20,
+                        "top": -144,
+                        "width": 45
                     },
                     "defense_flag": 524544,
                     "duration": 12,
@@ -12672,9 +12672,9 @@
                     "block_stun": 6,
                     "collision_box": {
                         "height": 164,
-                        "left": -24,
-                        "top": -179,
-                        "width": 49
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 4,
@@ -12760,9 +12760,9 @@
                     "block_stun": 6,
                     "collision_box": {
                         "height": 164,
-                        "left": -24,
-                        "top": -179,
-                        "width": 49
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 4,
@@ -12843,9 +12843,9 @@
                     "block_stun": 6,
                     "collision_box": {
                         "height": 164,
-                        "left": -24,
-                        "top": -179,
-                        "width": 49
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 4,
@@ -12927,9 +12927,9 @@
                     "block_stun": 6,
                     "collision_box": {
                         "height": 164,
-                        "left": -24,
-                        "top": -179,
-                        "width": 49
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 4,
@@ -13011,9 +13011,9 @@
                     "block_stun": 6,
                     "collision_box": {
                         "height": 164,
-                        "left": -24,
-                        "top": -179,
-                        "width": 49
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
                     },
                     "counter_hit_speed": {
                         "x": 4,
@@ -13093,8 +13093,8 @@
                 {
                     "collision_box": {
                         "height": 164,
-                        "left": -16,
-                        "top": -169,
+                        "left": -17,
+                        "top": -166,
                         "width": 34
                     },
                     "defense_flag": 532737,
@@ -13160,8 +13160,8 @@
                     "block_stun": 2,
                     "collision_box": {
                         "height": 176,
-                        "left": -35,
-                        "top": -175,
+                        "left": -28,
+                        "top": -183,
                         "width": 57
                     },
                     "counter_hit_speed": {
@@ -13279,10 +13279,10 @@
                 {
                     "block_stun": 8,
                     "collision_box": {
-                        "height": 135,
-                        "left": -18,
-                        "top": -138,
-                        "width": 36
+                        "height": 142,
+                        "left": -19,
+                        "top": -144,
+                        "width": 39
                     },
                     "damage": 400,
                     "defense_flag": 524288,
@@ -13340,10 +13340,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 139,
-                        "left": -17,
-                        "top": -141,
-                        "width": 36
+                        "height": 142,
+                        "left": -19,
+                        "top": -144,
+                        "width": 39
                     },
                     "duration": 6,
                     "hurt_boxes": [
@@ -13426,10 +13426,10 @@
                 {
                     "block_stun": 5,
                     "collision_box": {
-                        "height": 73,
-                        "left": -19,
-                        "top": -74,
-                        "width": 38
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 100,
                     "defense_flag": 81920,
@@ -13493,10 +13493,10 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 73,
-                        "left": -25,
-                        "top": -75,
-                        "width": 50
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 100,
                     "defense_flag": 81920,
@@ -13560,10 +13560,10 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 73,
-                        "left": -25,
-                        "top": -75,
-                        "width": 50
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "damage": 250,
                     "defense_flag": 81920,
@@ -13626,10 +13626,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 73,
-                        "left": -27,
-                        "top": -75,
-                        "width": 52
+                        "height": 71,
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -13673,9 +13673,9 @@
                 {
                     "collision_box": {
                         "height": 71,
-                        "left": -27,
-                        "top": -75,
-                        "width": 56
+                        "left": -22,
+                        "top": -73,
+                        "width": 43
                     },
                     "defense_flag": 65536,
                     "duration": 5,
@@ -13746,8 +13746,8 @@
                     "block_stun": 2,
                     "collision_box": {
                         "height": 176,
-                        "left": -35,
-                        "top": -175,
+                        "left": -28,
+                        "top": -183,
                         "width": 57
                     },
                     "counter_hit_speed": {
@@ -13900,7 +13900,7 @@
                 {
                     "collision_box": {
                         "height": 192,
-                        "left": -13,
+                        "left": -15,
                         "top": -193,
                         "width": 56
                     },
@@ -13936,7 +13936,7 @@
                     "block_stun": 20,
                     "collision_box": {
                         "height": 192,
-                        "left": -28,
+                        "left": -15,
                         "top": -193,
                         "width": 56
                     },
@@ -13992,7 +13992,7 @@
                 {
                     "collision_box": {
                         "height": 192,
-                        "left": -14,
+                        "left": -15,
                         "top": -193,
                         "width": 56
                     },
@@ -14066,10 +14066,10 @@
                 {
                     "block_stun": 10,
                     "collision_box": {
-                        "height": 141,
-                        "left": -18,
-                        "top": -134,
-                        "width": 36
+                        "height": 137,
+                        "left": -24,
+                        "top": -130,
+                        "width": 42
                     },
                     "counter_hit_speed": {
                         "x": 1,
@@ -14139,10 +14139,10 @@
                 {
                     "block_stun": 7,
                     "collision_box": {
-                        "height": 147,
-                        "left": -16,
-                        "top": -140,
-                        "width": 34
+                        "height": 137,
+                        "left": -24,
+                        "top": -130,
+                        "width": 42
                     },
                     "counter_hit_speed": {
                         "x": 1,
@@ -14230,10 +14230,10 @@
                 {
                     "block_stun": 8,
                     "collision_box": {
-                        "height": 143,
-                        "left": -18,
-                        "top": -139,
-                        "width": 40
+                        "height": 150,
+                        "left": -19,
+                        "top": -150,
+                        "width": 42
                     },
                     "counter_hit_speed": {
                         "x": 1,
@@ -14294,10 +14294,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 145,
-                        "left": -18,
-                        "top": -143,
-                        "width": 41
+                        "height": 150,
+                        "left": -19,
+                        "top": -150,
+                        "width": 42
                     },
                     "counter_hit_speed": {
                         "x": 1,
@@ -14374,7 +14374,7 @@
                 {
                     "collision_box": {
                         "height": 90,
-                        "left": -13,
+                        "left": -15,
                         "top": -89,
                         "width": 62
                     },
@@ -14407,10 +14407,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 129,
-                        "left": -30,
-                        "top": -130,
-                        "width": 61
+                        "height": 90,
+                        "left": -15,
+                        "top": -89,
+                        "width": 62
                     },
                     "damage": 1000,
                     "defense_flag": 46268680,
@@ -14463,10 +14463,10 @@
                 {
                     "block_stun": 12,
                     "collision_box": {
-                        "height": 129,
-                        "left": -30,
-                        "top": -130,
-                        "width": 61
+                        "height": 90,
+                        "left": -15,
+                        "top": -89,
+                        "width": 62
                     },
                     "damage": 700,
                     "defense_flag": 46268680,
@@ -14512,10 +14512,10 @@
                 },
                 {
                     "collision_box": {
-                        "height": 136,
-                        "left": -27,
-                        "top": -134,
-                        "width": 54
+                        "height": 90,
+                        "left": -15,
+                        "top": -89,
+                        "width": 62
                     },
                     "defense_flag": 540928,
                     "duration": 60,
