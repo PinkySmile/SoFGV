@@ -526,25 +526,30 @@ namespace Battle
 		}
 		if (this->_connecting || game.networkMgr.isHosting())
 			return;
-		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
 			this->_host(this->_specCount);
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
 		if (this->_changingInputs) {
 			this->_changeInput = true;
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
 		if (this->_askingInputs) {
 			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
 				this->_onInputsChosen();
-			else if (this->_leftInput)
+			else if (this->_leftInput) {
+				if (stickId != 1 && this->_leftInput == stickId)
+					return;
 				this->_rightInput = stickId;
-			else
+			} else
 				this->_leftInput = stickId;
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
+		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 
 		switch (this->_selectedEntry) {
 		case 0:
