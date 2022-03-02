@@ -30,6 +30,8 @@ namespace Battle
 		void _applyNewAnimFlags() override;
 		bool _canStartMove(unsigned int action, const FrameData &data) override;
 
+		void _forceStartMove(unsigned int action) override;
+
 	public:
 		Stickman() = default;
 		Stickman(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
