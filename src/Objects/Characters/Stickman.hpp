@@ -7,6 +7,7 @@
 
 
 #include "../Character.hpp"
+#include <random>
 
 namespace Battle
 {

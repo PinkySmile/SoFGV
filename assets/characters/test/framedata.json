@@ -15112,7 +15112,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 12288,
+                    "defense_flag": 28672,
                     "duration": 9,
                     "hit_speed": {
                         "x": 3,
@@ -15122,42 +15122,209 @@
                     "hit_stun": 18,
                     "hurt_boxes": [
                         {
-                            "height": 188,
-                            "left": -20,
-                            "top": -189,
-                            "width": 45
+                            "height": 120,
+                            "left": -31,
+                            "top": -118,
+                            "width": 56
+                        },
+                        {
+                            "height": 67,
+                            "left": 19,
+                            "top": -169,
+                            "width": 53
                         }
                     ],
                     "marker": 1,
                     "matter_limit": 10,
                     "neutral_limit": 10,
                     "offense_flag": 3072,
+                    "offset": {
+                        "x": 19,
+                        "y": 0
+                    },
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
                     "size": {
-                        "x": 52,
-                        "y": 192
+                        "x": 102,
+                        "y": 170
                     },
                     "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 96,
-                        "left": 0,
-                        "top": 1,
-                        "width": 26
+                        "height": 92,
+                        "left": 427,
+                        "top": 814,
+                        "width": 51
                     },
                     "void_limit": 10
                 }
             ],
             [
                 {
-                    "sprite": ""
+                    "defense_flag": 20480,
+                    "hurt_boxes": [
+                        {
+                            "height": 105,
+                            "left": -47,
+                            "top": -105,
+                            "width": 75
+                        },
+                        {
+                            "height": 70,
+                            "left": 4,
+                            "top": -164,
+                            "width": 65
+                        }
+                    ],
+                    "marker": 20,
+                    "offense_flag": 3072,
+                    "offset": {
+                        "x": 11,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 116,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 482,
+                        "top": 825,
+                        "width": 59
+                    }
                 }
             ],
             [
                 {
-                    "sprite": ""
+                    "block_stun": 12,
+                    "collision_box": {
+                        "height": 105,
+                        "left": -26,
+                        "top": -107,
+                        "width": 54
+                    },
+                    "damage": 600,
+                    "defense_flag": 20480,
+                    "duration": 2,
+                    "hit_boxes": [
+                        {
+                            "height": 38,
+                            "left": 23,
+                            "top": -86,
+                            "width": 75
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
+                    "hit_stop": 12,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 105,
+                            "left": -35,
+                            "top": -104,
+                            "width": 61
+                        },
+                        {
+                            "height": 71,
+                            "left": 9,
+                            "top": -171,
+                            "width": 57
+                        },
+                        {
+                            "height": 55,
+                            "left": 20,
+                            "top": -96,
+                            "width": 85
+                        }
+                    ],
+                    "matter_limit": 10,
+                    "neutral_limit": 10,
+                    "offense_flag": 3072,
+                    "offset": {
+                        "x": 30,
+                        "y": 0
+                    },
+                    "prorate": 95.0,
+                    "push_back": 2,
+                    "push_block": 2,
+                    "size": {
+                        "x": 130,
+                        "y": 170
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 76,
+                        "left": 544,
+                        "top": 831,
+                        "width": 65
+                    },
+                    "void_limit": 10
+                },
+                {
+                    "block_stun": 12,
+                    "collision_box": {
+                        "height": 105,
+                        "left": -26,
+                        "top": -107,
+                        "width": 54
+                    },
+                    "damage": 600,
+                    "defense_flag": 4096,
+                    "duration": 15,
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 97,
+                            "left": -42,
+                            "top": -99,
+                            "width": 61
+                        },
+                        {
+                            "height": 77,
+                            "left": 8,
+                            "top": -170,
+                            "width": 57
+                        },
+                        {
+                            "height": 55,
+                            "left": 11,
+                            "top": -93,
+                            "width": 85
+                        }
+                    ],
+                    "matter_limit": 10,
+                    "neutral_limit": 10,
+                    "offense_flag": 3072,
+                    "offset": {
+                        "x": 23,
+                        "y": 0
+                    },
+                    "prorate": 95.0,
+                    "push_back": 2,
+                    "push_block": 2,
+                    "size": {
+                        "x": 116,
+                        "y": 170
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 76,
+                        "left": 610,
+                        "top": 831,
+                        "width": 58
+                    },
+                    "void_limit": 10
                 }
             ]
         ]
