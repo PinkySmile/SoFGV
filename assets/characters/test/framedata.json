@@ -2938,6 +2938,7 @@
                         "top": -136,
                         "width": 40
                     },
+                    "defense_flag": 8192,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -3371,7 +3372,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 65536,
+                    "defense_flag": 73728,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -15094,6 +15095,69 @@
                         "top": 702,
                         "width": 47
                     }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 300,
+        "framedata": [
+            [
+                {
+                    "block_stun": 12,
+                    "collision_box": {
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
+                    },
+                    "damage": 600,
+                    "defense_flag": 12288,
+                    "duration": 9,
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
+                    "hit_stop": 12,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 188,
+                            "left": -20,
+                            "top": -189,
+                            "width": 45
+                        }
+                    ],
+                    "marker": 1,
+                    "matter_limit": 10,
+                    "neutral_limit": 10,
+                    "offense_flag": 3072,
+                    "prorate": 95.0,
+                    "push_back": 2,
+                    "push_block": 2,
+                    "size": {
+                        "x": 52,
+                        "y": 192
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 0,
+                        "top": 1,
+                        "width": 26
+                    },
+                    "void_limit": 10
+                }
+            ],
+            [
+                {
+                    "sprite": ""
+                }
+            ],
+            [
+                {
+                    "sprite": ""
                 }
             ]
         ]
