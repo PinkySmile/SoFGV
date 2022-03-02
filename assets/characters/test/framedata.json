@@ -15337,14 +15337,6 @@
                     "damage": 600,
                     "defense_flag": 20480,
                     "duration": 2,
-                    "hit_boxes": [
-                        {
-                            "height": 48,
-                            "left": 152,
-                            "top": -345,
-                            "width": 81
-                        }
-                    ],
                     "hit_speed": {
                         "x": 3,
                         "y": 0
