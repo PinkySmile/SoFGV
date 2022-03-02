@@ -31,16 +31,7 @@ namespace Battle
 
 	void Stickman::_tickMove()
 	{
-		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
-			switch (this->_actionBlock) {
-			case 0:
-			case 1:
-				break;
-			case 2:
-				this->_decreaseMoveTime();
-				break;
-			}
-		} else
+		if (this->_action < ACTION_5A || this->_action > ACTION_c64A || this->_actionBlock == 2)
 			this->_decreaseMoveTime();
 		Object::_tickMove();
 	}
@@ -49,7 +40,7 @@ namespace Battle
 	{
 		auto data = Object::getCurrentFrameData();
 
-		if (!this->_moveLength)
+		if (!this->_flagsGenerated)
 			return data;
 		this->_fakeFrameData = *data;
 		this->_fakeFrameData.dFlag.flags |= this->_addedDFlags.flags;
