@@ -97,6 +97,13 @@ static const char *dFlags[] = {
 
 namespace Battle
 {
+	std::function<bool (const Character::LastInput &)> Character::getInputN = [](const Character::LastInput &input) { return input.n; };
+	std::function<bool (const Character::LastInput &)> Character::getInputM = [](const Character::LastInput &input) { return input.m; };
+	std::function<bool (const Character::LastInput &)> Character::getInputS = [](const Character::LastInput &input) { return input.s; };
+	std::function<bool (const Character::LastInput &)> Character::getInputV = [](const Character::LastInput &input) { return input.o; };
+	std::function<bool (const Character::LastInput &)> Character::getInputD = [](const Character::LastInput &input) { return input.d; };
+	std::function<bool (const Character::LastInput &)> Character::getInputA = [](const Character::LastInput &input) { return input.a; };
+
 	const std::map<CharacterActions, std::string> actionNames{
 		{ ACTION_IDLE,                           "Idle" },
 		{ ACTION_CROUCHING,                      "Crouching" },
@@ -700,6 +707,8 @@ namespace Battle
 		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_j6321469874M)) ||
 			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_j6321469874D)) ||
 			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_j6321469874D)) ||
+			((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_j6321469874A)) ||
+			((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_j6321469874A)) ||
 
 		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_j63214N)) ||
 		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_j41236N)) ||
@@ -711,6 +720,8 @@ namespace Battle
 		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_j41236M)) ||
 			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_j63214D)) ||
 			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_j41236D)) ||
+			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
+			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
 
 		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
 		        (this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
@@ -722,6 +733,8 @@ namespace Battle
 		        (this->_specialInputs._421m && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
 			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
+			(this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
+			(this->_specialInputs._421a && this->_startMove(ACTION_j421A)) ||
 
 		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
 		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
@@ -733,6 +746,8 @@ namespace Battle
 		        (this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
 			(this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
 			(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
+			(this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
+			(this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
 
 		        this->_executeAirParry(input) ||
 
@@ -756,6 +771,11 @@ namespace Battle
 		        (input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
 		        (input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2M)) ||
 		        (input.m &&                                                                      this->_startMove(ACTION_j5M)) ||
+			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8A)) ||
+			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3A)) ||
+			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6A)) ||
+			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_j2A)) ||
+			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_j5A)) ||
 			this->_executeAirDashes(input) ||
 		        this->_executeAirJump(input);
 	}
@@ -776,6 +796,8 @@ namespace Battle
 			(this->_specialInputs._c28m && this->_startMove(ACTION_c28M)) ||
 			(this->_specialInputs._c46m && this->_startMove(ACTION_c46M)) ||
 			(this->_specialInputs._c64m && this->_startMove(ACTION_c64M)) ||
+			(this->_specialInputs._c46a && this->_startMove(ACTION_c46A)) ||
+			(this->_specialInputs._c64a && this->_startMove(ACTION_c64A)) ||
 
 			((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
 			((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
@@ -787,6 +809,8 @@ namespace Battle
 			((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_6321469874M)) ||
 			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_6321469874D)) ||
 			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_6321469874D)) ||
+			((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_6321469874A)) ||
+			((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_6321469874A)) ||
 
 			((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_63214N)) ||
 			((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_41236N)) ||
@@ -798,6 +822,8 @@ namespace Battle
 			((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_41236M)) ||
 			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_63214D)) ||
 			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_41236D)) ||
+			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_63214A)) ||
+			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_41236A)) ||
 
 			(this->_specialInputs._623n && this->_startMove(ACTION_623N)) ||
 			(this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
@@ -809,6 +835,8 @@ namespace Battle
 			(this->_specialInputs._421m && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623d && this->_startMove(ACTION_623D)) ||
 			(this->_specialInputs._421d && this->_startMove(ACTION_421D)) ||
+			(this->_specialInputs._623a && this->_startMove(ACTION_623A)) ||
+			(this->_specialInputs._421a && this->_startMove(ACTION_421A)) ||
 
 			(this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
 			(this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
@@ -820,6 +848,8 @@ namespace Battle
 			(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
 			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
 			(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
+			(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
+			(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
 
 			this->_executeGroundParry(input) ||
 
@@ -843,6 +873,11 @@ namespace Battle
 			(input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
 			(input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2M)) ||
 			(input.m &&                                                                      this->_startMove(ACTION_5M)) ||
+			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8A)) ||
+			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3A)) ||
+			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6A)) ||
+			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_2A)) ||
+			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_5A)) ||
 		        this->_executeGroundJump(input)   ||
 		        this->_executeGroundDashes(input) ||
 		        this->_executeCrouch(input)       ||
@@ -1240,51 +1275,8 @@ namespace Battle
 		Object::_checkPlatforms(oldPos);
 	}
 
-	void Character::_checkSpecialInputs(bool tickBuffer)
+	void Character::_checkAllc28Input(bool tickBuffer)
 	{
-		if (this->_inputDisabled) {
-			memset(this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
-			return;
-		}
-
-		std::function<bool (const LastInput &)> getInputN = [](const LastInput &input) { return input.n; };
-		std::function<bool (const LastInput &)> getInputM = [](const LastInput &input) { return input.m; };
-		std::function<bool (const LastInput &)> getInputS = [](const LastInput &input) { return input.s; };
-		std::function<bool (const LastInput &)> getInputV = [](const LastInput &input) { return input.o; };
-		std::function<bool (const LastInput &)> getInputD = [](const LastInput &input) { return input.d; };
-
-		this->_clearLastInputs();
-		this->_specialInputs._22 = this->_check22Input();
-
-		if (this->_specialInputs._44)
-			this->_specialInputs._44 -= tickBuffer;
-		else
-			this->_specialInputs._44 = this->_check44Input() * DASH_BUFFER_PERSIST;
-
-		if (this->_specialInputs._66)
-			this->_specialInputs._66 -= tickBuffer;
-		else
-			this->_specialInputs._66 = this->_check66Input() * DASH_BUFFER_PERSIST;
-
-		if (this->_specialInputs._27)
-			this->_specialInputs._27 -= tickBuffer;
-		else
-			this->_specialInputs._27 = this->_check27Input() * HJ_BUFFER_PERSIST;
-
-		if (this->_specialInputs._28)
-			this->_specialInputs._28 -= tickBuffer;
-		else
-			this->_specialInputs._28 = (this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP) * HJ_BUFFER_PERSIST;
-
-		if (this->_specialInputs._29)
-			this->_specialInputs._29 -= tickBuffer;
-		else
-			this->_specialInputs._29 = this->_check29Input() * HJ_BUFFER_PERSIST;
-
-		if (this->_atkDisabled) {
-			memset(&this->_specialInputs._value[3], 0, sizeof(this->_specialInputs._value) - 3);
-			return;
-		}
 		if (this->_specialInputs._c28n)
 			this->_specialInputs._c28n -= tickBuffer;
 		else
@@ -1310,6 +1302,14 @@ namespace Battle
 		else
 			this->_specialInputs._c28d = this->_checkc28Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._c28a)
+			this->_specialInputs._c28a -= tickBuffer;
+		else
+			this->_specialInputs._c28a = this->_checkc28Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAllc46Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._c46n)
 			this->_specialInputs._c46n -= tickBuffer;
 		else
@@ -1335,6 +1335,14 @@ namespace Battle
 		else
 			this->_specialInputs._c46d = this->_checkc46Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._c46a)
+			this->_specialInputs._c46a -= tickBuffer;
+		else
+			this->_specialInputs._c46a = this->_checkc46Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAllc64Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._c64n)
 			this->_specialInputs._c64n -= tickBuffer;
 		else
@@ -1360,6 +1368,14 @@ namespace Battle
 		else
 			this->_specialInputs._c64d = this->_checkc64Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._c64a)
+			this->_specialInputs._c64a -= tickBuffer;
+		else
+			this->_specialInputs._c64a = this->_checkc64Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll236Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._236n)
 			this->_specialInputs._236n -= tickBuffer;
 		else
@@ -1385,6 +1401,14 @@ namespace Battle
 		else
 			this->_specialInputs._236d = this->_check236Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._236a)
+			this->_specialInputs._236a -= tickBuffer;
+		else
+			this->_specialInputs._236a = this->_check236Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll214Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._214n)
 			this->_specialInputs._214n -= tickBuffer;
 		else
@@ -1410,6 +1434,14 @@ namespace Battle
 		else
 			this->_specialInputs._214d = this->_check214Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._214a)
+			this->_specialInputs._214a -= tickBuffer;
+		else
+			this->_specialInputs._214a = this->_check214Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll623Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._623n)
 			this->_specialInputs._623n -= tickBuffer;
 		else
@@ -1435,6 +1467,14 @@ namespace Battle
 		else
 			this->_specialInputs._623d = this->_check623Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._623a)
+			this->_specialInputs._623a -= tickBuffer;
+		else
+			this->_specialInputs._623a = this->_check623Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll421Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._421n)
 			this->_specialInputs._421n -= tickBuffer;
 		else
@@ -1460,6 +1500,14 @@ namespace Battle
 		else
 			this->_specialInputs._421d = this->_check421Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._421a)
+			this->_specialInputs._421a -= tickBuffer;
+		else
+			this->_specialInputs._421a = this->_check421Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll624Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._624n)
 			this->_specialInputs._624n -= tickBuffer;
 		else
@@ -1485,6 +1533,15 @@ namespace Battle
 		else
 			this->_specialInputs._624d = this->_check624Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._624a)
+			this->_specialInputs._624a -= tickBuffer;
+		else
+			this->_specialInputs._624a = this->_check624Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+
+	}
+
+	void Character::_checkAll426Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._426n)
 			this->_specialInputs._426n -= tickBuffer;
 		else
@@ -1510,6 +1567,14 @@ namespace Battle
 		else
 			this->_specialInputs._426d = this->_check426Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._426a)
+			this->_specialInputs._426a -= tickBuffer;
+		else
+			this->_specialInputs._426a = this->_check426Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll6314Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._6314n)
 			this->_specialInputs._6314n -= tickBuffer;
 		else
@@ -1535,6 +1600,14 @@ namespace Battle
 		else
 			this->_specialInputs._6314d = this->_check6314Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._6314a)
+			this->_specialInputs._6314a -= tickBuffer;
+		else
+			this->_specialInputs._6314a = this->_check6314Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll4136Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._4136n)
 			this->_specialInputs._4136n -= tickBuffer;
 		else
@@ -1560,6 +1633,14 @@ namespace Battle
 		else
 			this->_specialInputs._4136d = this->_check4136Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._4136a)
+			this->_specialInputs._4136a -= tickBuffer;
+		else
+			this->_specialInputs._4136a = this->_check4136Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll624684Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._624684n)
 			this->_specialInputs._624684n -= tickBuffer;
 		else
@@ -1585,6 +1666,14 @@ namespace Battle
 		else
 			this->_specialInputs._624684d = this->_check624684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._624684a)
+			this->_specialInputs._624684a -= tickBuffer;
+		else
+			this->_specialInputs._624684a = this->_check624684Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll6314684Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._6314684n)
 			this->_specialInputs._6314684n -= tickBuffer;
 		else
@@ -1610,6 +1699,14 @@ namespace Battle
 		else
 			this->_specialInputs._6314684d = this->_check6314684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._6314684a)
+			this->_specialInputs._6314684a -= tickBuffer;
+		else
+			this->_specialInputs._6314684a = this->_check6314684Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll6246974Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._6246974n)
 			this->_specialInputs._6246974n -= tickBuffer;
 		else
@@ -1635,6 +1732,14 @@ namespace Battle
 		else
 			this->_specialInputs._6246974d = this->_check6246974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._6246974a)
+			this->_specialInputs._6246974a -= tickBuffer;
+		else
+			this->_specialInputs._6246974a = this->_check6246974Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAll63146974Input(bool tickBuffer)
+	{
 		if (this->_specialInputs._63146974n)
 			this->_specialInputs._63146974n -= tickBuffer;
 		else
@@ -1660,6 +1765,75 @@ namespace Battle
 		else
 			this->_specialInputs._63146974d = this->_check63146974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
+		if (this->_specialInputs._63146974a)
+			this->_specialInputs._63146974a -= tickBuffer;
+		else
+			this->_specialInputs._63146974a = this->_check63146974Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAllHJInput(bool tickBuffer)
+	{
+		if (this->_specialInputs._27)
+			this->_specialInputs._27 -= tickBuffer;
+		else
+			this->_specialInputs._27 = this->_check27Input() * HJ_BUFFER_PERSIST;
+
+		if (this->_specialInputs._28)
+			this->_specialInputs._28 -= tickBuffer;
+		else
+			this->_specialInputs._28 = (this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP) * HJ_BUFFER_PERSIST;
+
+		if (this->_specialInputs._29)
+			this->_specialInputs._29 -= tickBuffer;
+		else
+			this->_specialInputs._29 = this->_check29Input() * HJ_BUFFER_PERSIST;
+	}
+
+	void Character::_checkAllDashInput(bool tickBuffer)
+	{
+		if (this->_specialInputs._44)
+			this->_specialInputs._44 -= tickBuffer;
+		else
+			this->_specialInputs._44 = this->_check44Input() * DASH_BUFFER_PERSIST;
+
+		if (this->_specialInputs._66)
+			this->_specialInputs._66 -= tickBuffer;
+		else
+			this->_specialInputs._66 = this->_check66Input() * DASH_BUFFER_PERSIST;
+	}
+
+	void Character::_checkSpecialInputs(bool tickBuffer)
+	{
+		if (this->_inputDisabled) {
+			memset(this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
+			return;
+		}
+
+		this->_clearLastInputs();
+		this->_specialInputs._22 = this->_check22Input();
+
+		this->_checkAllDashInput(tickBuffer);
+		this->_checkAllHJInput(tickBuffer);
+
+		if (this->_atkDisabled) {
+			memset(&this->_specialInputs._value[3], 0, sizeof(this->_specialInputs._value) - 3);
+			return;
+		}
+		this->_checkAllc28Input(tickBuffer);
+		this->_checkAllc46Input(tickBuffer);
+		this->_checkAllc64Input(tickBuffer);
+		this->_checkAll236Input(tickBuffer);
+		this->_checkAll214Input(tickBuffer);
+		this->_checkAll623Input(tickBuffer);
+		this->_checkAll421Input(tickBuffer);
+		this->_checkAll624Input(tickBuffer);
+		this->_checkAll426Input(tickBuffer);
+		this->_checkAll6314Input(tickBuffer);
+		this->_checkAll4136Input(tickBuffer);
+		this->_checkAll624684Input(tickBuffer);
+		this->_checkAll6314684Input(tickBuffer);
+		this->_checkAll6246974Input(tickBuffer);
+		this->_checkAll63146974Input(tickBuffer);
 	}
 
 	bool Character::_check236Input(const std::function<bool (const LastInput &)> &atkInput)
