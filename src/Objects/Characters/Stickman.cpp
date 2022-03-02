@@ -44,11 +44,11 @@ namespace Battle
 			return data;
 		this->_fakeFrameData = *data;
 		this->_fakeFrameData.dFlag.flags |= this->_addedDFlags.flags;
-		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A)
+		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A && this->_actionBlock < 3)
 			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags;
 		else
 			// We don't want non grabbing moves to keep the grab property
-			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags & ~1;
+			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags & (~1);
 		return &this->_fakeFrameData;
 	}
 
