@@ -458,6 +458,7 @@ namespace Battle
 					if (!this->_executeAirTech(input))
 						this->_forceStartMove(ACTION_FALLING);
 				}
+				this->_speedReset = false;
 			}
 		}
 
@@ -1077,8 +1078,7 @@ namespace Battle
 		if (myData->dFlag.invulnerableArmor)
 			return game.battleMgr->addHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
-		if (data->oFlag.resetSpeed)
-			this->_speed = {0, 0};
+		this->_speedReset = data->oFlag.resetSpeed;
 		if (
 			this->_isBlocking() &&
 			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
@@ -3058,6 +3058,8 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
+		if (this->_speedReset)
+			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
 			this->_voidMana -= data->manaCost;
 		if (data->oFlag.spiritMana)
@@ -3155,6 +3157,7 @@ namespace Battle
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+		dat->_speedReset = this->_speedReset;
 		dat->_guardRegenCd = this->_guardRegenCd;
 		dat->_odCooldown = this->_odCooldown;
 		dat->_counter = this->_counter;
@@ -3195,6 +3198,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;
 		this->_odCooldown = dat->_odCooldown;
 		this->_counter = dat->_counter;

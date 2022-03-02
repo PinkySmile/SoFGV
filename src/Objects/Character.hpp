@@ -346,6 +346,7 @@ namespace Battle
 			bool _inputDisabled;
 			bool _hasJumped;
 			bool _restand;
+			bool _speedReset;
 			bool _justGotCorner;
 			float _regen;
 			float _voidMana;
@@ -480,6 +481,7 @@ namespace Battle
 		unsigned _guardCooldown = 0;
 		unsigned _guardBar = 0;
 		unsigned _guardRegenCd = 0;
+		bool _speedReset = false;
 		bool _counter = false;
 		float _prorate = 1;
 		bool _atkDisabled = false;
