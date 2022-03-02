@@ -86,7 +86,9 @@ add_executable(
 	src/Resources/PracticeBattleManager.hpp
 	src/Scenes/PracticeInGame.cpp
 	src/Scenes/PracticeInGame.hpp
-	src/Objects/Characters/Stickman.cpp src/Objects/Characters/Stickman.hpp)
+	src/Objects/Characters/Stickman.cpp
+	src/Objects/Characters/Stickman.hpp
+)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
@@ -204,6 +206,8 @@ add_executable(
 	src/Resources/PracticeBattleManager.hpp
 	src/Scenes/PracticeInGame.cpp
 	src/Scenes/PracticeInGame.hpp
+	src/Objects/Characters/Stickman.cpp
+	src/Objects/Characters/Stickman.hpp
 )
 
 if (WIN32)
