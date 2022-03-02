@@ -37,8 +37,8 @@
                     "prorate": 90.0,
                     "push_block": 4,
                     "size": {
-                        "x": 52,
-                        "y": 56
+                        "x": 58,
+                        "y": 58
                     },
                     "speed": {
                         "x": 8,
@@ -47,10 +47,10 @@
                     "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
-                        "height": 28,
-                        "left": 156,
-                        "top": 843,
-                        "width": 26
+                        "height": 17,
+                        "left": 145,
+                        "top": 833,
+                        "width": 17
                     }
                 }
             ]
