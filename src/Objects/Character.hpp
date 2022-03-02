@@ -468,7 +468,7 @@ namespace Battle
 		// Game State
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
-		std::array<unsigned, 4> _limit;
+		std::array<unsigned, 4> _limit{0, 0, 0, 0};
 		InputStruct _inputBuffer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 		unsigned _barMaxOdCooldown = 0;
 		unsigned _odCooldown = 0;
@@ -487,24 +487,24 @@ namespace Battle
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
-		float _regen;
-		float _voidMana;
-		float _spiritMana;
-		float _matterMana;
+		float _regen = 0;
+		float _voidMana = 0;
+		float _spiritMana = 0;
+		float _matterMana = 0;
 		SpecialInputs _specialInputs;
 
 		// Non Game State
 		sf::Text _text;
 		sf::Text _text2;
-		Character *_opponent;
+		Character *_opponent = nullptr;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
-		unsigned _maxOdCooldown;
+		unsigned _maxOdCooldown = 0;
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
-		unsigned _voidManaMax;
-		unsigned _spiritManaMax;
-		unsigned _matterManaMax;
+		unsigned _voidManaMax = 0;
+		unsigned _spiritManaMax = 0;
+		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
 
