@@ -2913,7 +2913,7 @@ namespace Battle
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
-		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !data.dFlag.superarmor) {
+		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game.soundMgr.play(BASICSOUND_COUNTER_HIT);
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
@@ -2936,7 +2936,7 @@ namespace Battle
 		} else {
 			game.soundMgr.play(data.hitSoundHandle);
 			this->_hp -= data.damage * this->_prorate;
-			if (!data.dFlag.superarmor) {
+			if (!myData->dFlag.superarmor) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else
