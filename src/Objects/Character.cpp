@@ -1060,11 +1060,20 @@ namespace Battle
 	{
 		auto myData = this->getCurrentFrameData();
 		char buffer[38];
+		auto chr = dynamic_cast<Character *>(&other);
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		game.logger.debug(buffer);
 		if (!data)
 			return;
+		if (chr) {
+			if (data->oFlag.voidMana)
+				chr->_voidMana += data->manaGain;
+			if (data->oFlag.spiritMana)
+				chr->_spiritMana += data->manaGain;
+			if (data->oFlag.matterMana)
+				chr->_matterMana += data->manaGain;
+		}
 		if (myData->dFlag.invulnerableArmor)
 			return game.battleMgr->addHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
