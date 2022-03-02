@@ -15158,6 +15158,61 @@
                         "width": 51
                     },
                     "void_limit": 10
+                },
+                {
+                    "block_stun": 12,
+                    "collision_box": {
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
+                    },
+                    "damage": 600,
+                    "defense_flag": 28672,
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
+                    "hit_stop": 12,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 120,
+                            "left": -31,
+                            "top": -118,
+                            "width": 56
+                        },
+                        {
+                            "height": 67,
+                            "left": 19,
+                            "top": -169,
+                            "width": 53
+                        }
+                    ],
+                    "marker": 20,
+                    "matter_limit": 10,
+                    "neutral_limit": 10,
+                    "offense_flag": 3072,
+                    "offset": {
+                        "x": 19,
+                        "y": 0
+                    },
+                    "prorate": 95.0,
+                    "push_back": 2,
+                    "push_block": 2,
+                    "size": {
+                        "x": 102,
+                        "y": 170
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 427,
+                        "top": 814,
+                        "width": 51
+                    },
+                    "void_limit": 10
                 }
             ],
             [
@@ -15177,7 +15232,6 @@
                             "width": 65
                         }
                     ],
-                    "marker": 20,
                     "offense_flag": 3072,
                     "offset": {
                         "x": 11,

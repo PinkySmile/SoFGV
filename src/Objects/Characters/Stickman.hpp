@@ -25,6 +25,9 @@ namespace Battle
 
 	protected:
 		void _tickMove() override;
+		void _applyMoveAttributes() override;
+		void _onMoveEnd(const FrameData &lastData) override;
+		void _applyNewAnimFlags() override;
 
 	public:
 		Stickman() = default;
