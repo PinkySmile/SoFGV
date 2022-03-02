@@ -529,9 +529,10 @@ namespace Battle
 		bool _canStartMove(unsigned action, const FrameData &data) override;
 		void _checkPlatforms(Vector2f oldPos) override;
 		bool _isOnPlatform() const override;
+		InputStruct _updateInputs(bool tickMotion = true);
 
 		void _removeSubobjects();
-		void _checkSpecialInputs();
+		void _checkSpecialInputs(bool tickMotion);
 		void _clearLastInputs();
 		bool _check22Input();
 		bool _check44Input();

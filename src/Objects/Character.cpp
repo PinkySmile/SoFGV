@@ -415,7 +415,7 @@ namespace Battle
 	void Character::update()
 	{
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
-		auto input = this->updateInputs();
+		auto input = this->_updateInputs();
 
 		if (this->_odCooldown) {
 			this->_odCooldown--;
@@ -641,6 +641,11 @@ namespace Battle
 
 	InputStruct Character::updateInputs()
 	{
+		return this->_updateInputs(false);
+	}
+
+	InputStruct Character::_updateInputs(bool tickBuffer)
+	{
 		this->_input->update();
 
 		InputStruct input = this->_getInputs();
@@ -667,13 +672,13 @@ namespace Battle
 		this->_lastInputs.front().nbFrames++;
 		if (this->_lastInputs.front().nbFrames > MAX_FRAME_IN_BUFFER)
 			this->_lastInputs.front().nbFrames = MAX_FRAME_IN_BUFFER;
-		this->_checkSpecialInputs();
+		this->_checkSpecialInputs(tickBuffer);
 		this->_hasJumped &= input.verticalAxis > 0;
 		this->_inputBuffer.horizontalAxis = input.horizontalAxis;
 		this->_inputBuffer.verticalAxis = input.verticalAxis;
 		for (unsigned i = 2; i < sizeof(this->_inputBuffer) / sizeof(int); i++) {
 			if (((int *)&this->_inputBuffer)[i])
-				((int *)&this->_inputBuffer)[i]--;
+				((int *)&this->_inputBuffer)[i] -= tickBuffer;
 			else if (std::abs(((int *)&input)[i]) == 1)
 				((int *)&this->_inputBuffer)[i] = NORMAL_BUFFER;
 		}
@@ -1235,7 +1240,7 @@ namespace Battle
 		Object::_checkPlatforms(oldPos);
 	}
 
-	void Character::_checkSpecialInputs()
+	void Character::_checkSpecialInputs(bool tickBuffer)
 	{
 		if (this->_inputDisabled) {
 			memset(this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
@@ -1252,27 +1257,27 @@ namespace Battle
 		this->_specialInputs._22 = this->_check22Input();
 
 		if (this->_specialInputs._44)
-			this->_specialInputs._44--;
+			this->_specialInputs._44 -= tickBuffer;
 		else
 			this->_specialInputs._44 = this->_check44Input() * DASH_BUFFER_PERSIST;
 
 		if (this->_specialInputs._66)
-			this->_specialInputs._66--;
+			this->_specialInputs._66 -= tickBuffer;
 		else
 			this->_specialInputs._66 = this->_check66Input() * DASH_BUFFER_PERSIST;
 
 		if (this->_specialInputs._27)
-			this->_specialInputs._27--;
+			this->_specialInputs._27 -= tickBuffer;
 		else
 			this->_specialInputs._27 = this->_check27Input() * HJ_BUFFER_PERSIST;
 
 		if (this->_specialInputs._28)
-			this->_specialInputs._28--;
+			this->_specialInputs._28 -= tickBuffer;
 		else
 			this->_specialInputs._28 = (this->_check28Input() || this->_dummyState == DUMMYSTATE_HIGH_JUMP) * HJ_BUFFER_PERSIST;
 
 		if (this->_specialInputs._29)
-			this->_specialInputs._29--;
+			this->_specialInputs._29 -= tickBuffer;
 		else
 			this->_specialInputs._29 = this->_check29Input() * HJ_BUFFER_PERSIST;
 
@@ -1281,132 +1286,132 @@ namespace Battle
 			return;
 		}
 		if (this->_specialInputs._c28n)
-			this->_specialInputs._c28n--;
+			this->_specialInputs._c28n -= tickBuffer;
 		else
 			this->_specialInputs._c28n = this->_checkc28Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c28m)
-			this->_specialInputs._c28m--;
+			this->_specialInputs._c28m -= tickBuffer;
 		else
 			this->_specialInputs._c28m = this->_checkc28Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c28s)
-			this->_specialInputs._c28s--;
+			this->_specialInputs._c28s -= tickBuffer;
 		else
 			this->_specialInputs._c28s = this->_checkc28Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c28v)
-			this->_specialInputs._c28v--;
+			this->_specialInputs._c28v -= tickBuffer;
 		else
 			this->_specialInputs._c28v = this->_checkc28Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c28d)
-			this->_specialInputs._c28d--;
+			this->_specialInputs._c28d -= tickBuffer;
 		else
 			this->_specialInputs._c28d = this->_checkc28Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c46n)
-			this->_specialInputs._c46n--;
+			this->_specialInputs._c46n -= tickBuffer;
 		else
 			this->_specialInputs._c46n = this->_checkc46Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c46m)
-			this->_specialInputs._c46m--;
+			this->_specialInputs._c46m -= tickBuffer;
 		else
 			this->_specialInputs._c46m = this->_checkc46Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c46s)
-			this->_specialInputs._c46s--;
+			this->_specialInputs._c46s -= tickBuffer;
 		else
 			this->_specialInputs._c46s = this->_checkc46Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c46v)
-			this->_specialInputs._c46v--;
+			this->_specialInputs._c46v -= tickBuffer;
 		else
 			this->_specialInputs._c46v = this->_checkc46Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c46d)
-			this->_specialInputs._c46d--;
+			this->_specialInputs._c46d -= tickBuffer;
 		else
 			this->_specialInputs._c46d = this->_checkc46Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c64n)
-			this->_specialInputs._c64n--;
+			this->_specialInputs._c64n -= tickBuffer;
 		else
 			this->_specialInputs._c64n = this->_checkc64Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c64m)
-			this->_specialInputs._c64m--;
+			this->_specialInputs._c64m -= tickBuffer;
 		else
 			this->_specialInputs._c64m = this->_checkc64Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c64s)
-			this->_specialInputs._c64s--;
+			this->_specialInputs._c64s -= tickBuffer;
 		else
 			this->_specialInputs._c64s = this->_checkc64Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c64v)
-			this->_specialInputs._c64v--;
+			this->_specialInputs._c64v -= tickBuffer;
 		else
 			this->_specialInputs._c64v = this->_checkc64Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._c64d)
-			this->_specialInputs._c64d--;
+			this->_specialInputs._c64d -= tickBuffer;
 		else
 			this->_specialInputs._c64d = this->_checkc64Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._236n)
-			this->_specialInputs._236n--;
+			this->_specialInputs._236n -= tickBuffer;
 		else
 			this->_specialInputs._236n = this->_check236Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._236m)
-			this->_specialInputs._236m--;
+			this->_specialInputs._236m -= tickBuffer;
 		else
 			this->_specialInputs._236m = this->_check236Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._236s)
-			this->_specialInputs._236s--;
+			this->_specialInputs._236s -= tickBuffer;
 		else
 			this->_specialInputs._236s = this->_check236Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._236v)
-			this->_specialInputs._236v--;
+			this->_specialInputs._236v -= tickBuffer;
 		else
 			this->_specialInputs._236v = this->_check236Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._236d)
-			this->_specialInputs._236d--;
+			this->_specialInputs._236d -= tickBuffer;
 		else
 			this->_specialInputs._236d = this->_check236Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._214n)
-			this->_specialInputs._214n--;
+			this->_specialInputs._214n -= tickBuffer;
 		else
 			this->_specialInputs._214n = this->_check214Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._214m)
-			this->_specialInputs._214m--;
+			this->_specialInputs._214m -= tickBuffer;
 		else
 			this->_specialInputs._214m = this->_check214Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._214s)
-			this->_specialInputs._214s--;
+			this->_specialInputs._214s -= tickBuffer;
 		else
 			this->_specialInputs._214s = this->_check214Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._214v)
-			this->_specialInputs._214v--;
+			this->_specialInputs._214v -= tickBuffer;
 		else
 			this->_specialInputs._214v = this->_check214Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._214d)
-			this->_specialInputs._214d--;
+			this->_specialInputs._214d -= tickBuffer;
 		else
 			this->_specialInputs._214d = this->_check214Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._623n)
-			this->_specialInputs._623n--;
+			this->_specialInputs._623n -= tickBuffer;
 		else
 			this->_specialInputs._623n = this->_check623Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
@@ -1416,242 +1421,242 @@ namespace Battle
 			this->_specialInputs._623m = this->_check623Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._623s)
-			this->_specialInputs._623s--;
+			this->_specialInputs._623s -= tickBuffer;
 		else
 			this->_specialInputs._623s = this->_check623Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._623v)
-			this->_specialInputs._623v--;
+			this->_specialInputs._623v -= tickBuffer;
 		else
 			this->_specialInputs._623v = this->_check623Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._623d)
-			this->_specialInputs._623d--;
+			this->_specialInputs._623d -= tickBuffer;
 		else
 			this->_specialInputs._623d = this->_check623Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421n)
-			this->_specialInputs._421n--;
+			this->_specialInputs._421n -= tickBuffer;
 		else
 			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421m)
-			this->_specialInputs._421m--;
+			this->_specialInputs._421m -= tickBuffer;
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421s)
-			this->_specialInputs._421s--;
+			this->_specialInputs._421s -= tickBuffer;
 		else
 			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421v)
-			this->_specialInputs._421v--;
+			this->_specialInputs._421v -= tickBuffer;
 		else
 			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421d)
-			this->_specialInputs._421d--;
+			this->_specialInputs._421d -= tickBuffer;
 		else
 			this->_specialInputs._421d = this->_check421Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624n)
-			this->_specialInputs._624n--;
+			this->_specialInputs._624n -= tickBuffer;
 		else
 			this->_specialInputs._624n = this->_check624Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624m)
-			this->_specialInputs._624m--;
+			this->_specialInputs._624m -= tickBuffer;
 		else
 			this->_specialInputs._624m = this->_check624Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624s)
-			this->_specialInputs._624s--;
+			this->_specialInputs._624s -= tickBuffer;
 		else
 			this->_specialInputs._624s = this->_check624Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624v)
-			this->_specialInputs._624v--;
+			this->_specialInputs._624v -= tickBuffer;
 		else
 			this->_specialInputs._624v = this->_check624Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624d)
-			this->_specialInputs._624d--;
+			this->_specialInputs._624d -= tickBuffer;
 		else
 			this->_specialInputs._624d = this->_check624Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._426n)
-			this->_specialInputs._426n--;
+			this->_specialInputs._426n -= tickBuffer;
 		else
 			this->_specialInputs._426n = this->_check426Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._426m)
-			this->_specialInputs._426m--;
+			this->_specialInputs._426m -= tickBuffer;
 		else
 			this->_specialInputs._426m = this->_check426Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._426s)
-			this->_specialInputs._426s--;
+			this->_specialInputs._426s -= tickBuffer;
 		else
 			this->_specialInputs._426s = this->_check426Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._426v)
-			this->_specialInputs._426v--;
+			this->_specialInputs._426v -= tickBuffer;
 		else
 			this->_specialInputs._426v = this->_check426Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._426d)
-			this->_specialInputs._426d--;
+			this->_specialInputs._426d -= tickBuffer;
 		else
 			this->_specialInputs._426d = this->_check426Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314n)
-			this->_specialInputs._6314n--;
+			this->_specialInputs._6314n -= tickBuffer;
 		else
 			this->_specialInputs._6314n = this->_check6314Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314m)
-			this->_specialInputs._6314m--;
+			this->_specialInputs._6314m -= tickBuffer;
 		else
 			this->_specialInputs._6314m = this->_check6314Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314s)
-			this->_specialInputs._6314s--;
+			this->_specialInputs._6314s -= tickBuffer;
 		else
 			this->_specialInputs._6314s = this->_check6314Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314v)
-			this->_specialInputs._6314v--;
+			this->_specialInputs._6314v -= tickBuffer;
 		else
 			this->_specialInputs._6314v = this->_check6314Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314d)
-			this->_specialInputs._6314d--;
+			this->_specialInputs._6314d -= tickBuffer;
 		else
 			this->_specialInputs._6314d = this->_check6314Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._4136n)
-			this->_specialInputs._4136n--;
+			this->_specialInputs._4136n -= tickBuffer;
 		else
 			this->_specialInputs._4136n = this->_check4136Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._4136m)
-			this->_specialInputs._4136m--;
+			this->_specialInputs._4136m -= tickBuffer;
 		else
 			this->_specialInputs._4136m = this->_check4136Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._4136s)
-			this->_specialInputs._4136s--;
+			this->_specialInputs._4136s -= tickBuffer;
 		else
 			this->_specialInputs._4136s = this->_check4136Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._4136v)
-			this->_specialInputs._4136v--;
+			this->_specialInputs._4136v -= tickBuffer;
 		else
 			this->_specialInputs._4136v = this->_check4136Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._4136d)
-			this->_specialInputs._4136d--;
+			this->_specialInputs._4136d -= tickBuffer;
 		else
 			this->_specialInputs._4136d = this->_check4136Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624684n)
-			this->_specialInputs._624684n--;
+			this->_specialInputs._624684n -= tickBuffer;
 		else
 			this->_specialInputs._624684n = this->_check624684Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624684m)
-			this->_specialInputs._624684m--;
+			this->_specialInputs._624684m -= tickBuffer;
 		else
 			this->_specialInputs._624684m = this->_check624684Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624684s)
-			this->_specialInputs._624684s--;
+			this->_specialInputs._624684s -= tickBuffer;
 		else
 			this->_specialInputs._624684s = this->_check624684Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624684v)
-			this->_specialInputs._624684v--;
+			this->_specialInputs._624684v -= tickBuffer;
 		else
 			this->_specialInputs._624684v = this->_check624684Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._624684d)
-			this->_specialInputs._624684d--;
+			this->_specialInputs._624684d -= tickBuffer;
 		else
 			this->_specialInputs._624684d = this->_check624684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314684n)
-			this->_specialInputs._6314684n--;
+			this->_specialInputs._6314684n -= tickBuffer;
 		else
 			this->_specialInputs._6314684n = this->_check6314684Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314684m)
-			this->_specialInputs._6314684m--;
+			this->_specialInputs._6314684m -= tickBuffer;
 		else
 			this->_specialInputs._6314684m = this->_check6314684Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314684s)
-			this->_specialInputs._6314684s--;
+			this->_specialInputs._6314684s -= tickBuffer;
 		else
 			this->_specialInputs._6314684s = this->_check6314684Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314684v)
-			this->_specialInputs._6314684v--;
+			this->_specialInputs._6314684v -= tickBuffer;
 		else
 			this->_specialInputs._6314684v = this->_check6314684Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6314684d)
-			this->_specialInputs._6314684d--;
+			this->_specialInputs._6314684d -= tickBuffer;
 		else
 			this->_specialInputs._6314684d = this->_check6314684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6246974n)
-			this->_specialInputs._6246974n--;
+			this->_specialInputs._6246974n -= tickBuffer;
 		else
 			this->_specialInputs._6246974n = this->_check6246974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6246974m)
-			this->_specialInputs._6246974m--;
+			this->_specialInputs._6246974m -= tickBuffer;
 		else
 			this->_specialInputs._6246974m = this->_check6246974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6246974s)
-			this->_specialInputs._6246974s--;
+			this->_specialInputs._6246974s -= tickBuffer;
 		else
 			this->_specialInputs._6246974s = this->_check6246974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6246974v)
-			this->_specialInputs._6246974v--;
+			this->_specialInputs._6246974v -= tickBuffer;
 		else
 			this->_specialInputs._6246974v = this->_check6246974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._6246974d)
-			this->_specialInputs._6246974d--;
+			this->_specialInputs._6246974d -= tickBuffer;
 		else
 			this->_specialInputs._6246974d = this->_check6246974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._63146974n)
-			this->_specialInputs._63146974n--;
+			this->_specialInputs._63146974n -= tickBuffer;
 		else
 			this->_specialInputs._63146974n = this->_check63146974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._63146974m)
-			this->_specialInputs._63146974m--;
+			this->_specialInputs._63146974m -= tickBuffer;
 		else
 			this->_specialInputs._63146974m = this->_check63146974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._63146974s)
-			this->_specialInputs._63146974s--;
+			this->_specialInputs._63146974s -= tickBuffer;
 		else
 			this->_specialInputs._63146974s = this->_check63146974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._63146974v)
-			this->_specialInputs._63146974v--;
+			this->_specialInputs._63146974v -= tickBuffer;
 		else
 			this->_specialInputs._63146974v = this->_check63146974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._63146974d)
-			this->_specialInputs._63146974d--;
+			this->_specialInputs._63146974d -= tickBuffer;
 		else
 			this->_specialInputs._63146974d = this->_check63146974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
 
