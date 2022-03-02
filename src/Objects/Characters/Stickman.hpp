@@ -28,6 +28,7 @@ namespace Battle
 		void _applyMoveAttributes() override;
 		void _onMoveEnd(const FrameData &lastData) override;
 		void _applyNewAnimFlags() override;
+		bool _canStartMove(unsigned int action, const FrameData &data) override;
 
 	public:
 		Stickman() = default;

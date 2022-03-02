@@ -52,6 +52,13 @@ namespace Battle
 		return &this->_fakeFrameData;
 	}
 
+	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
+	{
+		if (this->_flagsGenerated && !this->_moveLength)
+			return false;
+		return Character::_canStartMove(action, data);
+	}
+
 	void Stickman::_decreaseMoveTime()
 	{
 		if (this->_moveLength) {
@@ -73,7 +80,7 @@ namespace Battle
 
 			if (data->specialMarker && !this->_flagsGenerated) {
 				for (int i = 0; i < MIN_RANDOM_DFLAGS; i++) {
-					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
 					this->_addedDFlags.flags |= 1 << flag;
 				}
 				for (int i = 0; i < MIN_RANDOM_OFLAGS; i++) {
@@ -102,7 +109,7 @@ namespace Battle
 
 			if (data->specialMarker && !this->_flagsGenerated) {
 				for (int i = 0; i < MIN_RANDOM_DFLAGS; i++) {
-					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
 					this->_addedDFlags.flags |= 1 << flag;
 				}
 				for (int i = 0; i < MIN_RANDOM_OFLAGS; i++) {
@@ -126,7 +133,7 @@ namespace Battle
 				if (this->_input->isPressed(INPUT_ASCEND) && this->_chargeTime < MAX_CHARGE) {
 					this->_chargeTime++;
 					if (this->_chargeTime % NEW_FLAG_STEP == 0) {
-						for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag; flag = this->_dist(game.random));
+						for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
 						this->_addedDFlags.flags |= 1 << flag;
 						for (flag = this->_dist(game.random); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.random));
 						this->_addedOFlags.flags |= 1 << flag;
