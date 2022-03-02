@@ -663,6 +663,7 @@ namespace Battle
 			!!input.s != this->_lastInputs.front().s ||
 			!!input.v != this->_lastInputs.front().o ||
 			!!input.d != this->_lastInputs.front().d ||
+			!!input.a != this->_lastInputs.front().a ||
 			std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis) != this->_lastInputs.front().h ||
 			std::copysign(!!input.verticalAxis,   this->_dir * input.verticalAxis)   != this->_lastInputs.front().v
 		)
@@ -673,6 +674,7 @@ namespace Battle
 				!!input.s,
 				!!input.v,
 				!!input.d,
+				!!input.a,
 				static_cast<char>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
 				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
 			});
