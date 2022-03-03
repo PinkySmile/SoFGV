@@ -730,11 +730,11 @@ namespace Battle
 		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
 		        (this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
 		        (this->_specialInputs._623v && this->_startMove(ACTION_j623V)) ||
-		        (this->_specialInputs._421v && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
 		        (this->_specialInputs._623s && this->_startMove(ACTION_j623S)) ||
 		        (this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
 		        (this->_specialInputs._623m && this->_startMove(ACTION_j623M)) ||
-		        (this->_specialInputs._421m && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
 			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
 			(this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
@@ -832,11 +832,11 @@ namespace Battle
 			(this->_specialInputs._623n && this->_startMove(ACTION_623N)) ||
 			(this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623v && this->_startMove(ACTION_623V)) ||
-			(this->_specialInputs._421v && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421v && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623s && this->_startMove(ACTION_623S)) ||
 			(this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623m && this->_startMove(ACTION_623M)) ||
-			(this->_specialInputs._421m && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421m && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
 			(this->_specialInputs._623d && this->_startMove(ACTION_623D)) ||
 			(this->_specialInputs._421d && this->_startMove(ACTION_421D)) ||
 			(this->_specialInputs._623a && this->_startMove(ACTION_623A)) ||
@@ -1496,6 +1496,8 @@ namespace Battle
 			this->_specialInputs._421m -= tickBuffer;
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+		if (this->_specialInputs._421m)
+			game.logger.info("YES");
 
 		if (this->_specialInputs._421s)
 			this->_specialInputs._421s -= tickBuffer;
@@ -3403,13 +3405,13 @@ namespace Battle
 	{
 		switch (action) {
 		case ACTION_NEUTRAL_ROMAN_CANCEL:
-		case ACTION_MATTER_ROMAN_CANCEL:
-		case ACTION_SPIRIT_ROMAN_CANCEL:
 		case ACTION_VOID_ROMAN_CANCEL:
+		case ACTION_SPIRIT_ROMAN_CANCEL:
+		case ACTION_MATTER_ROMAN_CANCEL:
 		case ACTION_NEUTRAL_AIR_ROMAN_CANCEL:
-		case ACTION_MATTER_AIR_ROMAN_CANCEL:
-		case ACTION_SPIRIT_AIR_ROMAN_CANCEL:
 		case ACTION_VOID_AIR_ROMAN_CANCEL:
+		case ACTION_SPIRIT_AIR_ROMAN_CANCEL:
+		case ACTION_MATTER_AIR_ROMAN_CANCEL:
 			return true;
 		default:
 			return false;
