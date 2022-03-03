@@ -3158,6 +3158,10 @@ namespace Battle
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+#ifdef _DEBUG
+		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
+#endif
+		dat->_inputBuffer = this->_inputBuffer;
 		dat->_speedReset = this->_speedReset;
 		dat->_guardRegenCd = this->_guardRegenCd;
 		dat->_odCooldown = this->_odCooldown;
@@ -3199,6 +3203,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_inputBuffer = dat->_inputBuffer;
 		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;
 		this->_odCooldown = dat->_odCooldown;

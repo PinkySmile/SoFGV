@@ -17,7 +17,6 @@ namespace Battle
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
-			std::mt19937 battleRandom;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
@@ -40,6 +39,7 @@ namespace Battle
 			unsigned _rightMatterLimit = 0;
 			unsigned _rightTotalDamage = 0;
 			float _rightProration = 0;
+			std::mt19937 battleRandom;
 		};
 #pragma pack(pop)
 

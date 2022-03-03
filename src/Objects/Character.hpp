@@ -316,20 +316,21 @@ namespace Battle
 			BLOCK_AFTER_HIT,
 			RANDOM_BLOCK = 8
 		};
-		struct LastInput {
-			unsigned nbFrames : 22;
-			bool n : 1;
-			bool m : 1;
-			bool s : 1;
-			bool o : 1;
-			bool d : 1;
-			bool a : 1;
-			char h : 2;
-			char v : 2;
-		};
 #pragma pack(push, 1)
+		struct LastInput {
+			unsigned nbFrames;
+			bool n;
+			bool m;
+			bool s;
+			bool o;
+			bool d;
+			bool a;
+			char h;
+			char v;
+		};
 		struct Data {
 			unsigned _limit[4];
+			InputStruct _inputBuffer;
 			unsigned _subObjects[128];
 			unsigned _odCooldown;
 			unsigned _blockStun;
@@ -352,12 +353,11 @@ namespace Battle
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			char _specialInputs[41];
+			unsigned char _specialInputs[48];
 			unsigned _nbLastInputs;
 		};
-#pragma pack(pop)
 		union SpecialInputs {
-			unsigned char _value[41] = {0};
+			unsigned char _value[48] = {0};
 			struct {
 				unsigned char _22: 4;
 				unsigned char _44: 4;
@@ -457,6 +457,7 @@ namespace Battle
 				unsigned char _63146974a: 4;
 			};
 		};
+#pragma pack(pop)
 		static_assert(sizeof(Data::_specialInputs) == sizeof(SpecialInputs::_value));
 
 		static std::function<bool (const LastInput &)> getInputN;

@@ -194,6 +194,10 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
 		Character::copyToBuffer(data);
+#ifdef _DEBUG
+		game.logger.debug("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		game.logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
+#endif
 		dat->_addedOFlags = this->_addedOFlags.flags;
 		dat->_addedDFlags = this->_addedDFlags.flags;
 		dat->_flagsGenerated = this->_flagsGenerated;
@@ -203,13 +207,18 @@ namespace Battle
 
 	void Stickman::restoreFromBuffer(void *data)
 	{
+		Character::restoreFromBuffer(data);
+
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
-		Character::restoreFromBuffer(data);
 		this->_addedOFlags.flags = dat->_addedOFlags;
 		this->_addedDFlags.flags = dat->_addedDFlags;
 		this->_flagsGenerated = dat->_flagsGenerated;
 		this->_moveLength = dat->_moveLength;
 		this->_chargeTime = dat->_chargeTime;
+#ifdef _DEBUG
+		game.logger.debug("Restored Stickman @" + std::to_string((uintptr_t)dat));
+		game.logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
+#endif
 	}
 }

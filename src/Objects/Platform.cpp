@@ -86,7 +86,7 @@ namespace Battle
 		return this->_position;
 	}
 
-	void Platform::touch(IObject &object)
+	void Platform::touch(IObject &)
 	{
 	}
 
@@ -95,6 +95,9 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::copyToBuffer(data);
+#ifdef _DEBUG
+		game.logger.debug("Saving Platform (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+#endif
 		dat->_width = this->_width;
 		dat->_cooldown = this->_cooldown;
 		dat->_deathTimer = this->_deathTimer;

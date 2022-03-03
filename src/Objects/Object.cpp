@@ -493,6 +493,9 @@ namespace Battle
 	{
 		auto dat = reinterpret_cast<Data *>(data);
 
+#ifdef _DEBUG
+		game.logger.debug("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+#endif
 		dat->_position = this->_position;
 		dat->_speed = this->_speed;
 		dat->_gravity = this->_gravity;
