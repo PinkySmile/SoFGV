@@ -2923,6 +2923,8 @@ namespace Battle
 		auto counter = this->_counterHit == 1;
 
 		counter &= this->_action != ACTION_AIR_HIT;
+		counter &= this->_action != ACTION_WALL_SLAM;
+		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
