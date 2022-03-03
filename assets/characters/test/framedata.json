@@ -16953,7 +16953,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "damage": 600,
+                    "damage": 800,
                     "defense_flag": 20480,
                     "duration": 2,
                     "hitSound": "assets/sfxs/se/komachi/011.wav",
@@ -16991,8 +16991,8 @@
                             "width": 85
                         }
                     ],
-                    "matter_limit": 10,
-                    "neutral_limit": 10,
+                    "matter_limit": 1,
+                    "neutral_limit": 1,
                     "offense_flag": 3072,
                     "offset": {
                         "x": 30,
@@ -17006,7 +17006,7 @@
                         "y": 170
                     },
                     "sound": "assets/sfxs/se/029.wav",
-                    "spirit_limit": 10,
+                    "spirit_limit": 1,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 76,
@@ -17014,7 +17014,7 @@
                         "top": 831,
                         "width": 65
                     },
-                    "void_limit": 10
+                    "void_limit": 1
                 },
                 {
                     "block_stun": 12,
