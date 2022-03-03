@@ -26,6 +26,7 @@ namespace Battle
 
 	class Object : public IObject {
 	protected:
+#pragma pack(push, 1)
 		struct Data {
 			Vector2f _position;
 			Vector2f _speed;
@@ -43,6 +44,7 @@ namespace Battle
 			char _cornerPriority;
 			float _dir;
 		};
+#pragma pack(pop)
 
 		// Game State
 		Vector2f _position = {0, 0};

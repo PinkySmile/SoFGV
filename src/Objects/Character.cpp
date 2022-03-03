@@ -393,7 +393,7 @@ namespace Battle
 		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
-		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, 0, 0});
+		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 	}
 
 	void Character::render() const
@@ -461,6 +461,7 @@ namespace Battle
 				this->_speedReset = false;
 			}
 		}
+		this->_speedReset &= (this->_blockStun != 0);
 
 		if (
 			(this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) &&

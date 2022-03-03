@@ -74,6 +74,7 @@ namespace Battle
 
 		bool __cdecl startGame(const char *)
 		{
+			game.battleRandom.seed(0);
 			game.networkMgr.beginSession();
 			return true;
 		}

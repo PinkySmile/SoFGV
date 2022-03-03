@@ -47,6 +47,7 @@ namespace Battle
 	struct Game {
 		bool hosting = false;
 		std::mt19937 random;
+		std::mt19937 battleRandom;
 		Logger logger{"./latest.log"};
 		sf::Font font;
 		std::string lastIp = "127.0.0.1";

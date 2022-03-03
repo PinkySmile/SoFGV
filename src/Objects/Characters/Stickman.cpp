@@ -94,11 +94,11 @@ namespace Battle
 
 			if (data->specialMarker && !this->_flagsGenerated) {
 				for (int i = 0; i < MIN_RANDOM_DFLAGS && this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8))); i++) {
-					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
 					this->_addedDFlags.flags |= 1 << flag;
 				}
 				for (int i = 0; i < MIN_RANDOM_OFLAGS && this->_addedOFlags.flags != (1 << 26) - 1; i++) {
-					for (flag = this->_dist(game.random); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
 					this->_addedOFlags.flags |= 1 << flag;
 				}
 				this->_flagsGenerated = true;
@@ -119,15 +119,15 @@ namespace Battle
 		Character::_applyMoveAttributes();
 		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
 			auto data = this->getCurrentFrameData();
-			int flag;
+			unsigned flag;
 
 			if (data->specialMarker && !this->_flagsGenerated) {
 				for (int i = 0; i < MIN_RANDOM_DFLAGS && this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8))); i++) {
-					for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
 					this->_addedDFlags.flags |= 1 << flag;
 				}
 				for (int i = 0; i < MIN_RANDOM_OFLAGS && this->_addedOFlags.flags != (1 << 26) - 1; i++) {
-					for (flag = this->_dist(game.random); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.random));
+					for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
 					this->_addedOFlags.flags |= 1 << flag;
 				}
 				this->_flagsGenerated = true;
@@ -148,11 +148,11 @@ namespace Battle
 					this->_chargeTime++;
 					if (this->_chargeTime % NEW_FLAG_STEP == 0) {
 						if (this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8)))) {
-							for (flag = this->_dist(game.random); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.random));
+							for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
 							this->_addedDFlags.flags |= 1 << flag;
 						}
 						if (this->_addedOFlags.flags != (1 << 26) - 1) {
-							for (flag = this->_dist(game.random); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.random));
+							for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
 							this->_addedOFlags.flags |= 1 << flag;
 						}
 					}
@@ -176,5 +176,40 @@ namespace Battle
 			return;
 		}
 		Character::_onMoveEnd(lastData);
+	}
+
+	void Stickman::update()
+	{
+		Character::update();
+		game.battleRandom();
+	}
+
+	unsigned int Stickman::getBufferSize() const
+	{
+		return Character::getBufferSize() + sizeof(Data);
+	}
+
+	void Stickman::copyToBuffer(void *data) const
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
+
+		Character::copyToBuffer(data);
+		dat->_addedOFlags = this->_addedOFlags.flags;
+		dat->_addedDFlags = this->_addedDFlags.flags;
+		dat->_flagsGenerated = this->_flagsGenerated;
+		dat->_moveLength = this->_moveLength;
+		dat->_chargeTime = this->_chargeTime;
+	}
+
+	void Stickman::restoreFromBuffer(void *data)
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
+
+		Character::restoreFromBuffer(data);
+		this->_addedOFlags.flags = dat->_addedOFlags;
+		this->_addedDFlags.flags = dat->_addedDFlags;
+		this->_flagsGenerated = dat->_flagsGenerated;
+		this->_moveLength = dat->_moveLength;
+		this->_chargeTime = dat->_chargeTime;
 	}
 }

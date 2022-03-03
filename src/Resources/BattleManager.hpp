@@ -6,6 +6,7 @@
 #define BATTLE_BATTLEMANAGER_HPP
 
 
+#include <random>
 #include "../Objects/Character.hpp"
 #include "../Objects/Platform.hpp"
 
@@ -16,6 +17,7 @@ namespace Battle
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
+			std::mt19937 battleRandom;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
