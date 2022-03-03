@@ -15809,7 +15809,7 @@
                     ],
                     "matter_limit": 100,
                     "neutral_limit": 100,
-                    "offense_flag": 24576,
+                    "offense_flag": 8192,
                     "offset": {
                         "x": 51,
                         "y": 0
