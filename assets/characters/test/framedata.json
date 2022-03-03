@@ -17201,10 +17201,6 @@
                             "width": 107
                         }
                     ],
-                    "hit_speed": {
-                        "x": 0,
-                        "y": 1
-                    },
                     "hit_stop": 16,
                     "hit_stun": 15,
                     "hurt_boxes": [
