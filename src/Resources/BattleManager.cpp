@@ -461,14 +461,16 @@ namespace Battle
 
 	unsigned int BattleManager::getBufferSize() const
 	{
-		size_t size = sizeof(Data) + this->_leftCharacter->getBufferSize() + this->_rightCharacter->getBufferSize() + this->_objects.size() * (sizeof(unsigned) + sizeof(unsigned char));
+		size_t size = sizeof(Data) + this->_leftCharacter->getBufferSize() + this->_rightCharacter->getBufferSize();
 
+		size += this->_objects.size() * (sizeof(unsigned) + sizeof(unsigned char));
 		for (auto &object : this->_objects) {
 			size += object.second->getBufferSize();
 			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
 		}
 		for (size_t i = 0; i < this->_nbPlatform; i++)
 			size += this->_platforms[i]->getBufferSize();
+		size += (this->_leftReplayData.size() + this->_rightReplayData.size()) * sizeof(ReplayInput);
 		return size;
 	}
 
@@ -480,6 +482,8 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_leftReplayData = this->_leftReplayData.size();
+		dat->_rightReplayData = this->_rightReplayData.size();
 		dat->battleRandom = game.battleRandom;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
@@ -951,5 +955,15 @@ namespace Battle
 	const std::vector<std::shared_ptr<Platform>> &BattleManager::getPlatforms() const
 	{
 		return this->_platforms;
+	}
+
+	const std::vector<ReplayInput> &BattleManager::getLeftReplayData() const
+	{
+		return this->_leftReplayData;
+	}
+
+	const std::vector<ReplayInput> &BattleManager::getRightReplayData() const
+	{
+		return this->_rightReplayData;
 	}
 }

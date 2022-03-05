@@ -12,8 +12,22 @@
 
 namespace Battle
 {
+	struct ReplayInput {
+		bool n : 1;
+		bool m : 1;
+		bool v : 1;
+		bool s : 1;
+		bool a : 1;
+		bool d : 1;
+		char _h : 2;
+		char _v : 2;
+		unsigned char time : 6;
+	};
+
 	class BattleManager {
 	protected:
+		static_assert(sizeof(ReplayInput) == 2);
+
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
@@ -23,6 +37,8 @@ namespace Battle
 			unsigned _roundEndTimer;
 			unsigned _hitStop;
 			unsigned _nbObjects;
+			unsigned _leftReplayData;
+			unsigned _rightReplayData;
 			unsigned _leftComboCtr = 0;
 			unsigned _leftHitCtr = 0;
 			unsigned _leftNeutralLimit = 0;
@@ -62,6 +78,8 @@ namespace Battle
 		unsigned char _speed = 60;
 		float _time = 0;
 		unsigned _lastObjectId = 0;
+		std::vector<ReplayInput> _leftReplayData;
+		std::vector<ReplayInput> _rightReplayData;
 
 		// Game State
 		std::unique_ptr<Character> _leftCharacter;
@@ -133,6 +151,8 @@ namespace Battle
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;
 		const Character *getRightCharacter() const;
+		const std::vector<ReplayInput> &getLeftReplayData() const;
+		const std::vector<ReplayInput> &getRightReplayData() const;
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
 		{

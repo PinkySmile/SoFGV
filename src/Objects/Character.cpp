@@ -1293,7 +1293,7 @@ namespace Battle
 			return;
 		this->_position.y = oldPos.y;
 
-		auto result = !this->_isOnPlatform() && this->_input->isPressed(INPUT_DOWN);
+		auto result = !this->_isOnPlatform() && this->_input->isPressed(INPUT_DOWN) && this->_action != ACTION_AIR_HIT;
 
 		this->_position.y = updatedY;
 		if (result)
@@ -1836,7 +1836,17 @@ namespace Battle
 		}
 
 		this->_clearLastInputs();
-		this->_specialInputs._22 = this->_check22Input();
+		if (
+			this->_action == ACTION_AIR_HIT ||
+			this->_action == ACTION_BEING_KNOCKED_DOWN ||
+			this->_action == ACTION_KNOCKED_DOWN ||
+			this->_action == ACTION_NEUTRAL_TECH ||
+			this->_action == ACTION_FORWARD_TECH ||
+			this->_action == ACTION_BACKWARD_TECH
+		)
+			this->_specialInputs._22 = false;
+		else
+			this->_specialInputs._22 = this->_check22Input();
 
 		this->_checkAllDashInput(tickBuffer);
 		this->_checkAllHJInput(tickBuffer);
