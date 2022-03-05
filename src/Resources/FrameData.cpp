@@ -513,11 +513,58 @@ namespace Battle
 
 	FrameData::FrameData(const FrameData &other)
 	{
-		*this = other;
+		this->_palette = other._palette;
+		this->spritePath = other.spritePath;
+		this->textureHandle = other.textureHandle;
+		this->soundPath = other.soundPath;
+		this->soundHandle = other.soundHandle;
+		this->hitSoundPath = other.hitSoundPath;
+		this->hitSoundHandle = other.hitSoundHandle;
+		this->offset = other.offset;
+		this->size = other.size;
+		this->textureBounds = other.textureBounds;
+		this->rotation = other.rotation;
+		this->hurtBoxes = other.hurtBoxes;
+		this->hitBoxes = other.hitBoxes;
+		this->duration = other.duration;
+		this->specialMarker = other.specialMarker;
+		this->dFlag = other.dFlag;
+		this->oFlag = other.oFlag;
+		if (other.collisionBox && other.collisionBox != this->collisionBox) {
+			this->collisionBox = new Box{
+				other.collisionBox->pos,
+				other.collisionBox->size
+			};
+		} else
+			this->collisionBox = nullptr;
+		this->blockStun = other.blockStun;
+		this->hitStun = other.hitStun;
+		this->prorate = other.prorate;
+		this->neutralLimit = other.neutralLimit;
+		this->voidLimit = other.voidLimit;
+		this->spiritLimit = other.spiritLimit;
+		this->matterLimit = other.matterLimit;
+		this->pushBack = other.pushBack;
+		this->pushBlock = other.pushBlock;
+		this->subObjectSpawn = other.subObjectSpawn;
+		this->manaGain = other.manaGain;
+		this->manaCost = other.manaCost;
+		this->damage = other.damage;
+		this->hitStop = other.hitStop;
+		this->hitSpeed = other.hitSpeed;
+		this->speed = other.speed;
+		this->counterHitSpeed = other.counterHitSpeed;
+		this->gravity = other.gravity;
+		game.textureMgr.addRef(this->textureHandle);
+		game.soundMgr.addRef(this->soundHandle);
+		game.soundMgr.addRef(this->hitSoundHandle);
 	}
 
 	FrameData &FrameData::operator=(const FrameData &other)
 	{
+		game.textureMgr.remove(this->textureHandle);
+		game.soundMgr.remove(this->soundHandle);
+		game.soundMgr.remove(this->hitSoundHandle);
 		this->_palette = other._palette;
 		this->spritePath = other.spritePath;
 		this->textureHandle = other.textureHandle;
