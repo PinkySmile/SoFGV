@@ -353,11 +353,11 @@ namespace Battle
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			unsigned char _specialInputs[48];
+			unsigned char _specialInputs[49];
 			unsigned _nbLastInputs;
 		};
 		union SpecialInputs {
-			unsigned char _value[48] = {0};
+			unsigned char _value[49] = {0};
 			struct {
 				unsigned char _22: 4;
 				unsigned char _44: 4;
@@ -401,10 +401,10 @@ namespace Battle
 				unsigned char _623v: 4;
 				unsigned char _623d: 4;
 				unsigned char _623a: 4;
-				unsigned char _421n: 4;
-				unsigned char _421m: 4;
-				unsigned char _421s: 4;
-				unsigned char _421v: 4;
+				char _421n: 6;
+				char _421m: 6;
+				char _421s: 6;
+				char _421v: 6;
 				unsigned char _421d: 4;
 				unsigned char _421a: 4;
 				unsigned char _624n: 4;

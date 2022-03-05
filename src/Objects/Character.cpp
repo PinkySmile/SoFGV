@@ -539,15 +539,15 @@ namespace Battle
 			this->_processInput(input);
 		else {
 			if (this->_isGrounded())
-				(input.n && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
-				(input.v && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
-				(input.s && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
-				(input.m && this->_specialInputs._421v && this->_startMove(ACTION_VOID_OVERDRIVE));
+				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(input.n && this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
-				(input.v && this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
-				(input.s && this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
-				(input.m && this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
+				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
 		this->_applyMoveAttributes();
@@ -727,18 +727,18 @@ namespace Battle
 			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
 			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
 
-		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
-		        (this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623v && this->_startMove(ACTION_j623V)) ||
-		        (this->_specialInputs._421v && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623s && this->_startMove(ACTION_j623S)) ||
-		        (this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623m && this->_startMove(ACTION_j623M)) ||
-		        (this->_specialInputs._421m && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
-			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
-			(this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
-			(this->_specialInputs._421a && this->_startMove(ACTION_j421A)) ||
+		        (this->_specialInputs._623n     && this->_startMove(ACTION_j623N)) ||
+		        (this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623v     && this->_startMove(ACTION_j623V)) ||
+		        (this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623s     && this->_startMove(ACTION_j623S)) ||
+		        (this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._623m     && this->_startMove(ACTION_j623M)) ||
+		        (this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623d     && this->_startMove(ACTION_j623D)) ||
+			(this->_specialInputs._421d     && this->_startMove(ACTION_j421D)) ||
+			(this->_specialInputs._623a     && this->_startMove(ACTION_j623A)) ||
+			(this->_specialInputs._421a     && this->_startMove(ACTION_j421A)) ||
 
 		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
 		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
@@ -829,18 +829,18 @@ namespace Battle
 			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_63214A)) ||
 			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_41236A)) ||
 
-			(this->_specialInputs._623n && this->_startMove(ACTION_623N)) ||
-			(this->_specialInputs._421n && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623v && this->_startMove(ACTION_623V)) ||
-			(this->_specialInputs._421v && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623s && this->_startMove(ACTION_623S)) ||
-			(this->_specialInputs._421s && this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623m && this->_startMove(ACTION_623M)) ||
-			(this->_specialInputs._421m && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623d && this->_startMove(ACTION_623D)) ||
-			(this->_specialInputs._421d && this->_startMove(ACTION_421D)) ||
-			(this->_specialInputs._623a && this->_startMove(ACTION_623A)) ||
-			(this->_specialInputs._421a && this->_startMove(ACTION_421A)) ||
+			(this->_specialInputs._623n     && this->_startMove(ACTION_623N)) ||
+			(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623v     && this->_startMove(ACTION_623V)) ||
+			(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623s     && this->_startMove(ACTION_623S)) ||
+			(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623m     && this->_startMove(ACTION_623M)) ||
+			(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
+			(this->_specialInputs._623d     && this->_startMove(ACTION_623D)) ||
+			(this->_specialInputs._421d     && this->_startMove(ACTION_421D)) ||
+			(this->_specialInputs._623a     && this->_startMove(ACTION_623A)) ||
+			(this->_specialInputs._421a     && this->_startMove(ACTION_421A)) ||
 
 			(this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
 			(this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
@@ -1104,6 +1104,7 @@ namespace Battle
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		game.logger.info("Starting action " + actionToString(action));
 		if (
 			action == ACTION_IDLE ||
 			action == ACTION_WALK_FORWARD ||
@@ -1160,8 +1161,13 @@ namespace Battle
 				this->_jumpsUsed--;
 				this->_hasJumped = false;
 			}
-		} else if (action >= ACTION_5N)
+		} else if (action >= ACTION_5N) {
 			this->_hasJumped = true;
+			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
+		}
 		if (
 			action != ACTION_AIR_HIT &&
 			action != ACTION_GROUND_LOW_HIT &&
@@ -1488,24 +1494,22 @@ namespace Battle
 	void Character::_checkAll421Input(bool tickBuffer)
 	{
 		if (this->_specialInputs._421n)
-			this->_specialInputs._421n -= tickBuffer;
+			this->_specialInputs._421n -= std::copysign(tickBuffer, this->_specialInputs._421n);
 		else
 			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421m)
-			this->_specialInputs._421m -= tickBuffer;
+			this->_specialInputs._421m -= std::copysign(tickBuffer, this->_specialInputs._421m);
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (this->_specialInputs._421m)
-			game.logger.info("YES");
 
 		if (this->_specialInputs._421s)
-			this->_specialInputs._421s -= tickBuffer;
+			this->_specialInputs._421s -= std::copysign(tickBuffer, this->_specialInputs._421s);
 		else
 			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421v)
-			this->_specialInputs._421v -= tickBuffer;
+			this->_specialInputs._421v -= std::copysign(tickBuffer, this->_specialInputs._421v);
 		else
 			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
 
@@ -1951,6 +1955,8 @@ namespace Battle
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found6 |= found2 && !input.v && input.h > 0;
+			if (!input.v && input.h < 0 && found2 && found4)
+				break;
 			if (found2 && found4 && found6)
 				return true;
 			total += input.nbFrames;
@@ -1973,6 +1979,8 @@ namespace Battle
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found2 |= found4 && input.v < 0 && !input.h;
 			found4 |= found2 && !input.v && input.h < 0;
+			if (!input.v && input.h > 0 && found2 && found6)
+				break;
 			if (found2 && found4 && found6)
 				return true;
 			total += input.nbFrames;
