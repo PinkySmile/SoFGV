@@ -302,6 +302,7 @@ namespace Battle
 		this->_animationCtr = 0;
 		this->_animation = 0;
 		this->_hasHit = false;
+		this->_rotation = 0;
 		this->_applyNewAnimFlags();
 	}
 
