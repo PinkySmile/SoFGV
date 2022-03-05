@@ -600,11 +600,12 @@ namespace Battle
 		bool _check63146974Input(const std::function<bool (const LastInput &)> &atkInput);
 
 	public:
+		unsigned index;
 		std::string name;
 		bool showAttributes = false;
 
 		Character() = default;
-		Character(const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~Character() override = default;
 		void setOpponent(Character *opponent);
 		bool hits(const IObject &other) const override;

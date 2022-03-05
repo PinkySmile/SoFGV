@@ -378,8 +378,9 @@ namespace Battle
 		return name == Battle::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
 	}
 
-	Character::Character(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
-		_input(std::move(input))
+	Character::Character(unsigned index, const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+		_input(std::move(input)),
+		index(index)
 	{
 		this->_text.setFont(game.font);
 		this->_text.setFillColor(sf::Color::White);

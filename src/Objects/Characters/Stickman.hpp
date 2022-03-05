@@ -46,7 +46,7 @@ namespace Battle
 
 	public:
 		Stickman() = default;
-		Stickman(const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		Stickman(unsigned index, const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		const FrameData *getCurrentFrameData() const override;
 		unsigned int getClassId() const override;
 		void update() override;

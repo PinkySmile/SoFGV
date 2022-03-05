@@ -2,6 +2,15 @@
 // Created by Gegel85 on 24/09/2021.
 //
 
+#ifdef _WIN32
+#include <windows.h>
+#define makedir(path, _) mkdir(path)
+#else
+#include <limits.h>
+#define MAX_PATH PATH_MAX
+#define makedir mkdir
+#endif
+#include <sys/stat.h>
 #include "InGame.hpp"
 #include "../Objects/Character.hpp"
 #include "../Resources/Game.hpp"
@@ -10,6 +19,7 @@
 #include "CharacterSelect.hpp"
 #include "TitleScreen.hpp"
 #include "PracticeInGame.hpp"
+#include "../Utils.hpp"
 
 namespace Battle
 {
@@ -84,6 +94,64 @@ namespace Battle
 				{rJson["air_drag"]["x"], rJson["air_drag"]["y"]}
 			}
 		);
+	}
+
+	InGame::~InGame()
+	{
+		char buf[MAX_PATH];
+		char buf2[MAX_PATH];
+		time_t timer;
+		char timebuffer[40];
+		char timebuffer2[40];
+		struct tm* tm_info;
+		auto leftChr    = game.battleMgr->getLeftCharacter();
+		auto rightChr   = game.battleMgr->getRightCharacter();
+		auto leftInputs = game.battleMgr->getLeftReplayData();
+		auto rightInputs= game.battleMgr->getRightReplayData();
+		struct CharacterData {
+			unsigned index;
+			unsigned nbInputs;
+			ReplayInput inputs[0];
+		} *leftChrSer, *rightChrSer;
+
+		time(&timer);
+		tm_info = localtime(&timer);
+		strftime(timebuffer, 40, "%Y-%m-%d", tm_info);
+		strftime(timebuffer2, 40, "%H_%M_%S", tm_info);
+		sprintf(buf, "replays/%s", timebuffer);
+		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
+
+		if (makedir("replays", 0644) && errno != EEXIST) {
+			Battle::game.logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
+			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game.screen);
+			return;
+		}
+		if (makedir(buf, 0644) && errno != EEXIST) {
+			Battle::game.logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game.screen);
+			return;
+		}
+
+		std::ofstream stream{buf2, std::ofstream::binary};
+
+		if (stream.fail()) {
+			Battle::game.logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game.screen);
+			return;
+		}
+		leftChrSer  = reinterpret_cast<CharacterData *>(new char[sizeof(unsigned) * 2 + leftInputs.size() * sizeof(ReplayInput)]);
+		rightChrSer = reinterpret_cast<CharacterData *>(new char[sizeof(unsigned) * 2 + rightInputs.size() * sizeof(ReplayInput)]);
+		leftChrSer->index = leftChr->index;
+		rightChrSer->index = rightChr->index;
+		leftChrSer->nbInputs = leftInputs.size();
+		rightChrSer->nbInputs = rightInputs.size();
+		memcpy(leftChrSer->inputs, leftInputs.data(), leftInputs.size() * sizeof(ReplayInput));
+		memcpy(rightChrSer->inputs, rightInputs.data(), rightInputs.size() * sizeof(ReplayInput));
+		stream.write(reinterpret_cast<char *>(leftChrSer), sizeof(unsigned) * 2 + leftInputs.size() * sizeof(ReplayInput));
+		stream.write(reinterpret_cast<char *>(rightChrSer), sizeof(unsigned) * 2 + rightInputs.size() * sizeof(ReplayInput));
+		delete[] reinterpret_cast<char *>(leftChrSer);
+		delete[] reinterpret_cast<char *>(rightChrSer);
+		game.logger.info(std::string(buf2) + " created.");
 	}
 
 	void InGame::render() const

@@ -196,6 +196,7 @@ namespace Battle
 		switch (entry._class) {
 		case 0:
 			chr = new Stickman{
+				static_cast<unsigned>(palette << 16 | pos),
 				entry.framedataPath,
 				entry.subobjectDataPath,
 				palettes,
@@ -204,6 +205,7 @@ namespace Battle
 			break;
 		default:
 			chr = new Character{
+				static_cast<unsigned>(palette << 16 | pos),
 				entry.framedataPath,
 				entry.subobjectDataPath,
 				palettes,

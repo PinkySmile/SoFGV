@@ -52,6 +52,7 @@ namespace Battle
 
 	public:
 		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		~InGame();
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

@@ -448,6 +448,61 @@ namespace Battle
 			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
+
+		auto inputL = this->_leftCharacter->getInput()->getInputs();
+		auto inputR = this->_rightCharacter->getInput()->getInputs();
+
+		if (
+			this->_leftReplayData.empty() ||
+			!!inputL.n != this->_leftReplayData.back().n ||
+			!!inputL.m != this->_leftReplayData.back().m ||
+			!!inputL.s != this->_leftReplayData.back().s ||
+			!!inputL.v != this->_leftReplayData.back().v ||
+			!!inputL.d != this->_leftReplayData.back().d ||
+			!!inputL.a != this->_leftReplayData.back().a ||
+			std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis) != this->_leftReplayData.back()._h ||
+			std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)   != this->_leftReplayData.back()._v ||
+			this->_leftReplayData.back().time == 63
+		)
+			this->_leftReplayData.push_back({
+				!!inputL.n,
+				!!inputL.m,
+				!!inputL.s,
+				!!inputL.v,
+				!!inputL.d,
+				!!inputL.a,
+				static_cast<char>(std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis)),
+				static_cast<char>(std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)),
+				0
+			});
+		else
+			this->_leftReplayData.back().time++;
+
+		if (
+			this->_rightReplayData.empty() ||
+			!!inputR.n != this->_rightReplayData.back().n ||
+			!!inputR.m != this->_rightReplayData.back().m ||
+			!!inputR.s != this->_rightReplayData.back().s ||
+			!!inputR.v != this->_rightReplayData.back().v ||
+			!!inputR.d != this->_rightReplayData.back().d ||
+			!!inputR.a != this->_rightReplayData.back().a ||
+			std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis) != this->_rightReplayData.back()._h ||
+			std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)   != this->_rightReplayData.back()._v ||
+			this->_rightReplayData.back().time == 63
+		)
+			this->_rightReplayData.push_back({
+				!!inputR.n,
+				!!inputR.m,
+				!!inputR.s,
+				!!inputR.v,
+				!!inputR.d,
+				!!inputR.a,
+				static_cast<char>(std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis)),
+				static_cast<char>(std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)),
+				0
+			});
+		else
+			this->_rightReplayData.back().time++;
 	}
 
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
@@ -535,6 +590,14 @@ namespace Battle
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
 		}
+		for (auto replayData : this->_leftReplayData) {
+			*(ReplayInput *)ptr = replayData;
+			ptr += sizeof(ReplayInput);
+		}
+		for (auto replayData : this->_rightReplayData) {
+			*(ReplayInput *)ptr = replayData;
+			ptr += sizeof(ReplayInput);
+		}
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)
@@ -613,6 +676,19 @@ namespace Battle
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
 			this->_platforms[i]->restoreFromBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
+		}
+
+		this->_leftReplayData.clear();
+		this->_leftReplayData.reserve(dat->_leftReplayData);
+		this->_rightReplayData.clear();
+		this->_rightReplayData.reserve(dat->_rightReplayData);
+		for (size_t i = 0; i < dat->_leftReplayData; i++) {
+			this->_leftReplayData.push_back(*(ReplayInput *)ptr);
+			ptr += sizeof(ReplayInput);
+		}
+		for (size_t i = 0; i < dat->_rightReplayData; i++) {
+			this->_rightReplayData.push_back(*(ReplayInput *)ptr);
+			ptr += sizeof(ReplayInput);
 		}
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);

@@ -12,6 +12,7 @@
 #include "Scenes/TitleScreen.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
+#include "Utils.hpp"
 
 #ifdef _WIN32
 std::string getLastError(int err = GetLastError())
@@ -65,8 +66,8 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 		CloseHandle(hFile);
 	} else
 		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
-	MessageBox(nullptr, buf, "Alors...", MB_ICONERROR);
 	Battle::game.logger.fatal(buf);
+	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*Battle::game.screen);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -205,7 +206,7 @@ int	main()
 	#ifndef _DEBUG
 	} catch (std::exception &e) {
 		Battle::game.logger.fatal(e.what());
-		MessageBox(nullptr, e.what(), "Fatal error", MB_ICONERROR);
+		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game.screen);
 	}
 	#endif
 	Battle::game.logger.info("Goodbye !");

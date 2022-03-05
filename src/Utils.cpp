@@ -122,7 +122,7 @@ namespace Utils
 #endif
 	}
 
-	int	dispMsg(const std::string &title, const std::string &content, int variate)
+	int	dispMsg(const std::string &title, const std::string &content, int variate, sf::RenderWindow *w)
 	{
 		auto button = tgui::Button::create("OK");
 		auto text = tgui::TextBox::create();
@@ -134,7 +134,6 @@ namespace Utils
 		float currentWidth = startWidth;
 		auto size = text->getTextSize();
 
-		std::cerr << title << std::endl << content << std::endl;
 		for (char c : content) {
 			currentWidth += font.getGlyph(c, size, false).advance;
 			width = std::max(static_cast<unsigned>(currentWidth), width);
@@ -175,6 +174,15 @@ namespace Utils
 			gui.add(pic);
 
 		while (win.isOpen()) {
+			if (w)
+				while (w->pollEvent(event))
+					if (
+						event.type == sf::Event::Closed ||
+						event.type == sf::Event::KeyPressed ||
+						event.type == sf::Event::MouseWheelScrolled ||
+						event.type == sf::Event::MouseWheelMoved
+					)
+						win.requestFocus();
 			while (win.pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
 					win.close();

@@ -88,6 +88,8 @@ add_executable(
 	src/Scenes/PracticeInGame.hpp
 	src/Objects/Characters/Stickman.cpp
 	src/Objects/Characters/Stickman.hpp
+	src/Utils.cpp
+	src/Utils.hpp
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
@@ -126,6 +128,7 @@ if (WIN32)
 		${SFML_NETWORK_LIB}
 		${GGPO_LIBRARIES}
 		${clip_LIBRARIES}
+		${TGUI_LIB}
 		ws2_32
 	)
 else ()
@@ -137,6 +140,7 @@ else ()
 		${SFML_WINDOW_LIB}
 		${SFML_NETWORK_LIB}
 		${clip_LIBRARIES}
+		${TGUI_LIB}
 		pthread
 		png
 		xcb

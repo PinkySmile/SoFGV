@@ -11,7 +11,7 @@
 #include "../Scenes/TitleScreen.hpp"
 #include "../Logger.hpp"
 
-#define VERSION_STR "stickman fighter alpha 0.0.0"
+#define VERSION_STR "stickman fighter alpha 0.0.1"
 
 namespace Battle
 {

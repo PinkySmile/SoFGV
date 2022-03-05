@@ -15,13 +15,14 @@
 namespace Battle
 {
 	Stickman::Stickman(
+		unsigned index,
 		const std::string &frameData,
 		const std::string &subobjFrameData,
 		const std::pair<std::vector<Battle::Color>,
 		std::vector<Battle::Color>> &palette,
 		std::shared_ptr<IInput> input
 	) :
-		Character(frameData, subobjFrameData, palette, input)
+		Character(index, frameData, subobjFrameData, palette, input)
 	{
 		game.logger.debug("Stickman class created");
 	}
