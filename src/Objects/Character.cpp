@@ -15,6 +15,7 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define COMBINATION_LENIENCY 4
 #define MAX_FRAME_IN_BUFFER 60
 
 #define WALL_SLAM_HITSTUN_INCREASE 30
@@ -1501,25 +1502,35 @@ namespace Battle
 
 	void Character::_checkAll421Input(bool tickBuffer)
 	{
+		auto input = this->_input->getInputs();
+
 		if (this->_specialInputs._421n)
 			this->_specialInputs._421n -= std::copysign(tickBuffer, this->_specialInputs._421n);
 		else
 			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
+		if (input.a && input.a < COMBINATION_LENIENCY && input.n && input.n < COMBINATION_LENIENCY)
+			this->_specialInputs._421n = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421m)
 			this->_specialInputs._421m -= std::copysign(tickBuffer, this->_specialInputs._421m);
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
+		if (input.a && input.a < COMBINATION_LENIENCY && input.m && input.m < COMBINATION_LENIENCY)
+			this->_specialInputs._421m = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421s)
 			this->_specialInputs._421s -= std::copysign(tickBuffer, this->_specialInputs._421s);
 		else
 			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
+		if (input.a && input.a < COMBINATION_LENIENCY && input.s && input.s < COMBINATION_LENIENCY)
+			this->_specialInputs._421s = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421v)
 			this->_specialInputs._421v -= std::copysign(tickBuffer, this->_specialInputs._421v);
 		else
 			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
+		if (input.a && input.a < COMBINATION_LENIENCY && input.v && input.v < COMBINATION_LENIENCY)
+			this->_specialInputs._421v = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421d)
 			this->_specialInputs._421d -= tickBuffer;
