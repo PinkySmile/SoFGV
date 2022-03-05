@@ -525,7 +525,7 @@ Panel.Panel1 {
             CheckBox.DashSpeed {
                 Position = (330, 590);
                 Size = (20, 20);
-                Text = "Chara Cancel";
+                Text = "Kara Cancel";
                 TextSize = 13;
                 renderer = &2;
             }

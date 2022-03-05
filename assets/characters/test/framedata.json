@@ -16190,7 +16190,7 @@
                         "y": 2
                     },
                     "damage": 600,
-                    "defense_flag": 545032,
+                    "defense_flag": 540936,
                     "duration": 40,
                     "hitSound": "assets/sfxs/se/005.wav",
                     "hit_boxes": [
@@ -16215,18 +16215,17 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 10521736,
+                    "offense_flag": 2133128,
                     "offset": {
-                        "x": 6,
+                        "x": 5,
                         "y": -6
                     },
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 4,
                     "size": {
-                        "x": 52,
-                        "y": 198
+                        "x": 50,
+                        "y": 200
                     },
                     "sound": "assets/sfxs/se/029.wav",
                     "speed": {
@@ -16253,7 +16252,7 @@
                         "x": 1,
                         "y": 2
                     },
-                    "defense_flag": 528640,
+                    "defense_flag": 524544,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -16263,7 +16262,42 @@
                             "width": 53
                         }
                     ],
-                    "offense_flag": 265216,
+                    "offense_flag": 3072,
+                    "offset": {
+                        "x": 6,
+                        "y": -6
+                    },
+                    "size": {
+                        "x": 54,
+                        "y": 196
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 98,
+                        "left": 266,
+                        "top": 684,
+                        "width": 27
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 150,
+                        "left": -19,
+                        "top": -150,
+                        "width": 42
+                    },
+                    "duration": 10,
+                    "hurt_boxes": [
+                        {
+                            "height": 200,
+                            "left": -22,
+                            "top": -194,
+                            "width": 54
+                        }
+                    ],
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 6,
                         "y": -6

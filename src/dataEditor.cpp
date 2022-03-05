@@ -1341,7 +1341,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.dFlag.charaCancel = b;
+		data.dFlag.karaCancel = b;
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
@@ -1512,7 +1512,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		canBlock->setChecked(data.dFlag.canBlock);
 		highBlock->setChecked(data.dFlag.highBlock);
 		lowBlock->setChecked(data.dFlag.lowBlock);
-		dashSpeed->setChecked(data.dFlag.charaCancel);
+		dashSpeed->setChecked(data.dFlag.karaCancel);
 		resetRotation->setChecked(data.dFlag.resetRotation);
 		counterHit->setChecked(data.dFlag.counterHit);
 		flash->setChecked(data.dFlag.flash);

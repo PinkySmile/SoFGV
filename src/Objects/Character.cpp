@@ -79,7 +79,7 @@ static const char *dFlags[] = {
 	"canBlock",
 	"highBlock",
 	"lowBlock",
-	"charaCancel",
+	"karaCancel",
 	"resetRotation",
 	"counterHit",
 	"flash",
@@ -482,8 +482,15 @@ namespace Battle
 			Object::_onMoveEnd(*data);
 		}
 
-		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel)
-			this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel) {
+			if (this->_moves.at(this->_action).size() != this->_actionBlock + 1) {
+				this->_actionBlock++;
+				this->_animation = 0;
+				this->_animationCtr = 0;
+				this->_applyNewAnimFlags();
+			} else
+				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
+		}
 
 		if (this->_isGrounded()) {
 			this->_airDashesUsed = 0;
@@ -1201,7 +1208,7 @@ namespace Battle
 
 		if (!currentData->oFlag.cancelable)
 			return false;
-		if (!this->_hasHit && !currentData->dFlag.charaCancel)
+		if (!this->_hasHit && !currentData->dFlag.karaCancel)
 			return false;
 		if (currentData->oFlag.backDashCancelable && action == ACTION_BACKWARD_DASH)
 			return true;

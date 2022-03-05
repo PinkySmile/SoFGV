@@ -38,7 +38,7 @@ namespace Battle
 			bool canBlock : 1;
 			bool highBlock : 1;
 			bool lowBlock : 1;
-			bool charaCancel : 1;
+			bool karaCancel : 1;
 			bool resetRotation : 1;
 			bool counterHit : 1;
 			bool flash : 1;
