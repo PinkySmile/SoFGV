@@ -451,17 +451,18 @@ namespace Battle
 		this->_voidMana   += (this->_voidManaMax   - this->_voidMana)   * this->_regen;
 		if (this->_blockStun) {
 			this->_blockStun--;
-			if (this->_blockStun == 0 && !limited) {
-				if (this->_isGrounded())
-					this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
-				else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
-					if (!this->_executeAirTech(input))
-						this->_forceStartMove(ACTION_FALLING);
+			if (this->_blockStun == 0) {
+				if (!limited) {
+					if (this->_isGrounded())
+						this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
+					else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
+						if (!this->_executeAirTech(input))
+							this->_forceStartMove(ACTION_FALLING);
+					}
 				}
 				this->_speedReset = false;
 			}
 		}
-		this->_speedReset &= (this->_blockStun != 0);
 
 		if (
 			(this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) &&
