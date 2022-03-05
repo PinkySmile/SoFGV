@@ -10419,7 +10419,7 @@
                             "width": 62
                         }
                     ],
-                    "hit_stun": 20,
+                    "hit_stun": 60,
                     "hurt_boxes": [
                         {
                             "height": 181,
@@ -10544,7 +10544,7 @@
                         }
                     ],
                     "hit_stop": 2,
-                    "hit_stun": 30,
+                    "hit_stun": 60,
                     "offense_flag": 24576,
                     "offset": {
                         "x": 26,
@@ -10613,7 +10613,7 @@
                         "y": 9
                     },
                     "hit_stop": 2,
-                    "hit_stun": 20,
+                    "hit_stun": 60,
                     "neutral_limit": 100,
                     "offense_flag": 8192,
                     "offset": {
