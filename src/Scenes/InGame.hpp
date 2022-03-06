@@ -40,6 +40,7 @@ namespace Battle
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
+		bool _goBackToTitle;
 
 		virtual void _renderPause() const;
 		virtual void _pauseUpdate();
@@ -51,7 +52,7 @@ namespace Battle
 		InGame();
 
 	public:
-		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle = false);
 		~InGame();
 		void render() const override;
 		IScene *update() override;

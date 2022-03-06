@@ -13,6 +13,7 @@
 #endif
 #include <utility>
 #include <clip.h>
+#include <dirent.h>
 #include "TitleScreen.hpp"
 #include "InGame.hpp"
 #include "NetplayInGame.hpp"
@@ -22,14 +23,26 @@
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
 #include "../Inputs/RemoteInput.hpp"
+#include "../Utils.hpp"
+#include "../Inputs/ReplayInput.hpp"
 
 #define THRESHOLD 50
+
+#define PLAY_BUTTON      0
+#define PRACTICE_BUTTON  1
+#define REPLAY_BUTTON    2
+#define HOST_BUTTON      3
+#define CONNECT_BUTTON   4
+#define SETTINGS_BUTTON  5
+#define QUIT_BUTTON      6
+#define SYNC_TEST_BUTTON 7
 
 namespace Battle
 {
 	static const char * const menuItems[] = {
 		"Play",
 		"Practice",
+		"Replay",
 		"Host",
 		"Connect",
 		"Settings",
@@ -95,7 +108,7 @@ namespace Battle
 	{
 		game.random();
 		if ((game.networkMgr.isHosting() || this->_connecting) && !this->_oldRemote.empty() && this->_remote.empty())
-			MessageBox(nullptr, (this->_oldRemote + " disconnected...").c_str(), "Disconnected", MB_ICONINFORMATION);
+			Utils::dispMsg("Disconnected", (this->_oldRemote + " disconnected...").c_str(), MB_ICONINFORMATION);
 		this->_oldRemote = this->_remote;
 		return this->_nextScene;
 	}
@@ -143,9 +156,9 @@ namespace Battle
 					this->_pingUpdate(ping);
 				});
 			} catch (std::exception &e) {
-				MessageBox(nullptr, e.what(), "Host error", MB_ICONERROR);
+				Utils::dispMsg("Host error", e.what(), MB_ICONERROR);
 			} catch (...) {
-				MessageBox(nullptr, "WTF???", "Host error", MB_ICONERROR);
+				Utils::dispMsg("Host error", "WTF???", MB_ICONERROR);
 			}
 		}};
 	}
@@ -174,7 +187,7 @@ namespace Battle
 				}) && this->_connecting)
 					throw std::invalid_argument("Failed to connect to " + game.lastIp);
 			} catch (std::exception &e) {
-				MessageBox(nullptr, e.what(), "Connect error", MB_ICONERROR);
+				Utils::dispMsg("Connect error", e.what(), MB_ICONERROR);
 			}
 			this->_connecting = false;
 		}};
@@ -189,26 +202,26 @@ namespace Battle
 		if (this->_rightInput > 1)
 			this->_P2.second->setJoystickId(this->_rightInput - 2);
 		switch (this->_selectedEntry) {
-		case 0:
+		case PLAY_BUTTON:
 			this->_nextScene = new CharacterSelect(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
 				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
 			);
 			break;
-		case 1:
+		case PRACTICE_BUTTON:
 			this->_nextScene = new CharacterSelect(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
 				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
 				true
 			);
 			break;
-		case 2:
+		case HOST_BUTTON:
 			this->_chooseSpecCount = true;
 			break;
-		case 3:
+		case CONNECT_BUTTON:
 			this->_connect();
 			break;
-		case 6:
+		case SYNC_TEST_BUTTON:
 			game.networkMgr.setInputs(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
 				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
@@ -348,13 +361,13 @@ namespace Battle
 		else
 			game.screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		if (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6)
+		if (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON)
 			game.screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game.screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game.screen->displayElement("P2", {540 + 420, 190});
 		game.screen->fillColor(sf::Color::White);
-		if (this->_leftInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6)) {
+		if (this->_leftInput && (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON)) {
 			if (this->_rightInput)
 				game.screen->displayElement(
 					this->_rightInput == 1 ?
@@ -368,7 +381,7 @@ namespace Battle
 				game.screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
+		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != PLAY_BUTTON && this->_selectedEntry != PRACTICE_BUTTON && this->_selectedEntry != SYNC_TEST_BUTTON)))
 			game.screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -538,7 +551,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != 0 && this->_selectedEntry != 1 && this->_selectedEntry != 6)))
+			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != PLAY_BUTTON && this->_selectedEntry != PRACTICE_BUTTON && this->_selectedEntry != SYNC_TEST_BUTTON)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (stickId != 1 && this->_leftInput == stickId)
@@ -552,20 +565,27 @@ namespace Battle
 		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 
 		switch (this->_selectedEntry) {
-		case 0:
-		case 1:
-		case 2:
-		case 3:
+		case PLAY_BUTTON:
+		case PRACTICE_BUTTON:
+		case HOST_BUTTON:
+		case CONNECT_BUTTON:
 			this->_askingInputs = true;
 			break;
-		case 4:
+		case REPLAY_BUTTON: {
+			auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
+
+			if (!path.empty())
+				this->_loadReplay(path);
+			break;
+		}
+		case SETTINGS_BUTTON:
 			this->_changingInputs = 1;
 			this->_cursorInputs = 0;
 			break;
-		case 5:
+		case QUIT_BUTTON:
 			game.screen->close();
 			break;
-		case 6:
+		case SYNC_TEST_BUTTON:
 			this->_askingInputs = true;
 			break;
 		default:
@@ -590,7 +610,7 @@ namespace Battle
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput && (this->_selectedEntry == 0 || this->_selectedEntry == 1 || this->_selectedEntry == 6))
+			if (this->_rightInput && (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;
@@ -598,7 +618,7 @@ namespace Battle
 				this->_askingInputs = false;
 			return;
 		}
-		this->_selectedEntry = 5;
+		this->_selectedEntry = QUIT_BUTTON;
 	}
 
 	void TitleScreen::_onDisconnect(const std::string &address)
@@ -635,5 +655,62 @@ namespace Battle
 		game.screen->fillColor(sf::Color::White);
 		game.screen->displayElement("Select spectator count.", {640, 280}, 400, Screen::ALIGN_CENTER);
 		game.screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + (this->_specCount > 1 ? " spectator slots." : " spectator slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
+	}
+
+	void TitleScreen::_fetchReplayList()
+	{
+		DIR *dir = opendir(("replays/" + this->_basePath).c_str());
+		struct dirent *entry;
+		struct stat s;
+
+		for (struct dirent *entry = readdir(dir); entry; entry = readdir(dir)) {
+			entry->d_name;
+		}
+	}
+
+	void TitleScreen::_loadReplay(const std::string &path)
+	{
+		std::vector<CharacterEntry> entries;
+		std::ifstream stream{path, std::ifstream::binary};
+		std::ifstream stream2{"assets/characters/list.json"};
+		nlohmann::json json;
+		unsigned nb;
+		unsigned P1pos;
+		unsigned P2pos;
+		unsigned P1palette;
+		unsigned P2palette;
+		std::deque<ReplayData> P1inputs;
+		std::deque<ReplayData> P2inputs;
+		char *buffer;
+		ReplayData *buffer2;
+
+		game.logger.info("Loading replay " + path);
+		stream2 >> json;
+		for (auto &elem : json)
+			entries.emplace_back(elem);
+		stream.read(reinterpret_cast<char *>(&P1pos), 2);
+		stream.read(reinterpret_cast<char *>(&P1palette), 2);
+		stream.read(reinterpret_cast<char *>(&nb), 4);
+		buffer = new char[nb * sizeof(ReplayData)];
+		stream.read(buffer, nb * sizeof(ReplayData));
+		buffer2 = reinterpret_cast<ReplayData *>(buffer);
+		P1inputs.insert(P1inputs.begin(), buffer2, buffer2 + nb);
+		delete[] buffer;
+
+		stream.read(reinterpret_cast<char *>(&P2pos), 2);
+		stream.read(reinterpret_cast<char *>(&P2palette), 2);
+		stream.read(reinterpret_cast<char *>(&nb), 4);
+		buffer = new char[nb * sizeof(ReplayData)];
+		stream.read(buffer, nb * sizeof(ReplayData));
+		buffer2 = reinterpret_cast<ReplayData *>(buffer);
+		P2inputs.insert(P2inputs.begin(), buffer2, buffer2 + nb);
+		delete[] buffer;
+		this->_nextScene = new InGame{
+			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_unique<ReplayInput>(P1inputs)),
+			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_unique<ReplayInput>(P2inputs)),
+			entries[P1pos].entry,
+			entries[P2pos].entry,
+			true
+		};
 	}
 }

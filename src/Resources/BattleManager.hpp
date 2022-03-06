@@ -9,10 +9,11 @@
 #include <random>
 #include "../Objects/Character.hpp"
 #include "../Objects/Platform.hpp"
+#include "MoveListData.hpp"
 
 namespace Battle
 {
-	struct ReplayInput {
+	struct ReplayData {
 		bool n : 1;
 		bool m : 1;
 		bool v : 1;
@@ -26,7 +27,7 @@ namespace Battle
 
 	class BattleManager {
 	protected:
-		static_assert(sizeof(ReplayInput) == 2);
+		static_assert(sizeof(ReplayData) == 2);
 
 #pragma pack(push, 1)
 		struct Data {
@@ -78,10 +79,11 @@ namespace Battle
 		unsigned char _speed = 60;
 		float _time = 0;
 		unsigned _lastObjectId = 0;
-		std::vector<ReplayInput> _leftReplayData;
-		std::vector<ReplayInput> _rightReplayData;
+		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 
 		// Game State
+		std::vector<ReplayData> _leftReplayData;
+		std::vector<ReplayData> _rightReplayData;
 		std::unique_ptr<Character> _leftCharacter;
 		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::shared_ptr<Platform>> _platforms;
@@ -110,6 +112,7 @@ namespace Battle
 		bool _rightCounter = false;
 		float _rightProration = 0;
 
+		void _updateReplayData();
 		void _gameUpdate();
 		virtual bool _updateLoop();
 		bool _updateEndGameAnimation();
@@ -120,6 +123,7 @@ namespace Battle
 		void _renderRoundStartAnimation() const;
 		void _renderLeftHUD() const;
 		void _renderRightHUD() const;
+		void _renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side);
 
 	public:
 		struct CharacterParams {
@@ -144,6 +148,9 @@ namespace Battle
 		void addHitStop(unsigned stop);
 		virtual bool update();
 		virtual void render();
+		void renderInputs();
+		void renderLeftInputs();
+		void renderRightInputs();
 		unsigned registerObject(const std::shared_ptr<IObject> &object);
 		virtual void consumeEvent(const sf::Event &);
 		std::shared_ptr<IObject> getObjectFromId(unsigned id) const;
@@ -151,8 +158,8 @@ namespace Battle
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;
 		const Character *getRightCharacter() const;
-		const std::vector<ReplayInput> &getLeftReplayData() const;
-		const std::vector<ReplayInput> &getRightReplayData() const;
+		const std::vector<ReplayData> &getLeftReplayData() const;
+		const std::vector<ReplayData> &getRightReplayData() const;
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
 		{

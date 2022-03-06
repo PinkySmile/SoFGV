@@ -16,6 +16,7 @@ namespace Battle
 		SPRITE_2,
 		SPRITE_3,
 		SPRITE_4,
+		SPRITE_5,
 		SPRITE_6,
 		SPRITE_8,
 		SPRITE_214,

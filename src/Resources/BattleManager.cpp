@@ -15,6 +15,26 @@ namespace Battle
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character)
 	{
+		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
+		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
+		this->_moveSprites[SPRITE_4].loadFromFile("assets/icons/inputs/4.png");
+		this->_moveSprites[SPRITE_5].loadFromFile("assets/icons/inputs/5.png");
+		this->_moveSprites[SPRITE_6].loadFromFile("assets/icons/inputs/6.png");
+		this->_moveSprites[SPRITE_8].loadFromFile("assets/icons/inputs/8.png");
+		//this->_moveSprites[SPRITE_214].loadFromFile("assets/icons/inputs/214.png");
+		//this->_moveSprites[SPRITE_236].loadFromFile("assets/icons/inputs/236.png");
+		//this->_moveSprites[SPRITE_421].loadFromFile("assets/icons/inputs/421.png");
+		//this->_moveSprites[SPRITE_426].loadFromFile("assets/icons/inputs/426.png");
+		//this->_moveSprites[SPRITE_623].loadFromFile("assets/icons/inputs/623.png");
+		//this->_moveSprites[SPRITE_624].loadFromFile("assets/icons/inputs/624.png");
+		//this->_moveSprites[SPRITE_624684].loadFromFile("assets/icons/inputs/624684.png");
+		this->_moveSprites[SPRITE_N].loadFromFile("assets/icons/inputs/neutral.png");
+		this->_moveSprites[SPRITE_D].loadFromFile("assets/icons/inputs/dash.png");
+		this->_moveSprites[SPRITE_M].loadFromFile("assets/icons/inputs/matter.png");
+		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
+		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
+		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
+
 		//TODO: Move this in another function
 		this->_stage.textureHandle = game.textureMgr.load("assets/stages/14687.png");
 		this->_stage.setPosition({-50, -600});
@@ -338,6 +358,7 @@ namespace Battle
 			this->_hitStop--;
 			this->_leftCharacter->updateInputs();
 			this->_rightCharacter->updateInputs();
+			this->_updateReplayData();
 			return;
 		}
 
@@ -448,7 +469,11 @@ namespace Battle
 			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
+		this->_updateReplayData();
+	}
 
+	void BattleManager::_updateReplayData()
+	{
 		auto inputL = this->_leftCharacter->getInput()->getInputs();
 		auto inputR = this->_rightCharacter->getInput()->getInputs();
 
@@ -463,14 +488,14 @@ namespace Battle
 			std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis) != this->_leftReplayData.back()._h ||
 			std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)   != this->_leftReplayData.back()._v ||
 			this->_leftReplayData.back().time == 63
-		)
+			)
 			this->_leftReplayData.push_back({
 				!!inputL.n,
 				!!inputL.m,
-				!!inputL.s,
 				!!inputL.v,
-				!!inputL.d,
+				!!inputL.s,
 				!!inputL.a,
+				!!inputL.d,
 				static_cast<char>(std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis)),
 				static_cast<char>(std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)),
 				0
@@ -489,14 +514,14 @@ namespace Battle
 			std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis) != this->_rightReplayData.back()._h ||
 			std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)   != this->_rightReplayData.back()._v ||
 			this->_rightReplayData.back().time == 63
-		)
+			)
 			this->_rightReplayData.push_back({
 				!!inputR.n,
 				!!inputR.m,
-				!!inputR.s,
 				!!inputR.v,
-				!!inputR.d,
+				!!inputR.s,
 				!!inputR.a,
+				!!inputR.d,
 				static_cast<char>(std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis)),
 				static_cast<char>(std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)),
 				0
@@ -525,7 +550,7 @@ namespace Battle
 		}
 		for (size_t i = 0; i < this->_nbPlatform; i++)
 			size += this->_platforms[i]->getBufferSize();
-		size += (this->_leftReplayData.size() + this->_rightReplayData.size()) * sizeof(ReplayInput);
+		size += (this->_leftReplayData.size() + this->_rightReplayData.size()) * sizeof(ReplayData);
 		return size;
 	}
 
@@ -591,12 +616,12 @@ namespace Battle
 			ptr += this->_platforms[i]->getBufferSize();
 		}
 		for (auto replayData : this->_leftReplayData) {
-			*(ReplayInput *)ptr = replayData;
-			ptr += sizeof(ReplayInput);
+			*(ReplayData *)ptr = replayData;
+			ptr += sizeof(ReplayData);
 		}
 		for (auto replayData : this->_rightReplayData) {
-			*(ReplayInput *)ptr = replayData;
-			ptr += sizeof(ReplayInput);
+			*(ReplayData *)ptr = replayData;
+			ptr += sizeof(ReplayData);
 		}
 	}
 
@@ -683,12 +708,12 @@ namespace Battle
 		this->_rightReplayData.clear();
 		this->_rightReplayData.reserve(dat->_rightReplayData);
 		for (size_t i = 0; i < dat->_leftReplayData; i++) {
-			this->_leftReplayData.push_back(*(ReplayInput *)ptr);
-			ptr += sizeof(ReplayInput);
+			this->_leftReplayData.push_back(*(ReplayData *)ptr);
+			ptr += sizeof(ReplayData);
 		}
 		for (size_t i = 0; i < dat->_rightReplayData; i++) {
-			this->_rightReplayData.push_back(*(ReplayInput *)ptr);
-			ptr += sizeof(ReplayInput);
+			this->_rightReplayData.push_back(*(ReplayData *)ptr);
+			ptr += sizeof(ReplayData);
 		}
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
@@ -1033,13 +1058,168 @@ namespace Battle
 		return this->_platforms;
 	}
 
-	const std::vector<ReplayInput> &BattleManager::getLeftReplayData() const
+	const std::vector<ReplayData> &BattleManager::getLeftReplayData() const
 	{
 		return this->_leftReplayData;
 	}
 
-	const std::vector<ReplayInput> &BattleManager::getRightReplayData() const
+	const std::vector<ReplayData> &BattleManager::getRightReplayData() const
 	{
 		return this->_rightReplayData;
+	}
+
+	void BattleManager::renderInputs()
+	{
+		this->renderLeftInputs();
+		this->renderRightInputs();
+	}
+
+	void BattleManager::renderLeftInputs()
+	{
+		this->_renderInputs(this->_leftReplayData, {-50, -515}, false);
+	}
+
+	void BattleManager::renderRightInputs()
+	{
+		this->_renderInputs(this->_rightReplayData, {900, -515}, true);
+	}
+
+	void BattleManager::_renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side)
+	{
+		sf::VertexArray arr{sf::Quads, 4};
+		sf::Sprite sprite;
+		unsigned total = 0;
+
+		arr[0].color = sf::Color{0, 0, 0, 0x60};
+		arr[0].position = {pos.x, pos.y};
+		arr[1].color = sf::Color{0, 0, 0, 0x60};
+		arr[1].position = {pos.x + 150, pos.y};
+		arr[2].color = sf::Color{0, 0, 0, 0xA0};
+		arr[2].position = {pos.x + 150, pos.y + 565};
+		arr[3].color = sf::Color{0, 0, 0, 0xA0};
+		arr[3].position = {pos.x, pos.y + 565};
+		game.screen->draw(arr);
+
+		for (size_t i = 0, k = 0; i < data.size() && k < 28; i++) {
+			auto &elem = data[data.size() - 1 - i];
+
+			total += elem.time + 1;
+			if (i < data.size() - 1) {
+				auto &elem2 = data[data.size() - 2 - i];
+
+				if (
+					elem._h == elem2._h &&
+					elem._v == elem2._v &&
+					elem.n == elem2.n &&
+					elem.m == elem2.m &&
+					elem.v == elem2.v &&
+					elem.s == elem2.s &&
+					elem.a == elem2.a &&
+					elem.d == elem2.d
+				)
+					continue;
+			}
+
+			int spriteId = SPRITE_3;
+			float rotation = 0;
+			int j = 0;
+
+			switch ((elem._h + 2) + (elem._v + 1) * 3) {
+				case 1:
+					rotation = 90;
+					break;
+				case 7:
+					rotation = 180;
+					break;
+				case 9:
+					rotation = -90;
+					break;
+				case 2:
+					spriteId = SPRITE_2;
+					break;
+				case 4:
+					spriteId = SPRITE_4;
+					break;
+				case 5:
+					spriteId = SPRITE_5;
+					break;
+				case 6:
+					spriteId = SPRITE_6;
+					break;
+				case 8:
+					spriteId = SPRITE_8;
+					break;
+			}
+
+			sprite.setOrigin(this->_moveSprites[spriteId].getSize().x / 2.f, this->_moveSprites[spriteId].getSize().y / 2.f);
+			sprite.setRotation(rotation);
+			sprite.setTexture(this->_moveSprites[spriteId]);
+			sprite.setScale({
+				16.f / this->_moveSprites[spriteId].getSize().x,
+				16.f / this->_moveSprites[spriteId].getSize().y
+			});
+			game.screen->textSize(10);
+			game.screen->displayElement(std::to_string(total), {pos.x + 2, pos.y + 545 - k * 20}, 146, (side ? Screen::ALIGN_LEFT : Screen::ALIGN_RIGHT));
+			game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0), pos.y + 552 - k * 20});
+			game.screen->textSize(30);
+
+			sprite.setRotation(0);
+			if (elem.n) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_N].getSize().x / 2.f, this->_moveSprites[SPRITE_N].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_N]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_N].getSize().x,
+					16.f / this->_moveSprites[SPRITE_N].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			if (elem.m) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_M].getSize().x / 2.f, this->_moveSprites[SPRITE_M].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_M]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_M].getSize().x,
+					16.f / this->_moveSprites[SPRITE_M].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			if (elem.s) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_S].getSize().x / 2.f, this->_moveSprites[SPRITE_S].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_S]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_S].getSize().x,
+					16.f / this->_moveSprites[SPRITE_S].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			if (elem.v) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_V].getSize().x / 2.f, this->_moveSprites[SPRITE_V].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_V]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_V].getSize().x,
+					16.f / this->_moveSprites[SPRITE_V].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			if (elem.d) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_D].getSize().x / 2.f, this->_moveSprites[SPRITE_D].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_D]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_D].getSize().x,
+					16.f / this->_moveSprites[SPRITE_D].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			if (elem.a) {
+				sprite.setOrigin(this->_moveSprites[SPRITE_A].getSize().x / 2.f, this->_moveSprites[SPRITE_A].getSize().y / 2.f);
+				sprite.setTexture(this->_moveSprites[SPRITE_A]);
+				sprite.setScale({
+					16.f / this->_moveSprites[SPRITE_A].getSize().x,
+					16.f / this->_moveSprites[SPRITE_A].getSize().y
+				});
+				game.screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			}
+			k++;
+			total = 0;
+		}
 	}
 }

@@ -27,9 +27,6 @@ namespace Battle
 		stream >> json;
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);
-		std::sort(this->_entries.begin(), this->_entries.end(), [](const CharacterEntry &e1, const CharacterEntry &e2){
-			return e1.pos < e2.pos;
-		});
 	}
 
 	void CharacterSelect::render() const
@@ -185,8 +182,12 @@ namespace Battle
 
 	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
 	{
+		return createCharacter(this->_entries[pos], pos, palette, std::move(input));
+	}
+
+	Character *CharacterSelect::createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input)
+	{
 		Character *chr;
-		auto &entry = this->_entries[pos];
 		std::pair<std::vector<Color>, std::vector<Color>> palettes;
 
 		if (!entry.palettes.empty() && palette) {
@@ -218,7 +219,7 @@ namespace Battle
 		return chr;
 	}
 
-	CharacterSelect::CharacterEntry::CharacterEntry(const nlohmann::json &json) :
+	CharacterEntry::CharacterEntry(const nlohmann::json &json) :
 		entry(json)
 	{
 		if (!json.contains("pos"))
@@ -305,7 +306,7 @@ namespace Battle
 		}
 	}
 
-	CharacterSelect::CharacterEntry::CharacterEntry(const CharacterSelect::CharacterEntry &entry) :
+	CharacterEntry::CharacterEntry(const CharacterEntry &entry) :
 		entry(entry.entry),
 		pos(entry.pos),
 		_class(entry._class),
@@ -318,7 +319,7 @@ namespace Battle
 			game.textureMgr.addRef(_icon.textureHandle);
 	}
 
-	CharacterSelect::CharacterEntry::~CharacterEntry()
+	CharacterEntry::~CharacterEntry()
 	{
 		for (auto &_icon : this->icon)
 			game.textureMgr.remove(_icon.textureHandle);

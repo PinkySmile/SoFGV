@@ -37,6 +37,9 @@ namespace Battle
 		bool _askingInputs = false;
 		bool _usingKeyboard = false;
 		bool _chooseSpecCount = false;
+		bool _replaySelect = false;
+		std::string _basePath;
+		std::vector<std::pair<bool, std::string>> _replays;
 		unsigned char _changingInputs = 0;
 		unsigned char _cursorInputs = 0;
 		IScene *_nextScene = nullptr;
@@ -44,6 +47,8 @@ namespace Battle
 		std::string _remote;
 		std::string _oldRemote;
 
+		void _loadReplay(const std::string &path);
+		void _fetchReplayList();
 		void _onInputsChosen();
 		void _host(unsigned spec);
 		void _connect();

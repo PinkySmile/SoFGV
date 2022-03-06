@@ -15,23 +15,24 @@
 
 namespace Battle
 {
+	struct CharacterEntry {
+		nlohmann::json entry;
+		int pos;
+		unsigned _class;
+		std::string name;
+		std::string framedataPath;
+		std::string subobjectDataPath;
+		std::vector<std::vector<Color>> palettes;
+		std::vector<Sprite> icon;
+		std::map<unsigned, std::vector<std::vector<FrameData>>> data;
+
+		CharacterEntry(const nlohmann::json &json);
+		CharacterEntry(const CharacterEntry &entry);
+		~CharacterEntry();
+	};
+
 	class CharacterSelect : public IScene {
 	protected:
-		struct CharacterEntry {
-			nlohmann::json entry;
-			int pos;
-			unsigned _class;
-			std::string name;
-			std::string framedataPath;
-			std::string subobjectDataPath;
-			std::vector<std::vector<Color>> palettes;
-			std::vector<Sprite> icon;
-			std::map<unsigned, std::vector<std::vector<FrameData>>> data;
-
-			CharacterEntry(const nlohmann::json &json);
-			CharacterEntry(const CharacterEntry &entry);
-			~CharacterEntry();
-		};
 
 		sf::Font _font;
 		mutable Sprite _randomSprite;
@@ -47,6 +48,7 @@ namespace Battle
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
 
 	public:
+		static Character *createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input);
 		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice = false);
 		void render() const override;
 		IScene *update() override;

@@ -57,9 +57,10 @@ namespace Battle
 		Battle::game.screen->setView(view);
 	}
 
-	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
 		InGame()
 	{
+		this->_goBackToTitle = goBackToTitle;
 		game.battleMgr = std::make_unique<BattleManager>(
 			BattleManager::CharacterParams{
 				leftChr,
@@ -98,6 +99,9 @@ namespace Battle
 
 	InGame::~InGame()
 	{
+		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle)
+			return;
+
 		char buf[MAX_PATH];
 		char buf2[MAX_PATH];
 		time_t timer;
@@ -111,8 +115,7 @@ namespace Battle
 		struct CharacterData {
 			unsigned index;
 			unsigned nbInputs;
-			ReplayInput inputs[0];
-		} *leftChrSer, *rightChrSer;
+		} leftChrSer, rightChrSer;
 
 		time(&timer);
 		tm_info = localtime(&timer);
@@ -139,24 +142,22 @@ namespace Battle
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game.screen);
 			return;
 		}
-		leftChrSer  = reinterpret_cast<CharacterData *>(new char[sizeof(unsigned) * 2 + leftInputs.size() * sizeof(ReplayInput)]);
-		rightChrSer = reinterpret_cast<CharacterData *>(new char[sizeof(unsigned) * 2 + rightInputs.size() * sizeof(ReplayInput)]);
-		leftChrSer->index = leftChr->index;
-		rightChrSer->index = rightChr->index;
-		leftChrSer->nbInputs = leftInputs.size();
-		rightChrSer->nbInputs = rightInputs.size();
-		memcpy(leftChrSer->inputs, leftInputs.data(), leftInputs.size() * sizeof(ReplayInput));
-		memcpy(rightChrSer->inputs, rightInputs.data(), rightInputs.size() * sizeof(ReplayInput));
-		stream.write(reinterpret_cast<char *>(leftChrSer), sizeof(unsigned) * 2 + leftInputs.size() * sizeof(ReplayInput));
-		stream.write(reinterpret_cast<char *>(rightChrSer), sizeof(unsigned) * 2 + rightInputs.size() * sizeof(ReplayInput));
-		delete[] reinterpret_cast<char *>(leftChrSer);
-		delete[] reinterpret_cast<char *>(rightChrSer);
+		leftChrSer.index = leftChr->index;
+		leftChrSer.nbInputs = leftInputs.size();
+		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
+		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(ReplayData));
+
+		rightChrSer.index = rightChr->index;
+		rightChrSer.nbInputs = rightInputs.size();
+		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
+		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(ReplayData));
 		game.logger.info(std::string(buf2) + " created.");
 	}
 
 	void InGame::render() const
 	{
-		Battle::game.battleMgr->render();
+		game.battleMgr->render();
+		game.battleMgr->renderInputs();
 		if (this->_moveList)
 			this->_renderMoveList();
 		else if (this->_paused)
@@ -175,11 +176,14 @@ namespace Battle
 			this->_moveListUpdate();
 		else if (!this->_paused) {
 			if (!Battle::game.battleMgr->update()) {
-				this->_nextScene = new CharacterSelect(
-					game.battleMgr->getLeftCharacter()->getInput(),
-					game.battleMgr->getRightCharacter()->getInput(),
-					dynamic_cast<PracticeInGame *>(this) != nullptr
-				);
+				if (this->_goBackToTitle)
+					this->_nextScene = new TitleScreen(game.P1, game.P2);
+				else
+					this->_nextScene = new CharacterSelect(
+						game.battleMgr->getLeftCharacter()->getInput(),
+						game.battleMgr->getRightCharacter()->getInput(),
+						dynamic_cast<PracticeInGame *>(this) != nullptr
+					);
 				return this->_nextScene;
 			}
 			if (linput->getInputs().pause == 1)

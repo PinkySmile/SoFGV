@@ -90,7 +90,7 @@ add_executable(
 	src/Objects/Characters/Stickman.hpp
 	src/Utils.cpp
 	src/Utils.hpp
-)
+	src/Inputs/ReplayInput.cpp src/Inputs/ReplayInput.hpp)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
@@ -212,7 +212,7 @@ add_executable(
 	src/Scenes/PracticeInGame.hpp
 	src/Objects/Characters/Stickman.cpp
 	src/Objects/Characters/Stickman.hpp
-)
+	src/Inputs/ReplayInput.cpp src/Inputs/ReplayInput.hpp)
 
 if (WIN32)
 	target_link_libraries(
