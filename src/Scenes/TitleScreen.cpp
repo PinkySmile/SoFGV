@@ -679,10 +679,10 @@ namespace Battle
 		unsigned P2pos;
 		unsigned P1palette;
 		unsigned P2palette;
-		std::deque<ReplayData> P1inputs;
-		std::deque<ReplayData> P2inputs;
+		std::deque<Character::ReplayData> P1inputs;
+		std::deque<Character::ReplayData> P2inputs;
 		char *buffer;
-		ReplayData *buffer2;
+		Character::ReplayData *buffer2;
 
 		game.logger.info("Loading replay " + path);
 		stream2 >> json;
@@ -691,18 +691,18 @@ namespace Battle
 		stream.read(reinterpret_cast<char *>(&P1pos), 2);
 		stream.read(reinterpret_cast<char *>(&P1palette), 2);
 		stream.read(reinterpret_cast<char *>(&nb), 4);
-		buffer = new char[nb * sizeof(ReplayData)];
-		stream.read(buffer, nb * sizeof(ReplayData));
-		buffer2 = reinterpret_cast<ReplayData *>(buffer);
+		buffer = new char[nb * sizeof(Character::ReplayData)];
+		stream.read(buffer, nb * sizeof(Character::ReplayData));
+		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
 		P1inputs.insert(P1inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 
 		stream.read(reinterpret_cast<char *>(&P2pos), 2);
 		stream.read(reinterpret_cast<char *>(&P2palette), 2);
 		stream.read(reinterpret_cast<char *>(&nb), 4);
-		buffer = new char[nb * sizeof(ReplayData)];
-		stream.read(buffer, nb * sizeof(ReplayData));
-		buffer2 = reinterpret_cast<ReplayData *>(buffer);
+		buffer = new char[nb * sizeof(Character::ReplayData)];
+		stream.read(buffer, nb * sizeof(Character::ReplayData));
+		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
 		P2inputs.insert(P2inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 		this->_nextScene = new InGame{

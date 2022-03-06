@@ -145,12 +145,12 @@ namespace Battle
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
 		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
-		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(ReplayData));
+		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
 
 		rightChrSer.index = rightChr->index;
 		rightChrSer.nbInputs = rightInputs.size();
 		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
-		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(ReplayData));
+		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
 		game.logger.info(std::string(buf2) + " created.");
 	}
 

@@ -8,7 +8,7 @@
 
 namespace Battle
 {
-	ReplayInput::ReplayInput(const std::deque<ReplayData> &inputs) :
+	ReplayInput::ReplayInput(const std::deque<Character::ReplayData> &inputs) :
 		_inputs(inputs)
 	{
 		this->_keyStates.reset();

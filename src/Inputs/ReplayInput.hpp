@@ -19,14 +19,14 @@ namespace Battle
 {
 	class ReplayInput : public IInput {
 	private:
-		std::deque<ReplayData> _inputs;
+		std::deque<Character::ReplayData> _inputs;
 		std::bitset<INPUT_NUMBER - 1> _keyStates;
 		std::array<int, INPUT_NUMBER - 1> _keyDuration;
 
 		void _fillStates();
 
 	public:
-		ReplayInput(const std::deque<ReplayData> &inputs);
+		ReplayInput(const std::deque<Character::ReplayData> &inputs);
 		bool isPressed(InputEnum input) const override;
 		InputStruct getInputs() const override;
 		void update() override;

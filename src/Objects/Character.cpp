@@ -693,6 +693,33 @@ namespace Battle
 		this->_lastInputs.front().nbFrames++;
 		if (this->_lastInputs.front().nbFrames > MAX_FRAME_IN_BUFFER)
 			this->_lastInputs.front().nbFrames = MAX_FRAME_IN_BUFFER;
+
+		if (
+			this->_replayData.empty() ||
+			!!input.n != this->_replayData.back().n ||
+			!!input.m != this->_replayData.back().m ||
+			!!input.s != this->_replayData.back().s ||
+			!!input.v != this->_replayData.back().v ||
+			!!input.d != this->_replayData.back().d ||
+			!!input.a != this->_replayData.back().a ||
+			std::copysign(!!input.horizontalAxis, input.horizontalAxis) != this->_replayData.back()._h ||
+			std::copysign(!!input.verticalAxis,   input.verticalAxis)   != this->_replayData.back()._v ||
+			this->_replayData.back().time == 63
+		)
+			this->_replayData.push_back({
+				!!input.n,
+				!!input.m,
+				!!input.v,
+				!!input.s,
+				!!input.a,
+				!!input.d,
+				static_cast<char>(std::copysign(!!input.horizontalAxis, input.horizontalAxis)),
+				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis)),
+				0
+			});
+		else
+			this->_replayData.back().time++;
+
 		this->_checkSpecialInputs(tickBuffer);
 		this->_hasJumped &= input.verticalAxis > 0;
 		this->_inputBuffer.horizontalAxis = input.horizontalAxis;
@@ -3191,7 +3218,7 @@ namespace Battle
 
 	unsigned int Character::getBufferSize() const
 	{
-		return Object::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size();
+		return Object::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size() + this->_replayData.size() * sizeof(ReplayData);
 	}
 
 	void Character::copyToBuffer(void *data) const
@@ -3203,6 +3230,7 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_nbReplayInputs = this->_replayData.size();
 		dat->_inputBuffer = this->_inputBuffer;
 		dat->_speedReset = this->_speedReset;
 		dat->_guardRegenCd = this->_guardRegenCd;
@@ -3238,6 +3266,7 @@ namespace Battle
 			else
 				dat->_subObjects[i] = 0;
 		}
+		memcpy(&((LastInput *)&dat[1])[dat->_nbLastInputs], this->_replayData.data(), this->_replayData.size() * sizeof(ReplayData));
 	}
 
 	void Character::restoreFromBuffer(void *data)
@@ -3277,6 +3306,14 @@ namespace Battle
 			this->_subobjects[i].first = dat->_subObjects[i];
 			this->_subobjects[i].second.reset();
 		}
+		this->_replayData.clear();
+		this->_replayData.reserve(dat->_nbReplayInputs);
+		for (size_t i = 0; i < dat->_nbReplayInputs; i++)
+			this->_replayData.push_back((
+				(ReplayData *)(&(
+					(LastInput *)&dat[1]
+				)[dat->_nbLastInputs])
+			)[i]);
 	}
 
 	void Character::resolveSubObjects(const BattleManager &manager)
@@ -3456,5 +3493,10 @@ namespace Battle
 		default:
 			return false;
 		}
+	}
+
+	const std::vector<Character::ReplayData> &Character::getReplayData() const
+	{
+		return this->_replayData;
 	}
 }

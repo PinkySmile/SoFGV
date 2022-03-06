@@ -358,7 +358,6 @@ namespace Battle
 			this->_hitStop--;
 			this->_leftCharacter->updateInputs();
 			this->_rightCharacter->updateInputs();
-			this->_updateReplayData();
 			return;
 		}
 
@@ -469,65 +468,6 @@ namespace Battle
 			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
-		this->_updateReplayData();
-	}
-
-	void BattleManager::_updateReplayData()
-	{
-		auto inputL = this->_leftCharacter->getInput()->getInputs();
-		auto inputR = this->_rightCharacter->getInput()->getInputs();
-
-		if (
-			this->_leftReplayData.empty() ||
-			!!inputL.n != this->_leftReplayData.back().n ||
-			!!inputL.m != this->_leftReplayData.back().m ||
-			!!inputL.s != this->_leftReplayData.back().s ||
-			!!inputL.v != this->_leftReplayData.back().v ||
-			!!inputL.d != this->_leftReplayData.back().d ||
-			!!inputL.a != this->_leftReplayData.back().a ||
-			std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis) != this->_leftReplayData.back()._h ||
-			std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)   != this->_leftReplayData.back()._v ||
-			this->_leftReplayData.back().time == 63
-			)
-			this->_leftReplayData.push_back({
-				!!inputL.n,
-				!!inputL.m,
-				!!inputL.v,
-				!!inputL.s,
-				!!inputL.a,
-				!!inputL.d,
-				static_cast<char>(std::copysign(!!inputL.horizontalAxis, inputL.horizontalAxis)),
-				static_cast<char>(std::copysign(!!inputL.verticalAxis,   inputL.verticalAxis)),
-				0
-			});
-		else
-			this->_leftReplayData.back().time++;
-
-		if (
-			this->_rightReplayData.empty() ||
-			!!inputR.n != this->_rightReplayData.back().n ||
-			!!inputR.m != this->_rightReplayData.back().m ||
-			!!inputR.s != this->_rightReplayData.back().s ||
-			!!inputR.v != this->_rightReplayData.back().v ||
-			!!inputR.d != this->_rightReplayData.back().d ||
-			!!inputR.a != this->_rightReplayData.back().a ||
-			std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis) != this->_rightReplayData.back()._h ||
-			std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)   != this->_rightReplayData.back()._v ||
-			this->_rightReplayData.back().time == 63
-			)
-			this->_rightReplayData.push_back({
-				!!inputR.n,
-				!!inputR.m,
-				!!inputR.v,
-				!!inputR.s,
-				!!inputR.a,
-				!!inputR.d,
-				static_cast<char>(std::copysign(!!inputR.horizontalAxis, inputR.horizontalAxis)),
-				static_cast<char>(std::copysign(!!inputR.verticalAxis,   inputR.verticalAxis)),
-				0
-			});
-		else
-			this->_rightReplayData.back().time++;
 	}
 
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
@@ -550,7 +490,6 @@ namespace Battle
 		}
 		for (size_t i = 0; i < this->_nbPlatform; i++)
 			size += this->_platforms[i]->getBufferSize();
-		size += (this->_leftReplayData.size() + this->_rightReplayData.size()) * sizeof(ReplayData);
 		return size;
 	}
 
@@ -562,8 +501,6 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
-		dat->_leftReplayData = this->_leftReplayData.size();
-		dat->_rightReplayData = this->_rightReplayData.size();
 		dat->battleRandom = game.battleRandom;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
@@ -614,14 +551,6 @@ namespace Battle
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
-		}
-		for (auto replayData : this->_leftReplayData) {
-			*(ReplayData *)ptr = replayData;
-			ptr += sizeof(ReplayData);
-		}
-		for (auto replayData : this->_rightReplayData) {
-			*(ReplayData *)ptr = replayData;
-			ptr += sizeof(ReplayData);
 		}
 	}
 
@@ -701,19 +630,6 @@ namespace Battle
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
 			this->_platforms[i]->restoreFromBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
-		}
-
-		this->_leftReplayData.clear();
-		this->_leftReplayData.reserve(dat->_leftReplayData);
-		this->_rightReplayData.clear();
-		this->_rightReplayData.reserve(dat->_rightReplayData);
-		for (size_t i = 0; i < dat->_leftReplayData; i++) {
-			this->_leftReplayData.push_back(*(ReplayData *)ptr);
-			ptr += sizeof(ReplayData);
-		}
-		for (size_t i = 0; i < dat->_rightReplayData; i++) {
-			this->_rightReplayData.push_back(*(ReplayData *)ptr);
-			ptr += sizeof(ReplayData);
 		}
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
@@ -1058,14 +974,14 @@ namespace Battle
 		return this->_platforms;
 	}
 
-	const std::vector<ReplayData> &BattleManager::getLeftReplayData() const
+	const std::vector<Character::ReplayData> &BattleManager::getLeftReplayData() const
 	{
-		return this->_leftReplayData;
+		return this->_leftCharacter->getReplayData();
 	}
 
-	const std::vector<ReplayData> &BattleManager::getRightReplayData() const
+	const std::vector<Character::ReplayData> &BattleManager::getRightReplayData() const
 	{
-		return this->_rightReplayData;
+		return this->_rightCharacter->getReplayData();
 	}
 
 	void BattleManager::renderInputs()
@@ -1076,15 +992,15 @@ namespace Battle
 
 	void BattleManager::renderLeftInputs()
 	{
-		this->_renderInputs(this->_leftReplayData, {-50, -515}, false);
+		this->_renderInputs(this->_leftCharacter->getReplayData(), {-50, -515}, false);
 	}
 
 	void BattleManager::renderRightInputs()
 	{
-		this->_renderInputs(this->_rightReplayData, {900, -515}, true);
+		this->_renderInputs(this->_rightCharacter->getReplayData(), {900, -515}, true);
 	}
 
-	void BattleManager::_renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side)
+	void BattleManager::_renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side)
 	{
 		sf::VertexArray arr{sf::Quads, 4};
 		sf::Sprite sprite;

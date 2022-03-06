@@ -284,6 +284,20 @@ namespace Battle
 	extern const std::map<CharacterActions, std::string> actionNames;
 
 	class Character : public Object {
+	public:
+		struct ReplayData {
+			bool n : 1;
+			bool m : 1;
+			bool v : 1;
+			bool s : 1;
+			bool a : 1;
+			bool d : 1;
+			char _h : 2;
+			char _v : 2;
+			unsigned char time : 6;
+		};
+		static_assert(sizeof(ReplayData) == 2);
+
 	protected:
 		enum GroundTech {
 			GROUNDTECH_NONE,
@@ -355,6 +369,7 @@ namespace Battle
 			float _matterMana;
 			unsigned char _specialInputs[49];
 			unsigned _nbLastInputs;
+			unsigned _nbReplayInputs;
 		};
 		union SpecialInputs {
 			unsigned char _value[49] = {0};
@@ -468,6 +483,7 @@ namespace Battle
 		static std::function<bool (const LastInput &)> getInputA;
 
 		// Game State
+		std::vector<ReplayData> _replayData;
 		std::list<LastInput> _lastInputs;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit{0, 0, 0, 0};
@@ -643,6 +659,7 @@ namespace Battle
 		void restoreFromBuffer(void *data) override;
 		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
+		const std::vector<ReplayData> &getReplayData() const;
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

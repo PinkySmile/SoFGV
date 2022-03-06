@@ -13,22 +13,8 @@
 
 namespace Battle
 {
-	struct ReplayData {
-		bool n : 1;
-		bool m : 1;
-		bool v : 1;
-		bool s : 1;
-		bool a : 1;
-		bool d : 1;
-		char _h : 2;
-		char _v : 2;
-		unsigned char time : 6;
-	};
-
 	class BattleManager {
 	protected:
-		static_assert(sizeof(ReplayData) == 2);
-
 #pragma pack(push, 1)
 		struct Data {
 			std::pair<unsigned char, unsigned char> _score;
@@ -38,8 +24,6 @@ namespace Battle
 			unsigned _roundEndTimer;
 			unsigned _hitStop;
 			unsigned _nbObjects;
-			unsigned _leftReplayData;
-			unsigned _rightReplayData;
 			unsigned _leftComboCtr = 0;
 			unsigned _leftHitCtr = 0;
 			unsigned _leftNeutralLimit = 0;
@@ -82,8 +66,6 @@ namespace Battle
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 
 		// Game State
-		std::vector<ReplayData> _leftReplayData;
-		std::vector<ReplayData> _rightReplayData;
 		std::unique_ptr<Character> _leftCharacter;
 		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::shared_ptr<Platform>> _platforms;
@@ -112,7 +94,6 @@ namespace Battle
 		bool _rightCounter = false;
 		float _rightProration = 0;
 
-		void _updateReplayData();
 		void _gameUpdate();
 		virtual bool _updateLoop();
 		bool _updateEndGameAnimation();
@@ -123,7 +104,7 @@ namespace Battle
 		void _renderRoundStartAnimation() const;
 		void _renderLeftHUD() const;
 		void _renderRightHUD() const;
-		void _renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side);
+		void _renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side);
 
 	public:
 		struct CharacterParams {
@@ -158,8 +139,8 @@ namespace Battle
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;
 		const Character *getRightCharacter() const;
-		const std::vector<ReplayData> &getLeftReplayData() const;
-		const std::vector<ReplayData> &getRightReplayData() const;
+		const std::vector<Character::ReplayData> &getLeftReplayData() const;
+		const std::vector<Character::ReplayData> &getRightReplayData() const;
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
 		{
