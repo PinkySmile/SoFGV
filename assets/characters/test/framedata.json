@@ -13066,7 +13066,7 @@
                     ],
                     "hit_speed": {
                         "x": 6,
-                        "y": 0
+                        "y": 1
                     },
                     "hit_stop": 8,
                     "hit_stun": 20,
