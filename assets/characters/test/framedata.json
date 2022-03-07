@@ -16670,7 +16670,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 10,
+                    "offense_flag": 2058,
                     "prorate": 100.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -16726,7 +16726,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 10,
+                    "offense_flag": 2058,
                     "prorate": 90.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -16760,6 +16760,7 @@
                             "width": 113
                         }
                     ],
+                    "offense_flag": 2048,
                     "size": {
                         "x": 94,
                         "y": 166
