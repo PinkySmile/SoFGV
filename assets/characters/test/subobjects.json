@@ -11,8 +11,8 @@
                     "hit_boxes": [
                         {
                             "height": 59,
-                            "left": 0,
-                            "top": -29,
+                            "left": 4,
+                            "top": -30,
                             "width": 52
                         }
                     ],
@@ -25,14 +25,14 @@
                     "hurt_boxes": [
                         {
                             "height": 59,
-                            "left": 1,
+                            "left": 4,
                             "top": -30,
                             "width": 51
                         }
                     ],
                     "offset": {
-                        "x": 26,
-                        "y": -28
+                        "x": 29,
+                        "y": -29
                     },
                     "prorate": 90.0,
                     "push_block": 4,
