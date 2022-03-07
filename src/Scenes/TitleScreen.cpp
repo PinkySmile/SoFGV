@@ -10,10 +10,10 @@
 // TODO: Add proper message boxes on non windows systems
 #define MessageBox(...)
 #include <arpa/inet.h>
+#include <dirent.h>
 #endif
 #include <utility>
 #include <clip.h>
-#include <dirent.h>
 #include "TitleScreen.hpp"
 #include "InGame.hpp"
 #include "NetplayInGame.hpp"
@@ -657,17 +657,6 @@ namespace Battle
 		game.screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + (this->_specCount > 1 ? " spectator slots." : " spectator slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
 
-	void TitleScreen::_fetchReplayList()
-	{
-		DIR *dir = opendir(("replays/" + this->_basePath).c_str());
-		struct dirent *entry;
-		struct stat s;
-
-		for (struct dirent *entry = readdir(dir); entry; entry = readdir(dir)) {
-			entry->d_name;
-		}
-	}
-
 	void TitleScreen::_loadReplay(const std::string &path)
 	{
 		std::vector<CharacterEntry> entries;
@@ -712,5 +701,19 @@ namespace Battle
 			entries[P2pos].entry,
 			true
 		};
+	}
+
+	void TitleScreen::_fetchReplayList()
+	{
+#ifdef _WIN32
+#else
+		DIR *dir = opendir(("replays/" + this->_basePath).c_str());
+		struct dirent *entry;
+		struct stat s;
+
+		for (struct dirent *entry = readdir(dir); entry; entry = readdir(dir)) {
+			entry->d_name;
+		}
+#endif
 	}
 }
