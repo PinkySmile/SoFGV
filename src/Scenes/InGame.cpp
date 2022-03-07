@@ -4,7 +4,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#define makedir(path, _) mkdir(path)
+#include <direct.h>
+#define makedir(path, _) _mkdir(path)
 #else
 #include <limits.h>
 #define MAX_PATH PATH_MAX
