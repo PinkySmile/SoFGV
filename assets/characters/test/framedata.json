@@ -16426,6 +16426,7 @@
                     },
                     "damage": 200,
                     "defense_flag": 2097472,
+                    "duration": 2,
                     "hitSound": "assets/sfxs/se/012.wav",
                     "hit_boxes": [
                         {
