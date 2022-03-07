@@ -1318,15 +1318,23 @@ namespace Battle
 	{
 		auto updatedY = this->_position.y;
 
-		if (this->_specialInputs._22)
+		if (this->_specialInputs._22) {
+			if (this->_isOnPlatform())
+				this->_position.y -= 0.01;
 			return;
+		}
 		this->_position.y = oldPos.y;
 
-		auto result = !this->_isOnPlatform() && this->_input->isPressed(INPUT_DOWN) && this->_action != ACTION_AIR_HIT;
+		auto plat = !this->_isOnPlatform();
+		auto down = this->_input->isPressed(INPUT_DOWN);
+		auto result = plat && down;
 
 		this->_position.y = updatedY;
-		if (result)
+		if (result) {
+			if (this->_isOnPlatform())
+				this->_position.y -= 0.01;
 			return;
+		}
 		Object::_checkPlatforms(oldPos);
 	}
 
