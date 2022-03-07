@@ -13782,12 +13782,12 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 110,
                             "left": 25,
                             "top": -149,
                             "width": 35
@@ -13843,18 +13843,18 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 118,
                             "left": 28,
                             "top": -152,
                             "width": 31
                         },
                         {
-                            "height": 42,
+                            "height": 93,
                             "left": 51,
                             "top": -115,
                             "width": 40
@@ -13916,36 +13916,36 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 118,
                             "left": 28,
                             "top": -152,
                             "width": 31
                         },
                         {
-                            "height": 42,
+                            "height": 92,
                             "left": 51,
                             "top": -115,
                             "width": 40
                         },
                         {
-                            "height": 18,
+                            "height": 55,
                             "left": 105,
                             "top": -56,
                             "width": 21
                         },
                         {
-                            "height": 26,
+                            "height": 70,
                             "left": 79,
                             "top": -82,
                             "width": 31
                         },
                         {
-                            "height": 17,
+                            "height": 45,
                             "left": 118,
                             "top": -39,
                             "width": 27
@@ -14243,6 +14243,7 @@
                         "x": 3,
                         "y": 0
                     },
+                    "spirit_limit": 7,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14326,6 +14327,7 @@
                         "x": 104,
                         "y": 192
                     },
+                    "spirit_limit": 7,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14409,7 +14411,7 @@
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 40,
+                    "spirit_limit": 7,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14493,7 +14495,7 @@
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 40,
+                    "spirit_limit": 7,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14577,6 +14579,7 @@
                         "x": 104,
                         "y": 192
                     },
+                    "spirit_limit": 7,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
