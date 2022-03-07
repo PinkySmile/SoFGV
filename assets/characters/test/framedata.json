@@ -13066,7 +13066,7 @@
                     ],
                     "hit_speed": {
                         "x": 6,
-                        "y": 0
+                        "y": 1
                     },
                     "hit_stop": 8,
                     "hit_stun": 20,
@@ -13782,12 +13782,12 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 110,
                             "left": 25,
                             "top": -149,
                             "width": 35
@@ -13798,7 +13798,7 @@
                         "y": 0
                     },
                     "hit_stop": 4,
-                    "hit_stun": 18,
+                    "hit_stun": 27,
                     "hurt_boxes": [
                         {
                             "height": 101,
@@ -13843,18 +13843,18 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 118,
                             "left": 28,
                             "top": -152,
                             "width": 31
                         },
                         {
-                            "height": 42,
+                            "height": 93,
                             "left": 51,
                             "top": -115,
                             "width": 40
@@ -13865,7 +13865,7 @@
                         "y": 0
                     },
                     "hit_stop": 8,
-                    "hit_stun": 18,
+                    "hit_stun": 27,
                     "hurt_boxes": [
                         {
                             "height": 102,
@@ -13916,36 +13916,36 @@
                         "width": 45
                     },
                     "damage": 200,
-                    "defense_flag": 2638080,
+                    "defense_flag": 2113792,
                     "duration": 6,
                     "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
-                            "height": 42,
+                            "height": 118,
                             "left": 28,
                             "top": -152,
                             "width": 31
                         },
                         {
-                            "height": 42,
+                            "height": 92,
                             "left": 51,
                             "top": -115,
                             "width": 40
                         },
                         {
-                            "height": 18,
+                            "height": 55,
                             "left": 105,
                             "top": -56,
                             "width": 21
                         },
                         {
-                            "height": 26,
+                            "height": 70,
                             "left": 79,
                             "top": -82,
                             "width": 31
                         },
                         {
-                            "height": 17,
+                            "height": 45,
                             "left": 118,
                             "top": -39,
                             "width": 27
@@ -13956,7 +13956,7 @@
                         "y": 0
                     },
                     "hit_stop": 8,
-                    "hit_stun": 22,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 102,
@@ -14231,7 +14231,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 46.20000181686906,
                     "size": {
@@ -14243,6 +14243,7 @@
                         "x": 3,
                         "y": 0
                     },
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14319,13 +14320,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 40.59999710757542,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14402,14 +14404,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 36.12000013997328,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 40,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14486,14 +14488,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 43.96000090455629,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 40,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14570,13 +14572,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 49.560003185338225,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -16423,7 +16426,7 @@
                     },
                     "damage": 200,
                     "defense_flag": 2097472,
-                    "duration": 4,
+                    "duration": 2,
                     "hitSound": "assets/sfxs/se/012.wav",
                     "hit_boxes": [
                         {
@@ -16477,6 +16480,55 @@
                     "void_limit": 30
                 },
                 {
+                    "block_stun": 20,
+                    "collision_box": {
+                        "height": 158,
+                        "left": -15,
+                        "top": -159,
+                        "width": 41
+                    },
+                    "damage": 200,
+                    "defense_flag": 2097472,
+                    "duration": 2,
+                    "hitSound": "assets/sfxs/se/012.wav",
+                    "hit_stop": 15,
+                    "hit_stun": 40,
+                    "hurt_boxes": [
+                        {
+                            "height": 190,
+                            "left": -20,
+                            "top": -191,
+                            "width": 48
+                        },
+                        {
+                            "height": 89,
+                            "left": 26,
+                            "top": -144,
+                            "width": 102
+                        }
+                    ],
+                    "offense_flag": 2179082,
+                    "offset": {
+                        "x": 55,
+                        "y": 0
+                    },
+                    "prorate": 110.0,
+                    "push_back": 2,
+                    "push_block": 12,
+                    "size": {
+                        "x": 170,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 49,
+                        "top": 339,
+                        "width": 85
+                    },
+                    "void_limit": 30
+                },
+                {
                     "collision_box": {
                         "height": 158,
                         "left": -15,
@@ -16493,7 +16545,7 @@
                             "width": 78
                         }
                     ],
-                    "offense_flag": 65536,
+                    "offense_flag": 2162688,
                     "offset": {
                         "x": 17,
                         "y": 0
@@ -16618,7 +16670,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 10,
+                    "offense_flag": 2058,
                     "prorate": 100.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -16674,7 +16726,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 10,
+                    "offense_flag": 2058,
                     "prorate": 90.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -16708,6 +16760,7 @@
                             "width": 113
                         }
                     ],
+                    "offense_flag": 2048,
                     "size": {
                         "x": 94,
                         "y": 166
