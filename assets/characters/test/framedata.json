@@ -13798,7 +13798,7 @@
                         "y": 0
                     },
                     "hit_stop": 4,
-                    "hit_stun": 25,
+                    "hit_stun": 27,
                     "hurt_boxes": [
                         {
                             "height": 101,
@@ -13865,7 +13865,7 @@
                         "y": 0
                     },
                     "hit_stop": 8,
-                    "hit_stun": 25,
+                    "hit_stun": 27,
                     "hurt_boxes": [
                         {
                             "height": 102,
@@ -13956,7 +13956,7 @@
                         "y": 0
                     },
                     "hit_stop": 8,
-                    "hit_stun": 27,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 102,
@@ -14231,7 +14231,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 46.20000181686906,
                     "size": {
@@ -14243,7 +14243,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "spirit_limit": 7,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14320,14 +14320,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 40.59999710757542,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 7,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14404,14 +14404,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 36.12000013997328,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 7,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14488,14 +14488,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 43.96000090455629,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 7,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -14572,14 +14572,14 @@
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 100.0,
+                    "prorate": 98.0,
                     "push_block": 1,
                     "rotation": 49.560003185338225,
                     "size": {
                         "x": 104,
                         "y": 192
                     },
-                    "spirit_limit": 7,
+                    "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
