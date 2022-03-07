@@ -104,31 +104,31 @@ namespace Battle
 	void Object::render() const
 	{
 		auto &data = *this->getCurrentFrameData();
+		auto realPos = this->_position;
 		auto scale = Vector2f{
-			static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = this->_position;
-		auto realPos = this->_position;
-		auto center = data.textureBounds.size / 2.f + Vector2f{-data.offset.x / 2.f * this->_dir, static_cast<float>(data.offset.y)};
+		auto result = data.offset + this->_position;
 
-		realPos.y *= -1;
 		result.y *= -1;
 		result += Vector2f{
-			data.size.x / -2.f - data.offset.x * !this->_direction * 2.f,
-			-static_cast<float>(data.size.y) + data.offset.y
+			!this->_direction * data.size.x + data.size.x / -2.f,
+			-static_cast<float>(data.size.y)
 		};
 		result += Vector2f{
 			data.textureBounds.size.x * scale.x / 2,
 			data.textureBounds.size.y * scale.y / 2
 		};
-		this->_sprite.setOrigin(center);
+		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
 		this->_sprite.setPosition(result);
-		this->_sprite.setScale(this->_dir * scale.x, scale.y);
+		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
 		game.textureMgr.render(this->_sprite);
+
+		realPos.y *= -1;
 		if (this->showBoxes) {
 			for (auto &hurtBox : this->_getModifiedHurtBoxes())
 				this->_drawBox(hurtBox, sf::Color::Green);
