@@ -109,7 +109,7 @@ namespace Battle
 			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
 			static_cast<float>(data.size.y) / data.textureBounds.size.y
 		};
-		auto result = data.offset + this->_position;
+		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 
 		result.y *= -1;
 		result += Vector2f{
