@@ -796,27 +796,27 @@ namespace Battle
 		        (input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
 		        (input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6N)) ||
 		        (input.n && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2N)) ||
-		        (input.n &&                                                                     (this->_startMove(ACTION_j5N) || this->_startMove(ACTION_j2N) || this->_startMove(ACTION_j6N) || this->_startMove(ACTION_j3N) || this->_startMove(ACTION_j8N))) ||
+		        (input.n &&                                                                      this->_executeNeutralAttack(ACTION_j5N)) ||
 		        (input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8V)) ||
 		        (input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3V)) ||
 		        (input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6V)) ||
 		        (input.v && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2V)) ||
-		        (input.v &&                                                                     (this->_startMove(ACTION_j5V) || this->_startMove(ACTION_j2V) || this->_startMove(ACTION_j6V) || this->_startMove(ACTION_j3V) || this->_startMove(ACTION_j8V))) ||
+		        (input.v &&                                                                      this->_executeNeutralAttack(ACTION_j5V)) ||
 		        (input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8S)) ||
 		        (input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3S)) ||
 		        (input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6S)) ||
 		        (input.s && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2S)) ||
-		        (input.s &&                                                                     (this->_startMove(ACTION_j5S) || this->_startMove(ACTION_j2S) || this->_startMove(ACTION_j6S) || this->_startMove(ACTION_j3S) || this->_startMove(ACTION_j8S))) ||
+		        (input.s &&                                                                      this->_executeNeutralAttack(ACTION_j5S)) ||
 		        (input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8M)) ||
 		        (input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3M)) ||
 		        (input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
 		        (input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_j2M)) ||
-		        (input.m &&                                                                     (this->_startMove(ACTION_j5M) || this->_startMove(ACTION_j2M) || this->_startMove(ACTION_j6M) || this->_startMove(ACTION_j3M) || this->_startMove(ACTION_j8M))) ||
+		        (input.m &&                                                                      this->_executeNeutralAttack(ACTION_j5M)) ||
 			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8A)) ||
 			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3A)) ||
 			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6A)) ||
 			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_j2A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis == 0 && (this->_startMove(ACTION_j5A) || this->_startMove(ACTION_j2A) || this->_startMove(ACTION_j6A) || this->_startMove(ACTION_j3A) || this->_startMove(ACTION_j8A))) ||
+			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_j5A)) ||
 			this->_executeAirDashes(input) ||
 		        this->_executeAirJump(input);
 	}
@@ -898,27 +898,27 @@ namespace Battle
 			(input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
 			(input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
 			(input.n && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2N)) ||
-			(input.n &&                                                                     (this->_startMove(ACTION_5N) || this->_startMove(ACTION_2N) || this->_startMove(ACTION_6N) || this->_startMove(ACTION_3N) || this->_startMove(ACTION_8N))) ||
+			(input.n &&                                                                      this->_executeNeutralAttack(ACTION_5N)) ||
 			(input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
 			(input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
 			(input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
 			(input.v && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2V)) ||
-			(input.v &&                                                                     (this->_startMove(ACTION_5V) || this->_startMove(ACTION_2V) || this->_startMove(ACTION_6V) || this->_startMove(ACTION_3V) || this->_startMove(ACTION_8V))) ||
+			(input.v &&                                                                      this->_executeNeutralAttack(ACTION_5V)) ||
 			(input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8S)) ||
 			(input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3S)) ||
 			(input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6S)) ||
 			(input.s && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2S)) ||
-			(input.s &&                                                                     (this->_startMove(ACTION_5S) || this->_startMove(ACTION_2S) || this->_startMove(ACTION_6S) || this->_startMove(ACTION_3S) || this->_startMove(ACTION_8S))) ||
+			(input.s &&                                                                      this->_executeNeutralAttack(ACTION_5S)) ||
 			(input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8M)) ||
 			(input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3M)) ||
 			(input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
 			(input.m && input.verticalAxis < 0 &&                                            this->_startMove(ACTION_2M)) ||
-			(input.m &&                                                                     (this->_startMove(ACTION_5M) || this->_startMove(ACTION_2M) || this->_startMove(ACTION_6M) || this->_startMove(ACTION_3M) || this->_startMove(ACTION_8M))) ||
+			(input.m &&                                                                      this->_executeNeutralAttack(ACTION_5M)) ||
 			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8A)) ||
 			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3A)) ||
 			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6A)) ||
 			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_startMove(ACTION_2A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis == 0 && (this->_startMove(ACTION_5A) || this->_startMove(ACTION_2A) || this->_startMove(ACTION_6A) || this->_startMove(ACTION_3A) || this->_startMove(ACTION_8A))) ||
+			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_5A)) ||
 		        this->_executeGroundJump(input)   ||
 		        this->_executeGroundDashes(input) ||
 		        this->_executeCrouch(input)       ||
@@ -3506,5 +3506,16 @@ namespace Battle
 	const std::vector<Character::ReplayData> &Character::getReplayData() const
 	{
 		return this->_replayData;
+	}
+
+	bool Character::_executeNeutralAttack(unsigned int base)
+	{
+		//5X, 2X, 6X, 3X, 8X
+		char tries[] = {0, 4, 1, 3, 2};
+
+		for (auto tr : tries)
+			if (this->_hasMove(base + tr))
+				return this->_startMove(base + tr);
+		return false;
 	}
 }
