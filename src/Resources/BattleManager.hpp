@@ -142,7 +142,7 @@ namespace Battle
 		const std::vector<Character::ReplayData> &getLeftReplayData() const;
 		const std::vector<Character::ReplayData> &getRightReplayData() const;
 		template <typename T, typename ...Args>
-		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, Args &... args)
+		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, const Args &... args)
 		{
 			auto obj = std::make_shared<T>(args...);
 

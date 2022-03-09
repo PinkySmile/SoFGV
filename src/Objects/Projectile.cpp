@@ -6,14 +6,15 @@
 
 namespace Battle
 {
-	Projectile::Projectile(bool owner, unsigned int id) :
+	Projectile::Projectile(bool owner, unsigned int id, unsigned maxHit) :
+		maxHit(maxHit),
 		owner(owner),
 		id(id)
 	{
 	}
 
-	Projectile::Projectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id) :
-		Projectile(owner, id)
+	Projectile::Projectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id, unsigned maxHit) :
+		Projectile(owner, id, maxHit)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -22,9 +23,35 @@ namespace Battle
 		this->_moves[0] = frameData;
 	}
 
+	void Projectile::hit(IObject &other, const FrameData *data)
+	{
+		Object::hit(other, data);
+
+		auto proj = dynamic_cast<Projectile *>(&other);
+
+		if (!proj) {
+			this->nbHit++;
+			return;
+		}
+
+		auto odata = other.getCurrentFrameData();
+
+		if (data->priority) {
+			if (!odata->priority || *odata->priority < *data->priority)
+				proj->_dead = true;
+			else if (odata->priority && *odata->priority > *data->priority)
+				this->_dead = true;
+			else
+				this->nbHit++;
+		} else if (odata->priority)
+			this->_dead = true;
+		else
+			this->nbHit++;
+	}
+
 	bool Projectile::isDead() const
 	{
-		return Object::isDead() || this->_hasHit;
+		return Object::isDead() || this->nbHit >= this->maxHit;
 	}
 
 	void Projectile::update()
@@ -50,5 +77,28 @@ namespace Battle
 	unsigned int Projectile::getId() const
 	{
 		return id;
+	}
+
+	unsigned int Projectile::getBufferSize() const
+	{
+		return Object::getBufferSize() + sizeof(Data);
+	}
+
+	void Projectile::copyToBuffer(void *data) const
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+
+		Object::copyToBuffer(data);
+		dat->nbHit = this->nbHit;
+		dat->maxHit = this->maxHit;
+	}
+
+	void Projectile::restoreFromBuffer(void *data)
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+
+		Object::restoreFromBuffer(data);
+		this->nbHit = dat->nbHit;
+		this->maxHit = dat->maxHit;
 	}
 }

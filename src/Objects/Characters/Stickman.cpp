@@ -222,4 +222,26 @@ namespace Battle
 		game.logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
 #endif
 	}
+
+	std::pair<unsigned int, std::shared_ptr<IObject>> Stickman::_spawnSubobject(unsigned int id, bool needRegister)
+	{
+		auto data = this->getCurrentFrameData();
+		auto pos = this->_position + Vector2i{
+			0,
+			data->offset.y
+		} + data->size / 2;
+
+		if (id == 1)
+			return game.battleMgr->registerObject<Projectile>(
+				needRegister,
+				this->_subObjectsData.at(id),
+				this->_team,
+				this->_direction,
+				pos,
+				this->_team,
+				id,
+				4
+			);
+		return Character::_spawnSubobject(id, needRegister);
+	}
 }
