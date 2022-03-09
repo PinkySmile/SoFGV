@@ -566,6 +566,7 @@ namespace Battle
 		static bool isOverdriveAction(unsigned action);
 		static bool isRomanCancelAction(unsigned action);
 
+		void _applyNewAnimFlags() override;
 		void _applyMoveAttributes() override;
 		void _forceStartMove(unsigned action) override;
 		void _onMoveEnd(const FrameData &lastData) override;

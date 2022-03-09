@@ -88,7 +88,7 @@ namespace Battle
 
 	void Stickman::_applyNewAnimFlags()
 	{
-		Object::_applyNewAnimFlags();
+		Character::_applyNewAnimFlags();
 		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
 			auto data = this->getCurrentFrameData();
 			int flag;

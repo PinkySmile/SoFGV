@@ -3167,18 +3167,6 @@ namespace Battle
 				this->_speed = {this->_dir * -1, 20};
 			}
 		}
-		if (data->subObjectSpawn > 0) {
-			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
-				return;
-			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
-				this->_subobjects[data->subObjectSpawn - 1].second->kill();
-
-			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
-
-			if (data->subObjectSpawn > 128)
-				return;
-			this->_subobjects[data->subObjectSpawn - 1] = obj;
-		}
 	}
 
 	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
@@ -3522,5 +3510,24 @@ namespace Battle
 			if (this->_hasMove(base + tr))
 				return this->_startMove(base + tr);
 		return false;
+	}
+
+	void Character::_applyNewAnimFlags()
+	{
+		auto data = this->getCurrentFrameData();
+
+		Object::_applyNewAnimFlags();
+		if (data->subObjectSpawn > 0) {
+			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
+				return;
+			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
+				this->_subobjects[data->subObjectSpawn - 1].second->kill();
+
+			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
+
+			if (data->subObjectSpawn > 128)
+				return;
+			this->_subobjects[data->subObjectSpawn - 1] = obj;
+		}
 	}
 }
