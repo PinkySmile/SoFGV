@@ -215,6 +215,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
 	auto dFlags = panel->get<tgui::EditBox>("dFlags");
+	auto prio = panel->get<tgui::EditBox>("Priority");
+	auto chip = panel->get<tgui::EditBox>("ChipDmg");
 	auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 	auto actionName = panel->get<tgui::Button>("ActionName");
 	auto name = Battle::actionNames.find(static_cast<Battle::CharacterActions>(object->_action));

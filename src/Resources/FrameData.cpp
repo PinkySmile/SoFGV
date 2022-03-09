@@ -334,6 +334,18 @@ namespace Battle
 				throw std::invalid_argument("Invalid json");
 			this->blockStun = data["block_stun"];
 		}
+		if (data.contains("chip_damage")) {
+			if (!data["chip_damage"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->chipDamage = data["chip_damage"];
+		}
+		if (data.contains("priority")) {
+			if (!data["priority"].is_number())
+				// TODO: Create proper exceptions
+				throw std::invalid_argument("Invalid json");
+			this->priority = data["priority"];
+		}
 		if (data.contains("hit_stun")) {
 			if (!data["hit_stun"].is_number())
 				// TODO: Create proper exceptions
@@ -514,6 +526,8 @@ namespace Battle
 	FrameData::FrameData(const FrameData &other)
 	{
 		this->_palette = other._palette;
+		this->chipDamage = other.chipDamage;
+		this->priority = other.priority;
 		this->spritePath = other.spritePath;
 		this->textureHandle = other.textureHandle;
 		this->soundPath = other.soundPath;
@@ -566,6 +580,8 @@ namespace Battle
 		game.soundMgr.remove(this->soundHandle);
 		game.soundMgr.remove(this->hitSoundHandle);
 		this->_palette = other._palette;
+		this->chipDamage = other.chipDamage;
+		this->priority = other.priority;
 		this->spritePath = other.spritePath;
 		this->textureHandle = other.textureHandle;
 		this->soundPath = other.soundPath;
@@ -687,6 +703,10 @@ namespace Battle
 			result["marker"] = this->specialMarker;
 		if (this->damage)
 			result["damage"] = this->damage;
+		if (this->chipDamage)
+			result["chip_damage"] = this->chipDamage;
+		if (this->priority)
+			result["priority"] = *this->priority;
 		if (this->dFlag.flags)
 			result["defense_flag"] = this->dFlag.flags;
 		if (this->oFlag.flags)

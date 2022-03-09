@@ -123,6 +123,8 @@ namespace Battle
 		unsigned manaCost = 0;
 		unsigned hitStop = 0;
 		unsigned damage = 0;
+		unsigned chipDamage = 0;
+		std::optional<unsigned> priority = 0;
 		Vector2i speed = {0, 0};
 		Vector2i hitSpeed = {0, 0};
 		Vector2i counterHitSpeed = {0, 0};

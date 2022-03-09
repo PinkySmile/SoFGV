@@ -1264,7 +1264,7 @@ namespace Battle
 	int Character::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
-		bool isTyped = action >= ACTION_5M;
+		bool isTyped = (action >= ACTION_5M) * 100;
 
 		if (action < 100)
 			return -1;
@@ -1274,10 +1274,12 @@ namespace Battle
 		} catch (...) {
 			return -1;
 		}
+		if (data->priority)
+			return *data->priority;
 		if (data->oFlag.ultimate)
-			return 7;
+			return 700;
 		if (data->oFlag.super)
-			return 6;
+			return 600;
 		switch ((action % 50) + 100) {
 		case ACTION_5N:
 		case ACTION_2N:
@@ -1290,7 +1292,7 @@ namespace Battle
 		case ACTION_j8N:
 		case ACTION_j3N:
 		case ACTION_j2N:
-			return 2 + isTyped;
+			return 200 + isTyped;
 		case ACTION_c28N:
 		case ACTION_c46N:
 		case ACTION_c64N:
@@ -1308,7 +1310,7 @@ namespace Battle
 		case ACTION_j41236N:
 		case ACTION_j63214N:
 		case ACTION_j6321469874N:
-			return 4 + isTyped;
+			return 400 + isTyped;
 		default:
 			return -1;
 		}
