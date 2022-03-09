@@ -55,5 +55,188 @@
                 }
             ]
         ]
+    },
+    {
+        "action": 1,
+        "framedata": [
+            [
+                {
+                    "block_stun": 18,
+                    "damage": 500,
+                    "defense_flag": 35913728,
+                    "duration": 3,
+                    "hitSound": "assets/sfxs/se/youmu/000.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 62,
+                            "left": -3,
+                            "top": -31,
+                            "width": 66
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "hit_stop": 10,
+                    "hit_stun": 30,
+                    "offense_flag": 144,
+                    "offset": {
+                        "x": 30,
+                        "y": -30
+                    },
+                    "prorate": 100.0,
+                    "push_block": 4,
+                    "size": {
+                        "x": 64,
+                        "y": 60
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 30,
+                        "left": 167,
+                        "top": 838,
+                        "width": 33
+                    }
+                },
+                {
+                    "block_stun": 18,
+                    "damage": 500,
+                    "defense_flag": 35913728,
+                    "duration": 3,
+                    "hitSound": "assets/sfxs/se/youmu/000.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 64,
+                            "left": -3,
+                            "top": -32,
+                            "width": 67
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "hit_stop": 10,
+                    "hit_stun": 30,
+                    "offense_flag": 8336,
+                    "offset": {
+                        "x": 30,
+                        "y": -30
+                    },
+                    "prorate": 100.0,
+                    "push_block": 4,
+                    "size": {
+                        "x": 64,
+                        "y": 60
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 30,
+                        "left": 167,
+                        "top": 838,
+                        "width": 33
+                    }
+                },
+                {
+                    "block_stun": 18,
+                    "damage": 500,
+                    "defense_flag": 35913728,
+                    "duration": 3,
+                    "hitSound": "assets/sfxs/se/youmu/000.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 61,
+                            "left": -2,
+                            "top": -31,
+                            "width": 66
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "hit_stop": 10,
+                    "hit_stun": 30,
+                    "offense_flag": 8336,
+                    "offset": {
+                        "x": 30,
+                        "y": -30
+                    },
+                    "prorate": 100.0,
+                    "push_block": 4,
+                    "size": {
+                        "x": 64,
+                        "y": 60
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 30,
+                        "left": 208,
+                        "top": 838,
+                        "width": 35
+                    }
+                },
+                {
+                    "block_stun": 18,
+                    "damage": 500,
+                    "defense_flag": 35913728,
+                    "duration": 3,
+                    "hitSound": "assets/sfxs/se/youmu/000.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 61,
+                            "left": -2,
+                            "top": -31,
+                            "width": 66
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "hit_stop": 10,
+                    "hit_stun": 30,
+                    "offense_flag": 8336,
+                    "offset": {
+                        "x": 30,
+                        "y": -30
+                    },
+                    "prorate": 100.0,
+                    "push_block": 4,
+                    "size": {
+                        "x": 64,
+                        "y": 60
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 30,
+                        "left": 208,
+                        "top": 838,
+                        "width": 35
+                    }
+                }
+            ]
+        ]
     }
 ]
