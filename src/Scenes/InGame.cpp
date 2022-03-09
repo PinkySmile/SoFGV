@@ -125,12 +125,12 @@ namespace Battle
 		sprintf(buf, "replays/%s", timebuffer);
 		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
 
-		if (makedir("replays", 0644) && errno != EEXIST) {
+		if (makedir("replays", 0755) && errno != EEXIST) {
 			Battle::game.logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
 			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game.screen);
 			return;
 		}
-		if (makedir(buf, 0644) && errno != EEXIST) {
+		if (makedir(buf, 0755) && errno != EEXIST) {
 			Battle::game.logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game.screen);
 			return;

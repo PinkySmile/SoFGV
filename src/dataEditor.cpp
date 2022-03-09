@@ -226,6 +226,11 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	actionName->setText(name == Battle::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
 	dFlags->setText(std::to_string(data.dFlag.flags));
 	oFlags->setText(std::to_string(data.oFlag.flags));
+	if (data.priority)
+		prio->setText(std::to_string(*data.priority));
+	else
+		prio->setText("");
+	chip->setText(std::to_string(data.chipDamage));
 	progress->setMinimum(0);
 	progress->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
 	progress->setValue(object->_animation);
@@ -347,6 +352,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
 	auto dFlags = panel->get<tgui::EditBox>("dFlags");
+	auto prio = panel->get<tgui::EditBox>("Priority");
+	auto chip = panel->get<tgui::EditBox>("ChipDmg");
 
 	auto grab = panel->get<tgui::CheckBox>("Grab");
 	auto aub = panel->get<tgui::CheckBox>("AUB");
@@ -493,6 +500,27 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		updateTimer = 1 / f;
 		timer = 0;
 		animPanel->setEnabled(f == 0);
+	});
+	prio->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (t.empty())
+			data.priority.reset();
+		else
+			data.priority = std::stoul(t);
+	});
+	chip->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.chipDamage = std::stoul(t);
 	});
 	sprite->connect("TextChanged", [&object](std::string t){
 		if (*c)

@@ -2965,9 +2965,11 @@ namespace Battle
 			this->_processGuardLoss(wrongBlock);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
-		else if (isParryAction(this->_action))
+		else if (isParryAction(this->_action)) {
+			this->_speed.x += data.pushBlock * -this->_dir;
 			this->_parryEffect(other);
-		else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
+			return;
+		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
 			return this->_getHitByMove(other, data);
 		else if (data.oFlag.matterElement) {
 			if (myData->dFlag.voidBlock);
@@ -2983,6 +2985,7 @@ namespace Battle
 				return this->_getHitByMove(other, data);
 		}
 		this->_speed.x += data.pushBlock * -this->_dir;
+		this->_hp -= data.chipDamage;
 	}
 
 	bool Character::_isOnPlatform() const
