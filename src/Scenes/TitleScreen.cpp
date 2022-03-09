@@ -705,8 +705,7 @@ namespace Battle
 
 	void TitleScreen::_fetchReplayList()
 	{
-#ifdef _WIN32
-#else
+#ifdef _dzqdqdzqdzq
 		DIR *dir = opendir(("replays/" + this->_basePath).c_str());
 		struct dirent *entry;
 		struct stat s;

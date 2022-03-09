@@ -13,6 +13,7 @@
 
 #ifndef _WIN32
 #define MB_ICONERROR 1
+#define MB_ICONINFORMATION 2
 #else
 #include <windows.h>
 #endif
