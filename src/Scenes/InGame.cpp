@@ -158,7 +158,6 @@ namespace Battle
 	void InGame::render() const
 	{
 		game.battleMgr->render();
-		game.battleMgr->renderInputs();
 		if (this->_moveList)
 			this->_renderMoveList();
 		else if (this->_paused)

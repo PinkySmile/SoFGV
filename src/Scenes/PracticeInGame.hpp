@@ -15,6 +15,7 @@ namespace Battle
 		class PracticeBattleManager *_manager;
 		unsigned _practiceCursor = 0;
 		bool _practice = false;
+		unsigned char _inputDisplay = 0;
 		unsigned char _block = 0;
 		unsigned char _inputDelay = 0;
 		unsigned char _guardBar = 0;
@@ -43,6 +44,7 @@ namespace Battle
 			"Hitboxes: %s",
 			"Debug: %s",
 			"Mana: %s",
+			"Input display: %s",
 		};
 		static bool isOnLastFrame(const Character &chr);
 		static bool hasControl(const Character &chr);

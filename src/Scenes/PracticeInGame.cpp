@@ -174,6 +174,12 @@ namespace Battle
 		char const *values[sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings)];
 		std::string delay = std::to_string(this->_inputDelay);
 		auto chVal = this->_manager->_leftCharacter->_counterHit;
+		const char *vals[] = {
+			"Hidden",
+			"P1",
+			"P2",
+			"Both"
+		};
 
 		values[0] = this->dummyGroundTechToString();
 		values[1] = this->dummyAirTechToString();
@@ -186,6 +192,7 @@ namespace Battle
 		values[8] = this->_manager->_showBoxes ? "Shown"    : "Hidden";
 		values[9] = !this->_debug              ? "Disabled" : "Enabled";
 		values[10]= !this->_mana               ? "Normal"   : "Instant regeneration";
+		values[11]= vals[this->_inputDisplay];
 
 		game.screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game.screen->textSize(20);
@@ -283,6 +290,10 @@ namespace Battle
 		case 10:
 			this->_mana = !this->_mana;
 			break;
+		case 11:
+			this->_inputDisplay++;
+			this->_inputDisplay %= 4;
+			break;
 		}
 		return false;
 	}
@@ -378,5 +389,9 @@ namespace Battle
 	void PracticeInGame::render() const
 	{
 		InGame::render();
+		if (this->_inputDisplay & 1)
+			game.battleMgr->renderLeftInputs();
+		if (this->_inputDisplay & 2)
+			game.battleMgr->renderRightInputs();
 	}
 }
