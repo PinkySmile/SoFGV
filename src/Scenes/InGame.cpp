@@ -182,6 +182,10 @@ namespace Battle
 					this->_nextScene = new CharacterSelect(
 						game.battleMgr->getLeftCharacter()->getInput(),
 						game.battleMgr->getRightCharacter()->getInput(),
+						game.battleMgr->getLeftCharacter()->index & 0xFFFF,
+						game.battleMgr->getRightCharacter()->index & 0xFFFF,
+						game.battleMgr->getLeftCharacter()->index >> 16,
+						game.battleMgr->getRightCharacter()->index >> 16,
 						dynamic_cast<PracticeInGame *>(this) != nullptr
 					);
 				return this->_nextScene;
@@ -298,6 +302,10 @@ namespace Battle
 			this->_nextScene = new CharacterSelect(
 				game.battleMgr->getLeftCharacter()->getInput(),
 				game.battleMgr->getRightCharacter()->getInput(),
+				game.battleMgr->getLeftCharacter()->index & 0xFFFF,
+				game.battleMgr->getRightCharacter()->index & 0xFFFF,
+				game.battleMgr->getLeftCharacter()->index >> 16,
+				game.battleMgr->getRightCharacter()->index >> 16,
 				dynamic_cast<PracticeInGame *>(this) != nullptr
 			);
 			return false;

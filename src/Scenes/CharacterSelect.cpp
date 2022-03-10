@@ -7,7 +7,6 @@
 #include "CharacterSelect.hpp"
 #include "InGame.hpp"
 #include "../Resources/Game.hpp"
-#include "../Logger.hpp"
 #include "PracticeInGame.hpp"
 #include "../Objects/Characters/Stickman.hpp"
 
@@ -27,6 +26,15 @@ namespace Battle
 		stream >> json;
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);
+	}
+
+	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int _leftPos, int _rightPos, int _leftPalette, int _rightPalette, bool practice) :
+		CharacterSelect(std::move(leftInput), std::move(rightInput), practice)
+	{
+		this->_leftPos = _leftPos;
+		this->_rightPos = _rightPos;
+		this->_leftPalette = _leftPalette;
+		this->_rightPalette = _rightPalette;
 	}
 
 	void CharacterSelect::render() const

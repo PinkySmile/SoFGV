@@ -33,7 +33,6 @@ namespace Battle
 
 	class CharacterSelect : public IScene {
 	protected:
-
 		sf::Font _font;
 		mutable Sprite _randomSprite;
 		std::shared_ptr<IInput> _leftInput;
@@ -50,6 +49,7 @@ namespace Battle
 	public:
 		static Character *createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input);
 		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice = false);
+		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int leftPos, int rightPos, int leftPalette, int rightPalette, bool practice = false);
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;
