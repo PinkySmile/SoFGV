@@ -11812,7 +11812,7 @@
                             "width": 50
                         }
                     ],
-                    "mana_cost": 500,
+                    "mana_cost": 300,
                     "offense_flag": 33554432,
                     "offset": {
                         "x": -9,
@@ -11855,9 +11855,9 @@
                             "width": 41
                         },
                         {
-                            "height": 98,
+                            "height": 107,
                             "left": -62,
-                            "top": -100,
+                            "top": -109,
                             "width": 41
                         }
                     ],
@@ -11894,7 +11894,7 @@
                     "damage": 1000,
                     "defense_flag": 19488,
                     "duration": 4,
-                    "hitSound": "assets/sfxs/se/012.wav",
+                    "hitSound": "assets/sfxs/se/tenshi/002.wav",
                     "hit_boxes": [
                         {
                             "height": 75,
@@ -11953,7 +11953,7 @@
                 },
                 {
                     "block_stun": 24,
-                    "chip_damage": 50,
+                    "chip_damage": 100,
                     "collision_box": {
                         "height": 138,
                         "left": -20,
@@ -11966,7 +11966,6 @@
                     },
                     "damage": 1000,
                     "duration": 20,
-                    "hitSound": "assets/sfxs/se/012.wav",
                     "hit_speed": {
                         "x": 18,
                         "y": 12
@@ -12006,7 +12005,6 @@
                         "x": 104,
                         "y": 170
                     },
-                    "sound": "assets/sfxs/se/suika/001.wav",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 85,
@@ -16328,7 +16326,7 @@
                         "top": -152,
                         "width": 39
                     },
-                    "defense_flag": 24640,
+                    "defense_flag": 24576,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -16362,7 +16360,7 @@
                         "top": -152,
                         "width": 39
                     },
-                    "defense_flag": 16448,
+                    "defense_flag": 16384,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -16396,7 +16394,7 @@
                         "top": -152,
                         "width": 39
                     },
-                    "defense_flag": 32832,
+                    "defense_flag": 32768,
                     "duration": 45,
                     "hurt_boxes": [
                         {
@@ -16415,7 +16413,6 @@
                         "x": 92,
                         "y": 192
                     },
-                    "sound": "16",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -16433,7 +16430,6 @@
                         "width": 39
                     },
                     "damage": 200,
-                    "defense_flag": 64,
                     "duration": 4,
                     "hitSound": "assets/sfxs/se/012.wav",
                     "hit_boxes": [
