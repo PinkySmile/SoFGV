@@ -770,8 +770,19 @@ namespace Battle
 			game.screen->draw(rect);
 		}
 
-		//Spirit mana
 		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(100, 40);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+		rect.setPosition(100, 55);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+		rect.setPosition(100, 70);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+
+		//Spirit mana
 		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(100, 40);
 		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
@@ -921,8 +932,19 @@ namespace Battle
 			game.screen->draw(rect);
 		}
 
-		//Spirit mana
 		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(700, 40);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+		rect.setPosition(700, 55);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+		rect.setPosition(700, 70);
+		rect.setSize({200.f, 10});
+		game.screen->draw(rect);
+
+		//Spirit mana
 		rect.setFillColor(sf::Color{51, 204, 204});
 		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
 		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
