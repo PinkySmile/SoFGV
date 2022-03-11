@@ -16458,14 +16458,14 @@
                     ],
                     "offense_flag": 8470530,
                     "offset": {
-                        "x": 55,
+                        "x": 49,
                         "y": 0
                     },
                     "prorate": 110.0,
                     "push_back": 2,
                     "push_block": 12,
                     "size": {
-                        "x": 170,
+                        "x": 160,
                         "y": 192
                     },
                     "sprite": "assets/characters/test/sheet.png",
@@ -16473,7 +16473,7 @@
                         "height": 96,
                         "left": 49,
                         "top": 339,
-                        "width": 85
+                        "width": 80
                     },
                     "void_limit": 30
                 },
