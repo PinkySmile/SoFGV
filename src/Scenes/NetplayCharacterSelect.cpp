@@ -44,9 +44,10 @@ namespace Battle
 			savedData[1] = this->_rightPos;
 			savedData[2] = this->_leftPalette;
 			savedData[3] = this->_rightPalette;
+			savedData[4] = this->_selectingStage;
 		}
 		if (len)
-			*len = 4 * sizeof(int);
+			*len = 5 * sizeof(int);
 	}
 
 	void NetplayCharacterSelect::_loadState(void *data)
@@ -57,6 +58,7 @@ namespace Battle
 		this->_rightPos = savedData[1];
 		this->_leftPalette = savedData[2];
 		this->_rightPalette = savedData[3];
+		this->_selectingStage = savedData[4];
 	}
 
 	IScene *NetplayCharacterSelect::_realUpdate()

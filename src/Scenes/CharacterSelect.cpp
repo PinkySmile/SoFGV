@@ -19,13 +19,18 @@ namespace Battle
 	{
 		sf::View view{{0, 0, 1680, 960}};
 		std::ifstream stream{"assets/characters/list.json"};
+		std::ifstream stream2{"assets/stages/list.json"};
 		nlohmann::json json;
+		nlohmann::json json2;
 
 		game.screen->setView(view);
 		game.logger.info("CharacterSelect scene created");
 		stream >> json;
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);
+		stream2 >> json2;
+		for (auto &elem: json2)
+			this->_stages.emplace_back(elem);
 	}
 
 	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int _leftPos, int _rightPos, int _leftPalette, int _rightPalette, bool practice) :
@@ -89,20 +94,24 @@ namespace Battle
 		auto rInputs = this->_rightInput->getInputs();
 
 		if (lInputs.horizontalAxis == -1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_leftPos == -1)
 				this->_leftPos = static_cast<int>(this->_entries.size());
 			this->_leftPos--;
 		} else if (lInputs.horizontalAxis == 1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_leftPos++;
 			if (this->_leftPos == static_cast<int>(this->_entries.size()))
 				this->_leftPos = -1;
 		}
 
 		if (rInputs.horizontalAxis == -1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_rightPos == -1)
 				this->_rightPos = static_cast<int>(this->_entries.size());
 			this->_rightPos--;
 		} else if (rInputs.horizontalAxis == 1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_rightPos++;
 			if (this->_rightPos == static_cast<int>(this->_entries.size()))
 				this->_rightPos = -1;
@@ -165,6 +174,7 @@ namespace Battle
 			auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 			auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
 
+			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			if (this->_practice)
 				return new PracticeInGame(
 					lchr,
@@ -331,5 +341,32 @@ namespace Battle
 	{
 		for (auto &_icon : this->icon)
 			game.textureMgr.remove(_icon.textureHandle);
+	}
+
+	PlatformSkeleton::PlatformSkeleton(const nlohmann::json &json) :
+		entry(json)
+	{
+		this->framedata = json["framedata"];
+		this->_class = json["class"];
+		this->width = json["width"];
+		this->hp = json["hp"];
+		this->cd = json["cd"];
+		this->pos.x = json["pos"]["x"];
+		this->pos.y = json["pos"]["y"];
+		this->data = FrameData::loadFile(this->framedata)[0].front().front();
+	}
+
+	StageEntry::StageEntry(const nlohmann::json &json) :
+		entry(json)
+	{
+		this->name = json["name"];
+		this->imagePath = json["image"];
+		if (json.contains("objects"))
+			this->objectPath = json["objects"];
+		for (auto &platformArray : json["platforms"]) {
+			this->platforms.emplace_back();
+			for (auto &platform : platformArray)
+				this->platforms.back().emplace_back(platform);
+		}
 	}
 }

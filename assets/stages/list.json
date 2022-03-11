@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Alpha stage",
+        "image": "assets/stages/14687.png",
+        "platforms": [
+            [
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 250,
+                        "y": 300
+                    }
+                },
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 500,
+                        "y": 150
+                    }
+                },
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 750,
+                        "y": 300
+                    }
+                }
+            ],
+            [
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 250,
+                        "y": 150
+                    }
+                },
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 750,
+                        "y": 150
+                    }
+                }
+            ],
+            [
+                {
+                    "framedata": "assets/stages/platforms.json",
+                    "class": 0,
+                    "width": 116,
+                    "hp": 2000,
+                    "cd": 150,
+                    "pos": {
+                        "x": 500,
+                        "y": 225
+                    }
+                }
+            ]
+        ]
+    }
+]

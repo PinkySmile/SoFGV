@@ -31,17 +31,42 @@ namespace Battle
 		~CharacterEntry();
 	};
 
+	struct PlatformSkeleton {
+		nlohmann::json entry;
+		std::string framedata;
+		FrameData data;
+		unsigned _class;
+		float width;
+		unsigned hp;
+		unsigned cd;
+		Vector2f pos;
+
+		PlatformSkeleton(const nlohmann::json &json);
+	};
+
+	struct StageEntry {
+		nlohmann::json entry;
+		std::string name;
+		std::string objectPath;
+		std::string imagePath;
+		std::vector<std::vector<PlatformSkeleton>> platforms;
+
+		StageEntry(const nlohmann::json &json);
+	};
+
 	class CharacterSelect : public IScene {
 	protected:
 		sf::Font _font;
 		mutable Sprite _randomSprite;
 		std::shared_ptr<IInput> _leftInput;
 		std::shared_ptr<IInput> _rightInput;
+		mutable std::vector<StageEntry> _stages;
 		mutable std::vector<CharacterEntry> _entries;
 		int _leftPos = 0;
 		int _rightPos = 0;
 		int _leftPalette = 0;
 		int _rightPalette = 1;
+		bool _selectingStage = false;
 		bool _practice = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
