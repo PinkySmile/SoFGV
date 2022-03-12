@@ -44,6 +44,107 @@ namespace Battle
 
 	void CharacterSelect::render() const
 	{
+		this->_selectingStage ? this->_selectStageRender() : this->_selectCharacterRender();
+	}
+
+	IScene *CharacterSelect::update()
+	{
+		this->_leftInput->update();
+		this->_rightInput->update();
+
+		return this->_selectingStage ? this->_selectStageUpdate() : this->_selectCharacterUpdate();
+	}
+
+	void CharacterSelect::consumeEvent(const sf::Event &event)
+	{
+		this->_leftInput->consumeEvent(event);
+		this->_rightInput->consumeEvent(event);
+	}
+
+	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
+	{
+		return createCharacter(this->_entries[pos], pos, palette, std::move(input));
+	}
+
+	Character *CharacterSelect::createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input)
+	{
+		Character *chr;
+		std::pair<std::vector<Color>, std::vector<Color>> palettes;
+
+		if (!entry.palettes.empty() && palette) {
+			palettes.first = entry.palettes.front();
+			palettes.second = entry.palettes[palette];
+		}
+		switch (entry._class) {
+		case 0:
+			chr = new Stickman{
+				static_cast<unsigned>(palette << 16 | pos),
+				entry.framedataPath,
+				entry.subobjectDataPath,
+				palettes,
+				std::move(input)
+			};
+			break;
+		default:
+			chr = new Character{
+				static_cast<unsigned>(palette << 16 | pos),
+				entry.framedataPath,
+				entry.subobjectDataPath,
+				palettes,
+				std::move(input)
+			};
+			break;
+		}
+
+		chr->name = entry.name;
+		return chr;
+	}
+
+	InGame *CharacterSelect::_launchGame()
+	{
+		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
+
+		if (this->_leftPos < 0)
+			this->_leftPalette = 0;
+		if (this->_rightPos < 0)
+			this->_rightPalette = 0;
+		if (this->_leftPos < 0)
+			this->_leftPos = dist(game.random);
+		if (this->_rightPos < 0)
+			this->_rightPos = dist(game.random);
+		if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
+			this->_leftPalette = 0;
+			this->_rightPalette = 0;
+		} else if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() == 2 && this->_leftPalette == this->_rightPalette) {
+			this->_leftPalette = 0;
+			this->_rightPalette = 1;
+		}
+		if (this->_leftPos == this->_rightPos && this->_leftPalette == this->_rightPalette && this->_entries[this->_leftPos].palettes.size() > 1) {
+			this->_rightPalette++;
+			this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
+		}
+
+		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
+		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
+
+		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+		if (this->_practice)
+			return new PracticeInGame(
+				lchr,
+				rchr,
+				this->_entries[this->_leftPos].entry,
+				this->_entries[this->_rightPos].entry
+			);
+		return new InGame(
+			lchr,
+			rchr,
+			this->_entries[this->_leftPos].entry,
+			this->_entries[this->_rightPos].entry
+		);
+	}
+
+	void CharacterSelect::_selectCharacterRender() const
+	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 		size_t left  = this->_leftPos == -1  ? dist(game.random) : this->_leftPos;
 		size_t right = this->_rightPos == -1 ? dist(game.random) : this->_rightPos;
@@ -85,11 +186,13 @@ namespace Battle
 		game.textureMgr.render(rightSprite);
 	}
 
-	IScene *CharacterSelect::update()
+	void CharacterSelect::_selectStageRender() const
 	{
-		this->_leftInput->update();
-		this->_rightInput->update();
 
+	}
+
+	IScene *CharacterSelect::_selectCharacterUpdate()
+	{
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
@@ -149,92 +252,15 @@ namespace Battle
 		}
 
 		if (lInputs.n == 1) {
-			std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
-
-			if (this->_leftPos < 0)
-				this->_leftPalette = 0;
-			if (this->_rightPos < 0)
-				this->_rightPalette = 0;
-			if (this->_leftPos < 0)
-				this->_leftPos = dist(game.random);
-			if (this->_rightPos < 0)
-				this->_rightPos = dist(game.random);
-			if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
-				this->_leftPalette = 0;
-				this->_rightPalette = 0;
-			} else if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() == 2 && this->_leftPalette == this->_rightPalette) {
-				this->_leftPalette = 0;
-				this->_rightPalette = 1;
-			}
-			if (this->_leftPos == this->_rightPos && this->_leftPalette == this->_rightPalette && this->_entries[this->_leftPos].palettes.size() > 1) {
-				this->_rightPalette++;
-				this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
-			}
-
-			auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
-			auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
-
 			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
-			if (this->_practice)
-				return new PracticeInGame(
-					lchr,
-					rchr,
-					this->_entries[this->_leftPos].entry,
-					this->_entries[this->_rightPos].entry
-				);
-			return new InGame(
-				lchr,
-				rchr,
-				this->_entries[this->_leftPos].entry,
-				this->_entries[this->_rightPos].entry
-			);
+			this->_selectingStage = true;
 		}
 		return nullptr;
 	}
 
-	void CharacterSelect::consumeEvent(const sf::Event &event)
+	IScene *CharacterSelect::_selectStageUpdate()
 	{
-		this->_leftInput->consumeEvent(event);
-		this->_rightInput->consumeEvent(event);
-	}
-
-	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
-	{
-		return createCharacter(this->_entries[pos], pos, palette, std::move(input));
-	}
-
-	Character *CharacterSelect::createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input)
-	{
-		Character *chr;
-		std::pair<std::vector<Color>, std::vector<Color>> palettes;
-
-		if (!entry.palettes.empty() && palette) {
-			palettes.first = entry.palettes.front();
-			palettes.second = entry.palettes[palette];
-		}
-		switch (entry._class) {
-		case 0:
-			chr = new Stickman{
-				static_cast<unsigned>(palette << 16 | pos),
-				entry.framedataPath,
-				entry.subobjectDataPath,
-				palettes,
-				std::move(input)
-			};
-			break;
-		default:
-			chr = new Character{
-				static_cast<unsigned>(palette << 16 | pos),
-				entry.framedataPath,
-				entry.subobjectDataPath,
-				palettes,
-				std::move(input)
-			};
-			break;
-		}
-
-		chr->name = entry.name;
-		return chr;
+		return this->_launchGame();
 	}
 
 	CharacterEntry::CharacterEntry(const nlohmann::json &json) :

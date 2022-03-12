@@ -12,6 +12,7 @@
 #include "../Inputs/IInput.hpp"
 #include "../Resources/FrameData.hpp"
 #include "../Objects/Character.hpp"
+#include "InGame.hpp"
 
 namespace Battle
 {
@@ -70,6 +71,11 @@ namespace Battle
 		bool _practice = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
+		InGame *_launchGame();
+		void _selectCharacterRender() const;
+		void _selectStageRender() const;
+		IScene *_selectCharacterUpdate();
+		IScene *_selectStageUpdate();
 
 	public:
 		static Character *createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input);
