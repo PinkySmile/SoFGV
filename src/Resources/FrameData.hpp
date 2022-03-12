@@ -90,6 +90,7 @@ namespace Battle
 	class FrameData {
 	private:
 		std::pair<std::vector<Color>, std::vector<Color>> _palette;
+		bool _slave = false;
 
 	public:
 		std::string spritePath;
@@ -137,6 +138,7 @@ namespace Battle
 		FrameData &operator=(const FrameData &other);
 		void reloadTexture();
 		void reloadSound();
+		void setSlave(bool slave = true);
 		nlohmann::json toJson() const;
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});

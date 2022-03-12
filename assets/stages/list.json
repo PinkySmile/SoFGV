@@ -75,13 +75,14 @@
                         "y": 225
                     }
                 }
-            ]
+            ],
+            []
         ]
     },
     {
         "name": "Training stage",
         "credits": "PC_Volt",
-        "image": "assets/stages/14687.png",
+        "image": "assets/stages/training.png",
         "platforms": [
             [
                 {
@@ -154,7 +155,8 @@
                         "y": 225
                     }
                 }
-            ]
+            ],
+            []
         ]
     }
 ]

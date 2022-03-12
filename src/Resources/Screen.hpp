@@ -29,6 +29,7 @@ namespace Battle
 			ALIGN_RIGHT
 		};
 
+		float             getTextSize(const std::string &txt) const;
 		void              handleEvents();
 		const std::string &getTitle() const;
 		void              setTitle(const std::string &);

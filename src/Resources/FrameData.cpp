@@ -518,8 +518,11 @@ namespace Battle
 
 	FrameData::~FrameData()
 	{
-		game.textureMgr.remove(this->textureHandle);
-		this->textureHandle = 0;
+		if (!this->_slave) {
+			game.textureMgr.remove(this->textureHandle);
+			game.soundMgr.remove(this->soundHandle);
+			game.soundMgr.remove(this->hitSoundHandle);
+		}
 		delete this->collisionBox;
 	}
 
@@ -569,9 +572,11 @@ namespace Battle
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
-		game.textureMgr.addRef(this->textureHandle);
-		game.soundMgr.addRef(this->soundHandle);
-		game.soundMgr.addRef(this->hitSoundHandle);
+		if (!this->_slave) {
+			game.textureMgr.addRef(this->textureHandle);
+			game.soundMgr.addRef(this->soundHandle);
+			game.soundMgr.addRef(this->hitSoundHandle);
+		}
 	}
 
 	FrameData &FrameData::operator=(const FrameData &other)
@@ -623,20 +628,24 @@ namespace Battle
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
-		game.textureMgr.addRef(this->textureHandle);
-		game.soundMgr.addRef(this->soundHandle);
-		game.soundMgr.addRef(this->hitSoundHandle);
+		if (!this->_slave) {
+			game.textureMgr.addRef(this->textureHandle);
+			game.soundMgr.addRef(this->soundHandle);
+			game.soundMgr.addRef(this->hitSoundHandle);
+		}
 		return *this;
 	}
 
 	void FrameData::reloadTexture()
 	{
+		assert(!this->_slave);
 		game.textureMgr.remove(this->textureHandle);
 		this->textureHandle = game.textureMgr.load(this->spritePath, this->_palette);
 	}
 
 	void FrameData::reloadSound()
 	{
+		assert(!this->_slave);
 		game.soundMgr.remove(this->soundHandle);
 		game.soundMgr.remove(this->hitSoundHandle);
 		this->soundHandle = 0;
@@ -752,6 +761,16 @@ namespace Battle
 				{"y", this->counterHitSpeed.y}
 			};
 		return result;
+	}
+
+	void FrameData::setSlave(bool slave)
+	{
+		if (!slave && this->_slave) {
+			game.textureMgr.remove(this->textureHandle);
+			game.soundMgr.remove(this->soundHandle);
+			game.soundMgr.remove(this->hitSoundHandle);
+		}
+		this->_slave = slave;
 	}
 
 	Box::operator sf::IntRect() const noexcept

@@ -51,14 +51,18 @@ namespace Battle
 		std::string credits;
 		std::string objectPath;
 		std::string imagePath;
+		unsigned imageHandle;
 		std::vector<std::vector<PlatformSkeleton>> platforms;
 
+		StageEntry(const StageEntry &other);
 		StageEntry(const nlohmann::json &json);
+		~StageEntry();
 	};
 
 	class CharacterSelect : public IScene {
 	protected:
 		sf::Font _font;
+		mutable Sprite _stageSprite;
 		mutable Sprite _randomSprite;
 		std::shared_ptr<IInput> _leftInput;
 		std::shared_ptr<IInput> _rightInput;
@@ -79,11 +83,13 @@ namespace Battle
 		void _selectStageRender() const;
 		IScene *_selectCharacterUpdate();
 		IScene *_selectStageUpdate();
+		void _displayPlatformPreview() const;
 
 	public:
 		static Character *createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input);
 		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice = false);
 		CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int leftPos, int rightPos, int leftPalette, int rightPalette, bool practice = false);
+		~CharacterSelect();
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

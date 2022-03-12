@@ -24,6 +24,7 @@ namespace Battle
 	) :
 		Character(index, frameData, subobjFrameData, palette, input)
 	{
+		this->_fakeFrameData.setSlave();
 		game.logger.debug("Stickman class created");
 	}
 

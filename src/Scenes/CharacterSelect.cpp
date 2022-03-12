@@ -31,6 +31,7 @@ namespace Battle
 		stream2 >> json2;
 		for (auto &elem: json2)
 			this->_stages.emplace_back(elem);
+		this->_randomSprite.textureHandle = game.textureMgr.load("assets/stages/random.png");
 	}
 
 	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int _leftPos, int _rightPos, int _leftPalette, int _rightPalette, bool practice) :
@@ -40,6 +41,11 @@ namespace Battle
 		this->_rightPos = _rightPos;
 		this->_leftPalette = _leftPalette;
 		this->_rightPalette = _rightPalette;
+	}
+
+	CharacterSelect::~CharacterSelect()
+	{
+		game.textureMgr.remove(this->_randomSprite.textureHandle);
 	}
 
 	void CharacterSelect::render() const
@@ -103,8 +109,18 @@ namespace Battle
 	InGame *CharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
+		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
 		auto &stage = this->_stages[this->_stage];
 
+		if (this->_stage == -1) {
+			this->_platform = -1;
+			this->_stage = dist2(game.battleRandom);
+		}
+
+		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
+
+		if (this->_platform == -1)
+			this->_platform = dist3(game.battleRandom);
 		if (this->_leftPos < 0)
 			this->_leftPalette = 0;
 		if (this->_rightPos < 0)
@@ -191,11 +207,36 @@ namespace Battle
 		rightSprite.setPosition(1680, 0);
 		rightSprite.setScale(-560.f / rightTexture.x, 480.f / rightTexture.y);
 		game.textureMgr.render(rightSprite);
+		game.screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+		game.screen->displayElement("Character select", {540, 0}, 600, Screen::ALIGN_CENTER);
 	}
 
 	void CharacterSelect::_selectStageRender() const
 	{
+		Sprite &sprite = this->_stage == -1 ? this->_randomSprite : this->_stageSprite;
 
+		sprite.setPosition(0, 0);
+		sprite.setScale({
+			1680.f / game.textureMgr.getTextureSize(sprite.textureHandle).x,
+			960.f / game.textureMgr.getTextureSize(sprite.textureHandle).y
+		});
+		game.textureMgr.render(sprite);
+		this->_displayPlatformPreview();
+		game.screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+		game.screen->displayElement("Stage select", {540, 0}, 600, Screen::ALIGN_CENTER);
+		game.screen->textSize(20);
+		game.screen->displayElement({540, 250, 600, 50}, sf::Color{0xB0, 0xB0, 0xB0, 0xA0});
+		game.screen->displayElement("^", {540, 250}, 600, Screen::ALIGN_CENTER);
+		game.screen->displayElement(this->_stage == -1 ? "Random select" : this->_stages[this->_stage].name, {540, 260}, 600, Screen::ALIGN_CENTER);
+		game.screen->displayElement("v", {540, 280}, 600, Screen::ALIGN_CENTER);
+		if (this->_stage != -1) {
+			auto txt = "Credits to " + this->_stages[this->_stage].credits;
+			auto size = game.screen->getTextSize(txt);
+
+			game.screen->displayElement({static_cast<int>(1676 - size), 930, static_cast<int>(size + 4), 30}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+			game.screen->displayElement(txt, {1678 - size, 932});
+		}
+		game.screen->textSize(30);
 	}
 
 	IScene *CharacterSelect::_selectCharacterUpdate()
@@ -258,16 +299,95 @@ namespace Battle
 			}
 		}
 
-		if (lInputs.n == 1) {
+		if (lInputs.n == 1 || rInputs.n == 1) {
 			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			this->_selectingStage = true;
+			this->_stageSprite.textureHandle = this->_stages[0].imageHandle;
 		}
 		return nullptr;
 	}
 
 	IScene *CharacterSelect::_selectStageUpdate()
 	{
-		return this->_launchGame();
+		auto lInputs = this->_leftInput->getInputs();
+		auto rInputs = this->_rightInput->getInputs();
+
+		if (this->_stage != -1) {
+			if (lInputs.horizontalAxis == -1 || rInputs.horizontalAxis == -1) {
+				game.soundMgr.play(BASICSOUND_MENU_MOVE);
+				if (this->_platform == 0)
+					this->_platform = static_cast<int>(this->_stages[this->_stage].platforms.size());
+				this->_platform--;
+			} else if (lInputs.horizontalAxis == 1 || rInputs.horizontalAxis == 1) {
+				game.soundMgr.play(BASICSOUND_MENU_MOVE);
+				this->_platform++;
+				if (this->_platform == static_cast<int>(this->_stages[this->_stage].platforms.size()))
+					this->_platform = 0;
+			}
+		}
+		if (lInputs.verticalAxis == -1 || rInputs.verticalAxis == -1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			if (this->_stage == -1)
+				this->_stage = static_cast<int>(this->_stages.size());
+			this->_stage--;
+			if (this->_stage != -1)
+				this->_stageSprite.textureHandle = this->_stages[this->_stage].imageHandle;
+			this->_platform = 0;
+		} else if (lInputs.verticalAxis == 1 || rInputs.verticalAxis == 1) {
+			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			this->_stage++;
+			if (this->_stage == static_cast<int>(this->_stages.size()))
+				this->_stage = -1;
+			if (this->_stage != -1)
+				this->_stageSprite.textureHandle = this->_stages[this->_stage].imageHandle;
+			this->_platform = 0;
+		}
+
+		if (lInputs.n == 1 || rInputs.n == 1)
+			return this->_launchGame();
+		if (lInputs.s == 1 || rInputs.s == 1) {
+			this->_selectingStage = false;
+			game.soundMgr.play(BASICSOUND_MENU_CANCEL);
+		}
+		return nullptr;
+	}
+
+	void CharacterSelect::_displayPlatformPreview() const
+	{
+		if (this->_stage == -1)
+			return;
+
+		std::uniform_int_distribution<size_t> dist{0, this->_stages[this->_stage].platforms.size() - 1};
+		auto plat = this->_platform == -1 ? dist(game.random) : this->_platform;
+		const Vector2f scale = {
+			1680.f / 1100,
+			960.f / 700
+		};
+		Sprite sprite;
+
+		for (auto &platform : this->_stages[this->_stage].platforms[plat]) {
+			auto scale2 = Vector2f{
+				static_cast<float>(platform.data.size.x) / platform.data.textureBounds.size.x,
+				static_cast<float>(platform.data.size.y) / platform.data.textureBounds.size.y
+			};
+			auto result = platform.data.offset + platform.pos;
+
+			result.y *= -1;
+			result += Vector2f{
+				platform.data.size.x / -2.f,
+				-static_cast<float>(platform.data.size.y)
+			};
+			result += Vector2f{
+				platform.data.textureBounds.size.x * scale2.x / 2,
+				platform.data.textureBounds.size.y * scale2.y / 2
+			};
+			sprite.setOrigin(platform.data.textureBounds.size / 2.f);
+			sprite.setPosition({(result.x + 50) * scale.x, (result.y + 600) * scale.y});
+			sprite.setScale({scale.x * scale2.x, scale.y * scale2.y});
+			sprite.textureHandle = platform.data.textureHandle;
+			sprite.setTextureRect(platform.data.textureBounds);
+			game.textureMgr.render(sprite);
+		}
 	}
 
 	CharacterEntry::CharacterEntry(const nlohmann::json &json) :
@@ -395,6 +515,7 @@ namespace Battle
 		this->name = json["name"];
 		this->credits = json["credits"];
 		this->imagePath = json["image"];
+		this->imageHandle = game.textureMgr.load(this->imagePath);
 		if (json.contains("objects"))
 			this->objectPath = json["objects"];
 		for (auto &platformArray : json["platforms"]) {
@@ -402,5 +523,22 @@ namespace Battle
 			for (auto &platform : platformArray)
 				this->platforms.back().emplace_back(platform);
 		}
+	}
+
+	StageEntry::StageEntry(const StageEntry &other)
+	{
+		this->entry = other.entry;
+		this->name = other.name;
+		this->credits = other.credits;
+		this->objectPath = other.objectPath;
+		this->imagePath = other.imagePath;
+		this->imageHandle = other.imageHandle;
+		this->platforms = other.platforms;
+		game.textureMgr.addRef(this->imageHandle);
+	}
+
+	StageEntry::~StageEntry()
+	{
+		game.textureMgr.remove(this->imageHandle);
 	}
 }

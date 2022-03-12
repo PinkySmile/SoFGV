@@ -84,16 +84,12 @@ namespace Battle
 
 	void	Screen::displayElement(const std::string &str, sf::Vector2f pos, float boxSize, TextAlign align)
 	{
-		float size = 0;
-
-		for (char c : str)
-			size += this->_text.getFont()->getGlyph(c, this->_text.getCharacterSize(), false).advance;
 		switch (align) {
 		case ALIGN_RIGHT:
-			pos.x += boxSize - size;
+			pos.x += boxSize - this->getTextSize(str);
 			break;
 		case ALIGN_CENTER:
-			pos.x += (boxSize - size) / 2;
+			pos.x += (boxSize - this->getTextSize(str)) / 2;
 			break;
 		default:
 			break;
@@ -120,5 +116,14 @@ namespace Battle
 
 		sprite.setTexture(texture);
 		this->displayElement(sprite, pos);
+	}
+
+	float Screen::getTextSize(const std::string &txt) const
+	{
+		float size = 0;
+
+		for (char c : txt)
+			size += this->_text.getFont()->getGlyph(c, this->_text.getCharacterSize(), false).advance;
+		return size;
 	}
 }

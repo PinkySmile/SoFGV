@@ -126,7 +126,7 @@ namespace Battle
 
 	InGame::~InGame()
 	{
-		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle)
+		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game.battleMgr)
 			return;
 
 		char buf[MAX_PATH];
