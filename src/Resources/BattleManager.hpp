@@ -63,6 +63,7 @@ namespace Battle
 		unsigned char _speed = 60;
 		float _time = 0;
 		unsigned _lastObjectId = 0;
+		std::vector<std::unique_ptr<IObject>> _stageObjects;
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 
 		// Game State
@@ -123,8 +124,13 @@ namespace Battle
 			float groundDrag;
 			Vector2f airDrag;
 		};
+		struct StageParams {
+			std::string path;
+			std::function<std::vector<IObject *>()> objects;
+			std::function<std::vector<Platform *>()> platforms;
+		};
 
-		BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
+		BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		virtual ~BattleManager() = default;
 		void addHitStop(unsigned stop);
 		virtual bool update();

@@ -48,6 +48,7 @@ namespace Battle
 	struct StageEntry {
 		nlohmann::json entry;
 		std::string name;
+		std::string credits;
 		std::string objectPath;
 		std::string imagePath;
 		std::vector<std::vector<PlatformSkeleton>> platforms;
@@ -67,11 +68,13 @@ namespace Battle
 		int _rightPos = 0;
 		int _leftPalette = 0;
 		int _rightPalette = 1;
+		int _stage = 0;
+		int _platform = 0;
 		bool _selectingStage = false;
 		bool _practice = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
-		InGame *_launchGame();
+		virtual InGame *_launchGame();
 		void _selectCharacterRender() const;
 		void _selectStageRender() const;
 		IScene *_selectCharacterUpdate();

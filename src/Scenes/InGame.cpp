@@ -21,6 +21,16 @@
 #include "TitleScreen.hpp"
 #include "PracticeInGame.hpp"
 #include "../Utils.hpp"
+#include "../Resources/version.h"
+
+unsigned getMagic()
+{
+	unsigned magic = REPLAY_MAGIC;
+
+	for (char c : VERSION_STR)
+		magic += c * 5;
+	return magic;
+}
 
 namespace Battle
 {
@@ -32,7 +42,8 @@ namespace Battle
 		"(also in the air)"
 	};
 
-	InGame::InGame()
+	InGame::InGame(const GameParams &params) :
+		_params(params)
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
@@ -58,11 +69,26 @@ namespace Battle
 		Battle::game.screen->setView(view);
 	}
 
-	InGame::InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
-		InGame()
+	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
+		InGame(params)
 	{
 		this->_goBackToTitle = goBackToTitle;
 		game.battleMgr = std::make_unique<BattleManager>(
+			BattleManager::StageParams{
+				stage.imagePath,
+				[]{
+					std::vector<IObject *> objects;
+
+					return objects;
+				},
+				[&platforms]{
+					std::vector<Platform *> objects;
+
+					for (auto &platform : platforms)
+						objects.push_back(new Platform(platform.framedata, platform.width, platform.hp, platform.cd, platform.pos));
+					return objects;
+				}
+			},
 			BattleManager::CharacterParams{
 				leftChr,
 				lJson["hp"],
@@ -109,6 +135,7 @@ namespace Battle
 		char timebuffer[40];
 		char timebuffer2[40];
 		struct tm* tm_info;
+		unsigned magic  = getMagic();
 		auto leftChr    = game.battleMgr->getLeftCharacter();
 		auto rightChr   = game.battleMgr->getRightCharacter();
 		auto leftInputs = game.battleMgr->getLeftReplayData();
@@ -143,14 +170,16 @@ namespace Battle
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game.screen);
 			return;
 		}
+		stream.write(reinterpret_cast<char *>(&magic), sizeof(magic));
+		stream.write(reinterpret_cast<char *>(&this->_params), sizeof(this->_params));
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
-		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
+		stream.write(reinterpret_cast<char *>(&leftChrSer), sizeof(leftChrSer));
 		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
 
 		rightChrSer.index = rightChr->index;
 		rightChrSer.nbInputs = rightInputs.size();
-		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
+		stream.write(reinterpret_cast<char *>(&rightChrSer), sizeof(rightChrSer));
 		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
 		game.logger.info(std::string(buf2) + " created.");
 	}

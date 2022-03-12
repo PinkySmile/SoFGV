@@ -47,7 +47,7 @@ namespace Battle
 		bool _updateLoop() override;
 
 	public:
-		PracticeBattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
+		PracticeBattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		~PracticeBattleManager();
 		bool update() override;
 		void render() override;

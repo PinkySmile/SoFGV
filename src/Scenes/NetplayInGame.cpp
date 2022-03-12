@@ -11,18 +11,18 @@
 
 namespace Battle
 {
-	NetplayInGame::~NetplayInGame()
-	{
-		game.logger.debug("NetplayInGame scene destroyed");
-	}
-
-	NetplayInGame::NetplayInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
-		InGame(leftChr, rightChr, lJson, rJson)
+	NetplayInGame::NetplayInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+		InGame(params, platforms, stage, leftChr, rightChr, lJson, rJson)
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
 		game.logger.info("NetplayGame scene created");
 		Battle::game.screen->setView(view);
+	}
+
+	NetplayInGame::~NetplayInGame()
+	{
+		game.logger.debug("NetplayInGame scene destroyed");
 	}
 
 	void NetplayInGame::consumeEvent(const sf::Event &event)

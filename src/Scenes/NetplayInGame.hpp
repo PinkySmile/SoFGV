@@ -21,7 +21,7 @@ namespace Battle
 		IScene *_realUpdate() override;
 
 	public:
-		NetplayInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		NetplayInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
 		~NetplayInGame() override;
 		IScene *update() override;
 		void render() const override;

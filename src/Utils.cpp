@@ -148,7 +148,7 @@ namespace Utils
 		}
 
 		sf::RenderWindow win{{std::min(700U, width), std::min(220U, height)}, title, sf::Style::Titlebar | sf::Style::Close};
-		auto pic = tgui::Picture::create("assets/icons/error.png");
+		auto pic = tgui::Picture::create((variate & MB_ICONINFORMATION) ? "assets/icons/info.png": "assets/icons/error.png");
 		sf::Event event;
 
 		gui.setTarget(win);

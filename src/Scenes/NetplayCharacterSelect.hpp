@@ -17,6 +17,9 @@ namespace Battle
 		void _loadState(void *data) override;
 		IScene *_realUpdate() override;
 
+	protected:
+		InGame *_launchGame() override;
+
 	public:
 		NetplayCharacterSelect();
 		~NetplayCharacterSelect() override;

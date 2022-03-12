@@ -103,6 +103,7 @@ namespace Battle
 	InGame *CharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
+		auto &stage = this->_stages[this->_stage];
 
 		if (this->_leftPos < 0)
 			this->_leftPalette = 0;
@@ -130,12 +131,18 @@ namespace Battle
 		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		if (this->_practice)
 			return new PracticeInGame(
+				{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
+				stage.platforms[this->_platform],
+				stage,
 				lchr,
 				rchr,
 				this->_entries[this->_leftPos].entry,
 				this->_entries[this->_rightPos].entry
 			);
 		return new InGame(
+			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
+			stage.platforms[this->_platform],
+			stage,
 			lchr,
 			rchr,
 			this->_entries[this->_leftPos].entry,
@@ -386,6 +393,7 @@ namespace Battle
 		entry(json)
 	{
 		this->name = json["name"];
+		this->credits = json["credits"];
 		this->imagePath = json["image"];
 		if (json.contains("objects"))
 			this->objectPath = json["objects"];

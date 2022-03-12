@@ -25,6 +25,7 @@
 #include "../Inputs/RemoteInput.hpp"
 #include "../Utils.hpp"
 #include "../Inputs/ReplayInput.hpp"
+#include "../Resources/version.h"
 
 #define THRESHOLD 50
 
@@ -574,8 +575,13 @@ namespace Battle
 		case REPLAY_BUTTON: {
 			auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
 
-			if (!path.empty())
-				this->_loadReplay(path);
+			if (!path.empty()) {
+				try {
+					this->_loadReplay(path);
+				} catch (std::exception &e) {
+					Utils::dispMsg("Replay loading failed", "This replay is invalid, corrupted or was created for an different version of the game: " + std::string(e.what()), MB_ICONERROR);
+				}
+			}
 			break;
 		}
 		case SETTINGS_BUTTON:
@@ -659,9 +665,11 @@ namespace Battle
 
 	void TitleScreen::_loadReplay(const std::string &path)
 	{
+		std::vector<StageEntry> stages;
 		std::vector<CharacterEntry> entries;
 		std::ifstream stream{path, std::ifstream::binary};
 		std::ifstream stream2{"assets/characters/list.json"};
+		std::ifstream stream3{"assets/stages/list.json"};
 		nlohmann::json json;
 		unsigned nb;
 		unsigned P1pos;
@@ -672,13 +680,33 @@ namespace Battle
 		std::deque<Character::ReplayData> P2inputs;
 		char *buffer;
 		Character::ReplayData *buffer2;
+		InGame::GameParams params;
+		unsigned magic;
 
 		game.logger.info("Loading replay " + path);
+		stream.read(reinterpret_cast<char *>(&magic), sizeof(magic));
+		if (magic != getMagic())
+			throw std::invalid_argument("INVALID_MAGIC");
 		stream2 >> json;
 		for (auto &elem : json)
 			entries.emplace_back(elem);
+		stream3 >> json;
+		for (auto &elem : json)
+			stages.emplace_back(elem);
+		stream.read(reinterpret_cast<char *>(&params), sizeof(params));
+		if (params.stage >= stages.size())
+			throw std::invalid_argument("INVALID_STAGE");
+		if (params.platforms >= stages[params.stage].platforms.size())
+			throw std::invalid_argument("INVALID_PLAT_CONF");
+
+
 		stream.read(reinterpret_cast<char *>(&P1pos), 2);
 		stream.read(reinterpret_cast<char *>(&P1palette), 2);
+		if (P1pos >= entries.size())
+			throw std::invalid_argument("INVALID_P1POS");
+		if (P1palette >= entries[P1pos].palettes.size())
+			throw std::invalid_argument("INVALID_P1PAL");
+
 		stream.read(reinterpret_cast<char *>(&nb), 4);
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
@@ -686,15 +714,26 @@ namespace Battle
 		P1inputs.insert(P1inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 
+
 		stream.read(reinterpret_cast<char *>(&P2pos), 2);
 		stream.read(reinterpret_cast<char *>(&P2palette), 2);
+		if (P2pos >= entries.size())
+			throw std::invalid_argument("INVALID_P2POS");
+		if (P2palette >= entries[P2pos].palettes.size())
+			throw std::invalid_argument("INVALID_P2PAL");
+
 		stream.read(reinterpret_cast<char *>(&nb), 4);
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
 		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
 		P2inputs.insert(P2inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
+
+
 		this->_nextScene = new InGame{
+			params,
+			stages[params.stage].platforms[params.platforms],
+			stages[params.stage],
 			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_unique<ReplayInput>(P1inputs)),
 			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_unique<ReplayInput>(P2inputs)),
 			entries[P1pos].entry,
@@ -705,7 +744,7 @@ namespace Battle
 
 	void TitleScreen::_fetchReplayList()
 	{
-#ifdef _dzqdqdzqdzq
+#if 0
 		DIR *dir = opendir(("replays/" + this->_basePath).c_str());
 		struct dirent *entry;
 		struct stat s;

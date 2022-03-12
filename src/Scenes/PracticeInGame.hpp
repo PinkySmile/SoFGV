@@ -60,7 +60,7 @@ namespace Battle
 		bool _practiceConfirm();
 
 	public:
-		PracticeInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
 		IScene *update() override;
 		void render() const override;
 	};

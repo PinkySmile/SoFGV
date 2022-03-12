@@ -10,10 +10,25 @@
 
 namespace Battle
 {
-	PracticeInGame::PracticeInGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
-		InGame()
+	PracticeInGame::PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+		InGame(params)
 	{
 		this->_manager = new PracticeBattleManager(
+			BattleManager::StageParams{
+				stage.imagePath,
+				[]{
+					std::vector<IObject *> objects;
+
+					return objects;
+				},
+				[&platforms]{
+					std::vector<Platform *> objects;
+
+					for (auto &platform : platforms)
+						objects.push_back(new Platform(platform.framedata, platform.width, platform.hp, platform.cd, platform.pos));
+					return objects;
+				}
+			},
 			BattleManager::CharacterParams{
 				leftChr,
 				lJson["hp"],

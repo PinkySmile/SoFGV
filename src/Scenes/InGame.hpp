@@ -16,6 +16,13 @@
 namespace Battle
 {
 	class InGame : public IScene {
+	public:
+		struct GameParams {
+			unsigned stage;
+			unsigned music;
+			unsigned platforms;
+		};
+
 	protected:
 		constexpr static const char *_menuStrings[] = {
 			"Resume",
@@ -41,6 +48,7 @@ namespace Battle
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
 		bool _goBackToTitle;
+		struct GameParams _params;
 
 		virtual void _renderPause() const;
 		virtual void _pauseUpdate();
@@ -49,10 +57,10 @@ namespace Battle
 		void _moveListUpdate();
 		void _calculateMoveListOrder();
 
-		InGame();
+		InGame(const GameParams &params);
 
 	public:
-		InGame(Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle = false);
+		InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle = false);
 		~InGame();
 		void render() const override;
 		IScene *update() override;

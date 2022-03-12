@@ -7,8 +7,8 @@
 
 namespace Battle
 {
-	PracticeBattleManager::PracticeBattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
-		BattleManager(leftCharacter, rightCharacter)
+	PracticeBattleManager::PracticeBattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
+		BattleManager(stage, leftCharacter, rightCharacter)
 	{
 	}
 

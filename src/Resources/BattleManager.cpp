@@ -11,7 +11,7 @@
 
 namespace Battle
 {
-	BattleManager::BattleManager(const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
+	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character)
 	{
@@ -36,12 +36,13 @@ namespace Battle
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
 
 		//TODO: Move this in another function
-		this->_stage.textureHandle = game.textureMgr.load("assets/stages/14687.png");
+		this->_stage.textureHandle = game.textureMgr.load(stage.path);
 		this->_stage.setPosition({-50, -600});
-		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {250, 300}));
-		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {500, 150}));
-		this->_platforms.emplace_back(new Platform("assets/stages/platforms.json", 58 * 2, 2000, 15 * 60, {750, 300}));
-		this->_nbPlatform = 3;
+		for (auto object : stage.objects())
+			this->_stageObjects.emplace_back(object);
+		for (auto object : stage.platforms())
+			this->_platforms.emplace_back(object);
+		this->_nbPlatform = this->_platforms.size();
 
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
