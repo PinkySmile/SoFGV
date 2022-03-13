@@ -7,6 +7,7 @@
 #endif
 #include <sys/stat.h>
 #include "Logger.hpp"
+#include "Resources/version.h"
 #include "Resources/Screen.hpp"
 #include "Resources/Game.hpp"
 #include "Scenes/TitleScreen.hpp"
@@ -168,7 +169,7 @@ void	run()
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	Battle::game.font.loadFromFile(font);
-	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9");
+	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9 | version " VERSION_STR);
 	Battle::game.screen->setFont(Battle::game.font);
 	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);
 	while (Battle::game.screen->isOpen()) {
