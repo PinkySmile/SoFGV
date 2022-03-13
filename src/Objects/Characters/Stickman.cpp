@@ -5,8 +5,7 @@
 #include "Stickman.hpp"
 #include "../../Resources/Game.hpp"
 
-#define MIN_RANDOM_DFLAGS 3
-#define MIN_RANDOM_OFLAGS 3
+#define MIN_RANDOM_FLAGS 6
 #define NEW_FLAG_STEP 5
 #define MAX_CHARGE 40
 #define HITSTUN_RATIO 2/3
@@ -14,6 +13,225 @@
 
 namespace Battle
 {
+	const std::map<unsigned, std::vector<unsigned>> _probas{
+		{ACTION_5A, {
+			8, //"grab",
+			8, //"airUnblockable",
+			0, //"unblockable",
+			8, //"voidElement",
+			8, //"spiritElement",
+			8, //"matterElement",
+			8, //"lowHit",
+			8, //"highHit",
+			0, //"autoHitPos",
+			5, //"canCounterHit",
+			0, //"hitSwitch",
+			0, //"cancelable",
+			0, //"jab",
+			0, //"resetHits",
+			5, //"resetOPSpeed",
+			5, //"restand",
+			0, //"super",
+			0, //"ultimate",
+			5, //"jumpCancelable",
+			0, //"transformCancelable",
+			0, //"unTransformCancelable",
+			5, //"dashCancelable",
+			0, //"backDashCancelable",
+			0, //"voidMana",
+			0, //"spiritMana",
+			0, //"matterMana",
+			0, //"invulnerable",
+			0, //"invulnerableArmor",
+			0, //"superarmor",
+			5, //"grabInvulnerable",
+			3, //"voidBlock",
+			3, //"spiritBlock",
+			3, //"matterBlock",
+			0, //"neutralBlock",
+			0, //"airborne",
+			0, //"canBlock",
+			0, //"highBlock",
+			0, //"lowBlock",
+			0, //"karaCancel",
+			0, //"resetRotation",
+			0, //"counterHit",
+			0, //"flash",
+			0, //"crouch",
+			5, //"projectileInvul",
+			0, //"projectile",
+			0, //"landCancel",
+			0, //"dashCancel",
+			0, //"resetSpeed",
+			0, //"neutralInvul",
+			0, //"matterInvul",
+			0, //"spiritInvul",
+			0, //"voidInvul"
+		}},
+		{ACTION_2A, {
+			0, //"grab",
+			0, //"airUnblockable",
+			0, //"unblockable",
+			3, //"voidElement",
+			3, //"spiritElement",
+			3, //"matterElement",
+			0, //"lowHit",
+			0, //"highHit",
+			0, //"autoHitPos",
+			0, //"canCounterHit",
+			0, //"hitSwitch",
+			0, //"cancelable",
+			5, //"jab",
+			0, //"resetHits",
+			0, //"resetOPSpeed",
+			0, //"restand",
+			0, //"super",
+			0, //"ultimate",
+			5, //"jumpCancelable",
+			0, //"transformCancelable",
+			0, //"unTransformCancelable",
+			0, //"dashCancelable",
+			5, //"backDashCancelable",
+			0, //"voidMana",
+			0, //"spiritMana",
+			0, //"matterMana",
+			0, //"invulnerable",
+			0, //"invulnerableArmor",
+			0, //"superarmor",
+			8, //"grabInvulnerable",
+			8, //"voidBlock",
+			8, //"spiritBlock",
+			8, //"matterBlock",
+			0, //"neutralBlock",
+			0, //"airborne",
+			0, //"canBlock",
+			8, //"highBlock",
+			8, //"lowBlock",
+			0, //"karaCancel",
+			0, //"resetRotation",
+			0, //"counterHit",
+			0, //"flash",
+			0, //"crouch",
+			8, //"projectileInvul",
+			0, //"projectile",
+			0, //"landCancel",
+			0, //"dashCancel",
+			5, //"resetSpeed",
+			0, //"neutralInvul",
+			5, //"matterInvul",
+			5, //"spiritInvul",
+			5, //"voidInvul"
+		}},
+		{ACTION_6A, {
+			0, //"grab",
+			60,//"airUnblockable",
+			15,//"unblockable",
+			30,//"voidElement",
+			30,//"spiritElement",
+			30,//"matterElement",
+			50,//"lowHit",
+			50,//"highHit",
+			0, //"autoHitPos",
+			0, //"canCounterHit",
+			0, //"hitSwitch",
+			0, //"cancelable",
+			0, //"jab",
+			0, //"resetHits",
+			20,//"resetOPSpeed",
+			0, //"restand",
+			5, //"super",
+			2, //"ultimate",
+			0, //"jumpCancelable",
+			0, //"transformCancelable",
+			0, //"unTransformCancelable",
+			50,//"dashCancelable",
+			0, //"backDashCancelable",
+			0, //"voidMana",
+			0, //"spiritMana",
+			0, //"matterMana",
+			0, //"invulnerable",
+			0, //"invulnerableArmor",
+			60,//"superarmor",
+			0, //"grabInvulnerable",
+			0, //"voidBlock",
+			0, //"spiritBlock",
+			0, //"matterBlock",
+			0, //"neutralBlock",
+			0, //"airborne",
+			0, //"canBlock",
+			0, //"highBlock",
+			0, //"lowBlock",
+			0, //"karaCancel",
+			0, //"resetRotation",
+			0, //"counterHit",
+			0, //"flash",
+			0, //"crouch",
+			0, //"projectileInvul",
+			0, //"projectile",
+			0, //"landCancel",
+			0, //"dashCancel",
+			0, //"resetSpeed",
+			0, //"neutralInvul",
+			0, //"matterInvul",
+			0, //"spiritInvul",
+			0, //"voidInvul"
+		}},
+		{ACTION_3A, {
+			0, //"grab",
+			0, //"airUnblockable",
+			0, //"unblockable",
+			0, //"voidElement",
+			0, //"spiritElement",
+			0, //"matterElement",
+			0, //"lowHit",
+			0, //"highHit",
+			0, //"autoHitPos",
+			0, //"canCounterHit",
+			0, //"hitSwitch",
+			0, //"cancelable",
+			0, //"jab",
+			0, //"resetHits",
+			0, //"resetOPSpeed",
+			0, //"restand",
+			7, //"super",
+			4, //"ultimate",
+			0, //"jumpCancelable",
+			0, //"transformCancelable",
+			0, //"unTransformCancelable",
+			0, //"dashCancelable",
+			40,//"backDashCancelable",
+			0, //"voidMana",
+			0, //"spiritMana",
+			0, //"matterMana",
+			10,//"invulnerable",
+			10,//"invulnerableArmor",
+			0, //"superarmor",
+			60,//"grabInvulnerable",
+			0, //"voidBlock",
+			0, //"spiritBlock",
+			0, //"matterBlock",
+			0, //"neutralBlock",
+			0, //"airborne",
+			20,//"canBlock",
+			0, //"highBlock",
+			0, //"lowBlock",
+			0, //"karaCancel",
+			0, //"resetRotation",
+			0, //"counterHit",
+			0, //"flash",
+			0, //"crouch",
+			60,//"projectileInvul",
+			0, //"projectile",
+			0, //"landCancel",
+			0, //"dashCancel",
+			0, //"resetSpeed",
+			0, //"neutralInvul",
+			50,//"matterInvul",
+			50,//"spiritInvul",
+			50,//"voidInvul"
+		}},
+	};
+
 	Stickman::Stickman(
 		unsigned index,
 		const std::string &frameData,
@@ -90,29 +308,17 @@ namespace Battle
 	void Stickman::_applyNewAnimFlags()
 	{
 		Character::_applyNewAnimFlags();
-		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
-			auto data = this->getCurrentFrameData();
-			int flag;
-
-			if (data->specialMarker && !this->_flagsGenerated) {
-				for (int i = 0; i < MIN_RANDOM_DFLAGS && this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8))); i++) {
-					for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
-					this->_addedDFlags.flags |= 1 << flag;
-				}
-				for (int i = 0; i < MIN_RANDOM_OFLAGS && this->_addedOFlags.flags != (1 << 26) - 1; i++) {
-					for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
-					this->_addedOFlags.flags |= 1 << flag;
-				}
-				this->_flagsGenerated = true;
-			}
-			if (data->specialMarker > 1) {
-				this->_moveLength = data->specialMarker;
-				this->_actionBlock++;
-				this->_animation = 0;
-				this->_chargeTime = 0;
-				this->_applyNewAnimFlags();
-				return;
-			}
+		if (this->_action == ACTION_5A || this->_action == ACTION_2A)
+			this->_checkStartSystemARandom();
+		else if (this->_action == ACTION_6A || this->_action == ACTION_3A)
+			this->_checkStartSystemBRandom();
+		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A && this->getCurrentFrameData()->specialMarker > 1) {
+			this->_moveLength = this->getCurrentFrameData()->specialMarker;
+			this->_actionBlock++;
+			this->_animation = 0;
+			this->_chargeTime = 0;
+			this->_applyNewAnimFlags();
+			return;
 		}
 	}
 
@@ -121,19 +327,11 @@ namespace Battle
 		Character::_applyMoveAttributes();
 		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
 			auto data = this->getCurrentFrameData();
-			unsigned flag;
 
-			if (data->specialMarker && !this->_flagsGenerated) {
-				for (int i = 0; i < MIN_RANDOM_DFLAGS && this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8))); i++) {
-					for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
-					this->_addedDFlags.flags |= 1 << flag;
-				}
-				for (int i = 0; i < MIN_RANDOM_OFLAGS && this->_addedOFlags.flags != (1 << 26) - 1; i++) {
-					for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
-					this->_addedOFlags.flags |= 1 << flag;
-				}
-				this->_flagsGenerated = true;
-			}
+			if (this->_action == ACTION_5A || this->_action == ACTION_2A)
+				this->_checkStartSystemARandom();
+			else if (this->_action == ACTION_6A || this->_action == ACTION_3A)
+				this->_checkStartSystemBRandom();
 			switch (this->_actionBlock) {
 			case 0:
 				if (data->specialMarker > 1) {
@@ -149,14 +347,10 @@ namespace Battle
 				if (this->_input->isPressed(INPUT_ASCEND) && this->_chargeTime < MAX_CHARGE) {
 					this->_chargeTime++;
 					if (this->_chargeTime % NEW_FLAG_STEP == 0) {
-						if (this->_addedDFlags.flags != (((1 << 26) - 1) & (~(1 << 8)))) {
-							for (flag = this->_dist(game.battleRandom); this->_addedDFlags.flags & 1 << flag || flag == 8; flag = this->_dist(game.battleRandom));
-							this->_addedDFlags.flags |= 1 << flag;
-						}
-						if (this->_addedOFlags.flags != (1 << 26) - 1) {
-							for (flag = this->_dist(game.battleRandom); this->_addedOFlags.flags & 1 << flag; flag = this->_dist(game.battleRandom));
-							this->_addedOFlags.flags |= 1 << flag;
-						}
+						if (this->_action == ACTION_5A || this->_action == ACTION_2A)
+							this->_systemARandomNewRound();
+						else if (this->_action == ACTION_6A || this->_action == ACTION_3A)
+							this->_systemBRandomNewRound();
 					}
 				} else {
 					this->_actionBlock++;
@@ -244,5 +438,95 @@ namespace Battle
 				4
 			);
 		return Character::_spawnSubobject(id, needRegister);
+	}
+
+	void Stickman::_checkStartSystemARandom()
+	{
+		auto data = this->getCurrentFrameData();
+
+		if (data->specialMarker && !this->_flagsGenerated) {
+			for (int i = 0; i < MIN_RANDOM_FLAGS; i++)
+				this->_systemARandomNewRound();
+			this->_flagsGenerated = true;
+		}
+	}
+
+	void Stickman::_checkStartSystemBRandom()
+	{
+		if (this->getCurrentFrameData()->specialMarker && !this->_flagsGenerated) {
+			int i = 0;
+
+			while (i < MIN_RANDOM_FLAGS) {
+				for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
+					if (!_probas.at(this->_action)[j])
+						continue;
+					if (this->_dist(game.random) >= _probas.at(this->_action)[j])
+						continue;
+					if (j < 26)
+						this->_addedOFlags.flags |= 1 << j;
+					else
+						this->_addedDFlags.flags |= 1 << (j - 26);
+					i++;
+				}
+			}
+			this->_flagsGenerated = true;
+		}
+	}
+
+	void Stickman::_systemARandomNewRound()
+	{
+		bool done = false;
+		unsigned bestDFlags = 0;
+		unsigned bestOFlags = 0;
+
+		for (size_t i = 0; i < _probas.at(this->_action).size(); i++) {
+			if (i < 26)
+				bestOFlags |= (_probas.at(this->_action)[i] != 0) << i;
+			else
+				bestDFlags |= (_probas.at(this->_action)[i] != 0) << (i - 26);
+		}
+
+		if (this->_addedDFlags.flags == bestDFlags && this->_addedOFlags.flags == bestOFlags)
+			return;
+
+		while (!done) {
+			unsigned total = 0;
+			auto random = this->_dist(game.random);
+
+			done = true;
+			for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
+				total += _probas.at(this->_action)[j];
+				if (random < total) {
+					if (j < 26) {
+						if (this->_addedOFlags.flags & 1 << j) {
+							done = false;
+							break;
+						}
+						this->_addedOFlags.flags |= 1 << j;
+					} else {
+						if (this->_addedDFlags.flags & 1 << (j - 26)) {
+							done = false;
+							break;
+						}
+						this->_addedDFlags.flags |= 1 << (j - 26);
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	void Stickman::_systemBRandomNewRound()
+	{
+		for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
+			if (!_probas.at(this->_action)[j])
+				continue;
+			if (this->_dist(game.random) >= _probas.at(this->_action)[j])
+				continue;
+			if (j < 26)
+				this->_addedOFlags.flags |= 1 << j;
+			else
+				this->_addedDFlags.flags |= 1 << (j - 26);
+		}
 	}
 }

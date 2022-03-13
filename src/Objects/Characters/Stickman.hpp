@@ -25,7 +25,7 @@ namespace Battle
 
 		// Non Game State
 		mutable FrameData _fakeFrameData;
-		std::uniform_int_distribution<int> _dist{0, 25};
+		std::uniform_int_distribution<unsigned> _dist{0, 99};
 
 		// Game State
 		OffensiveFlags _addedOFlags = {0};
@@ -43,9 +43,11 @@ namespace Battle
 		void _applyNewAnimFlags() override;
 		bool _canStartMove(unsigned int action, const FrameData &data) override;
 		void _forceStartMove(unsigned int action) override;
-
-		std::pair<unsigned int, std::shared_ptr<IObject>>
-		_spawnSubobject(unsigned int id, bool needRegister) override;
+		std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubobject(unsigned int id, bool needRegister) override;
+		void _checkStartSystemARandom();
+		void _checkStartSystemBRandom();
+		void _systemARandomNewRound();
+		void _systemBRandomNewRound();
 
 	public:
 		Stickman() = default;

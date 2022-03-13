@@ -352,11 +352,15 @@ namespace Battle
 		{ ACTION_MATTER_AIR_ROMAN_CANCEL,        "Matter air roman cancel" },
 		{ ACTION_SPIRIT_AIR_ROMAN_CANCEL,        "Spirit air roman cancel" },
 		{ ACTION_VOID_AIR_ROMAN_CANCEL,          "Void air roman cancel" },
+		{ ACTION_GROUND_HIGH_REVERSAL,           "Ground high reversal" },
+		{ ACTION_GROUND_LOW_REVERSAL,            "Ground low reversal" },
+		{ ACTION_AIR_REVERSAL,                   "Air reversal" },
 
 		{ ACTION_WIN_MATCH1,                     "Win match1" },
 		{ ACTION_WIN_MATCH2,                     "Win match2" },
 		{ ACTION_WIN_MATCH3,                     "Win match3" },
 		{ ACTION_WIN_MATCH4,                     "Win match4" },
+
 		//{ ACTION_WIN_ROUND1,                     "Win round1" },
 		//{ ACTION_WIN_ROUND2,                     "Win round2" },
 		//{ ACTION_WIN_ROUND3,                     "Win round3" },
@@ -988,7 +992,7 @@ namespace Battle
 			return !this->_odCooldown;
 		}
 		if (isRomanCancelAction(action))
-			return !this->_odCooldown && this->_action >= ACTION_5N;
+			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action);
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
@@ -1196,6 +1200,13 @@ namespace Battle
 	void Character::_forceStartMove(unsigned int action)
 	{
 		game.logger.info("Starting action " + actionToString(action));
+		if (isParryAction(action)) {
+			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
+			game.soundMgr.play(BASICSOUND_PARRY);
+		}
 		if (
 			action == ACTION_IDLE ||
 			action == ACTION_WALK_FORWARD ||
@@ -3023,18 +3034,24 @@ namespace Battle
 			this->_speed.x += data.pushBlock * -this->_dir;
 			this->_parryEffect(other);
 			return;
-		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement && !myData->dFlag.neutralBlock) //TRUE NEUTRAL
-			return this->_getHitByMove(other, data);
+		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) //TRUE NEUTRAL
+			if (myData->dFlag.neutralBlock)
+				game.soundMgr.play(BASICSOUND_BLOCK);
+			else
+				return this->_getHitByMove(other, data);
 		else if (data.oFlag.matterElement) {
-			if (myData->dFlag.voidBlock);
+			if (myData->dFlag.voidBlock)
+				game.soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
 				return this->_getHitByMove(other, data);
 		} else if (data.oFlag.voidElement) {
-			if (myData->dFlag.spiritBlock);
+			if (myData->dFlag.spiritBlock)
+				game.soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock || myData->dFlag.matterBlock)
 				return this->_getHitByMove(other, data);
 		} else if (data.oFlag.spiritElement) {
-			if (myData->dFlag.matterBlock);
+			if (myData->dFlag.matterBlock)
+				game.soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
 				return this->_getHitByMove(other, data);
 		}
@@ -3200,6 +3217,7 @@ namespace Battle
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
+			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		}
 		if (this->_speedReset)
 			this->_speed = {0, 0};
@@ -3464,19 +3482,29 @@ namespace Battle
 				other->_direction = !other->_direction;
 			}
 		}
+		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
+		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
+		if (isStrongest)
+			game.soundMgr.play(BASICSOUND_BEST_PARRY);
 		if (data->dFlag.neutralBlock) {
 			this->_forceStartMove(this->_getReversalAction());
 			this->_blockStun = 0;
 		} else if (isStrongest) {
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
 			this->_blockStun = 0;
-		} else
+		} else {
+			game.soundMgr.play(BASICSOUND_BLOCK);
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
+		}
 	}
 
 	unsigned Character::_getReversalAction()
 	{
-		return this->_isGrounded() ? ACTION_3M : ACTION_j6N;
+		return this->_isGrounded() ? (
+			this->getCurrentFrameData()->dFlag.crouch ?
+			ACTION_GROUND_LOW_REVERSAL :
+			ACTION_GROUND_HIGH_REVERSAL
+		) : ACTION_AIR_REVERSAL;
 	}
 
 	InputStruct Character::_getInputs()
@@ -3586,6 +3614,7 @@ namespace Battle
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
+			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		}
 		if (data->subObjectSpawn > 0) {
 			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
