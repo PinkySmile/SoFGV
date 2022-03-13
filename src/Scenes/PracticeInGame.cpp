@@ -344,8 +344,8 @@ namespace Battle
 			}
 			this->_manager->_leftCharacter->_hp = this->_manager->_leftCharacter->_baseHp;
 			this->_manager->_rightCharacter->_hp = this->_manager->_rightCharacter->_baseHp;
-			this->_manager->_leftCharacter->_ultimateUsed = false;
-			this->_manager->_rightCharacter->_ultimateUsed = false;
+			this->_manager->_leftCharacter->_ultimateUsed = this->_manager->_leftCharacter->getCurrentFrameData()->oFlag.ultimate;
+			this->_manager->_rightCharacter->_ultimateUsed = this->_manager->_rightCharacter->getCurrentFrameData()->oFlag.ultimate;
 			if (this->_overdrive == 1)
 				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_barMaxOdCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)

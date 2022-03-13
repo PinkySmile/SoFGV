@@ -1106,6 +1106,8 @@ namespace Battle
 
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 			return this->_forceStartMove(idleAction);
+		if (this->_action == ACTION_AIR_REVERSAL || this->_action == ACTION_GROUND_HIGH_REVERSAL || this->_action == ACTION_GROUND_LOW_REVERSAL)
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_LANDING)
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_NEUTRAL_TECH)
@@ -3214,12 +3216,13 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
+		if (!this->_ultimateUsed && data->oFlag.ultimate)
+			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (data->oFlag.ultimate) {
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
-			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		}
 		if (this->_speedReset)
 			this->_speed = {0, 0};
@@ -3611,12 +3614,13 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyNewAnimFlags();
+		if (!this->_ultimateUsed && data->oFlag.ultimate)
+			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (data->oFlag.ultimate) {
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
-			game.soundMgr.play(BASICSOUND_ULTIMATE);
 		}
 		if (data->subObjectSpawn > 0) {
 			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
