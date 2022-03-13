@@ -3070,7 +3070,7 @@ namespace Battle
 		return Object::_isOnPlatform();
 	}
 
-	void Character::_getHitByMove(Object *, const FrameData &data)
+	void Character::_getHitByMove(Object *obj, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
@@ -3080,6 +3080,14 @@ namespace Battle
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
+		if (data.oFlag.ultimate) {
+			auto chr = dynamic_cast<Character *>(obj);
+
+			assert(chr);
+			chr->_actionBlock++;
+			chr->_animation = 0;
+			chr->_applyNewAnimFlags();
+		}
 		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game.soundMgr.play(BASICSOUND_COUNTER_HIT);
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
