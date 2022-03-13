@@ -1342,8 +1342,10 @@ namespace Battle
 		if (data->priority)
 			return *data->priority;
 		if (data->oFlag.ultimate)
-			return 700;
+			return 800;
 		if (data->oFlag.super)
+			return 700;
+		if (action == ACTION_AIR_REVERSAL || action == ACTION_GROUND_HIGH_REVERSAL || action == ACTION_GROUND_LOW_HIT)
 			return 600;
 		switch ((action % 50) + 100) {
 		case ACTION_5N:
@@ -1611,28 +1613,28 @@ namespace Battle
 			this->_specialInputs._421n -= std::copysign(tickBuffer, this->_specialInputs._421n);
 		else
 			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (input.a && input.a < COMBINATION_LENIENCY && input.n && input.n < COMBINATION_LENIENCY)
+		if (this->_specialInputs._421n >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.n && input.n < COMBINATION_LENIENCY)
 			this->_specialInputs._421n = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421m)
 			this->_specialInputs._421m -= std::copysign(tickBuffer, this->_specialInputs._421m);
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (input.a && input.a < COMBINATION_LENIENCY && input.m && input.m < COMBINATION_LENIENCY)
+		if (this->_specialInputs._421m >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.m && input.m < COMBINATION_LENIENCY)
 			this->_specialInputs._421m = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421s)
 			this->_specialInputs._421s -= std::copysign(tickBuffer, this->_specialInputs._421s);
 		else
 			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (input.a && input.a < COMBINATION_LENIENCY && input.s && input.s < COMBINATION_LENIENCY)
+		if (this->_specialInputs._421s >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.s && input.s < COMBINATION_LENIENCY)
 			this->_specialInputs._421s = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421v)
 			this->_specialInputs._421v -= std::copysign(tickBuffer, this->_specialInputs._421v);
 		else
 			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (input.a && input.a < COMBINATION_LENIENCY && input.v && input.v < COMBINATION_LENIENCY)
+		if (this->_specialInputs._421v >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.v && input.v < COMBINATION_LENIENCY)
 			this->_specialInputs._421v = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421d)
