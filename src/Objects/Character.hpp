@@ -346,6 +346,8 @@ namespace Battle
 			unsigned _limit[4];
 			InputStruct _inputBuffer;
 			unsigned _subObjects[128];
+			unsigned _grabInvul;
+			bool _ultimateUsed;
 			unsigned _odCooldown;
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
@@ -500,6 +502,8 @@ namespace Battle
 		unsigned _guardRegenCd = 0;
 		bool _speedReset = false;
 		bool _counter = false;
+		unsigned _grabInvul = 0;
+		bool _ultimateUsed = false;
 		float _prorate = 1;
 		bool _atkDisabled = false;
 		bool _inputDisabled = false;
@@ -515,6 +519,7 @@ namespace Battle
 		// Non Game State
 		sf::Text _text;
 		sf::Text _text2;
+		mutable FrameData _fakeFrameData;
 		Character *_opponent = nullptr;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
@@ -622,7 +627,7 @@ namespace Battle
 		std::string name;
 		bool showAttributes = false;
 
-		Character() = default;
+		Character();
 		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~Character() override = default;
 		void setOpponent(Character *opponent);
@@ -662,6 +667,8 @@ namespace Battle
 		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
+
+		const FrameData *getCurrentFrameData() const override;
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

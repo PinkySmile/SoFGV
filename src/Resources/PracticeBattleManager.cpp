@@ -22,10 +22,6 @@ namespace Battle
 		auto result = BattleManager::update();
 
 		this->_score = {0, 0};
-		if (!this->_leftCharacter->_comboCtr)
-			this->_leftCharacter->_hp = this->_leftCharacter->_baseHp;
-		if (!this->_rightCharacter->_comboCtr)
-			this->_rightCharacter->_hp = this->_rightCharacter->_baseHp;
 		return result;
 	}
 

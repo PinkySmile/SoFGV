@@ -342,6 +342,10 @@ namespace Battle
 				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
 				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
 			}
+			this->_manager->_leftCharacter->_hp = this->_manager->_leftCharacter->_baseHp;
+			this->_manager->_rightCharacter->_hp = this->_manager->_rightCharacter->_baseHp;
+			this->_manager->_leftCharacter->_ultimateUsed = false;
+			this->_manager->_rightCharacter->_ultimateUsed = false;
 			if (this->_overdrive == 1)
 				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_barMaxOdCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)

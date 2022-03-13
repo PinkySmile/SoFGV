@@ -378,10 +378,16 @@ namespace Battle
 		return name == Battle::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
 	}
 
+	Character::Character()
+	{
+		this->_fakeFrameData.setSlave();
+	}
+
 	Character::Character(unsigned index, const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input)),
 		index(index)
 	{
+		this->_fakeFrameData.setSlave();
 		this->_text.setFont(game.font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
@@ -396,6 +402,17 @@ namespace Battle
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
+	}
+
+	const FrameData *Character::getCurrentFrameData() const
+	{
+		auto data = Object::getCurrentFrameData();
+
+		if (!this->_grabInvul)
+			return data;
+		this->_fakeFrameData = *data;
+		this->_fakeFrameData.dFlag.grabInvulnerable = true;
+		return &this->_fakeFrameData;
 	}
 
 	void Character::render() const
@@ -426,20 +443,32 @@ namespace Battle
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
-		if (this->_odCooldown) {
-			this->_odCooldown--;
-			if (!this->_odCooldown)
-				game.soundMgr.play(BASICSOUND_OVERDRIVE_RECOVER);
+		if (!this->_ultimateUsed) {
+			if (this->_odCooldown) {
+				this->_odCooldown--;
+				if (!this->_odCooldown)
+					game.soundMgr.play(BASICSOUND_OVERDRIVE_RECOVER);
+			}
+			if (this->_guardCooldown) {
+				this->_guardCooldown--;
+				if (!this->_guardCooldown)
+					game.soundMgr.play(BASICSOUND_GUARD_RECOVER);
+				this->_guardRegenCd = 0;
+			} else if (this->_guardRegenCd)
+				this->_guardRegenCd--;
+			else if (this->_guardBar < this->_maxGuardBar)
+				this->_guardBar++;
+		} else {
+			this->_barMaxOdCooldown = this->_maxOdCooldown;
+			if (this->_odCooldown > 299 * this->_maxOdCooldown / 300)
+				this->_odCooldown = this->_maxOdCooldown;
+			else
+				this->_odCooldown += this->_maxOdCooldown / 300;
+			if (this->_guardCooldown > 299 * this->_maxGuardCooldown / 300)
+				this->_guardCooldown = this->_maxGuardCooldown;
+			else
+				this->_guardCooldown += this->_maxGuardCooldown / 300;
 		}
-		if (this->_guardCooldown) {
-			this->_guardCooldown--;
-			if (!this->_guardCooldown)
-				game.soundMgr.play(BASICSOUND_GUARD_RECOVER);
-			this->_guardRegenCd = 0;
-		} else if (this->_guardRegenCd)
-			this->_guardRegenCd--;
-		else if (this->_guardBar < this->_maxGuardBar)
-			this->_guardBar++;
 
 		for (auto &obj : this->_subobjects)
 			if (obj.second && obj.second->isDead()) {
@@ -448,9 +477,33 @@ namespace Battle
 			}
 
 		this->_tickMove();
-		this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
-		this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
-		this->_voidMana   += (this->_voidManaMax   - this->_voidMana)   * this->_regen;
+		if (!this->_ultimateUsed) {
+			this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
+			this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
+			this->_voidMana += (this->_voidManaMax - this->_voidMana) * this->_regen;
+		}
+
+		if (
+			this->_action == ACTION_BEING_KNOCKED_DOWN ||
+			this->_action == ACTION_KNOCKED_DOWN ||
+			this->_action == ACTION_NEUTRAL_TECH ||
+			this->_action == ACTION_FORWARD_TECH ||
+			this->_action == ACTION_BACKWARD_TECH ||
+			this->_action == ACTION_FALLING_TECH ||
+			this->_action == ACTION_AIR_HIT ||
+			this->_action == ACTION_GROUND_SLAM ||
+			this->_action == ACTION_WALL_SLAM ||
+			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
+			this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK ||
+			this->_action == ACTION_GROUND_HIGH_NEUTRAL_BLOCK ||
+			this->_action == ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK ||
+			this->_action == ACTION_GROUND_LOW_NEUTRAL_BLOCK ||
+			this->_action == ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK
+		)
+			this->_grabInvul = 6;
+		else if (this->_grabInvul)
+			this->_grabInvul--;
+
 		if (this->_blockStun) {
 			this->_blockStun--;
 			if (this->_blockStun == 0) {
@@ -3142,6 +3195,12 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
+		this->_ultimateUsed |= data->oFlag.ultimate;
+		if (data->oFlag.ultimate) {
+			this->_voidMana = 0;
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+		}
 		if (this->_speedReset)
 			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
@@ -3232,6 +3291,8 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_grabInvul = this->_grabInvul;
+		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_nbReplayInputs = this->_replayData.size();
 		dat->_inputBuffer = this->_inputBuffer;
 		dat->_speedReset = this->_speedReset;
@@ -3276,6 +3337,8 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_grabInvul = dat->_grabInvul;
+		this->_ultimateUsed = dat->_ultimateUsed;
 		this->_inputBuffer = dat->_inputBuffer;
 		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;
@@ -3518,6 +3581,12 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyNewAnimFlags();
+		this->_ultimateUsed |= data->oFlag.ultimate;
+		if (data->oFlag.ultimate) {
+			this->_voidMana = 0;
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+		}
 		if (data->subObjectSpawn > 0) {
 			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
 				return;
