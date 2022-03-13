@@ -460,7 +460,7 @@ namespace Battle
 				for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
 					if (!_probas.at(this->_action)[j])
 						continue;
-					if (this->_dist(game.random) >= _probas.at(this->_action)[j])
+					if (this->_dist(game.battleRandom) >= _probas.at(this->_action)[j])
 						continue;
 					if (j < 26)
 						this->_addedOFlags.flags |= 1 << j;
@@ -491,7 +491,7 @@ namespace Battle
 
 		while (!done) {
 			unsigned total = 0;
-			auto random = this->_dist(game.random);
+			auto random = this->_dist(game.battleRandom);
 
 			done = true;
 			for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
@@ -521,7 +521,7 @@ namespace Battle
 		for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
 			if (!_probas.at(this->_action)[j])
 				continue;
-			if (this->_dist(game.random) >= _probas.at(this->_action)[j])
+			if (this->_dist(game.battleRandom) >= _probas.at(this->_action)[j])
 				continue;
 			if (j < 26)
 				this->_addedOFlags.flags |= 1 << j;

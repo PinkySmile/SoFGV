@@ -55,11 +55,8 @@ namespace Battle
 		const FrameData *getCurrentFrameData() const override;
 		unsigned int getClassId() const override;
 		void update() override;
-
 		unsigned int getBufferSize() const override;
-
 		void copyToBuffer(void *data) const override;
-
 		void restoreFromBuffer(void *data) override;
 	};
 }
