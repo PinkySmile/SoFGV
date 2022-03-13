@@ -5141,6 +5141,10 @@
                     },
                     "defense_flag": 256,
                     "duration": 2,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5171,6 +5175,10 @@
                     },
                     "defense_flag": 256,
                     "duration": 4,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5202,6 +5210,10 @@
                         "width": 40
                     },
                     "duration": 30,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
                     "hurt_boxes": [
                         {
                             "height": 159,
@@ -5210,6 +5222,7 @@
                             "width": 68
                         }
                     ],
+                    "rotation": 335.15998836558504,
                     "size": {
                         "x": 62,
                         "y": 162

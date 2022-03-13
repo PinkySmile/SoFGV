@@ -3059,8 +3059,8 @@ namespace Battle
 				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 				game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
 				this->_forceStartMove(ACTION_WALL_SLAM);
-				this->_speed.x *= -0.8;
-				this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
+				this->_speed.x *= -0.15;
+				this->_speed.y = 7.5;
 			} else
 				this->_speed.x = 0;
 			return;
@@ -3075,8 +3075,8 @@ namespace Battle
 			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 			game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
-			this->_speed.x *= -0.8;
-			this->_speed.y = this->_blockStun / (this->_baseGravity.y * -2);
+			this->_speed.x *= -0.15;
+			this->_speed.y = 7.5;
 		} else
 			this->_speed.x = 0;
 	}
@@ -3090,7 +3090,7 @@ namespace Battle
 			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 			)) {
-				this->_speed.x *= 0.8;
+				this->_speed.x *= 0.1;
 				this->_speed.y *= -0.8;
 				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
@@ -3103,7 +3103,7 @@ namespace Battle
 			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 			)) {
-				this->_speed.x *= 0.8;
+				this->_speed.x *= 0.1;
 				this->_speed.y *= -0.8;
 				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
