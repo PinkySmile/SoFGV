@@ -581,9 +581,11 @@ namespace Battle
 
 	FrameData &FrameData::operator=(const FrameData &other)
 	{
-		game.textureMgr.remove(this->textureHandle);
-		game.soundMgr.remove(this->soundHandle);
-		game.soundMgr.remove(this->hitSoundHandle);
+		if (!this->_slave) {
+			game.textureMgr.remove(this->textureHandle);
+			game.soundMgr.remove(this->soundHandle);
+			game.soundMgr.remove(this->hitSoundHandle);
+		}
 		this->_palette = other._palette;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;

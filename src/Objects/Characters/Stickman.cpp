@@ -232,7 +232,7 @@ namespace Battle
 			data->offset.y
 		} + data->size / 2;
 
-		if (id == 1)
+		if (id == 128)
 			return game.battleMgr->registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(id),

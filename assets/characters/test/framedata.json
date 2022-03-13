@@ -14010,7 +14010,6 @@
                         "x": 110,
                         "y": 188
                     },
-                    "sound": "16",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -14045,7 +14044,7 @@
                         "y": 188
                     },
                     "sprite": "assets/characters/test/sheet.png",
-                    "subobject": 2,
+                    "subobject": 129,
                     "texture_bounds": {
                         "height": 94,
                         "left": 389,
