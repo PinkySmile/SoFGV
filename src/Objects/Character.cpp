@@ -3074,16 +3074,15 @@ namespace Battle
 	{
 		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
+		auto chr = dynamic_cast<Character *>(obj);
 
+		assert(!data.oFlag.ultimate ||chr);
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
-			auto chr = dynamic_cast<Character *>(obj);
-
-			assert(chr);
 			chr->_actionBlock++;
 			chr->_animation = 0;
 			chr->_applyNewAnimFlags();
