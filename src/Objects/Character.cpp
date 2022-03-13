@@ -3216,14 +3216,13 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
-		if (!this->_ultimateUsed && data->oFlag.ultimate)
+		if (!this->_ultimateUsed && data->oFlag.ultimate) {
 			game.soundMgr.play(BASICSOUND_ULTIMATE);
-		this->_ultimateUsed |= data->oFlag.ultimate;
-		if (data->oFlag.ultimate) {
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
 		}
+		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (this->_speedReset)
 			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
@@ -3614,14 +3613,13 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyNewAnimFlags();
-		if (!this->_ultimateUsed && data->oFlag.ultimate)
+		if (!this->_ultimateUsed && data->oFlag.ultimate) {
 			game.soundMgr.play(BASICSOUND_ULTIMATE);
-		this->_ultimateUsed |= data->oFlag.ultimate;
-		if (data->oFlag.ultimate) {
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
 		}
+		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (data->subObjectSpawn > 0) {
 			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
 				return;
