@@ -3080,7 +3080,7 @@ namespace Battle
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
-		if (data.oFlag.ultimate) {
+		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
 			auto chr = dynamic_cast<Character *>(obj);
 
 			assert(chr);
