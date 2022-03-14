@@ -672,20 +672,22 @@ namespace Battle
 		std::ifstream stream3{"assets/stages/list.json"};
 		nlohmann::json json;
 		unsigned nb;
-		unsigned P1pos;
-		unsigned P2pos;
-		unsigned P1palette;
-		unsigned P2palette;
+		unsigned short P1pos;
+		unsigned short P2pos;
+		unsigned short P1palette;
+		unsigned short P2palette;
 		std::deque<Character::ReplayData> P1inputs;
 		std::deque<Character::ReplayData> P2inputs;
 		char *buffer;
 		Character::ReplayData *buffer2;
 		InGame::GameParams params;
 		unsigned magic;
+		unsigned expectedMagic = getMagic();
 
 		game.logger.info("Loading replay " + path);
-		stream.read(reinterpret_cast<char *>(&magic), sizeof(magic));
-		if (magic != getMagic())
+		stream.read(reinterpret_cast<char *>(&magic), 4);
+		game.logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + sd::to_string(magic));
+		if (magic != expectedMagic)
 			throw std::invalid_argument("INVALID_MAGIC");
 		stream2 >> json;
 		for (auto &elem : json)
@@ -693,7 +695,8 @@ namespace Battle
 		stream3 >> json;
 		for (auto &elem : json)
 			stages.emplace_back(elem);
-		stream.read(reinterpret_cast<char *>(&params), sizeof(params));
+		stream.read(reinterpret_cast<char *>(&params), 12);
+		game.logger.debug("Params: stageID " + std::to_string(params.stage) + ", platformsID " + std::to_string(params.platforms) + ", musicID " + std::to_string(params.music));
 		if (params.stage >= stages.size())
 			throw std::invalid_argument("INVALID_STAGE");
 		if (params.platforms >= stages[params.stage].platforms.size())
@@ -702,12 +705,14 @@ namespace Battle
 
 		stream.read(reinterpret_cast<char *>(&P1pos), 2);
 		stream.read(reinterpret_cast<char *>(&P1palette), 2);
+		game.logger.debug("Reading P1 entry: pos " + std::to_string(P1pos) + ", pal " + std::to_string(P1palette));
 		if (P1pos >= entries.size())
 			throw std::invalid_argument("INVALID_P1POS");
 		if (P1palette >= entries[P1pos].palettes.size())
 			throw std::invalid_argument("INVALID_P1PAL");
 
 		stream.read(reinterpret_cast<char *>(&nb), 4);
+		game.logger.debug("P1 has " + std::to_string(nb) + "inputs");
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
 		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
@@ -717,12 +722,14 @@ namespace Battle
 
 		stream.read(reinterpret_cast<char *>(&P2pos), 2);
 		stream.read(reinterpret_cast<char *>(&P2palette), 2);
+		game.logger.debug("Reading P2 entry: pos " + std::to_string(P2pos) + ", pal " + std::to_string(P2palette));
 		if (P2pos >= entries.size())
 			throw std::invalid_argument("INVALID_P2POS");
 		if (P2palette >= entries[P2pos].palettes.size())
 			throw std::invalid_argument("INVALID_P2PAL");
 
 		stream.read(reinterpret_cast<char *>(&nb), 4);
+		game.logger.debug("P2 has " + std::to_string(nb) + "inputs");
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
 		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
