@@ -7858,7 +7858,7 @@
                         "x": 9,
                         "y": -1
                     },
-                    "prorate": 90.0,
+                    "prorate": 95.0,
                     "push_back": 10,
                     "push_block": 6,
                     "size": {
@@ -8409,6 +8409,7 @@
                 },
                 {
                     "block_stun": 10,
+                    "chip_damage": 200,
                     "collision_box": {
                         "height": 136,
                         "left": -19,
@@ -9124,6 +9125,7 @@
                 },
                 {
                     "block_stun": 16,
+                    "chip_damage": 400,
                     "collision_box": {
                         "height": 94,
                         "left": -19,
@@ -9576,7 +9578,7 @@
                         "x": -14,
                         "y": -24
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 178,
@@ -12431,7 +12433,7 @@
                         "x": 9,
                         "y": -1
                     },
-                    "prorate": 80.0,
+                    "prorate": 90.0,
                     "push_back": 10,
                     "push_block": 6,
                     "size": {
@@ -13032,7 +13034,7 @@
                 },
                 {
                     "block_stun": 24,
-                    "chip_damage": 50,
+                    "chip_damage": 600,
                     "collision_box": {
                         "height": 138,
                         "left": -20,
@@ -13105,7 +13107,6 @@
                 },
                 {
                     "block_stun": 24,
-                    "chip_damage": 100,
                     "collision_box": {
                         "height": 138,
                         "left": -20,
@@ -13419,6 +13420,7 @@
                 },
                 {
                     "block_stun": 20,
+                    "chip_damage": 500,
                     "collision_box": {
                         "height": 180,
                         "left": -27,
@@ -16033,6 +16035,7 @@
                 },
                 {
                     "block_stun": 6,
+                    "chip_damage": 20,
                     "collision_box": {
                         "height": 164,
                         "left": -17,
@@ -16122,6 +16125,7 @@
                 },
                 {
                     "block_stun": 6,
+                    "chip_damage": 20,
                     "collision_box": {
                         "height": 164,
                         "left": -17,
@@ -16206,6 +16210,7 @@
                 },
                 {
                     "block_stun": 6,
+                    "chip_damage": 20,
                     "collision_box": {
                         "height": 164,
                         "left": -17,
@@ -16290,6 +16295,7 @@
                 },
                 {
                     "block_stun": 6,
+                    "chip_damage": 20,
                     "collision_box": {
                         "height": 164,
                         "left": -17,
@@ -16374,6 +16380,7 @@
                 },
                 {
                     "block_stun": 6,
+                    "chip_damage": 20,
                     "collision_box": {
                         "height": 164,
                         "left": -17,
@@ -17616,6 +17623,7 @@
                 },
                 {
                     "block_stun": 20,
+                    "chip_damage": 100,
                     "collision_box": {
                         "height": 151,
                         "left": -15,
@@ -18503,6 +18511,7 @@
                 },
                 {
                     "block_stun": 12,
+                    "chip_damage": 200,
                     "collision_box": {
                         "height": 90,
                         "left": -15,
@@ -18559,6 +18568,7 @@
                 },
                 {
                     "block_stun": 12,
+                    "chip_damage": 200,
                     "collision_box": {
                         "height": 90,
                         "left": -15,

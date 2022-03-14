@@ -62,6 +62,7 @@
             [
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -106,6 +107,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -150,6 +152,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -194,6 +197,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
