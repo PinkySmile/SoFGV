@@ -3086,8 +3086,8 @@ namespace Battle
 			this->_prorate = max(0.25, this->_prorate);
 		}
 
-		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (5 << (this->_supersUsed - 2))) / 100.f)) : 1;
-		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - (1 << (this->_skillsUsed - 2))) / 100.f)) : 1;
+		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
+		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - (3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);

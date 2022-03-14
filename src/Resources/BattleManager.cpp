@@ -448,8 +448,8 @@ namespace Battle
 		if (this->_rightComboCtr)
 			this->_rightComboCtr--;
 		if (this->_rightCharacter->_comboCtr) {
-			auto superRate = this->_rightCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (5 << (this->_rightCharacter->_supersUsed - 2))) / 100.f)) : 1;
-			auto skillRate = this->_rightCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (1 << (this->_rightCharacter->_skillsUsed - 2))) / 100.f)) : 1;
+			auto superRate = this->_rightCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->_rightCharacter->_supersUsed - 2))) / 100.f)) : 1;
+			auto skillRate = this->_rightCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->_rightCharacter->_skillsUsed - 2))) / 100.f)) : 1;
 
 			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
 			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
@@ -462,8 +462,8 @@ namespace Battle
 			this->_leftComboCtr     = 120;
 		}
 		if (this->_leftCharacter->_comboCtr) {
-			auto superRate = this->_leftCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (5 << (this->_leftCharacter->_supersUsed - 2))) / 100.f)) : 1;
-			auto skillRate = this->_leftCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (1 << (this->_leftCharacter->_skillsUsed - 2))) / 100.f)) : 1;
+			auto superRate = this->_leftCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->_leftCharacter->_supersUsed - 2))) / 100.f)) : 1;
+			auto skillRate = this->_leftCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->_leftCharacter->_skillsUsed - 2))) / 100.f)) : 1;
 
 			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
 			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
