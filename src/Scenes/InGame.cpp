@@ -170,16 +170,16 @@ namespace Battle
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game.screen);
 			return;
 		}
-		stream.write(reinterpret_cast<char *>(&magic), sizeof(magic));
-		stream.write(reinterpret_cast<char *>(&this->_params), sizeof(this->_params));
+		stream.write(reinterpret_cast<char *>(&magic), 4);
+		stream.write(reinterpret_cast<char *>(&this->_params), 12);
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
-		stream.write(reinterpret_cast<char *>(&leftChrSer), sizeof(leftChrSer));
+		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
 		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
 
 		rightChrSer.index = rightChr->index;
 		rightChrSer.nbInputs = rightInputs.size();
-		stream.write(reinterpret_cast<char *>(&rightChrSer), sizeof(rightChrSer));
+		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
 		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
 		game.logger.info(std::string(buf2) + " created.");
 	}
