@@ -1201,6 +1201,8 @@ namespace Battle
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700;
+		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 400 && this->getAttackTier(action) < 600;
 		game.logger.info("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
 			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
@@ -1288,6 +1290,8 @@ namespace Battle
 			this->_comboCtr = 0;
 			this->_prorate = 1;
 			this->_totalDamage = 0;
+			this->_supersUsed = 0;
+			this->_skillsUsed = 0;
 			this->_limit.fill(0);
 			this->_counter = false;
 		}
@@ -2801,7 +2805,9 @@ namespace Battle
 			"spiritLimit: %u\n"
 			"BaseGravityX: %f\n"
 			"BaseGravityY: %f\n"
-			"Overdrive CD: %u/%u",
+			"Overdrive CD: %u/%u\n"
+			"SupersUsed %u\n"
+			"SkillsUsed %u",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -2840,7 +2846,9 @@ namespace Battle
 			this->_baseGravity.x,
 			this->_baseGravity.y,
 			this->_odCooldown,
-			this->_maxOdCooldown
+			this->_maxOdCooldown,
+			this->_supersUsed,
+			this->_skillsUsed
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
@@ -3072,9 +3080,18 @@ namespace Battle
 
 	void Character::_getHitByMove(Object *obj, const FrameData &data)
 	{
+		if (data.oFlag.ultimate) {
+			this->_supersUsed = 0;
+			this->_skillsUsed = 0;
+			this->_prorate = max(0.25, this->_prorate);
+		}
+
+		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (5 << (this->_supersUsed - 2))) / 100.f)) : 1;
+		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - (1 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);
+		float damage = data.damage * this->_prorate * skillRate * superRate;
 
 		assert(!data.oFlag.ultimate || chr);
 		counter &= this->_action != ACTION_AIR_HIT;
@@ -3093,8 +3110,8 @@ namespace Battle
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else
 				this->_forceStartMove(ACTION_AIR_HIT);
-			this->_hp -= data.damage * 1.5 * this->_prorate;
-			this->_totalDamage += data.damage * 1.5 * this->_prorate;
+			damage *= 1.5;
+			this->_totalDamage += damage;
 			this->_counter = true;
 			this->_comboCtr++;
 			this->_blockStun = data.hitStun * 1.5;
@@ -3109,13 +3126,12 @@ namespace Battle
 			game.logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game.soundMgr.play(data.hitSoundHandle);
-			this->_hp -= data.damage * this->_prorate;
 			if (!myData->dFlag.superarmor) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else
 					this->_forceStartMove(ACTION_AIR_HIT);
-				this->_totalDamage += data.damage * this->_prorate;
+				this->_totalDamage += damage;
 				this->_comboCtr++;
 				this->_blockStun = data.hitStun;
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
@@ -3129,6 +3145,7 @@ namespace Battle
 			game.battleMgr->addHitStop(data.hitStop);
 			game.logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
+		this->_hp -= damage;
 	}
 
 	void Character::_processWallSlams()
@@ -3320,6 +3337,8 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_supersUsed = this->_supersUsed;
+		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
 		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_nbReplayInputs = this->_replayData.size();
@@ -3366,6 +3385,8 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_supersUsed = dat->_supersUsed;
+		this->_skillsUsed = dat->_skillsUsed;
 		this->_grabInvul = dat->_grabInvul;
 		this->_ultimateUsed = dat->_ultimateUsed;
 		this->_inputBuffer = dat->_inputBuffer;

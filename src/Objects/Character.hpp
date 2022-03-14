@@ -351,6 +351,8 @@ namespace Battle
 			unsigned _subObjects[128];
 			unsigned _grabInvul;
 			bool _ultimateUsed;
+			unsigned _supersUsed;
+			unsigned _skillsUsed;
 			unsigned _odCooldown;
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
@@ -493,6 +495,8 @@ namespace Battle
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit{0, 0, 0, 0};
 		InputStruct _inputBuffer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		unsigned _supersUsed = 0;
+		unsigned _skillsUsed = 0;
 		unsigned _barMaxOdCooldown = 0;
 		unsigned _odCooldown = 0;
 		unsigned _blockStun = 0;

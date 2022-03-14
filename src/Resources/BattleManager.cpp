@@ -448,24 +448,30 @@ namespace Battle
 		if (this->_rightComboCtr)
 			this->_rightComboCtr--;
 		if (this->_rightCharacter->_comboCtr) {
+			auto superRate = this->_rightCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (5 << (this->_rightCharacter->_supersUsed - 2))) / 100.f)) : 1;
+			auto skillRate = this->_rightCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (1 << (this->_rightCharacter->_skillsUsed - 2))) / 100.f)) : 1;
+
 			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
 			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
 			this->_leftVoidLimit    = this->_rightCharacter->_limit[1];
 			this->_leftMatterLimit  = this->_rightCharacter->_limit[2];
 			this->_leftSpiritLimit  = this->_rightCharacter->_limit[3];
 			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
-			this->_leftProration    = this->_rightCharacter->_prorate;
+			this->_leftProration    = this->_rightCharacter->_prorate * superRate * skillRate;
 			this->_leftCounter      = this->_rightCharacter->_counter;
 			this->_leftComboCtr     = 120;
 		}
 		if (this->_leftCharacter->_comboCtr) {
+			auto superRate = this->_leftCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (5 << (this->_leftCharacter->_supersUsed - 2))) / 100.f)) : 1;
+			auto skillRate = this->_leftCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (1 << (this->_leftCharacter->_skillsUsed - 2))) / 100.f)) : 1;
+
 			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
 			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
 			this->_rightVoidLimit    = this->_leftCharacter->_limit[1];
 			this->_rightMatterLimit  = this->_leftCharacter->_limit[2];
 			this->_rightSpiritLimit  = this->_leftCharacter->_limit[3];
 			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
-			this->_rightProration    = this->_leftCharacter->_prorate;
+			this->_rightProration    = this->_leftCharacter->_prorate * superRate * skillRate;
 			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
