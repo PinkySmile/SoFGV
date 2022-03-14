@@ -19775,10 +19775,6 @@
                         "x": 90,
                         "y": 130
                     },
-                    "speed": {
-                        "x": 4,
-                        "y": 0
-                    },
                     "spirit_limit": 10,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
@@ -19822,10 +19818,6 @@
                     "size": {
                         "x": 90,
                         "y": 130
-                    },
-                    "speed": {
-                        "x": 6,
-                        "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
