@@ -1335,7 +1335,7 @@ namespace Battle
 	int Character::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
-		bool isTyped = (action >= ACTION_5M) * 100;
+		unsigned isTyped = (action >= ACTION_5M) * 100;
 
 		if (action < 100)
 			return -1;
