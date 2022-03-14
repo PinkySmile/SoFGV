@@ -686,7 +686,7 @@ namespace Battle
 
 		game.logger.info("Loading replay " + path);
 		stream.read(reinterpret_cast<char *>(&magic), 4);
-		game.logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + sd::to_string(magic));
+		game.logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + std::to_string(magic));
 		if (magic != expectedMagic)
 			throw std::invalid_argument("INVALID_MAGIC");
 		stream2 >> json;
