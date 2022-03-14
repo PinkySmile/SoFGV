@@ -3076,7 +3076,7 @@ namespace Battle
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);
 
-		assert(!data.oFlag.ultimate ||chr);
+		assert(!data.oFlag.ultimate || chr);
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
 		counter &= this->_action != ACTION_GROUND_SLAM;

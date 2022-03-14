@@ -110,7 +110,6 @@ namespace Battle
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
-		auto &stage = this->_stages[this->_stage];
 
 		if (this->_stage == -1) {
 			this->_platform = -1;
@@ -118,6 +117,7 @@ namespace Battle
 		}
 
 		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
+		auto &stage = this->_stages[this->_stage];
 
 		if (this->_platform == -1)
 			this->_platform = dist3(game.battleRandom);
