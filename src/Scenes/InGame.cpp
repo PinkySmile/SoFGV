@@ -394,27 +394,27 @@ namespace Battle
 
 			game.screen->fillColor(sf::Color::White);
 			switch (prio) {
-			case 7:
+			case 800:
 				game.screen->fillColor(sf::Color::Red);
 				str += " | Ultimate";
 				break;
-			case 6:
+			case 700:
 				game.screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
 				str += " | Super";
 				break;
-			case 5:
+			case 500:
 				str += " | Typed skill";
 				break;
-			case 4:
+			case 400:
 				str += " | Skill";
 				break;
-			case 3:
+			case 300:
 				str += " | Typed command normal";
 				break;
-			case 2:
+			case 200:
 				str += " | Command normal";
 				break;
-			case 1:
+			case 100:
 				str += " | Typed light attack";
 				break;
 			case 0:
