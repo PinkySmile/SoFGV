@@ -244,6 +244,7 @@ namespace Battle
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
+		game.battleRandom();
 		if (lInputs.horizontalAxis == -1) {
 			game.soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_leftPos == -1)
@@ -312,17 +313,18 @@ namespace Battle
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
+		game.battleRandom();
 		if (this->_stage != -1) {
 			if (lInputs.horizontalAxis == -1 || rInputs.horizontalAxis == -1) {
 				game.soundMgr.play(BASICSOUND_MENU_MOVE);
-				if (this->_platform == 0)
+				if (this->_platform == -1)
 					this->_platform = static_cast<int>(this->_stages[this->_stage].platforms.size());
 				this->_platform--;
 			} else if (lInputs.horizontalAxis == 1 || rInputs.horizontalAxis == 1) {
 				game.soundMgr.play(BASICSOUND_MENU_MOVE);
 				this->_platform++;
 				if (this->_platform == static_cast<int>(this->_stages[this->_stage].platforms.size()))
-					this->_platform = 0;
+					this->_platform = -1;
 			}
 		}
 		if (lInputs.verticalAxis == -1 || rInputs.verticalAxis == -1) {
