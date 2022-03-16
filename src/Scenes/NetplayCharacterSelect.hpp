@@ -13,6 +13,18 @@ namespace Battle
 {
 	class NetplayCharacterSelect : public CharacterSelect, public NetplayScene {
 	private:
+#pragma pack(push, 1)
+		struct Data {
+			int _leftPos;
+			int _rightPos;
+			int _leftPalette;
+			int _rightPalette;
+			int _stage;
+			int _platform;
+			bool _selectingStage;
+		};
+#pragma pack(pop)
+
 		void _saveState(void *data, int *len) override;
 		void _loadState(void *data) override;
 		IScene *_realUpdate() override;

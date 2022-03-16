@@ -38,27 +38,31 @@ namespace Battle
 	void NetplayCharacterSelect::_saveState(void *data, int *len)
 	{
 		if (data) {
-			auto savedData = reinterpret_cast<int *>(data);
+			auto savedData = reinterpret_cast<Data *>(data);
 
-			savedData[0] = this->_leftPos;
-			savedData[1] = this->_rightPos;
-			savedData[2] = this->_leftPalette;
-			savedData[3] = this->_rightPalette;
-			savedData[4] = this->_selectingStage;
+			savedData->_leftPos = this->_leftPos;
+			savedData->_rightPos = this->_rightPos;
+			savedData->_leftPalette = this->_leftPalette;
+			savedData->_rightPalette = this->_rightPalette;
+			savedData->_stage = this->_stage;
+			savedData->_platform = this->_platform;
+			savedData->_selectingStage = this->_selectingStage;
 		}
 		if (len)
-			*len = 5 * sizeof(int);
+			*len = sizeof(Data);
 	}
 
 	void NetplayCharacterSelect::_loadState(void *data)
 	{
-		auto savedData = reinterpret_cast<int *>(data);
+		auto savedData = reinterpret_cast<Data *>(data);
 
-		this->_leftPos = savedData[0];
-		this->_rightPos = savedData[1];
-		this->_leftPalette = savedData[2];
-		this->_rightPalette = savedData[3];
-		this->_selectingStage = savedData[4];
+		this->_leftPos = savedData->_leftPos;
+		this->_rightPos = savedData->_rightPos;
+		this->_leftPalette = savedData->_leftPalette;
+		this->_rightPalette = savedData->_rightPalette;
+		this->_stage = savedData->_stage;
+		this->_platform = savedData->_platform;
+		this->_selectingStage = savedData->_selectingStage;
 	}
 
 	IScene *NetplayCharacterSelect::_realUpdate()

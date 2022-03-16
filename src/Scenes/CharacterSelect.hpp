@@ -68,6 +68,9 @@ namespace Battle
 		std::shared_ptr<IInput> _rightInput;
 		mutable std::vector<StageEntry> _stages;
 		mutable std::vector<CharacterEntry> _entries;
+		bool _practice = false;
+
+		//Game State
 		int _leftPos = 0;
 		int _rightPos = 0;
 		int _leftPalette = 0;
@@ -75,7 +78,6 @@ namespace Battle
 		int _stage = 0;
 		int _platform = 0;
 		bool _selectingStage = false;
-		bool _practice = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
 		virtual InGame *_launchGame();
