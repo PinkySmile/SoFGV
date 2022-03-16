@@ -5,7 +5,11 @@
 #ifndef BATTLE_VERSION_H
 #define BATTLE_VERSION_H
 
+#ifdef _DEBUG
+#define VERSION_STR "alpha 0.0.2 DEBUG"
+#else
 #define VERSION_STR "alpha 0.0.2"
+#endif
 #define REPLAY_MAGIC 0xF153E8DC
 
 unsigned getMagic();

@@ -199,6 +199,9 @@ namespace Battle
 		if (this->_nextScene)
 			return this->_nextScene;
 
+		game.battleMgr->getLeftCharacter()->showAttributes = true;
+		game.battleMgr->getRightCharacter()->showAttributes = true;
+
 		auto linput = game.battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game.battleMgr->getRightCharacter()->getInput();
 
