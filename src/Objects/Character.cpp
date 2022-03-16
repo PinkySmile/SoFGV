@@ -991,8 +991,6 @@ namespace Battle
 					return false;
 			return !this->_odCooldown;
 		}
-		if (isParryAction(action))
-			return this->_guardBar;
 		if (isRomanCancelAction(action))
 			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action);
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
@@ -1035,6 +1033,8 @@ namespace Battle
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
+		if (isParryAction(action))
+			return this->_guardBar;
 		return false;
 	}
 
@@ -1207,7 +1207,7 @@ namespace Battle
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 400 && this->getAttackTier(action) < 600;
 		game.logger.info("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
-			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 30;
+			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 60;
 
 			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
