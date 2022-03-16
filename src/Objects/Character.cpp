@@ -991,6 +991,8 @@ namespace Battle
 					return false;
 			return !this->_odCooldown;
 		}
+		if (isParryAction(action))
+			return !this->_guardBar;
 		if (isRomanCancelAction(action))
 			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action);
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
@@ -1205,11 +1207,21 @@ namespace Battle
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 400 && this->getAttackTier(action) < 600;
 		game.logger.info("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
+			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 30;
+
 			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game.soundMgr.play(BASICSOUND_PARRY);
+			this->_guardRegenCd = 120;
+			if (this->_guardBar > loss)
+				this->_guardBar -= loss;
+			else {
+				this->_guardBar = 0;
+				this->_guardCooldown = this->_maxGuardCooldown;
+				game.soundMgr.play(BASICSOUND_GUARD_BREAK);
+			}
 		}
 		if (
 			action == ACTION_IDLE ||
@@ -3001,7 +3013,7 @@ namespace Battle
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
-		if (!Character::isParryAction(this->_action))
+		if (!isParryAction(this->_action))
 			this->_guardRegenCd = 120;
 		game.battleMgr->addHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
