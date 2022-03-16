@@ -6137,7 +6137,7 @@
                         "width": 40
                     },
                     "defense_flag": 520,
-                    "duration": 6,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 50,
@@ -6216,7 +6216,7 @@
                         "width": 40
                     },
                     "defense_flag": 66056,
-                    "duration": 6,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 139,
@@ -6289,7 +6289,7 @@
                         "width": 40
                     },
                     "defense_flag": 776,
-                    "duration": 6,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 189,
@@ -8717,7 +8717,37 @@
                         "width": 40
                     },
                     "defense_flag": 24576,
-                    "duration": 5,
+                    "hurt_boxes": [
+                        {
+                            "height": 191,
+                            "left": -22,
+                            "top": -192,
+                            "width": 47
+                        }
+                    ],
+                    "mana_cost": 100,
+                    "offense_flag": 58720256,
+                    "size": {
+                        "x": 48,
+                        "y": 188
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 294,
+                        "top": 684,
+                        "width": 24
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
+                    },
+                    "defense_flag": 24576,
+                    "duration": 4,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -9326,10 +9356,10 @@
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
                         {
-                            "height": 217,
-                            "left": -45,
-                            "top": -201,
-                            "width": 92
+                            "height": 256,
+                            "left": -55,
+                            "top": -239,
+                            "width": 115
                         }
                     ],
                     "hit_stop": 12,
@@ -15366,8 +15396,7 @@
                             "width": 54
                         }
                     ],
-                    "mana_cost": 4,
-                    "offense_flag": 16779280,
+                    "offense_flag": 2064,
                     "offset": {
                         "x": 15,
                         "y": 0
