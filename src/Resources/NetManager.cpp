@@ -5,13 +5,12 @@
 #ifdef _WIN32
 #include <winsock.h>
 #endif
+#include "version.h"
 #include "NetManager.hpp"
 #include "Game.hpp"
 #include "../Scenes/NetplayInGame.hpp"
 #include "../Scenes/TitleScreen.hpp"
 #include "../Logger.hpp"
-
-#define VERSION_STR "stickman fighter alpha 0.0.1"
 
 namespace Battle
 {
