@@ -5,7 +5,7 @@
 #ifndef BATTLE_VERSION_H
 #define BATTLE_VERSION_H
 
-#define VERSION_STR "alpha 0.0.1"
+#define VERSION_STR "alpha 0.0.2"
 #define REPLAY_MAGIC 0xF153E8DC
 
 unsigned getMagic();

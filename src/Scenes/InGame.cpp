@@ -191,6 +191,7 @@ namespace Battle
 			this->_renderMoveList();
 		else if (this->_paused)
 			this->_renderPause();
+		game.battleMgr->renderInputs();
 	}
 
 	IScene *InGame::update()
