@@ -147,8 +147,14 @@ else ()
 	)
 endif ()
 
+if (WIN32)
+	set(FDICON src/fdeditor.rc)
+else()
+	set(FDICON)
+endif()
 add_executable(
 	FrameDataEditor
+	${FDICON}
 	src/dataEditor.cpp
 	src/Data/Color.hpp
 	src/Data/Vector.hpp
@@ -212,7 +218,10 @@ add_executable(
 	src/Scenes/PracticeInGame.hpp
 	src/Objects/Characters/Stickman.cpp
 	src/Objects/Characters/Stickman.hpp
-	src/Inputs/ReplayInput.cpp src/Inputs/ReplayInput.hpp src/Resources/version.h)
+	src/Inputs/ReplayInput.cpp
+	src/Inputs/ReplayInput.hpp
+	src/Resources/version.h
+)
 
 if (WIN32)
 	target_link_libraries(
