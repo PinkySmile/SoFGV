@@ -97,8 +97,8 @@ namespace Battle
 		sf::Texture _interruptedLogo;
 		sf::Sprite _interruptedSprite;
 		bool _interrupted = false;
-		NetplayScene *_netScene;
-		GGPOSession *_ggpoSession;
+		NetplayScene *_netScene = nullptr;
+		GGPOSession *_ggpoSession = nullptr;
 		std::shared_ptr<IScene> _scene;
 		std::shared_ptr<NetplayInGame> _inGame;
 		std::shared_ptr<NetplayCharacterSelect> _characterSelect;
