@@ -73,8 +73,18 @@ namespace Battle
 	InGame *NetplayCharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
+		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
+
+		if (this->_stage == -1) {
+			this->_platform = -1;
+			this->_stage = dist2(game->battleRandom);
+		}
+
+		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
 		auto &stage = this->_stages[this->_stage];
 
+		if (this->_platform == -1)
+			this->_platform = dist3(game->battleRandom);
 		if (this->_leftPos < 0)
 			this->_leftPalette = 0;
 		if (this->_rightPos < 0)
@@ -94,11 +104,11 @@ namespace Battle
 			this->_rightPalette++;
 			this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
 		}
+		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 
 		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
 
-		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		return new NetplayInGame(
 			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
 			stage.platforms[this->_platform],
