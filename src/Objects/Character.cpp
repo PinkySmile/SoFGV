@@ -1033,8 +1033,8 @@ namespace Battle
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
-		if (isParryAction(action))
-			return this->_guardBar;
+		if (isParryAction(action) && this->getCurrentFrameData()->dFlag.canBlock)
+			return !this->_guardCooldown && !this->_blockStun;
 		return false;
 	}
 
