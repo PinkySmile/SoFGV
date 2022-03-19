@@ -11,40 +11,40 @@
 
 namespace Battle
 {
-	Game game;
-
-	static void loadSound(SoundManager &manager, const std::string &path, unsigned expectedIndex)
-	{
-		auto i = manager.load(path);
-
-		assert(i == expectedIndex);
-	}
+	Game *game = nullptr;
 
 	Game::Game() :
 		random(std::random_device()())
 	{
-		loadSound(this->soundMgr, "assets/sfxs/se/039.wav", BASICSOUND_MENU_MOVE);
-		loadSound(this->soundMgr, "assets/sfxs/se/041.wav", BASICSOUND_MENU_CANCEL);
-		loadSound(this->soundMgr, "assets/sfxs/se/040.wav", BASICSOUND_MENU_CONFIRM);
-		loadSound(this->soundMgr, "assets/sfxs/se/022.wav", BASICSOUND_KNOCKDOWN);
-		loadSound(this->soundMgr, "assets/sfxs/se/044.wav", BASICSOUND_KNOCK_OUT);
-		loadSound(this->soundMgr, "assets/sfxs/se/038.wav", BASICSOUND_GUARD_BREAK);
-		loadSound(this->soundMgr, "assets/sfxs/se/047.wav", BASICSOUND_GUARD_RECOVER);
-		loadSound(this->soundMgr, "assets/sfxs/se/055.wav", BASICSOUND_OVERDRIVE);
-		loadSound(this->soundMgr, "assets/sfxs/se/036.wav", BASICSOUND_OVERDRIVE_RECOVER);
-		loadSound(this->soundMgr, "assets/sfxs/se/043.wav", BASICSOUND_HIGH_JUMP);
-		loadSound(this->soundMgr, "assets/sfxs/se/030.wav", BASICSOUND_LAND);
-		loadSound(this->soundMgr, "assets/sfxs/se/025.wav", BASICSOUND_COUNTER_HIT);
-		loadSound(this->soundMgr, "assets/sfxs/se/031.wav", BASICSOUND_DASH);
-		loadSound(this->soundMgr, "assets/sfxs/se/020.wav", BASICSOUND_BLOCK);
-		loadSound(this->soundMgr, "assets/sfxs/se/021.wav", BASICSOUND_WRONG_BLOCK);
-		loadSound(this->soundMgr, "assets/sfxs/se/053.wav", BASICSOUND_SPELLFLASH);
-		loadSound(this->soundMgr, "assets/sfxs/se/035.wav", BASICSOUND_ROMAN_CANCEL);
-		loadSound(this->soundMgr, "assets/sfxs/se/033.wav", BASICSOUND_ULTIMATE);
-		loadSound(this->soundMgr, "assets/sfxs/se/054.wav", BASICSOUND_PARRY);
-		loadSound(this->soundMgr, "assets/sfxs/se/072.wav", BASICSOUND_BEST_PARRY);
-		loadSound(this->soundMgr, "assets/sfxs/se/022.wav", BASICSOUND_WALL_BOUNCE);
-		loadSound(this->soundMgr, "assets/sfxs/se/022.wav", BASICSOUND_GROUND_SLAM);
+		assert(!game);
+		game = this;
+		try {
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/039.wav"), BASICSOUND_MENU_MOVE);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/041.wav"), BASICSOUND_MENU_CANCEL);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/040.wav"), BASICSOUND_MENU_CONFIRM);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_KNOCKDOWN);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/044.wav"), BASICSOUND_KNOCK_OUT);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/038.wav"), BASICSOUND_GUARD_BREAK);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/047.wav"), BASICSOUND_GUARD_RECOVER);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/055.wav"), BASICSOUND_OVERDRIVE);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/036.wav"), BASICSOUND_OVERDRIVE_RECOVER);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/043.wav"), BASICSOUND_HIGH_JUMP);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/030.wav"), BASICSOUND_LAND);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/025.wav"), BASICSOUND_COUNTER_HIT);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/031.wav"), BASICSOUND_DASH);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/020.wav"), BASICSOUND_BLOCK);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/021.wav"), BASICSOUND_WRONG_BLOCK);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/053.wav"), BASICSOUND_SPELLFLASH);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/035.wav"), BASICSOUND_ROMAN_CANCEL);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/033.wav"), BASICSOUND_ULTIMATE);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/054.wav"), BASICSOUND_PARRY);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/072.wav"), BASICSOUND_BEST_PARRY);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_WALL_BOUNCE);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_GROUND_SLAM);
+		} catch (...) {
+			game = nullptr;
+			throw;
+		}
 	}
 
 	namespace GGPONetplay
@@ -77,8 +77,8 @@ namespace Battle
 
 		bool __cdecl startGame(const char *)
 		{
-			game.battleRandom.seed(0);
-			game.networkMgr.beginSession();
+			game->battleRandom.seed(0);
+			game->networkMgr.beginSession();
 			return true;
 		}
 
@@ -86,9 +86,9 @@ namespace Battle
 		{
 			std::stringstream str;
 
-			game.networkMgr.save(reinterpret_cast<void **>(buffer), len);
+			game->networkMgr.save(reinterpret_cast<void **>(buffer), len);
 			*checksum = fletcher32_checksum(reinterpret_cast<short *>(*buffer), *len / 2);
-			game.logger.debug("Saved frame to buffer @" + std::to_string((ptrdiff_t)*buffer) + " (len " + std::to_string(*len) + " bytes, checksum " + std::to_string(*checksum) + ")");
+			game->logger.debug("Saved frame to buffer @" + std::to_string((ptrdiff_t)*buffer) + " (len " + std::to_string(*len) + " bytes, checksum " + std::to_string(*checksum) + ")");
 #ifdef _DEBUG
 			str << "Data dump" << std::endl;
 			for (int i = 0; i < *len; i += 0x10) {
@@ -108,15 +108,15 @@ namespace Battle
 				if (i + 0x10 < *len)
 					str << std::endl;
 			}
-			game.logger.debug(str.str());
+			game->logger.debug(str.str());
 #endif
 			return true;
 		}
 
 		bool __cdecl loadState(unsigned char *buffer, int len)
 		{
-			game.networkMgr.load(buffer);
-			game.logger.debug("Loaded frame from buffer @" + std::to_string((ptrdiff_t)buffer) + " (len " + std::to_string(len) + " bytes)");
+			game->networkMgr.load(buffer);
+			game->logger.debug("Loaded frame from buffer @" + std::to_string((ptrdiff_t)buffer) + " (len " + std::to_string(len) + " bytes)");
 			return true;
 		}
 
@@ -128,19 +128,27 @@ namespace Battle
 		void __cdecl freeBuffer(void *buffer)
 		{
 			NetManager::free(buffer);
-			game.logger.debug("Deleted buffer @" + std::to_string((ptrdiff_t)buffer));
+			game->logger.debug("Deleted buffer @" + std::to_string((ptrdiff_t)buffer));
 		}
 
 		bool __cdecl updateGame(int)
 		{
-			game.networkMgr.advanceState();
+			game->networkMgr.advanceState();
 			return true;
 		}
 
 		bool __cdecl onEvent(GGPOEvent *info)
 		{
-			game.networkMgr.consumeEvent(info);
+			game->networkMgr.consumeEvent(info);
 			return true;
 		}
 	}
+}
+
+int __attribute__((noreturn)) _my_assert(const char *expr, const char *file, int line)
+{
+	auto err = "Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
+
+	Battle::game->logger.fatal(err);
+	throw AssertionFailedException(err);
 }

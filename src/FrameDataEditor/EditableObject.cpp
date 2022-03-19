@@ -37,14 +37,14 @@ namespace Battle
 		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
-		game.textureMgr.render(this->_sprite);
+		game->textureMgr.render(this->_sprite);
 
 		rect.setOutlineThickness(2);
 		rect.setOutlineColor(sf::Color::White);
 		rect.setFillColor(sf::Color::Black);
 		rect.setPosition(this->_position - Vector2f{4, 4});
 		rect.setSize({9, 9});
-		game.screen->draw(rect);
+		game->screen->draw(rect);
 	}
 
 	void EditableObject::update()
@@ -57,7 +57,7 @@ namespace Battle
 			this->_animation++;
 			this->_animation %= this->_moves.at(this->_action)[this->_actionBlock].size();
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-			game.soundMgr.play(data->soundHandle);
+			game->soundMgr.play(data->soundHandle);
 		}
 		this->_position += this->_speed;
 		this->_speed.y += this->_gravity;

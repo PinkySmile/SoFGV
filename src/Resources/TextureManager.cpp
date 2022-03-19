@@ -2,7 +2,6 @@
 // Created by PinkySmile on 18/09/2021
 //
 
-#include <cassert>
 #include "TextureManager.hpp"
 #include "Game.hpp"
 #include "../Logger.hpp"
@@ -15,7 +14,7 @@ namespace Battle
 			file[pos] = '/';
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
-			game.logger.debug("Returning already loaded file " + file);
+			game->logger.debug("Returning already loaded file " + file);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
 			return this->_allocatedTextures[file].first;
@@ -32,7 +31,7 @@ namespace Battle
 			this->_freedIndexes.pop_back();
 		}
 
-		game.logger.debug("Loading file " + file);
+		game->logger.debug("Loading file " + file);
 		if (!this->_textures[index].loadFromFile(file)) {
 			this->_freedIndexes.push_back(index);
 			return 0;
@@ -52,7 +51,7 @@ namespace Battle
 		bool ok = false;
 		Vector2u realSize;
 
-		assert(palette.first.size() == palette.second.size());
+		my_assert_eq(palette.first.size(), palette.second.size());
 		if (palette.first.empty())
 			return this->load(file, size);
 		for (auto pos = allocName.find('\\'); pos != std::string::npos; pos = allocName.find('\\'))
@@ -67,7 +66,7 @@ namespace Battle
 		}
 		if (this->_allocatedTextures[allocName].second != 0) {
 			this->_allocatedTextures[allocName].second++;
-			game.logger.debug("Returning already loaded paletted file " + allocName);
+			game->logger.debug("Returning already loaded paletted file " + allocName);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[allocName].first].getSize();
 			return this->_allocatedTextures[allocName].first;
@@ -142,16 +141,16 @@ namespace Battle
 			if (attr.first == id && attr.second) {
 				attr.second--;
 				if (attr.second) {
-					game.logger.debug("Remove ref to " + loadedPath);
+					game->logger.debug("Remove ref to " + loadedPath);
 					return;
 				}
-				game.logger.debug("Destroying texture " + loadedPath);
+				game->logger.debug("Destroying texture " + loadedPath);
 				break;
 			}
 
 		auto it = this->_textures.find(id);
 
-		assert(it != this->_textures.end());
+		my_assert(it != this->_textures.end());
 		this->_textures.erase(it);
 		this->_freedIndexes.push_back(id);
 	}
@@ -161,7 +160,7 @@ namespace Battle
 		if (!sprite.textureHandle)
 			return;
 		sprite.setTexture(this->_textures.at(sprite.textureHandle));
-		game.screen->displayElement(sprite);
+		game->screen->displayElement(sprite);
 	}
 
 	void TextureManager::addRef(unsigned int id)
@@ -171,8 +170,8 @@ namespace Battle
 		for (auto &[loadedPath, attr] : this->_allocatedTextures)
 			if (attr.first == id && attr.second) {
 				attr.second++;
-				assert(attr.second > 1);
-				game.logger.debug("Adding ref to " + loadedPath);
+				my_assert(attr.second > 1);
+				game->logger.debug("Adding ref to " + loadedPath);
 				return;
 			}
 	}

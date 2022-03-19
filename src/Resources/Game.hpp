@@ -20,6 +20,20 @@
 #include "NetManager.hpp"
 #include "../Logger.hpp"
 
+
+#define my_assert(_Expression) \
+ (void) \
+ ((!!(_Expression)) || \
+  (_my_assert(#_Expression, __FILE__,__LINE__)))
+#define my_assert_eq(_Expression, _Expression2)                                                \
+	do {                                                                                   \
+ 		auto a = (_Expression);                                                        \
+		auto b = (_Expression2);                                                       \
+		                                                                               \
+		if (a != b)                                                                    \
+			_my_assert_eq(#_Expression, #_Expression2, a, b, __FILE__,__LINE__);   \
+	} while (0)
+
 namespace Battle
 {
 	enum BasicSounds {
@@ -75,8 +89,26 @@ namespace Battle
 		bool __cdecl updateGame(int flags);
 		bool __cdecl onEvent(GGPOEvent *info);
 	}
-	extern Game game;
+	extern Game *game;
 }
 
+class AssertionFailedException : public std::exception {
+private:
+	std::string _msg;
+
+public:
+	AssertionFailedException(const std::string &msg) : _msg(std::move(msg)) {}
+	const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override { return this->_msg.c_str(); }
+};
+
+template<typename T, typename T2>
+int __attribute__((noreturn)) _my_assert_eq(const char *expr, const char *expr2, T exprR, T2 expr2R, const char *file, int line)
+{
+	auto err = "Assertion " + std::string(expr) + " (" + std::to_string(exprR) + ") == " + expr2 + " (" + std::to_string(expr2R) + ") failed in " + file + " at line " + std::to_string(line);
+
+	Battle::game->logger.fatal(err);
+	throw AssertionFailedException(err);
+}
+int __attribute__((noreturn)) _my_assert(const char *expr, const char *file, int line);
 
 #endif //BATTLE_GAME_HPP

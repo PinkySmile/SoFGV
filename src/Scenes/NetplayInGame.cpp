@@ -16,28 +16,28 @@ namespace Battle
 	{
 		sf::View view{{-50, -600, 1100, 700}};
 
-		game.logger.info("NetplayGame scene created");
-		Battle::game.screen->setView(view);
+		game->logger.info("NetplayGame scene created");
+		Battle::game->screen->setView(view);
 	}
 
 	NetplayInGame::~NetplayInGame()
 	{
-		game.logger.debug("NetplayInGame scene destroyed");
+		game->logger.debug("NetplayInGame scene destroyed");
 	}
 
 	void NetplayInGame::consumeEvent(const sf::Event &event)
 	{
 		InGame::consumeEvent(event);
-		game.networkMgr.consumeEvent(event);
+		game->networkMgr.consumeEvent(event);
 	}
 
 	IScene *NetplayInGame::update()
 	{
-		auto linput = game.battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game.battleMgr->getRightCharacter()->getInput();
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
-		if( !game.networkMgr.isConnected())
-			return new TitleScreen(game.P1, game.P2);
+		if( !game->networkMgr.isConnected())
+			return new TitleScreen(game->P1, game->P2);
 		if (this->_moveList)
 			this->_moveListUpdate();
 		else if (!this->_paused) {
@@ -48,36 +48,36 @@ namespace Battle
 		} else
 			this->_pauseUpdate();
 		if (!this->_nextScene)
-			game.networkMgr.nextFrame();
+			game->networkMgr.nextFrame();
 		else
-			return game.networkMgr.endSession(), new TitleScreen(game.P1, game.P2);
+			return game->networkMgr.endSession(), new TitleScreen(game->P1, game->P2);
 		return this->_nextScene;
 	}
 
 	void NetplayInGame::render() const
 	{
 		InGame::render();
-		game.networkMgr.postRender();
+		game->networkMgr.postRender();
 	}
 
 	void NetplayInGame::_saveState(void *data, int *len)
 	{
-		auto size = game.battleMgr->getBufferSize();
+		auto size = game->battleMgr->getBufferSize();
 
 		if (data)
-			game.battleMgr->copyToBuffer(data);
+			game->battleMgr->copyToBuffer(data);
 		if (len)
 			*len = size;
 	}
 
 	void NetplayInGame::_loadState(void *data)
 	{
-		game.battleMgr->restoreFromBuffer(data);
+		game->battleMgr->restoreFromBuffer(data);
 	}
 
 	IScene *NetplayInGame::_realUpdate()
 	{
-		if (!Battle::game.battleMgr->update())
+		if (!Battle::game->battleMgr->update())
 			return new NetplayCharacterSelect();
 		return nullptr;
 	}

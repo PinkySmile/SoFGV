@@ -6,6 +6,11 @@
 #include "Resources/Game.hpp"
 #include "FrameDataEditor/EditableObject.hpp"
 #include "Utils.hpp"
+#ifdef _WIN32
+#include <windows.h>
+#include <dbghelp.h>
+#include <crtdbg.h>
+#endif
 
 auto c = std::make_shared<bool>(false);
 Battle::Logger logger("./editor.log");
@@ -221,7 +226,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto actionName = panel->get<tgui::Button>("ActionName");
 	auto name = Battle::actionNames.find(static_cast<Battle::CharacterActions>(object->_action));
 
-	Battle::game.logger.debug("Soft refresh");
+	Battle::game->logger.debug("Soft refresh");
 	*c = true;
 	actionName->setText(name == Battle::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
 	dFlags->setText(std::to_string(data.dFlag.flags));
@@ -288,7 +293,7 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &
 	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto frame = panel->get<tgui::SpinButton>("Frame");
 
-	Battle::game.logger.debug("Hard refresh");
+	Battle::game->logger.debug("Hard refresh");
 	panel->setEnabled(static_cast<bool>(object));
 	if (!object)
 		return gui.get<tgui::Panel>("Boxes")->removeAllWidgets();
@@ -1646,7 +1651,7 @@ void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableO
 			return;
 		}
 	}
-	assert(false);
+	my_assert(false);
 }
 
 void	quitCallback()
@@ -1862,7 +1867,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto boxes = gui.get<tgui::Panel>("Boxes");
 
-	Battle::game.logger.debug("Placing hooks");
+	Battle::game->logger.debug("Placing hooks");
 	placeAnimPanelHooks(gui, panel, boxes, object);
 
 	bar->setMenuEnabled({"New"}, false);
@@ -2111,10 +2116,10 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<Battle::EditableO
 
 void	run()
 {
-	Battle::game.screen = std::make_unique<Battle::Screen>("Frame data editor");
+	Battle::game->screen = std::make_unique<Battle::Screen>("Frame data editor");
 
 	std::unique_ptr<Battle::EditableObject> object;
-	tgui::Gui gui{*Battle::game.screen};
+	tgui::Gui gui{*Battle::game->screen};
 	sf::Image icon;
 	sf::Event event;
 	sf::Texture stage;
@@ -2125,7 +2130,7 @@ void	run()
 	sprite.setPosition({stage.getSize().x * 1.f / -2.f, stage.getSize().y * 1.f / -1.4f});
 	sprite.setScale(1, 1);
 	if (icon.loadFromFile("assets/editorIcon.png"))
-		Battle::game.screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+		Battle::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	gui.loadWidgetsFromFile("assets/gui/editor.gui");
 
@@ -2136,25 +2141,25 @@ void	run()
 	sf::View guiView{
 		{
 			0, 0,
-			static_cast<float>(Battle::game.screen->getSize().x),
-			static_cast<float>(Battle::game.screen->getSize().y)
+			static_cast<float>(Battle::game->screen->getSize().x),
+			static_cast<float>(Battle::game->screen->getSize().y)
 		}
 	};
 
 	placeGuiHooks(gui, object);
 	view.setCenter(panel->getSize().x / 2, -300);
-	view.setSize(Battle::game.screen->getSize().x, Battle::game.screen->getSize().y);
-	Battle::game.screen->setView(view);
+	view.setSize(Battle::game->screen->getSize().x, Battle::game->screen->getSize().y);
+	Battle::game->screen->setView(view);
 	gui.setView(guiView);
-	while (Battle::game.screen->isOpen()) {
+	while (Battle::game->screen->isOpen()) {
 		timer++;
-		Battle::game.screen->clear(sf::Color::Cyan);
-		Battle::game.screen->draw(sprite);
+		Battle::game->screen->clear(sf::Color::Cyan);
+		Battle::game->screen->draw(sprite);
 		if (object) {
 			if (timer >= updateTimer || updateAnyway) {
 				object->update();
 				if (object->_animationCtr == 0)
-					Battle::game.soundMgr.play(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].soundHandle);
+					Battle::game->soundMgr.play(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].soundHandle);
 				updateAnyway = false;
 				progress->setValue(object->_animation);
 				timer -= updateTimer;
@@ -2162,7 +2167,7 @@ void	run()
 			object->render();
 		}
 
-		while (Battle::game.screen->pollEvent(event)) {
+		while (Battle::game->screen->pollEvent(event)) {
 			gui.handleEvent(event);
 			if (event.type == sf::Event::Closed) {
 				quitRequest = true;
@@ -2177,7 +2182,7 @@ void	run()
 
 				view.setCenter(panel->getSize().x / 2, -300);
 				view.setSize(event.size.width, event.size.height);
-				Battle::game.screen->setView(view);
+				Battle::game->screen->setView(view);
 				continue;
 			}
 			dragging &= sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -2196,10 +2201,10 @@ void	run()
 				handleDrag(gui, object, event.mouseMove.x, event.mouseMove.y);
 		}
 		gui.draw();
-		Battle::game.screen->display();
+		Battle::game->screen->display();
 		if (quitRequest) {
 			if (!object) {
-				Battle::game.screen->close();
+				Battle::game->screen->close();
 				continue;
 			}
 			quitRequest = false;
@@ -2233,10 +2238,10 @@ void	run()
 					return;
 				}
 				stream << j.dump(4) << std::endl;
-				Battle::game.screen->close();
+				Battle::game->screen->close();
 			}, std::weak_ptr<tgui::ChildWindow>(window));
 			window->get<tgui::Button>("No")->connect("Clicked", []{
-				Battle::game.screen->close();
+				Battle::game->screen->close();
 			});
 			window->get<tgui::Button>("Cancel")->connect("Clicked", [](std::weak_ptr<tgui::ChildWindow> self){
 				self.lock()->close();
@@ -2245,10 +2250,74 @@ void	run()
 	}
 }
 
+#ifdef _WIN32
+std::string getLastError(int err = GetLastError())
+{
+	char *s = nullptr;
+	std::string str;
+
+	FormatMessageA(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&s, 0, nullptr
+	);
+	str = s;
+	LocalFree(s);
+	return str;
+}
+
+LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
+{
+	char buf[MAX_PATH], buf2[MAX_PATH];
+
+	time_t timer;
+	char timebuffer[26];
+	struct tm* tm_info;
+
+	time(&timer);
+	tm_info = localtime(&timer);
+	strftime(timebuffer, 26, "%Y%m%d%H%M%S", tm_info);
+	sprintf(buf2, "crash_%s.dmp", timebuffer);
+
+	HANDLE hFile = CreateFile(buf2, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+	if (hFile != INVALID_HANDLE_VALUE)
+	{
+		MINIDUMP_EXCEPTION_INFORMATION md;
+		md.ThreadId = GetCurrentThreadId();
+		md.ExceptionPointers = ExPtr;
+		md.ClientPointers = FALSE;
+		BOOL win = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &md, 0, 0);
+
+		if (!win)
+			sprintf(buf, "Fatal exception caught.\nMiniDumpWriteDump failed.\n%s: %s", getLastError().c_str(), buf2);
+		else
+			sprintf(buf, "Fatal exception caught.\nMinidump created %s", buf2);
+		CloseHandle(hFile);
+	} else
+		sprintf(buf, "Fatal exception caught.\nCould not create file %s\n%s", buf2, getLastError().c_str());
+	Battle::game->logger.fatal(buf);
+	Utils::dispMsg("Fatal error", buf, MB_ICONERROR, &*Battle::game->screen);
+	exit(EXIT_FAILURE);
+}
+#endif
+
 int	main()
 {
-	Battle::game.logger.info("Starting editor.");
-	run();
-	Battle::game.logger.info("Goodbye !");
+#ifdef _WIN32
+	SetUnhandledExceptionFilter(UnhandledExFilter);
+#endif
+
+	try {
+		new Battle::Game();
+		Battle::game->logger.info("Starting editor.");
+		run();
+		Battle::game->logger.info("Goodbye !");
+	} catch (std::exception &e) {
+		Battle::game->logger.fatal(e.what());
+		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game->screen);
+		delete Battle::game;
+		return EXIT_FAILURE;
+	}
+	delete Battle::game;
 	return EXIT_SUCCESS;
 }

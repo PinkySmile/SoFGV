@@ -392,12 +392,12 @@ namespace Battle
 		index(index)
 	{
 		this->_fakeFrameData.setSlave();
-		this->_text.setFont(game.font);
+		this->_text.setFont(game->font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
 		this->_text.setOutlineThickness(2);
 		this->_text.setCharacterSize(10);
-		this->_text2.setFont(game.font);
+		this->_text2.setFont(game->font);
 		this->_text2.setFillColor(sf::Color::White);
 		this->_text2.setOutlineColor(sf::Color::Black);
 		this->_text2.setOutlineThickness(2);
@@ -423,19 +423,19 @@ namespace Battle
 	{
 		Object::render();
 		if (this->showAttributes) {
-			game.screen->draw(this->_text);
-			game.screen->draw(this->_text2);
+			game->screen->draw(this->_text);
+			game->screen->draw(this->_text2);
 		}
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
-				game.screen->displayElement({
+				game->screen->displayElement({
 					static_cast<int>(this->_position.x - this->_blockStun / 2),
 					static_cast<int>(10 - this->_position.y),
 					static_cast<int>(this->_blockStun),
 					10
 				}, sf::Color::White);
 			else
-				game.screen->displayElement(
+				game->screen->displayElement(
 					{static_cast<int>(this->_position.x - this->_blockStun / 2), static_cast<int>(10 - this->_position.y), static_cast<int>(this->_blockStun), 10},
 					this->_isGrounded() ? sf::Color::Red : sf::Color{0xFF, 0x80, 0x00}
 				);
@@ -451,12 +451,12 @@ namespace Battle
 			if (this->_odCooldown) {
 				this->_odCooldown--;
 				if (!this->_odCooldown)
-					game.soundMgr.play(BASICSOUND_OVERDRIVE_RECOVER);
+					game->soundMgr.play(BASICSOUND_OVERDRIVE_RECOVER);
 			}
 			if (this->_guardCooldown) {
 				this->_guardCooldown--;
 				if (!this->_guardCooldown)
-					game.soundMgr.play(BASICSOUND_GUARD_RECOVER);
+					game->soundMgr.play(BASICSOUND_GUARD_RECOVER);
 				this->_guardRegenCd = 0;
 			} else if (this->_guardRegenCd)
 				this->_guardRegenCd--;
@@ -576,7 +576,7 @@ namespace Battle
 			) {
 				if (!this->_restand) {
 					this->_blockStun = 0;
-					game.soundMgr.play(BASICSOUND_KNOCKDOWN);
+					game->soundMgr.play(BASICSOUND_KNOCKDOWN);
 					this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 				} else {
 					this->_restand = false;
@@ -1040,7 +1040,7 @@ namespace Battle
 
 	void Character::_onMoveEnd(const FrameData &lastData)
 	{
-		game.logger.debug(std::to_string(this->_action) + " ended");
+		game->logger.debug(std::to_string(this->_action) + " ended");
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
@@ -1080,7 +1080,7 @@ namespace Battle
 					return;
 				break;
 			case GROUNDTECH_RANDOM:
-				switch (game.random() % 3) {
+				switch (game->random() % 3) {
 				case 0:
 					break;
 				case 1:
@@ -1164,7 +1164,7 @@ namespace Battle
 		auto chr = dynamic_cast<Character *>(&other);
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		game.logger.debug(buffer);
+		game->logger.debug(buffer);
 		if (!data)
 			return;
 		if (chr) {
@@ -1176,7 +1176,7 @@ namespace Battle
 				chr->_matterMana += data->manaGain;
 		}
 		if (myData->dFlag.invulnerableArmor)
-			return game.battleMgr->addHitStop(data->hitStop);
+			return game->battleMgr->addHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		this->_speedReset = data->oFlag.resetSpeed;
 		if (
@@ -1196,7 +1196,7 @@ namespace Battle
 
 		if (this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
 			return true;
-		if ((this->_forceBlock & 7) && ((this->_forceBlock & RANDOM_BLOCK) == 0 || game.random() % 8 != 0) && data->dFlag.canBlock)
+		if ((this->_forceBlock & 7) && ((this->_forceBlock & RANDOM_BLOCK) == 0 || game->random() % 8 != 0) && data->dFlag.canBlock)
 			return true;
 		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
 	}
@@ -1205,7 +1205,7 @@ namespace Battle
 	{
 		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700;
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 400 && this->getAttackTier(action) < 600;
-		game.logger.info("Starting action " + actionToString(action));
+		game->logger.info("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
 			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 60;
 
@@ -1213,14 +1213,14 @@ namespace Battle
 			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
-			game.soundMgr.play(BASICSOUND_PARRY);
+			game->soundMgr.play(BASICSOUND_PARRY);
 			this->_guardRegenCd = 120;
 			if (this->_guardBar > loss)
 				this->_guardBar -= loss;
 			else {
 				this->_guardBar = 0;
 				this->_guardCooldown = this->_maxGuardCooldown;
-				game.soundMgr.play(BASICSOUND_GUARD_BREAK);
+				game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 			}
 		}
 		if (
@@ -1237,7 +1237,7 @@ namespace Battle
 			auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 
 			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
-				game.soundMgr.play(BASICSOUND_LAND);
+				game->soundMgr.play(BASICSOUND_LAND);
 				if (action == ACTION_IDLE)
 					return this->_forceStartMove(ACTION_LANDING);
 			}
@@ -2692,7 +2692,7 @@ namespace Battle
 				return true;
 			break;
 		case AIRTECH_RANDOM:
-			switch (game.random() % 4) {
+			switch (game->random() % 4) {
 			case 0:
 				if (this->_startMove(ACTION_FORWARD_AIR_TECH))
 					return true;
@@ -2987,7 +2987,7 @@ namespace Battle
 			if (found)
 				break;
 		}
-		assert(found);
+		my_assert(found);
 
 		auto height = 0;
 		auto pts = hurtbox.getIntersectionPoints(hitbox);
@@ -3009,13 +3009,13 @@ namespace Battle
 		bool low = (
 			this->_input->isPressed(INPUT_DOWN) ||
 			(this->_forceBlock & 7) == LOW_BLOCK ||
-			((this->_forceBlock & 7) == RANDOM_HEIGHT_BLOCK && game.random() % 2)
+			((this->_forceBlock & 7) == RANDOM_HEIGHT_BLOCK && game->random() % 2)
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
 		if (!isParryAction(this->_action))
 			this->_guardRegenCd = 120;
-		game.battleMgr->addHitStop(data.hitStop);
+		game->battleMgr->addHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3042,14 +3042,14 @@ namespace Battle
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
 				this->_blockStun = data.blockStun * 5 / 3;
-				game.soundMgr.play(BASICSOUND_WRONG_BLOCK);
+				game->soundMgr.play(BASICSOUND_WRONG_BLOCK);
 			} else {
 				if (this->_isGrounded())
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
 				this->_blockStun = data.blockStun;
-				game.soundMgr.play(BASICSOUND_BLOCK);
+				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
 			this->_processGuardLoss(wrongBlock);
 		} else if (wrongBlock)
@@ -3060,22 +3060,22 @@ namespace Battle
 			return;
 		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) //TRUE NEUTRAL
 			if (myData->dFlag.neutralBlock)
-				game.soundMgr.play(BASICSOUND_BLOCK);
+				game->soundMgr.play(BASICSOUND_BLOCK);
 			else
 				return this->_getHitByMove(other, data);
 		else if (data.oFlag.matterElement) {
 			if (myData->dFlag.voidBlock)
-				game.soundMgr.play(BASICSOUND_BLOCK);
+				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
 				return this->_getHitByMove(other, data);
 		} else if (data.oFlag.voidElement) {
 			if (myData->dFlag.spiritBlock)
-				game.soundMgr.play(BASICSOUND_BLOCK);
+				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock || myData->dFlag.matterBlock)
 				return this->_getHitByMove(other, data);
 		} else if (data.oFlag.spiritElement) {
 			if (myData->dFlag.matterBlock)
-				game.soundMgr.play(BASICSOUND_BLOCK);
+				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
 				return this->_getHitByMove(other, data);
 		}
@@ -3105,7 +3105,7 @@ namespace Battle
 		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 
-		assert(!data.oFlag.ultimate || chr);
+		my_assert(!data.oFlag.ultimate || chr);
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
 		counter &= this->_action != ACTION_GROUND_SLAM;
@@ -3117,7 +3117,7 @@ namespace Battle
 			chr->_applyNewAnimFlags();
 		}
 		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
-			game.soundMgr.play(BASICSOUND_COUNTER_HIT);
+			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else
@@ -3134,10 +3134,10 @@ namespace Battle
 			this->_limit[1] += data.voidLimit;
 			this->_limit[2] += data.matterLimit;
 			this->_limit[3] += data.spiritLimit;
-			game.battleMgr->addHitStop(data.hitStop * 1.5);
-			game.logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
+			game->battleMgr->addHitStop(data.hitStop * 1.5);
+			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
-			game.soundMgr.play(data.hitSoundHandle);
+			game->soundMgr.play(data.hitSoundHandle);
 			if (!myData->dFlag.superarmor) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
@@ -3154,8 +3154,8 @@ namespace Battle
 				this->_limit[2] += data.matterLimit;
 				this->_limit[3] += data.spiritLimit;
 			}
-			game.battleMgr->addHitStop(data.hitStop);
-			game.logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
+			game->battleMgr->addHitStop(data.hitStop);
+			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 		this->_hp -= damage;
 	}
@@ -3168,7 +3168,7 @@ namespace Battle
 				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
 			) {
 				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
-				game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
+				game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 				this->_forceStartMove(ACTION_WALL_SLAM);
 				this->_speed.x *= -0.15;
 				this->_speed.y = 7.5;
@@ -3184,7 +3184,7 @@ namespace Battle
 			this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
 		)) {
 			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
-			game.soundMgr.play(BASICSOUND_WALL_BOUNCE);
+			game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
 			this->_speed.x *= -0.15;
 			this->_speed.y = 7.5;
@@ -3203,7 +3203,7 @@ namespace Battle
 			)) {
 				this->_speed.x *= 0.1;
 				this->_speed.y *= -0.8;
-				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
+				game->soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
 				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
@@ -3216,7 +3216,7 @@ namespace Battle
 			)) {
 				this->_speed.x *= 0.1;
 				this->_speed.y *= -0.8;
-				game.soundMgr.play(BASICSOUND_GROUND_SLAM);
+				game->soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
 				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			} else
@@ -3253,7 +3253,7 @@ namespace Battle
 
 		Object::_applyMoveAttributes();
 		if (!this->_ultimateUsed && data->oFlag.ultimate) {
-			game.soundMgr.play(BASICSOUND_ULTIMATE);
+			game->soundMgr.play(BASICSOUND_ULTIMATE);
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
@@ -3296,7 +3296,7 @@ namespace Battle
 		} + data->size / 2;
 
 		try {
-			return game.battleMgr->registerObject<Projectile>(
+			return game->battleMgr->registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(id),
 				this->_team,
@@ -3347,7 +3347,7 @@ namespace Battle
 
 		Object::copyToBuffer(data);
 #ifdef _DEBUG
-		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
+		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
 		dat->_supersUsed = this->_supersUsed;
 		dat->_skillsUsed = this->_skillsUsed;
@@ -3468,7 +3468,7 @@ namespace Battle
 		if (this->_guardCooldown)
 			return;
 		if (loss >= this->_guardBar) {
-			game.soundMgr.play(BASICSOUND_GUARD_BREAK);
+			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 			this->_guardBar = this->_maxGuardBar;
 			this->_guardCooldown = this->_maxGuardCooldown;
 		} else
@@ -3529,7 +3529,7 @@ namespace Battle
 		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
 		if (isStrongest)
-			game.soundMgr.play(BASICSOUND_BEST_PARRY);
+			game->soundMgr.play(BASICSOUND_BEST_PARRY);
 		if (data->dFlag.neutralBlock) {
 			this->_forceStartMove(this->_getReversalAction());
 			this->_blockStun = 0;
@@ -3537,7 +3537,7 @@ namespace Battle
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
 			this->_blockStun = 0;
 		} else {
-			game.soundMgr.play(BASICSOUND_BLOCK);
+			game->soundMgr.play(BASICSOUND_BLOCK);
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
 		}
 	}
@@ -3654,7 +3654,7 @@ namespace Battle
 
 		Object::_applyNewAnimFlags();
 		if (!this->_ultimateUsed && data->oFlag.ultimate) {
-			game.soundMgr.play(BASICSOUND_ULTIMATE);
+			game->soundMgr.play(BASICSOUND_ULTIMATE);
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;

@@ -126,7 +126,7 @@ namespace Battle
 		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
-		game.textureMgr.render(this->_sprite);
+		game->textureMgr.render(this->_sprite);
 
 		realPos.y *= -1;
 		if (this->showBoxes) {
@@ -187,7 +187,7 @@ namespace Battle
 		if (obj && obj->_team == this->_team)
 			return;
 		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		game.logger.debug(buffer);
+		game->logger.debug(buffer);
 		this->_hasHit = true;
 	}
 
@@ -196,8 +196,8 @@ namespace Battle
 		char buffer[38];
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		game.logger.debug(buffer);
-		game.soundMgr.play(data->hitSoundHandle);
+		game->logger.debug(buffer);
+		game->soundMgr.play(data->hitSoundHandle);
 	}
 
 	bool Object::hits(const IObject &other) const
@@ -268,7 +268,7 @@ namespace Battle
 		this->_hasHit &= !data->oFlag.resetHits;
 		if (data->dFlag.resetRotation)
 			this->_rotation = 0;
-		game.soundMgr.play(data->soundHandle);
+		game->soundMgr.play(data->soundHandle);
 	}
 
 	bool Object::_hasMove(unsigned action) const
@@ -279,7 +279,7 @@ namespace Battle
 	bool Object::_startMove(unsigned int action)
 	{
 		if (!this->_hasMove(action)) {
-			game.logger.debug("Cannot start action " + std::to_string(action));
+			game->logger.debug("Cannot start action " + std::to_string(action));
 			return false;
 		}
 
@@ -396,7 +396,7 @@ namespace Battle
 
 	void Object::_checkPlatforms(Vector2f oldPos)
 	{
-		for (auto &platform : game.battleMgr->getPlatforms()) {
+		for (auto &platform : game->battleMgr->getPlatforms()) {
 			if (platform->isDestructed())
 				continue;
 			if (this->_position.x < platform->_position.x - platform->getWidth() / 2)
@@ -470,13 +470,13 @@ namespace Battle
 			arr[i].color.a *= 0x30 / 255.f;
 			arr[i].position = (&box.pt1)[i];
 		}
-		game.screen->draw(arr);
+		game->screen->draw(arr);
 
 		for (unsigned i = 0; i < 5; i++) {
 			arr2[i].color = color;
 			arr2[i].position = (&box.pt1)[i % 4];
 		}
-		game.screen->draw(arr2);
+		game->screen->draw(arr2);
 	}
 
 	void Object::kill()
@@ -494,7 +494,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 
 #ifdef _DEBUG
-		game.logger.debug("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		game->logger.debug("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
 		dat->_position = this->_position;
 		dat->_speed = this->_speed;
@@ -542,8 +542,8 @@ namespace Battle
 	bool Object::_isOnPlatform() const
 	{
 		return this->_speed.y <= 0 && std::any_of(
-			game.battleMgr->getPlatforms().begin(),
-			game.battleMgr->getPlatforms().end(),
+			game->battleMgr->getPlatforms().begin(),
+			game->battleMgr->getPlatforms().end(),
 			[this](auto &obj) {
 				if (obj->isDestructed())
 					return false;

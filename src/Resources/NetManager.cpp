@@ -33,8 +33,8 @@ namespace Battle
 		GGPOErrorCode result;
 		GGPOSessionCallbacks cb;
 
-		game.logger.debug("Starting GGPO for " + std::to_string(spectators + 2) + " players.");
-		assert(!this->_ggpoSession);
+		game->logger.debug("Starting GGPO for " + std::to_string(spectators + 2) + " players.");
+		my_assert(!this->_ggpoSession);
 		/* fill in all callback functions */
 		cb.begin_game = GGPONetplay::startGame;
 		cb.save_game_state = GGPONetplay::saveState;
@@ -63,11 +63,11 @@ namespace Battle
 		GGPOErrorCode result;
 		GGPOSessionCallbacks cb;
 
-		game.logger.debug("Starting GGPO sync test.");
+		game->logger.debug("Starting GGPO sync test.");
 #ifdef _WIN32
 		WSAStartup(MAKEWORD(2, 2), &wd);
 #endif
-		assert(!this->_ggpoSession);
+		my_assert(!this->_ggpoSession);
 		/* fill in all callback functions */
 		cb.begin_game = GGPONetplay::startGame;
 		cb.save_game_state = GGPONetplay::saveState;
@@ -115,27 +115,27 @@ namespace Battle
 
 		found:
 			if (!this->_host) {
-				game.logger.info("Host canceled");
+				game->logger.info("Host canceled");
 				return false;
 			}
 			if (client.pingClock2.getElapsedTime().asSeconds() >= 1) {
 				packet.op = OPCODE_PING;
 				packet.pingId = client.lastPingId++;
-				game.logger.debug("Send PING to " + client.addr.toString() + ":" + std::to_string(client.port));
+				game->logger.debug("Send PING to " + client.addr.toString() + ":" + std::to_string(client.port));
 				sock.send(&packet, sizeof(packet), client.addr, client.port);
 				client.pingClock2.restart();
 				client.pingClock.restart();
 			}
 			if (status == sf::Socket::NotReady) {
 				if (client.lastPingId - client.pingId > 5) {
-					game.logger.debug("Too many unanswered pings: " + std::to_string(client.lastPingId) + " - " + std::to_string(client.pingId) + " > 5");
+					game->logger.debug("Too many unanswered pings: " + std::to_string(client.lastPingId) + " - " + std::to_string(client.pingId) + " > 5");
 					onDisconnect(client.addr, client.port);
 					return false;
 				}
 				return true;
 			}
 			if (recvSize != sizeof(Packet)) {
-				game.logger.error("Bad packet");
+				game->logger.error("Bad packet");
 				memset(&packet, 0, sizeof(packet));
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_BAD_PACKET;
@@ -143,14 +143,14 @@ namespace Battle
 				continue;
 			}
 			if (packet.op == OPCODE_QUIT) {
-				game.logger.error("Player left");
+				game->logger.error("Player left");
 				onDisconnect(client.addr, client.port);
 				return false;
 			}
 			if (packet.op == OPCODE_HELLO)
 				continue;
 			if (packet.op != OPCODE_PONG) {
-				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
+				game->logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
 				sock.send(&packet, sizeof(packet), client.addr, client.port);
@@ -163,7 +163,7 @@ namespace Battle
 				}
 				client.pingId = client.lastPingId;
 			}
-			game.logger.debug("PONG! " + std::to_string(packet.pingId));
+			game->logger.debug("PONG! " + std::to_string(packet.pingId));
 		}
 		return true;
 	}
@@ -181,7 +181,7 @@ namespace Battle
 			if (!this->_tickClient(*client, i, sock, onDisconnect, pingUpdate)) {
 				if (!this->_host)
 					return;
-				game.logger.debug("Disconnected.");
+				game->logger.debug("Disconnected.");
 				otherClients.erase(otherClients.begin() + i);
 				onDisconnect(client->addr, client->port);
 				i--;
@@ -224,9 +224,9 @@ namespace Battle
 			found:
 				this->_tickClients(otherClients, sock, onDisconnect, pingUpdate);
 			} while (status == sf::Socket::NotReady);
-			game.logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));
+			game->logger.info("Received packet from " + client->addr.toString() + ":" + std::to_string(client->port));
 			if (recvSize != sizeof(Packet)) {
-				game.logger.error("Bad packet");
+				game->logger.error("Bad packet");
 				memset(&packet, 0, sizeof(packet));
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_BAD_PACKET;
@@ -234,14 +234,14 @@ namespace Battle
 				continue;
 			}
 			if (packet.op != OPCODE_HELLO) {
-				game.logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
+				game->logger.error("Bad opcode (" + std::to_string(packet.op) + ")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_UNEXPECTED_OPCODE;
 				sock.send(&packet, sizeof(packet), client->addr, client->port);
 				continue;
 			}
 			if (strncmp(VERSION_STR, packet.versionString, sizeof(packet.versionString)) != 0) {
-				game.logger.error("Version mismatch (expected \"" VERSION_STR "\" but got \"" + std::string(packet.versionString) + "\")");
+				game->logger.error("Version mismatch (expected \"" VERSION_STR "\" but got \"" + std::string(packet.versionString) + "\")");
 				packet.op = OPCODE_ERROR;
 				packet.error = ERROR_VERSION_MISMATCH;
 				sock.send(&packet, sizeof(packet), client->addr, client->port);
@@ -270,7 +270,7 @@ namespace Battle
 		std::shared_ptr<Client> tmp;
 		bool restart = false;
 
-		game.logger.debug("Waiting for " + std::to_string(spectatorCount) + " (" + std::to_string(clients.size()) + ")");
+		game->logger.debug("Waiting for " + std::to_string(spectatorCount) + " (" + std::to_string(clients.size()) + ")");
 		while (clients.size() <= spectatorCount) {
 			this->_acceptClientConnection(tmp, clients, port, false, sock, [&onDisconnect, &clients, &restart](const sf::IpAddress &addr, unsigned short port){
 				onDisconnect(addr, port);
@@ -303,7 +303,7 @@ namespace Battle
 		std::vector<GGPOPlayer> ggpoPlayers{2 + spectators};
 
 		this->_host = true;
-		game.logger.info("Bind socket on port " + std::to_string(port));
+		game->logger.info("Bind socket on port " + std::to_string(port));
 		sock.bind(port);
 	start:
 		restart = false;
@@ -350,7 +350,7 @@ namespace Battle
 				if (clients[0]->addr == addr && clients[0]->port == port)
 					restart = true;
 			}, [&pingUpdate](Client &, size_t index, unsigned ping) {
-				game.logger.debug(std::to_string(index) + " ping is " + std::to_string(ping) + "ms");
+				game->logger.debug(std::to_string(index) + " ping is " + std::to_string(ping) + "ms");
 				if (!index)
 					pingUpdate(ping);
 			});
@@ -365,7 +365,7 @@ namespace Battle
 			}
 		}
 		this->_delay--;
-		game.logger.debug("Starting game with " + std::to_string(this->_delay) + " frames of delay !");
+		game->logger.debug("Starting game with " + std::to_string(this->_delay) + " frames of delay !");
 		packet.op = OPCODE_GAME_START;
 		packet.delay = this->_delay;
 		for (auto &client : clients)
@@ -373,7 +373,7 @@ namespace Battle
 
 		sock.unbind();
 		this->_initGGPO(port, spectators, false);
-		game.logger.debug("Adding GGPO players.");
+		game->logger.debug("Adding GGPO players.");
 		ggpoPlayers[0].type = GGPO_PLAYERTYPE_LOCAL;
 		ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 		ggpoPlayers[0].player_num = 1;
@@ -384,14 +384,14 @@ namespace Battle
 		ggpoPlayers[1].size = sizeof(ggpoPlayers[1]);
 		ggpoPlayers[1].player_num = 2;
 		ggpoPlayers[1].u.remote.port = 10800;
-		game.logger.info("Fighting " + clients[0]->addr.toString());
+		game->logger.info("Fighting " + clients[0]->addr.toString());
 		strcpy(ggpoPlayers[1].u.remote.ip_address, clients[0]->addr.toString().c_str());
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 
 		for (size_t i = 1; i < clients.size(); i++) {
 			GGPOPlayerHandle trashCan;
 
-			game.logger.info("Adding spectator " + clients[i]->addr.toString());
+			game->logger.info("Adding spectator " + clients[i]->addr.toString());
 			ggpoPlayers[i + 1].type = GGPO_PLAYERTYPE_SPECTATOR;
 			ggpoPlayers[i + 1].size = sizeof(ggpoPlayers[1 + i]);
 			ggpoPlayers[i + 1].u.remote.port = 10800;
@@ -399,7 +399,7 @@ namespace Battle
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1 + i], &trashCan);
 		}
 
-		game.logger.debug("All done!");
+		game->logger.debug("All done!");
 	}
 
 	bool NetManager::spectate(const std::string &address, unsigned short port, const std::function<void (const sf::IpAddress &, unsigned short)> &onConnect, const std::function<void (unsigned, unsigned)> &spectatorUpdate)
@@ -429,7 +429,7 @@ namespace Battle
 			packet.op = OPCODE_HELLO;
 			strcpy(packet.versionString, VERSION_STR);
 			sock.send(&packet, sizeof(packet), host, hostPort);
-			game.logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
+			game->logger.info("Sent HELLO to " + host.toString() + ":" + std::to_string(hostPort));
 			if (!this->_connect)
 				return false;
 			std::this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -440,11 +440,11 @@ namespace Battle
 			if (attempts > 50)
 				return false;
 		} while (true);
-		game.logger.info("Server responded with opcode " + std::to_string(packet.op));
+		game->logger.info("Server responded with opcode " + std::to_string(packet.op));
 		try {
 			_checkPacket(packet, recvSize);
 		} catch (std::exception &e) {
-			game.logger.error(e.what());
+			game->logger.error(e.what());
 			this->_connect = false;
 			memset(&packet, 0, sizeof(packet));
 			packet.op = OPCODE_QUIT;
@@ -479,7 +479,7 @@ namespace Battle
 			try {
 				_checkPacket(packet, recvSize);
 			} catch (std::exception &e) {
-				game.logger.error(e.what());
+				game->logger.error(e.what());
 				this->_connect = false;
 				packet.op = OPCODE_QUIT;
 				sock.send(&packet, sizeof(packet), host, hostPort);
@@ -500,7 +500,7 @@ namespace Battle
 		}
 
 		if (!spectator) {
-			game.logger.debug("Host selected " + std::to_string(this->_delay) + " frames of delay");
+			game->logger.debug("Host selected " + std::to_string(this->_delay) + " frames of delay");
 			ggpoPlayers[0].type = GGPO_PLAYERTYPE_REMOTE;
 			ggpoPlayers[0].size = sizeof(ggpoPlayers[0]);
 			ggpoPlayers[0].player_num = 1;
@@ -512,12 +512,12 @@ namespace Battle
 			ggpoPlayers[1].player_num = 2;
 			ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], this->_delay);
 
-			game.logger.info("Fighting " + host.toString());
+			game->logger.info("Fighting " + host.toString());
 			this->_initGGPO(10800, 0, false);
-			game.logger.debug("Adding GGPO players.");
+			game->logger.debug("Adding GGPO players.");
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 			ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
-			game.logger.debug("All done!");
+			game->logger.debug("All done!");
 		} else
 			this->_initGGPO(10800, 0, true, host.toString(), port);
 		this->_connect = false;
@@ -537,12 +537,12 @@ namespace Battle
 		ggpoPlayers[1].player_num = 2;
 
 		this->_initGGPOSyncTest();
-		game.logger.debug("Adding GGPO players.");
+		game->logger.debug("Adding GGPO players.");
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[0], &this->_playerHandles[0]);
 		ggpo_add_player(this->_ggpoSession, &ggpoPlayers[1], &this->_playerHandles[1]);
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[0], 4);
 		ggpo_set_frame_delay(this->_ggpoSession, this->_playerHandles[1], 4);
-		game.logger.debug("All done!");
+		game->logger.debug("All done!");
 	}
 
 	void NetManager::nextFrame()
@@ -570,7 +570,7 @@ namespace Battle
 				for (int i = 0; i < INPUT_NUMBER - 1; i++)
 					str += inputs[i] ? "1" : "0";
 
-				game.logger.debug("Adding left inputs (" + str + ")");
+				game->logger.debug("Adding left inputs (" + str + ")");
 #endif
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[0], &inputs, sizeof(inputs));
 
@@ -595,7 +595,7 @@ namespace Battle
 				for (int i = 0; i < INPUT_NUMBER - 1; i++)
 					str += inputs[i] ? "1" : "0";
 
-				game.logger.debug("Adding right inputs (" + str + ")");
+				game->logger.debug("Adding right inputs (" + str + ")");
 #endif
 				result = ggpo_add_local_input(this->_ggpoSession, this->_playerHandles[1], &inputs, sizeof(inputs));
 
@@ -603,7 +603,7 @@ namespace Battle
 					throw GGPOError(result);
 			}
 		} catch (GGPOError &e) {
-			game.logger.warn("Inputs are being ignored: " + std::string(e.what()));
+			game->logger.warn("Inputs are being ignored: " + std::string(e.what()));
 			ggpo_idle(this->_ggpoSession, 1000 / 60);
 			return;
 		}
@@ -637,8 +637,8 @@ namespace Battle
 
 		this->_netScene = &*scene;
 		this->_characterSelect = scene;
-		this->_scene = game.scene;
-		game.scene = scene;
+		this->_scene = game->scene;
+		game->scene = scene;
 	}
 
 	void NetManager::advanceState()
@@ -652,10 +652,10 @@ namespace Battle
 			if (result)
 				throw GGPOError(result);
 			if (flags) {
-				auto screen = new TitleScreen(game.P1, game.P2);
+				auto screen = new TitleScreen(game->P1, game->P2);
 
 				this->endSession();
-				game.scene.reset(screen);
+				game->scene.reset(screen);
 			}
 			this->_leftInput->_keyStates = inputs[0];
 			this->_rightInput->_keyStates = inputs[1];
@@ -671,7 +671,7 @@ namespace Battle
 			for (int i = 0; i < INPUT_NUMBER - 1; i++)
 				str += this->_rightInput->_keyStates[i] ? "1" : "0";
 
-			game.logger.debug("Frame advance (" + str + ")");
+			game->logger.debug("Frame advance (" + str + ")");
 #endif
 
 			if (scene) {
@@ -679,20 +679,20 @@ namespace Battle
 				auto characterSelect = dynamic_cast<NetplayCharacterSelect *>(scene);
 				auto inGame = dynamic_cast<NetplayInGame *>(scene);
 
-				assert(netScene);
-				assert(characterSelect || inGame);
+				my_assert(netScene);
+				my_assert(characterSelect || inGame);
 				if (characterSelect) {
 					this->_characterSelect.reset(characterSelect);
-					game.scene = this->_characterSelect;
+					game->scene = this->_characterSelect;
 				} else {
 					this->_inGame.reset(inGame);
-					game.scene = this->_inGame;
+					game->scene = this->_inGame;
 				}
 				this->_netScene = netScene;
 			}
 			ggpo_advance_frame(this->_ggpoSession);
 		} catch (GGPOError &e) {
-			game.logger.warn("Frame skipped: " + std::string(e.what()));
+			game->logger.warn("Frame skipped: " + std::string(e.what()));
 		}
 		ggpo_idle(this->_ggpoSession, 1000 / 60);
 	}
@@ -712,9 +712,9 @@ namespace Battle
 		auto data = reinterpret_cast<Data *>(*buffer);
 
 #ifdef _DEBUG
-		game.logger.debug("Saving NetManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)data));
+		game->logger.debug("Saving NetManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)data));
 #endif
-		data->battleRandom = game.battleRandom;
+		data->battleRandom = game->battleRandom;
 		data->isCharSelect = &*this->_characterSelect == this->_netScene;
 		for (size_t i = 0; i < this->_leftInput->_keyDuration.size(); i++)
 			data->leftInputs[i] = this->_leftInput->_keyDuration[i];
@@ -727,13 +727,13 @@ namespace Battle
 	{
 		auto data = reinterpret_cast<Data *>(buffer);
 
-		game.battleRandom = data->battleRandom;
+		game->battleRandom = data->battleRandom;
 		if (data->isCharSelect) {
 			this->_netScene = &*this->_characterSelect;
-			game.scene = this->_characterSelect;
+			game->scene = this->_characterSelect;
 		} else {
 			this->_netScene = &*this->_inGame;
-			game.scene = this->_inGame;
+			game->scene = this->_inGame;
 		}
 		for (size_t i = 0; i < this->_leftInput->_keyDuration.size(); i++)
 			this->_leftInput->_keyDuration[i] = data->leftInputs[i];
@@ -749,7 +749,7 @@ namespace Battle
 
 	void NetManager::update()
 	{
-		this->_scene = game.scene;
+		this->_scene = game->scene;
 	}
 
 	void NetManager::consumeEvent(GGPOEvent *event)
@@ -795,8 +795,8 @@ namespace Battle
 		shape.setOutlineColor(sf::Color::Transparent);
 		if (this->_interrupted) {
 			this->_interruptedSprite.setTextureRect({0, static_cast<int>(this->_timer) / 60 % 2 * 164, 264, 164});
-			game.screen->draw(shape);
-			game.screen->draw(this->_interruptedSprite);
+			game->screen->draw(shape);
+			game->screen->draw(this->_interruptedSprite);
 		}
 	}
 
@@ -844,7 +844,7 @@ namespace Battle
 			throw std::invalid_argument("Server responded with error " + std::to_string(packet.error) + " (" + (packet.error <= ERROR_UNEXPECTED_OPCODE ? errs[packet.error] : "ERROR_UNKNOWN") + ").");
 		}
 #ifdef _DEBUG
-		game.logger.debug("Received opcode " + std::to_string(packet.op));
+		game->logger.debug("Received opcode " + std::to_string(packet.op));
 #endif
 	}
 

@@ -11,14 +11,14 @@ namespace Battle
 	Screen::Screen(const std::string &title) :
 		sf::RenderWindow(sf::VideoMode(1680, 960), title), _title(title)
 	{
-		game.logger.info("Opening game window \"" + title + "\"");
+		game->logger.info("Opening game window \"" + title + "\"");
 		this->setFramerateLimit(60);
 	}
 
 	Screen::Screen(const Screen &other) :
 		sf::RenderWindow(sf::VideoMode(other.getSize().x, other.getSize().y), other.getTitle())
 	{
-		game.logger.info("Opening game window \"" + other.getTitle() + "\"");
+		game->logger.info("Opening game window \"" + other.getTitle() + "\"");
 		this->_title = other.getTitle();
 		this->setFramerateLimit(60);
 		this->setSize(other.getSize());
@@ -27,7 +27,7 @@ namespace Battle
 
 	Screen::~Screen()
 	{
-		game.logger.info("Destroying game window \"" + this->_title + "\"");
+		game->logger.info("Destroying game window \"" + this->_title + "\"");
 	}
 
 	const std::string& Screen::getTitle() const

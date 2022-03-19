@@ -67,12 +67,12 @@ namespace Battle
 		Object::render();
 		if (this->showBoxes) {
 			if (this->_deathTimer) {
-				game.screen->textSize(20);
-				game.screen->fillColor(sf::Color::Red);
-				game.screen->displayElement(std::to_string(this->_deathTimer), {this->_position.x - 200, -this->_position.y}, 400, Screen::ALIGN_CENTER);
-				game.screen->textSize(30);
+				game->screen->textSize(20);
+				game->screen->fillColor(sf::Color::Red);
+				game->screen->displayElement(std::to_string(this->_deathTimer), {this->_position.x - 200, -this->_position.y}, 400, Screen::ALIGN_CENTER);
+				game->screen->textSize(30);
 			} else
-				game.screen->displayElement({
+				game->screen->displayElement({
 					static_cast<int>(this->_position.x - this->_width / 2),
 					static_cast<int>(-this->_position.y - 1),
 					static_cast<int>(this->_width),
@@ -96,7 +96,7 @@ namespace Battle
 
 		Object::copyToBuffer(data);
 #ifdef _DEBUG
-		game.logger.debug("Saving Platform (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		game->logger.debug("Saving Platform (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
 		dat->_width = this->_width;
 		dat->_cooldown = this->_cooldown;

@@ -243,7 +243,7 @@ namespace Battle
 		Character(index, frameData, subobjFrameData, palette, input)
 	{
 		this->_fakeFrameData.setSlave();
-		game.logger.debug("Stickman class created");
+		game->logger.debug("Stickman class created");
 	}
 
 	unsigned int Stickman::getClassId() const
@@ -377,7 +377,7 @@ namespace Battle
 	void Stickman::update()
 	{
 		Character::update();
-		game.battleRandom();
+		game->battleRandom();
 	}
 
 	unsigned int Stickman::getBufferSize() const
@@ -391,8 +391,8 @@ namespace Battle
 
 		Character::copyToBuffer(data);
 #ifdef _DEBUG
-		game.logger.debug("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		game.logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
+		game->logger.debug("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		game->logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
 #endif
 		dat->_addedOFlags = this->_addedOFlags.flags;
 		dat->_addedDFlags = this->_addedDFlags.flags;
@@ -413,8 +413,8 @@ namespace Battle
 		this->_moveLength = dat->_moveLength;
 		this->_chargeTime = dat->_chargeTime;
 #ifdef _DEBUG
-		game.logger.debug("Restored Stickman @" + std::to_string((uintptr_t)dat));
-		game.logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
+		game->logger.debug("Restored Stickman @" + std::to_string((uintptr_t)dat));
+		game->logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
 #endif
 	}
 
@@ -427,7 +427,7 @@ namespace Battle
 		} + data->size / 2;
 
 		if (id == 128)
-			return game.battleMgr->registerObject<Projectile>(
+			return game->battleMgr->registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(id),
 				this->_team,
@@ -460,7 +460,7 @@ namespace Battle
 				for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
 					if (!_probas.at(this->_action)[j])
 						continue;
-					if (this->_dist(game.battleRandom) >= _probas.at(this->_action)[j])
+					if (this->_dist(game->battleRandom) >= _probas.at(this->_action)[j])
 						continue;
 					if (j < 26)
 						this->_addedOFlags.flags |= 1 << j;
@@ -491,7 +491,7 @@ namespace Battle
 
 		while (!done) {
 			unsigned total = 0;
-			auto random = this->_dist(game.battleRandom);
+			auto random = this->_dist(game->battleRandom);
 
 			done = true;
 			for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
@@ -521,7 +521,7 @@ namespace Battle
 		for (size_t j = 0; j < _probas.at(this->_action).size(); j++) {
 			if (!_probas.at(this->_action)[j])
 				continue;
-			if (this->_dist(game.battleRandom) >= _probas.at(this->_action)[j])
+			if (this->_dist(game->battleRandom) >= _probas.at(this->_action)[j])
 				continue;
 			if (j < 26)
 				this->_addedOFlags.flags |= 1 << j;

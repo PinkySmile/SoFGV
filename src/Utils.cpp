@@ -134,7 +134,7 @@ namespace Utils
 		float currentWidth = startWidth;
 		auto size = text->getTextSize();
 
-		for (char c : content) {
+		for (char c: content) {
 			currentWidth += font.getGlyph(c, size, false).advance;
 			width = std::max(static_cast<unsigned>(currentWidth), width);
 			if (c == '\n' || c == '\r')
@@ -147,16 +147,23 @@ namespace Utils
 			}
 		}
 
-		sf::RenderWindow win{{std::min(700U, width), std::min(220U, height)}, title, sf::Style::Titlebar | sf::Style::Close};
-		auto pic = tgui::Picture::create((variate & MB_ICONINFORMATION) ? "assets/icons/info.png": "assets/icons/error.png");
+		sf::RenderWindow win{{std::min(700U, width), std::min(220U, height)}, title,
+				     sf::Style::Titlebar | sf::Style::Close};
+		tgui::Picture::Ptr pic;
 		sf::Event event;
+		try {
+			if (variate & MB_ICONINFORMATION)
+				pic = tgui::Picture::create("assets/icons/info.png");
+			else if (variate & MB_ICONERROR)
+				pic = tgui::Picture::create("assets/icons/error.png");
+		} catch (...) {}
 
 		gui.setTarget(win);
 		gui.add(button, "ok");
 		gui.add(text);
 
 		button->setPosition("&.w - w - 10", "&.h - h - 10");
-		button->connect("Pressed", [&win]{
+		button->connect("Pressed", [&win] {
 			win.close();
 		});
 
@@ -167,11 +174,11 @@ namespace Utils
 		text->getRenderer()->setBorderColor("transparent");
 		text->getRenderer()->setBackgroundColor("transparent");
 
-		pic->setPosition(10, 10);
-		pic->setSize(32, 32);
-
-		if (variate & MB_ICONERROR)
+		if (pic) {
+			pic->setPosition(10, 10);
+			pic->setSize(32, 32);
 			gui.add(pic);
+		}
 
 		while (win.isOpen()) {
 			if (w)

@@ -43,9 +43,9 @@ namespace Battle
 			obj.second->showBoxes = this->_showBoxes;
 		BattleManager::render();
 		if (this->_showBoxes) {
-			game.screen->borderColor(2, sf::Color::White);
-			game.screen->displayElement({0, 0, 1000, -1000}, sf::Color::Transparent);
-			game.screen->borderColor(0, sf::Color::Transparent);
+			game->screen->borderColor(2, sf::Color::White);
+			game->screen->displayElement({0, 0, 1000, -1000}, sf::Color::Transparent);
+			game->screen->borderColor(0, sf::Color::Transparent);
 		}
 		this->_displayFrameStuff();
 	}
@@ -53,7 +53,7 @@ namespace Battle
 	void PracticeBattleManager::consumeEvent(const sf::Event &event)
 	{
 		BattleManager::consumeEvent(event);
-		assert(!game.networkMgr.isConnected());
+		my_assert(!game->networkMgr.isConnected());
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F11)
 			this->_step = !this->_step;
 #ifdef _DEBUG
@@ -161,25 +161,25 @@ namespace Battle
 
 	void PracticeBattleManager::_renderGapState(const BlockingState &state, Vector2f pos)
 	{
-		game.screen->textSize(15);
+		game->screen->textSize(15);
 		if (state.fa.timer < 240) {
 			float alpha = state.fa.timer < 120 ? 1 : (240 - state.fa.timer) / 120.f;
 
-			game.screen->displayElement({static_cast<int>(pos.x), static_cast<int>(pos.y), 100, 20}, sf::Color{0xA0, 0xA0, 0xA0, static_cast<unsigned char>(0xA0 * alpha)});
-			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, static_cast<unsigned char>(0xFF * alpha)});
-			game.screen->displayElement((state.fa.gap >= 0 ? "Adv: +" : "Adv: ") + std::to_string(state.fa.gap) + "F", pos + Vector2f{2, 2});
+			game->screen->displayElement({static_cast<int>(pos.x), static_cast<int>(pos.y), 100, 20}, sf::Color{0xA0, 0xA0, 0xA0, static_cast<unsigned char>(0xA0 * alpha)});
+			game->screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, static_cast<unsigned char>(0xFF * alpha)});
+			game->screen->displayElement((state.fa.gap >= 0 ? "Adv: +" : "Adv: ") + std::to_string(state.fa.gap) + "F", pos + Vector2f{2, 2});
 			pos.y -= 25;
 		}
 		for (auto &gap : state.gaps) {
 			float alpha = gap.timer < 120 ? 1 : (240 - gap.timer) / 120.f;
 
-			game.screen->displayElement({static_cast<int>(pos.x), static_cast<int>(pos.y), 100, 20}, sf::Color{0xA0, 0xA0, 0xA0, static_cast<unsigned char>(0xA0 * alpha)});
-			game.screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, static_cast<unsigned char>(0xFF * alpha)});
-			game.screen->displayElement("Gap: " + std::to_string(gap.gap) + "F", pos + Vector2f{2, 2});
+			game->screen->displayElement({static_cast<int>(pos.x), static_cast<int>(pos.y), 100, 20}, sf::Color{0xA0, 0xA0, 0xA0, static_cast<unsigned char>(0xA0 * alpha)});
+			game->screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, static_cast<unsigned char>(0xFF * alpha)});
+			game->screen->displayElement("Gap: " + std::to_string(gap.gap) + "F", pos + Vector2f{2, 2});
 			pos.y -= 25;
 		}
-		game.screen->fillColor(sf::Color::White);
-		game.screen->textSize(30);
+		game->screen->fillColor(sf::Color::White);
+		game->screen->textSize(30);
 	}
 
 	bool PracticeBattleManager::_canMashNextFrame(const Battle::Character &me)

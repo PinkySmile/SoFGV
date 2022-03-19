@@ -23,15 +23,15 @@ namespace Battle
 		nlohmann::json json;
 		nlohmann::json json2;
 
-		game.screen->setView(view);
-		game.logger.info("CharacterSelect scene created");
+		game->screen->setView(view);
+		game->logger.info("CharacterSelect scene created");
 		stream >> json;
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);
 		stream2 >> json2;
 		for (auto &elem: json2)
 			this->_stages.emplace_back(elem);
-		this->_randomSprite.textureHandle = game.textureMgr.load("assets/stages/random.png");
+		this->_randomSprite.textureHandle = game->textureMgr.load("assets/stages/random.png");
 	}
 
 	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int _leftPos, int _rightPos, int _leftPalette, int _rightPalette, bool practice) :
@@ -45,7 +45,7 @@ namespace Battle
 
 	CharacterSelect::~CharacterSelect()
 	{
-		game.textureMgr.remove(this->_randomSprite.textureHandle);
+		game->textureMgr.remove(this->_randomSprite.textureHandle);
 	}
 
 	void CharacterSelect::render() const
@@ -113,22 +113,22 @@ namespace Battle
 
 		if (this->_stage == -1) {
 			this->_platform = -1;
-			this->_stage = dist2(game.battleRandom);
+			this->_stage = dist2(game->battleRandom);
 		}
 
 		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
 		auto &stage = this->_stages[this->_stage];
 
 		if (this->_platform == -1)
-			this->_platform = dist3(game.battleRandom);
+			this->_platform = dist3(game->battleRandom);
 		if (this->_leftPos < 0)
 			this->_leftPalette = 0;
 		if (this->_rightPos < 0)
 			this->_rightPalette = 0;
 		if (this->_leftPos < 0)
-			this->_leftPos = dist(game.random);
+			this->_leftPos = dist(game->random);
 		if (this->_rightPos < 0)
-			this->_rightPos = dist(game.random);
+			this->_rightPos = dist(game->random);
 		if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
 			this->_leftPalette = 0;
 			this->_rightPalette = 0;
@@ -140,7 +140,7 @@ namespace Battle
 			this->_rightPalette++;
 			this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
 		}
-		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 
 		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
@@ -169,25 +169,25 @@ namespace Battle
 	void CharacterSelect::_selectCharacterRender() const
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
-		size_t left  = this->_leftPos == -1  ? dist(game.random) : this->_leftPos;
-		size_t right = this->_rightPos == -1 ? dist(game.random) : this->_rightPos;
+		size_t left  = this->_leftPos == -1  ? dist(game->random) : this->_leftPos;
+		size_t right = this->_rightPos == -1 ? dist(game->random) : this->_rightPos;
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
-		game.screen->fillColor(sf::Color::Black);
-		game.screen->displayElement({0, 0, 1680, 960}, sf::Color{
+		game->screen->fillColor(sf::Color::Black);
+		game->screen->displayElement({0, 0, 1680, 960}, sf::Color{
 			static_cast<sf::Uint8>(lInputs.d),
 			static_cast<sf::Uint8>(rInputs.d),
 			static_cast<sf::Uint8>((lInputs.d + rInputs.d) / 2)
 		});
-		game.screen->displayElement({0, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
-		game.screen->displayElement({0, 480, 560, 480}, sf::Color::White);
+		game->screen->displayElement({0, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
+		game->screen->displayElement({0, 480, 560, 480}, sf::Color::White);
 
-		game.screen->displayElement({1120, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
-		game.screen->displayElement({1120, 480, 560, 480}, sf::Color::White);
+		game->screen->displayElement({1120, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
+		game->screen->displayElement({1120, 480, 560, 480}, sf::Color::White);
 
-		game.screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
-		game.screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
 
 		auto &leftSprites  = this->_entries[left].icon;
 		auto &rightSprites = this->_entries[right].icon;
@@ -197,18 +197,18 @@ namespace Battle
 		int realRPal = this->_rightPos == -1 ? 0 : this->_rightPalette;
 		auto &leftSprite  = leftSprites[realLPal % leftSprites.size()];
 		auto &rightSprite = rightSprites[realRPal % rightSprites.size()];
-		auto leftTexture  = game.textureMgr.getTextureSize(leftSprite.textureHandle);
-		auto rightTexture = game.textureMgr.getTextureSize(rightSprite.textureHandle);
+		auto leftTexture  = game->textureMgr.getTextureSize(leftSprite.textureHandle);
+		auto rightTexture = game->textureMgr.getTextureSize(rightSprite.textureHandle);
 
 		leftSprite.setPosition(0, 0);
 		leftSprite.setScale(560.f / leftTexture.x, 480.f / leftTexture.y);
-		game.textureMgr.render(leftSprite);
+		game->textureMgr.render(leftSprite);
 
 		rightSprite.setPosition(1680, 0);
 		rightSprite.setScale(-560.f / rightTexture.x, 480.f / rightTexture.y);
-		game.textureMgr.render(rightSprite);
-		game.screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
-		game.screen->displayElement("Character select", {540, 0}, 600, Screen::ALIGN_CENTER);
+		game->textureMgr.render(rightSprite);
+		game->screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+		game->screen->displayElement("Character select", {540, 0}, 600, Screen::ALIGN_CENTER);
 	}
 
 	void CharacterSelect::_selectStageRender() const
@@ -217,26 +217,26 @@ namespace Battle
 
 		sprite.setPosition(0, 0);
 		sprite.setScale({
-			1680.f / game.textureMgr.getTextureSize(sprite.textureHandle).x,
-			960.f / game.textureMgr.getTextureSize(sprite.textureHandle).y
+			1680.f / game->textureMgr.getTextureSize(sprite.textureHandle).x,
+			960.f / game->textureMgr.getTextureSize(sprite.textureHandle).y
 		});
-		game.textureMgr.render(sprite);
+		game->textureMgr.render(sprite);
 		this->_displayPlatformPreview();
-		game.screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
-		game.screen->displayElement("Stage select", {540, 0}, 600, Screen::ALIGN_CENTER);
-		game.screen->textSize(20);
-		game.screen->displayElement({540, 250, 600, 50}, sf::Color{0xB0, 0xB0, 0xB0, 0xA0});
-		game.screen->displayElement("^", {540, 250}, 600, Screen::ALIGN_CENTER);
-		game.screen->displayElement(this->_stage == -1 ? "Random select" : this->_stages[this->_stage].name, {540, 260}, 600, Screen::ALIGN_CENTER);
-		game.screen->displayElement("v", {540, 280}, 600, Screen::ALIGN_CENTER);
+		game->screen->displayElement({540, 0, 600, 40}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+		game->screen->displayElement("Stage select", {540, 0}, 600, Screen::ALIGN_CENTER);
+		game->screen->textSize(20);
+		game->screen->displayElement({540, 250, 600, 50}, sf::Color{0xB0, 0xB0, 0xB0, 0xA0});
+		game->screen->displayElement("^", {540, 250}, 600, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_stage == -1 ? "Random select" : this->_stages[this->_stage].name, {540, 260}, 600, Screen::ALIGN_CENTER);
+		game->screen->displayElement("v", {540, 280}, 600, Screen::ALIGN_CENTER);
 		if (this->_stage != -1) {
 			auto txt = "Credits to " + this->_stages[this->_stage].credits;
-			auto size = game.screen->getTextSize(txt);
+			auto size = game->screen->getTextSize(txt);
 
-			game.screen->displayElement({static_cast<int>(1676 - size), 930, static_cast<int>(size + 4), 30}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
-			game.screen->displayElement(txt, {1678 - size, 932});
+			game->screen->displayElement({static_cast<int>(1676 - size), 930, static_cast<int>(size + 4), 30}, sf::Color{0xB0, 0xB0, 0xB0, 0xFF});
+			game->screen->displayElement(txt, {1678 - size, 932});
 		}
-		game.screen->textSize(30);
+		game->screen->textSize(30);
 	}
 
 	IScene *CharacterSelect::_selectCharacterUpdate()
@@ -244,26 +244,26 @@ namespace Battle
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
-		game.battleRandom();
+		game->battleRandom();
 		if (lInputs.horizontalAxis == -1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_leftPos == -1)
 				this->_leftPos = static_cast<int>(this->_entries.size());
 			this->_leftPos--;
 		} else if (lInputs.horizontalAxis == 1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_leftPos++;
 			if (this->_leftPos == static_cast<int>(this->_entries.size()))
 				this->_leftPos = -1;
 		}
 
 		if (rInputs.horizontalAxis == -1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_rightPos == -1)
 				this->_rightPos = static_cast<int>(this->_entries.size());
 			this->_rightPos--;
 		} else if (rInputs.horizontalAxis == 1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_rightPos++;
 			if (this->_rightPos == static_cast<int>(this->_entries.size()))
 				this->_rightPos = -1;
@@ -301,7 +301,7 @@ namespace Battle
 		}
 
 		if (lInputs.n == 1 || rInputs.n == 1) {
-			game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			this->_selectingStage = true;
 			this->_stageSprite.textureHandle = this->_stages[0].imageHandle;
 		}
@@ -313,22 +313,22 @@ namespace Battle
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
-		game.battleRandom();
+		game->battleRandom();
 		if (this->_stage != -1) {
 			if (lInputs.horizontalAxis == -1 || rInputs.horizontalAxis == -1) {
-				game.soundMgr.play(BASICSOUND_MENU_MOVE);
+				game->soundMgr.play(BASICSOUND_MENU_MOVE);
 				if (this->_platform == -1)
 					this->_platform = static_cast<int>(this->_stages[this->_stage].platforms.size());
 				this->_platform--;
 			} else if (lInputs.horizontalAxis == 1 || rInputs.horizontalAxis == 1) {
-				game.soundMgr.play(BASICSOUND_MENU_MOVE);
+				game->soundMgr.play(BASICSOUND_MENU_MOVE);
 				this->_platform++;
 				if (this->_platform == static_cast<int>(this->_stages[this->_stage].platforms.size()))
 					this->_platform = -1;
 			}
 		}
 		if (lInputs.verticalAxis == -1 || rInputs.verticalAxis == -1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_stage == -1)
 				this->_stage = static_cast<int>(this->_stages.size());
 			this->_stage--;
@@ -336,7 +336,7 @@ namespace Battle
 				this->_stageSprite.textureHandle = this->_stages[this->_stage].imageHandle;
 			this->_platform = 0;
 		} else if (lInputs.verticalAxis == 1 || rInputs.verticalAxis == 1) {
-			game.soundMgr.play(BASICSOUND_MENU_MOVE);
+			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_stage++;
 			if (this->_stage == static_cast<int>(this->_stages.size()))
 				this->_stage = -1;
@@ -349,7 +349,7 @@ namespace Battle
 			return this->_launchGame();
 		if (lInputs.s == 1 || rInputs.s == 1) {
 			this->_selectingStage = false;
-			game.soundMgr.play(BASICSOUND_MENU_CANCEL);
+			game->soundMgr.play(BASICSOUND_MENU_CANCEL);
 		}
 		return nullptr;
 	}
@@ -360,7 +360,7 @@ namespace Battle
 			return;
 
 		std::uniform_int_distribution<size_t> dist{0, this->_stages[this->_stage].platforms.size() - 1};
-		auto plat = this->_platform == -1 ? dist(game.random) : this->_platform;
+		auto plat = this->_platform == -1 ? dist(game->random) : this->_platform;
 		const Vector2f scale = {
 			1680.f / 1100,
 			960.f / 700
@@ -388,7 +388,7 @@ namespace Battle
 			sprite.setScale({scale.x * scale2.x, scale.y * scale2.y});
 			sprite.textureHandle = platform.data.textureHandle;
 			sprite.setTextureRect(platform.data.textureBounds);
-			game.textureMgr.render(sprite);
+			game->textureMgr.render(sprite);
 		}
 	}
 
@@ -462,7 +462,7 @@ namespace Battle
 					255
 				}});
 			}
-			assert(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
+			my_assert(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
 		}
 
 		this->pos = json["pos"];
@@ -472,10 +472,10 @@ namespace Battle
 		this->subobjectDataPath = json["subobjects"];
 		this->data = FrameData::loadFile(json["framedata_char_select"]);
 		if (this->palettes.empty())
-			this->icon.emplace_back(), this->icon.back().textureHandle = game.textureMgr.load(json["icon"]);
+			this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(json["icon"]);
 		else {
 			for (auto &palette : this->palettes)
-				this->icon.emplace_back(), this->icon.back().textureHandle = game.textureMgr.load(json["icon"], {this->palettes[0], palette});
+				this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(json["icon"], {this->palettes[0], palette});
 		}
 	}
 
@@ -489,13 +489,13 @@ namespace Battle
 		data(entry.data)
 	{
 		for (auto &_icon : this->icon)
-			game.textureMgr.addRef(_icon.textureHandle);
+			game->textureMgr.addRef(_icon.textureHandle);
 	}
 
 	CharacterEntry::~CharacterEntry()
 	{
 		for (auto &_icon : this->icon)
-			game.textureMgr.remove(_icon.textureHandle);
+			game->textureMgr.remove(_icon.textureHandle);
 	}
 
 	PlatformSkeleton::PlatformSkeleton(const nlohmann::json &json) :
@@ -517,7 +517,7 @@ namespace Battle
 		this->name = json["name"];
 		this->credits = json["credits"];
 		this->imagePath = json["image"];
-		this->imageHandle = game.textureMgr.load(this->imagePath);
+		this->imageHandle = game->textureMgr.load(this->imagePath);
 		if (json.contains("objects"))
 			this->objectPath = json["objects"];
 		for (auto &platformArray : json["platforms"]) {
@@ -536,11 +536,11 @@ namespace Battle
 		this->imagePath = other.imagePath;
 		this->imageHandle = other.imageHandle;
 		this->platforms = other.platforms;
-		game.textureMgr.addRef(this->imageHandle);
+		game->textureMgr.addRef(this->imageHandle);
 	}
 
 	StageEntry::~StageEntry()
 	{
-		game.textureMgr.remove(this->imageHandle);
+		game->textureMgr.remove(this->imageHandle);
 	}
 }

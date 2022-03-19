@@ -65,15 +65,15 @@ namespace Battle
 		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
 		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
-		game.logger.info("InGame scene created");
-		Battle::game.screen->setView(view);
+		game->logger.info("InGame scene created");
+		Battle::game->screen->setView(view);
 	}
 
 	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
 		InGame(params)
 	{
 		this->_goBackToTitle = goBackToTitle;
-		game.battleMgr = std::make_unique<BattleManager>(
+		game->battleMgr = std::make_unique<BattleManager>(
 			BattleManager::StageParams{
 				stage.imagePath,
 				[]{
@@ -126,7 +126,7 @@ namespace Battle
 
 	InGame::~InGame()
 	{
-		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game.battleMgr)
+		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game->battleMgr)
 			return;
 
 		char buf[MAX_PATH];
@@ -136,10 +136,10 @@ namespace Battle
 		char timebuffer2[40];
 		struct tm* tm_info;
 		unsigned magic  = getMagic();
-		auto leftChr    = game.battleMgr->getLeftCharacter();
-		auto rightChr   = game.battleMgr->getRightCharacter();
-		auto leftInputs = game.battleMgr->getLeftReplayData();
-		auto rightInputs= game.battleMgr->getRightReplayData();
+		auto leftChr    = game->battleMgr->getLeftCharacter();
+		auto rightChr   = game->battleMgr->getRightCharacter();
+		auto leftInputs = game->battleMgr->getLeftReplayData();
+		auto rightInputs= game->battleMgr->getRightReplayData();
 		struct CharacterData {
 			unsigned index;
 			unsigned nbInputs;
@@ -153,21 +153,21 @@ namespace Battle
 		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
 
 		if (makedir("replays", 0755) && errno != EEXIST) {
-			Battle::game.logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
-			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game.screen);
+			Battle::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
+			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game->screen);
 			return;
 		}
 		if (makedir(buf, 0755) && errno != EEXIST) {
-			Battle::game.logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
-			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game.screen);
+			Battle::game->logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game->screen);
 			return;
 		}
 
 		std::ofstream stream{buf2, std::ofstream::binary};
 
 		if (stream.fail()) {
-			Battle::game.logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
-			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game.screen);
+			Battle::game->logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game->screen);
 			return;
 		}
 		stream.write(reinterpret_cast<char *>(&magic), 4);
@@ -181,17 +181,17 @@ namespace Battle
 		rightChrSer.nbInputs = rightInputs.size();
 		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
 		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
-		game.logger.info(std::string(buf2) + " created.");
+		game->logger.info(std::string(buf2) + " created.");
 	}
 
 	void InGame::render() const
 	{
-		game.battleMgr->render();
+		game->battleMgr->render();
 		if (this->_moveList)
 			this->_renderMoveList();
 		else if (this->_paused)
 			this->_renderPause();
-		game.battleMgr->renderInputs();
+		game->battleMgr->renderInputs();
 	}
 
 	IScene *InGame::update()
@@ -199,23 +199,23 @@ namespace Battle
 		if (this->_nextScene)
 			return this->_nextScene;
 
-		auto linput = game.battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game.battleMgr->getRightCharacter()->getInput();
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
 		if (this->_moveList)
 			this->_moveListUpdate();
 		else if (!this->_paused) {
-			if (!Battle::game.battleMgr->update()) {
+			if (!Battle::game->battleMgr->update()) {
 				if (this->_goBackToTitle)
-					this->_nextScene = new TitleScreen(game.P1, game.P2);
+					this->_nextScene = new TitleScreen(game->P1, game->P2);
 				else
 					this->_nextScene = new CharacterSelect(
-						game.battleMgr->getLeftCharacter()->getInput(),
-						game.battleMgr->getRightCharacter()->getInput(),
-						game.battleMgr->getLeftCharacter()->index & 0xFFFF,
-						game.battleMgr->getRightCharacter()->index & 0xFFFF,
-						game.battleMgr->getLeftCharacter()->index >> 16,
-						game.battleMgr->getRightCharacter()->index >> 16,
+						game->battleMgr->getLeftCharacter()->getInput(),
+						game->battleMgr->getRightCharacter()->getInput(),
+						game->battleMgr->getLeftCharacter()->index & 0xFFFF,
+						game->battleMgr->getRightCharacter()->index & 0xFFFF,
+						game->battleMgr->getLeftCharacter()->index >> 16,
+						game->battleMgr->getRightCharacter()->index >> 16,
 						dynamic_cast<PracticeInGame *>(this) != nullptr
 					);
 				return this->_nextScene;
@@ -231,14 +231,14 @@ namespace Battle
 
 	void InGame::consumeEvent(const sf::Event &event)
 	{
-		game.battleMgr->consumeEvent(event);
+		game->battleMgr->consumeEvent(event);
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
 			if (this->_paused) {
 				this->_paused = 3;
 				this->_pauseCursor = 0;
-			} else if (game.battleMgr->getLeftCharacter()->getInput()->getName() == "Keyboard")
+			} else if (game->battleMgr->getLeftCharacter()->getInput()->getName() == "Keyboard")
 				this->_paused = 1;
-			else if (game.battleMgr->getRightCharacter()->getInput()->getName() == "Keyboard")
+			else if (game->battleMgr->getRightCharacter()->getInput()->getName() == "Keyboard")
 				this->_paused = 2;
 			else
 				this->_paused = 1;
@@ -249,22 +249,22 @@ namespace Battle
 	{
 		if (this->_paused == 3)
 			return;
-		game.screen->displayElement({340 - 50, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 
-		game.screen->textSize(20);
-		game.screen->fillColor(sf::Color::White);
-		game.screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
+		game->screen->textSize(20);
+		game->screen->fillColor(sf::Color::White);
+		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = 0; i < sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings); i++) {
-			game.screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
-			game.screen->displayElement(InGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
+			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
+			game->screen->displayElement(InGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
 		}
-		game.screen->textSize(30);
+		game->screen->textSize(30);
 	}
 
 	void InGame::_pauseUpdate()
 	{
-		auto linput = game.battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game.battleMgr->getRightCharacter()->getInput();
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
 		linput->update();
 		rinput->update();
@@ -309,7 +309,7 @@ namespace Battle
 		case 0:
 			return true;
 		case 1:
-			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
+			this->_moveList = &(this->_paused == 1 ? game->battleMgr->getLeftCharacter() : game->battleMgr->getRightCharacter())->getFrameData();
 			this->_moveListCursor = 0;
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultMoveOrder;
@@ -319,7 +319,7 @@ namespace Battle
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
 		case 2:
-			this->_moveList = &(this->_paused == 1 ? game.battleMgr->getLeftCharacter() : game.battleMgr->getRightCharacter())->getFrameData();
+			this->_moveList = &(this->_paused == 1 ? game->battleMgr->getLeftCharacter() : game->battleMgr->getRightCharacter())->getFrameData();
 			this->_moveListCursor = 0;
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultCommandOrder;
@@ -330,19 +330,19 @@ namespace Battle
 			return false;
 		case 3:
 			this->_nextScene = new CharacterSelect(
-				game.battleMgr->getLeftCharacter()->getInput(),
-				game.battleMgr->getRightCharacter()->getInput(),
-				game.battleMgr->getLeftCharacter()->index & 0xFFFF,
-				game.battleMgr->getRightCharacter()->index & 0xFFFF,
-				game.battleMgr->getLeftCharacter()->index >> 16,
-				game.battleMgr->getRightCharacter()->index >> 16,
+				game->battleMgr->getLeftCharacter()->getInput(),
+				game->battleMgr->getRightCharacter()->getInput(),
+				game->battleMgr->getLeftCharacter()->index & 0xFFFF,
+				game->battleMgr->getRightCharacter()->index & 0xFFFF,
+				game->battleMgr->getLeftCharacter()->index >> 16,
+				game->battleMgr->getRightCharacter()->index >> 16,
 				dynamic_cast<PracticeInGame *>(this) != nullptr
 			);
 			return false;
 		case 4:
 			this->_nextScene = new TitleScreen(
-				game.P1,
-				game.P2
+				game->P1,
+				game->P2
 			);
 			return false;
 		default:
@@ -353,23 +353,23 @@ namespace Battle
 	void InGame::_renderMoveList() const
 	{
 		sf::Sprite sprite;
-		auto linput = game.battleMgr->getLeftCharacter();
-		auto rinput = game.battleMgr->getRightCharacter();
+		auto linput = game->battleMgr->getLeftCharacter();
+		auto rinput = game->battleMgr->getRightCharacter();
 		auto relevent = (this->_paused == 1 ? linput : rinput);
 
 		sprite.setScale(0.5f, 0.5f);
-		game.screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
+		game->screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
 
-		game.screen->textSize(20);
-		game.screen->displayElement(
+		game->screen->textSize(20);
+		game->screen->displayElement(
 			"P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName,
 			{140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER
 		);
-		game.screen->textSize(15);
+		game->screen->textSize(15);
 		if (this->_moveListTop > 0)
-			game.screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
 		if (this->_moveListTop < this->_moveListCursorMax - 10 && this->_moveListCursorMax > 10)
-			game.screen->displayElement("VVVVVVVV", {140 - 50, 670 - 600}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("VVVVVVVV", {140 - 50, 670 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = this->_moveListTop, k = 0; i < this->_moveOrder.size() && k < 10; i++) {
 			auto move = this->_moveList->find(this->_moveOrder[i]);
 
@@ -387,20 +387,20 @@ namespace Battle
 
 			k++;
 			if (this->_moveListCursor == i)
-				game.screen->displayElement({
+				game->screen->displayElement({
 					static_cast<int>(pos.x - 5),
 					static_cast<int>(pos.y - 5),
 					400, 60
 				}, sf::Color{0xA0, 0xA0, 0xFF, 0xC0});
 
-			game.screen->fillColor(sf::Color::White);
+			game->screen->fillColor(sf::Color::White);
 			switch (prio) {
 			case 800:
-				game.screen->fillColor(sf::Color::Red);
+				game->screen->fillColor(sf::Color::Red);
 				str += " | Ultimate";
 				break;
 			case 700:
-				game.screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
+				game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
 				str += " | Super";
 				break;
 			case 500:
@@ -422,22 +422,22 @@ namespace Battle
 				str += " | Light attack";
 				break;
 			}
-			game.screen->displayElement(str, pos);
-			game.screen->fillColor(sf::Color::White);
+			game->screen->displayElement(str, pos);
+			game->screen->fillColor(sf::Color::White);
 
 			for (auto input : data->second.input) {
 				if (input < NB_SPRITES) {
 					sprite.setPosition(pos + Vector2f{0, 18});
 					sprite.setTexture(this->_moveSprites[input]);
-					game.screen->displayElement(sprite);
+					game->screen->displayElement(sprite);
 					pos.x += 35;
 				} else {
-					game.screen->displayElement(text[input - NB_SPRITES], pos + Vector2f{0, 25});
+					game->screen->displayElement(text[input - NB_SPRITES], pos + Vector2f{0, 25});
 					pos.x += strlen(text[input - NB_SPRITES]) * 10;
 				}
 			}
 		}
-		game.screen->displayElement({590 - 50, 75 - 600, 300, 360}, sf::Color::White);
+		game->screen->displayElement({590 - 50, 75 - 600, 300, 360}, sf::Color::White);
 		for (int x = -static_cast<int>(this->_moveListObject->_position.x) % 16, i = 0; x < 300; x += 16, i++) {
 			bool color = static_cast<int>((this->_moveListObject->_position.x + x) / 16) % 2 == 1;
 
@@ -460,7 +460,7 @@ namespace Battle
 					pos.x = 0;
 				} else if (x > 284)
 					size.x -= x - 284;
-				game.screen->displayElement({
+				game->screen->displayElement({
 					590 - 50 + pos.x,
 					75 - 600 + pos.y,
 					size.x, size.y
@@ -468,13 +468,13 @@ namespace Battle
 			}
 		}
 		this->_moveListObject->render();
-		game.screen->textSize(30);
+		game->screen->textSize(30);
 	}
 
 	void InGame::_moveListUpdate()
 	{
-		auto linput = game.battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game.battleMgr->getRightCharacter()->getInput();
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
 		linput->update();
 		rinput->update();

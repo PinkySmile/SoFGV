@@ -67,8 +67,8 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 		CloseHandle(hFile);
 	} else
 		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
-	Battle::game.logger.fatal(buf);
-	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*Battle::game.screen);
+	Battle::game->logger.fatal(buf);
+	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*Battle::game->screen);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -140,10 +140,10 @@ void	saveSettings()
 {
 	std::ofstream stream{"settings.dat", std::istream::binary};
 
-	Battle::game.P1.first->save(stream);
-	Battle::game.P1.second->save(stream);
-	Battle::game.P2.first->save(stream);
-	Battle::game.P2.second->save(stream);
+	Battle::game->P1.first->save(stream);
+	Battle::game->P1.second->save(stream);
+	Battle::game->P2.first->save(stream);
+	Battle::game->P2.second->save(stream);
 }
 
 void	loadSettings()
@@ -152,8 +152,8 @@ void	loadSettings()
 	struct stat s;
 	auto result = stat("settings.dat", &s);
 
-	Battle::game.P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
-	Battle::game.P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	Battle::game->P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	Battle::game->P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
 }
 
 void	run()
@@ -168,25 +168,25 @@ void	run()
 #endif
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
-	Battle::game.font.loadFromFile(font);
-	Battle::game.screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9 | version " VERSION_STR);
-	Battle::game.screen->setFont(Battle::game.font);
-	Battle::game.scene = std::make_unique<Battle::TitleScreen>(Battle::game.P1, Battle::game.P2);
-	while (Battle::game.screen->isOpen()) {
-		Battle::IScene *newScene = Battle::game.scene->update();
+	Battle::game->font.loadFromFile(font);
+	Battle::game->screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9 | version " VERSION_STR);
+	Battle::game->screen->setFont(Battle::game->font);
+	Battle::game->scene = std::make_unique<Battle::TitleScreen>(Battle::game->P1, Battle::game->P2);
+	while (Battle::game->screen->isOpen()) {
+		Battle::IScene *newScene = Battle::game->scene->update();
 
-		Battle::game.screen->clear(sf::Color::White);
-		Battle::game.scene->render();
-		Battle::game.screen->display();
+		Battle::game->screen->clear(sf::Color::White);
+		Battle::game->scene->render();
+		Battle::game->screen->display();
 
-		while (Battle::game.screen->pollEvent(event)) {
+		while (Battle::game->screen->pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
-				Battle::game.screen->close();
-			Battle::game.scene->consumeEvent(event);
+				Battle::game->screen->close();
+			Battle::game->scene->consumeEvent(event);
 		}
 		if (newScene)
-			Battle::game.scene.reset(newScene);
-		Battle::game.networkMgr.update();
+			Battle::game->scene.reset(newScene);
+		Battle::game->networkMgr.update();
 	}
 	saveSettings();
 }
@@ -195,21 +195,26 @@ int	main()
 {
 #ifdef _WIN32
 	SetUnhandledExceptionFilter(UnhandledExFilter);
-#if defined(_DEBUG)
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-#endif
-	Battle::game.logger.info("Starting game.");
+
 	#ifndef _DEBUG
 	try {
 	#endif
+		new Battle::Game();
+		Battle::game->logger.info("Starting game->");
 		run();
+		Battle::game->logger.info("Goodbye !");
 	#ifndef _DEBUG
 	} catch (std::exception &e) {
-		Battle::game.logger.fatal(e.what());
-		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game.screen);
+		if (Battle::game) {
+			Battle::game->logger.fatal(e.what());
+			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game->screen);
+		} else
+			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
+		delete Battle::game;
+		return EXIT_FAILURE;
 	}
 	#endif
-	Battle::game.logger.info("Goodbye !");
+	delete Battle::game;
 	return EXIT_SUCCESS;
 }

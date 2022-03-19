@@ -226,6 +226,7 @@ if (WIN32)
 		${GGPO_LIBRARIES}
 		${clip_LIBRARIES}
 		ws2_32
+		dbghelp
 	)
 else()
 	target_link_libraries(

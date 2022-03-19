@@ -14,7 +14,7 @@ namespace Battle
 		std::ifstream stream{path};
 		nlohmann::json json;
 
-		game.logger.debug("Loading framedata file " + path);
+		game->logger.debug("Loading framedata file " + path);
 		if (stream.fail())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument(path + ": " + strerror(errno));
@@ -26,7 +26,7 @@ namespace Battle
 	{
 		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
-		game.logger.debug("Loading json");
+		game->logger.debug("Loading json");
 		if (!json.is_array())
 			// TODO: Create proper exceptions
 			throw std::invalid_argument("Invalid json");
@@ -491,20 +491,20 @@ namespace Battle
 		Vector2u textureSize;
 
 		this->_palette = palette;
-		this->textureHandle = game.textureMgr.load(this->spritePath, palette, &textureSize);
+		this->textureHandle = game->textureMgr.load(this->spritePath, palette, &textureSize);
 		if (!this->soundPath.empty()) {
 			if (this->soundPath[0] != 'a') {
 				this->soundHandle = std::stoul(this->soundPath);
-				game.soundMgr.addRef(this->soundHandle);
+				game->soundMgr.addRef(this->soundHandle);
 			} else
-				this->soundHandle = game.soundMgr.load(this->soundPath);
+				this->soundHandle = game->soundMgr.load(this->soundPath);
 		}
 		if (!this->hitSoundPath.empty()){
 			if (this->hitSoundPath[0] != 'a') {
 				this->hitSoundHandle = std::stoul(this->hitSoundPath);
-				game.soundMgr.addRef(this->hitSoundHandle);
+				game->soundMgr.addRef(this->hitSoundHandle);
 			} else
-				this->hitSoundHandle = game.soundMgr.load(this->hitSoundPath);
+				this->hitSoundHandle = game->soundMgr.load(this->hitSoundPath);
 		}
 		if (!this->textureBounds.size.x)
 			this->textureBounds.size.x = textureSize.x;
@@ -519,9 +519,9 @@ namespace Battle
 	FrameData::~FrameData()
 	{
 		if (!this->_slave) {
-			game.textureMgr.remove(this->textureHandle);
-			game.soundMgr.remove(this->soundHandle);
-			game.soundMgr.remove(this->hitSoundHandle);
+			game->textureMgr.remove(this->textureHandle);
+			game->soundMgr.remove(this->soundHandle);
+			game->soundMgr.remove(this->hitSoundHandle);
 		}
 		delete this->collisionBox;
 	}
@@ -573,18 +573,18 @@ namespace Battle
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
 		if (!this->_slave) {
-			game.textureMgr.addRef(this->textureHandle);
-			game.soundMgr.addRef(this->soundHandle);
-			game.soundMgr.addRef(this->hitSoundHandle);
+			game->textureMgr.addRef(this->textureHandle);
+			game->soundMgr.addRef(this->soundHandle);
+			game->soundMgr.addRef(this->hitSoundHandle);
 		}
 	}
 
 	FrameData &FrameData::operator=(const FrameData &other)
 	{
 		if (!this->_slave) {
-			game.textureMgr.remove(this->textureHandle);
-			game.soundMgr.remove(this->soundHandle);
-			game.soundMgr.remove(this->hitSoundHandle);
+			game->textureMgr.remove(this->textureHandle);
+			game->soundMgr.remove(this->soundHandle);
+			game->soundMgr.remove(this->hitSoundHandle);
 		}
 		this->_palette = other._palette;
 		this->chipDamage = other.chipDamage;
@@ -631,40 +631,40 @@ namespace Battle
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
 		if (!this->_slave) {
-			game.textureMgr.addRef(this->textureHandle);
-			game.soundMgr.addRef(this->soundHandle);
-			game.soundMgr.addRef(this->hitSoundHandle);
+			game->textureMgr.addRef(this->textureHandle);
+			game->soundMgr.addRef(this->soundHandle);
+			game->soundMgr.addRef(this->hitSoundHandle);
 		}
 		return *this;
 	}
 
 	void FrameData::reloadTexture()
 	{
-		assert(!this->_slave);
-		game.textureMgr.remove(this->textureHandle);
-		this->textureHandle = game.textureMgr.load(this->spritePath, this->_palette);
+		my_assert(!this->_slave);
+		game->textureMgr.remove(this->textureHandle);
+		this->textureHandle = game->textureMgr.load(this->spritePath, this->_palette);
 	}
 
 	void FrameData::reloadSound()
 	{
-		assert(!this->_slave);
-		game.soundMgr.remove(this->soundHandle);
-		game.soundMgr.remove(this->hitSoundHandle);
+		my_assert(!this->_slave);
+		game->soundMgr.remove(this->soundHandle);
+		game->soundMgr.remove(this->hitSoundHandle);
 		this->soundHandle = 0;
 		this->hitSoundHandle = 0;
 		if (!this->soundPath.empty()) {
 			if (this->soundPath[0] != 'a') {
 				this->soundHandle = std::stoul(this->soundPath);
-				game.soundMgr.addRef(this->soundHandle);
+				game->soundMgr.addRef(this->soundHandle);
 			} else
-				this->soundHandle = game.soundMgr.load(this->soundPath);
+				this->soundHandle = game->soundMgr.load(this->soundPath);
 		}
 		if (!this->hitSoundPath.empty()){
 			if (this->hitSoundPath[0] != 'a') {
 				this->hitSoundHandle = std::stoul(this->hitSoundPath);
-				game.soundMgr.addRef(this->hitSoundHandle);
+				game->soundMgr.addRef(this->hitSoundHandle);
 			} else
-				this->hitSoundHandle = game.soundMgr.load(this->hitSoundPath);
+				this->hitSoundHandle = game->soundMgr.load(this->hitSoundPath);
 		}
 	}
 
@@ -692,12 +692,12 @@ namespace Battle
 				{"x", this->gravity->x},
 				{"y", this->gravity->y}
 			};
-		if (this->size != game.textureMgr.getTextureSize(this->textureHandle))
+		if (this->size != game->textureMgr.getTextureSize(this->textureHandle))
 			result["size"] = {
 				{"x", this->size.x},
 				{"y", this->size.y}
 			};
-		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != game.textureMgr.getTextureSize(this->textureHandle))
+		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != game->textureMgr.getTextureSize(this->textureHandle))
 			result["texture_bounds"] = {
 				{"left", this->textureBounds.pos.x},
 				{"top", this->textureBounds.pos.y},
@@ -768,9 +768,9 @@ namespace Battle
 	void FrameData::setSlave(bool slave)
 	{
 		if (!slave && this->_slave) {
-			game.textureMgr.remove(this->textureHandle);
-			game.soundMgr.remove(this->soundHandle);
-			game.soundMgr.remove(this->hitSoundHandle);
+			game->textureMgr.remove(this->textureHandle);
+			game->soundMgr.remove(this->soundHandle);
+			game->soundMgr.remove(this->hitSoundHandle);
 		}
 		this->_slave = slave;
 	}

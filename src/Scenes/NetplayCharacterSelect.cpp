@@ -11,27 +11,27 @@
 namespace Battle
 {
 	NetplayCharacterSelect::NetplayCharacterSelect() :
-		CharacterSelect(game.networkMgr._leftInput, game.networkMgr._rightInput)
+		CharacterSelect(game->networkMgr._leftInput, game->networkMgr._rightInput)
 	{
-		game.logger.info("NetplayCharacterSelect scene created");
+		game->logger.info("NetplayCharacterSelect scene created");
 	}
 
 	NetplayCharacterSelect::~NetplayCharacterSelect()
 	{
-		game.logger.info("NetplayCharacterSelect scene destroyed");
+		game->logger.info("NetplayCharacterSelect scene destroyed");
 	}
 
 	void NetplayCharacterSelect::consumeEvent(const sf::Event &event)
 	{
 		CharacterSelect::consumeEvent(event);
-		game.networkMgr.consumeEvent(event);
+		game->networkMgr.consumeEvent(event);
 	}
 
 	IScene *NetplayCharacterSelect::update()
 	{
-		if (!game.networkMgr.isConnected())
-			return new TitleScreen(game.P1, game.P2);
-		game.networkMgr.nextFrame();
+		if (!game->networkMgr.isConnected())
+			return new TitleScreen(game->P1, game->P2);
+		game->networkMgr.nextFrame();
 		return nullptr;
 	}
 
@@ -80,9 +80,9 @@ namespace Battle
 		if (this->_rightPos < 0)
 			this->_rightPalette = 0;
 		if (this->_leftPos < 0)
-			this->_leftPos = dist(game.random);
+			this->_leftPos = dist(game->random);
 		if (this->_rightPos < 0)
-			this->_rightPos = dist(game.random);
+			this->_rightPos = dist(game->random);
 		if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
 			this->_leftPalette = 0;
 			this->_rightPalette = 0;
@@ -98,7 +98,7 @@ namespace Battle
 		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
 
-		game.soundMgr.play(BASICSOUND_MENU_CONFIRM);
+		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 		return new NetplayInGame(
 			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
 			stage.platforms[this->_platform],
