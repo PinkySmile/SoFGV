@@ -288,7 +288,7 @@ namespace Battle
 
 	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
 	{
-		if (this->_flagsGenerated && !this->_moveLength)
+		if (this->_flagsGenerated && !this->_moveLength && this->_action >= ACTION_5A && this->_action <= ACTION_c64A)
 			return false;
 		return Character::_canStartMove(action, data);
 	}
