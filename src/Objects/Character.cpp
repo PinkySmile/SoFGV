@@ -1178,7 +1178,6 @@ namespace Battle
 		if (myData->dFlag.invulnerableArmor)
 			return game->battleMgr->addHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
-		this->_speedReset = data->oFlag.resetSpeed;
 		if (
 			this->_isBlocking() &&
 			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
@@ -3122,6 +3121,7 @@ namespace Battle
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else
 				this->_forceStartMove(ACTION_AIR_HIT);
+			this->_speedReset = data.oFlag.resetSpeed;
 			damage *= 1.5;
 			this->_totalDamage += damage;
 			this->_counter = true;
@@ -3153,6 +3153,7 @@ namespace Battle
 				this->_limit[1] += data.voidLimit;
 				this->_limit[2] += data.matterLimit;
 				this->_limit[3] += data.spiritLimit;
+				this->_speedReset = data.oFlag.resetSpeed;
 			}
 			game->battleMgr->addHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
