@@ -522,8 +522,8 @@ namespace Battle
 			game.textureMgr.remove(this->textureHandle);
 			game.soundMgr.remove(this->soundHandle);
 			game.soundMgr.remove(this->hitSoundHandle);
+			delete this->collisionBox;
 		}
-		delete this->collisionBox;
 	}
 
 	FrameData::FrameData(const FrameData &other)
@@ -547,13 +547,6 @@ namespace Battle
 		this->specialMarker = other.specialMarker;
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
-		if (other.collisionBox && other.collisionBox != this->collisionBox) {
-			this->collisionBox = new Box{
-				other.collisionBox->pos,
-				other.collisionBox->size
-			};
-		} else
-			this->collisionBox = nullptr;
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
 		this->prorate = other.prorate;
@@ -576,7 +569,16 @@ namespace Battle
 			game.textureMgr.addRef(this->textureHandle);
 			game.soundMgr.addRef(this->soundHandle);
 			game.soundMgr.addRef(this->hitSoundHandle);
-		}
+			delete this->collisionBox;
+			this->collisionBox = nullptr;
+			if (other.collisionBox) {
+				this->collisionBox = new Box{
+					other.collisionBox->pos,
+					other.collisionBox->size
+				};
+			}
+		} else
+			this->collisionBox = other.collisionBox;
 	}
 
 	FrameData &FrameData::operator=(const FrameData &other)
@@ -605,13 +607,6 @@ namespace Battle
 		this->specialMarker = other.specialMarker;
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
-		if (other.collisionBox && other.collisionBox != this->collisionBox) {
-			this->collisionBox = new Box{
-				other.collisionBox->pos,
-				other.collisionBox->size
-			};
-		} else
-			this->collisionBox = nullptr;
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
 		this->prorate = other.prorate;
@@ -634,7 +629,16 @@ namespace Battle
 			game.textureMgr.addRef(this->textureHandle);
 			game.soundMgr.addRef(this->soundHandle);
 			game.soundMgr.addRef(this->hitSoundHandle);
-		}
+			delete this->collisionBox;
+			this->collisionBox = nullptr;
+			if (other.collisionBox) {
+				this->collisionBox = new Box{
+					other.collisionBox->pos,
+					other.collisionBox->size
+				};
+			}
+		} else
+			this->collisionBox = other.collisionBox;
 		return *this;
 	}
 
@@ -771,6 +775,8 @@ namespace Battle
 			game.textureMgr.remove(this->textureHandle);
 			game.soundMgr.remove(this->soundHandle);
 			game.soundMgr.remove(this->hitSoundHandle);
+			delete this->collisionBox;
+			this->collisionBox = nullptr;
 		}
 		this->_slave = slave;
 	}
