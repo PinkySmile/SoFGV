@@ -69,6 +69,7 @@ namespace Battle
 		mutable std::vector<StageEntry> _stages;
 		mutable std::vector<CharacterEntry> _entries;
 		bool _practice = false;
+		bool _quit = false;
 
 		//Game State
 		int _leftPos = 0;

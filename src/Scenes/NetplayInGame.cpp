@@ -29,14 +29,21 @@ namespace Battle
 	{
 		InGame::consumeEvent(event);
 		game->networkMgr.consumeEvent(event);
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+			delete this->_nextScene;
+			this->_nextScene = new TitleScreen(game->P1, game->P2);
+		}
 	}
 
 	IScene *NetplayInGame::update()
 	{
+		if (this->_nextScene)
+			return this->_nextScene;
+
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
-		if( !game->networkMgr.isConnected())
+		if (!game->networkMgr.isConnected())
 			return new TitleScreen(game->P1, game->P2);
 		if (this->_moveList)
 			this->_moveListUpdate();

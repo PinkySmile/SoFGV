@@ -9,6 +9,7 @@
 #include "../Resources/Game.hpp"
 #include "PracticeInGame.hpp"
 #include "../Objects/Characters/Stickman.hpp"
+#include "TitleScreen.hpp"
 
 namespace Battle
 {
@@ -58,6 +59,8 @@ namespace Battle
 		this->_leftInput->update();
 		this->_rightInput->update();
 
+		if (this->_quit)
+			return new TitleScreen(game->P1, game->P2);
 		return this->_selectingStage ? this->_selectStageUpdate() : this->_selectCharacterUpdate();
 	}
 
@@ -65,6 +68,8 @@ namespace Battle
 	{
 		this->_leftInput->consumeEvent(event);
 		this->_rightInput->consumeEvent(event);
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+			this->_quit = true;
 	}
 
 	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
