@@ -7,6 +7,7 @@
 
 
 #include <memory>
+#include <random>
 #include <SFML/Graphics.hpp>
 #include "../Inputs/RemoteInput.hpp"
 #include "../Scenes/NetplayScene.hpp"
@@ -81,6 +82,7 @@ namespace Battle
 
 #pragma pack(push, 1)
 		struct Data {
+			std::mt19937 battleRandom;
 			bool isCharSelect;
 			int leftInputs[INPUT_NUMBER - 1];
 			int rightInputs[INPUT_NUMBER - 1];

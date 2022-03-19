@@ -711,6 +711,10 @@ namespace Battle
 
 		auto data = reinterpret_cast<Data *>(*buffer);
 
+#ifdef _DEBUG
+		game.logger.debug("Saving NetManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)data));
+#endif
+		data->battleRandom = game.battleRandom;
 		data->isCharSelect = &*this->_characterSelect == this->_netScene;
 		for (size_t i = 0; i < this->_leftInput->_keyDuration.size(); i++)
 			data->leftInputs[i] = this->_leftInput->_keyDuration[i];
@@ -723,6 +727,7 @@ namespace Battle
 	{
 		auto data = reinterpret_cast<Data *>(buffer);
 
+		game.battleRandom = data->battleRandom;
 		if (data->isCharSelect) {
 			this->_netScene = &*this->_characterSelect;
 			game.scene = this->_characterSelect;

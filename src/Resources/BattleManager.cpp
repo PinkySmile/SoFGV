@@ -508,7 +508,6 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
-		dat->battleRandom = game.battleRandom;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
 		dat->_leftHitCtr = this->_leftHitCtr;
@@ -566,7 +565,6 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
-		game.battleRandom = dat->battleRandom;
 		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftComboCtr = dat->_leftComboCtr;
 		this->_leftHitCtr = dat->_leftHitCtr;

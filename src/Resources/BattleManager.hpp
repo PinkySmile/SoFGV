@@ -6,7 +6,6 @@
 #define BATTLE_BATTLEMANAGER_HPP
 
 
-#include <random>
 #include "../Objects/Character.hpp"
 #include "../Objects/Platform.hpp"
 #include "MoveListData.hpp"
@@ -40,7 +39,6 @@ namespace Battle
 			unsigned _rightMatterLimit = 0;
 			unsigned _rightTotalDamage = 0;
 			float _rightProration = 0;
-			std::mt19937 battleRandom;
 		};
 #pragma pack(pop)
 
