@@ -212,7 +212,10 @@ add_executable(
 	src/Scenes/PracticeInGame.hpp
 	src/Objects/Characters/Stickman.cpp
 	src/Objects/Characters/Stickman.hpp
-	src/Inputs/ReplayInput.cpp src/Inputs/ReplayInput.hpp src/Resources/version.h)
+	src/Inputs/ReplayInput.cpp
+	src/Inputs/ReplayInput.hpp
+	src/Resources/version.h
+)
 
 if (WIN32)
 	target_link_libraries(

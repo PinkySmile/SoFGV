@@ -147,7 +147,7 @@ namespace Battle
 
 int __attribute__((noreturn)) _my_assert(const char *expr, const char *file, int line)
 {
-	auto err = "Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
+	auto err = "Debug Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
 
 	Battle::game->logger.fatal(err);
 	throw AssertionFailedException(err);
