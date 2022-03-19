@@ -3112,6 +3112,9 @@ namespace Battle
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
 			chr->_actionBlock++;
+			if (chr->_actionBlock == chr->_moves.at(chr->_action).size())
+				//TODO : Create custom exceptions
+				throw std::invalid_argument("Action " + actionToString(chr->_action) + " is missing block 1");
 			chr->_animation = 0;
 			chr->_applyNewAnimFlags();
 		}
@@ -3253,12 +3256,13 @@ namespace Battle
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyMoveAttributes();
-		if (!this->_ultimateUsed && data->oFlag.ultimate) {
+		if (!this->_hadUltimate && data->oFlag.ultimate) {
 			game->soundMgr.play(BASICSOUND_ULTIMATE);
 			this->_voidMana = 0;
 			this->_matterMana = 0;
 			this->_spiritMana = 0;
 		}
+		this->_hadUltimate = data->oFlag.ultimate;
 		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (this->_speedReset)
 			this->_speed = {0, 0};

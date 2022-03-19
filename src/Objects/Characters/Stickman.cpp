@@ -271,8 +271,8 @@ namespace Battle
 			this->_fakeFrameData.blockStun += this->_chargeTime * BLOCKSTUN_RATIO;
 			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags;
 		} else
-			// We don't want non grabbing moves to keep the grab property
-			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags & (~1);
+			// We don't want non grabbing moves to keep the grab property, same for ultimates.
+			this->_fakeFrameData.oFlag.flags |= this->_addedOFlags.flags & ~(1 << 0 | 1 << 17);
 		return &this->_fakeFrameData;
 	}
 
