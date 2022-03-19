@@ -3354,6 +3354,7 @@ namespace Battle
 #ifdef _DEBUG
 		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_hadUltimate = this->_hadUltimate;
 		dat->_supersUsed = this->_supersUsed;
 		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
@@ -3402,6 +3403,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_hadUltimate = dat->_hadUltimate;
 		this->_supersUsed = dat->_supersUsed;
 		this->_skillsUsed = dat->_skillsUsed;
 		this->_grabInvul = dat->_grabInvul;
