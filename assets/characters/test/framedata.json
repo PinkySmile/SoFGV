@@ -19001,11 +19001,12 @@
                     "marker": 1,
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 19,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -19057,11 +19058,12 @@
                     "marker": 20,
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 19,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -19104,11 +19106,12 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 11,
                         "y": 0
                     },
+                    "priority": 50,
                     "size": {
                         "x": 116,
                         "y": 164
@@ -19171,11 +19174,12 @@
                     ],
                     "matter_limit": 1,
                     "neutral_limit": 1,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 30,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -19233,11 +19237,12 @@
                     ],
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 23,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -20018,7 +20023,8 @@
                     "marker": 1,
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -20070,11 +20076,12 @@
                     "marker": 20,
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 10,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -20117,11 +20124,12 @@
                             "width": 83
                         }
                     ],
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 10,
                         "y": 0
                     },
+                    "priority": 50,
                     "size": {
                         "x": 86,
                         "y": 130
@@ -20178,11 +20186,12 @@
                     ],
                     "matter_limit": 1,
                     "neutral_limit": 1,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 22,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
@@ -20234,11 +20243,12 @@
                     ],
                     "matter_limit": 10,
                     "neutral_limit": 10,
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 10,
                         "y": 0
                     },
+                    "priority": 50,
                     "prorate": 95.0,
                     "push_back": 2,
                     "push_block": 2,
