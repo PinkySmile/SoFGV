@@ -695,6 +695,7 @@ namespace Battle
 		stream3 >> json;
 		for (auto &elem : json)
 			stages.emplace_back(elem);
+		stream.read(reinterpret_cast<char *>(&game->battleRandom), sizeof(game->battleRandom));
 		stream.read(reinterpret_cast<char *>(&params), 12);
 		game->logger.debug("Params: stageID " + std::to_string(params.stage) + ", platformsID " + std::to_string(params.platforms) + ", musicID " + std::to_string(params.music));
 		if (params.stage >= stages.size())

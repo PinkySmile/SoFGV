@@ -7,6 +7,7 @@
 
 
 #include <memory>
+#include <random>
 #include "IScene.hpp"
 #include "../Inputs/IInput.hpp"
 #include "../Objects/Character.hpp"
@@ -48,6 +49,8 @@ namespace Battle
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
 		bool _goBackToTitle;
+
+		std::mt19937 _random;
 		struct GameParams _params;
 
 		virtual void _renderPause() const;

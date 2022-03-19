@@ -43,6 +43,7 @@ namespace Battle
 	};
 
 	InGame::InGame(const GameParams &params) :
+		_random(game->battleRandom),
 		_params(params)
 	{
 		sf::View view{{-50, -600, 1100, 700}};
@@ -140,10 +141,12 @@ namespace Battle
 		auto rightChr   = game->battleMgr->getRightCharacter();
 		auto leftInputs = game->battleMgr->getLeftReplayData();
 		auto rightInputs= game->battleMgr->getRightReplayData();
+#pragma pack(push, 1)
 		struct CharacterData {
 			unsigned index;
 			unsigned nbInputs;
 		} leftChrSer, rightChrSer;
+#pragma pack(pop)
 
 		time(&timer);
 		tm_info = localtime(&timer);
@@ -171,6 +174,7 @@ namespace Battle
 			return;
 		}
 		stream.write(reinterpret_cast<char *>(&magic), 4);
+		stream.write(reinterpret_cast<char *>(&this->_random), sizeof(this->_random));
 		stream.write(reinterpret_cast<char *>(&this->_params), 12);
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
