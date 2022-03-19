@@ -19715,7 +19715,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 28672,
+                    "defense_flag": 94208,
                     "duration": 12,
                     "hit_speed": {
                         "x": 3,
@@ -19772,7 +19772,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 2125824,
+                    "defense_flag": 2191360,
                     "hit_speed": {
                         "x": 3,
                         "y": 0
@@ -19827,7 +19827,7 @@
                         "top": -83,
                         "width": 40
                     },
-                    "defense_flag": 2117632,
+                    "defense_flag": 2183168,
                     "hitSound": "assets/sfxs/se/045.wav",
                     "hurt_boxes": [
                         {
@@ -19875,7 +19875,7 @@
                         "y": 20
                     },
                     "damage": 800,
-                    "defense_flag": 20480,
+                    "defense_flag": 86016,
                     "duration": 2,
                     "hitSound": "assets/sfxs/se/komachi/011.wav",
                     "hit_boxes": [
@@ -19940,7 +19940,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 4096,
+                    "defense_flag": 69632,
                     "duration": 12,
                     "hit_speed": {
                         "x": 3,
@@ -19998,7 +19998,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 28672,
+                    "defense_flag": 94208,
                     "duration": 9,
                     "hit_speed": {
                         "x": 3,
@@ -20052,7 +20052,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 28672,
+                    "defense_flag": 94208,
                     "hit_speed": {
                         "x": 3,
                         "y": 0
@@ -20108,7 +20108,7 @@
                         "top": -84,
                         "width": 40
                     },
-                    "defense_flag": 20480,
+                    "defense_flag": 86016,
                     "hitSound": "assets/sfxs/se/045.wav",
                     "hurt_boxes": [
                         {
@@ -20153,7 +20153,7 @@
                         "width": 40
                     },
                     "damage": 700,
-                    "defense_flag": 20480,
+                    "defense_flag": 86016,
                     "duration": 2,
                     "hitSound": "assets/sfxs/se/komachi/011.wav",
                     "hit_boxes": [
@@ -20219,7 +20219,7 @@
                         "width": 40
                     },
                     "damage": 600,
-                    "defense_flag": 20480,
+                    "defense_flag": 86016,
                     "duration": 12,
                     "hit_speed": {
                         "x": 3,
