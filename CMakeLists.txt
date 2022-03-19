@@ -147,8 +147,14 @@ else ()
 	)
 endif ()
 
+if (WIN32)
+	set(FDICON src/fdeditor.rc)
+else()
+	set(FDICON)
+endif()
 add_executable(
 	FrameDataEditor
+	${FDICON}
 	src/dataEditor.cpp
 	src/Data/Color.hpp
 	src/Data/Vector.hpp
