@@ -632,6 +632,7 @@ namespace Battle
 		nlohmann::json json;
 
 		stream >> json;
+		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 
 		auto scene = std::make_shared<NetplayCharacterSelect>();
 

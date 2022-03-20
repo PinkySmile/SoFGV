@@ -145,7 +145,7 @@ namespace Battle
 			this->_rightPalette++;
 			this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
 		}
-		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 
 		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);

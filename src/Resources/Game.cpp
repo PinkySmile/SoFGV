@@ -39,6 +39,7 @@ namespace Battle
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/033.wav"), BASICSOUND_ULTIMATE);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/054.wav"), BASICSOUND_PARRY);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/072.wav"), BASICSOUND_BEST_PARRY);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/061.wav"), BASICSOUND_GAME_LAUNCH);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_WALL_BOUNCE);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_GROUND_SLAM);
 		} catch (...) {
@@ -77,7 +78,7 @@ namespace Battle
 
 		bool __cdecl startGame(const char *)
 		{
-			game->battleRandom.seed(0);
+			//game->battleRandom.seed(0);
 			game->networkMgr.beginSession();
 			return true;
 		}
