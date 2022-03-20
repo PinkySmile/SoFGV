@@ -3289,6 +3289,7 @@ namespace Battle
 				this->_forceStartMove(ACTION_AIR_HIT);
 				this->_speed = {this->_dir * -1, 20};
 			}
+			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 		}
 	}
 
@@ -3525,6 +3526,7 @@ namespace Battle
 						chr->_forceStartMove(ACTION_AIR_HIT);
 						chr->_speed = {chr->_dir * -1, 20};
 					}
+					game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 				}
 			} else {
 				other->_team = this->_team;
