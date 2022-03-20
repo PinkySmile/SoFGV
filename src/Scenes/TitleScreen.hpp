@@ -32,6 +32,7 @@ namespace Battle
 		unsigned _peakPing = 0;
 		unsigned _delay = 0;
 		unsigned _specCount = 0;
+		unsigned _netbellSound;
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;

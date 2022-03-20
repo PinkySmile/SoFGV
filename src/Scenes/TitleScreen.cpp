@@ -64,6 +64,7 @@ namespace Battle
 
 		game->screen->setView(view);
 		game->logger.info("Title scene created");
+		this->_netbellSound = game->soundMgr.load("assets/sfxs/se/057.wav");
 		this->_inputs.resize(INPUT_NUMBER);
 		this->_inputs[INPUT_LEFT].loadFromFile("assets/icons/inputs/4.png");
 		this->_inputs[INPUT_RIGHT].loadFromFile("assets/icons/inputs/6.png");
@@ -82,6 +83,7 @@ namespace Battle
 	{
 		game->logger.debug("~TitleScreen");
 		game->networkMgr.cancelHost();
+		game->soundMgr.remove(this->_netbellSound);
 		if (this->_thread.joinable())
 			this->_thread.join();
 	}
@@ -637,6 +639,7 @@ namespace Battle
 
 	void TitleScreen::_onConnect(const std::string &address)
 	{
+		game->soundMgr.play(this->_netbellSound);
 		this->_connected = true;
 		if (this->_remote.empty())
 			this->_remote = address;
