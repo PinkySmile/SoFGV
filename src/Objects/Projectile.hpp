@@ -34,6 +34,8 @@ namespace Battle
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
+
+		void getHit(IObject &other, const FrameData *data) override;
 	};
 }
 

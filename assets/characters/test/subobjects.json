@@ -87,6 +87,7 @@
                         "x": 30,
                         "y": -30
                     },
+                    "priority": 10,
                     "prorate": 100.0,
                     "push_block": 4,
                     "size": {
@@ -222,6 +223,7 @@
                         "x": 30,
                         "y": -30
                     },
+                    "priority": 10,
                     "prorate": 100.0,
                     "push_block": 4,
                     "size": {

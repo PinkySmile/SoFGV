@@ -49,6 +49,32 @@ namespace Battle
 			this->nbHit++;
 	}
 
+	void Projectile::getHit(IObject &other, const FrameData *odata)
+	{
+		Object::getHit(other, odata);
+
+		auto proj = dynamic_cast<Projectile *>(&other);
+
+		if (!proj) {
+			this->nbHit++;
+			return;
+		}
+
+		auto data = other.getCurrentFrameData();
+
+		if (data->priority) {
+			if (!odata->priority || *odata->priority < *data->priority)
+				proj->_dead = true;
+			else if (odata->priority && *odata->priority > *data->priority)
+				this->_dead = true;
+			else
+				this->nbHit++;
+		} else if (odata->priority)
+			this->_dead = true;
+		else
+			this->nbHit++;
+	}
+
 	bool Projectile::isDead() const
 	{
 		return Object::isDead() || this->nbHit >= this->maxHit;
