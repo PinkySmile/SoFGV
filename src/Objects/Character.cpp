@@ -985,6 +985,18 @@ namespace Battle
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
+		if (this->_jumpCanceled && (
+			this->_action == ACTION_NEUTRAL_JUMP ||
+			this->_action == ACTION_FORWARD_JUMP ||
+			this->_action == ACTION_BACKWARD_JUMP ||
+			this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
+			this->_action == ACTION_FORWARD_HIGH_JUMP ||
+			this->_action == ACTION_BACKWARD_HIGH_JUMP ||
+			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+			this->_action == ACTION_FORWARD_AIR_JUMP ||
+			this->_action == ACTION_BACKWARD_AIR_JUMP
+		))
+			return false;
 		if (isOverdriveAction(action)) {
 			for (auto limit : this->_limit)
 				if (limit >= 100)
@@ -1202,6 +1214,19 @@ namespace Battle
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
+
+		this->_jumpCanceled = this->_moves.at(this->_action)[this->_actionBlock][anim].oFlag.jumpCancelable && (
+			action == ACTION_NEUTRAL_JUMP ||
+			action == ACTION_FORWARD_JUMP ||
+			action == ACTION_BACKWARD_JUMP ||
+			action == ACTION_NEUTRAL_HIGH_JUMP ||
+			action == ACTION_FORWARD_HIGH_JUMP ||
+			action == ACTION_BACKWARD_HIGH_JUMP ||
+			action == ACTION_NEUTRAL_AIR_JUMP ||
+			action == ACTION_FORWARD_AIR_JUMP ||
+			action == ACTION_BACKWARD_AIR_JUMP
+		);
 		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700;
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 400 && this->getAttackTier(action) < 600;
 		game->logger.info("Starting action " + actionToString(action));
@@ -1233,8 +1258,6 @@ namespace Battle
 			action == ACTION_FORWARD_HIGH_JUMP ||
 			action == ACTION_BACKWARD_HIGH_JUMP
 		) {
-			auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
-
 			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
 				game->soundMgr.play(BASICSOUND_LAND);
 				if (action == ACTION_IDLE)
@@ -3355,6 +3378,7 @@ namespace Battle
 #ifdef _DEBUG
 		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_supersUsed = this->_supersUsed;
 		dat->_skillsUsed = this->_skillsUsed;
@@ -3404,6 +3428,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_supersUsed = dat->_supersUsed;
 		this->_skillsUsed = dat->_skillsUsed;

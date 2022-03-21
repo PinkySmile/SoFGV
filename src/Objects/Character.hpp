@@ -363,6 +363,7 @@ namespace Battle
 			unsigned _guardBar;
 			unsigned _guardRegenCd;
 			bool _counter;
+			bool _jumpCanceled;
 			bool _hadUltimate;
 			float _prorate;
 			bool _atkDisabled;
@@ -512,6 +513,7 @@ namespace Battle
 		bool _counter = false;
 		unsigned _grabInvul = 0;
 		bool _ultimateUsed = false;
+		bool _jumpCanceled = false;
 		float _prorate = 1;
 		bool _atkDisabled = false;
 		bool _inputDisabled = false;
