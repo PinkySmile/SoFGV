@@ -19,6 +19,7 @@ namespace Battle
 {
 	class ReplayInput : public IInput {
 	private:
+		size_t _totalTime = 0;
 		std::deque<Character::ReplayData> _inputs;
 		std::bitset<INPUT_NUMBER - 1> _keyStates;
 		std::array<int, INPUT_NUMBER - 1> _keyDuration;
@@ -33,6 +34,8 @@ namespace Battle
 		void consumeEvent(const sf::Event &event) override;
 		std::string getName() const override;
 		std::vector<std::string> getKeyNames() const override;
+		bool hasData() const;
+		size_t getRemainingTime() const;
 	};
 }
 

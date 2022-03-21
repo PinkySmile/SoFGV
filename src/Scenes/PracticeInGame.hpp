@@ -13,6 +13,7 @@ namespace Battle
 	class PracticeInGame : public InGame {
 	protected:
 		class PracticeBattleManager *_manager;
+		bool _replay = false;
 		unsigned _practiceCursor = 0;
 		bool _practice = false;
 		unsigned char _inputDisplay = 0;
@@ -55,9 +56,10 @@ namespace Battle
 		void _renderPause() const override;
 		void _pauseUpdate() override;
 		bool _pauseConfirm() override;
-		void _practiceRender() const;
-		void _practiceUpdate();
-		bool _practiceConfirm();
+
+		virtual void _practiceRender() const;
+		virtual void _practiceUpdate();
+		virtual bool _practiceConfirm();
 
 	public:
 		PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);

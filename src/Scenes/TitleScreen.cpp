@@ -26,6 +26,7 @@
 #include "../Utils.hpp"
 #include "../Inputs/ReplayInput.hpp"
 #include "../Resources/version.h"
+#include "ReplayInGame.hpp"
 
 #define THRESHOLD 50
 
@@ -741,15 +742,14 @@ namespace Battle
 		delete[] buffer;
 
 
-		this->_nextScene = new InGame{
+		this->_nextScene = new ReplayInGame{
 			params,
 			stages[params.stage].platforms[params.platforms],
 			stages[params.stage],
-			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_unique<ReplayInput>(P1inputs)),
-			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_unique<ReplayInput>(P2inputs)),
+			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_shared<ReplayInput>(P1inputs)),
+			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_shared<ReplayInput>(P2inputs)),
 			entries[P1pos].entry,
-			entries[P2pos].entry,
-			true
+			entries[P2pos].entry
 		};
 	}
 

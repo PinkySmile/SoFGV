@@ -46,7 +46,7 @@ namespace Battle
 		if (!game->networkMgr.isConnected())
 			return new TitleScreen(game->P1, game->P2);
 		if (this->_moveList)
-			this->_moveListUpdate();
+			this->_moveListUpdate((game->hosting ? linput : rinput)->getInputs());
 		else if (!this->_paused) {
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;

@@ -17,14 +17,6 @@ namespace Battle
 		delete[] _savedState;
 	}
 
-	bool PracticeBattleManager::update()
-	{
-		auto result = BattleManager::update();
-
-		this->_score = {0, 0};
-		return result;
-	}
-
 	bool PracticeBattleManager::_updateLoop()
 	{
 		bool b = BattleManager::_updateLoop();
@@ -66,12 +58,14 @@ namespace Battle
 			this->_speed--;
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F10)
 			this->_speed++;
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F8 && this->_savedState)
-			this->restoreFromBuffer(this->_savedState);
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F7) {
-			delete[] this->_savedState;
-			this->_savedState = new unsigned char[this->getBufferSize()];
-			this->copyToBuffer(this->_savedState);
+		if (!this->replay) {
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F8 && this->_savedState)
+				this->restoreFromBuffer(this->_savedState);
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F7) {
+				delete[] this->_savedState;
+				this->_savedState = new unsigned char[this->getBufferSize()];
+				this->copyToBuffer(this->_savedState);
+			}
 		}
 	}
 
@@ -83,8 +77,8 @@ namespace Battle
 
 	void PracticeBattleManager::_displayFrameStuff() const
 	{
-		PracticeBattleManager::_renderGapState(this->_left,  {0, 0});
-		PracticeBattleManager::_renderGapState(this->_right, {900, 0});
+		PracticeBattleManager::_renderGapState(this->_left,  {150, 0});
+		PracticeBattleManager::_renderGapState(this->_right, {750, 0});
 	}
 
 	void PracticeBattleManager::_updateGapState(BlockingState &state, const Character &me, const Character &op)

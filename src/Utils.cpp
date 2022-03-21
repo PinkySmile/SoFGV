@@ -147,15 +147,16 @@ namespace Utils
 			}
 		}
 
-		sf::RenderWindow win{{std::min(700U, width), std::min(220U, height)}, title,
-				     sf::Style::Titlebar | sf::Style::Close};
+		sf::RenderWindow win{{std::min(700U, width), std::min(220U, height)}, title, sf::Style::Titlebar | sf::Style::Close};
 		tgui::Picture::Ptr pic;
 		sf::Event event;
 		try {
-			if (variate & MB_ICONINFORMATION)
+			if ((variate & 0xF0) == MB_ICONINFORMATION)
 				pic = tgui::Picture::create("assets/icons/info.png");
-			else if (variate & MB_ICONERROR)
+			else if ((variate & 0xF0) == MB_ICONERROR)
 				pic = tgui::Picture::create("assets/icons/error.png");
+			else if ((variate & 0xF0) == MB_ICONWARNING)
+				pic = tgui::Picture::create("assets/icons/warn.png");
 		} catch (...) {}
 
 		gui.setTarget(win);
@@ -184,10 +185,11 @@ namespace Utils
 			if (w)
 				while (w->pollEvent(event))
 					if (
-						event.type == sf::Event::Closed ||
-						event.type == sf::Event::KeyPressed ||
-						event.type == sf::Event::MouseWheelScrolled ||
-						event.type == sf::Event::MouseWheelMoved
+						event.type != sf::Event::MouseEntered &&
+						event.type != sf::Event::MouseLeft &&
+						event.type != sf::Event::MouseMoved &&
+						event.type == sf::Event::LostFocus &&
+						event.type == sf::Event::GainedFocus
 					)
 						win.requestFocus();
 			while (win.pollEvent(event)) {

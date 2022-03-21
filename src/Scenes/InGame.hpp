@@ -56,14 +56,23 @@ namespace Battle
 		virtual void _renderPause() const;
 		virtual void _pauseUpdate();
 		virtual bool _pauseConfirm();
-		void _renderMoveList() const;
-		void _moveListUpdate();
+		void _renderMoveList(Character *chr, const std::string &title) const;
+		void _moveListUpdate(InputStruct input);
 		void _calculateMoveListOrder();
 
 		InGame(const GameParams &params);
 
 	public:
-		InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle = false);
+		InGame(
+			const GameParams &params,
+			const std::vector<struct PlatformSkeleton> &platforms,
+			const struct StageEntry &stage,
+			Character *leftChr,
+			Character *rightChr,
+			const nlohmann::json &lJson,
+			const nlohmann::json &rJson,
+			bool goBackToTitle = false
+		);
 		~InGame();
 		void render() const override;
 		IScene *update() override;

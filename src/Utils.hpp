@@ -12,8 +12,9 @@
 #include <TGUI/TGUI.hpp>
 
 #ifndef _WIN32
-#define MB_ICONERROR 1
-#define MB_ICONINFORMATION 2
+#define MB_ICONERROR 0x10
+#define MB_ICONINFORMATION 0x20
+#define MB_ICONWARNING 0x30
 #else
 #include <windows.h>
 #endif

@@ -681,6 +681,7 @@ namespace Battle
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;
+		friend class ReplayInGame;
 		friend class BattleManager;
 	};
 }

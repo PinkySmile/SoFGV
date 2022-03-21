@@ -14,6 +14,8 @@ namespace Battle
 		this->_keyStates.reset();
 		this->_keyDuration.fill(0);
 		this->_fillStates();
+		for (auto &input : this->_inputs)
+			this->_totalTime += input.time + 1;
 	}
 
 	bool ReplayInput::isPressed(InputEnum input) const
@@ -43,6 +45,7 @@ namespace Battle
 	void ReplayInput::update()
 	{
 		if (!this->_inputs.empty()) {
+			this->_totalTime--;
 			if (this->_inputs.front().time == 0)
 				this->_inputs.pop_front();
 			else
@@ -86,5 +89,15 @@ namespace Battle
 		this->_keyStates[INPUT_V] = this->_inputs.front().v;
 		this->_keyStates[INPUT_A] = this->_inputs.front().a;
 		this->_keyStates[INPUT_D] = this->_inputs.front().d;
+	}
+
+	bool ReplayInput::hasData() const
+	{
+		return !this->_inputs.empty();
+	}
+
+	size_t ReplayInput::getRemainingTime() const
+	{
+		return this->_totalTime;
 	}
 }

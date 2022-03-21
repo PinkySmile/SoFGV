@@ -27,7 +27,7 @@ unsigned getMagic()
 {
 	unsigned magic = REPLAY_MAGIC;
 
-	for (char c : VERSION_STR)
+	for (char c : REAL_VERSION_STR)
 		magic += c * 5;
 	return magic;
 }
@@ -191,8 +191,13 @@ namespace Battle
 	void InGame::render() const
 	{
 		game->battleMgr->render();
-		if (this->_moveList)
-			this->_renderMoveList();
+		if (this->_moveList) {
+			auto linput = game->battleMgr->getLeftCharacter();
+			auto rinput = game->battleMgr->getRightCharacter();
+			auto relevent = (this->_paused == 1 ? linput : rinput);
+
+			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
+		}
 		else if (this->_paused)
 			this->_renderPause();
 	}
@@ -205,9 +210,11 @@ namespace Battle
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
-		if (this->_moveList)
-			this->_moveListUpdate();
-		else if (!this->_paused) {
+		if (this->_moveList) {
+			linput->update();
+			rinput->update();
+			this->_moveListUpdate((this->_paused == 1 ? linput : rinput)->getInputs());
+		} else if (!this->_paused) {
 			if (!Battle::game->battleMgr->update()) {
 				if (this->_goBackToTitle)
 					this->_nextScene = new TitleScreen(game->P1, game->P2);
@@ -261,6 +268,7 @@ namespace Battle
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
 			game->screen->displayElement(InGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
 		}
+		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
 	}
 
@@ -353,21 +361,15 @@ namespace Battle
 		}
 	}
 
-	void InGame::_renderMoveList() const
+	void InGame::_renderMoveList(Character *relevent, const std::string &title) const
 	{
 		sf::Sprite sprite;
-		auto linput = game->battleMgr->getLeftCharacter();
-		auto rinput = game->battleMgr->getRightCharacter();
-		auto relevent = (this->_paused == 1 ? linput : rinput);
 
 		sprite.setScale(0.5f, 0.5f);
 		game->screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
 
 		game->screen->textSize(20);
-		game->screen->displayElement(
-			"P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName,
-			{140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER
-		);
+		game->screen->displayElement(title, {140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER);
 		game->screen->textSize(15);
 		if (this->_moveListTop > 0)
 			game->screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
@@ -474,16 +476,8 @@ namespace Battle
 		game->screen->textSize(30);
 	}
 
-	void InGame::_moveListUpdate()
+	void InGame::_moveListUpdate(InputStruct relevent)
 	{
-		auto linput = game->battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game->battleMgr->getRightCharacter()->getInput();
-
-		linput->update();
-		rinput->update();
-
-		auto relevent = (this->_paused == 1 ? linput : rinput)->getInputs();
-
 		if (relevent.pause == 1 || relevent.s == 1) {
 			this->_moveList = nullptr;
 			this->_moveListObject.reset();

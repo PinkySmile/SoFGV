@@ -47,12 +47,14 @@ namespace Battle
 		bool _updateLoop() override;
 
 	public:
+		bool replay = false;
+
 		PracticeBattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		~PracticeBattleManager();
-		bool update() override;
 		void render() override;
 		void consumeEvent(const sf::Event &event) override;
 
+		friend class ReplayInGame;
 		friend class PracticeInGame;
 	};
 }

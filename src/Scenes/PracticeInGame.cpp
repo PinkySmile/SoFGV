@@ -81,6 +81,7 @@ namespace Battle
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
 			game->screen->displayElement(PracticeInGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
 		}
+		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
 	}
 
@@ -220,6 +221,7 @@ namespace Battle
 			game->screen->fillColor(i == this->_practiceCursor ? sf::Color::Yellow : sf::Color::White);
 			game->screen->displayElement(buffer, {350 - 50, 235 - 600 + 25.f * i});
 		}
+		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
 	}
 
@@ -319,6 +321,8 @@ namespace Battle
 
 		if (this->_paused)
 			return result;
+		if (!this->_replay)
+			this->_manager->_score = {0, 0};
 		if (this->_block == Character::BLOCK_1ST_HIT) {
 			if (this->_manager->_rightCharacter->_blockStun) {
 				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
@@ -342,10 +346,12 @@ namespace Battle
 				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
 				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
 			}
-			this->_manager->_leftCharacter->_hp = this->_manager->_leftCharacter->_baseHp;
-			this->_manager->_rightCharacter->_hp = this->_manager->_rightCharacter->_baseHp;
-			this->_manager->_leftCharacter->_ultimateUsed  &= this->_manager->_leftCharacter->getCurrentFrameData()->oFlag.ultimate;
-			this->_manager->_rightCharacter->_ultimateUsed &= this->_manager->_rightCharacter->getCurrentFrameData()->oFlag.ultimate;
+			if (!this->_replay) {
+				this->_manager->_leftCharacter->_hp = this->_manager->_leftCharacter->_baseHp;
+				this->_manager->_rightCharacter->_hp = this->_manager->_rightCharacter->_baseHp;
+				this->_manager->_leftCharacter->_ultimateUsed &= this->_manager->_leftCharacter->getCurrentFrameData()->oFlag.ultimate;
+				this->_manager->_rightCharacter->_ultimateUsed &= this->_manager->_rightCharacter->getCurrentFrameData()->oFlag.ultimate;
+			}
 			if (this->_overdrive == 1)
 				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_barMaxOdCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
 			else if (this->_overdrive == 2)
