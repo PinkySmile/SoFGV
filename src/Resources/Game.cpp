@@ -78,6 +78,7 @@ namespace Battle
 
 		bool __cdecl startGame(const char *)
 		{
+			game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 			game->battleRandom.seed(0);
 			game->networkMgr.beginSession();
 			return true;
