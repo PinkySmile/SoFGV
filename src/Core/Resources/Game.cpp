@@ -147,7 +147,7 @@ namespace Battle
 	}
 }
 
-int __attribute__((noreturn)) _my_assert(const char *expr, const char *file, int line)
+int _my_assert(const char *expr, const char *file, int line)
 {
 	auto err = "Debug Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
 
