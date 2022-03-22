@@ -1,11 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <TGUI/TGUI.hpp>
-#include "Logger.hpp"
-#include "Resources/Screen.hpp"
-#include "Resources/Game.hpp"
-#include "FrameDataEditor/EditableObject.hpp"
-#include "Utils.hpp"
+#include <SoFGV.hpp>
+#include "EditableObject.hpp"
 #ifdef _WIN32
 #include <windows.h>
 #include <dbghelp.h>
@@ -33,7 +30,7 @@ Battle::Vector2i lastMouse;
 Battle::Box *selectedBox;
 std::array<tgui::Button::Ptr, 8> resizeButtons;
 
-void	arrangeButtons(Battle::EditableObject *object)
+void	arrangeButtons(EditableObject *object)
 {
 	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
 	Battle::Box box = spriteSelected ? Battle::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(-data->offset.y - data->size.y)}, data->size} : *selectedBox;
@@ -76,7 +73,7 @@ void	selectBox(tgui::Button::Ptr button, Battle::Box *box)
 		arrangeButtons(nullptr);
 }
 
-void	selectSprite(tgui::Button::Ptr button, std::unique_ptr<Battle::EditableObject> &object)
+void	selectSprite(tgui::Button::Ptr button, std::unique_ptr<EditableObject> &object)
 {
 	boxButton = button;
 	normalColor = button->getRenderer()->getBackgroundColor();
@@ -87,7 +84,7 @@ void	selectSprite(tgui::Button::Ptr button, std::unique_ptr<Battle::EditableObje
 	arrangeButtons(&*object);
 }
 
-void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_ptr<Battle::EditableObject> &object)
+void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_ptr<EditableObject> &object)
 {
 	int i = 0;
 	auto button = tgui::Button::create();
@@ -187,7 +184,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_p
 	}
 }
 
-void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
+void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object)
 {
 	auto progress = panel->get<tgui::Slider>("Progress");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
@@ -281,7 +278,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	*c = false;
 }
 
-void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, bool resetAction = true)
+void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, bool resetAction = true)
 {
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
@@ -313,7 +310,7 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &
 	refreshFrameDataPanel(panel, gui.get<tgui::Panel>("Boxes"), object);
 }
 
-void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object)
+void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object)
 {
 	auto panWeak = std::weak_ptr<tgui::Panel>(panel);
 	auto animPanel = panel->get<tgui::Panel>("AnimPanel");
@@ -1565,7 +1562,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	});
 }
 
-void	saveCallback(std::unique_ptr<Battle::EditableObject> &object)
+void	saveCallback(std::unique_ptr<EditableObject> &object)
 {
 	if (!object)
 		return;
@@ -1592,7 +1589,7 @@ void	saveCallback(std::unique_ptr<Battle::EditableObject> &object)
 	stream << j.dump(4) << std::endl;
 }
 
-void	saveAsCallback(std::unique_ptr<Battle::EditableObject> &object)
+void	saveAsCallback(std::unique_ptr<EditableObject> &object)
 {
 	if (!object)
 		return;
@@ -1621,7 +1618,7 @@ void	saveAsCallback(std::unique_ptr<Battle::EditableObject> &object)
 	stream << j.dump(4) << std::endl;
 }
 
-void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
 	if (!selectedBox)
 		return;
@@ -1659,9 +1656,9 @@ void	quitCallback()
 	quitRequest = true;
 }
 
-void	newFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
+void	newFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
 {
-	object = std::make_unique<Battle::EditableObject>();
+	object = std::make_unique<EditableObject>();
 	loadedPath.clear();
 	object->_moves[0].emplace_back();
 	refreshRightPanel(gui, object);
@@ -1670,7 +1667,7 @@ void	newFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Menu
 	bar->setMenuEnabled({"Misc"}, true);
 }
 
-void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
+void	openFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
 {
 	auto path = Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
 
@@ -1678,7 +1675,7 @@ void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Men
 		return;
 	try {
 		object.reset();
-		object = std::make_unique<Battle::EditableObject>(path);
+		object = std::make_unique<EditableObject>(path);
 		loadedPath = path;
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, true);
@@ -1694,7 +1691,7 @@ void	openFileCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Men
 	}
 }
 
-void	newFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+void	newFrameCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
 	object->_moves.at(object->_action)[object->_actionBlock].insert(object->_moves.at(object->_action)[object->_actionBlock].begin() + object->_animation, object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
 
@@ -1710,7 +1707,7 @@ void	newFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &o
 	frame->setValue(anim);
 }
 
-void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
 	object->_moves.at(object->_action)[object->_actionBlock].push_back(object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
 
@@ -1725,7 +1722,7 @@ void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject>
 	frame->setValue(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
 }
 
-void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr panel)
+void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
 	object->_actionBlock = object->_moves.at(object->_action).size();
 	object->_moves.at(object->_action).emplace_back();
@@ -1737,7 +1734,7 @@ void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject
 	block->setValue(object->_moves.at(object->_action).size() - 1);
 }
 
-void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	newHurtBoxCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
 
@@ -1747,7 +1744,7 @@ void	newHurtBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 	selectBox(boxes->get<tgui::Button>("HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
 }
 
-void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	newHitBoxCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
 
@@ -1757,7 +1754,7 @@ void	newHitBoxCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Pa
 	selectBox(boxes->get<tgui::Button>("HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
 }
 
-void	removeFrameCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	removeFrameCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
 
@@ -1774,7 +1771,7 @@ void	removeFrameCallback(std::unique_ptr<Battle::EditableObject> &object, tgui::
 	selectBox(nullptr, nullptr);
 }
 
-void	removeAnimationBlockCallback(std::unique_ptr<Battle::EditableObject> &object)
+void	removeAnimationBlockCallback(std::unique_ptr<EditableObject> &object)
 {
 	auto &arr = object->_moves.at(object->_action);
 
@@ -1788,7 +1785,7 @@ void	removeAnimationBlockCallback(std::unique_ptr<Battle::EditableObject> &objec
 		object->_actionBlock--;
 }
 
-void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
+void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
 {
 	if (object->_action == 0)
 		return;
@@ -1799,7 +1796,7 @@ void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject
 	refreshRightPanel(gui, object);
 }
 
-void	copyBoxesFromFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes, Battle::FrameData &other)
+void	copyBoxesFromFrame(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes, Battle::FrameData &other)
 {
 	auto &frame = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
@@ -1808,21 +1805,21 @@ void	copyBoxesFromFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::P
 	refreshBoxes(boxes, frame, object);
 }
 
-void	copyBoxesFromLastFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	copyBoxesFromLastFrame(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	if (!object->_animation)
 		return;
 	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation - 1]);
 }
 
-void	copyBoxesFromNextFrame(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	copyBoxesFromNextFrame(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	if (object->_animation >= object->_moves.at(object->_action)[object->_actionBlock].size() - 1)
 		return;
 	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation + 1]);
 }
 
-void	flattenCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, std::vector<std::vector<Battle::FrameData>> &action, Battle::FrameData *base)
+void	flattenCollisionBoxes(std::unique_ptr<EditableObject> &object, std::vector<std::vector<Battle::FrameData>> &action, Battle::FrameData *base)
 {
 	if (!base)
 		for (auto &block : action)
@@ -1843,7 +1840,7 @@ allGood:
 			}
 }
 
-void	flattenAllCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	flattenAllCollisionBoxes(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	for (auto &[id, action] : object->_moves) {
 		if (id < 100 && action.front().front().collisionBox && id) {
@@ -1855,13 +1852,13 @@ void	flattenAllCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, t
 	refreshBoxes(std::move(boxes), object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
 }
 
-void	flattenThisMoveCollisionBoxes(std::unique_ptr<Battle::EditableObject> &object, tgui::Panel::Ptr boxes)
+void	flattenThisMoveCollisionBoxes(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
 	flattenCollisionBoxes(object, object->_moves.at(object->_action), &object->_moves.at(object->_action)[object->_actionBlock][object->_animation]);
 	refreshBoxes(std::move(boxes), object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
 }
 
-void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object)
+void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
 	auto panel = gui.get<tgui::Panel>("Panel1");
@@ -1915,7 +1912,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &obje
 	}
 }
 
-void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object, int mouseX, int mouseY)
+void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mouseX, int mouseY)
 {
 	static bool bbb = false;
 
@@ -2066,7 +2063,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<Battle::EditableObject> &object,
 	}
 }
 
-void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<Battle::EditableObject> &object, tgui::Gui &gui)
+void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &object, tgui::Gui &gui)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
 	auto panel = gui.get<tgui::Panel>("Panel1");
@@ -2118,7 +2115,7 @@ void	run()
 {
 	Battle::game->screen = std::make_unique<Battle::Screen>("Frame data editor");
 
-	std::unique_ptr<Battle::EditableObject> object;
+	std::unique_ptr<EditableObject> object;
 	tgui::Gui gui{*Battle::game->screen};
 	sf::Image icon;
 	sf::Event event;

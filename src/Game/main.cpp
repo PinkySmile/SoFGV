@@ -6,14 +6,7 @@
 #include <crtdbg.h>
 #endif
 #include <sys/stat.h>
-#include "Logger.hpp"
-#include "Resources/version.h"
-#include "Resources/Screen.hpp"
-#include "Resources/Game.hpp"
-#include "Scenes/TitleScreen.hpp"
-#include "Inputs/KeyboardInput.hpp"
-#include "Inputs/ControllerInput.hpp"
-#include "Utils.hpp"
+#include <SoFGV.hpp>
 
 #ifdef _WIN32
 std::string getLastError(int err = GetLastError())
