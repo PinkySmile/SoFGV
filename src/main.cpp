@@ -159,6 +159,7 @@ void	loadSettings()
 void	run()
 {
 	sf::Event event;
+	sf::Image icon;
 
 	loadSettings();
 #ifdef _WIN32
@@ -170,6 +171,8 @@ void	run()
 		font = getenv("BATTLE_FONT");
 	Battle::game->font.loadFromFile(font);
 	Battle::game->screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9 | version " VERSION_STR);
+	if (icon.loadFromFile("assets/gameIcon.png"))
+		Battle::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	Battle::game->screen->setFont(Battle::game->font);
 	Battle::game->scene = std::make_unique<Battle::TitleScreen>(Battle::game->P1, Battle::game->P2);
 	while (Battle::game->screen->isOpen()) {
