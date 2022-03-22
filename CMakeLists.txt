@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(Battle CXX)
+project(SoFGV CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -33,7 +33,7 @@ else()
 endif()
 
 add_executable(
-	Battle
+	SoFGV
 	${GICON}
 	src/main.cpp
 	src/Data/Color.hpp
@@ -130,7 +130,7 @@ endif ()
 
 if (WIN32)
 	target_link_libraries(
-		Battle
+		SoFGV
 		dbghelp
 		${SFML_GRAPHICS_LIB}
 		${SFML_AUDIO_LIB}
@@ -144,7 +144,7 @@ if (WIN32)
 	)
 else ()
 	target_link_libraries(
-		Battle
+		SoFGV
 		${SFML_GRAPHICS_LIB}
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}

@@ -170,7 +170,7 @@ void	run()
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	Battle::game->font.loadFromFile(font);
-	Battle::game->screen = std::make_unique<Battle::Screen>("Le jeu de combat de Pinky et le second degr\xE9 | version " VERSION_STR);
+	Battle::game->screen = std::make_unique<Battle::Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		Battle::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	Battle::game->screen->setFont(Battle::game->font);
