@@ -66,7 +66,7 @@ namespace Battle
 		bool hosting = false;
 		std::mt19937 random;
 		std::mt19937 battleRandom;
-		Logger logger{"./latest.log"};
+		Logger logger;
 		sf::Font font;
 		std::string lastIp = "127.0.0.1";
 		std::unique_ptr<Screen> screen;
@@ -78,7 +78,7 @@ namespace Battle
 		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2;
 		std::shared_ptr<IScene> scene;
 
-		Game();
+		Game(const std::string &loggerPath = "./latest.log");
 	};
 
 	namespace GGPONetplay {

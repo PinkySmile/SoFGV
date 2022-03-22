@@ -10,7 +10,6 @@
 #endif
 
 auto c = std::make_shared<bool>(false);
-Battle::Logger logger("./editor.log");
 float updateTimer = 0;
 float timer = 0;
 std::string loadedPath;
@@ -2305,7 +2304,7 @@ int	main()
 #endif
 
 	try {
-		new Battle::Game();
+		new Battle::Game("./editor.log");
 		Battle::game->logger.info("Starting editor.");
 		run();
 		Battle::game->logger.info("Goodbye !");

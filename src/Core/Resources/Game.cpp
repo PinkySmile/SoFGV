@@ -13,8 +13,9 @@ namespace Battle
 {
 	Game *game = nullptr;
 
-	Game::Game() :
-		random(std::random_device()())
+	Game::Game(const std::string &loggerPath) :
+		random(std::random_device()()),
+		logger(loggerPath)
 	{
 		assert(!game);
 		game = this;
