@@ -99,7 +99,7 @@ private:
 
 public:
 	AssertionFailedException(const std::string &msg) : _msg(std::move(msg)) {}
-	const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW override { return this->_msg.c_str(); }
+	const char *what() const noexcept override { return this->_msg.c_str(); }
 };
 
 template<typename T, typename T2>
