@@ -103,13 +103,13 @@ public:
 };
 
 template<typename T, typename T2>
-int __attribute__((noreturn)) _my_assert_eq(const char *expr, const char *expr2, T exprR, T2 expr2R, const char *file, int line)
+int _my_assert_eq(const char *expr, const char *expr2, T exprR, T2 expr2R, const char *file, int line)
 {
 	auto err = "Debug Assertion " + std::string(expr) + " == " + expr2 + " failed (" + std::to_string(exprR) + " != " + std::to_string(expr2R) + ") in " + file + " at line " + std::to_string(line);
 
 	Battle::game->logger.fatal(err);
 	throw AssertionFailedException(err);
 }
-int __attribute__((noreturn)) _my_assert(const char *expr, const char *file, int line);
+int _my_assert(const char *expr, const char *file, int line);
 
 #endif //BATTLE_GAME_HPP
