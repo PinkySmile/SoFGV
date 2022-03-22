@@ -551,6 +551,7 @@ namespace Battle
 		unsigned char _counterHit = 0;
 
 		virtual bool _executeNeutralAttack(unsigned base);
+		virtual bool _executeDownAttack(unsigned base);
 		virtual unsigned _getReversalAction();
 		virtual void _parryEffect(Object *other);
 		virtual void _processGuardLoss(bool wrongBlock);
