@@ -1039,14 +1039,14 @@ namespace Battle
 			return false;
 		if (isBlockingAction(action))
 			return this->getCurrentFrameData()->dFlag.canBlock;
+		if (isParryAction(action) && this->getCurrentFrameData()->dFlag.canBlock)
+			return !this->_guardCooldown && !this->_blockStun && !isParryAction(this->_action);
 		if (isBlockingAction(this->_action))
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
-		if (isParryAction(action) && this->getCurrentFrameData()->dFlag.canBlock)
-			return !this->_guardCooldown && !this->_blockStun;
 		return false;
 	}
 
