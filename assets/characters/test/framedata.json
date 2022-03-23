@@ -8588,7 +8588,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -8626,7 +8626,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -8650,6 +8650,7 @@
                             "width": 203
                         }
                     ],
+                    "neutral_limit": 100,
                     "offset": {
                         "x": 0,
                         "y": -9
@@ -8660,7 +8661,6 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -11714,7 +11714,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -11752,7 +11752,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -11776,6 +11776,7 @@
                             "width": 204
                         }
                     ],
+                    "neutral_limit": 100,
                     "offset": {
                         "x": 0,
                         "y": -9
@@ -11786,7 +11787,6 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -12170,7 +12170,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -12179,18 +12179,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -12316,7 +12316,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -12325,18 +12325,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -13210,7 +13210,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -13248,7 +13248,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -13272,6 +13272,7 @@
                             "width": 216
                         }
                     ],
+                    "matter_limit": 100,
                     "offset": {
                         "x": 0,
                         "y": -9
@@ -13282,7 +13283,6 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -14081,7 +14081,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -14119,7 +14119,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -14143,6 +14143,7 @@
                             "width": 197
                         }
                     ],
+                    "matter_limit": 100,
                     "offset": {
                         "x": 0,
                         "y": -9
@@ -14153,7 +14154,6 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -14265,7 +14265,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -14274,18 +14274,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -14407,7 +14407,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -14416,18 +14416,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -16728,7 +16728,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -16737,18 +16737,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -19
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 220
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 110,
@@ -16870,7 +16870,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 229,
@@ -16879,18 +16879,18 @@
                             "width": 194
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -19
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 220
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 110,
@@ -17426,7 +17426,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -17464,7 +17464,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105353,
+                    "defense_flag": 2105352,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -17498,14 +17498,14 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
                         "left": 1,
                         "top": 813,
                         "width": 79
-                    }
+                    },
+                    "void_limit": 100
                 },
                 {
                     "collision_box": {
@@ -18094,7 +18094,7 @@
                         "top": -183,
                         "width": 57
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -18132,7 +18132,7 @@
                         "x": 15,
                         "y": 30
                     },
-                    "defense_flag": 2105609,
+                    "defense_flag": 2105608,
                     "duration": 4,
                     "hit_boxes": [
                         {
@@ -18166,14 +18166,14 @@
                         "y": 206
                     },
                     "sound": "8",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
                         "left": 1,
                         "top": 813,
                         "width": 79
-                    }
+                    },
+                    "void_limit": 100
                 },
                 {
                     "collision_box": {
@@ -18747,7 +18747,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 224,
@@ -18756,18 +18756,18 @@
                             "width": 191
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,
@@ -18889,7 +18889,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 120,
                     "hurt_boxes": [
                         {
                             "height": 224,
@@ -18898,18 +18898,18 @@
                             "width": 191
                         }
                     ],
+                    "offense_flag": 16384,
                     "offset": {
                         "x": 0,
                         "y": -9
                     },
-                    "prorate": 100.0,
+                    "prorate": 120.0,
                     "push_block": 6,
                     "size": {
                         "x": 148,
                         "y": 206
                     },
                     "sound": "17",
-                    "spirit_limit": 100,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 103,

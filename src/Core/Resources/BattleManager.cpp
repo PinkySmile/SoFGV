@@ -374,6 +374,8 @@ namespace Battle
 		if (!ldata->dFlag.flash)
 			rchr->update();
 
+		ldata = this->_leftCharacter->getCurrentFrameData();
+		rdata = this->_rightCharacter->getCurrentFrameData();
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
 			for (auto &object: this->_objects)
 				object.second->update();

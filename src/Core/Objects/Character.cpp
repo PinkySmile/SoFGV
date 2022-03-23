@@ -2756,35 +2756,48 @@ namespace Battle
 				if (limit >= 100)
 					return false;
 
+			auto odata = otherChr->getCurrentFrameData();
+			auto mdata = this->getCurrentFrameData();
+
 			if (
-				(otherChr->_action == ACTION_SPIRIT_ROMAN_CANCEL || otherChr->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.spiritElement) &&
-				(this->_action == ACTION_MATTER_OVERDRIVE        || this->_action == ACTION_MATTER_AIR_OVERDRIVE)
+				(odata->oFlag.spiritElement && odata->oFlag.matterElement && odata->oFlag.voidElement) &&
+				(this->_action == ACTION_NEUTRAL_OVERDRIVE                || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+			)
+				return Object::hits(other);
+			if (
+				(otherChr->_action == ACTION_SPIRIT_ROMAN_CANCEL || otherChr->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || odata->oFlag.spiritElement) &&
+				(this->_action == ACTION_MATTER_OVERDRIVE        || this->_action == ACTION_MATTER_AIR_OVERDRIVE        || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return false;
 			if (
-				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.matterElement) &&
-				(this->_action == ACTION_VOID_OVERDRIVE          || this->_action == ACTION_VOID_AIR_OVERDRIVE)
+				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || odata->oFlag.matterElement) &&
+				(this->_action == ACTION_VOID_OVERDRIVE          || this->_action == ACTION_VOID_AIR_OVERDRIVE          || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return false;
 			if (
-				(otherChr->_action == ACTION_VOID_ROMAN_CANCEL || otherChr->_action == ACTION_VOID_AIR_ROMAN_CANCEL || otherChr->getCurrentFrameData()->oFlag.voidElement) &&
-				(this->_action == ACTION_SPIRIT_OVERDRIVE      || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
+				(otherChr->_action == ACTION_VOID_ROMAN_CANCEL || otherChr->_action == ACTION_VOID_AIR_ROMAN_CANCEL || odata->oFlag.voidElement) &&
+				(this->_action == ACTION_SPIRIT_OVERDRIVE      || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE      || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return false;
 
 			if (
-				(this->_action == ACTION_SPIRIT_ROMAN_CANCEL || this->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.spiritElement) &&
-				(otherChr->_action == ACTION_VOID_OVERDRIVE  || otherChr->_action == ACTION_VOID_AIR_OVERDRIVE)
+				(mdata->oFlag.spiritElement && mdata->oFlag.matterElement && mdata->oFlag.voidElement) &&
+				(otherChr->_action == ACTION_NEUTRAL_OVERDRIVE            || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+			)
+				return false;
+			if (
+				(this->_action == ACTION_SPIRIT_ROMAN_CANCEL || this->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || mdata->oFlag.spiritElement) &&
+				(otherChr->_action == ACTION_VOID_OVERDRIVE  || otherChr->_action == ACTION_VOID_AIR_OVERDRIVE  || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
 			if (
-				(this->_action == ACTION_MATTER_ROMAN_CANCEL  || this->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.matterElement) &&
-				(otherChr->_action == ACTION_SPIRIT_OVERDRIVE || otherChr->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
+				(this->_action == ACTION_MATTER_ROMAN_CANCEL  || this->_action == ACTION_MATTER_AIR_ROMAN_CANCEL  || mdata->oFlag.matterElement) &&
+				(otherChr->_action == ACTION_SPIRIT_OVERDRIVE || otherChr->_action == ACTION_SPIRIT_AIR_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
 			if (
-				(this->_action == ACTION_VOID_ROMAN_CANCEL    || this->_action == ACTION_VOID_AIR_ROMAN_CANCEL || this->getCurrentFrameData()->oFlag.voidElement) &&
-				(otherChr->_action == ACTION_MATTER_OVERDRIVE || otherChr->_action == ACTION_MATTER_AIR_OVERDRIVE)
+				(this->_action == ACTION_VOID_ROMAN_CANCEL    || this->_action == ACTION_VOID_AIR_ROMAN_CANCEL    || mdata->oFlag.voidElement) &&
+				(otherChr->_action == ACTION_MATTER_OVERDRIVE || otherChr->_action == ACTION_MATTER_AIR_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
 			if (isOverdriveAction(otherChr->_action))
