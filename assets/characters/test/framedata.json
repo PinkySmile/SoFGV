@@ -14815,6 +14815,7 @@
                     "damage": 600,
                     "defense_flag": 16384,
                     "duration": 6,
+                    "hitSound": "assets/sfxs/se/002.wav",
                     "hit_boxes": [
                         {
                             "height": 39,
