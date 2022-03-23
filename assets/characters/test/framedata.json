@@ -11852,6 +11852,8 @@
                             "width": 47
                         }
                     ],
+                    "mana_cost": 100,
+                    "offense_flag": 58720256,
                     "size": {
                         "x": 48,
                         "y": 188
