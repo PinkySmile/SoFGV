@@ -115,6 +115,8 @@ namespace Battle
 
 	IScene *ReplayInGame::update()
 	{
+		if (this->_nextScene)
+			return this->_nextScene;
 		if (this->_moveList) {
 			game->P1.first->update();
 			game->P1.second->update();
@@ -131,6 +133,10 @@ namespace Battle
 			this->_moveListUpdate(relevent);
 			return this->_nextScene;
 		}
+
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
+
 		if (!this->_paused) {
 			game->P1.first->update();
 			game->P1.second->update();
@@ -141,8 +147,17 @@ namespace Battle
 				this->_paused = 1;
 				return nullptr;
 			}
-		}
-		return PracticeInGame::update();
+			if (!Battle::game->battleMgr->update()) {
+				this->_paused = 1;
+				return nullptr;
+			}
+			if (linput->getInputs().pause == 1)
+				this->_paused = 1;
+			else if (rinput->getInputs().pause == 1)
+				this->_paused = 2;
+		} else
+			this->_pauseUpdate();
+		return nullptr;
 	}
 
 	void ReplayInGame::render() const
