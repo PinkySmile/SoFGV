@@ -243,6 +243,7 @@ namespace Battle
 	{
 		game->battleMgr->consumeEvent(event);
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+			this->_moveList = nullptr;
 			if (this->_paused) {
 				this->_paused = 3;
 				this->_pauseCursor = 0;
