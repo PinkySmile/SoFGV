@@ -487,6 +487,11 @@ namespace Battle
 			this->_voidMana += (this->_voidManaMax - this->_voidMana) * this->_regen;
 		}
 
+		if (this->_action == ACTION_FALLING_TECH && this->_isGrounded())
+			this->_forceStartMove(ACTION_IDLE);
+		if ((this->_action == ACTION_NEUTRAL_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_BACKWARD_TECH) && !this->_isGrounded())
+			this->_forceStartMove(ACTION_FALLING_TECH);
+
 		if (
 			this->_action == ACTION_BEING_KNOCKED_DOWN ||
 			this->_action == ACTION_KNOCKED_DOWN ||
@@ -1065,7 +1070,7 @@ namespace Battle
 				return Object::_onMoveEnd(lastData);
 		}
 
-		if (this->_blockStun && !this->_actionBlock) {
+		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock) {
 			this->_actionBlock++;
 			if (this->_moves.at(this->_action).size() == 1)
 				//TODO: make proper exceptions
