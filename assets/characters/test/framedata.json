@@ -11922,7 +11922,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2113792,
+                    "defense_flag": 16640,
                     "duration": 10,
                     "hurt_boxes": [
                         {
@@ -11963,7 +11963,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2097408,
+                    "defense_flag": 256,
                     "duration": 15,
                     "hurt_boxes": [
                         {
