@@ -5,7 +5,7 @@
 #include "Platform.hpp"
 #include "../Resources/Game.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	Platform::Platform(const std::string &framedata, float width, short hp, unsigned cooldown, Vector2f pos) :
 		_width(width),

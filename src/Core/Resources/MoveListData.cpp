@@ -5,7 +5,7 @@
 #include "MoveListData.hpp"
 #include "../Objects/Character.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	const std::vector<unsigned> defaultCommandOrder = {
 		ACTION_c28N,

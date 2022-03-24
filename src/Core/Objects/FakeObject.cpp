@@ -5,13 +5,13 @@
 #include "FakeObject.hpp"
 #include "Character.hpp"
 
-Battle::FakeObject::FakeObject(const std::map<unsigned int, std::vector<std::vector<FrameData>>> &frameData)
+SpiralOfFate::FakeObject::FakeObject(const std::map<unsigned int, std::vector<std::vector<FrameData>>> &frameData)
 {
 	this->showBoxes = true;
 	this->_moves = frameData;
 }
 
-void Battle::FakeObject::render() const
+void SpiralOfFate::FakeObject::render() const
 {
 	auto oldPos = this->_position;
 
@@ -20,7 +20,7 @@ void Battle::FakeObject::render() const
 	const_cast<FakeObject *>(this)->_position = oldPos;
 }
 
-void Battle::FakeObject::_onMoveEnd(const Battle::FrameData &lastData)
+void SpiralOfFate::FakeObject::_onMoveEnd(const SpiralOfFate::FrameData &lastData)
 {
 	if (this->_action == ACTION_BEING_KNOCKED_DOWN)
 		return this->_forceStartMove(ACTION_KNOCKED_DOWN);

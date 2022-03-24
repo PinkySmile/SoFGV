@@ -6,7 +6,7 @@
 #include "RemoteInput.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	RemoteInput::RemoteInput()
 	{

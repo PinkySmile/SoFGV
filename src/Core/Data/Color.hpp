@@ -6,7 +6,7 @@
 #define BATTLE_COLOR_HPP
 
 
-namespace Battle
+namespace SpiralOfFate
 {
 	union Color {
 		struct {

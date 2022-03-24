@@ -12,7 +12,7 @@
 #include "../Objects/Character.hpp"
 #include "NetplayScene.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class NetplayInGame : public InGame, public NetplayScene {
 	private:

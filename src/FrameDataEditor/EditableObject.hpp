@@ -8,13 +8,13 @@
 
 #include <SoFGV.hpp>
 
-class EditableObject : public Battle::IObject {
+class EditableObject : public SpiralOfFate::IObject {
 public:
-	mutable Battle::Sprite _sprite;
+	mutable SpiralOfFate::Sprite _sprite;
 
-	std::map<unsigned, std::vector<std::vector<Battle::FrameData>>> _moves;
-	Battle::Vector2f _position = {0, 0};
-	Battle::Vector2f _speed = {0, 0};
+	std::map<unsigned, std::vector<std::vector<SpiralOfFate::FrameData>>> _moves;
+	SpiralOfFate::Vector2f _position = {0, 0};
+	SpiralOfFate::Vector2f _speed = {0, 0};
 	float _gravity = 0;
 	unsigned _action = 0;
 	unsigned _actionBlock = 0;
@@ -26,14 +26,14 @@ public:
 	~EditableObject() override = default;
 	void render() const override;
 	void update() override;
-	bool collides(const Battle::IObject &other) const override;
+	bool collides(const SpiralOfFate::IObject &other) const override;
 	void reset() override;
 	bool isDead() const override;
-	bool hits(const Battle::IObject &other) const override;
-	void hit(Battle::IObject &other, const Battle::FrameData *data) override;
-	void getHit(Battle::IObject &other, const Battle::FrameData *data) override;
-	const Battle::FrameData *getCurrentFrameData() const override;
-	void collide(Battle::IObject &other) override;
+	bool hits(const SpiralOfFate::IObject &other) const override;
+	void hit(SpiralOfFate::IObject &other, const SpiralOfFate::FrameData *data) override;
+	void getHit(SpiralOfFate::IObject &other, const SpiralOfFate::FrameData *data) override;
+	const SpiralOfFate::FrameData *getCurrentFrameData() const override;
+	void collide(SpiralOfFate::IObject &other) override;
 	void kill() override;
 	unsigned int getBufferSize() const override;
 	void copyToBuffer(void *data) const override;

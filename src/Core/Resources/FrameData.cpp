@@ -7,9 +7,9 @@
 #include "Game.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
-	std::map<unsigned int, std::vector<std::vector<FrameData>>> Battle::FrameData::loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
+	std::map<unsigned int, std::vector<std::vector<FrameData>>> SpiralOfFate::FrameData::loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		std::ifstream stream{path};
 		nlohmann::json json;

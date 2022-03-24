@@ -10,7 +10,7 @@
 #include "../Resources/Sprite.hpp"
 #include "../Resources/FrameData.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	struct Rectangle {
 		Vector2f pt1;

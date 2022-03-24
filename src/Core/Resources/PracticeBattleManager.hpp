@@ -8,7 +8,7 @@
 
 #include "BattleManager.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class PracticeBattleManager : public BattleManager {
 	private:

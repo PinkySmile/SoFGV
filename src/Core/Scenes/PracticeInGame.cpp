@@ -8,7 +8,7 @@
 #include "../Logger.hpp"
 #include "TitleScreen.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	PracticeInGame::PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(params)

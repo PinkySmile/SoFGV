@@ -9,7 +9,7 @@
 #include <fstream>
 #include <string>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class Logger {
 	private:

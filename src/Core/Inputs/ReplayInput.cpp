@@ -6,7 +6,7 @@
 #include "ReplayInput.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	ReplayInput::ReplayInput(const std::deque<Character::ReplayData> &inputs) :
 		_inputs(inputs)

@@ -34,7 +34,7 @@
 			_my_assert_eq(#_Expression, #_Expression2, a, b, __FILE__,__LINE__);   \
 	} while (0)
 
-namespace Battle
+namespace SpiralOfFate
 {
 	enum BasicSounds {
 		/*  1 */ BASICSOUND_MENU_MOVE = 1,
@@ -74,8 +74,8 @@ namespace Battle
 		SoundManager soundMgr;
 		NetManager networkMgr;
 		std::unique_ptr<BattleManager> battleMgr;
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1;
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2;
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::shared_ptr<IScene> scene;
 
 		Game(const std::string &loggerPath = "./latest.log");
@@ -107,7 +107,7 @@ int _my_assert_eq(const char *expr, const char *expr2, T exprR, T2 expr2R, const
 {
 	auto err = "Debug Assertion " + std::string(expr) + " == " + expr2 + " failed (" + std::to_string(exprR) + " != " + std::to_string(expr2R) + ") in " + file + " at line " + std::to_string(line);
 
-	Battle::game->logger.fatal(err);
+	SpiralOfFate::game->logger.fatal(err);
 	throw AssertionFailedException(err);
 }
 int _my_assert(const char *expr, const char *file, int line);

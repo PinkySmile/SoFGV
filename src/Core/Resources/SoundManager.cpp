@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	unsigned SoundManager::load(std::string file)
 	{

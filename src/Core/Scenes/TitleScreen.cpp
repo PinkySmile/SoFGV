@@ -39,7 +39,7 @@
 #define QUIT_BUTTON      6
 #define SYNC_TEST_BUTTON 7
 
-namespace Battle
+namespace SpiralOfFate
 {
 	static const char * const menuItems[] = {
 		"Play",
@@ -55,8 +55,8 @@ namespace Battle
 	};
 
 	TitleScreen::TitleScreen(
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1,
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2
 	) :
 		_P1(std::move(P1)),
 		_P2(std::move(P2))

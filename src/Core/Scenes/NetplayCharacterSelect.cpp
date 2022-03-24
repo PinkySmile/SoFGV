@@ -8,7 +8,7 @@
 #include "TitleScreen.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	NetplayCharacterSelect::NetplayCharacterSelect() :
 		CharacterSelect(game->networkMgr._leftInput, game->networkMgr._rightInput)

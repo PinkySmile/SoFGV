@@ -11,7 +11,7 @@
 #define HITSTUN_RATIO 2/3
 #define BLOCKSTUN_RATIO 2/3
 
-namespace Battle
+namespace SpiralOfFate
 {
 	const std::map<unsigned, std::vector<unsigned>> _probas{
 		{ACTION_5A, {
@@ -236,8 +236,8 @@ namespace Battle
 		unsigned index,
 		const std::string &frameData,
 		const std::string &subobjFrameData,
-		const std::pair<std::vector<Battle::Color>,
-		std::vector<Battle::Color>> &palette,
+		const std::pair<std::vector<SpiralOfFate::Color>,
+		std::vector<SpiralOfFate::Color>> &palette,
 		std::shared_ptr<IInput> input
 	) :
 		Character(index, frameData, subobjFrameData, palette, input)

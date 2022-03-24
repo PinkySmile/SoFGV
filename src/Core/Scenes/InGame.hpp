@@ -14,7 +14,7 @@
 #include "../Resources/MoveListData.hpp"
 #include "../Objects/FakeObject.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class InGame : public IScene {
 	public:

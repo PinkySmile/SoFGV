@@ -15,7 +15,7 @@
 #include "../Scenes/NetplayInGame.hpp"
 #include "../Scenes/NetplayCharacterSelect.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class GGPOError : public std::exception {
 	private:

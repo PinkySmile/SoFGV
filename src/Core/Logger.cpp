@@ -8,7 +8,7 @@
 #include <ctime>
 #include "Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	Logger::Logger(const std::string &filepath) noexcept :
 		file(std::ofstream(filepath, std::ios::out))

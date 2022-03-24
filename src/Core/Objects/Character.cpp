@@ -96,7 +96,7 @@ static const char *dFlags[] = {
 	"voidInvul"
 };
 
-namespace Battle
+namespace SpiralOfFate
 {
 	std::function<bool (const Character::LastInput &)> Character::getInputN = [](const Character::LastInput &input) { return input.n; };
 	std::function<bool (const Character::LastInput &)> Character::getInputM = [](const Character::LastInput &input) { return input.m; };
@@ -377,9 +377,9 @@ namespace Battle
 
 	static std::string actionToString(int action)
 	{
-		auto name = actionNames.find(static_cast<Battle::CharacterActions>(action));
+		auto name = actionNames.find(static_cast<SpiralOfFate::CharacterActions>(action));
 
-		return name == Battle::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
+		return name == SpiralOfFate::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
 	}
 
 	Character::Character()
@@ -2979,8 +2979,8 @@ namespace Battle
 			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
 		};
 		bool found = false;
-		Battle::Rectangle hurtbox;
-		Battle::Rectangle hitbox;
+		SpiralOfFate::Rectangle hurtbox;
+		SpiralOfFate::Rectangle hitbox;
 
 		mCenter.y *= -1;
 		mCenter += Vector2f{
@@ -3003,7 +3003,7 @@ namespace Battle
 
 		for (auto &hurtBox : oData->hurtBoxes) {
 			auto _hurtBox = this->_applyModifiers(hurtBox);
-			Battle::Rectangle __hurtBox;
+			SpiralOfFate::Rectangle __hurtBox;
 
 			__hurtBox.pt1 = _hurtBox.pos.rotation(this->_rotation, oCenter)                                                      + Vector2f{this->_position.x, -this->_position.y};
 			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(this->_rotation, oCenter) + Vector2f{this->_position.x, -this->_position.y};
@@ -3012,7 +3012,7 @@ namespace Battle
 			hurtbox = __hurtBox;
 			for (auto &hitBox : mData->hitBoxes) {
 				auto _hitBox = other->_applyModifiers(hitBox);
-				Battle::Rectangle __hitBox;
+				SpiralOfFate::Rectangle __hitBox;
 
 				__hitBox.pt1 = _hitBox.pos.rotation(other->_rotation, mCenter)                                                     + Vector2f{other->_position.x, -other->_position.y};
 				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(other->_rotation, mCenter) + Vector2f{other->_position.x, -other->_position.y};

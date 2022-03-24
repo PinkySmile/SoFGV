@@ -10,7 +10,7 @@
 #include "InputEnum.hpp"
 #include <vector>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class IInput {
 	public:

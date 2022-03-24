@@ -32,7 +32,7 @@ unsigned getMagic()
 	return magic;
 }
 
-namespace Battle
+namespace SpiralOfFate
 {
 	static const char * const text[] = {
 		"in the air",
@@ -67,7 +67,7 @@ namespace Battle
 		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
 		game->logger.info("InGame scene created");
-		Battle::game->screen->setView(view);
+		SpiralOfFate::game->screen->setView(view);
 	}
 
 	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
@@ -156,12 +156,12 @@ namespace Battle
 		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
 
 		if (makedir("replays", 0755) && errno != EEXIST) {
-			Battle::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
+			SpiralOfFate::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
 			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game->screen);
 			return;
 		}
 		if (makedir(buf, 0755) && errno != EEXIST) {
-			Battle::game->logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
+			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game->screen);
 			return;
 		}
@@ -169,7 +169,7 @@ namespace Battle
 		std::ofstream stream{buf2, std::ofstream::binary};
 
 		if (stream.fail()) {
-			Battle::game->logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
+			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game->screen);
 			return;
 		}
@@ -215,7 +215,7 @@ namespace Battle
 			rinput->update();
 			this->_moveListUpdate((this->_paused == 1 ? linput : rinput)->getInputs());
 		} else if (!this->_paused) {
-			if (!Battle::game->battleMgr->update()) {
+			if (!SpiralOfFate::game->battleMgr->update()) {
 				if (this->_goBackToTitle)
 					this->_nextScene = new TitleScreen(game->P1, game->P2);
 				else

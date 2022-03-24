@@ -13,13 +13,13 @@
 #include "../Inputs/KeyboardInput.hpp"
 #include "../Inputs/ControllerInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class TitleScreen : public IScene {
 	private:
 		std::vector<sf::Texture> _inputs;
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P1;
-		std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> _P2;
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P1;
+		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P2;
 		std::thread _thread;
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		std::pair<unsigned, unsigned> _spec;
@@ -74,8 +74,8 @@ namespace Battle
 
 	public:
 		TitleScreen(
-			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P1,
-			std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> P2
+			std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1,
+			std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2
 		);
 		~TitleScreen();
 		void render() const override;

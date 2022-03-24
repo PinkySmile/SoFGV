@@ -5,7 +5,7 @@
 #include "PracticeBattleManager.hpp"
 #include "Game.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	PracticeBattleManager::PracticeBattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		BattleManager(stage, leftCharacter, rightCharacter)
@@ -176,7 +176,7 @@ namespace Battle
 		game->screen->textSize(30);
 	}
 
-	bool PracticeBattleManager::_canMashNextFrame(const Battle::Character &me)
+	bool PracticeBattleManager::_canMashNextFrame(const SpiralOfFate::Character &me)
 	{
 		switch (me._action) {
 		case ACTION_GROUND_HIGH_NEUTRAL_BLOCK:

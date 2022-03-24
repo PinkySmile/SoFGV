@@ -10,7 +10,7 @@
 #include "../Objects/Platform.hpp"
 #include "MoveListData.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class BattleManager {
 	protected:

@@ -14,7 +14,7 @@
 #include "../Objects/Character.hpp"
 #include "InGame.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	struct CharacterEntry {
 		nlohmann::json entry;

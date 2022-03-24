@@ -8,7 +8,7 @@
 
 #include <SFML/Window/Event.hpp>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class IScene {
 	public:

@@ -12,7 +12,7 @@
 #include "../Data/Color.hpp"
 #include "Projectile.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	enum CharacterActions {
 		/*  0  */ ACTION_IDLE,

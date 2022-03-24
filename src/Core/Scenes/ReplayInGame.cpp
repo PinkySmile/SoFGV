@@ -9,7 +9,7 @@
 #include "../Inputs/ReplayInput.hpp"
 #include "../Utils.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	ReplayInGame::ReplayInGame(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		PracticeInGame(params, platforms, stage, leftChr, rightChr, lJson, rJson)
@@ -147,7 +147,7 @@ namespace Battle
 				this->_paused = 1;
 				return nullptr;
 			}
-			if (!Battle::game->battleMgr->update()) {
+			if (!SpiralOfFate::game->battleMgr->update()) {
 				this->_paused = 1;
 				return nullptr;
 			}

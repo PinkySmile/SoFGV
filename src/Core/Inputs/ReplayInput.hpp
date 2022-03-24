@@ -15,7 +15,7 @@
 #include "IInput.hpp"
 #include "../Resources/BattleManager.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class ReplayInput : public IInput {
 	private:

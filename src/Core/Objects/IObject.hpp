@@ -8,7 +8,7 @@
 
 #include "../Resources/FrameData.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class BattleManager;
 

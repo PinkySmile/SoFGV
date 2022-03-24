@@ -8,7 +8,7 @@
 
 #include "IScene.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class NetplayScene {
 	private:

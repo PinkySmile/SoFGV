@@ -9,7 +9,7 @@
 #include "../Scenes/NetplayInGame.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	Game *game = nullptr;
 
@@ -152,6 +152,6 @@ int _my_assert(const char *expr, const char *file, int line)
 {
 	auto err = "Debug Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
 
-	Battle::game->logger.fatal(err);
+	SpiralOfFate::game->logger.fatal(err);
 	throw AssertionFailedException(err);
 }

@@ -5,7 +5,7 @@
 #ifndef BATTLE_INPUTENUM_HPP
 #define BATTLE_INPUTENUM_HPP
 
-namespace Battle
+namespace SpiralOfFate
 {
 	enum InputEnum {
 		INPUT_LEFT,

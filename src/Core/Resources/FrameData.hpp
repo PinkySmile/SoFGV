@@ -15,7 +15,7 @@
 #include "../Data/Vector.hpp"
 #include "../Data/Color.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	struct Box {
 		Vector2i pos;

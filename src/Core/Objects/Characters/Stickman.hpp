@@ -9,7 +9,7 @@
 #include "../Character.hpp"
 #include <random>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class Stickman : public Character {
 	private:

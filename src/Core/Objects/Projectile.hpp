@@ -8,7 +8,7 @@
 
 #include "Object.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class Projectile : public Object {
 	private:

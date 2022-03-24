@@ -4,7 +4,7 @@
 
 #include "Projectile.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	Projectile::Projectile(bool owner, unsigned int id, unsigned maxHit) :
 		maxHit(maxHit),

@@ -13,7 +13,7 @@
 #include "../Data/Vector.hpp"
 #include "../Data/Color.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class TextureManager {
 	private:

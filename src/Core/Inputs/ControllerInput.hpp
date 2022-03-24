@@ -10,7 +10,7 @@
 #include <array>
 #include "IInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class ControllerKey {
 	public:

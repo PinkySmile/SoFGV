@@ -9,7 +9,7 @@
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	template<typename T>
 	class Vector2 {
@@ -219,14 +219,14 @@ namespace Battle
 }
 
 template<typename T>
-std::ostream &operator<<(std::ostream &s, const Battle::Vector2<T> &v)
+std::ostream &operator<<(std::ostream &s, const SpiralOfFate::Vector2<T> &v)
 {
 	s << v.x << " " << v.y;
 	return s;
 }
 
 template<typename T>
-std::istream &operator>>(std::istream &s, Battle::Vector2<T> &v)
+std::istream &operator>>(std::istream &s, SpiralOfFate::Vector2<T> &v)
 {
 	s >> v.x >> v.y;
 	return s;

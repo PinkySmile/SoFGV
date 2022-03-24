@@ -5,7 +5,7 @@
 #include <fstream>
 #include "KeyboardInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	static std::vector<std::string> keyToString{
 		"Unknown",
@@ -197,7 +197,7 @@ namespace Battle
 
 	void KeyboardInput::save(std::ofstream &stream) const
 	{
-		std::map<Battle::InputEnum, sf::Keyboard::Key> realKeyboardMap;
+		std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> realKeyboardMap;
 
 		for (auto &pair : this->_keyMap)
 			realKeyboardMap[pair.second] = pair.first;

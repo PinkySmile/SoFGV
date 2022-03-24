@@ -6,7 +6,7 @@
 #include <fstream>
 #include "ControllerInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	ControllerInput::ControllerInput(const std::map<InputEnum, ControllerKey *> &keyMap)
 	{
@@ -82,7 +82,7 @@ namespace Battle
 
 	void ControllerInput::save(std::ofstream &stream) const
 	{
-		std::map<Battle::InputEnum, std::pair<bool, int>> controllerMap;
+		std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap;
 
 		for (auto &pair : this->_keyMap)
 			controllerMap[pair.first] = pair.second->save();

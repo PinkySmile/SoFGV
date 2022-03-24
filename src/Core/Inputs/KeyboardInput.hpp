@@ -11,7 +11,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "IInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class KeyboardInput : public IInput {
 	private:

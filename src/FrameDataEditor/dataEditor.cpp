@@ -24,18 +24,18 @@ bool spriteSelected = false;
 bool quitRequest = false;
 tgui::Color normalColor;
 tgui::Button::Ptr boxButton;
-Battle::Vector2i mouseStart;
-Battle::Vector2i lastMouse;
-Battle::Box *selectedBox;
+SpiralOfFate::Vector2i mouseStart;
+SpiralOfFate::Vector2i lastMouse;
+SpiralOfFate::Box *selectedBox;
 std::array<tgui::Button::Ptr, 8> resizeButtons;
 
 void	arrangeButtons(EditableObject *object)
 {
 	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
-	Battle::Box box = spriteSelected ? Battle::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(-data->offset.y - data->size.y)}, data->size} : *selectedBox;
+	SpiralOfFate::Box box = spriteSelected ? SpiralOfFate::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(-data->offset.y - data->size.y)}, data->size} : *selectedBox;
 
 	for (int i = 0; i < 8; i++) {
-		Battle::Vector2i pos;
+		SpiralOfFate::Vector2i pos;
 		auto resizeButton = resizeButtons[i];
 
 		if (i == 0 || i == 3 || i == 5)
@@ -55,7 +55,7 @@ void	arrangeButtons(EditableObject *object)
 	}
 }
 
-void	selectBox(tgui::Button::Ptr button, Battle::Box *box)
+void	selectBox(tgui::Button::Ptr button, SpiralOfFate::Box *box)
 {
 	spriteSelected = false;
 	selectedBox = box;
@@ -83,7 +83,7 @@ void	selectSprite(tgui::Button::Ptr button, std::unique_ptr<EditableObject> &obj
 	arrangeButtons(&*object);
 }
 
-void	refreshBoxes(tgui::Panel::Ptr panel, Battle::FrameData &data, std::unique_ptr<EditableObject> &object)
+void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::unique_ptr<EditableObject> &object)
 {
 	int i = 0;
 	auto button = tgui::Button::create();
@@ -220,11 +220,11 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto chip = panel->get<tgui::EditBox>("ChipDmg");
 	auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 	auto actionName = panel->get<tgui::Button>("ActionName");
-	auto name = Battle::actionNames.find(static_cast<Battle::CharacterActions>(object->_action));
+	auto name = SpiralOfFate::actionNames.find(static_cast<SpiralOfFate::CharacterActions>(object->_action));
 
-	Battle::game->logger.debug("Soft refresh");
+	SpiralOfFate::game->logger.debug("Soft refresh");
 	*c = true;
-	actionName->setText(name == Battle::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
+	actionName->setText(name == SpiralOfFate::actionNames.end() ? "Action #" + std::to_string(object->_action) : name->second);
 	dFlags->setText(std::to_string(data.dFlag.flags));
 	oFlags->setText(std::to_string(data.oFlag.flags));
 	if (data.priority)
@@ -289,7 +289,7 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, 
 	auto speedLabel = panel->get<tgui::Label>("SpeedLabel");
 	auto frame = panel->get<tgui::SpinButton>("Frame");
 
-	Battle::game->logger.debug("Hard refresh");
+	SpiralOfFate::game->logger.debug("Hard refresh");
 	panel->setEnabled(static_cast<bool>(object));
 	if (!object)
 		return gui.get<tgui::Panel>("Boxes")->removeAllWidgets();
@@ -417,7 +417,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		window->setTitle("Default character moves");
 		window->add(pan);
-		for (auto &move : Battle::actionNames) {
+		for (auto &move : SpiralOfFate::actionNames) {
 			auto label = tgui::Label::create(std::to_string(move.first));
 			auto button = tgui::Button::create(move.second);
 
@@ -674,7 +674,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto y = t.substr(pos + 1, t.size() - pos - 2);
 
 		try {
-			data.gravity = Battle::Vector2f(
+			data.gravity = SpiralOfFate::Vector2f(
 				std::stof(x),
 				std::stof(y)
 			);
@@ -890,7 +890,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		if (!data.collisionBox)
-			data.collisionBox = new Battle::Box{{-static_cast<int>(data.size.x) / 2, 0}, data.size};
+			data.collisionBox = new SpiralOfFate::Box{{-static_cast<int>(data.size.x) / 2, 0}, data.size};
 		refreshBoxes(boxes, data, object);
 	});
 	collisionBox->connect("Unchecked", [&object, boxes]{
@@ -1758,7 +1758,7 @@ void	removeFrameCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::P
 	auto &arr = object->_moves.at(object->_action)[object->_actionBlock];
 
 	if (arr.size() == 1) {
-		arr.back() = Battle::FrameData();
+		arr.back() = SpiralOfFate::FrameData();
 		refreshBoxes(boxes, arr.back(), object);
 		selectBox(nullptr, nullptr);
 		return;
@@ -1795,7 +1795,7 @@ void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &objec
 	refreshRightPanel(gui, object);
 }
 
-void	copyBoxesFromFrame(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes, Battle::FrameData &other)
+void	copyBoxesFromFrame(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes, SpiralOfFate::FrameData &other)
 {
 	auto &frame = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
@@ -1818,7 +1818,7 @@ void	copyBoxesFromNextFrame(std::unique_ptr<EditableObject> &object, tgui::Panel
 	copyBoxesFromFrame(object, boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation + 1]);
 }
 
-void	flattenCollisionBoxes(std::unique_ptr<EditableObject> &object, std::vector<std::vector<Battle::FrameData>> &action, Battle::FrameData *base)
+void	flattenCollisionBoxes(std::unique_ptr<EditableObject> &object, std::vector<std::vector<SpiralOfFate::FrameData>> &action, SpiralOfFate::FrameData *base)
 {
 	if (!base)
 		for (auto &block : action)
@@ -1835,7 +1835,7 @@ allGood:
 		for (auto &frame : block)
 			if (frame.collisionBox && &frame != base) {
 				delete frame.collisionBox;
-				frame.collisionBox = new Battle::Box(*base->collisionBox);
+				frame.collisionBox = new SpiralOfFate::Box(*base->collisionBox);
 			}
 }
 
@@ -1844,7 +1844,7 @@ void	flattenAllCollisionBoxes(std::unique_ptr<EditableObject> &object, tgui::Pan
 	for (auto &[id, action] : object->_moves) {
 		if (id < 100 && action.front().front().collisionBox && id) {
 			delete action.front().front().collisionBox;
-			action.front().front().collisionBox = new Battle::Box(*object->_moves.at(0)[0][0].collisionBox);
+			action.front().front().collisionBox = new SpiralOfFate::Box(*object->_moves.at(0)[0][0].collisionBox);
 		}
 		flattenCollisionBoxes(object, action, nullptr);
 	}
@@ -1863,7 +1863,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto boxes = gui.get<tgui::Panel>("Boxes");
 
-	Battle::game->logger.debug("Placing hooks");
+	SpiralOfFate::game->logger.debug("Placing hooks");
 	placeAnimPanelHooks(gui, panel, boxes, object);
 
 	bar->setMenuEnabled({"New"}, false);
@@ -1919,14 +1919,14 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 		return;
 	if (!selectedBox && !spriteSelected)
 		return;
-	if (mouseStart.distance(Battle::Vector2i{mouseX, mouseY}) > 10)
+	if (mouseStart.distance(SpiralOfFate::Vector2i{mouseX, mouseY}) > 10)
 		dragStart = true;
 	if (!dragStart)
 		return;
 	if (!dragLeft && !dragRight && !dragUp && !dragDown) {
 		if (spriteSelected) {
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
-			Battle::Vector2i diff = Battle::Vector2i{mouseX, mouseY} - lastMouse;
+			SpiralOfFate::Vector2i diff = SpiralOfFate::Vector2i{mouseX, mouseY} - lastMouse;
 
 			diff.y *= -1;
 			data.offset += diff;
@@ -1934,7 +1934,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 			gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 			arrangeButtons(&*object);
 		} else {
-			Battle::Vector2i diff{mouseX, mouseY};
+			SpiralOfFate::Vector2i diff{mouseX, mouseY};
 
 			selectedBox->pos += diff - lastMouse;
 			boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
@@ -2112,10 +2112,10 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 
 void	run()
 {
-	Battle::game->screen = std::make_unique<Battle::Screen>("Frame data editor");
+	SpiralOfFate::game->screen = std::make_unique<SpiralOfFate::Screen>("Frame data editor");
 
 	std::unique_ptr<EditableObject> object;
-	tgui::Gui gui{*Battle::game->screen};
+	tgui::Gui gui{*SpiralOfFate::game->screen};
 	sf::Image icon;
 	sf::Event event;
 	sf::Texture stage;
@@ -2126,7 +2126,7 @@ void	run()
 	sprite.setPosition({stage.getSize().x * 1.f / -2.f, stage.getSize().y * 1.f / -1.4f});
 	sprite.setScale(1, 1);
 	if (icon.loadFromFile("assets/editorIcon.png"))
-		Battle::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+		SpiralOfFate::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	gui.loadWidgetsFromFile("assets/gui/editor.gui");
 
@@ -2137,25 +2137,25 @@ void	run()
 	sf::View guiView{
 		{
 			0, 0,
-			static_cast<float>(Battle::game->screen->getSize().x),
-			static_cast<float>(Battle::game->screen->getSize().y)
+			static_cast<float>(SpiralOfFate::game->screen->getSize().x),
+			static_cast<float>(SpiralOfFate::game->screen->getSize().y)
 		}
 	};
 
 	placeGuiHooks(gui, object);
 	view.setCenter(panel->getSize().x / 2, -300);
-	view.setSize(Battle::game->screen->getSize().x, Battle::game->screen->getSize().y);
-	Battle::game->screen->setView(view);
+	view.setSize(SpiralOfFate::game->screen->getSize().x, SpiralOfFate::game->screen->getSize().y);
+	SpiralOfFate::game->screen->setView(view);
 	gui.setView(guiView);
-	while (Battle::game->screen->isOpen()) {
+	while (SpiralOfFate::game->screen->isOpen()) {
 		timer++;
-		Battle::game->screen->clear(sf::Color::Cyan);
-		Battle::game->screen->draw(sprite);
+		SpiralOfFate::game->screen->clear(sf::Color::Cyan);
+		SpiralOfFate::game->screen->draw(sprite);
 		if (object) {
 			if (timer >= updateTimer || updateAnyway) {
 				object->update();
 				if (object->_animationCtr == 0)
-					Battle::game->soundMgr.play(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].soundHandle);
+					SpiralOfFate::game->soundMgr.play(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].soundHandle);
 				updateAnyway = false;
 				progress->setValue(object->_animation);
 				timer -= updateTimer;
@@ -2163,7 +2163,7 @@ void	run()
 			object->render();
 		}
 
-		while (Battle::game->screen->pollEvent(event)) {
+		while (SpiralOfFate::game->screen->pollEvent(event)) {
 			gui.handleEvent(event);
 			if (event.type == sf::Event::Closed) {
 				quitRequest = true;
@@ -2178,7 +2178,7 @@ void	run()
 
 				view.setCenter(panel->getSize().x / 2, -300);
 				view.setSize(event.size.width, event.size.height);
-				Battle::game->screen->setView(view);
+				SpiralOfFate::game->screen->setView(view);
 				continue;
 			}
 			dragging &= sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -2197,10 +2197,10 @@ void	run()
 				handleDrag(gui, object, event.mouseMove.x, event.mouseMove.y);
 		}
 		gui.draw();
-		Battle::game->screen->display();
+		SpiralOfFate::game->screen->display();
 		if (quitRequest) {
 			if (!object) {
-				Battle::game->screen->close();
+				SpiralOfFate::game->screen->close();
 				continue;
 			}
 			quitRequest = false;
@@ -2234,10 +2234,10 @@ void	run()
 					return;
 				}
 				stream << j.dump(4) << std::endl;
-				Battle::game->screen->close();
+				SpiralOfFate::game->screen->close();
 			}, std::weak_ptr<tgui::ChildWindow>(window));
 			window->get<tgui::Button>("No")->connect("Clicked", []{
-				Battle::game->screen->close();
+				SpiralOfFate::game->screen->close();
 			});
 			window->get<tgui::Button>("Cancel")->connect("Clicked", [](std::weak_ptr<tgui::ChildWindow> self){
 				self.lock()->close();
@@ -2291,8 +2291,8 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 		CloseHandle(hFile);
 	} else
 		sprintf(buf, "Fatal exception caught.\nCould not create file %s\n%s", buf2, getLastError().c_str());
-	Battle::game->logger.fatal(buf);
-	Utils::dispMsg("Fatal error", buf, MB_ICONERROR, &*Battle::game->screen);
+	SpiralOfFate::game->logger.fatal(buf);
+	Utils::dispMsg("Fatal error", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -2304,16 +2304,16 @@ int	main()
 #endif
 
 	try {
-		new Battle::Game("./editor.log");
-		Battle::game->logger.info("Starting editor.");
+		new SpiralOfFate::Game("./editor.log");
+		SpiralOfFate::game->logger.info("Starting editor.");
 		run();
-		Battle::game->logger.info("Goodbye !");
+		SpiralOfFate::game->logger.info("Goodbye !");
 	} catch (std::exception &e) {
-		Battle::game->logger.fatal(e.what());
-		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game->screen);
-		delete Battle::game;
+		SpiralOfFate::game->logger.fatal(e.what());
+		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
+		delete SpiralOfFate::game;
 		return EXIT_FAILURE;
 	}
-	delete Battle::game;
+	delete SpiralOfFate::game;
 	return EXIT_SUCCESS;
 }

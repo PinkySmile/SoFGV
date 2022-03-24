@@ -6,7 +6,7 @@
 #include "Screen.hpp"
 #include "Game.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	Screen::Screen(const std::string &title) :
 		sf::RenderWindow(sf::VideoMode(1680, 960), title), _title(title)

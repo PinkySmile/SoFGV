@@ -6,7 +6,7 @@
 #include "Game.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	unsigned TextureManager::load(std::string file, Vector2u *size)
 	{

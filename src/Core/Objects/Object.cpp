@@ -6,7 +6,7 @@
 #include "../Resources/Game.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	bool Rectangle::intersect(const Rectangle &other)
 	{

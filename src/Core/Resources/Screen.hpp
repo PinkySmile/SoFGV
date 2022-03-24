@@ -8,7 +8,7 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class Screen : public sf::RenderWindow {
 	private:

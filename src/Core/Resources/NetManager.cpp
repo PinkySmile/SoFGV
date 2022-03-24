@@ -12,7 +12,7 @@
 #include "../Scenes/TitleScreen.hpp"
 #include "../Logger.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 #ifdef _WIN32
 	NetManager::NetManager()

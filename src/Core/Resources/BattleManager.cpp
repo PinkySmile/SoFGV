@@ -9,7 +9,7 @@
 
 #define FIRST_TO 2
 
-namespace Battle
+namespace SpiralOfFate
 {
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		_leftCharacter(leftCharacter.character),

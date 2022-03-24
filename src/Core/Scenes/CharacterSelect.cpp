@@ -11,7 +11,7 @@
 #include "../Objects/Characters/Stickman.hpp"
 #include "TitleScreen.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice)	:
 		_leftInput(std::move(leftInput)),

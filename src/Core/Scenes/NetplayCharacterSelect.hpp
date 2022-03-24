@@ -9,7 +9,7 @@
 #include "CharacterSelect.hpp"
 #include "NetplayScene.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class NetplayCharacterSelect : public CharacterSelect, public NetplayScene {
 	private:

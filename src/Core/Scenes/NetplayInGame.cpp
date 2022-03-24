@@ -9,7 +9,7 @@
 #include "NetplayCharacterSelect.hpp"
 #include "TitleScreen.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	NetplayInGame::NetplayInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(params, platforms, stage, leftChr, rightChr, lJson, rJson)
@@ -17,7 +17,7 @@ namespace Battle
 		sf::View view{{-50, -600, 1100, 700}};
 
 		game->logger.info("NetplayGame scene created");
-		Battle::game->screen->setView(view);
+		SpiralOfFate::game->screen->setView(view);
 	}
 
 	NetplayInGame::~NetplayInGame()
@@ -84,7 +84,7 @@ namespace Battle
 
 	IScene *NetplayInGame::_realUpdate()
 	{
-		if (!Battle::game->battleMgr->update())
+		if (!SpiralOfFate::game->battleMgr->update())
 			return new NetplayCharacterSelect();
 		return nullptr;
 	}

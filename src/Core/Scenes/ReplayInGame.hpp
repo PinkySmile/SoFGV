@@ -8,7 +8,7 @@
 
 #include "PracticeInGame.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class ReplayInGame : public PracticeInGame {
 	protected:

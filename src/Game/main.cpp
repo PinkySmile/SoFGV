@@ -60,44 +60,44 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 		CloseHandle(hFile);
 	} else
 		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
-	Battle::game->logger.fatal(buf);
-	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*Battle::game->screen);
+	SpiralOfFate::game->logger.fatal(buf);
+	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
 	exit(EXIT_FAILURE);
 }
 #endif
 
-std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::ControllerInput>> loadPlayerInputs(std::ifstream &stream, bool oldVersion)
+std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream, bool oldVersion)
 {
-	std::map<Battle::InputEnum, sf::Keyboard::Key> keyboardMap{
-		{ Battle::INPUT_LEFT,    sf::Keyboard::Left },
-		{ Battle::INPUT_RIGHT,   sf::Keyboard::Right },
-		{ Battle::INPUT_UP,      sf::Keyboard::Up },
-		{ Battle::INPUT_DOWN,    sf::Keyboard::Down },
-		{ Battle::INPUT_NEUTRAL, sf::Keyboard::W },
-		{ Battle::INPUT_MATTER,  sf::Keyboard::X },
-		{ Battle::INPUT_SPIRIT,  sf::Keyboard::C },
-		{ Battle::INPUT_VOID,    sf::Keyboard::Q },
-		{ Battle::INPUT_ASCEND,  sf::Keyboard::S },
-		{ Battle::INPUT_DASH,    sf::Keyboard::LShift }
+	std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> keyboardMap{
+		{ SpiralOfFate::INPUT_LEFT,    sf::Keyboard::Left },
+		{ SpiralOfFate::INPUT_RIGHT,   sf::Keyboard::Right },
+		{ SpiralOfFate::INPUT_UP,      sf::Keyboard::Up },
+		{ SpiralOfFate::INPUT_DOWN,    sf::Keyboard::Down },
+		{ SpiralOfFate::INPUT_NEUTRAL, sf::Keyboard::W },
+		{ SpiralOfFate::INPUT_MATTER,  sf::Keyboard::X },
+		{ SpiralOfFate::INPUT_SPIRIT,  sf::Keyboard::C },
+		{ SpiralOfFate::INPUT_VOID,    sf::Keyboard::Q },
+		{ SpiralOfFate::INPUT_ASCEND,  sf::Keyboard::S },
+		{ SpiralOfFate::INPUT_DASH,    sf::Keyboard::LShift }
 	};
-	std::map<Battle::InputEnum, std::pair<bool, int>> controllerMap{
-		{ Battle::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
-		{ Battle::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
-		{ Battle::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
-		{ Battle::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
-		{ Battle::INPUT_NEUTRAL, {false, 0} },
-		{ Battle::INPUT_MATTER,  {false, 2} },
-		{ Battle::INPUT_SPIRIT,  {false, 1} },
-		{ Battle::INPUT_VOID,    {false, 3} },
-		{ Battle::INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
-		{ Battle::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
+	std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap{
+		{ SpiralOfFate::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
+		{ SpiralOfFate::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
+		{ SpiralOfFate::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
+		{ SpiralOfFate::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
+		{ SpiralOfFate::INPUT_NEUTRAL, {false, 0} },
+		{ SpiralOfFate::INPUT_MATTER,  {false, 2} },
+		{ SpiralOfFate::INPUT_SPIRIT,  {false, 1} },
+		{ SpiralOfFate::INPUT_VOID,    {false, 3} },
+		{ SpiralOfFate::INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
+		{ SpiralOfFate::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
 	};
-	std::map<Battle::InputEnum, Battle::ControllerKey *> realControllerMap;
-	std::map<sf::Keyboard::Key, Battle::InputEnum> realKeyboardMap;
+	std::map<SpiralOfFate::InputEnum, SpiralOfFate::ControllerKey *> realControllerMap;
+	std::map<sf::Keyboard::Key, SpiralOfFate::InputEnum> realKeyboardMap;
 
 	if (!oldVersion) {
-		keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
-		controllerMap[Battle::INPUT_PAUSE] = {false, 7};
+		keyboardMap[SpiralOfFate::INPUT_PAUSE] = sf::Keyboard::Tab;
+		controllerMap[SpiralOfFate::INPUT_PAUSE] = {false, 7};
 	}
 	if (!stream.fail()) {
 		for (auto &pair : keyboardMap)
@@ -106,26 +106,26 @@ std::pair<std::shared_ptr<Battle::KeyboardInput>, std::shared_ptr<Battle::Contro
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
 	}
 	if (oldVersion) {
-		keyboardMap[Battle::INPUT_PAUSE] = sf::Keyboard::Tab;
-		controllerMap[Battle::INPUT_PAUSE] = {false, 7};
+		keyboardMap[SpiralOfFate::INPUT_PAUSE] = sf::Keyboard::Tab;
+		controllerMap[SpiralOfFate::INPUT_PAUSE] = {false, 7};
 	}
 	for (auto &pair : keyboardMap)
 		realKeyboardMap[pair.second] = pair.first;
 	for (auto &pair : controllerMap) {
 		realControllerMap[pair.first] = pair.second.first ?
-			static_cast<Battle::ControllerKey *>(new Battle::ControllerAxis(
+			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerAxis(
 				0,
 				static_cast<sf::Joystick::Axis>(pair.second.second & 7),
 				(char)(pair.second.second >> 3)
 			)) :
-			static_cast<Battle::ControllerKey *>(new Battle::ControllerButton(
+			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerButton(
 				0,
 				pair.second.second
 			));
 	}
 	return {
-		std::make_shared<Battle::KeyboardInput>(realKeyboardMap),
-		std::make_shared<Battle::ControllerInput>(realControllerMap)
+		std::make_shared<SpiralOfFate::KeyboardInput>(realKeyboardMap),
+		std::make_shared<SpiralOfFate::ControllerInput>(realControllerMap)
 	};
 }
 
@@ -133,10 +133,10 @@ void	saveSettings()
 {
 	std::ofstream stream{"settings.dat", std::istream::binary};
 
-	Battle::game->P1.first->save(stream);
-	Battle::game->P1.second->save(stream);
-	Battle::game->P2.first->save(stream);
-	Battle::game->P2.second->save(stream);
+	SpiralOfFate::game->P1.first->save(stream);
+	SpiralOfFate::game->P1.second->save(stream);
+	SpiralOfFate::game->P2.first->save(stream);
+	SpiralOfFate::game->P2.second->save(stream);
 }
 
 void	loadSettings()
@@ -145,8 +145,8 @@ void	loadSettings()
 	struct stat s;
 	auto result = stat("settings.dat", &s);
 
-	Battle::game->P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
-	Battle::game->P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	SpiralOfFate::game->P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	SpiralOfFate::game->P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
 }
 
 void	run()
@@ -162,27 +162,27 @@ void	run()
 #endif
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
-	Battle::game->font.loadFromFile(font);
-	Battle::game->screen = std::make_unique<Battle::Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
+	SpiralOfFate::game->font.loadFromFile(font);
+	SpiralOfFate::game->screen = std::make_unique<SpiralOfFate::Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
-		Battle::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-	Battle::game->screen->setFont(Battle::game->font);
-	Battle::game->scene = std::make_unique<Battle::TitleScreen>(Battle::game->P1, Battle::game->P2);
-	while (Battle::game->screen->isOpen()) {
-		Battle::IScene *newScene = Battle::game->scene->update();
+		SpiralOfFate::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	SpiralOfFate::game->screen->setFont(SpiralOfFate::game->font);
+	SpiralOfFate::game->scene = std::make_unique<SpiralOfFate::TitleScreen>(SpiralOfFate::game->P1, SpiralOfFate::game->P2);
+	while (SpiralOfFate::game->screen->isOpen()) {
+		SpiralOfFate::IScene *newScene = SpiralOfFate::game->scene->update();
 
-		Battle::game->screen->clear(sf::Color::White);
-		Battle::game->scene->render();
-		Battle::game->screen->display();
+		SpiralOfFate::game->screen->clear(sf::Color::White);
+		SpiralOfFate::game->scene->render();
+		SpiralOfFate::game->screen->display();
 
-		while (Battle::game->screen->pollEvent(event)) {
+		while (SpiralOfFate::game->screen->pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
-				Battle::game->screen->close();
-			Battle::game->scene->consumeEvent(event);
+				SpiralOfFate::game->screen->close();
+			SpiralOfFate::game->scene->consumeEvent(event);
 		}
 		if (newScene)
-			Battle::game->scene.reset(newScene);
-		Battle::game->networkMgr.update();
+			SpiralOfFate::game->scene.reset(newScene);
+		SpiralOfFate::game->networkMgr.update();
 	}
 	saveSettings();
 }
@@ -196,21 +196,21 @@ int	main()
 	#ifndef _DEBUG
 	try {
 	#endif
-		new Battle::Game();
-		Battle::game->logger.info("Starting game->");
+		new SpiralOfFate::Game();
+		SpiralOfFate::game->logger.info("Starting game->");
 		run();
-		Battle::game->logger.info("Goodbye !");
+		SpiralOfFate::game->logger.info("Goodbye !");
 	#ifndef _DEBUG
 	} catch (std::exception &e) {
-		if (Battle::game) {
-			Battle::game->logger.fatal(e.what());
-			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*Battle::game->screen);
+		if (SpiralOfFate::game) {
+			SpiralOfFate::game->logger.fatal(e.what());
+			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
 		} else
 			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
-		delete Battle::game;
+		delete SpiralOfFate::game;
 		return EXIT_FAILURE;
 	}
 	#endif
-	delete Battle::game;
+	delete SpiralOfFate::game;
 	return EXIT_SUCCESS;
 }

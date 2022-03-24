@@ -13,7 +13,7 @@
 #include <bitset>
 #include "IInput.hpp"
 
-namespace Battle
+namespace SpiralOfFate
 {
 	class RemoteInput : public IInput {
 	public:

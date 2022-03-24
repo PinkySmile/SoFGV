@@ -6,25 +6,25 @@
 
 EditableObject::EditableObject(const std::string &frameData)
 {
-	this->_moves = Battle::FrameData::loadFile(frameData);
+	this->_moves = SpiralOfFate::FrameData::loadFile(frameData);
 }
 
 void EditableObject::render() const
 {
 	sf::RectangleShape rect;
 	auto &data = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-	auto scale = Battle::Vector2f{
+	auto scale = SpiralOfFate::Vector2f{
 		static_cast<float>(data.size.x) / data.textureBounds.size.x,
 		static_cast<float>(data.size.y) / data.textureBounds.size.y
 	};
 	auto result = data.offset;
 
 	result.y *= -1;
-	result += Battle::Vector2f{
+	result += SpiralOfFate::Vector2f{
 		data.size.x / -2.f,
 		-static_cast<float>(data.size.y)
 	};
-	result += Battle::Vector2f{
+	result += SpiralOfFate::Vector2f{
 		data.textureBounds.size.x * scale.x / 2,
 		data.textureBounds.size.y * scale.y / 2
 	};
@@ -34,14 +34,14 @@ void EditableObject::render() const
 	this->_sprite.setScale(scale);
 	this->_sprite.textureHandle = data.textureHandle;
 	this->_sprite.setTextureRect(data.textureBounds);
-	Battle::game->textureMgr.render(this->_sprite);
+	SpiralOfFate::game->textureMgr.render(this->_sprite);
 
 	rect.setOutlineThickness(2);
 	rect.setOutlineColor(sf::Color::White);
 	rect.setFillColor(sf::Color::Black);
-	rect.setPosition(this->_position - Battle::Vector2f{4, 4});
+	rect.setPosition(this->_position - SpiralOfFate::Vector2f{4, 4});
 	rect.setSize({9, 9});
-	Battle::game->screen->draw(rect);
+	SpiralOfFate::game->screen->draw(rect);
 }
 
 void EditableObject::update()
@@ -54,7 +54,7 @@ void EditableObject::update()
 		this->_animation++;
 		this->_animation %= this->_moves.at(this->_action)[this->_actionBlock].size();
 		data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-		Battle::game->soundMgr.play(data->soundHandle);
+		SpiralOfFate::game->soundMgr.play(data->soundHandle);
 	}
 	this->_position += this->_speed;
 	this->_speed.y += this->_gravity;
@@ -74,20 +74,20 @@ bool EditableObject::hits(const IObject &) const
 	return false;
 }
 
-void EditableObject::hit(Battle::IObject &, const Battle::FrameData *)
+void EditableObject::hit(SpiralOfFate::IObject &, const SpiralOfFate::FrameData *)
 {
 }
 
-void EditableObject::getHit(Battle::IObject &, const Battle::FrameData *)
+void EditableObject::getHit(SpiralOfFate::IObject &, const SpiralOfFate::FrameData *)
 {
 }
 
-const Battle::FrameData *EditableObject::getCurrentFrameData() const
+const SpiralOfFate::FrameData *EditableObject::getCurrentFrameData() const
 {
 	return nullptr;
 }
 
-bool EditableObject::collides(const Battle::IObject &) const
+bool EditableObject::collides(const SpiralOfFate::IObject &) const
 {
 	return false;
 }

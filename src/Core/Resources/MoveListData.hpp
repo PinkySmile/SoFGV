@@ -10,7 +10,7 @@
 #include <string>
 #include <map>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	enum MoveSprite {
 		SPRITE_2,

@@ -8,7 +8,7 @@
 
 #include <SFML/Graphics.hpp>
 
-namespace Battle
+namespace SpiralOfFate
 {
 	struct Sprite : public sf::Sprite {
 		unsigned textureHandle = 0;
