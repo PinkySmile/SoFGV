@@ -128,6 +128,7 @@ add_library(
 	src/Core/Scenes/ReplayInGame.cpp
 	src/Core/Scenes/ReplayInGame.hpp
 )
+target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)
 	target_link_libraries(

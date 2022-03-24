@@ -12,6 +12,14 @@
 #include "../Data/Color.hpp"
 #include "Projectile.hpp"
 
+#ifdef _MSC_VER
+#ifdef MYDLL_EXPORTS
+#define MYDLL_API __declspec(dllexport)
+#else
+#define MYDLL_API __declspec(dllimport)
+#endif
+#endif
+
 namespace SpiralOfFate
 {
 	enum CharacterActions {
@@ -284,7 +292,7 @@ namespace SpiralOfFate
 		/* 403 */ ACTION_WIN_MATCH4,
 	};
 
-	extern const std::map<CharacterActions, std::string> actionNames;
+	extern MYDLL_API const std::map<CharacterActions, std::string> actionNames;
 
 	class Character : public Object {
 	public:
