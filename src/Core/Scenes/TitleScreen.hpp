@@ -23,6 +23,7 @@ namespace SpiralOfFate
 		std::thread _thread;
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		std::pair<unsigned, unsigned> _spec;
+		unsigned _latestJoystickId = 0;
 		unsigned _selectedEntry = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
@@ -36,7 +37,6 @@ namespace SpiralOfFate
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;
-		bool _usingKeyboard = false;
 		bool _chooseSpecCount = false;
 		bool _replaySelect = false;
 		std::string _basePath;
@@ -53,9 +53,9 @@ namespace SpiralOfFate
 		void _onInputsChosen();
 		void _host(unsigned spec);
 		void _connect();
-		void _onKeyPressed(sf::Event::KeyEvent ev);
-		void _onJoystickMoved(sf::Event::JoystickMoveEvent ev);
-		void _onJoystickPressed(sf::Event::JoystickButtonEvent ev);
+		bool _onKeyPressed(sf::Event::KeyEvent ev);
+		bool _onJoystickMoved(sf::Event::JoystickMoveEvent ev);
+		bool _onJoystickPressed(sf::Event::JoystickButtonEvent ev);
 		void _showAskInputBox() const;
 		void _showHostMessage() const;
 		void _showEditKeysMenu() const;

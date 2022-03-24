@@ -41,6 +41,15 @@
 
 namespace SpiralOfFate
 {
+	static const unsigned inputs[]{
+		INPUT_LEFT,
+		INPUT_RIGHT,
+		INPUT_UP,
+		INPUT_DOWN,
+		INPUT_NEUTRAL,
+		INPUT_SPIRIT,
+		INPUT_PAUSE
+	};
 	static const char * const menuItems[] = {
 		"Play",
 		"Practice",
@@ -112,8 +121,25 @@ namespace SpiralOfFate
 	{
 		game->random();
 		if ((game->networkMgr.isHosting() || this->_connecting) && !this->_oldRemote.empty() && this->_remote.empty())
-			Utils::dispMsg("Disconnected", (this->_oldRemote + " disconnected...").c_str(), MB_ICONINFORMATION);
+			Utils::dispMsg("Disconnected", (this->_oldRemote + " disconnected...").c_str(), MB_ICONINFORMATION, &*game->screen);
 		this->_oldRemote = this->_remote;
+		game->menu.first->update();
+		game->menu.second->update();
+
+		auto inputs = (!this->_latestJoystickId ? game->menu.first->getInputs() : game->menu.second->getInputs());
+
+		if (inputs.verticalAxis == -1 || (inputs.verticalAxis < -36 && inputs.verticalAxis % 6 == 0))
+			this->_onGoDown();
+		else if (inputs.verticalAxis == 1 || (inputs.verticalAxis > 36 && inputs.verticalAxis % 6 == 0))
+			this->_onGoUp();
+		if (inputs.horizontalAxis == -1 || (inputs.horizontalAxis < -36 && inputs.horizontalAxis % 6 == 0))
+			this->_onGoLeft();
+		else if (inputs.horizontalAxis == 1 || (inputs.horizontalAxis > 36 && inputs.horizontalAxis % 6 == 0))
+			this->_onGoRight();
+		if (inputs.s == 1)
+			this->_onCancel();
+		if (inputs.n == 1)
+			this->_onConfirm(this->_latestJoystickId + 1);
 		return this->_nextScene;
 	}
 
@@ -123,17 +149,22 @@ namespace SpiralOfFate
 			return;
 		switch (event.type) {
 		case sf::Event::KeyPressed:
-			this->_onKeyPressed(event.key);
+			if (this->_onKeyPressed(event.key))
+				return;
 			break;
 		case sf::Event::JoystickButtonPressed:
-			this->_onJoystickPressed(event.joystickButton);
+			if (this->_onJoystickPressed(event.joystickButton))
+				return;
 			break;
 		case sf::Event::JoystickMoved:
-			this->_onJoystickMoved(event.joystickMove);
+			if (this->_onJoystickMoved(event.joystickMove))
+				return;
 			break;
 		default:
 			break;
 		}
+		game->menu.first->consumeEvent(event);
+		game->menu.second->consumeEvent(event);
 	}
 
 	void TitleScreen::_host(unsigned spec)
@@ -235,115 +266,74 @@ namespace SpiralOfFate
 		}
 	}
 
-	void TitleScreen::_onKeyPressed(sf::Event::KeyEvent ev)
+	bool TitleScreen::_onKeyPressed(sf::Event::KeyEvent ev)
 	{
 		if (this->_changeInput && this->_changingInputs) {
 			if (sf::Keyboard::Escape == ev.code) {
 				game->soundMgr.play(BASICSOUND_MENU_CANCEL);
 				this->_changeInput = false;
-				return;
+				return false;
 			}
-			if (!this->_usingKeyboard)
-				return;
+			if (this->_latestJoystickId)
+				return false;
 
-			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
+			auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
 
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.first->changeInput(static_cast<InputEnum>(this->_cursorInputs), ev.code);
 			this->_changeInput = false;
-			return;
+			return true;
 		}
 
-		this->_usingKeyboard = true;
+		this->_latestJoystickId = 0;
 		switch (ev.code) {
-		case sf::Keyboard::Up:
-			this->_onGoUp();
-			break;
-		case sf::Keyboard::Down:
-			this->_onGoDown();
-			break;
-		case sf::Keyboard::Left:
-			this->_onGoLeft();
-			break;
-		case sf::Keyboard::Right:
-			this->_onGoRight();
-			break;
 		case sf::Keyboard::Escape:
-		case sf::Keyboard::X:
 			this->_onCancel();
-			break;
-		case sf::Keyboard::Z:
-			this->_onConfirm(1);
 			break;
 		default:
 			break;
 		}
+		return false;
 	}
 
-	void TitleScreen::_onJoystickMoved(sf::Event::JoystickMoveEvent ev)
+	bool TitleScreen::_onJoystickMoved(sf::Event::JoystickMoveEvent ev)
 	{
 		auto old = this->_oldStickValues[ev.joystickId][ev.axis];
 
 		this->_oldStickValues[ev.joystickId][ev.axis] = ev.position;
 		if (this->_changeInput && this->_changingInputs) {
-			if (this->_usingKeyboard)
-				return;
+			if (!this->_latestJoystickId)
+				return false;
 			if (std::abs(ev.position) < THRESHOLD)
-				return;
+				return true;
 
-			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
+			auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
 
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerAxis(ev.joystickId, ev.axis, std::copysign(30, ev.position)));
 			this->_changeInput = false;
-			return;
+			return true;
 		}
-		this->_usingKeyboard = false;
-
-		switch (ev.axis) {
-		case sf::Joystick::Axis::X:
-		case sf::Joystick::Axis::PovX:
-			if (ev.position < -THRESHOLD && old > -THRESHOLD)
-				this->_onGoLeft();
-			else if (ev.position > THRESHOLD && old < THRESHOLD)
-				this->_onGoRight();
-			return;
-		case sf::Joystick::Axis::Y:
-			if (ev.position < -THRESHOLD && old > -THRESHOLD)
-				this->_onGoUp();
-			else if (ev.position > THRESHOLD && old < THRESHOLD)
-				this->_onGoDown();
-			return;
-		case sf::Joystick::Axis::PovY:
-			if (ev.position < -THRESHOLD && old > -THRESHOLD)
-				this->_onGoDown();
-			else if (ev.position > THRESHOLD && old < THRESHOLD)
-				this->_onGoUp();
-			return;
-		default:
-			return;
-		}
+		this->_latestJoystickId = ev.joystickId + 1;
+		return false;
 	}
 
-	void TitleScreen::_onJoystickPressed(sf::Event::JoystickButtonEvent ev)
+	bool TitleScreen::_onJoystickPressed(sf::Event::JoystickButtonEvent ev)
 	{
 		if (this->_changeInput && this->_changingInputs) {
-			if (this->_usingKeyboard)
-				return;
+			if (!this->_latestJoystickId)
+				return false;
 
-			auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
+			auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
 
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			pair.second->changeInput(static_cast<InputEnum>(this->_cursorInputs), new ControllerButton(ev.joystickId, ev.button));
 			this->_changeInput = false;
-			return;
+			return true;
 		}
 
-		this->_usingKeyboard = false;
-		if (ev.button == 0)
-			this->_onConfirm(ev.joystickId + 2);
-		else if (ev.button == 1)
-			this->_onCancel();
+		this->_latestJoystickId = ev.joystickId + 1;
+		return false;
 	}
 
 	void TitleScreen::_showAskInputBox() const
@@ -363,7 +353,7 @@ namespace SpiralOfFate
 				Screen::ALIGN_CENTER
 			);
 		else
-			game->screen->displayElement("Press Z or (A)", {540, 260}, 300, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Press [Confirm]", {540, 260}, 300, Screen::ALIGN_CENTER);
 
 		if (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON)
 			game->screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
@@ -382,11 +372,11 @@ namespace SpiralOfFate
 					Screen::ALIGN_CENTER
 				);
 			else
-				game->screen->displayElement("Press Z or (A)", {840, 260}, 300, Screen::ALIGN_CENTER);
+				game->screen->displayElement("Press [Confirm]", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
 		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != PLAY_BUTTON && this->_selectedEntry != PRACTICE_BUTTON && this->_selectedEntry != SYNC_TEST_BUTTON)))
-			game->screen->displayElement("Press Z or (A) to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Press [Confirm] to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
 	void TitleScreen::_showHostMessage() const
@@ -431,25 +421,49 @@ namespace SpiralOfFate
 
 	void TitleScreen::_showEditKeysMenu() const
 	{
-		auto &pair = this->_changingInputs == 1 ? this->_P1 : this->_P2;
-		auto input = this->_usingKeyboard ? static_cast<std::shared_ptr<IInput>>(pair.first) : static_cast<std::shared_ptr<IInput>>(pair.second);
+		auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
+		auto input = !this->_latestJoystickId ? static_cast<std::shared_ptr<IInput>>(pair.first) : static_cast<std::shared_ptr<IInput>>(pair.second);
 		auto strs = input->getKeyNames();
+		const std::string names[]{
+			"Left",
+			"Right",
+			"Up",
+			"Down",
+			"Confirm",
+			"Cancel",
+			"Pause"
+		};
 
 		game->screen->displayElement({640, 80, 400, 830}, sf::Color{0x50, 0x50, 0x50});
 
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement((this->_changingInputs == 1 ? "P1 | " : "P2 | ") + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
+		if (this->_changingInputs == 1) {
+			game->screen->displayElement("Menu | " + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
+			game->screen->fillColor(sf::Color::White);
+			for (size_t j = 0; j < sizeof(inputs) / sizeof(*inputs); j++) {
+				auto i = inputs[j];
 
-		game->screen->fillColor(sf::Color::White);
-
-		for (unsigned i = 0; i < this->_inputs.size(); i++) {
-			game->screen->displayElement(this->_inputs[i], {680, 135 + i * 68.f});
-			if (this->_changeInput && this->_cursorInputs == i) {
-				game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
-				game->screen->displayElement("Press a key", {760, 146 + i * 68.f});
-			} else {
-				game->screen->fillColor(this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
-				game->screen->displayElement(strs[i], {760, 146 + i * 68.f});
+				if (this->_changeInput && this->_cursorInputs == i) {
+					game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
+					game->screen->displayElement(names[j] + ": Press a key", {680, 146 + i * 68.f});
+				} else {
+					game->screen->fillColor(
+						this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
+					game->screen->displayElement(names[j] + ": " + strs[i], {680, 146 + i * 68.f});
+				}
+			}
+		} else {
+			game->screen->displayElement((this->_changingInputs == 2 ? "P1 | " : "P2 | ") + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
+			game->screen->fillColor(sf::Color::White);
+			for (unsigned i = 0; i < this->_inputs.size(); i++) {
+				game->screen->displayElement(this->_inputs[i], {680, 135 + i * 68.f});
+				if (this->_changeInput && this->_cursorInputs == i) {
+					game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
+					game->screen->displayElement("Press a key", {760, 146 + i * 68.f});
+				} else {
+					game->screen->fillColor(this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
+					game->screen->displayElement(strs[i], {760, 146 + i * 68.f});
+				}
 			}
 		}
 	}
@@ -462,9 +476,11 @@ namespace SpiralOfFate
 			return;
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
-			this->_cursorInputs += this->_inputs.size();
-			this->_cursorInputs--;
-			this->_cursorInputs %= this->_inputs.size();
+			do {
+				this->_cursorInputs += this->_inputs.size();
+				this->_cursorInputs--;
+				this->_cursorInputs %= this->_inputs.size();
+			} while (std::find(inputs, inputs + 7, this->_cursorInputs) == inputs + 7 && this->_changingInputs == 1);
 			return;
 		}
 		if (this->_askingInputs)
@@ -479,8 +495,10 @@ namespace SpiralOfFate
 	{
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
-			this->_cursorInputs++;
-			this->_cursorInputs %= this->_inputs.size();
+			do {
+				this->_cursorInputs++;
+				this->_cursorInputs %= this->_inputs.size();
+			} while (std::find(inputs, inputs + 7, this->_cursorInputs) == inputs + 7 && this->_changingInputs == 1);
 			return;
 		}
 		if (this->_chooseSpecCount)
@@ -509,7 +527,13 @@ namespace SpiralOfFate
 		}
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
-			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
+			this->_changingInputs--;
+			this->_changingInputs += (this->_changingInputs == 0) * 3;
+			while (std::find(inputs, inputs + 7, this->_cursorInputs) == inputs + 7 && this->_changingInputs == 1) {
+				this->_cursorInputs += this->_inputs.size();
+				this->_cursorInputs--;
+				this->_cursorInputs %= this->_inputs.size();
+			}
 			return;
 		}
 	}
@@ -529,7 +553,13 @@ namespace SpiralOfFate
 		}
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
-			this->_changingInputs = this->_changingInputs == 1 ? 2 : 1;
+			this->_changingInputs = (this->_changingInputs + 1) % 4;
+			this->_changingInputs += this->_changingInputs == 0;
+			while (std::find(inputs, inputs + 7, this->_cursorInputs) == inputs + 7 && this->_changingInputs == 1) {
+				this->_cursorInputs += this->_inputs.size();
+				this->_cursorInputs--;
+				this->_cursorInputs %= this->_inputs.size();
+			}
 			return;
 		}
 	}

@@ -66,7 +66,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 }
 #endif
 
-std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream, bool oldVersion)
+std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream)
 {
 	std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> keyboardMap{
 		{ SpiralOfFate::INPUT_LEFT,    sf::Keyboard::Left },
@@ -78,7 +78,8 @@ std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOf
 		{ SpiralOfFate::INPUT_SPIRIT,  sf::Keyboard::C },
 		{ SpiralOfFate::INPUT_VOID,    sf::Keyboard::Q },
 		{ SpiralOfFate::INPUT_ASCEND,  sf::Keyboard::S },
-		{ SpiralOfFate::INPUT_DASH,    sf::Keyboard::LShift }
+		{ SpiralOfFate::INPUT_DASH,    sf::Keyboard::LShift },
+		{ SpiralOfFate::INPUT_PAUSE,   sf::Keyboard::Tab }
 	};
 	std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap{
 		{ SpiralOfFate::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
@@ -91,23 +92,16 @@ std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOf
 		{ SpiralOfFate::INPUT_VOID,    {false, 3} },
 		{ SpiralOfFate::INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
 		{ SpiralOfFate::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
+		{ SpiralOfFate::INPUT_PAUSE,   {false, 7} }
 	};
 	std::map<SpiralOfFate::InputEnum, SpiralOfFate::ControllerKey *> realControllerMap;
 	std::map<sf::Keyboard::Key, SpiralOfFate::InputEnum> realKeyboardMap;
 
-	if (!oldVersion) {
-		keyboardMap[SpiralOfFate::INPUT_PAUSE] = sf::Keyboard::Tab;
-		controllerMap[SpiralOfFate::INPUT_PAUSE] = {false, 7};
-	}
 	if (!stream.fail()) {
 		for (auto &pair : keyboardMap)
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
 		for (auto &pair : controllerMap)
 			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
-	}
-	if (oldVersion) {
-		keyboardMap[SpiralOfFate::INPUT_PAUSE] = sf::Keyboard::Tab;
-		controllerMap[SpiralOfFate::INPUT_PAUSE] = {false, 7};
 	}
 	for (auto &pair : keyboardMap)
 		realKeyboardMap[pair.second] = pair.first;
@@ -129,6 +123,55 @@ std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOf
 	};
 }
 
+std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadMenuInputs(std::ifstream &stream)
+{
+	std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> keyboardMap{
+		{ SpiralOfFate::INPUT_LEFT,    sf::Keyboard::Left },
+		{ SpiralOfFate::INPUT_RIGHT,   sf::Keyboard::Right },
+		{ SpiralOfFate::INPUT_UP,      sf::Keyboard::Up },
+		{ SpiralOfFate::INPUT_DOWN,    sf::Keyboard::Down },
+		{ SpiralOfFate::INPUT_NEUTRAL, sf::Keyboard::W },
+		{ SpiralOfFate::INPUT_SPIRIT,  sf::Keyboard::C },
+		{ SpiralOfFate::INPUT_PAUSE,   sf::Keyboard::Tab }
+	};
+	std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap{
+		{ SpiralOfFate::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
+		{ SpiralOfFate::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
+		{ SpiralOfFate::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
+		{ SpiralOfFate::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
+		{ SpiralOfFate::INPUT_NEUTRAL, {false, 0} },
+		{ SpiralOfFate::INPUT_SPIRIT,  {false, 1} },
+		{ SpiralOfFate::INPUT_PAUSE,   {false, 7} }
+	};
+	std::map<SpiralOfFate::InputEnum, SpiralOfFate::ControllerKey *> realControllerMap;
+	std::map<sf::Keyboard::Key, SpiralOfFate::InputEnum> realKeyboardMap;
+
+	if (!stream.fail()) {
+		for (auto &pair : keyboardMap)
+			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+		for (auto &pair : controllerMap)
+			stream.read(reinterpret_cast<char *>(&pair.second), sizeof(pair.second));
+	}
+	for (auto &pair : keyboardMap)
+		realKeyboardMap[pair.second] = pair.first;
+	for (auto &pair : controllerMap) {
+		realControllerMap[pair.first] = pair.second.first ?
+			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerAxis(
+				-1,
+				static_cast<sf::Joystick::Axis>(pair.second.second & 7),
+				(char)(pair.second.second >> 3)
+			)) :
+			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerButton(
+				-1,
+				pair.second.second
+			));
+	}
+	return {
+		std::make_shared<SpiralOfFate::KeyboardInput>(realKeyboardMap),
+		std::make_shared<SpiralOfFate::ControllerInput>(realControllerMap)
+	};
+}
+
 void	saveSettings()
 {
 	std::ofstream stream{"settings.dat", std::istream::binary};
@@ -137,16 +180,29 @@ void	saveSettings()
 	SpiralOfFate::game->P1.second->save(stream);
 	SpiralOfFate::game->P2.first->save(stream);
 	SpiralOfFate::game->P2.second->save(stream);
+	SpiralOfFate::game->menu.first->save(stream);
+	SpiralOfFate::game->menu.second->save(stream);
 }
 
 void	loadSettings()
 {
 	std::ifstream stream{"settings.dat", std::istream::binary};
+
+	if (stream.fail() && errno != ENOENT)
+		Utils::dispMsg("Cannot load settings", "Cannot open settings file: " + std::string(strerror(errno)), MB_ICONERROR);
+
 	struct stat s;
 	auto result = stat("settings.dat", &s);
 
-	SpiralOfFate::game->P1 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
-	SpiralOfFate::game->P2 = loadPlayerInputs(stream, result != -1 && s.st_size == 240);
+	if (result == -1) {
+		if (errno != ENOENT)
+			Utils::dispMsg("Cannot load settings", "Cannot stat file: " + std::string(strerror(errno)),
+				       MB_ICONERROR);
+	} else if (s.st_size != 348)
+		Utils::dispMsg("Cannot load settings", "Old settings or corrupted settings detected.\nYou might need to set your settings again in the menu.", MB_ICONWARNING);
+	SpiralOfFate::game->P1 = loadPlayerInputs(stream);
+	SpiralOfFate::game->P2 = loadPlayerInputs(stream);
+	SpiralOfFate::game->menu = loadMenuInputs(stream);
 }
 
 void	run()

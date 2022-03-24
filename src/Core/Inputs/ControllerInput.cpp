@@ -103,13 +103,15 @@ namespace SpiralOfFate
 
 	void ControllerButton::consumeEvent(const sf::Event &event)
 	{
-		if (event.type == sf::Event::JoystickDisconnected && event.joystickConnect.joystickId == this->_joystickId) {
+		if (event.type == sf::Event::JoystickDisconnected && (
+			event.joystickConnect.joystickId == this->_joystickId || this->_joystickId == -1
+		)) {
 			this->_state = false;
 			return;
 		}
 		if (event.type != sf::Event::JoystickButtonPressed && event.type != sf::Event::JoystickButtonReleased)
 			return;
-		if (event.joystickButton.joystickId != this->_joystickId)
+		if (event.joystickButton.joystickId != this->_joystickId && this->_joystickId != -1)
 			return;
 		if (event.joystickButton.button != this->_buttonId)
 			return;
@@ -146,13 +148,15 @@ namespace SpiralOfFate
 
 	void ControllerAxis::consumeEvent(const sf::Event &event)
 	{
-		if (event.type == sf::Event::JoystickDisconnected && event.joystickConnect.joystickId == this->_joystickId) {
+		if (event.type == sf::Event::JoystickDisconnected && (
+			event.joystickConnect.joystickId == this->_joystickId || this->_joystickId == -1
+		)) {
 			this->_state = 0;
 			return;
 		}
 		if (event.type != sf::Event::JoystickMoved)
 			return;
-		if (event.joystickButton.joystickId != this->_joystickId)
+		if (event.joystickMove.joystickId != this->_joystickId && this->_joystickId != -1)
 			return;
 		if (event.joystickMove.axis != this->_axis)
 			return;
