@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <TGUI/TGUI.hpp>
-#include <SoFGV.hpp>
+#include <LibCore.hpp>
 #include "EditableObject.hpp"
 #ifdef _WIN32
 #include <windows.h>
@@ -411,7 +411,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto voidInvul = panel->get<tgui::CheckBox>("VInv");
 
 	actionName->connect("Clicked", [&gui, &object, block, action]{
-		auto window = Utils::openWindowWithFocus(gui, 500, "&.h - 100");
+		auto window = SpiralOfFate::Utils::openWindowWithFocus(gui, 500, "&.h - 100");
 		auto pan = tgui::ScrollablePanel::create({"&.w", "&.h"});
 		unsigned i = 0;
 
@@ -1566,7 +1566,7 @@ void	saveCallback(std::unique_ptr<EditableObject> &object)
 	if (!object)
 		return;
 	if (loadedPath.empty())
-		loadedPath = Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+		loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
 	if (loadedPath.empty())
 		return;
 
@@ -1582,7 +1582,7 @@ void	saveCallback(std::unique_ptr<EditableObject> &object)
 	std::ofstream stream{loadedPath};
 
 	if (stream.fail()) {
-		Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
+		SpiralOfFate::Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
 		return;
 	}
 	stream << j.dump(4) << std::endl;
@@ -1593,7 +1593,7 @@ void	saveAsCallback(std::unique_ptr<EditableObject> &object)
 	if (!object)
 		return;
 
-	auto path = Utils::saveFileDialog("Save framedata", loadedPath.empty() ? "assets" : loadedPath, {{".*\\.json", "Frame data file"}});
+	auto path = SpiralOfFate::Utils::saveFileDialog("Save framedata", loadedPath.empty() ? "assets" : loadedPath, {{".*\\.json", "Frame data file"}});
 
 	if (path.empty())
 		return;
@@ -1611,7 +1611,7 @@ void	saveAsCallback(std::unique_ptr<EditableObject> &object)
 	std::ofstream stream{path};
 
 	if (stream.fail()) {
-		Utils::dispMsg("Saving failed", path + ": " + strerror(errno), MB_ICONERROR);
+		SpiralOfFate::Utils::dispMsg("Saving failed", path + ": " + strerror(errno), MB_ICONERROR);
 		return;
 	}
 	stream << j.dump(4) << std::endl;
@@ -1668,7 +1668,7 @@ void	newFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Ptr
 
 void	openFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Ptr bar, tgui::Gui &gui)
 {
-	auto path = Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
+	auto path = SpiralOfFate::Utils::openFileDialog("Open framedata", "assets", {{".*\\.json", "Frame data file"}});
 
 	if (path.empty())
 		return;
@@ -1681,7 +1681,7 @@ void	openFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Pt
 		bar->setMenuEnabled({"Remove"}, true);
 		bar->setMenuEnabled({"Misc"}, true);
 	} catch (std::exception &e) {
-		Utils::dispMsg("Error", e.what(), MB_ICONERROR);
+		SpiralOfFate::Utils::dispMsg("Error", e.what(), MB_ICONERROR);
 		loadedPath = path;
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, false);
@@ -2207,12 +2207,12 @@ void	run()
 			if (gui.get<tgui::ChildWindow>("QuitConfirm"))
 				continue;
 
-			auto window = Utils::openWindowWithFocus(gui, 260, 90);
+			auto window = SpiralOfFate::Utils::openWindowWithFocus(gui, 260, 90);
 
 			window->loadWidgetsFromFile("assets/gui/quitConfirm.gui");
 			window->get<tgui::Button>("Yes")->connect("Clicked", [&object](std::weak_ptr<tgui::ChildWindow> self){
 				if (loadedPath.empty())
-					loadedPath = Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+					loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
 				if (loadedPath.empty()) {
 					self.lock()->close();
 					return;
@@ -2230,7 +2230,7 @@ void	run()
 				std::ofstream stream{loadedPath};
 
 				if (stream.fail()) {
-					Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
+					SpiralOfFate::Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
 					return;
 				}
 				stream << j.dump(4) << std::endl;
@@ -2292,7 +2292,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	} else
 		sprintf(buf, "Fatal exception caught.\nCould not create file %s\n%s", buf2, getLastError().c_str());
 	SpiralOfFate::game->logger.fatal(buf);
-	Utils::dispMsg("Fatal error", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
+	SpiralOfFate::Utils::dispMsg("Fatal error", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -2310,7 +2310,7 @@ int	main()
 		SpiralOfFate::game->logger.info("Goodbye !");
 	} catch (std::exception &e) {
 		SpiralOfFate::game->logger.fatal(e.what());
-		Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
+		SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
 		delete SpiralOfFate::game;
 		return EXIT_FAILURE;
 	}

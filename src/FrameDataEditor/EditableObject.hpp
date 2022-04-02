@@ -6,7 +6,7 @@
 #define BATTLE_EditableObject_HPP
 
 
-#include <SoFGV.hpp>
+#include <LibCore.hpp>
 
 class EditableObject : public SpiralOfFate::IObject {
 public:

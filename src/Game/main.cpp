@@ -6,7 +6,7 @@
 #include <crtdbg.h>
 #endif
 #include <sys/stat.h>
-#include <SoFGV.hpp>
+#include <LibCore.hpp>
 
 #ifdef _WIN32
 std::string getLastError(int err = GetLastError())
@@ -61,7 +61,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	} else
 		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
 	SpiralOfFate::game->logger.fatal(buf);
-	Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
+	SpiralOfFate::Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
 	exit(EXIT_FAILURE);
 }
 #endif
@@ -189,17 +189,16 @@ void	loadSettings()
 	std::ifstream stream{"settings.dat", std::istream::binary};
 
 	if (stream.fail() && errno != ENOENT)
-		Utils::dispMsg("Cannot load settings", "Cannot open settings file: " + std::string(strerror(errno)), MB_ICONERROR);
+		SpiralOfFate::Utils::dispMsg("Cannot load settings", "Cannot open settings file: " + std::string(strerror(errno)), MB_ICONERROR);
 
 	struct stat s;
 	auto result = stat("settings.dat", &s);
 
 	if (result == -1) {
 		if (errno != ENOENT)
-			Utils::dispMsg("Cannot load settings", "Cannot stat file: " + std::string(strerror(errno)),
-				       MB_ICONERROR);
+			SpiralOfFate::Utils::dispMsg("Cannot load settings", "Cannot stat file: " + std::string(strerror(errno)), MB_ICONERROR);
 	} else if (s.st_size != 348)
-		Utils::dispMsg("Cannot load settings", "Old settings or corrupted settings detected.\nYou might need to set your settings again in the menu.", MB_ICONWARNING);
+		SpiralOfFate::Utils::dispMsg("Cannot load settings", "Old settings or corrupted settings detected.\nYou might need to set your settings again in the menu.", MB_ICONWARNING);
 	SpiralOfFate::game->P1 = loadPlayerInputs(stream);
 	SpiralOfFate::game->P2 = loadPlayerInputs(stream);
 	SpiralOfFate::game->menu = loadMenuInputs(stream);
@@ -238,7 +237,6 @@ void	run()
 		}
 		if (newScene)
 			SpiralOfFate::game->scene.reset(newScene);
-		SpiralOfFate::game->networkMgr.update();
 	}
 	saveSettings();
 }
@@ -260,9 +258,9 @@ int	main()
 	} catch (std::exception &e) {
 		if (SpiralOfFate::game) {
 			SpiralOfFate::game->logger.fatal(e.what());
-			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
+			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
 		} else
-			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
+			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
 		delete SpiralOfFate::game;
 		return EXIT_FAILURE;
 	}
