@@ -11843,7 +11843,6 @@
                         "width": 40
                     },
                     "defense_flag": 2121984,
-                    "duration": 3,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -11854,6 +11853,36 @@
                     ],
                     "mana_cost": 100,
                     "offense_flag": 58720256,
+                    "size": {
+                        "x": 48,
+                        "y": 188
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 294,
+                        "top": 684,
+                        "width": 24
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 136,
+                        "left": -19,
+                        "top": -136,
+                        "width": 40
+                    },
+                    "defense_flag": 2113792,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 191,
+                            "left": -22,
+                            "top": -192,
+                            "width": 47
+                        }
+                    ],
+                    "mana_cost": 100,
                     "size": {
                         "x": 48,
                         "y": 188
