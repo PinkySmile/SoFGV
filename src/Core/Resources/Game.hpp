@@ -20,6 +20,13 @@
 #include "NetManager.hpp"
 #include "../Logger.hpp"
 
+#ifdef _MSC_VER
+#ifdef MYDLL_EXPORTS
+#define MYDLL_API __declspec(dllexport)
+#else
+#define MYDLL_API __declspec(dllimport)
+#endif
+#endif
 
 #define my_assert(_Expression) \
  (void) \
@@ -91,7 +98,7 @@ namespace SpiralOfFate
 		bool __cdecl updateGame(int flags);
 		bool __cdecl onEvent(GGPOEvent *info);
 	}
-	extern Game *game;
+	extern MYDLL_API Game *game;
 }
 
 class AssertionFailedException : public std::exception {
