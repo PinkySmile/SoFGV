@@ -357,6 +357,10 @@ namespace Battle
 		{ ACTION_WIN_MATCH2,                     "Win match2" },
 		{ ACTION_WIN_MATCH3,                     "Win match3" },
 		{ ACTION_WIN_MATCH4,                     "Win match4" },
+		{ ACTION_GAME_START1,                    "Game start1" },
+		{ ACTION_GAME_START2,                    "Game start2" },
+		{ ACTION_GAME_START3,                    "Game start3" },
+		{ ACTION_GAME_START4,                    "Game start4" },
 		//{ ACTION_WIN_ROUND1,                     "Win round1" },
 		//{ ACTION_WIN_ROUND2,                     "Win round2" },
 		//{ ACTION_WIN_ROUND3,                     "Win round3" },
@@ -1142,6 +1146,42 @@ namespace Battle
 	void Character::_forceStartMove(unsigned int action)
 	{
 		game.logger.info("Starting action " + actionToString(action));
+		switch (action) {
+		case ACTION_6S:
+		case ACTION_8S:
+		case ACTION_3S:
+		case ACTION_j6S:
+		case ACTION_j8S:
+		case ACTION_j3S:
+		case ACTION_j2S:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = this->_normalTreeFlag & ~3;
+			break;
+		case ACTION_6M:
+		case ACTION_8M:
+		case ACTION_3M:
+		case ACTION_j6M:
+		case ACTION_j8M:
+		case ACTION_j3M:
+		case ACTION_j2M:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = (this->_normalTreeFlag & ~3) | 1;
+			break;
+		case ACTION_6V:
+		case ACTION_8V:
+		case ACTION_3V:
+		case ACTION_j6V:
+		case ACTION_j8V:
+		case ACTION_j3V:
+		case ACTION_j2V:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = (this->_normalTreeFlag & ~3) | 2;
+			break;
+		}
+
+		if (action < ACTION_5N)
+			this->_normalTreeFlag = 0;
+
 		if (
 			action == ACTION_IDLE ||
 			action == ACTION_WALK_FORWARD ||
@@ -1264,7 +1304,6 @@ namespace Battle
 	int Character::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
-		bool isTyped = (action >= ACTION_5M) * 100;
 
 		if (action < 100)
 			return -1;
@@ -1274,17 +1313,74 @@ namespace Battle
 		} catch (...) {
 			return -1;
 		}
-		if (data->priority)
-			return *data->priority;
+		if (data->priority) {
+			switch (action) {
+			case ACTION_6S:
+			case ACTION_8S:
+			case ACTION_3S:
+			case ACTION_j6S:
+			case ACTION_j8S:
+			case ACTION_j3S:
+			case ACTION_j2S:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 0) * 200;
+				if ((this->_normalTreeFlag & 3) == 0)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 0)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			case ACTION_6M:
+			case ACTION_8M:
+			case ACTION_3M:
+			case ACTION_j6M:
+			case ACTION_j8M:
+			case ACTION_j3M:
+			case ACTION_j2M:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 1) * 200;
+				if ((this->_normalTreeFlag & 3) == 1)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 1)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			case ACTION_6V:
+			case ACTION_8V:
+			case ACTION_3V:
+			case ACTION_j6V:
+			case ACTION_j8V:
+			case ACTION_j3V:
+			case ACTION_j2V:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 2) * 200;
+				if ((this->_normalTreeFlag & 3) == 2)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 2)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			default:
+				return *data->priority;
+			}
+		}
+
 		if (data->oFlag.ultimate)
-			return 700;
+			return 800;
 		if (data->oFlag.super)
-			return 600;
-		switch ((action % 50) + 100) {
+			return 700;
+		switch (action) {
 		case ACTION_5N:
 		case ACTION_2N:
 		case ACTION_j5N:
-			return 0 + isTyped;
+			return 0;
+		case ACTION_5S:
+		case ACTION_2S:
+		case ACTION_j5S:
+		case ACTION_5M:
+		case ACTION_2M:
+		case ACTION_j5M:
+		case ACTION_5V:
+		case ACTION_2V:
+		case ACTION_j5V:
+			return 100;
 		case ACTION_6N:
 		case ACTION_8N:
 		case ACTION_3N:
@@ -1292,7 +1388,49 @@ namespace Battle
 		case ACTION_j8N:
 		case ACTION_j3N:
 		case ACTION_j2N:
-			return 200 + isTyped;
+			return 200;
+		case ACTION_6S:
+		case ACTION_8S:
+		case ACTION_3S:
+		case ACTION_j6S:
+		case ACTION_j8S:
+		case ACTION_j3S:
+		case ACTION_j2S:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 0) * 200;
+			if ((this->_normalTreeFlag & 3) == 0)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 2)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
+		case ACTION_6M:
+		case ACTION_8M:
+		case ACTION_3M:
+		case ACTION_j6M:
+		case ACTION_j8M:
+		case ACTION_j3M:
+		case ACTION_j2M:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 1) * 200;
+			if ((this->_normalTreeFlag & 3) == 1)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 0)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
+		case ACTION_6V:
+		case ACTION_8V:
+		case ACTION_3V:
+		case ACTION_j6V:
+		case ACTION_j8V:
+		case ACTION_j3V:
+		case ACTION_j2V:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 2) * 200;
+			if ((this->_normalTreeFlag & 3) == 2)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 1)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
 		case ACTION_c28N:
 		case ACTION_c46N:
 		case ACTION_c64N:
@@ -1310,7 +1448,58 @@ namespace Battle
 		case ACTION_j41236N:
 		case ACTION_j63214N:
 		case ACTION_j6321469874N:
-			return 400 + isTyped;
+		case ACTION_c28V:
+		case ACTION_c46V:
+		case ACTION_c64V:
+		case ACTION_214V:
+		case ACTION_236V:
+		case ACTION_421V:
+		case ACTION_623V:
+		case ACTION_41236V:
+		case ACTION_63214V:
+		case ACTION_6321469874V:
+		case ACTION_j214V:
+		case ACTION_j236V:
+		case ACTION_j421V:
+		case ACTION_j623V:
+		case ACTION_j41236V:
+		case ACTION_j63214V:
+		case ACTION_j6321469874V:
+		case ACTION_c28S:
+		case ACTION_c46S:
+		case ACTION_c64S:
+		case ACTION_214S:
+		case ACTION_236S:
+		case ACTION_421S:
+		case ACTION_623S:
+		case ACTION_41236S:
+		case ACTION_63214S:
+		case ACTION_6321469874S:
+		case ACTION_j214S:
+		case ACTION_j236S:
+		case ACTION_j421S:
+		case ACTION_j623S:
+		case ACTION_j41236S:
+		case ACTION_j63214S:
+		case ACTION_j6321469874S:
+		case ACTION_c28M:
+		case ACTION_c46M:
+		case ACTION_c64M:
+		case ACTION_214M:
+		case ACTION_236M:
+		case ACTION_421M:
+		case ACTION_623M:
+		case ACTION_41236M:
+		case ACTION_63214M:
+		case ACTION_6321469874M:
+		case ACTION_j214M:
+		case ACTION_j236M:
+		case ACTION_j421M:
+		case ACTION_j623M:
+		case ACTION_j41236M:
+		case ACTION_j63214M:
+		case ACTION_j6321469874M:
+			return 600;
 		default:
 			return -1;
 		}
@@ -2732,7 +2921,8 @@ namespace Battle
 			"spiritLimit: %u\n"
 			"BaseGravityX: %f\n"
 			"BaseGravityY: %f\n"
-			"Overdrive CD: %u/%u",
+			"Overdrive CD: %u/%u\n"
+			"Normal flag: %x",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -2771,7 +2961,8 @@ namespace Battle
 			this->_baseGravity.x,
 			this->_baseGravity.y,
 			this->_odCooldown,
-			this->_maxOdCooldown
+			this->_maxOdCooldown,
+			this->_normalTreeFlag
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
@@ -3231,6 +3422,7 @@ namespace Battle
 #ifdef _DEBUG
 		game.logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
 		dat->_inputBuffer = this->_inputBuffer;
 		dat->_speedReset = this->_speedReset;
@@ -3275,6 +3467,7 @@ namespace Battle
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_normalTreeFlag = dat->_normalTreeFlag;
 		this->_inputBuffer = dat->_inputBuffer;
 		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;

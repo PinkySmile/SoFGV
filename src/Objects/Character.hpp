@@ -279,6 +279,10 @@ namespace Battle
 		/* 401 */ ACTION_WIN_MATCH2,
 		/* 402 */ ACTION_WIN_MATCH3,
 		/* 403 */ ACTION_WIN_MATCH4,
+		/* 404 */ ACTION_GAME_START1,
+		/* 405 */ ACTION_GAME_START2,
+		/* 406 */ ACTION_GAME_START3,
+		/* 407 */ ACTION_GAME_START4,
 	};
 
 	extern const std::map<CharacterActions, std::string> actionNames;
@@ -370,10 +374,15 @@ namespace Battle
 			unsigned char _specialInputs[49];
 			unsigned _nbLastInputs;
 			unsigned _nbReplayInputs;
+			char _normalTreeFlag;
 		};
 		union SpecialInputs {
 			unsigned char _value[49] = {0};
 			struct {
+				char _421n: 6;
+				char _421m: 6;
+				char _421s: 6;
+				char _421v: 6;
 				unsigned char _22: 4;
 				unsigned char _44: 4;
 				unsigned char _66: 4;
@@ -416,10 +425,6 @@ namespace Battle
 				unsigned char _623v: 4;
 				unsigned char _623d: 4;
 				unsigned char _623a: 4;
-				char _421n: 6;
-				char _421m: 6;
-				char _421s: 6;
-				char _421v: 6;
 				unsigned char _421d: 4;
 				unsigned char _421a: 4;
 				unsigned char _624n: 4;
@@ -510,6 +515,7 @@ namespace Battle
 		float _voidMana = 0;
 		float _spiritMana = 0;
 		float _matterMana = 0;
+		char _normalTreeFlag = 0;
 		SpecialInputs _specialInputs;
 
 		// Non Game State
