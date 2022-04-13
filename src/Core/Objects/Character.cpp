@@ -15,6 +15,7 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define REFLECT_PERCENT 60
 #define COMBINATION_LENIENCY 4
 #define MAX_FRAME_IN_BUFFER 60
 
@@ -3735,7 +3736,7 @@ namespace SpiralOfFate
 			this->_speed.x -= this->_dir * (2 + isStrongest * 5);
 		}
 		if (data->dFlag.voidBlock)
-			other->_speed.x -= this->_dir * (5 + isStrongest * 10);
+			other->_hp = max(1, other->_hp - REFLECT_PERCENT * oData->damage / 100);
 		if (data->dFlag.matterBlock) {
 			auto chr = dynamic_cast<Character *>(other);
 
