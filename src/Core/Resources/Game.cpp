@@ -11,7 +11,7 @@
 
 namespace SpiralOfFate
 {
-    __declspec(dllexport) Game *game = nullptr;
+	MYDLL_API Game *game = nullptr;
 
 	Game::Game(const std::string &loggerPath) :
 		random(std::random_device()()),

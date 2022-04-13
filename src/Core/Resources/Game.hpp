@@ -26,6 +26,8 @@
 #else
 #define MYDLL_API __declspec(dllimport)
 #endif
+#else
+#define MYDLL_API
 #endif
 
 #define my_assert(_Expression) \
