@@ -30,6 +30,7 @@
                             "width": 51
                         }
                     ],
+                    "offense_flag": 16,
                     "offset": {
                         "x": 29,
                         "y": -29
@@ -57,11 +58,12 @@
         ]
     },
     {
-        "action": 1,
+        "action": 128,
         "framedata": [
             [
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -85,6 +87,7 @@
                         "x": 30,
                         "y": -30
                     },
+                    "priority": 10,
                     "prorate": 100.0,
                     "push_block": 4,
                     "size": {
@@ -106,6 +109,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -150,6 +154,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -194,6 +199,7 @@
                 },
                 {
                     "block_stun": 18,
+                    "chip_damage": 50,
                     "damage": 500,
                     "defense_flag": 35913728,
                     "duration": 3,
@@ -217,6 +223,7 @@
                         "x": 30,
                         "y": -30
                     },
+                    "priority": 10,
                     "prorate": 100.0,
                     "push_block": 4,
                     "size": {
