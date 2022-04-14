@@ -14793,7 +14793,7 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 3,
+                        "x": 1,
                         "y": 10
                     },
                     "hit_stop": 8,
@@ -19495,7 +19495,7 @@
                     },
                     "damage": 600,
                     "defense_flag": 28672,
-                    "duration": 12,
+                    "duration": 15,
                     "hit_speed": {
                         "x": 3,
                         "y": 0
@@ -19710,7 +19710,7 @@
                     },
                     "damage": 600,
                     "defense_flag": 4096,
-                    "duration": 12,
+                    "duration": 15,
                     "hit_speed": {
                         "x": 3,
                         "y": 0
