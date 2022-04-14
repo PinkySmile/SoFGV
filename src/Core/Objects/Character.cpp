@@ -1266,7 +1266,7 @@ namespace SpiralOfFate
 		case ACTION_j3S:
 		case ACTION_j2S:
 			this->_normalTreeFlag += 4;
-			this->_normalTreeFlag = this->_normalTreeFlag & ~3;
+			this->_normalTreeFlag = this->_normalTreeFlag | 3;
 			break;
 		case ACTION_6M:
 		case ACTION_8M:
@@ -1435,9 +1435,9 @@ namespace SpiralOfFate
 			case ACTION_j2S:
 				if ((this->_normalTreeFlag >> 2 & 3) == 3)
 					return *data->priority + ((this->_normalTreeFlag & 3) == 0) * 200;
-				if ((this->_normalTreeFlag & 3) == 0)
+				if ((this->_normalTreeFlag & 3) == 3)
 					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 0)
+				if ((this->_normalTreeFlag & 3) == 2)
 					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
 				return *data->priority;
 			case ACTION_6M:
@@ -1451,7 +1451,7 @@ namespace SpiralOfFate
 					return *data->priority + ((this->_normalTreeFlag & 3) == 1) * 200;
 				if ((this->_normalTreeFlag & 3) == 1)
 					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 1)
+				if ((this->_normalTreeFlag & 3) == 3)
 					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
 				return *data->priority;
 			case ACTION_6V:
@@ -1465,7 +1465,7 @@ namespace SpiralOfFate
 					return *data->priority + ((this->_normalTreeFlag & 3) == 2) * 200;
 				if ((this->_normalTreeFlag & 3) == 2)
 					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 2)
+				if ((this->_normalTreeFlag & 3) == 1)
 					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
 				return *data->priority;
 			default:
@@ -1511,7 +1511,7 @@ namespace SpiralOfFate
 		case ACTION_j2S:
 			if ((this->_normalTreeFlag >> 2 & 3) == 3)
 				return 300 + ((this->_normalTreeFlag & 3) == 0) * 200;
-			if ((this->_normalTreeFlag & 3) == 0)
+			if ((this->_normalTreeFlag & 3) == 3)
 				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
 			if ((this->_normalTreeFlag & 3) == 2)
 				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
@@ -1527,7 +1527,7 @@ namespace SpiralOfFate
 				return 300 + ((this->_normalTreeFlag & 3) == 1) * 200;
 			if ((this->_normalTreeFlag & 3) == 1)
 				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-			if ((this->_normalTreeFlag & 3) == 0)
+			if ((this->_normalTreeFlag & 3) == 3)
 				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
 			return 300;
 		case ACTION_6V:
@@ -3089,7 +3089,6 @@ namespace SpiralOfFate
 			this->_baseGravity.x,
 			this->_baseGravity.y,
 			this->_odCooldown,
-			this->_maxOdCooldown,
 			this->_maxOdCooldown,
 			this->_supersUsed,
 			this->_skillsUsed,
