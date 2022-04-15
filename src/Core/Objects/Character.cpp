@@ -416,10 +416,13 @@ namespace SpiralOfFate
 	{
 		auto data = Object::getCurrentFrameData();
 
-		if (!this->_grabInvul)
+		if (!this->_grabInvul && !this->_wrongMana)
 			return data;
 		this->_fakeFrameData = *data;
-		this->_fakeFrameData.dFlag.grabInvulnerable = true;
+		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
+		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana;
+		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana;
+		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana;
 		return &this->_fakeFrameData;
 	}
 
@@ -1018,11 +1021,10 @@ namespace SpiralOfFate
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
 			return false;
-		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
-			return false;
-		if (data.oFlag.voidMana && this->_voidMana < data.manaCost)
-			return false;
-		if (data.oFlag.spiritMana && this->_spiritMana < data.manaCost)
+
+		auto nbMana = data.oFlag.matterMana + data.oFlag.voidMana + data.oFlag.spiritMana;
+
+		if ((this->_matterMana + this->_voidMana + this->_spiritMana) < data.manaCost * nbMana)
 			return false;
 		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
 			for (auto limit : this->_limit)
@@ -1224,7 +1226,11 @@ namespace SpiralOfFate
 	void Character::_forceStartMove(unsigned int action)
 	{
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
+		auto data = &this->_moves.at(action).at(0).at(0);
 
+		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
+			(data->oFlag.spiritMana && this->_spiritMana < data->manaCost) ||
+			(data->oFlag.matterMana && this->_matterMana < data->manaCost);
 		this->_jumpCanceled = this->_moves.at(this->_action)[this->_actionBlock][anim].oFlag.jumpCancelable && (
 			action == ACTION_NEUTRAL_JUMP ||
 			action == ACTION_FORWARD_JUMP ||
@@ -3500,30 +3506,11 @@ namespace SpiralOfFate
 		if (this->_speedReset)
 			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
-			this->_voidMana -= data->manaCost;
+			this->_consumeVoidMana(data->manaCost);
 		if (data->oFlag.spiritMana)
-			this->_spiritMana -= data->manaCost;
+			this->_consumeSpiritMana(data->manaCost);
 		if (data->oFlag.matterMana)
-			this->_matterMana -= data->manaCost;
-		if (
-			this->_voidMana < 0 ||
-			this->_spiritMana < 0 ||
-			this->_matterMana < 0
-		) {
-			this->_voidMana = this->_voidManaMax / 10;
-			this->_spiritMana = this->_spiritManaMax / 10;
-			this->_matterMana = this->_matterManaMax / 10;
-			if (this->_isGrounded()) {
-				this->_blockStun = 60;
-				this->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				this->_speed = {this->_dir * -1, 0};
-			} else {
-				this->_blockStun = 12000;
-				this->_forceStartMove(ACTION_AIR_HIT);
-				this->_speed = {this->_dir * -1, 20};
-			}
-			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-		}
+			this->_consumeMatterMana(data->manaCost);
 	}
 
 	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
@@ -3639,6 +3626,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_wrongMana = dat->_wrongMana;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_supersUsed = dat->_supersUsed;
@@ -3750,21 +3738,8 @@ namespace SpiralOfFate
 					chr->_voidMana < 0 ||
 					chr->_spiritMana < 0 ||
 					chr->_matterMana < 0
-				) {
-					chr->_voidMana = chr->_voidManaMax / 10;
-					chr->_spiritMana = chr->_spiritManaMax / 10;
-					chr->_matterMana = chr->_matterManaMax / 10;
-					if (this->_isGrounded()) {
-						chr->_blockStun = 60;
-						chr->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-						chr->_speed = {chr->_dir * -1, 0};
-					} else {
-						chr->_blockStun = 12000;
-						chr->_forceStartMove(ACTION_AIR_HIT);
-						chr->_speed = {chr->_dir * -1, 20};
-					}
-					game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-				}
+				)
+					chr->_manaCrush();
 			} else {
 				other->_team = this->_team;
 				other->_speed.x *= -1;
@@ -3923,5 +3898,115 @@ namespace SpiralOfFate
 				return;
 			this->_subobjects[data->subObjectSpawn - 1] = obj;
 		}
+	}
+
+	bool Character::_consumeVoidMana(float cost)
+	{
+		if (this->_voidMana >= cost)
+			return (this->_voidMana -= cost), true;
+
+		auto remaining = cost - this->_voidMana;
+
+		if (this->_matterMana + this->_spiritMana < remaining) {
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+			this->_voidMana = 0;
+			return false;
+		}
+		if (this->_matterMana < remaining / 2) {
+			this->_spiritMana -= remaining - this->_matterMana;
+			this->_matterMana = 0;
+			this->_voidMana = 0;
+			return true;
+		}
+		if (this->_spiritMana < remaining / 2) {
+			this->_matterMana -= remaining - this->_spiritMana;
+			this->_spiritMana = 0;
+			this->_voidMana = 0;
+			return true;
+		}
+		this->_matterMana -= remaining / 2;
+		this->_spiritMana -= remaining / 2;
+		this->_voidMana = 0;
+		return false;
+	}
+
+	bool Character::_consumeMatterMana(float cost)
+	{
+		if (this->_matterMana >= cost)
+			return (this->_matterMana -= cost), true;
+
+		auto remaining = cost - this->_matterMana;
+
+		if (this->_voidMana + this->_spiritMana < remaining) {
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			this->_matterMana = 0;
+			return false;
+		}
+		if (this->_voidMana < remaining / 2) {
+			this->_spiritMana -= remaining - this->_voidMana;
+			this->_voidMana = 0;
+			this->_matterMana = 0;
+			return true;
+		}
+		if (this->_spiritMana < remaining / 2) {
+			this->_voidMana -= remaining - this->_spiritMana;
+			this->_spiritMana = 0;
+			this->_matterMana = 0;
+			return true;
+		}
+		this->_voidMana -= remaining / 2;
+		this->_spiritMana -= remaining / 2;
+		this->_matterMana = 0;
+		return false;
+	}
+
+	bool Character::_consumeSpiritMana(float cost)
+	{
+		if (this->_spiritMana >= cost)
+			return (this->_spiritMana -= cost), true;
+
+		auto remaining = cost - this->_spiritMana;
+
+		if (this->_voidMana + this->_matterMana < remaining) {
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			this->_spiritMana = 0;
+			return false;
+		}
+		if (this->_voidMana < remaining / 2) {
+			this->_matterMana -= remaining - this->_voidMana;
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			return true;
+		}
+		if (this->_matterMana < remaining / 2) {
+			this->_voidMana -= remaining - this->_matterMana;
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+			return true;
+		}
+		this->_voidMana -= remaining / 2;
+		this->_matterMana -= remaining / 2;
+		this->_spiritMana = 0;
+		return false;
+	}
+
+	void Character::_manaCrush()
+	{
+		this->_voidMana = this->_voidManaMax / 10;
+		this->_spiritMana = this->_spiritManaMax / 10;
+		this->_matterMana = this->_matterManaMax / 10;
+		if (this->_isGrounded()) {
+			this->_blockStun = 60;
+			this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+			this->_speed = {this->_dir * -1, 0};
+		} else {
+			this->_blockStun = 12000;
+			this->_forceStartMove(ACTION_AIR_HIT);
+			this->_speed = {this->_dir * -1, 20};
+		}
+		game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 	}
 }

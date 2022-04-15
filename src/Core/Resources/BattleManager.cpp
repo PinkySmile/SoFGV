@@ -776,14 +776,11 @@ namespace SpiralOfFate
 			game->screen->draw(rect);
 		}
 
+		Vector2f pos{100, 70};
+		float size = 67.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax;
+
 		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(100, 40);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
-		rect.setPosition(100, 55);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
 		rect.setPosition(100, 70);
 		rect.setSize({200.f, 10});
 		game->screen->draw(rect);
@@ -791,20 +788,24 @@ namespace SpiralOfFate
 		//Spirit mana
 		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(100, 40);
-		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Matter mana
+		pos.x += size;
+		size = 67.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax;
 		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(100, 55);
-		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Void mana
+		pos.x += size;
+		size = 67.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax;
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(100, 70);
-		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		if (this->_leftComboCtr) {
@@ -941,33 +942,35 @@ namespace SpiralOfFate
 
 		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(700, 40);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
-		rect.setPosition(700, 55);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
 		rect.setPosition(700, 70);
-		rect.setSize({200.f, 10});
+		rect.setSize({201.f, 10});
 		game->screen->draw(rect);
 
+		Vector2f pos = {900, 70};
+		float size = 67.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax;
+
 		//Spirit mana
+		pos.x -= size;
 		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
-		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Matter mana
+		size = 67.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax;
+		pos.x -= size;
 		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
-		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Void mana
+		size = 67.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax;
+		pos.x -= size;
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
-		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		if (this->_rightComboCtr) {

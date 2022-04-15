@@ -360,11 +360,10 @@ namespace SpiralOfFate
 			char v;
 		};
 		struct Data {
-			unsigned _limit[4];
 			InputStruct _inputBuffer;
+			unsigned _limit[4];
 			unsigned _subObjects[128];
 			unsigned _grabInvul;
-			bool _ultimateUsed;
 			unsigned _supersUsed;
 			unsigned _skillsUsed;
 			unsigned _odCooldown;
@@ -376,24 +375,26 @@ namespace SpiralOfFate
 			unsigned _guardCooldown;
 			unsigned _guardBar;
 			unsigned _guardRegenCd;
+			unsigned _nbLastInputs;
+			unsigned _nbReplayInputs;
+			bool _ultimateUsed;
 			bool _counter;
 			bool _jumpCanceled;
 			bool _hadUltimate;
-			float _prorate;
+			bool _wrongMana;
 			bool _atkDisabled;
 			bool _inputDisabled;
 			bool _hasJumped;
 			bool _restand;
 			bool _speedReset;
 			bool _justGotCorner;
+			char _normalTreeFlag;
+			unsigned char _specialInputs[49];
 			float _regen;
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			unsigned char _specialInputs[49];
-			unsigned _nbLastInputs;
-			unsigned _nbReplayInputs;
-			char _normalTreeFlag;
+			float _prorate;
 		};
 		union SpecialInputs {
 			unsigned char _value[49] = {0};
@@ -524,18 +525,19 @@ namespace SpiralOfFate
 		unsigned _guardCooldown = 0;
 		unsigned _guardBar = 0;
 		unsigned _guardRegenCd = 0;
+		unsigned _grabInvul = 0;
 		bool _speedReset = false;
 		bool _counter = false;
-		unsigned _grabInvul = 0;
+		bool _wrongMana = false;
 		bool _ultimateUsed = false;
 		bool _jumpCanceled = false;
-		float _prorate = 1;
 		bool _atkDisabled = false;
 		bool _inputDisabled = false;
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
 		bool _hadUltimate = false;
+		float _prorate = 1;
 		float _regen = 0;
 		float _voidMana = 0;
 		float _spiritMana = 0;
@@ -592,6 +594,10 @@ namespace SpiralOfFate
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
 		virtual InputStruct _getInputs();
+		virtual void _manaCrush();
+		virtual bool _consumeVoidMana(float cost);
+		virtual bool _consumeMatterMana(float cost);
+		virtual bool _consumeSpiritMana(float cost);
 		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);
