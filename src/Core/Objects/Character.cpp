@@ -3723,7 +3723,7 @@ namespace SpiralOfFate
 			this->_speed.x -= this->_dir * (2 + isStrongest * 5);
 		}
 		if (data->dFlag.voidBlock)
-			other->_hp = max(1, other->_hp - REFLECT_PERCENT * oData->damage / 100);
+			other->_hp = max(1, static_cast<int>(other->_hp - REFLECT_PERCENT * oData->damage / 100));
 		if (data->dFlag.matterBlock) {
 			auto chr = dynamic_cast<Character *>(other);
 
