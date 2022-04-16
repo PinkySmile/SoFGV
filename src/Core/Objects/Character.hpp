@@ -377,6 +377,7 @@ namespace SpiralOfFate
 			unsigned _guardRegenCd;
 			unsigned _nbLastInputs;
 			unsigned _nbReplayInputs;
+			unsigned _neutralEffectTimer;
 			unsigned _matterEffectTimer;
 			unsigned _spiritEffectTimer;
 			unsigned _voidEffectTimer;
@@ -529,6 +530,7 @@ namespace SpiralOfFate
 		unsigned _guardBar = 0;
 		unsigned _guardRegenCd = 0;
 		unsigned _grabInvul = 0;
+		unsigned _neutralEffectTimer = 0;
 		unsigned _matterEffectTimer = 0;
 		unsigned _spiritEffectTimer = 0;
 		unsigned _voidEffectTimer = 0;
@@ -567,6 +569,7 @@ namespace SpiralOfFate
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
 		mutable unsigned _effectTimer = 0;
+		mutable Sprite _neutralEffect;
 		mutable Sprite _matterEffect;
 		mutable Sprite _spiritEffect;
 		mutable Sprite _voidEffect;

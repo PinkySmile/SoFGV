@@ -9373,7 +9373,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 147456,
+                    "offense_flag": 147512,
                     "offset": {
                         "x": -3,
                         "y": -24
@@ -9583,7 +9583,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9604,7 +9604,7 @@
                             "width": 62
                         }
                     ],
-                    "offense_flag": 155648,
+                    "offense_flag": 155708,
                     "offset": {
                         "x": -14,
                         "y": -24
@@ -9626,7 +9626,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9647,7 +9647,7 @@
                             "width": 62
                         }
                     ],
-                    "offense_flag": 155648,
+                    "offense_flag": 155708,
                     "offset": {
                         "x": -2,
                         "y": -24
@@ -9669,7 +9669,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9690,7 +9690,7 @@
                             "width": 62
                         }
                     ],
-                    "offense_flag": 155648,
+                    "offense_flag": 155708,
                     "offset": {
                         "x": 0,
                         "y": -24
@@ -9712,7 +9712,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9733,7 +9733,7 @@
                             "width": 62
                         }
                     ],
-                    "offense_flag": 155648,
+                    "offense_flag": 155708,
                     "offset": {
                         "x": -14,
                         "y": -24
@@ -9755,7 +9755,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9780,7 +9780,7 @@
                             "width": 62
                         }
                     ],
-                    "offense_flag": 155648,
+                    "offense_flag": 155708,
                     "offset": {
                         "x": -2,
                         "y": -24
@@ -9802,7 +9802,7 @@
                 {
                     "block_stun": 12,
                     "damage": 900,
-                    "defense_flag": 2105344,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hitSound": "assets/sfxs/se/marisa/002.wav",
                     "hit_boxes": [
@@ -9829,7 +9829,7 @@
                     ],
                     "matter_limit": 100,
                     "neutral_limit": 100,
-                    "offense_flag": 139264,
+                    "offense_flag": 139324,
                     "offset": {
                         "x": 0,
                         "y": -24
@@ -17739,7 +17739,7 @@
                             "width": 102
                         }
                     ],
-                    "offense_flag": 8470530,
+                    "offense_flag": 8470538,
                     "offset": {
                         "x": 49,
                         "y": 0

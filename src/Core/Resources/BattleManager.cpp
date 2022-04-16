@@ -422,14 +422,8 @@ namespace SpiralOfFate
 			}
 		}
 
-		if (lchr->isDead())
-			// The state is messed up
-			// TODO: Do real exceptions
-			throw std::invalid_argument("Invalid state");
-		if (rchr->isDead())
-			// The state is messed up
-			// TODO: Do real exceptions
-			throw std::invalid_argument("Invalid state");
+		my_assert(!lchr->isDead());
+		my_assert(!rchr->isDead());
 
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i].second->isDead())

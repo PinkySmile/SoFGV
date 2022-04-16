@@ -388,6 +388,7 @@ namespace SpiralOfFate
 
 	Character::Character()
 	{
+		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
 		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
 		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
@@ -398,6 +399,7 @@ namespace SpiralOfFate
 		_input(std::move(input)),
 		index(index)
 	{
+		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
 		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
 		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
@@ -420,6 +422,7 @@ namespace SpiralOfFate
 
 	Character::~Character()
 	{
+		game->textureMgr.remove(this->_neutralEffect.textureHandle);
 		game->textureMgr.remove(this->_matterEffect.textureHandle);
 		game->textureMgr.remove(this->_spiritEffect.textureHandle);
 		game->textureMgr.remove(this->_voidEffect.textureHandle);
@@ -441,7 +444,9 @@ namespace SpiralOfFate
 
 	void Character::render() const
 	{
-		if (this->_spiritEffectTimer)
+		if (this->_neutralEffectTimer)
+			this->_sprite.setColor(sf::Color{0xA0, 0xA0, 0xA0});
+		else if (this->_spiritEffectTimer)
 			this->_sprite.setColor(sf::Color{51, 204, 204});
 		else if (this->_matterEffectTimer)
 			this->_sprite.setColor(sf::Color{187, 94, 0});
@@ -469,7 +474,15 @@ namespace SpiralOfFate
 
 		Object::_render(result, scale);
 		this->_effectTimer++;
-		if (this->_spiritEffectTimer) {
+		if (this->_neutralEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_neutralEffect.textureHandle);
+
+			this->_neutralEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_neutralEffect.setOrigin({20, size.y / 2.f});
+			this->_neutralEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_neutralEffect.setPosition(result);
+			game->textureMgr.render(this->_neutralEffect);
+		} else if (this->_spiritEffectTimer) {
 			auto size = game->textureMgr.getTextureSize(this->_spiritEffect.textureHandle);
 
 			this->_spiritEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
@@ -520,6 +533,8 @@ namespace SpiralOfFate
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
+		if (this->_neutralEffectTimer)
+			this->_neutralEffectTimer--;
 		if (this->_spiritEffectTimer)
 			this->_spiritEffectTimer--;
 		if (this->_matterEffectTimer)
@@ -3325,9 +3340,12 @@ namespace SpiralOfFate
 
 		if (!isParryAction(this->_action)) {
 			if (
-				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) &&
-				(data.oFlag.spiritElement != data.oFlag.matterElement || data.oFlag.voidElement != data.oFlag.matterElement)
+				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
+					data.oFlag.spiritElement != data.oFlag.matterElement ||
+					data.oFlag.voidElement != data.oFlag.matterElement
+				) || data.oFlag.spiritElement)
 			) {
+				this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * 120;
 				this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
 				this->_matterEffectTimer = data.oFlag.matterElement * 120;
 				this->_voidEffectTimer = data.oFlag.voidElement * 120;
@@ -3426,9 +3444,12 @@ namespace SpiralOfFate
 
 		my_assert(!data.oFlag.ultimate || chr);
 		if (
-			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) &&
-			(data.oFlag.spiritElement != data.oFlag.matterElement || data.oFlag.voidElement != data.oFlag.matterElement)
+			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
+				data.oFlag.spiritElement != data.oFlag.matterElement ||
+				data.oFlag.voidElement != data.oFlag.matterElement
+			) || data.oFlag.spiritElement)
 		) {
+			this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * 120;
 			this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
 			this->_matterEffectTimer = data.oFlag.matterElement * 120;
 			this->_voidEffectTimer = data.oFlag.voidElement * 120;
@@ -3664,6 +3685,7 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
 		dat->_voidEffectTimer = this->_voidEffectTimer;
@@ -3718,6 +3740,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_neutralEffectTimer = dat->_neutralEffectTimer;
 		this->_matterEffectTimer = dat->_matterEffectTimer;
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
 		this->_voidEffectTimer = dat->_voidEffectTimer;
