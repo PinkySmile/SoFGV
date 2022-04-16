@@ -388,6 +388,9 @@ namespace SpiralOfFate
 
 	Character::Character()
 	{
+		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
+		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
+		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 		this->_fakeFrameData.setSlave();
 	}
 
@@ -395,6 +398,9 @@ namespace SpiralOfFate
 		_input(std::move(input)),
 		index(index)
 	{
+		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
+		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
+		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 		this->_fakeFrameData.setSlave();
 		this->_text.setFont(game->font);
 		this->_text.setFillColor(sf::Color::White);
@@ -410,6 +416,13 @@ namespace SpiralOfFate
 		this->_moves = FrameData::loadFile(frameData, palette);
 		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
+	}
+
+	Character::~Character()
+	{
+		game->textureMgr.remove(this->_matterEffect.textureHandle);
+		game->textureMgr.remove(this->_spiritEffect.textureHandle);
+		game->textureMgr.remove(this->_voidEffect.textureHandle);
 	}
 
 	const FrameData *Character::getCurrentFrameData() const
@@ -428,7 +441,60 @@ namespace SpiralOfFate
 
 	void Character::render() const
 	{
-		Object::render();
+		if (this->_spiritEffectTimer)
+			this->_sprite.setColor(sf::Color{51, 204, 204});
+		else if (this->_matterEffectTimer)
+			this->_sprite.setColor(sf::Color{187, 94, 0});
+		else if (this->_voidEffectTimer)
+			this->_sprite.setColor(sf::Color{0x80, 0x00, 0x80});
+		else
+			this->_sprite.setColor(sf::Color::White);
+
+		auto &data = *this->getCurrentFrameData();
+		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
+		auto scale = Vector2f{
+			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			static_cast<float>(data.size.y) / data.textureBounds.size.y
+		};
+
+		result.y *= -1;
+		result += Vector2f{
+			!this->_direction * data.size.x + data.size.x / -2.f,
+			-static_cast<float>(data.size.y)
+		};
+		result += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+
+		Object::_render(result, scale);
+		this->_effectTimer++;
+		if (this->_spiritEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_spiritEffect.textureHandle);
+
+			this->_spiritEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_spiritEffect.setOrigin({20, size.y / 2.f});
+			this->_spiritEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_spiritEffect.setPosition(result);
+			game->textureMgr.render(this->_spiritEffect);
+		} else if (this->_matterEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_matterEffect.textureHandle);
+
+			this->_matterEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_matterEffect.setOrigin({20, size.y / 2.f});
+			this->_matterEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_matterEffect.setPosition(result);
+			game->textureMgr.render(this->_matterEffect);
+		} else if (this->_voidEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_voidEffect.textureHandle);
+
+			this->_voidEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_voidEffect.setOrigin({20, size.y / 2.f});
+			this->_voidEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_voidEffect.setPosition(result);
+			game->textureMgr.render(this->_voidEffect);
+		}
+
 		if (this->showAttributes) {
 			game->screen->draw(this->_text);
 			game->screen->draw(this->_text2);
@@ -454,6 +520,12 @@ namespace SpiralOfFate
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
+		if (this->_spiritEffectTimer)
+			this->_spiritEffectTimer--;
+		if (this->_matterEffectTimer)
+			this->_matterEffectTimer--;
+		if (this->_voidEffectTimer)
+			this->_voidEffectTimer--;
 		if (!this->_ultimateUsed) {
 			if (this->_odCooldown) {
 				this->_odCooldown--;
@@ -3251,8 +3323,17 @@ namespace SpiralOfFate
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
-		if (!isParryAction(this->_action))
+		if (!isParryAction(this->_action)) {
+			if (
+				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) &&
+				(data.oFlag.spiritElement != data.oFlag.matterElement || data.oFlag.voidElement != data.oFlag.matterElement)
+			) {
+				this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
+				this->_matterEffectTimer = data.oFlag.matterElement * 120;
+				this->_voidEffectTimer = data.oFlag.voidElement * 120;
+			}
 			this->_guardRegenCd = 120;
+		}
 		game->battleMgr->addHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
@@ -3344,6 +3425,14 @@ namespace SpiralOfFate
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 
 		my_assert(!data.oFlag.ultimate || chr);
+		if (
+			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) &&
+			(data.oFlag.spiritElement != data.oFlag.matterElement || data.oFlag.voidElement != data.oFlag.matterElement)
+		) {
+			this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
+			this->_matterEffectTimer = data.oFlag.matterElement * 120;
+			this->_voidEffectTimer = data.oFlag.voidElement * 120;
+		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
 		counter &= this->_action != ACTION_GROUND_SLAM;
@@ -3575,6 +3664,9 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_matterEffectTimer = this->_matterEffectTimer;
+		dat->_spiritEffectTimer = this->_spiritEffectTimer;
+		dat->_voidEffectTimer = this->_voidEffectTimer;
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_supersUsed = this->_supersUsed;
@@ -3626,6 +3718,9 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_matterEffectTimer = dat->_matterEffectTimer;
+		this->_spiritEffectTimer = dat->_spiritEffectTimer;
+		this->_voidEffectTimer = dat->_voidEffectTimer;
 		this->_wrongMana = dat->_wrongMana;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
@@ -3708,6 +3803,47 @@ namespace SpiralOfFate
 			this->_guardBar -= loss;
 	}
 
+	void Character::_parryVoidEffect(Object *other, bool isStrongest)
+	{
+		auto oData = other->getCurrentFrameData();
+		auto percent = isStrongest ? 100 : REFLECT_PERCENT;
+
+		other->_hp = max(1, static_cast<int>(other->_hp - percent * oData->damage / 100));
+	}
+
+	void Character::_parryMatterEffect(Object *other, bool isStrongest)
+	{
+		auto data = this->getCurrentFrameData();
+		auto chr = dynamic_cast<Character *>(other);
+
+		if (chr) {
+			if (data->oFlag.voidMana)
+				chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
+			if (data->oFlag.spiritMana)
+				chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
+			if (data->oFlag.matterMana)
+				chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
+			if (
+				chr->_voidMana < 0 ||
+				chr->_spiritMana < 0 ||
+				chr->_matterMana < 0
+				)
+				chr->_manaCrush();
+		} else {
+			other->_team = this->_team;
+			other->_speed.x *= -1;
+			other->_dir *= -1;
+			other->_direction = !other->_direction;
+		}
+	}
+
+	void Character::_parrySpiritEffect(Object *other, bool isStrongest)
+	{
+		this->_blockStun += 5;
+		other->_speed.x += this->_dir * (2 + isStrongest * 5);
+		this->_speed.x -= this->_dir * (2 + isStrongest * 5);
+	}
+
 	void Character::_parryEffect(Object *other)
 	{
 		auto data = this->getCurrentFrameData();
@@ -3717,40 +3853,18 @@ namespace SpiralOfFate
 			(oData->oFlag.spiritElement && data->dFlag.matterBlock) ||
 			(oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement && data->dFlag.neutralBlock);
 
-		if (data->dFlag.spiritBlock) {
-			this->_blockStun += 5;
-			other->_speed.x += this->_dir * (2 + isStrongest * 5);
-			this->_speed.x -= this->_dir * (2 + isStrongest * 5);
-		}
 		if (data->dFlag.voidBlock)
-			other->_hp = max(1, static_cast<int>(other->_hp - REFLECT_PERCENT * oData->damage / 100));
-		if (data->dFlag.matterBlock) {
-			auto chr = dynamic_cast<Character *>(other);
+			this->_parryVoidEffect(other, isStrongest);
+		if (data->dFlag.spiritBlock)
+			this->_parrySpiritEffect(other, isStrongest);
+		if (data->dFlag.matterBlock)
+			this->_parryMatterEffect(other, isStrongest);
 
-			if (chr) {
-				if (data->oFlag.voidMana)
-					chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
-				if (data->oFlag.spiritMana)
-					chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
-				if (data->oFlag.matterMana)
-					chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
-				if (
-					chr->_voidMana < 0 ||
-					chr->_spiritMana < 0 ||
-					chr->_matterMana < 0
-				)
-					chr->_manaCrush();
-			} else {
-				other->_team = this->_team;
-				other->_speed.x *= -1;
-				other->_dir *= -1;
-				other->_direction = !other->_direction;
-			}
-		}
 		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
 		if (isStrongest)
 			game->soundMgr.play(BASICSOUND_BEST_PARRY);
+
 		if (data->dFlag.neutralBlock) {
 			this->_forceStartMove(this->_getReversalAction());
 			this->_blockStun = 0;

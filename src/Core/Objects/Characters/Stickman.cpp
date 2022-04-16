@@ -260,7 +260,7 @@ namespace SpiralOfFate
 
 	const FrameData *Stickman::getCurrentFrameData() const
 	{
-		auto data = Object::getCurrentFrameData();
+		auto data = Character::getCurrentFrameData();
 
 		if (!this->_flagsGenerated)
 			return data;

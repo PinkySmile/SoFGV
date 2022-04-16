@@ -377,6 +377,9 @@ namespace SpiralOfFate
 			unsigned _guardRegenCd;
 			unsigned _nbLastInputs;
 			unsigned _nbReplayInputs;
+			unsigned _matterEffectTimer;
+			unsigned _spiritEffectTimer;
+			unsigned _voidEffectTimer;
 			bool _ultimateUsed;
 			bool _counter;
 			bool _jumpCanceled;
@@ -526,6 +529,9 @@ namespace SpiralOfFate
 		unsigned _guardBar = 0;
 		unsigned _guardRegenCd = 0;
 		unsigned _grabInvul = 0;
+		unsigned _matterEffectTimer = 0;
+		unsigned _spiritEffectTimer = 0;
+		unsigned _voidEffectTimer = 0;
 		bool _speedReset = false;
 		bool _counter = false;
 		bool _wrongMana = false;
@@ -537,12 +543,12 @@ namespace SpiralOfFate
 		bool _restand = false;
 		bool _justGotCorner = false;
 		bool _hadUltimate = false;
+		char _normalTreeFlag = 0;
 		float _prorate = 1;
 		float _regen = 0;
 		float _voidMana = 0;
 		float _spiritMana = 0;
 		float _matterMana = 0;
-		char _normalTreeFlag = 0;
 		SpecialInputs _specialInputs;
 
 		// Non Game State
@@ -560,6 +566,10 @@ namespace SpiralOfFate
 		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		mutable unsigned _effectTimer = 0;
+		mutable Sprite _matterEffect;
+		mutable Sprite _spiritEffect;
+		mutable Sprite _voidEffect;
 
 		//Practice
 		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
@@ -572,6 +582,9 @@ namespace SpiralOfFate
 		virtual bool _executeDownAttack(unsigned base);
 		virtual unsigned _getReversalAction();
 		virtual void _parryEffect(Object *other);
+		virtual void _parryVoidEffect(Object *other, bool isStrongest);
+		virtual void _parryMatterEffect(Object *other, bool isStrongest);
+		virtual void _parrySpiritEffect(Object *other, bool isStrongest);
 		virtual void _processGuardLoss(bool wrongBlock);
 		virtual bool _executeAirDashes(const InputStruct &input);
 		virtual bool _executeAirParry(const InputStruct &input);
@@ -663,7 +676,7 @@ namespace SpiralOfFate
 
 		Character();
 		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
-		~Character() override = default;
+		~Character() override;
 		void setOpponent(Character *opponent);
 		bool hits(const IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
