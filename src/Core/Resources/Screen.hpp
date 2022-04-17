@@ -21,7 +21,7 @@ namespace SpiralOfFate
 	public:
 		explicit Screen(const std::string &title = "FG");
 		Screen(const Screen &);
-		~Screen();
+		~Screen() override;
 
 		enum TextAlign {
 			ALIGN_LEFT,

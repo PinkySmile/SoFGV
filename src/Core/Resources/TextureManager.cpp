@@ -182,4 +182,9 @@ namespace SpiralOfFate
 			return {0, 0};
 		return this->_textures.at(id).getSize();
 	}
+
+	TextureManager::~TextureManager()
+	{
+		game->logger.debug("~TextureManager()");
+	}
 }

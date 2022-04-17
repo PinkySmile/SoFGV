@@ -1165,4 +1165,9 @@ namespace SpiralOfFate
 			total = 0;
 		}
 	}
+
+	BattleManager::~BattleManager()
+	{
+		game->logger.debug("~BattleManager()");
+	}
 }

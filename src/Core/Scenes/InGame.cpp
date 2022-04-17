@@ -127,65 +127,7 @@ namespace SpiralOfFate
 
 	InGame::~InGame()
 	{
-		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game->battleMgr)
-			return;
-
-		char buf[MAX_PATH];
-		char buf2[MAX_PATH];
-		time_t timer;
-		char timebuffer[40];
-		char timebuffer2[40];
-		struct tm* tm_info;
-		unsigned magic  = getMagic();
-		auto leftChr    = game->battleMgr->getLeftCharacter();
-		auto rightChr   = game->battleMgr->getRightCharacter();
-		auto leftInputs = game->battleMgr->getLeftReplayData();
-		auto rightInputs= game->battleMgr->getRightReplayData();
-#pragma pack(push, 1)
-		struct CharacterData {
-			unsigned index;
-			unsigned nbInputs;
-		} leftChrSer, rightChrSer;
-#pragma pack(pop)
-
-		time(&timer);
-		tm_info = localtime(&timer);
-		strftime(timebuffer, 40, "%Y-%m-%d", tm_info);
-		strftime(timebuffer2, 40, "%H_%M_%S", tm_info);
-		sprintf(buf, "replays/%s", timebuffer);
-		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
-
-		if (makedir("replays", 0755) && errno != EEXIST) {
-			SpiralOfFate::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
-			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game->screen);
-			return;
-		}
-		if (makedir(buf, 0755) && errno != EEXIST) {
-			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
-			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game->screen);
-			return;
-		}
-
-		std::ofstream stream{buf2, std::ofstream::binary};
-
-		if (stream.fail()) {
-			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
-			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game->screen);
-			return;
-		}
-		stream.write(reinterpret_cast<char *>(&magic), 4);
-		stream.write(reinterpret_cast<char *>(&this->_random), sizeof(this->_random));
-		stream.write(reinterpret_cast<char *>(&this->_params), 12);
-		leftChrSer.index = leftChr->index;
-		leftChrSer.nbInputs = leftInputs.size();
-		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
-		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
-
-		rightChrSer.index = rightChr->index;
-		rightChrSer.nbInputs = rightInputs.size();
-		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
-		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
-		game->logger.info(std::string(buf2) + " created.");
+		this->saveReplay();
 	}
 
 	void InGame::render() const
@@ -574,5 +516,72 @@ namespace SpiralOfFate
 			this->_moveListCursorMax++;
 		}
 		this->_moveDisplayed.shrink_to_fit();
+	}
+
+	void InGame::saveReplay()
+	{
+		if (this->_replaySaved)
+			return;
+		this->_replaySaved = true;
+
+		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game->battleMgr)
+			return;
+
+		char buf[MAX_PATH];
+		char buf2[MAX_PATH];
+		time_t timer;
+		char timebuffer[40];
+		char timebuffer2[40];
+		struct tm* tm_info;
+		unsigned magic  = getMagic();
+		auto leftChr    = game->battleMgr->getLeftCharacter();
+		auto rightChr   = game->battleMgr->getRightCharacter();
+		auto leftInputs = game->battleMgr->getLeftReplayData();
+		auto rightInputs= game->battleMgr->getRightReplayData();
+#pragma pack(push, 1)
+		struct CharacterData {
+			unsigned index;
+			unsigned nbInputs;
+		} leftChrSer, rightChrSer;
+#pragma pack(pop)
+
+		time(&timer);
+		tm_info = localtime(&timer);
+		strftime(timebuffer, 40, "%Y-%m-%d", tm_info);
+		strftime(timebuffer2, 40, "%H_%M_%S", tm_info);
+		sprintf(buf, "replays/%s", timebuffer);
+		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
+
+		if (makedir("replays", 0755) && errno != EEXIST) {
+			SpiralOfFate::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));
+			Utils::dispMsg("Replay saving failure", "Failed to create replays folder: " + std::string(strerror(errno)), MB_ICONERROR, &*game->screen);
+			return;
+		}
+		if (makedir(buf, 0755) && errno != EEXIST) {
+			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf) + " folder: " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf) + " folder: " + strerror(errno), MB_ICONERROR, &*game->screen);
+			return;
+		}
+
+		std::ofstream stream{buf2, std::ofstream::binary};
+
+		if (stream.fail()) {
+			SpiralOfFate::game->logger.error("Failed to create " + std::string(buf2) + ": " + strerror(errno));
+			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game->screen);
+			return;
+		}
+		stream.write(reinterpret_cast<char *>(&magic), 4);
+		stream.write(reinterpret_cast<char *>(&this->_random), sizeof(this->_random));
+		stream.write(reinterpret_cast<char *>(&this->_params), 12);
+		leftChrSer.index = leftChr->index;
+		leftChrSer.nbInputs = leftInputs.size();
+		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
+		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
+
+		rightChrSer.index = rightChr->index;
+		rightChrSer.nbInputs = rightInputs.size();
+		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
+		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
+		game->logger.info(std::string(buf2) + " created.");
 	}
 }

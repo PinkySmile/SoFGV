@@ -49,6 +49,13 @@ namespace SpiralOfFate
 		}
 	}
 
+	Game::~Game()
+	{
+		this->logger.debug("~Game()>");
+		this->scene.reset();
+		this->logger.debug("~Game()<");
+	}
+
 	namespace GGPONetplay
 	{
 		/*

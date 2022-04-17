@@ -744,7 +744,10 @@ namespace SpiralOfFate
 
 	void NetManager::update()
 	{
-		this->_scene = game->scene;
+		if (this->_ggpoSession)
+			this->_scene = game->scene;
+		else
+			this->_scene.reset();
 	}
 
 	void NetManager::consumeEvent(GGPOEvent *event)
@@ -841,6 +844,11 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Received opcode " + std::to_string(packet.op));
 #endif
+	}
+
+	NetManager::~NetManager()
+	{
+		game->logger.debug("~NetManager()");
 	}
 
 	GGPOError::GGPOError(GGPOErrorCode code) :

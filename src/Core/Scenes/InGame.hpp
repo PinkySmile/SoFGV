@@ -48,6 +48,7 @@ namespace SpiralOfFate
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
+		bool _replaySaved = false;
 		bool _goBackToTitle;
 
 		std::mt19937 _random;
@@ -73,7 +74,8 @@ namespace SpiralOfFate
 			const nlohmann::json &rJson,
 			bool goBackToTitle = false
 		);
-		~InGame();
+		~InGame() override;
+		void saveReplay();
 		void render() const override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

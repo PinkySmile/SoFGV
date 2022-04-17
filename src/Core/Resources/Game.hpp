@@ -81,14 +81,15 @@ namespace SpiralOfFate
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		SoundManager soundMgr;
-		NetManager networkMgr;
 		std::unique_ptr<BattleManager> battleMgr;
+		NetManager networkMgr;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
 		std::shared_ptr<IScene> scene;
 
 		Game(const std::string &loggerPath = "./latest.log");
+		~Game();
 	};
 
 	namespace GGPONetplay {

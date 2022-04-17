@@ -393,7 +393,7 @@ namespace SpiralOfFate
 			bool _speedReset;
 			bool _justGotCorner;
 			char _normalTreeFlag;
-			unsigned char _specialInputs[49];
+			unsigned char _specialInputs[50];
 			float _regen;
 			float _voidMana;
 			float _spiritMana;
@@ -401,7 +401,7 @@ namespace SpiralOfFate
 			float _prorate;
 		};
 		union SpecialInputs {
-			unsigned char _value[49] = {0};
+			unsigned char _value[50] = {0};
 			struct {
 				char _421n: 6;
 				char _421m: 6;

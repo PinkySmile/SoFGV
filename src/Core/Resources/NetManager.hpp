@@ -154,6 +154,7 @@ namespace SpiralOfFate
 
 	public:
 		NetManager();
+		~NetManager();
 
 		std::shared_ptr<RemoteInput> _leftInput;
 		std::shared_ptr<RemoteInput> _rightInput;
