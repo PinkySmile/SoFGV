@@ -3490,7 +3490,7 @@ namespace SpiralOfFate
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
-			if (!myData->dFlag.superarmor && data.oFlag.grab) {
+			if (!myData->dFlag.superarmor || data.oFlag.grab) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else
