@@ -593,9 +593,6 @@ namespace SpiralOfFate
 			this->_action == ACTION_FORWARD_TECH ||
 			this->_action == ACTION_BACKWARD_TECH ||
 			this->_action == ACTION_FALLING_TECH ||
-			this->_action == ACTION_AIR_HIT ||
-			this->_action == ACTION_GROUND_SLAM ||
-			this->_action == ACTION_WALL_SLAM ||
 			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
 			this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK ||
 			this->_action == ACTION_GROUND_HIGH_NEUTRAL_BLOCK ||
