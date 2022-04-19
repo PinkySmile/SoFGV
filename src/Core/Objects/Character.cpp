@@ -3342,10 +3342,16 @@ namespace SpiralOfFate
 					data.oFlag.voidElement != data.oFlag.matterElement
 				) || data.oFlag.spiritElement)
 			) {
-				this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * 120;
-				this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
-				this->_matterEffectTimer = data.oFlag.matterElement * 120;
-				this->_voidEffectTimer = data.oFlag.voidElement * 120;
+				auto tier = getAttackTier(other->_action);
+
+				if (tier < 0)
+					tier = 100;
+				else
+					tier += 200;
+				this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * tier / 2;
+				this->_spiritEffectTimer = data.oFlag.spiritElement * tier / 4;
+				this->_matterEffectTimer = data.oFlag.matterElement * tier / 4;
+				this->_voidEffectTimer = data.oFlag.voidElement * tier / 4;
 			}
 			this->_guardRegenCd = 120;
 		}
@@ -3446,10 +3452,16 @@ namespace SpiralOfFate
 				data.oFlag.voidElement != data.oFlag.matterElement
 			) || data.oFlag.spiritElement)
 		) {
-			this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * 120;
-			this->_spiritEffectTimer = data.oFlag.spiritElement * 120;
-			this->_matterEffectTimer = data.oFlag.matterElement * 120;
-			this->_voidEffectTimer = data.oFlag.voidElement * 120;
+			auto tier = getAttackTier(obj->_action);
+
+			if (tier < 0)
+				tier = 100;
+			else
+				tier += 200;
+			this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * tier;
+			this->_spiritEffectTimer = data.oFlag.spiritElement * tier / 2;
+			this->_matterEffectTimer = data.oFlag.matterElement * tier / 2;
+			this->_voidEffectTimer = data.oFlag.voidElement * tier / 2;
 		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
