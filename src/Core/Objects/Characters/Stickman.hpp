@@ -20,6 +20,8 @@ namespace SpiralOfFate
 			bool _flagsGenerated;
 			unsigned _moveLength;
 			unsigned _chargeTime;
+			unsigned _time;
+			unsigned _oldAction;
 		};
 #pragma pack(pop)
 
@@ -33,6 +35,8 @@ namespace SpiralOfFate
 		bool _flagsGenerated = false;
 		unsigned _moveLength = 0;
 		unsigned _chargeTime = 0;
+		unsigned _time = 0;
+		unsigned _oldAction = 0;
 
 		void _decreaseMoveTime();
 
@@ -58,6 +62,10 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
+
+		bool matchEndUpdate() override;
+
+		void onMatchEnd() override;
 	};
 }
 

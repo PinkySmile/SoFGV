@@ -717,8 +717,10 @@ namespace SpiralOfFate
 		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
-
 		const FrameData *getCurrentFrameData() const override;
+
+		virtual void onMatchEnd();
+		virtual bool matchEndUpdate();
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

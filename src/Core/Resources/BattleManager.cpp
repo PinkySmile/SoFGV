@@ -313,8 +313,22 @@ namespace SpiralOfFate
 		float scale;
 		float alpha;
 
-		this->_leftCharacter->disableInputs(true);
-		this->_rightCharacter->disableInputs(true);
+		if (this->_roundStartTimer == -120) {
+			this->_leftCharacter->disableInputs(true);
+			this->_rightCharacter->disableInputs(true);
+			if ((this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->_action == 0)
+				(this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->onMatchEnd();
+			else
+				return true;
+			this->_roundStartTimer++;
+		} else
+			this->_ended |= (this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->matchEndUpdate();
+
+		if (!this->_ended) {
+			this->_roundSprite.setScale({0, 0});
+			return true;
+		}
+
 		if (this->_roundStartTimer < -120 + 0x11) {
 			alpha = this->_roundStartTimer * 15;
 			scale = this->_roundStartTimer / 17.f;
@@ -504,6 +518,7 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
 		dat->_leftHitCtr = this->_leftHitCtr;
@@ -560,6 +575,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		this->_ended = dat->_ended;
 		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftComboCtr = dat->_leftComboCtr;
 		this->_leftHitCtr = dat->_leftHitCtr;

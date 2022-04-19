@@ -4155,4 +4155,26 @@ namespace SpiralOfFate
 		}
 		game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 	}
+
+	void Character::onMatchEnd()
+	{
+		auto n = 0;
+
+		for (int i = 0; i < 4; i++)
+			n += this->_hasMove(ACTION_WIN_MATCH1 + i);
+		if (!n)
+			return;
+
+		std::uniform_int_distribution<int> distribution{0, n - 1};
+
+		this->_forceStartMove(ACTION_WIN_MATCH1 + distribution(game->random));
+	}
+
+	bool Character::matchEndUpdate()
+	{
+		if (this->_action < ACTION_WIN_MATCH1)
+			return false;
+		this->_tickMove();
+		return this->_animation + this->_animationCtr;
+	}
 }
