@@ -432,13 +432,13 @@ namespace SpiralOfFate
 	{
 		auto data = Object::getCurrentFrameData();
 
-		if (!this->_grabInvul && !this->_wrongMana)
+		if (!this->_grabInvul && !this->_wrongMana && !this->_neutralEffectTimer)
 			return data;
 		this->_fakeFrameData = *data;
 		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
-		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana;
-		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana;
-		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana;
+		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
 	}
 
@@ -535,12 +535,27 @@ namespace SpiralOfFate
 
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
-		if (this->_spiritEffectTimer)
+		if (this->_spiritEffectTimer) {
+			if (this->_spiritEffectTimer % 5 == 0) {
+				if (this->_matterMana > 0)
+					this->_matterMana--;
+				if (this->_spiritMana > 0)
+					this->_spiritMana--;
+				if (this->_voidMana > 0)
+					this->_voidMana--;
+			}
 			this->_spiritEffectTimer--;
-		if (this->_matterEffectTimer)
+		}
+		if (this->_matterEffectTimer) {
+			if (this->_guardBar && !this->_guardCooldown)
+				this->_guardBar--;
 			this->_matterEffectTimer--;
-		if (this->_voidEffectTimer)
+		}
+		if (this->_voidEffectTimer) {
+			if (this->_hp > 1)
+				this->_hp--;
 			this->_voidEffectTimer--;
+		}
 		if (!this->_ultimateUsed) {
 			if (this->_odCooldown) {
 				this->_odCooldown--;
