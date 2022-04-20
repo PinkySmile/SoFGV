@@ -3358,15 +3358,16 @@ namespace SpiralOfFate
 				) || data.oFlag.spiritElement)
 			) {
 				auto tier = getAttackTier(other->_action);
+				auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
 				if (tier < 0)
 					tier = 100;
 				else
 					tier += 200;
-				this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * tier / 2;
-				this->_spiritEffectTimer = data.oFlag.spiritElement * tier / 4;
-				this->_matterEffectTimer = data.oFlag.matterElement * tier / 4;
-				this->_voidEffectTimer = data.oFlag.voidElement * tier / 4;
+				this->_neutralEffectTimer = neutral * tier / 2;
+				this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 4;
+				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 4;
+				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 4;
 			}
 			this->_guardRegenCd = 120;
 		}
@@ -3468,15 +3469,16 @@ namespace SpiralOfFate
 			) || data.oFlag.spiritElement)
 		) {
 			auto tier = getAttackTier(obj->_action);
+			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
 			if (tier < 0)
 				tier = 100;
 			else
 				tier += 200;
-			this->_neutralEffectTimer = (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement) * tier;
-			this->_spiritEffectTimer = data.oFlag.spiritElement * tier / 2;
-			this->_matterEffectTimer = data.oFlag.matterElement * tier / 2;
-			this->_voidEffectTimer = data.oFlag.voidElement * tier / 2;
+			this->_neutralEffectTimer = neutral * tier;
+			this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 2;
+			this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 2;
+			this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 2;
 		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
