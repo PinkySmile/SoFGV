@@ -701,7 +701,7 @@ namespace SpiralOfFate
 		}
 		if (!this->_blockStun)
 			this->_processInput(input);
-		else {
+		else if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_LOW_HIT || this->_action == ACTION_GROUND_HIGH_HIT) {
 			if (this->_isGrounded())
 				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
 				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
