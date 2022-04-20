@@ -1115,7 +1115,7 @@ namespace SpiralOfFate
 			return !this->_odCooldown;
 		}
 		if (isRomanCancelAction(action))
-			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action);
+			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action) && !isRomanCancelAction(this->_action) && !isOverdriveAction(this->_action);
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
