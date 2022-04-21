@@ -542,6 +542,8 @@ namespace SpiralOfFate
 	{
 		Character::onMatchEnd();
 		this->_oldAction = this->_action;
+		if (this->_oldAction <= ACTION_WIN_MATCH2)
+			game->soundMgr.play(BASICSOUND_DASH);
 	}
 
 	bool Stickman::matchEndUpdate()
@@ -550,6 +552,8 @@ namespace SpiralOfFate
 			return false;
 		if (this->_action < ACTION_WIN_MATCH1)
 			this->_forceStartMove(this->_oldAction);
+		if (!this->_isGrounded())
+			this->_speed.x = 0;
 		if (std::abs(this->_position.x - reinterpret_cast<Stickman *>(&*this->_opponent)->_position.x) < 30 && this->_actionBlock == 0) {
 			this->_actionBlock++;
 			this->_animation = 0;

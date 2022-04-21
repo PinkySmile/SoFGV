@@ -1,7 +1,7 @@
 [
     {
         "class": 0,
-        "hp": 20000,
+        "hp": 20,
         "void_mana_max": 2000,
         "spirit_mana_max": 2000,
         "matter_mana_max": 2000,

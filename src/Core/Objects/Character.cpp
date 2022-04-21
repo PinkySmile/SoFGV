@@ -1249,7 +1249,7 @@ namespace SpiralOfFate
 		if (this->_action == ACTION_HARD_LAND)
 			return this->_forceStartMove(idleAction);
 		if (
-			this->_action >= ACTION_5N ||
+			(this->_action >= ACTION_5N && this->_action < ACTION_WIN_MATCH1) ||
 			this->_action == ACTION_LANDING
 		)
 			return this->_forceStartMove(idleAction);

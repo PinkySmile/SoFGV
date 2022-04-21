@@ -20496,7 +20496,7 @@
         "framedata": [
             [
                 {
-                    "defense_flag": 2101248,
+                    "defense_flag": 4096,
                     "duration": 3,
                     "offense_flag": 264192,
                     "offset": {
@@ -20508,7 +20508,7 @@
                         "y": 181
                     },
                     "speed": {
-                        "x": 11,
+                        "x": 5,
                         "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
@@ -20520,7 +20520,7 @@
                     }
                 },
                 {
-                    "defense_flag": 2101248,
+                    "defense_flag": 4096,
                     "duration": 3,
                     "offense_flag": 264192,
                     "offset": {
@@ -20532,7 +20532,7 @@
                         "y": 181
                     },
                     "speed": {
-                        "x": 11,
+                        "x": 5,
                         "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
@@ -20544,7 +20544,7 @@
                     }
                 },
                 {
-                    "defense_flag": 2101248,
+                    "defense_flag": 4096,
                     "duration": 3,
                     "offense_flag": 264192,
                     "offset": {
@@ -20556,7 +20556,7 @@
                         "y": 181
                     },
                     "speed": {
-                        "x": 11,
+                        "x": 5,
                         "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
@@ -20568,7 +20568,7 @@
                     }
                 },
                 {
-                    "defense_flag": 2101248,
+                    "defense_flag": 4096,
                     "duration": 3,
                     "offense_flag": 264192,
                     "offset": {
@@ -20580,7 +20580,7 @@
                         "y": 181
                     },
                     "speed": {
-                        "x": 11,
+                        "x": 5,
                         "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
@@ -20601,10 +20601,6 @@
                         "x": 54,
                         "y": 140
                     },
-                    "speed": {
-                        "x": 7,
-                        "y": 0
-                    },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 79,
@@ -20620,10 +20616,6 @@
                     "size": {
                         "x": 46,
                         "y": 188
-                    },
-                    "speed": {
-                        "x": 7,
-                        "y": 0
                     },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {

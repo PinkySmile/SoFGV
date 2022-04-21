@@ -322,7 +322,7 @@ namespace SpiralOfFate
 				return true;
 			this->_roundStartTimer++;
 		} else
-			this->_ended |= (this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->matchEndUpdate();
+			this->_ended |= !(this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->matchEndUpdate();
 
 		if (!this->_ended) {
 			this->_roundSprite.setScale({0, 0});
