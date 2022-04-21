@@ -302,6 +302,10 @@ namespace SpiralOfFate
 				this->_addedOFlags.flags = 0;
 				this->_flagsGenerated = false;
 			}
+		} else {
+			this->_addedDFlags.flags = 0;
+			this->_addedOFlags.flags = 0;
+			this->_flagsGenerated = false;
 		}
 	}
 
