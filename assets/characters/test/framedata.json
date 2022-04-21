@@ -8453,7 +8453,7 @@
                         }
                     ],
                     "neutral_limit": 30,
-                    "offense_flag": 2560,
+                    "offense_flag": 2616,
                     "offset": {
                         "x": 9,
                         "y": 0
@@ -8521,7 +8521,7 @@
                         }
                     ],
                     "neutral_limit": 30,
-                    "offense_flag": 2560,
+                    "offense_flag": 2616,
                     "offset": {
                         "x": 9,
                         "y": 0
@@ -10005,7 +10005,7 @@
                     }
                 },
                 {
-                    "block_stun": 15,
+                    "block_stun": 11,
                     "collision_box": {
                         "height": 99,
                         "left": -20,
@@ -12620,7 +12620,7 @@
                         "top": -73,
                         "width": 43
                     },
-                    "defense_flag": 90112,
+                    "defense_flag": 2187264,
                     "duration": 10,
                     "hurt_boxes": [
                         {
@@ -12645,6 +12645,10 @@
                         "x": 92,
                         "y": 132
                     },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 66,
@@ -12661,7 +12665,7 @@
                         "width": 43
                     },
                     "damage": 300,
-                    "defense_flag": 81920,
+                    "defense_flag": 2179072,
                     "duration": 10,
                     "hurt_boxes": [
                         {
@@ -12687,6 +12691,10 @@
                         "y": 134
                     },
                     "sound": "assets/sfxs/se/tenshi/011.wav",
+                    "speed": {
+                        "x": 2,
+                        "y": 0
+                    },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 67,
@@ -12709,10 +12717,10 @@
                     "hitSound": "assets/sfxs/se/001.wav",
                     "hit_boxes": [
                         {
-                            "height": 39,
+                            "height": 45,
                             "left": 18,
-                            "top": -42,
-                            "width": 44
+                            "top": -48,
+                            "width": 60
                         }
                     ],
                     "hit_stop": 4,
@@ -16164,7 +16172,7 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 15,
+                    "mana_gain": 5,
                     "offense_flag": 60817920,
                     "offset": {
                         "x": 1,
@@ -16254,7 +16262,7 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 15,
+                    "mana_gain": 5,
                     "offense_flag": 60826112,
                     "offset": {
                         "x": 1,
@@ -16339,7 +16347,7 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 15,
+                    "mana_gain": 5,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
@@ -16424,7 +16432,7 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 15,
+                    "mana_gain": 5,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
@@ -16509,7 +16517,7 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 15,
+                    "mana_gain": 5,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
@@ -19647,7 +19655,7 @@
                         "x": 4,
                         "y": 0
                     },
-                    "damage": 900,
+                    "damage": 750,
                     "defense_flag": 20480,
                     "duration": 2,
                     "hitSound": "assets/sfxs/se/komachi/011.wav",
