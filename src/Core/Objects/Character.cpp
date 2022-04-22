@@ -4183,7 +4183,7 @@ namespace SpiralOfFate
 		if (actions.empty())
 			return;
 
-		std::uniform_int_distribution<int> distribution{0, actions.size() - 1};
+		std::uniform_int_distribution<size_t> distribution{0, actions.size() - 1};
 
 		this->_forceStartMove(actions[distribution(game->random)]);
 	}
