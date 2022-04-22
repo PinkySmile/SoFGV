@@ -4175,16 +4175,17 @@ namespace SpiralOfFate
 
 	void Character::onMatchEnd()
 	{
-		auto n = 0;
+		std::vector<unsigned> actions;
 
 		for (int i = 0; i < 4; i++)
-			n += this->_hasMove(ACTION_WIN_MATCH1 + i);
-		if (!n)
+			if (this->_hasMove(ACTION_WIN_MATCH1 + i))
+				actions.emplace_back(ACTION_WIN_MATCH1 + i);
+		if (actions.empty())
 			return;
 
-		std::uniform_int_distribution<int> distribution{0, n - 1};
+		std::uniform_int_distribution<int> distribution{0, actions.size() - 1};
 
-		this->_forceStartMove(ACTION_WIN_MATCH1 + distribution(game->random));
+		this->_forceStartMove(actions[distribution(game->random)]);
 	}
 
 	bool Character::matchEndUpdate()

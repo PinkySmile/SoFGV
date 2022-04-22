@@ -127,4 +127,15 @@ namespace SpiralOfFate
 		this->nbHit = dat->nbHit;
 		this->maxHit = dat->maxHit;
 	}
+
+	void Projectile::_onMoveEnd(const FrameData &lastData)
+	{
+		if (!lastData.specialMarker)
+			return Object::_onMoveEnd(lastData);
+		this->_actionBlock++;
+		if (this->_moves.at(this->_action).size() == this->_actionBlock)
+			//TODO: make proper exceptions
+			throw std::invalid_argument("Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+		Object::_onMoveEnd(lastData);
+	}
 }

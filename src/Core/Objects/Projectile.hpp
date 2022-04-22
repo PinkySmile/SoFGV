@@ -22,6 +22,9 @@ namespace SpiralOfFate
 		bool owner;
 		unsigned id;
 
+	protected:
+		void _onMoveEnd(const FrameData &lastData) override;
+
 	public:
 		Projectile(bool owner, unsigned id, unsigned maxHit = 1);
 		Projectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id, unsigned maxHit = 1);
@@ -34,7 +37,6 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-
 		void getHit(IObject &other, const FrameData *data) override;
 	};
 }
