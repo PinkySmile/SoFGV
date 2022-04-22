@@ -2696,6 +2696,8 @@ namespace SpiralOfFate
 		bool found7 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
@@ -2712,6 +2714,8 @@ namespace SpiralOfFate
 		bool found8 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
@@ -2728,6 +2732,8 @@ namespace SpiralOfFate
 		bool found9 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
