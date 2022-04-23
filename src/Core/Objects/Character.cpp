@@ -1298,7 +1298,7 @@ namespace SpiralOfFate
 				chr->_matterMana += data->manaGain;
 		}
 		if (myData->dFlag.invulnerableArmor)
-			return game->battleMgr->addHitStop(data->hitStop);
+			return game->battleMgr->setHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		if (
 			this->_isBlocking() &&
@@ -3407,7 +3407,7 @@ namespace SpiralOfFate
 			}
 			this->_guardRegenCd = 120;
 		}
-		game->battleMgr->addHitStop(data.hitStop);
+		game->battleMgr->setHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3446,7 +3446,7 @@ namespace SpiralOfFate
 			this->_processGuardLoss(wrongBlock);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
-		else if (isParryAction(this->_action)) {
+		else if (isParryAction(this->_action) && this->_animation == 0) {
 			this->_speed.x += data.pushBlock * -this->_dir;
 			this->_parryEffect(other);
 			return;
@@ -3548,7 +3548,7 @@ namespace SpiralOfFate
 			this->_limit[1] += data.voidLimit;
 			this->_limit[2] += data.matterLimit;
 			this->_limit[3] += data.spiritLimit;
-			game->battleMgr->addHitStop(data.hitStop * 1.5);
+			game->battleMgr->setHitStop(data.hitStop * 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
@@ -3569,7 +3569,7 @@ namespace SpiralOfFate
 				this->_limit[3] += data.spiritLimit;
 				this->_speedReset = data.oFlag.resetSpeed;
 			}
-			game->battleMgr->addHitStop(data.hitStop);
+			game->battleMgr->setHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 		this->_hp -= damage;
@@ -3912,7 +3912,7 @@ namespace SpiralOfFate
 				chr->_voidMana < 0 ||
 				chr->_spiritMana < 0 ||
 				chr->_matterMana < 0
-				)
+			)
 				chr->_manaCrush();
 		} else {
 			other->_team = this->_team;
@@ -3933,32 +3933,62 @@ namespace SpiralOfFate
 	{
 		auto data = this->getCurrentFrameData();
 		auto oData = other->getCurrentFrameData();
-		bool isStrongest = (oData->oFlag.matterElement && data->dFlag.voidBlock) ||
-			(oData->oFlag.voidElement && data->dFlag.spiritBlock) ||
-			(oData->oFlag.spiritElement && data->dFlag.matterBlock) ||
-			(oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement && data->dFlag.neutralBlock);
+		bool isStrongest;
+		bool isWeakest;
 
-		if (data->dFlag.voidBlock)
+		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
+		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
+			// Neutral attack
+			isStrongest = data->dFlag.neutralBlock || !oData->oFlag.spiritElement;
+			isWeakest = false;
+		} else if (oData->oFlag.spiritElement) {
+			// Spirit attack
+			isStrongest = data->dFlag.matterBlock;
+			isWeakest   = data->dFlag.voidBlock;
+		} else if (oData->oFlag.voidElement) {
+			// Void attack
+			isStrongest = data->dFlag.spiritBlock;
+			isWeakest   = data->dFlag.matterBlock;
+		} else if (oData->oFlag.matterElement) {
+			// Matter attack
+			isStrongest = data->dFlag.voidBlock;
+			isWeakest   = data->dFlag.spiritBlock;
+		}
+
+		if (isWeakest);
+		else if (data->dFlag.voidBlock)
 			this->_parryVoidEffect(other, isStrongest);
-		if (data->dFlag.spiritBlock)
+		else if (data->dFlag.spiritBlock)
 			this->_parrySpiritEffect(other, isStrongest);
-		if (data->dFlag.matterBlock)
+		else if (data->dFlag.matterBlock)
 			this->_parryMatterEffect(other, isStrongest);
+
+		if (!isWeakest && (!data->dFlag.neutralBlock || isStrongest)) {
+			unsigned loss = (data->dFlag.neutralBlock + 1) * 60;
+
+			this->_guardBar += loss;
+			if (this->_guardBar > this->_maxGuardBar)
+				this->_guardBar = this->_maxGuardBar;
+			this->_guardCooldown = 0;
+		}
+		if (isStrongest) {
+			game->battleMgr->setHitStop(20);
+			game->soundMgr.play(BASICSOUND_BEST_PARRY);
+		} else if (isWeakest)
+			game->soundMgr.play(BASICSOUND_WORST_PARRY);
+		else
+			game->soundMgr.play(BASICSOUND_BLOCK);
 
 		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
-		if (isStrongest)
-			game->soundMgr.play(BASICSOUND_BEST_PARRY);
 
-		if (data->dFlag.neutralBlock) {
+		if (data->dFlag.neutralBlock)
 			this->_forceStartMove(this->_getReversalAction());
-			this->_blockStun = 0;
-		} else if (isStrongest) {
+		else if (isStrongest)
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
-			this->_blockStun = 0;
-		} else {
-			game->soundMgr.play(BASICSOUND_BLOCK);
+		else {
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
+			this->_blockStun = oData->blockStun * (3 + isWeakest) / 3;
 		}
 	}
 

@@ -184,9 +184,14 @@ namespace SpiralOfFate
 		return this->_lastObjectId;
 	}
 
+	void BattleManager::setHitStop(unsigned int stop)
+	{
+		this->_hitStop = stop;
+	}
+
 	void BattleManager::addHitStop(unsigned int stop)
 	{
-		this->_hitStop = std::max(stop, this->_hitStop);
+		this->_hitStop += stop;
 	}
 
 	const Character *BattleManager::getLeftCharacter() const

@@ -132,6 +132,7 @@ namespace SpiralOfFate
 
 		BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		virtual ~BattleManager();
+		void setHitStop(unsigned stop);
 		void addHitStop(unsigned stop);
 		virtual bool update();
 		virtual void render();
