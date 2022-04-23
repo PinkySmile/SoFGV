@@ -29,7 +29,7 @@
 #define HJ_BUFFER_PERSIST 6
 
 #define NORMAL_BUFFER 4
-#define HJ_BUFFER 15
+#define HJ_BUFFER 5
 #define DASH_BUFFER 15
 #define QUARTER_CIRCLE_BUFFER 10
 #define DP_BUFFER 15

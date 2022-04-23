@@ -403,16 +403,16 @@ namespace SpiralOfFate
 		union SpecialInputs {
 			unsigned char _value[50] = {0};
 			struct {
-				char _421n: 6;
-				char _421m: 6;
-				char _421s: 6;
-				char _421v: 6;
 				unsigned char _22: 4;
 				unsigned char _44: 4;
 				unsigned char _66: 4;
 				unsigned char _27: 4;
 				unsigned char _28: 4;
 				unsigned char _29: 4;
+				char _421n: 6;
+				char _421m: 6;
+				char _421s: 6;
+				char _421v: 6;
 				unsigned char _c28n: 4;
 				unsigned char _c28m: 4;
 				unsigned char _c28s: 4;
