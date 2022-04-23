@@ -979,7 +979,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -1011,7 +1011,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "duration": 2,
                     "hurt_boxes": [
                         {
@@ -1083,7 +1083,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "hurt_boxes": [
                         {
                             "height": 187,
@@ -1115,7 +1115,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "duration": 2,
                     "hurt_boxes": [
                         {
@@ -1181,7 +1181,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "hurt_boxes": [
                         {
                             "height": 189,
@@ -1213,7 +1213,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 256,
+                    "defense_flag": 768,
                     "duration": 2,
                     "hurt_boxes": [
                         {
