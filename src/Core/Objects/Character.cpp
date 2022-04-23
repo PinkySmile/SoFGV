@@ -3916,9 +3916,8 @@ namespace SpiralOfFate
 
 	void Character::_parrySpiritEffect(Object *other, bool isStrongest)
 	{
-		this->_blockStun += 5;
-		other->_speed.x += this->_dir * (2 + isStrongest * 5);
-		this->_speed.x -= this->_dir * (2 + isStrongest * 5);
+		other->_speed.x += this->_dir * (5 + isStrongest * 10);
+		this->_speed.x -= this->_dir * (5 + isStrongest * 10);
 	}
 
 	void Character::_parryEffect(Object *other)
