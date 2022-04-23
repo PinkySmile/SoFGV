@@ -2337,6 +2337,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
@@ -2359,6 +2361,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
@@ -2381,6 +2385,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found3 |= foundAtk && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
@@ -2403,6 +2409,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found1 |= foundAtk && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
@@ -2425,6 +2433,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found2 |= found4 && input.v < 0 && !input.h;
@@ -2449,6 +2459,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found2 |= found4 && input.v < 0 && !input.h;
@@ -2474,6 +2486,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
@@ -2498,6 +2512,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
@@ -2524,6 +2540,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
@@ -2553,6 +2571,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
@@ -2583,6 +2603,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
@@ -2614,6 +2636,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
@@ -2753,6 +2777,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found8 |= foundAtk && input.v > 0;
 			if (input.v < 0) {
@@ -2781,6 +2807,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && input.h > 0;
 			if (input.h < 0) {
@@ -2809,6 +2837,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && input.h < 0;
 			if (input.h > 0) {
