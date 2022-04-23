@@ -249,8 +249,7 @@ namespace SpiralOfFate
 		try {
 			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {
-			//TODO : Add proper exceptions
-			throw std::invalid_argument("Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
 	}
 

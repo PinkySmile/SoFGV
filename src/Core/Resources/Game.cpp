@@ -17,7 +17,7 @@ namespace SpiralOfFate
 		random(std::random_device()()),
 		logger(loggerPath)
 	{
-		assert(!game);
+		my_assert(!game);
 		game = this;
 		try {
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/039.wav"), BASICSOUND_MENU_MOVE);
@@ -154,12 +154,4 @@ namespace SpiralOfFate
 			return true;
 		}
 	}
-}
-
-int _my_assert(const char *expr, const char *file, int line)
-{
-	auto err = "Debug Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
-
-	SpiralOfFate::game->logger.fatal(err);
-	throw AssertionFailedException(err);
 }

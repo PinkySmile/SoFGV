@@ -30,18 +30,50 @@
 #define MYDLL_API
 #endif
 
-#define my_assert(_Expression) \
- (void) \
- ((!!(_Expression)) || \
-  (_my_assert(#_Expression, __FILE__,__LINE__)))
+#ifdef __GNUC__
+#define FCT_NAME __PRETTY_FUNCTION__
+#elif defined(_MSC_VER)
+#define FCT_NAME __FUNCSIG__
+#else
+#define FCT_NAME __func__
+#endif
+
+#define my_assert(_Expression)                                                                 \
+	do {                                                                                   \
+		if (_Expression);                                                              \
+		else                                                                           \
+			throw _AssertionFailedException(                                       \
+				"Debug Assertion " + std::string(#_Expression) +               \
+				" failed in " + __FILE__ +                                     \
+				" at line " + std::to_string(__LINE__) +                       \
+				" in " + FCT_NAME                                              \
+			);                                                                     \
+	} while (0)
+#define my_assert2(_Expression, msg)                                                           \
+	do {                                                                                   \
+		if (_Expression);                                                              \
+		else                                                                           \
+			throw AssertionFailedException(#_Expression, msg);                     \
+	} while (0)
+
 #define my_assert_eq(_Expression, _Expression2)                                                \
 	do {                                                                                   \
  		auto a = (_Expression);                                                        \
 		auto b = (_Expression2);                                                       \
 		                                                                               \
 		if (a != b)                                                                    \
-			_my_assert_eq(#_Expression, #_Expression2, a, b, __FILE__,__LINE__);   \
+			throw AssertionFailedException(                                        \
+				std::string(#_Expression) + " == " + #_Expression2,            \
+				std::to_string(a) + " != " + std::to_string(b)                 \
+			);                                                                     \
 	} while (0)
+
+#define AssertionFailedException(expr, msg) _AssertionFailedException( \
+	"Debug Assertion " + std::string(expr) +                       \
+	" failed in " + __FILE__ +                                     \
+	" at line " + std::to_string(__LINE__) +                       \
+	" in " + FCT_NAME + ": " + msg                                 \
+)
 
 namespace SpiralOfFate
 {
@@ -105,23 +137,13 @@ namespace SpiralOfFate
 	extern MYDLL_API Game *game;
 }
 
-class AssertionFailedException : public std::exception {
+class _AssertionFailedException : public std::exception {
 private:
 	std::string _msg;
 
 public:
-	AssertionFailedException(const std::string &msg) : _msg(std::move(msg)) {}
+	_AssertionFailedException(const std::string &&msg) : _msg(msg) { SpiralOfFate::game->logger.fatal( "AssertionFailedException: " + msg); }
 	const char *what() const noexcept override { return this->_msg.c_str(); }
 };
-
-template<typename T, typename T2>
-int _my_assert_eq(const char *expr, const char *expr2, T exprR, T2 expr2R, const char *file, int line)
-{
-	auto err = "Debug Assertion " + std::string(expr) + " == " + expr2 + " failed (" + std::to_string(exprR) + " != " + std::to_string(expr2R) + ") in " + file + " at line " + std::to_string(line);
-
-	SpiralOfFate::game->logger.fatal(err);
-	throw AssertionFailedException(err);
-}
-int _my_assert(const char *expr, const char *file, int line);
 
 #endif //BATTLE_GAME_HPP

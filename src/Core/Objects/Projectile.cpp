@@ -2,6 +2,7 @@
 // Created by Gegel85 on 02/02/2022.
 //
 
+#include <Resources/Game.hpp>
 #include "Projectile.hpp"
 
 namespace SpiralOfFate
@@ -133,9 +134,7 @@ namespace SpiralOfFate
 		if (!lastData.specialMarker)
 			return Object::_onMoveEnd(lastData);
 		this->_actionBlock++;
-		if (this->_moves.at(this->_action).size() == this->_actionBlock)
-			//TODO: make proper exceptions
-			throw std::invalid_argument("Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+		my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 		Object::_onMoveEnd(lastData);
 	}
 }

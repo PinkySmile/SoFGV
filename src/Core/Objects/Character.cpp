@@ -648,9 +648,7 @@ namespace SpiralOfFate
 			auto data = this->getCurrentFrameData();
 
 			this->_actionBlock++;
-			if (this->_actionBlock == this->_moves.at(this->_action).size())
-				//TODO : Create custom exceptions
-				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 2");
+			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block 2");
 			Object::_onMoveEnd(*data);
 		}
 
@@ -1177,9 +1175,7 @@ namespace SpiralOfFate
 
 		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock) {
 			this->_actionBlock++;
-			if (this->_moves.at(this->_action).size() == 1)
-				//TODO: make proper exceptions
-				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 1");
+			my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
 			Object::_onMoveEnd(lastData);
 			return;
 		}
@@ -1272,9 +1268,7 @@ namespace SpiralOfFate
 		if (data->oFlag.grab) {
 			this->_actionBlock++;
 			this->_animationCtr = 0;
-			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
-				//TODO: make proper exceptions
-				throw std::invalid_argument("Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			Object::_onMoveEnd(*data);
 		}
 	}
@@ -3523,9 +3517,7 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
 			chr->_actionBlock++;
-			if (chr->_actionBlock == chr->_moves.at(chr->_action).size())
-				//TODO : Create custom exceptions
-				throw std::invalid_argument("Action " + actionToString(chr->_action) + " is missing block 1");
+			my_assert2(chr->_actionBlock != chr->_moves.at(chr->_action).size(), "Action " + actionToString(chr->_action) + " is missing block 1");
 			chr->_animation = 0;
 			chr->_applyNewAnimFlags();
 		}
