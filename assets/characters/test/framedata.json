@@ -10856,6 +10856,7 @@
                             "width": 31
                         }
                     ],
+                    "neutral_limit": 15,
                     "offense_flag": 2048,
                     "offset": {
                         "x": 2,
