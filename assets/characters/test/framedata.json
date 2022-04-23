@@ -19633,8 +19633,8 @@
                             "width": 18
                         }
                     ],
-                    "matter_limit": 1,
-                    "neutral_limit": 1,
+                    "matter_limit": 5,
+                    "neutral_limit": 5,
                     "offense_flag": 264704,
                     "offset": {
                         "x": 18,
@@ -19648,7 +19648,7 @@
                         "y": 188
                     },
                     "sound": "assets/sfxs/se/029.wav",
-                    "spirit_limit": 1,
+                    "spirit_limit": 5,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 94,
@@ -19656,7 +19656,7 @@
                         "top": 559,
                         "width": 38
                     },
-                    "void_limit": 1
+                    "void_limit": 5
                 },
                 {
                     "block_stun": 12,
@@ -19914,8 +19914,8 @@
                             "width": 91
                         }
                     ],
-                    "matter_limit": 1,
-                    "neutral_limit": 1,
+                    "matter_limit": 5,
+                    "neutral_limit": 5,
                     "offense_flag": 264704,
                     "offset": {
                         "x": 12,
@@ -19929,7 +19929,7 @@
                         "y": 130
                     },
                     "sound": "assets/sfxs/se/029.wav",
-                    "spirit_limit": 1,
+                    "spirit_limit": 5,
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 65,
@@ -19937,7 +19937,7 @@
                         "top": 656,
                         "width": 45
                     },
-                    "void_limit": 1
+                    "void_limit": 5
                 },
                 {
                     "block_stun": 12,
