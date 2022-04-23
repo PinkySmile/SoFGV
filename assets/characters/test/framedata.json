@@ -9155,7 +9155,7 @@
                     }
                 },
                 {
-                    "block_stun": 16,
+                    "block_stun": 6,
                     "chip_damage": 400,
                     "collision_box": {
                         "height": 94,
@@ -13998,8 +13998,8 @@
                         "y": -28
                     },
                     "prorate": 93.0,
-                    "push_back": 8,
-                    "push_block": 8,
+                    "push_back": 2,
+                    "push_block": 2,
                     "size": {
                         "x": 46,
                         "y": 224
