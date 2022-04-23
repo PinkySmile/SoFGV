@@ -3444,12 +3444,12 @@ namespace SpiralOfFate
 			this->_speed.x += data.pushBlock * -this->_dir;
 			this->_parryEffect(other);
 			return;
-		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) //TRUE NEUTRAL
+		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) {//TRUE NEUTRAL
 			if (myData->dFlag.neutralBlock)
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else
 				return this->_getHitByMove(other, data);
-		else if (data.oFlag.matterElement) {
+		} else if (data.oFlag.matterElement) {
 			if (myData->dFlag.voidBlock)
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
@@ -3464,7 +3464,8 @@ namespace SpiralOfFate
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
 				return this->_getHitByMove(other, data);
-		}
+		} else
+			game->soundMgr.play(BASICSOUND_BLOCK);
 		this->_speed.x += data.pushBlock * -this->_dir;
 		this->_hp -= data.chipDamage;
 	}
