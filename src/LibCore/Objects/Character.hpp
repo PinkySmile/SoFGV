@@ -292,6 +292,10 @@ namespace SpiralOfFate
 		/* 401 */ ACTION_WIN_MATCH2,
 		/* 402 */ ACTION_WIN_MATCH3,
 		/* 403 */ ACTION_WIN_MATCH4,
+		/* 404 */ ACTION_GAME_START1,
+		/* 405 */ ACTION_GAME_START2,
+		/* 406 */ ACTION_GAME_START3,
+		/* 407 */ ACTION_GAME_START4,
 	};
 
 	extern MYDLL_API const std::map<CharacterActions, std::string> actionNames;
@@ -356,11 +360,10 @@ namespace SpiralOfFate
 			char v;
 		};
 		struct Data {
-			unsigned _limit[4];
 			InputStruct _inputBuffer;
+			unsigned _limit[4];
 			unsigned _subObjects[128];
 			unsigned _grabInvul;
-			bool _ultimateUsed;
 			unsigned _supersUsed;
 			unsigned _skillsUsed;
 			unsigned _odCooldown;
@@ -372,26 +375,33 @@ namespace SpiralOfFate
 			unsigned _guardCooldown;
 			unsigned _guardBar;
 			unsigned _guardRegenCd;
+			unsigned _nbLastInputs;
+			unsigned _nbReplayInputs;
+			unsigned _neutralEffectTimer;
+			unsigned _matterEffectTimer;
+			unsigned _spiritEffectTimer;
+			unsigned _voidEffectTimer;
+			bool _ultimateUsed;
 			bool _counter;
 			bool _jumpCanceled;
 			bool _hadUltimate;
-			float _prorate;
+			bool _wrongMana;
 			bool _atkDisabled;
 			bool _inputDisabled;
 			bool _hasJumped;
 			bool _restand;
 			bool _speedReset;
 			bool _justGotCorner;
+			char _normalTreeFlag;
+			unsigned char _specialInputs[50];
 			float _regen;
 			float _voidMana;
 			float _spiritMana;
 			float _matterMana;
-			unsigned char _specialInputs[49];
-			unsigned _nbLastInputs;
-			unsigned _nbReplayInputs;
+			float _prorate;
 		};
 		union SpecialInputs {
-			unsigned char _value[49] = {0};
+			unsigned char _value[50] = {0};
 			struct {
 				unsigned char _22: 4;
 				unsigned char _44: 4;
@@ -399,6 +409,10 @@ namespace SpiralOfFate
 				unsigned char _27: 4;
 				unsigned char _28: 4;
 				unsigned char _29: 4;
+				char _421n: 6;
+				char _421m: 6;
+				char _421s: 6;
+				char _421v: 6;
 				unsigned char _c28n: 4;
 				unsigned char _c28m: 4;
 				unsigned char _c28s: 4;
@@ -435,10 +449,6 @@ namespace SpiralOfFate
 				unsigned char _623v: 4;
 				unsigned char _623d: 4;
 				unsigned char _623a: 4;
-				char _421n: 6;
-				char _421m: 6;
-				char _421s: 6;
-				char _421v: 6;
 				unsigned char _421d: 4;
 				unsigned char _421a: 4;
 				unsigned char _624n: 4;
@@ -519,18 +529,24 @@ namespace SpiralOfFate
 		unsigned _guardCooldown = 0;
 		unsigned _guardBar = 0;
 		unsigned _guardRegenCd = 0;
+		unsigned _grabInvul = 0;
+		unsigned _neutralEffectTimer = 0;
+		unsigned _matterEffectTimer = 0;
+		unsigned _spiritEffectTimer = 0;
+		unsigned _voidEffectTimer = 0;
 		bool _speedReset = false;
 		bool _counter = false;
-		unsigned _grabInvul = 0;
+		bool _wrongMana = false;
 		bool _ultimateUsed = false;
 		bool _jumpCanceled = false;
-		float _prorate = 1;
 		bool _atkDisabled = false;
 		bool _inputDisabled = false;
 		bool _hasJumped = false;
 		bool _restand = false;
 		bool _justGotCorner = false;
 		bool _hadUltimate = false;
+		char _normalTreeFlag = 0;
+		float _prorate = 1;
 		float _regen = 0;
 		float _voidMana = 0;
 		float _spiritMana = 0;
@@ -552,6 +568,11 @@ namespace SpiralOfFate
 		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		mutable unsigned _effectTimer = 0;
+		mutable Sprite _neutralEffect;
+		mutable Sprite _matterEffect;
+		mutable Sprite _spiritEffect;
+		mutable Sprite _voidEffect;
 
 		//Practice
 		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
@@ -564,6 +585,9 @@ namespace SpiralOfFate
 		virtual bool _executeDownAttack(unsigned base);
 		virtual unsigned _getReversalAction();
 		virtual void _parryEffect(Object *other);
+		virtual void _parryVoidEffect(Object *other, bool isStrongest);
+		virtual void _parryMatterEffect(Object *other, bool isStrongest);
+		virtual void _parrySpiritEffect(Object *other, bool isStrongest);
 		virtual void _processGuardLoss(bool wrongBlock);
 		virtual bool _executeAirDashes(const InputStruct &input);
 		virtual bool _executeAirParry(const InputStruct &input);
@@ -586,6 +610,10 @@ namespace SpiralOfFate
 		virtual void _processGroundSlams();
 		virtual void _calculateCornerPriority();
 		virtual InputStruct _getInputs();
+		virtual void _manaCrush();
+		virtual bool _consumeVoidMana(float cost);
+		virtual bool _consumeMatterMana(float cost);
+		virtual bool _consumeSpiritMana(float cost);
 		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);
@@ -651,7 +679,7 @@ namespace SpiralOfFate
 
 		Character();
 		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
-		~Character() override = default;
+		~Character() override;
 		void setOpponent(Character *opponent);
 		bool hits(const IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
@@ -689,8 +717,10 @@ namespace SpiralOfFate
 		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
-
 		const FrameData *getCurrentFrameData() const override;
+
+		virtual void onMatchEnd();
+		virtual bool matchEndUpdate();
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

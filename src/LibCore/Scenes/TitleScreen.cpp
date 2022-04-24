@@ -7,7 +7,7 @@
 #undef max
 #undef min
 #else
-// TODO: Add proper message boxes on non windows systems
+// TODO: Put native boxes on windows
 #define MessageBox(...)
 #include <arpa/inet.h>
 #include <dirent.h>

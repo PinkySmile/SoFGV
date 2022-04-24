@@ -101,28 +101,14 @@ namespace SpiralOfFate
 		return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
 	}
 
-	void Object::render() const
+	void Object::_render(Vector2f spritePos, Vector2f scale) const
 	{
 		auto &data = *this->getCurrentFrameData();
 		auto realPos = this->_position;
-		auto scale = Vector2f{
-			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
-		};
-		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 
-		result.y *= -1;
-		result += Vector2f{
-			!this->_direction * data.size.x + data.size.x / -2.f,
-			-static_cast<float>(data.size.y)
-		};
-		result += Vector2f{
-			data.textureBounds.size.x * scale.x / 2,
-			data.textureBounds.size.y * scale.y / 2
-		};
 		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
-		this->_sprite.setPosition(result);
+		this->_sprite.setPosition(spritePos);
 		this->_sprite.setScale(scale);
 		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
@@ -159,6 +145,27 @@ namespace SpiralOfFate
 				{realPos.x - 4.5f, realPos.y + 4.5f},
 			}, sf::Color::Black);
 		}
+	}
+
+	void Object::render() const
+	{
+		auto &data = *this->getCurrentFrameData();
+		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
+		auto scale = Vector2f{
+			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			static_cast<float>(data.size.y) / data.textureBounds.size.y
+		};
+
+		result.y *= -1;
+		result += Vector2f{
+			!this->_direction * data.size.x + data.size.x / -2.f,
+			-static_cast<float>(data.size.y)
+		};
+		result += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+		this->_render(result, scale);
 	}
 
 	void Object::update()
@@ -242,8 +249,7 @@ namespace SpiralOfFate
 		try {
 			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {
-			//TODO : Add proper exceptions
-			throw std::invalid_argument("Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
 	}
 

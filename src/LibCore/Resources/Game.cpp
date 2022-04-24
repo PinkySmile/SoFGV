@@ -16,7 +16,7 @@ namespace SpiralOfFate
 		random(std::random_device()()),
 		logger(loggerPath)
 	{
-		assert(!game);
+		my_assert(!game);
 		game = this;
 		try {
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/039.wav"), BASICSOUND_MENU_MOVE);
@@ -40,12 +40,20 @@ namespace SpiralOfFate
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/054.wav"), BASICSOUND_PARRY);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/072.wav"), BASICSOUND_BEST_PARRY);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/061.wav"), BASICSOUND_GAME_LAUNCH);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/032.wav"), BASICSOUND_WORST_PARRY);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_WALL_BOUNCE);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_GROUND_SLAM);
 		} catch (...) {
 			game = nullptr;
 			throw;
 		}
+	}
+
+	Game::~Game()
+	{
+		this->logger.debug("~Game()>");
+		this->scene.reset();
+		this->logger.debug("~Game()<");
 	}
 
 	/*
@@ -73,12 +81,4 @@ namespace SpiralOfFate
 		sum2 = (sum2 & 0xffff) + (sum2 >> 16);
 		return sum2 << 16 | sum1;
 	}
-}
-
-int _my_assert(const char *expr, const char *file, int line)
-{
-	auto err = "Debug Assertion " + std::string(expr) + " failed at " + file + " line " +std::to_string(line);
-
-	SpiralOfFate::game->logger.fatal(err);
-	throw AssertionFailedException(err);
 }

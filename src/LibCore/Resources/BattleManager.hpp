@@ -23,22 +23,23 @@ namespace SpiralOfFate
 			unsigned _roundEndTimer;
 			unsigned _hitStop;
 			unsigned _nbObjects;
-			unsigned _leftComboCtr = 0;
-			unsigned _leftHitCtr = 0;
-			unsigned _leftNeutralLimit = 0;
-			unsigned _leftVoidLimit = 0;
-			unsigned _leftMatterLimit = 0;
-			unsigned _leftSpiritLimit = 0;
-			unsigned _leftTotalDamage = 0;
-			float _leftProration = 0;
-			unsigned _rightComboCtr = 0;
-			unsigned _rightHitCtr = 0;
-			unsigned _rightNeutralLimit = 0;
-			unsigned _rightVoidLimit = 0;
-			unsigned _rightSpiritLimit = 0;
-			unsigned _rightMatterLimit = 0;
-			unsigned _rightTotalDamage = 0;
-			float _rightProration = 0;
+			unsigned _leftComboCtr;
+			unsigned _leftHitCtr;
+			unsigned _leftNeutralLimit;
+			unsigned _leftVoidLimit;
+			unsigned _leftMatterLimit;
+			unsigned _leftSpiritLimit;
+			unsigned _leftTotalDamage;
+			float _leftProration;
+			unsigned _rightComboCtr;
+			unsigned _rightHitCtr;
+			unsigned _rightNeutralLimit;
+			unsigned _rightVoidLimit;
+			unsigned _rightSpiritLimit;
+			unsigned _rightMatterLimit;
+			unsigned _rightTotalDamage;
+			float _rightProration;
+			bool _ended;
 		};
 #pragma pack(pop)
 
@@ -92,6 +93,7 @@ namespace SpiralOfFate
 		unsigned _rightTotalDamage = 0;
 		bool _rightCounter = false;
 		float _rightProration = 0;
+		bool _ended = false;
 
 		void _gameUpdate();
 		virtual bool _updateLoop();
@@ -129,7 +131,8 @@ namespace SpiralOfFate
 		};
 
 		BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
-		virtual ~BattleManager() = default;
+		virtual ~BattleManager();
+		void setHitStop(unsigned stop);
 		void addHitStop(unsigned stop);
 		virtual bool update();
 		virtual void render();

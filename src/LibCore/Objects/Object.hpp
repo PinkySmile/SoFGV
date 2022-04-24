@@ -88,6 +88,7 @@ namespace SpiralOfFate
 		virtual Box _applyModifiers(Box box) const;
 		virtual void _tickMove();
 		virtual void _applyMoveAttributes();
+		virtual void _render(Vector2f spritePos, Vector2f scale) const;
 
 	public:
 		Object() = default;

@@ -100,4 +100,9 @@ namespace SpiralOfFate
 		for (auto &sound : this->_sound)
 			sound.setVolume(volume);
 	}
+
+	SoundManager::~SoundManager()
+	{
+		game->logger.debug("~SoundManager()");
+	}
 }

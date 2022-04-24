@@ -23,6 +23,7 @@ namespace SpiralOfFate
 		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedTextures;
 
 	public:
+		~TextureManager();
 		unsigned load(std::string file, Vector2u *size = nullptr);
 		unsigned load(const std::string &file, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size = nullptr);
 		unsigned load(const Color *pixels, Vector2u size);

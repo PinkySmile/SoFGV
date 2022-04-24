@@ -15,6 +15,7 @@
 #define min(x, y) (x < y ? x : y)
 #endif
 
+#define REFLECT_PERCENT 60
 #define COMBINATION_LENIENCY 4
 #define MAX_FRAME_IN_BUFFER 60
 
@@ -28,7 +29,7 @@
 #define HJ_BUFFER_PERSIST 6
 
 #define NORMAL_BUFFER 4
-#define HJ_BUFFER 15
+#define HJ_BUFFER 5
 #define DASH_BUFFER 15
 #define QUARTER_CIRCLE_BUFFER 10
 #define DP_BUFFER 15
@@ -360,7 +361,10 @@ namespace SpiralOfFate
 		{ ACTION_WIN_MATCH2,                     "Win match2" },
 		{ ACTION_WIN_MATCH3,                     "Win match3" },
 		{ ACTION_WIN_MATCH4,                     "Win match4" },
-
+		{ ACTION_GAME_START1,                    "Game start1" },
+		{ ACTION_GAME_START2,                    "Game start2" },
+		{ ACTION_GAME_START3,                    "Game start3" },
+		{ ACTION_GAME_START4,                    "Game start4" },
 		//{ ACTION_WIN_ROUND1,                     "Win round1" },
 		//{ ACTION_WIN_ROUND2,                     "Win round2" },
 		//{ ACTION_WIN_ROUND3,                     "Win round3" },
@@ -384,6 +388,10 @@ namespace SpiralOfFate
 
 	Character::Character()
 	{
+		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
+		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
+		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
+		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 		this->_fakeFrameData.setSlave();
 	}
 
@@ -391,6 +399,10 @@ namespace SpiralOfFate
 		_input(std::move(input)),
 		index(index)
 	{
+		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
+		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
+		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
+		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 		this->_fakeFrameData.setSlave();
 		this->_text.setFont(game->font);
 		this->_text.setFillColor(sf::Color::White);
@@ -408,20 +420,94 @@ namespace SpiralOfFate
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 	}
 
+	Character::~Character()
+	{
+		game->textureMgr.remove(this->_neutralEffect.textureHandle);
+		game->textureMgr.remove(this->_matterEffect.textureHandle);
+		game->textureMgr.remove(this->_spiritEffect.textureHandle);
+		game->textureMgr.remove(this->_voidEffect.textureHandle);
+	}
+
 	const FrameData *Character::getCurrentFrameData() const
 	{
 		auto data = Object::getCurrentFrameData();
 
-		if (!this->_grabInvul)
+		if (!this->_grabInvul && !this->_wrongMana && !this->_neutralEffectTimer)
 			return data;
 		this->_fakeFrameData = *data;
-		this->_fakeFrameData.dFlag.grabInvulnerable = true;
+		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
+		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
 	}
 
 	void Character::render() const
 	{
-		Object::render();
+		if (this->_neutralEffectTimer)
+			this->_sprite.setColor(sf::Color{0xA0, 0xA0, 0xA0});
+		else if (this->_spiritEffectTimer)
+			this->_sprite.setColor(sf::Color{51, 204, 204});
+		else if (this->_matterEffectTimer)
+			this->_sprite.setColor(sf::Color{187, 94, 0});
+		else if (this->_voidEffectTimer)
+			this->_sprite.setColor(sf::Color{0x80, 0x00, 0x80});
+		else
+			this->_sprite.setColor(sf::Color::White);
+
+		auto &data = *this->getCurrentFrameData();
+		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
+		auto scale = Vector2f{
+			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
+			static_cast<float>(data.size.y) / data.textureBounds.size.y
+		};
+
+		result.y *= -1;
+		result += Vector2f{
+			!this->_direction * data.size.x + data.size.x / -2.f,
+			-static_cast<float>(data.size.y)
+		};
+		result += Vector2f{
+			data.textureBounds.size.x * scale.x / 2,
+			data.textureBounds.size.y * scale.y / 2
+		};
+
+		Object::_render(result, scale);
+		this->_effectTimer++;
+		if (this->_neutralEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_neutralEffect.textureHandle);
+
+			this->_neutralEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_neutralEffect.setOrigin({20, size.y / 2.f});
+			this->_neutralEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_neutralEffect.setPosition(result);
+			game->textureMgr.render(this->_neutralEffect);
+		} else if (this->_spiritEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_spiritEffect.textureHandle);
+
+			this->_spiritEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_spiritEffect.setOrigin({20, size.y / 2.f});
+			this->_spiritEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_spiritEffect.setPosition(result);
+			game->textureMgr.render(this->_spiritEffect);
+		} else if (this->_matterEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_matterEffect.textureHandle);
+
+			this->_matterEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_matterEffect.setOrigin({20, size.y / 2.f});
+			this->_matterEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_matterEffect.setPosition(result);
+			game->textureMgr.render(this->_matterEffect);
+		} else if (this->_voidEffectTimer) {
+			auto size = game->textureMgr.getTextureSize(this->_voidEffect.textureHandle);
+
+			this->_voidEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+			this->_voidEffect.setOrigin({20, size.y / 2.f});
+			this->_voidEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+			this->_voidEffect.setPosition(result);
+			game->textureMgr.render(this->_voidEffect);
+		}
+
 		if (this->showAttributes) {
 			game->screen->draw(this->_text);
 			game->screen->draw(this->_text2);
@@ -447,6 +533,29 @@ namespace SpiralOfFate
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
+		if (this->_neutralEffectTimer)
+			this->_neutralEffectTimer--;
+		if (this->_spiritEffectTimer) {
+			if (this->_spiritEffectTimer % 5 == 0) {
+				if (this->_matterMana > 0)
+					this->_matterMana--;
+				if (this->_spiritMana > 0)
+					this->_spiritMana--;
+				if (this->_voidMana > 0)
+					this->_voidMana--;
+			}
+			this->_spiritEffectTimer--;
+		}
+		if (this->_matterEffectTimer) {
+			if (this->_guardBar && !this->_guardCooldown)
+				this->_guardBar--;
+			this->_matterEffectTimer--;
+		}
+		if (this->_voidEffectTimer) {
+			if (this->_hp > 1)
+				this->_hp--;
+			this->_voidEffectTimer--;
+		}
 		if (!this->_ultimateUsed) {
 			if (this->_odCooldown) {
 				this->_odCooldown--;
@@ -499,9 +608,6 @@ namespace SpiralOfFate
 			this->_action == ACTION_FORWARD_TECH ||
 			this->_action == ACTION_BACKWARD_TECH ||
 			this->_action == ACTION_FALLING_TECH ||
-			this->_action == ACTION_AIR_HIT ||
-			this->_action == ACTION_GROUND_SLAM ||
-			this->_action == ACTION_WALL_SLAM ||
 			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
 			this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK ||
 			this->_action == ACTION_GROUND_HIGH_NEUTRAL_BLOCK ||
@@ -542,9 +648,7 @@ namespace SpiralOfFate
 			auto data = this->getCurrentFrameData();
 
 			this->_actionBlock++;
-			if (this->_actionBlock == this->_moves.at(this->_action).size())
-				//TODO : Create custom exceptions
-				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 2");
+			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block 2");
 			Object::_onMoveEnd(*data);
 		}
 
@@ -610,7 +714,7 @@ namespace SpiralOfFate
 		}
 		if (!this->_blockStun)
 			this->_processInput(input);
-		else {
+		else if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_LOW_HIT || this->_action == ACTION_GROUND_HIGH_HIT) {
 			if (this->_isGrounded())
 				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
 				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
@@ -1009,16 +1113,15 @@ namespace SpiralOfFate
 			return !this->_odCooldown;
 		}
 		if (isRomanCancelAction(action))
-			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action);
+			return !this->_odCooldown && this->_action >= ACTION_5N && !isParryAction(this->_action) && !isRomanCancelAction(this->_action) && !isOverdriveAction(this->_action);
 		if (this->_hp <= 0 && this->_action == ACTION_KNOCKED_DOWN)
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
 			return false;
-		if (data.oFlag.matterMana && this->_matterMana < data.manaCost)
-			return false;
-		if (data.oFlag.voidMana && this->_voidMana < data.manaCost)
-			return false;
-		if (data.oFlag.spiritMana && this->_spiritMana < data.manaCost)
+
+		auto nbMana = data.oFlag.matterMana + data.oFlag.voidMana + data.oFlag.spiritMana;
+
+		if ((this->_matterMana + this->_voidMana + this->_spiritMana) < data.manaCost * nbMana)
 			return false;
 		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
 			for (auto limit : this->_limit)
@@ -1072,9 +1175,7 @@ namespace SpiralOfFate
 
 		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock) {
 			this->_actionBlock++;
-			if (this->_moves.at(this->_action).size() == 1)
-				//TODO: make proper exceptions
-				throw std::invalid_argument("Action " + actionToString(this->_action) + " is missing block 1");
+			my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
 			Object::_onMoveEnd(lastData);
 			return;
 		}
@@ -1144,7 +1245,7 @@ namespace SpiralOfFate
 		if (this->_action == ACTION_HARD_LAND)
 			return this->_forceStartMove(idleAction);
 		if (
-			this->_action >= ACTION_5N ||
+			(this->_action >= ACTION_5N && this->_action < ACTION_WIN_MATCH1) ||
 			this->_action == ACTION_LANDING
 		)
 			return this->_forceStartMove(idleAction);
@@ -1167,9 +1268,7 @@ namespace SpiralOfFate
 		if (data->oFlag.grab) {
 			this->_actionBlock++;
 			this->_animationCtr = 0;
-			if (this->_moves.at(this->_action).size() <= this->_actionBlock)
-				//TODO: make proper exceptions
-				throw std::invalid_argument("Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			Object::_onMoveEnd(*data);
 		}
 	}
@@ -1193,7 +1292,7 @@ namespace SpiralOfFate
 				chr->_matterMana += data->manaGain;
 		}
 		if (myData->dFlag.invulnerableArmor)
-			return game->battleMgr->addHitStop(data->hitStop);
+			return game->battleMgr->setHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		if (
 			this->_isBlocking() &&
@@ -1220,7 +1319,11 @@ namespace SpiralOfFate
 	void Character::_forceStartMove(unsigned int action)
 	{
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
+		auto data = &this->_moves.at(action).at(0).at(0);
 
+		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
+			(data->oFlag.spiritMana && this->_spiritMana < data->manaCost) ||
+			(data->oFlag.matterMana && this->_matterMana < data->manaCost);
 		this->_jumpCanceled = this->_moves.at(this->_action)[this->_actionBlock][anim].oFlag.jumpCancelable && (
 			action == ACTION_NEUTRAL_JUMP ||
 			action == ACTION_FORWARD_JUMP ||
@@ -1252,6 +1355,43 @@ namespace SpiralOfFate
 				game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 			}
 		}
+
+		switch (action) {
+		case ACTION_6S:
+		case ACTION_8S:
+		case ACTION_3S:
+		case ACTION_j6S:
+		case ACTION_j8S:
+		case ACTION_j3S:
+		case ACTION_j2S:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = this->_normalTreeFlag | 3;
+			break;
+		case ACTION_6M:
+		case ACTION_8M:
+		case ACTION_3M:
+		case ACTION_j6M:
+		case ACTION_j8M:
+		case ACTION_j3M:
+		case ACTION_j2M:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = (this->_normalTreeFlag & ~3) | 1;
+			break;
+		case ACTION_6V:
+		case ACTION_8V:
+		case ACTION_3V:
+		case ACTION_j6V:
+		case ACTION_j8V:
+		case ACTION_j3V:
+		case ACTION_j2V:
+			this->_normalTreeFlag += 4;
+			this->_normalTreeFlag = (this->_normalTreeFlag & ~3) | 2;
+			break;
+		}
+
+		if (action < ACTION_5N)
+			this->_normalTreeFlag = 0;
+
 		if (
 			action == ACTION_IDLE ||
 			action == ACTION_WALK_FORWARD ||
@@ -1374,7 +1514,6 @@ namespace SpiralOfFate
 	int Character::getAttackTier(unsigned int action) const
 	{
 		const FrameData *data;
-		unsigned isTyped = (action >= ACTION_5M) * 100;
 
 		if (action < 100)
 			return -1;
@@ -1384,19 +1523,76 @@ namespace SpiralOfFate
 		} catch (...) {
 			return -1;
 		}
-		if (data->priority)
-			return *data->priority;
+		if (data->priority) {
+			switch (action) {
+			case ACTION_6S:
+			case ACTION_8S:
+			case ACTION_3S:
+			case ACTION_j6S:
+			case ACTION_j8S:
+			case ACTION_j3S:
+			case ACTION_j2S:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 0) * 200;
+				if ((this->_normalTreeFlag & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 2)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			case ACTION_6M:
+			case ACTION_8M:
+			case ACTION_3M:
+			case ACTION_j6M:
+			case ACTION_j8M:
+			case ACTION_j3M:
+			case ACTION_j2M:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 1) * 200;
+				if ((this->_normalTreeFlag & 3) == 1)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 3)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			case ACTION_6V:
+			case ACTION_8V:
+			case ACTION_3V:
+			case ACTION_j6V:
+			case ACTION_j8V:
+			case ACTION_j3V:
+			case ACTION_j2V:
+				if ((this->_normalTreeFlag >> 2 & 3) == 3)
+					return *data->priority + ((this->_normalTreeFlag & 3) == 2) * 200;
+				if ((this->_normalTreeFlag & 3) == 2)
+					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+				if ((this->_normalTreeFlag & 3) == 1)
+					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
+				return *data->priority;
+			default:
+				return *data->priority;
+			}
+		}
+
 		if (data->oFlag.ultimate)
 			return 800;
 		if (data->oFlag.super)
 			return 700;
 		if (action == ACTION_AIR_REVERSAL || action == ACTION_GROUND_HIGH_REVERSAL || action == ACTION_GROUND_LOW_HIT)
-			return 600;
-		switch ((action % 50) + 100) {
+			return 700;
+		switch (action) {
 		case ACTION_5N:
 		case ACTION_2N:
 		case ACTION_j5N:
-			return 0 + isTyped;
+			return 0;
+		case ACTION_5S:
+		case ACTION_2S:
+		case ACTION_j5S:
+		case ACTION_5M:
+		case ACTION_2M:
+		case ACTION_j5M:
+		case ACTION_5V:
+		case ACTION_2V:
+		case ACTION_j5V:
+			return 100;
 		case ACTION_6N:
 		case ACTION_8N:
 		case ACTION_3N:
@@ -1404,7 +1600,49 @@ namespace SpiralOfFate
 		case ACTION_j8N:
 		case ACTION_j3N:
 		case ACTION_j2N:
-			return 200 + isTyped;
+			return 200;
+		case ACTION_6S:
+		case ACTION_8S:
+		case ACTION_3S:
+		case ACTION_j6S:
+		case ACTION_j8S:
+		case ACTION_j3S:
+		case ACTION_j2S:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 0) * 200;
+			if ((this->_normalTreeFlag & 3) == 3)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 2)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
+		case ACTION_6M:
+		case ACTION_8M:
+		case ACTION_3M:
+		case ACTION_j6M:
+		case ACTION_j8M:
+		case ACTION_j3M:
+		case ACTION_j2M:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 1) * 200;
+			if ((this->_normalTreeFlag & 3) == 1)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 3)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
+		case ACTION_6V:
+		case ACTION_8V:
+		case ACTION_3V:
+		case ACTION_j6V:
+		case ACTION_j8V:
+		case ACTION_j3V:
+		case ACTION_j2V:
+			if ((this->_normalTreeFlag >> 2 & 3) == 3)
+				return 300 + ((this->_normalTreeFlag & 3) == 2) * 200;
+			if ((this->_normalTreeFlag & 3) == 2)
+				return 300 + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
+			if ((this->_normalTreeFlag & 3) == 1)
+				return 300 + (this->_normalTreeFlag >> 2 & 3) * 100;
+			return 300;
 		case ACTION_c28N:
 		case ACTION_c46N:
 		case ACTION_c64N:
@@ -1422,7 +1660,58 @@ namespace SpiralOfFate
 		case ACTION_j41236N:
 		case ACTION_j63214N:
 		case ACTION_j6321469874N:
-			return 400 + isTyped;
+		case ACTION_c28V:
+		case ACTION_c46V:
+		case ACTION_c64V:
+		case ACTION_214V:
+		case ACTION_236V:
+		case ACTION_421V:
+		case ACTION_623V:
+		case ACTION_41236V:
+		case ACTION_63214V:
+		case ACTION_6321469874V:
+		case ACTION_j214V:
+		case ACTION_j236V:
+		case ACTION_j421V:
+		case ACTION_j623V:
+		case ACTION_j41236V:
+		case ACTION_j63214V:
+		case ACTION_j6321469874V:
+		case ACTION_c28S:
+		case ACTION_c46S:
+		case ACTION_c64S:
+		case ACTION_214S:
+		case ACTION_236S:
+		case ACTION_421S:
+		case ACTION_623S:
+		case ACTION_41236S:
+		case ACTION_63214S:
+		case ACTION_6321469874S:
+		case ACTION_j214S:
+		case ACTION_j236S:
+		case ACTION_j421S:
+		case ACTION_j623S:
+		case ACTION_j41236S:
+		case ACTION_j63214S:
+		case ACTION_j6321469874S:
+		case ACTION_c28M:
+		case ACTION_c46M:
+		case ACTION_c64M:
+		case ACTION_214M:
+		case ACTION_236M:
+		case ACTION_421M:
+		case ACTION_623M:
+		case ACTION_41236M:
+		case ACTION_63214M:
+		case ACTION_6321469874M:
+		case ACTION_j214M:
+		case ACTION_j236M:
+		case ACTION_j421M:
+		case ACTION_j623M:
+		case ACTION_j41236M:
+		case ACTION_j63214M:
+		case ACTION_j6321469874M:
+			return 600;
 		default:
 			return -1;
 		}
@@ -2042,6 +2331,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
@@ -2064,6 +2355,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
@@ -2086,6 +2379,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found3 |= foundAtk && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
@@ -2108,6 +2403,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found1 |= foundAtk && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
@@ -2130,6 +2427,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found2 |= found4 && input.v < 0 && !input.h;
@@ -2154,6 +2453,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found2 |= found4 && input.v < 0 && !input.h;
@@ -2179,6 +2480,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
 			found1 |= found4 && input.v < 0 && input.h < 0;
@@ -2203,6 +2506,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
 			found3 |= found6 && input.v < 0 && input.h > 0;
@@ -2229,6 +2534,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
@@ -2258,6 +2565,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found8   |= found4_2 && input.v > 0 && !input.h;
@@ -2288,6 +2597,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
@@ -2319,6 +2630,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
 			found7   |= found4_2 && input.v > 0 && input.h < 0;
@@ -2401,6 +2714,8 @@ namespace SpiralOfFate
 		bool found7 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
@@ -2417,6 +2732,8 @@ namespace SpiralOfFate
 		bool found8 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
@@ -2433,6 +2750,8 @@ namespace SpiralOfFate
 		bool found9 = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (input.a || input.n || input.m || input.s || input.o)
+				return false;
 			total += input.nbFrames;
 			if (total > HJ_BUFFER)
 				break;
@@ -2452,6 +2771,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found8 |= foundAtk && input.v > 0;
 			if (input.v < 0) {
@@ -2480,6 +2801,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && input.h > 0;
 			if (input.h < 0) {
@@ -2508,6 +2831,8 @@ namespace SpiralOfFate
 		bool foundAtk = false;
 
 		for (auto &input : this->_lastInputs) {
+			if (foundAtk && atkInput(input))
+				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && input.h < 0;
 			if (input.h > 0) {
@@ -2766,17 +3091,17 @@ namespace SpiralOfFate
 				return Object::hits(other);
 			if (
 				(otherChr->_action == ACTION_SPIRIT_ROMAN_CANCEL || otherChr->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || odata->oFlag.spiritElement) &&
-				(this->_action == ACTION_MATTER_OVERDRIVE        || this->_action == ACTION_MATTER_AIR_OVERDRIVE        || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
-			)
-				return false;
-			if (
-				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || odata->oFlag.matterElement) &&
 				(this->_action == ACTION_VOID_OVERDRIVE          || this->_action == ACTION_VOID_AIR_OVERDRIVE          || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return false;
 			if (
+				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || odata->oFlag.matterElement) &&
+				(this->_action == ACTION_SPIRIT_OVERDRIVE        || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE        || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+			)
+				return false;
+			if (
 				(otherChr->_action == ACTION_VOID_ROMAN_CANCEL || otherChr->_action == ACTION_VOID_AIR_ROMAN_CANCEL || odata->oFlag.voidElement) &&
-				(this->_action == ACTION_SPIRIT_OVERDRIVE      || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE      || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(this->_action == ACTION_MATTER_OVERDRIVE      || this->_action == ACTION_MATTER_AIR_OVERDRIVE      || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
 			)
 				return false;
 
@@ -2859,7 +3184,8 @@ namespace SpiralOfFate
 			"BaseGravityY: %f\n"
 			"Overdrive CD: %u/%u\n"
 			"SupersUsed %u\n"
-			"SkillsUsed %u",
+			"SkillsUsed %u\n"
+			"Normal flag: %x",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -2900,7 +3226,8 @@ namespace SpiralOfFate
 			this->_odCooldown,
 			this->_maxOdCooldown,
 			this->_supersUsed,
-			this->_skillsUsed
+			this->_skillsUsed,
+			this->_normalTreeFlag
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
@@ -3053,9 +3380,28 @@ namespace SpiralOfFate
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 
-		if (!isParryAction(this->_action))
+		if (!isParryAction(this->_action)) {
+			if (
+				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
+					data.oFlag.spiritElement != data.oFlag.matterElement ||
+					data.oFlag.voidElement != data.oFlag.matterElement
+				) || data.oFlag.spiritElement)
+			) {
+				auto tier = getAttackTier(other->_action);
+				auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
+
+				if (tier < 0)
+					tier = 100;
+				else
+					tier += 200;
+				this->_neutralEffectTimer = neutral * tier / 2;
+				this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 4;
+				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 4;
+				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 4;
+			}
 			this->_guardRegenCd = 120;
-		game->battleMgr->addHitStop(data.hitStop);
+		}
+		game->battleMgr->setHitStop(data.hitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3094,16 +3440,16 @@ namespace SpiralOfFate
 			this->_processGuardLoss(wrongBlock);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
-		else if (isParryAction(this->_action)) {
+		else if (isParryAction(this->_action) && this->_animation == 0) {
 			this->_speed.x += data.pushBlock * -this->_dir;
 			this->_parryEffect(other);
 			return;
-		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) //TRUE NEUTRAL
+		} else if (data.oFlag.matterElement && data.oFlag.voidElement && data.oFlag.spiritElement) {//TRUE NEUTRAL
 			if (myData->dFlag.neutralBlock)
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else
 				return this->_getHitByMove(other, data);
-		else if (data.oFlag.matterElement) {
+		} else if (data.oFlag.matterElement) {
 			if (myData->dFlag.voidBlock)
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
@@ -3118,7 +3464,8 @@ namespace SpiralOfFate
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
 				return this->_getHitByMove(other, data);
-		}
+		} else
+			game->soundMgr.play(BASICSOUND_BLOCK);
 		this->_speed.x += data.pushBlock * -this->_dir;
 		this->_hp -= data.chipDamage;
 	}
@@ -3139,13 +3486,31 @@ namespace SpiralOfFate
 		}
 
 		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
-		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - (3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
+		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 
 		my_assert(!data.oFlag.ultimate || chr);
+		if (
+			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
+				data.oFlag.spiritElement != data.oFlag.matterElement ||
+				data.oFlag.voidElement != data.oFlag.matterElement
+			) || data.oFlag.spiritElement)
+		) {
+			auto tier = getAttackTier(obj->_action);
+			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
+
+			if (tier < 0)
+				tier = 100;
+			else
+				tier += 200;
+			this->_neutralEffectTimer = neutral * tier;
+			this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 2;
+			this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 2;
+			this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 2;
+		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
 		counter &= this->_action != ACTION_GROUND_SLAM;
@@ -3153,9 +3518,7 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
 		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
 			chr->_actionBlock++;
-			if (chr->_actionBlock == chr->_moves.at(chr->_action).size())
-				//TODO : Create custom exceptions
-				throw std::invalid_argument("Action " + actionToString(chr->_action) + " is missing block 1");
+			my_assert2(chr->_actionBlock != chr->_moves.at(chr->_action).size(), "Action " + actionToString(chr->_action) + " is missing block 1");
 			chr->_animation = 0;
 			chr->_applyNewAnimFlags();
 		}
@@ -3178,11 +3541,11 @@ namespace SpiralOfFate
 			this->_limit[1] += data.voidLimit;
 			this->_limit[2] += data.matterLimit;
 			this->_limit[3] += data.spiritLimit;
-			game->battleMgr->addHitStop(data.hitStop * 1.5);
+			game->battleMgr->setHitStop(data.hitStop * 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
-			if (!myData->dFlag.superarmor) {
+			if (!myData->dFlag.superarmor || data.oFlag.grab) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else
@@ -3199,7 +3562,7 @@ namespace SpiralOfFate
 				this->_limit[3] += data.spiritLimit;
 				this->_speedReset = data.oFlag.resetSpeed;
 			}
-			game->battleMgr->addHitStop(data.hitStop);
+			game->battleMgr->setHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 		this->_hp -= damage;
@@ -3308,30 +3671,11 @@ namespace SpiralOfFate
 		if (this->_speedReset)
 			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
-			this->_voidMana -= data->manaCost;
+			this->_consumeVoidMana(data->manaCost);
 		if (data->oFlag.spiritMana)
-			this->_spiritMana -= data->manaCost;
+			this->_consumeSpiritMana(data->manaCost);
 		if (data->oFlag.matterMana)
-			this->_matterMana -= data->manaCost;
-		if (
-			this->_voidMana < 0 ||
-			this->_spiritMana < 0 ||
-			this->_matterMana < 0
-		) {
-			this->_voidMana = this->_voidManaMax / 10;
-			this->_spiritMana = this->_spiritManaMax / 10;
-			this->_matterMana = this->_matterManaMax / 10;
-			if (this->_isGrounded()) {
-				this->_blockStun = 60;
-				this->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				this->_speed = {this->_dir * -1, 0};
-			} else {
-				this->_blockStun = 12000;
-				this->_forceStartMove(ACTION_AIR_HIT);
-				this->_speed = {this->_dir * -1, 20};
-			}
-			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-		}
+			this->_consumeMatterMana(data->manaCost);
 	}
 
 	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
@@ -3396,12 +3740,17 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_neutralEffectTimer = this->_neutralEffectTimer;
+		dat->_matterEffectTimer = this->_matterEffectTimer;
+		dat->_spiritEffectTimer = this->_spiritEffectTimer;
+		dat->_voidEffectTimer = this->_voidEffectTimer;
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_supersUsed = this->_supersUsed;
 		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
 		dat->_ultimateUsed = this->_ultimateUsed;
+		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
 		dat->_inputBuffer = this->_inputBuffer;
 		dat->_speedReset = this->_speedReset;
@@ -3446,12 +3795,18 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_neutralEffectTimer = dat->_neutralEffectTimer;
+		this->_matterEffectTimer = dat->_matterEffectTimer;
+		this->_spiritEffectTimer = dat->_spiritEffectTimer;
+		this->_voidEffectTimer = dat->_voidEffectTimer;
+		this->_wrongMana = dat->_wrongMana;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_supersUsed = dat->_supersUsed;
 		this->_skillsUsed = dat->_skillsUsed;
 		this->_grabInvul = dat->_grabInvul;
 		this->_ultimateUsed = dat->_ultimateUsed;
+		this->_normalTreeFlag = dat->_normalTreeFlag;
 		this->_inputBuffer = dat->_inputBuffer;
 		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;
@@ -3526,71 +3881,106 @@ namespace SpiralOfFate
 			this->_guardBar -= loss;
 	}
 
+	void Character::_parryVoidEffect(Object *other, bool isStrongest)
+	{
+		auto oData = other->getCurrentFrameData();
+		auto percent = isStrongest ? 100 : REFLECT_PERCENT;
+
+		other->_hp = max(1, static_cast<int>(other->_hp - percent * oData->damage / 100));
+	}
+
+	void Character::_parryMatterEffect(Object *other, bool isStrongest)
+	{
+		auto data = this->getCurrentFrameData();
+		auto chr = dynamic_cast<Character *>(other);
+
+		if (chr) {
+			if (data->oFlag.voidMana)
+				chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
+			if (data->oFlag.spiritMana)
+				chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
+			if (data->oFlag.matterMana)
+				chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
+			if (
+				chr->_voidMana < 0 ||
+				chr->_spiritMana < 0 ||
+				chr->_matterMana < 0
+			)
+				chr->_manaCrush();
+		} else {
+			other->_team = this->_team;
+			other->_speed.x *= -1;
+			other->_dir *= -1;
+			other->_direction = !other->_direction;
+		}
+	}
+
+	void Character::_parrySpiritEffect(Object *other, bool isStrongest)
+	{
+		other->_speed.x += this->_dir * (5 + isStrongest * 10);
+		this->_speed.x -= this->_dir * (5 + isStrongest * 10);
+	}
+
 	void Character::_parryEffect(Object *other)
 	{
 		auto data = this->getCurrentFrameData();
 		auto oData = other->getCurrentFrameData();
-		bool isStrongest = (oData->oFlag.matterElement && data->dFlag.voidBlock) ||
-			(oData->oFlag.voidElement && data->dFlag.spiritBlock) ||
-			(oData->oFlag.spiritElement && data->dFlag.matterBlock) ||
-			(oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement && data->dFlag.neutralBlock);
+		bool isStrongest;
+		bool isWeakest;
 
-		if (data->dFlag.spiritBlock) {
-			this->_blockStun += 5;
-			other->_speed.x += this->_dir * (2 + isStrongest * 5);
-			this->_speed.x -= this->_dir * (2 + isStrongest * 5);
+		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
+		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
+			// Neutral attack
+			isStrongest = data->dFlag.neutralBlock || !oData->oFlag.spiritElement;
+			isWeakest = false;
+		} else if (oData->oFlag.spiritElement) {
+			// Spirit attack
+			isStrongest = data->dFlag.matterBlock;
+			isWeakest   = data->dFlag.voidBlock;
+		} else if (oData->oFlag.voidElement) {
+			// Void attack
+			isStrongest = data->dFlag.spiritBlock;
+			isWeakest   = data->dFlag.matterBlock;
+		} else if (oData->oFlag.matterElement) {
+			// Matter attack
+			isStrongest = data->dFlag.voidBlock;
+			isWeakest   = data->dFlag.spiritBlock;
 		}
-		if (data->dFlag.voidBlock)
-			other->_speed.x -= this->_dir * (5 + isStrongest * 10);
-		if (data->dFlag.matterBlock) {
-			auto chr = dynamic_cast<Character *>(other);
 
-			if (chr) {
-				if (data->oFlag.voidMana)
-					chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
-				if (data->oFlag.spiritMana)
-					chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
-				if (data->oFlag.matterMana)
-					chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
-				if (
-					chr->_voidMana < 0 ||
-					chr->_spiritMana < 0 ||
-					chr->_matterMana < 0
-				) {
-					chr->_voidMana = chr->_voidManaMax / 10;
-					chr->_spiritMana = chr->_spiritManaMax / 10;
-					chr->_matterMana = chr->_matterManaMax / 10;
-					if (this->_isGrounded()) {
-						chr->_blockStun = 60;
-						chr->_forceStartMove(data->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-						chr->_speed = {chr->_dir * -1, 0};
-					} else {
-						chr->_blockStun = 12000;
-						chr->_forceStartMove(ACTION_AIR_HIT);
-						chr->_speed = {chr->_dir * -1, 20};
-					}
-					game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-				}
-			} else {
-				other->_team = this->_team;
-				other->_speed.x *= -1;
-				other->_dir *= -1;
-				other->_direction = !other->_direction;
-			}
+		if (isWeakest);
+		else if (data->dFlag.voidBlock)
+			this->_parryVoidEffect(other, isStrongest);
+		else if (data->dFlag.spiritBlock)
+			this->_parrySpiritEffect(other, isStrongest);
+		else if (data->dFlag.matterBlock)
+			this->_parryMatterEffect(other, isStrongest);
+
+		if (!isWeakest && (!data->dFlag.neutralBlock || isStrongest)) {
+			unsigned loss = (data->dFlag.neutralBlock + 1) * 60;
+
+			this->_guardBar += loss;
+			if (this->_guardBar > this->_maxGuardBar)
+				this->_guardBar = this->_maxGuardBar;
+			this->_guardCooldown = 0;
 		}
+		if (isStrongest) {
+			game->battleMgr->setHitStop(20);
+			game->soundMgr.play(BASICSOUND_BEST_PARRY);
+		} else if (isWeakest)
+			game->soundMgr.play(BASICSOUND_WORST_PARRY);
+		else
+			game->soundMgr.play(BASICSOUND_BLOCK);
+
 		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
-		if (isStrongest)
-			game->soundMgr.play(BASICSOUND_BEST_PARRY);
-		if (data->dFlag.neutralBlock) {
+
+		if (data->dFlag.neutralBlock)
 			this->_forceStartMove(this->_getReversalAction());
-			this->_blockStun = 0;
-		} else if (isStrongest) {
+		else if (isStrongest)
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
-			this->_blockStun = 0;
-		} else {
-			game->soundMgr.play(BASICSOUND_BLOCK);
+		else {
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
+			this->_blockStun = oData->blockStun * (3 + isWeakest) / 3;
 		}
 	}
 
@@ -3729,5 +4119,138 @@ namespace SpiralOfFate
 				return;
 			this->_subobjects[data->subObjectSpawn - 1] = obj;
 		}
+	}
+
+	bool Character::_consumeVoidMana(float cost)
+	{
+		if (this->_voidMana >= cost)
+			return (this->_voidMana -= cost), true;
+
+		auto remaining = cost - this->_voidMana;
+
+		if (this->_matterMana + this->_spiritMana < remaining) {
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+			this->_voidMana = 0;
+			return false;
+		}
+		if (this->_matterMana < remaining / 2) {
+			this->_spiritMana -= remaining - this->_matterMana;
+			this->_matterMana = 0;
+			this->_voidMana = 0;
+			return true;
+		}
+		if (this->_spiritMana < remaining / 2) {
+			this->_matterMana -= remaining - this->_spiritMana;
+			this->_spiritMana = 0;
+			this->_voidMana = 0;
+			return true;
+		}
+		this->_matterMana -= remaining / 2;
+		this->_spiritMana -= remaining / 2;
+		this->_voidMana = 0;
+		return false;
+	}
+
+	bool Character::_consumeMatterMana(float cost)
+	{
+		if (this->_matterMana >= cost)
+			return (this->_matterMana -= cost), true;
+
+		auto remaining = cost - this->_matterMana;
+
+		if (this->_voidMana + this->_spiritMana < remaining) {
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			this->_matterMana = 0;
+			return false;
+		}
+		if (this->_voidMana < remaining / 2) {
+			this->_spiritMana -= remaining - this->_voidMana;
+			this->_voidMana = 0;
+			this->_matterMana = 0;
+			return true;
+		}
+		if (this->_spiritMana < remaining / 2) {
+			this->_voidMana -= remaining - this->_spiritMana;
+			this->_spiritMana = 0;
+			this->_matterMana = 0;
+			return true;
+		}
+		this->_voidMana -= remaining / 2;
+		this->_spiritMana -= remaining / 2;
+		this->_matterMana = 0;
+		return false;
+	}
+
+	bool Character::_consumeSpiritMana(float cost)
+	{
+		if (this->_spiritMana >= cost)
+			return (this->_spiritMana -= cost), true;
+
+		auto remaining = cost - this->_spiritMana;
+
+		if (this->_voidMana + this->_matterMana < remaining) {
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			this->_spiritMana = 0;
+			return false;
+		}
+		if (this->_voidMana < remaining / 2) {
+			this->_matterMana -= remaining - this->_voidMana;
+			this->_voidMana = 0;
+			this->_spiritMana = 0;
+			return true;
+		}
+		if (this->_matterMana < remaining / 2) {
+			this->_voidMana -= remaining - this->_matterMana;
+			this->_matterMana = 0;
+			this->_spiritMana = 0;
+			return true;
+		}
+		this->_voidMana -= remaining / 2;
+		this->_matterMana -= remaining / 2;
+		this->_spiritMana = 0;
+		return false;
+	}
+
+	void Character::_manaCrush()
+	{
+		this->_voidMana = this->_voidManaMax / 10;
+		this->_spiritMana = this->_spiritManaMax / 10;
+		this->_matterMana = this->_matterManaMax / 10;
+		if (this->_isGrounded()) {
+			this->_blockStun = 60;
+			this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+			this->_speed = {this->_dir * -1, 0};
+		} else {
+			this->_blockStun = 12000;
+			this->_forceStartMove(ACTION_AIR_HIT);
+			this->_speed = {this->_dir * -1, 20};
+		}
+		game->soundMgr.play(BASICSOUND_GUARD_BREAK);
+	}
+
+	void Character::onMatchEnd()
+	{
+		std::vector<unsigned> actions;
+
+		for (int i = 0; i < 4; i++)
+			if (this->_hasMove(ACTION_WIN_MATCH1 + i))
+				actions.emplace_back(ACTION_WIN_MATCH1 + i);
+		if (actions.empty())
+			return;
+
+		std::uniform_int_distribution<size_t> distribution{0, actions.size() - 1};
+
+		this->_forceStartMove(actions[distribution(game->random)]);
+	}
+
+	bool Character::matchEndUpdate()
+	{
+		if (this->_action < ACTION_WIN_MATCH1)
+			return false;
+		this->_tickMove();
+		return this->_animation + this->_animationCtr;
 	}
 }

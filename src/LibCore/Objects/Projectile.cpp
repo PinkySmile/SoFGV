@@ -2,6 +2,7 @@
 // Created by Gegel85 on 02/02/2022.
 //
 
+#include <Resources/Game.hpp>
 #include "Projectile.hpp"
 
 namespace SpiralOfFate
@@ -126,5 +127,14 @@ namespace SpiralOfFate
 		Object::restoreFromBuffer(data);
 		this->nbHit = dat->nbHit;
 		this->maxHit = dat->maxHit;
+	}
+
+	void Projectile::_onMoveEnd(const FrameData &lastData)
+	{
+		if (!lastData.specialMarker)
+			return Object::_onMoveEnd(lastData);
+		this->_actionBlock++;
+		my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+		Object::_onMoveEnd(lastData);
 	}
 }

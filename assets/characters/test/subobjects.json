@@ -245,5 +245,159 @@
                 }
             ]
         ]
+    },
+    {
+        "action": 129,
+        "framedata": [
+            [
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": -2,
+                        "y": -10
+                    },
+                    "size": {
+                        "x": 16,
+                        "y": 24
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 12,
+                        "left": 791,
+                        "top": 503,
+                        "width": 8
+                    }
+                },
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 3,
+                        "y": -28
+                    },
+                    "size": {
+                        "x": 26,
+                        "y": 42
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 21,
+                        "left": 807,
+                        "top": 503,
+                        "width": 13
+                    }
+                },
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -54
+                    },
+                    "size": {
+                        "x": 32,
+                        "y": 68
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 34,
+                        "left": 827,
+                        "top": 504,
+                        "width": 16
+                    }
+                },
+                {
+                    "duration": 8,
+                    "marker": 1,
+                    "offset": {
+                        "x": 0,
+                        "y": -80
+                    },
+                    "size": {
+                        "x": 32,
+                        "y": 94
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 47,
+                        "left": 848,
+                        "top": 504,
+                        "width": 24
+                    }
+                }
+            ],
+            [
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 6,
+                        "y": -92
+                    },
+                    "size": {
+                        "x": 60,
+                        "y": 108
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 56,
+                        "left": 895,
+                        "top": 576,
+                        "width": 30
+                    }
+                },
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 11,
+                        "y": -102
+                    },
+                    "size": {
+                        "x": 50,
+                        "y": 118
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 59,
+                        "left": 930,
+                        "top": 575,
+                        "width": 25
+                    }
+                },
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 7,
+                        "y": -100
+                    },
+                    "size": {
+                        "x": 54,
+                        "y": 116
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 58,
+                        "left": 961,
+                        "top": 576,
+                        "width": 27
+                    }
+                },
+                {
+                    "duration": 8,
+                    "offset": {
+                        "x": 5,
+                        "y": -102
+                    },
+                    "size": {
+                        "x": 54,
+                        "y": 118
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 59,
+                        "left": 992,
+                        "top": 576,
+                        "width": 27
+                    }
+                }
+            ]
+        ]
     }
 ]

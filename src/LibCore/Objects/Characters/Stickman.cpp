@@ -260,7 +260,7 @@ namespace SpiralOfFate
 
 	const FrameData *Stickman::getCurrentFrameData() const
 	{
-		auto data = Object::getCurrentFrameData();
+		auto data = Character::getCurrentFrameData();
 
 		if (!this->_flagsGenerated)
 			return data;
@@ -302,6 +302,10 @@ namespace SpiralOfFate
 				this->_addedOFlags.flags = 0;
 				this->_flagsGenerated = false;
 			}
+		} else {
+			this->_addedDFlags.flags = 0;
+			this->_addedOFlags.flags = 0;
+			this->_flagsGenerated = false;
 		}
 	}
 
@@ -371,6 +375,11 @@ namespace SpiralOfFate
 			this->_applyNewAnimFlags();
 			return;
 		}
+		if (this->_action == ACTION_WIN_MATCH2 && this->_actionBlock == 1) {
+			this->_actionBlock++;
+			assert(this->_moves.at(this->_action).size() != this->_actionBlock);
+			return Character::_onMoveEnd(lastData);
+		}
 		Character::_onMoveEnd(lastData);
 	}
 
@@ -394,6 +403,8 @@ namespace SpiralOfFate
 		game->logger.debug("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		game->logger.debug(std::to_string(this->_addedOFlags.flags) + " " + std::to_string(this->_addedDFlags.flags) + " " + (this->_flagsGenerated ? "true" : "false") + " " + std::to_string(this->_moveLength) + " " + std::to_string(this->_chargeTime) + " ");
 #endif
+		dat->_oldAction = this->_oldAction;
+		dat->_time = this->_time;
 		dat->_addedOFlags = this->_addedOFlags.flags;
 		dat->_addedDFlags = this->_addedDFlags.flags;
 		dat->_flagsGenerated = this->_flagsGenerated;
@@ -407,6 +418,8 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
+		this->_oldAction = dat->_oldAction;
+		this->_time = dat->_time;
 		this->_addedOFlags.flags = dat->_addedOFlags;
 		this->_addedDFlags.flags = dat->_addedDFlags;
 		this->_flagsGenerated = dat->_flagsGenerated;
@@ -528,5 +541,31 @@ namespace SpiralOfFate
 			else
 				this->_addedDFlags.flags |= 1 << (j - 26);
 		}
+	}
+
+	void Stickman::onMatchEnd()
+	{
+		Character::onMatchEnd();
+		this->_oldAction = this->_action;
+		if (this->_oldAction <= ACTION_WIN_MATCH2)
+			game->soundMgr.play(BASICSOUND_DASH);
+	}
+
+	bool Stickman::matchEndUpdate()
+	{
+		if (this->_oldAction < ACTION_WIN_MATCH1)
+			return false;
+		if (this->_action < ACTION_WIN_MATCH1)
+			this->_forceStartMove(this->_oldAction);
+		if (!this->_isGrounded())
+			this->_speed.x = 0;
+		if (std::abs(this->_position.x - reinterpret_cast<Stickman *>(&*this->_opponent)->_position.x) < 30 && this->_actionBlock == 0) {
+			this->_actionBlock++;
+			this->_animation = 0;
+			this->_animationCtr = 0;
+			this->_speed.x = 0;
+		}
+		this->_time += this->_actionBlock;
+		return this->_time < 30;
 	}
 }

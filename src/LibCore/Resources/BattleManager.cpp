@@ -180,9 +180,14 @@ namespace SpiralOfFate
 		return this->_lastObjectId;
 	}
 
+	void BattleManager::setHitStop(unsigned int stop)
+	{
+		this->_hitStop = stop;
+	}
+
 	void BattleManager::addHitStop(unsigned int stop)
 	{
-		this->_hitStop = std::max(stop, this->_hitStop);
+		this->_hitStop += stop;
 	}
 
 	const Character *BattleManager::getLeftCharacter() const
@@ -309,8 +314,22 @@ namespace SpiralOfFate
 		float scale;
 		float alpha;
 
-		this->_leftCharacter->disableInputs(true);
-		this->_rightCharacter->disableInputs(true);
+		if (this->_roundStartTimer == -120) {
+			this->_leftCharacter->disableInputs(true);
+			this->_rightCharacter->disableInputs(true);
+			if ((this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->_action == 0)
+				(this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->onMatchEnd();
+			else
+				return true;
+			this->_roundStartTimer++;
+		} else
+			this->_ended |= !(this->_leftCharacter->_hp > 0 ? this->_leftCharacter : this->_rightCharacter)->matchEndUpdate();
+
+		if (!this->_ended) {
+			this->_roundSprite.setScale({0, 0});
+			return true;
+		}
+
 		if (this->_roundStartTimer < -120 + 0x11) {
 			alpha = this->_roundStartTimer * 15;
 			scale = this->_roundStartTimer / 17.f;
@@ -418,14 +437,8 @@ namespace SpiralOfFate
 			}
 		}
 
-		if (lchr->isDead())
-			// The state is messed up
-			// TODO: Do real exceptions
-			throw std::invalid_argument("Invalid state");
-		if (rchr->isDead())
-			// The state is messed up
-			// TODO: Do real exceptions
-			throw std::invalid_argument("Invalid state");
+		my_assert(!lchr->isDead());
+		my_assert(!rchr->isDead());
 
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i].second->isDead())
@@ -506,6 +519,7 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		game->logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 #endif
+		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
 		dat->_leftHitCtr = this->_leftHitCtr;
@@ -562,6 +576,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
+		this->_ended = dat->_ended;
 		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftComboCtr = dat->_leftComboCtr;
 		this->_leftHitCtr = dat->_leftHitCtr;
@@ -772,14 +787,11 @@ namespace SpiralOfFate
 			game->screen->draw(rect);
 		}
 
+		Vector2f pos{100, 70};
+		float size = 67.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax;
+
 		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(100, 40);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
-		rect.setPosition(100, 55);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
 		rect.setPosition(100, 70);
 		rect.setSize({200.f, 10});
 		game->screen->draw(rect);
@@ -787,20 +799,24 @@ namespace SpiralOfFate
 		//Spirit mana
 		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(100, 40);
-		rect.setSize({200.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Matter mana
+		pos.x += size;
+		size = 67.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax;
 		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(100, 55);
-		rect.setSize({200.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Void mana
+		pos.x += size;
+		size = 67.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax;
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(100, 70);
-		rect.setSize({200.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		if (this->_leftComboCtr) {
@@ -937,33 +953,35 @@ namespace SpiralOfFate
 
 		rect.setOutlineThickness(1);
 		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(700, 40);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
-		rect.setPosition(700, 55);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
 		rect.setPosition(700, 70);
-		rect.setSize({200.f, 10});
+		rect.setSize({201.f, 10});
 		game->screen->draw(rect);
 
+		Vector2f pos = {900, 70};
+		float size = 67.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax;
+
 		//Spirit mana
+		pos.x -= size;
 		rect.setOutlineThickness(0);
 		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 40);
-		rect.setSize({200.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Matter mana
+		size = 67.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax;
+		pos.x -= size;
 		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 55);
-		rect.setSize({200.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		//Void mana
+		size = 67.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax;
+		pos.x -= size;
 		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(900 - 200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 70);
-		rect.setSize({200.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax, 10});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
 		game->screen->draw(rect);
 
 		if (this->_rightComboCtr) {
@@ -1163,5 +1181,10 @@ namespace SpiralOfFate
 			k++;
 			total = 0;
 		}
+	}
+
+	BattleManager::~BattleManager()
+	{
+		game->logger.debug("~BattleManager()");
 	}
 }
