@@ -3466,6 +3466,13 @@ namespace SpiralOfFate
 				return this->_getHitByMove(other, data);
 		} else
 			game->soundMgr.play(BASICSOUND_BLOCK);
+		if (isParryAction(this->_action)) {
+			if (this->_isGrounded())
+				this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+			else
+				this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
+			this->_blockStun = data.blockStun;
+		}
 		this->_speed.x += data.pushBlock * -this->_dir;
 		this->_hp -= data.chipDamage;
 	}
