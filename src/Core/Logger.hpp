@@ -8,6 +8,9 @@
 
 #include <fstream>
 #include <string>
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 
 namespace SpiralOfFate
 {
@@ -18,7 +21,11 @@ namespace SpiralOfFate
 		explicit Logger(const std::string &filepath = "./latest.log") noexcept;
 		~Logger() noexcept;
 
+#ifdef __ANDROID__
+		void msg(const std::string &content, int prio = ANDROID_LOG_DEFAULT) noexcept;
+#else
 		void msg(const std::string &content, const std::string &prepend = "") noexcept;
+#endif
 		void debug(const std::string &content) noexcept;
 		void info(const std::string &content) noexcept;
 		void warn(const std::string &content) noexcept;

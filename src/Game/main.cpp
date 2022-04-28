@@ -6,7 +6,7 @@
 #include <crtdbg.h>
 #endif
 #include <sys/stat.h>
-#include <SoFGV.hpp>
+#include "../Core/SoFGV.hpp"
 
 #ifdef _WIN32
 std::string getLastError(int err = GetLastError())
@@ -213,6 +213,8 @@ void	run()
 	loadSettings();
 #ifdef _WIN32
 	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
+#elif defined(__ANDROID__)
+	std::string font = "assets/fonts/test.ttf";
 #else
 	std::string font = "/usr/share/fonts/TTF/DejaVuSerif.ttf";
 #endif

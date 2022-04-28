@@ -889,13 +889,18 @@ namespace SpiralOfFate
 		}
 	}
 #else
+#ifndef __ANDROID__
 	void NetManager::_initGGPO(unsigned short, unsigned int, bool, const std::string &, unsigned short) {}
 	void NetManager::_initGGPOSyncTest() {}
 	void NetManager::_checkPacket(const NetManager::Packet &, size_t) {}
-	NetManager::NetManager() {}
+#endif
+    NetManager::NetManager() {}
+	NetManager::~NetManager() {}
 	void NetManager::startSyncTest() {}
 	void NetManager::consumeEvent(const sf::Event &) {}
+#ifndef __ANDROID__
 	void NetManager::consumeEvent(GGPOEvent *) {}
+#endif
 	bool NetManager::isConnected() const { return false; }
 	void NetManager::beginSession() {}
 	void NetManager::setInputs(std::shared_ptr<IInput>, std::shared_ptr<IInput>) {}

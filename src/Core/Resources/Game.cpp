@@ -56,6 +56,7 @@ namespace SpiralOfFate
 		this->scene.reset();
 		this->logger.debug("~Game()<");
 	}
+#ifndef __ANDROID__
 
 	namespace GGPONetplay
 	{
@@ -154,4 +155,5 @@ namespace SpiralOfFate
 			return true;
 		}
 	}
+#endif
 }

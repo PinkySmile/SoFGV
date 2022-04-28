@@ -2,6 +2,7 @@
 // Created by Gegel85 on 27/09/2021.
 //
 
+#ifndef __ANDROID__
 #ifndef BATTLE_REMOTEINPUT_HPP
 #define BATTLE_REMOTEINPUT_HPP
 
@@ -33,3 +34,4 @@ namespace SpiralOfFate
 
 
 #endif //BATTLE_REMOTEINPUT_HPP
+#endif

@@ -2,7 +2,7 @@
 // Created by Gegel85 on 02/02/2022.
 //
 
-#include <Resources/Game.hpp>
+#include "../Resources/Game.hpp"
 #include "Projectile.hpp"
 
 namespace SpiralOfFate

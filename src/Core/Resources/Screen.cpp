@@ -9,7 +9,11 @@
 namespace SpiralOfFate
 {
 	Screen::Screen(const std::string &title) :
+#ifdef __ANDROID__
+		sf::RenderWindow(sf::VideoMode::getDesktopMode(), title), _title(title)
+#else
 		sf::RenderWindow(sf::VideoMode(1680, 960), title), _title(title)
+#endif
 	{
 		game->logger.info("Opening game window \"" + title + "\"");
 		this->setFramerateLimit(60);

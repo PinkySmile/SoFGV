@@ -8,7 +8,9 @@
 
 #include <memory>
 #include <random>
+#ifndef __ANDROID__
 #include <GGPO/ggpo.h>
+#endif
 #include "Screen.hpp"
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
@@ -125,6 +127,7 @@ namespace SpiralOfFate
 		~Game();
 	};
 
+#ifndef __ANDROID__
 	namespace GGPONetplay {
 		bool __cdecl startGame(const char *game);
 		bool __cdecl saveState(unsigned char **buffer, int *len, int *checksum, int frame);
@@ -134,6 +137,7 @@ namespace SpiralOfFate
 		bool __cdecl updateGame(int flags);
 		bool __cdecl onEvent(GGPOEvent *info);
 	}
+#endif
 	extern MYDLL_API Game *game;
 }
 

@@ -13,7 +13,9 @@
 #include <dirent.h>
 #endif
 #include <utility>
+#ifndef __ANDROID__
 #include <clip.h>
+#endif
 #include "TitleScreen.hpp"
 #include "InGame.hpp"
 #include "NetplayInGame.hpp"
@@ -206,6 +208,7 @@ namespace SpiralOfFate
 		this->_spec = {0, 0};
 		this->_remote.clear();
 		this->_thread = std::thread{[this]{
+		#ifndef __ANDROID__
 			if (clip::has(clip::text_format())) {
 				std::string ip;
 
@@ -213,6 +216,7 @@ namespace SpiralOfFate
 				if (inet_addr(ip.c_str()) != -1)
 					game->lastIp = ip;
 			}
+		#endif
 			try {
 				this->_connecting = true;
 				if (!game->networkMgr.connect(game->lastIp, 10800, [this](const sf::IpAddress &addr, unsigned short port){

@@ -9,6 +9,7 @@
 #include <memory>
 #include <random>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 #include "../Inputs/RemoteInput.hpp"
 #include "../Scenes/NetplayScene.hpp"
 #include "../Scenes/IScene.hpp"
@@ -17,6 +18,7 @@
 
 namespace SpiralOfFate
 {
+#ifndef __ANDROID__
 	class GGPOError : public std::exception {
 	private:
 		 GGPOErrorCode _code;
@@ -25,9 +27,11 @@ namespace SpiralOfFate
 		GGPOError(GGPOErrorCode code);
 		const char *what() const noexcept;
 	};
+#endif
 
 	class NetManager {
 	private:
+#ifndef __ANDROID__
 		enum Opcode {
 			OPCODE_HELLO,
 			OPCODE_OLLEH,
@@ -151,17 +155,24 @@ namespace SpiralOfFate
 		);
 
 		static void _checkPacket(const Packet &, size_t size);
-
+#endif
 	public:
 		NetManager();
 		~NetManager();
 
+#ifndef __ANDROID__
 		std::shared_ptr<RemoteInput> _leftInput;
 		std::shared_ptr<RemoteInput> _rightInput;
+#else
+		std::shared_ptr<IInput> _leftInput;
+		std::shared_ptr<IInput> _rightInput;
+#endif
 
 		void startSyncTest();
 		void consumeEvent(const sf::Event &event);
+#ifndef __ANDROID__
 		void consumeEvent(GGPOEvent *event);
+#endif
 		bool isConnected() const;
 		void beginSession();
 		void setInputs(std::shared_ptr<IInput> left, std::shared_ptr<IInput> right);
