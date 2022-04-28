@@ -58,6 +58,12 @@ else ()
 endif ()
 
 add_library(
+	SoFGVNetCore SHARED
+	src/LibNet/NetManager.cpp
+	src/LibNet/NetManager.hpp
+	src/LibNet/Exception.hpp src/LibNet/Protocol.hpp)
+
+add_library(
 	SoFGVCore SHARED
 	src/LibCore/Data/Color.hpp
 	src/LibCore/Data/Vector.hpp
