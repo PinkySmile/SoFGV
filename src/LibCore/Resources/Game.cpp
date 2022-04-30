@@ -55,6 +55,7 @@ namespace SpiralOfFate
 		this->scene.reset();
 		this->logger.debug("~Game()<");
 	}
+#ifndef __ANDROID__
 
 	/*
 	 * Simple checksum function stolen from wikipedia:
@@ -81,4 +82,5 @@ namespace SpiralOfFate
 		sum2 = (sum2 & 0xffff) + (sum2 >> 16);
 		return sum2 << 16 | sum1;
 	}
+#endif
 }

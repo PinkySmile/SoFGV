@@ -113,7 +113,7 @@ namespace SpiralOfFate
 		TextureManager textureMgr;
 		SoundManager soundMgr;
 		std::unique_ptr<BattleManager> battleMgr;
-		NetManager networkMgr;
+//		NetManager networkMgr;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;

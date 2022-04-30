@@ -122,6 +122,7 @@ namespace SpiralOfFate::Utils
 #endif
 	}
 
+#ifndef __ANDROID__
 	int	dispMsg(const std::string &title, const std::string &content, int variate, sf::RenderWindow *w)
 	{
 		auto button = tgui::Button::create("OK");
@@ -457,6 +458,11 @@ namespace SpiralOfFate::Utils
 		window->connect({"Closed", "EscapeKeyPressed"}, closeWindow);
 		return window;
 	}
+#else
+	void __nothing() {};
+	void *__nothing2() { return nullptr; };
+	std::string __nothing3() { return "Not implemented"; }
+#endif
 
 	sf::Color HSLtoRGB(const HSLColor &color)
 	{
@@ -532,6 +538,7 @@ namespace SpiralOfFate::Utils
 		};
 	}
 
+#ifndef __ANDROID__
 	tgui::ChildWindow::Ptr makeColorPickWindow(tgui::Gui &gui, const std::function<void(sf::Color color)> &onFinish, sf::Color startColor)
 	{
 		char buffer[8];
@@ -840,4 +847,5 @@ namespace SpiralOfFate::Utils
 		});
 		return window;
 	}
+#endif
 }

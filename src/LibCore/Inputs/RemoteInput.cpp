@@ -2,6 +2,7 @@
 // Created by Gegel85 on 27/09/2021.
 //
 
+#ifndef __ANDROID__
 #include <cstring>
 #include "RemoteInput.hpp"
 #include "../Logger.hpp"
@@ -61,3 +62,4 @@ namespace SpiralOfFate
 		return std::vector<std::string>{INPUT_NUMBER};
 	}
 }
+#endif

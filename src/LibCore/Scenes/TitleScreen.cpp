@@ -13,7 +13,9 @@
 #include <dirent.h>
 #endif
 #include <utility>
+#ifndef __ANDROID__
 #include <clip.h>
+#endif
 #include "TitleScreen.hpp"
 #include "InGame.hpp"
 #include "CharacterSelect.hpp"
