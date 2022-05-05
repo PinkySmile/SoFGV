@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace SpiralOfFate
+namespace SpiralOfFateNet
 {
 	class NetException {
 	private:

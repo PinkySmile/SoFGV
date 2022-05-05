@@ -7,8 +7,7 @@ add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
-find_package(clip REQUIRED)
-include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} ${clip_INCLUDE_DIRS} src/LibCore)
+include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore)
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
@@ -61,7 +60,7 @@ add_library(
 	SoFGVNetCore SHARED
 	src/LibNet/NetManager.cpp
 	src/LibNet/NetManager.hpp
-	src/LibNet/Exception.hpp src/LibNet/Protocol.hpp)
+	src/LibNet/Exception.hpp src/LibNet/Protocol.hpp src/LibNet/NetHandler.hpp)
 
 add_library(
 	SoFGVCore SHARED
@@ -135,7 +134,6 @@ if (WIN32)
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
 		${SFML_NETWORK_LIB}
-		${clip_LIBRARIES}
 		${TGUI_LIB}
 		ws2_32
 	)
@@ -147,7 +145,6 @@ else ()
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
 		${SFML_NETWORK_LIB}
-		${clip_LIBRARIES}
 		${TGUI_LIB}
 		pthread
 		png
