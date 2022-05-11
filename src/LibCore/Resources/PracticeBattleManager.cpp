@@ -125,7 +125,7 @@ namespace SpiralOfFate
 
 	bool PracticeBattleManager::_isAttacking(const Character &me)
 	{
-		return me._action >= ACTION_5N;
+		return me._action >= ACTION_5N || (me._action <= ACTION_AIR_REVERSAL && me._action >= ACTION_GROUND_HIGH_REVERSAL);
 	}
 
 	bool PracticeBattleManager::_isBlocking(const Character &me)
