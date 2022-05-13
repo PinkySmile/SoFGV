@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 26/04/2022.
+// Created by PinkySmile on 26/04/2022.
 //
 
 #ifndef SOFGV_NETMANAGER_HPP
@@ -11,6 +11,8 @@
 #include <vector>
 #include "NetHandler.hpp"
 
+#define MAX_ROLLBACK 8
+
 namespace SpiralOfFateNet
 {
 	struct EventHandlers {
@@ -20,38 +22,42 @@ namespace SpiralOfFateNet
 		void (*freeState)(void *data, size_t size);
 		void (*onConnect)(const std::string &ip, unsigned port);
 		void (*onDisconnect)(const std::string &ip, unsigned port);
-		void (*nextFrame)();
+		void (*nextFrame)(void *inputs);
 	};
 
-	struct NetStat {
+	struct NetStats {
 		unsigned lastPing = 0;
 		unsigned peakPing = 0;
 		unsigned averPing = 0;
 		unsigned aPktLoss = 0;
 		unsigned netDelay = 0;
-	};
-
-	struct NetStats {
-		std::vector<NetStat> stats;
 		unsigned avgRollback = 0;
 	};
 
 	class NetManager {
+	public:
+		struct Params {
+			unsigned inputSize;
+			unsigned playerCount;
+			EventHandlers handlers;
+		};
+
 	private:
+		void *buffer;
 		unsigned _inputSize;
-		unsigned _playerSize;
+		unsigned _playerCount;
 		EventHandlers _evntHandlers;
 		std::unique_ptr<NetHandler> _handler;
 
+		NetManager(unsigned inputSize, unsigned playerCount, EventHandlers handlers);
 	public:
-		NetManager(unsigned inputSize, unsigned playerSize, EventHandlers handlers);
 		~NetManager();
-		void syncTest();
-		void host(unsigned short port);
-		void connect(const std::string &ip, unsigned short port);
-		void spectate(const std::string &ip, unsigned short port);
-		void addInputs(void *data);
-		void switchMenu(unsigned menuId);
+		static NetManager *syncTest(Params params);
+		static NetManager *host(Params params, unsigned short port);
+		static NetManager *connect(Params params, const std::string &ip, unsigned short port);
+		static NetManager *spectate(Params params, const std::string &ip, unsigned short port);
+		void addInputs(void *data, unsigned playerID);
+		void switchMenu(unsigned menuId, void *initFrame, size_t frameSize);
 		NetStats getNetStats();
 	};
 }

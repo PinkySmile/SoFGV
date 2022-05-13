@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 05/03/2022.
+// Created by PinkySmile on 05/03/2022.
 //
 
 #ifndef SOFGV_REPLAYINPUT_HPP

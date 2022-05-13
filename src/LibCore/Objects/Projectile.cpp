@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 02/02/2022.
+// Created by PinkySmile on 02/02/2022.
 //
 
 #include "../Resources/Game.hpp"

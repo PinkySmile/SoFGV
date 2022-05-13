@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 18/02/2022.
+// Created by PinkySmile on 18/02/2022.
 //
 
 #include "CharacterSelect.hpp"

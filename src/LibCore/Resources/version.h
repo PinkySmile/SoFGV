@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 12/03/2022.
+// Created by PinkySmile on 12/03/2022.
 //
 
 #ifndef SOFGV_VERSION_H

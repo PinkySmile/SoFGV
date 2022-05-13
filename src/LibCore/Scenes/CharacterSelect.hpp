@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 29/09/2021.
+// Created by PinkySmile on 29/09/2021.
 //
 
 #ifndef SOFGV_CHARACTERSELECT_HPP

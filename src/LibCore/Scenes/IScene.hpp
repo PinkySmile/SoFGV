@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 24/09/2021.
+// Created by PinkySmile on 24/09/2021.
 //
 
 #ifndef SOFGV_ISCENE_HPP

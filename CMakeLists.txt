@@ -60,7 +60,10 @@ add_library(
 	SoFGVNetCore SHARED
 	src/LibNet/NetManager.cpp
 	src/LibNet/NetManager.hpp
-	src/LibNet/Exception.hpp src/LibNet/Protocol.hpp src/LibNet/NetHandler.hpp)
+	src/LibNet/Exception.hpp
+	src/LibNet/Protocol.hpp
+	src/LibNet/NetHandler.hpp
+	src/LibNet/SyncTestHandler.cpp src/LibNet/SyncTestHandler.hpp)
 
 add_library(
 	SoFGVCore SHARED
@@ -133,8 +136,11 @@ if (WIN32)
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
-		${SFML_NETWORK_LIB}
 		${TGUI_LIB}
+	)
+	target_link_libraries(
+		SoFGVNetCore
+		${SFML_NETWORK_LIB}
 		ws2_32
 	)
 else ()
@@ -144,11 +150,14 @@ else ()
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
-		${SFML_NETWORK_LIB}
 		${TGUI_LIB}
 		pthread
 		png
 		xcb
+	)
+	target_link_libraries(
+		SoFGVNetCore
+		${SFML_NETWORK_LIB}
 	)
 endif ()
 

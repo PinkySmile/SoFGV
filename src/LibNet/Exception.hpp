@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 26/04/2022.
+// Created by PinkySmile on 26/04/2022.
 //
 
 #ifndef SOFGV_EXCEPTION_HPP

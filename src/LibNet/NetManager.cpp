@@ -1,51 +1,53 @@
 //
-// Created by Gegel85 on 26/04/2022.
+// Created by PinkySmile on 26/04/2022.
 //
 
+#include <memory>
 #include "NetManager.hpp"
+#include "SyncTestHandler.hpp"
 
 namespace SpiralOfFateNet
 {
-	NetManager::NetManager(unsigned inputSize, unsigned playerSize, EventHandlers handlers) :
+	NetManager::NetManager(unsigned inputSize, unsigned playerCount, EventHandlers handlers) :
 		_inputSize(inputSize),
-		_playerSize(playerSize),
+		_playerCount(playerCount),
 		_evntHandlers(handlers)
 	{
 	}
 
 	NetManager::~NetManager()
 	{
-
 	}
 
-	void NetManager::syncTest()
+	NetManager *NetManager::syncTest(Params params)
 	{
+		auto result = new NetManager(params.inputSize, params.playerCount, params.handlers);
 
+		result->_handler = std::make_unique<SyncTestHandler>(result);
+		return result;
 	}
 
-	void NetManager::host(unsigned short port)
+	NetManager *NetManager::host(Params params, unsigned short port)
 	{
-
+		return nullptr;
 	}
 
-	void NetManager::connect(const std::string &ip, unsigned short port)
+	NetManager *NetManager::connect(Params params, const std::string &ip, unsigned short port)
 	{
-
+		return nullptr;
 	}
 
-	void NetManager::spectate(const std::string &ip, unsigned short port)
+	NetManager *NetManager::spectate(Params params, const std::string &ip, unsigned short port)
 	{
-
+		return nullptr;
 	}
 
-	void NetManager::addInputs(void *data)
+	void NetManager::addInputs(void *data, unsigned playerID)
 	{
-
 	}
 
-	void NetManager::switchMenu(unsigned int menuId)
+	void NetManager::switchMenu(unsigned int menuId, void *initFrame, size_t frameSize)
 	{
-
 	}
 
 	NetStats NetManager::getNetStats()
