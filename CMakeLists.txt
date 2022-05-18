@@ -176,3 +176,11 @@ add_executable(
 	src/FrameDataEditor/EditableObject.hpp
 	src/LibCore/LibCore.hpp)
 target_link_libraries(FrameDataEditor SoFGVCore)
+
+add_executable(PaletteExtractor src/PaletteExtractor/main.cpp)
+target_link_libraries(
+	PaletteExtractor
+	${SFML_GRAPHICS_LIB}
+	${SFML_SYSTEM_LIB}
+	${SFML_WINDOW_LIB}
+)
