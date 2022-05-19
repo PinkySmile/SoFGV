@@ -44,14 +44,27 @@ namespace SpiralOfFateNet
 
 	void NetManager::addInputs(void *data, unsigned playerID)
 	{
+		net_assert(this->_handler);
+		this->_handler->addInputs(data, playerID);
 	}
 
 	void NetManager::switchMenu(unsigned int menuId, void *initFrame, size_t frameSize)
 	{
+		net_assert(this->_handler);
 	}
 
 	NetStats NetManager::getNetStats()
 	{
-		return {};
+		net_assert(this->_handler);
+		return this->_handler->getNetStats();
+	}
+
+	NetManager::Params NetManager::getParams()
+	{
+		return {
+			this->_inputSize,
+			this->_playerCount,
+			this->_evntHandlers
+		};
 	}
 }

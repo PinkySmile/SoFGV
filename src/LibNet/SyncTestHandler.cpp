@@ -13,14 +13,14 @@ namespace SpiralOfFateNet
 
 	}
 
-	void SyncTestHandler::addInputs(void *data)
+	void SyncTestHandler::addInputs(void *data, unsigned playerId)
 	{
 
 	}
 
-	void SyncTestHandler::switchMenu(unsigned int menuId)
+	void SyncTestHandler::switchMenu(unsigned int menuId, void *initFrame, size_t frameSize)
 	{
-
+		this->_manager->getParams().handlers.switchMenu(menuId, initFrame, frameSize);
 	}
 
 	NetStats SyncTestHandler::getNetStats()

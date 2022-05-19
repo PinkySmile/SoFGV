@@ -6,6 +6,8 @@
 #define SOFGV_NETHANDLER_HPP
 
 
+#include <cstddef>
+
 namespace SpiralOfFateNet
 {
 	class NetHandler {
@@ -15,8 +17,8 @@ namespace SpiralOfFateNet
 		NetHandler(class NetManager *manager) : _manager(manager) {}
 	public:
 		virtual ~NetHandler() = default;
-		virtual void addInputs(void *data) = 0;
-		virtual void switchMenu(unsigned menuId) = 0;
+		virtual void addInputs(void *data, unsigned playerId) = 0;
+		virtual void switchMenu(unsigned menuId, void *initFrame, size_t frameSize) = 0;
 		virtual struct NetStats getNetStats() = 0;
 		virtual void update() = 0;
 	};

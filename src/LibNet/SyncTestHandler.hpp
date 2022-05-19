@@ -14,8 +14,8 @@ namespace SpiralOfFateNet
 	public:
 		SyncTestHandler(class NetManager *manager);
 		~SyncTestHandler() override = default;
-		void addInputs(void *data) override;
-		void switchMenu(unsigned int menuId) override;
+		void addInputs(void *data, unsigned playerId) override;
+		void switchMenu(unsigned int menuId, void *initFrame, size_t frameSize) override;
 		struct NetStats getNetStats() override;
 		void update() override;
 	};
