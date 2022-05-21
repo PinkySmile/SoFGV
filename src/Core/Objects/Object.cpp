@@ -304,6 +304,7 @@ namespace SpiralOfFate
 
 	void Object::_forceStartMove(unsigned int action)
 	{
+		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + std::to_string(action) + " was not found.");
 		this->_action = action;
 		this->_actionBlock = 0;
 		this->_animationCtr = 0;
