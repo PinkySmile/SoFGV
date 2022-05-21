@@ -1318,6 +1318,8 @@ namespace SpiralOfFate
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
+
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto data = &this->_moves.at(action).at(0).at(0);
 

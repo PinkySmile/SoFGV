@@ -1891,6 +1891,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
 	bar->connectMenuItem({"Misc", "Copy boxes from next frame"}, copyBoxesFromNextFrame, std::ref(object), boxes);
 	bar->connectMenuItem({"Misc", "Flatten all collision boxes"}, flattenAllCollisionBoxes, std::ref(object), boxes);
 	bar->connectMenuItem({"Misc", "Flatten this move collision boxes"}, flattenThisMoveCollisionBoxes, std::ref(object), boxes);
+	bar->connectMenuItem({"Misc", "Reload textures"}, []{ SpiralOfFate::game->textureMgr.reloadEverything(); });
 
 	for (unsigned i = 0; i < resizeButtons.size(); i++) {
 		auto &resizeButton = resizeButtons[i];

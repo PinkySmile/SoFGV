@@ -1395,7 +1395,7 @@ MenuBar.main_bar {
     }
 
     Menu {
-        Items = ["Copy boxes from last frame", "Copy boxes from next frame", "Flatten all collision boxes", "Flatten this move collision boxes"];
+        Items = ["Copy boxes from last frame", "Copy boxes from next frame", "Flatten all collision boxes", "Flatten this move collision boxes", "Reload textures"];
         Text = Misc;
     }
 }

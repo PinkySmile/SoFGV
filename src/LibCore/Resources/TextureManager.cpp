@@ -45,6 +45,15 @@ namespace SpiralOfFate
 		return index;
 	}
 
+	static std::string colorToString(Color color)
+	{
+		char buffer[10];
+
+		color.a = 0;
+		sprintf(buffer, "#%06x", color.value);
+		return buffer;
+	}
+
 	unsigned TextureManager::load(const std::string &file, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size)
 	{
 		std::string allocName = file;
@@ -56,11 +65,11 @@ namespace SpiralOfFate
 			return this->load(file, size);
 		for (auto pos = allocName.find('\\'); pos != std::string::npos; pos = allocName.find('\\'))
 			allocName[pos] = '/';
-		allocName += ":paletted";
+		allocName += ":";
 		for (unsigned i = 0; i < palette.first.size(); i++) {
 			palette.first[i].a = palette.second[i].a = 255;
 			if (palette.first[i] != palette.second[i]) {
-				allocName += "|" + std::to_string(palette.first[i].value) + "," + std::to_string(palette.second[i].value);
+				allocName += "|" + colorToString(palette.first[i]) + "," + colorToString(palette.second[i]);
 				ok = true;
 			}
 		}
@@ -113,13 +122,13 @@ namespace SpiralOfFate
 	Color *TextureManager::loadPixels(const std::string &file, Vector2u &size)
 	{
 		sf::Image image;
-		Color *buffer;
 
+		game->logger.debug("Loading pixels from " + file);
 		if (!image.loadFromFile(file))
 			return nullptr;
 		size = image.getSize();
-		buffer = new Color[size.x * size.y];
 
+		Color * buffer = new Color[size.x * size.y];
 		auto ptr = image.getPixelsPtr();
 
 		for (unsigned x = 0; x < size.x; x++)
@@ -186,5 +195,59 @@ namespace SpiralOfFate
 	TextureManager::~TextureManager()
 	{
 		game->logger.debug("~TextureManager()");
+	}
+
+	void TextureManager::reloadEverything()
+	{
+		for (auto &[loadedPath, attr] : this->_allocatedTextures)
+			if (attr.second) {
+				game->logger.debug("Reloading " + loadedPath);
+				this->_reload(loadedPath, attr.first);
+			}
+	}
+
+	void TextureManager::_reload(const std::string &path, unsigned id)
+	{
+		Vector2u realSize;
+		std::string p = path;
+		size_t pos = p.find(':');
+		sf::Image image;
+		Color *pixels = TextureManager::loadPixels(p.substr(0, pos), realSize);
+		std::vector<Color> pal1;
+		std::vector<Color> pal2;
+
+		if (!pixels)
+			return game->logger.debug("Loading failed");
+		p = path.substr(pos + 1);
+		pos = path.find('|');
+		while (pos != std::string::npos) {
+			size_t pos2 = p.find(',');
+			Color col{};
+
+			col.value = std::stoul(p.substr(pos + 1, 6), nullptr, 16);
+			col.a = 255;
+			pal1.push_back(col);
+			col.value = std::stoul(p.substr(pos2 + 1, 6), nullptr, 16);
+			col.a = 255;
+			pal2.push_back(col);
+			p = path.substr(pos + 1);
+			pos = p.find('|');
+		}
+		if (!pal1.empty())
+			for (unsigned x = 0; x < realSize.x; x++)
+				for (unsigned y = 0; y < realSize.y; y++) {
+					auto &color = pixels[x + y * realSize.x];
+					auto it = std::find_if(pal1.begin(), pal1.end(), [color](Color &a){
+						return a.r == color.r && a.g == color.g && a.b == color.b;
+					});
+
+					if (it != pal1.end())
+						color = pal2[it - pal1.begin()];
+				}
+
+		game->logger.debug("Reloading resulting image (" + std::to_string(pal1.size()) + " paletted colors)");
+		image.create(realSize.x, realSize.y, reinterpret_cast<const sf::Uint8 *>(pixels));
+		this->_textures[id].loadFromImage(image);
+		delete[] pixels;
 	}
 }

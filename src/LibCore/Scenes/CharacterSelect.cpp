@@ -480,6 +480,19 @@ namespace SpiralOfFate
 		this->framedataPath = json["framedata"];
 		this->subobjectDataPath = json["subobjects"];
 		this->data = FrameData::loadFile(json["framedata_char_select"]);
+		for (size_t i = 0; i < this->name.size(); i++) {
+			if ((this->name[i] & 0b11100000) == 0b11000000) {
+				int c = ((this->name[i] & 0b00011111) << 6) | (this->name[i + 1] & 0b00111111);
+
+				if (c <= 255)
+					this->name = this->name.substr(0, i) + (char)c + this->name.substr(i + 2);
+				else
+					this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 2);
+			} else if ((this->name[i] & 0b11110000) == 0b11100000)
+				this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 3);
+			else if ((this->name[i] & 0b11111000) == 0b11110000)
+				this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 4);
+		}
 		if (this->palettes.empty())
 			this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(json["icon"]);
 		else {
@@ -494,6 +507,8 @@ namespace SpiralOfFate
 		_class(entry._class),
 		name(entry.name),
 		framedataPath(entry.framedataPath),
+		subobjectDataPath(entry.subobjectDataPath),
+		palettes(entry.palettes),
 		icon(entry.icon),
 		data(entry.data)
 	{

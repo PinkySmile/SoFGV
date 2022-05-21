@@ -22,6 +22,7 @@ namespace SpiralOfFate
 		std::map<unsigned, sf::Texture> _textures;
 		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedTextures;
 
+		void _reload(const std::string &path, unsigned id);
 	public:
 		~TextureManager();
 		unsigned load(std::string file, Vector2u *size = nullptr);
@@ -31,6 +32,7 @@ namespace SpiralOfFate
 		void addRef(unsigned id);
 		void remove(unsigned id);
 		void render(Sprite &sprite) const;
+		void reloadEverything();
 
 		static Color *loadPixels(const std::string &file, Vector2u &size);
 	};
