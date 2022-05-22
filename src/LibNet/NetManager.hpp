@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <functional>
 #include <Windows.h>
 #include "NetHandler.hpp"
 
@@ -68,13 +69,14 @@
 namespace SpiralOfFateNet
 {
 	struct EventHandlers {
-		void (*switchMenu)(unsigned menuId, void *initFrame, size_t frameSize);
-		bool (*saveState)(void **data, size_t *size, unsigned *checksum);
-		void (*loadState)(void *data, size_t size);
-		void (*freeState)(void *data, size_t size);
-		void (*onConnect)(const std::string &ip, unsigned port);
-		void (*onDisconnect)(const std::string &ip, unsigned port);
-		void (*nextFrame)(void *inputs);
+		std::function<bool (unsigned menuId, void *initFrame, size_t frameSize)> switchMenu;
+		std::function<bool (void **data, size_t *size, unsigned *checksum)> saveState;
+		std::function<void (void *data, size_t size)> loadState;
+		std::function<void (void *data, size_t size)> freeState;
+		std::function<void (const std::string &ip, unsigned port)> onConnect;
+		std::function<void (const std::string &ip, unsigned port)> onDisconnect;
+		std::function<void (void **inputs)> nextFrame;
+		std::function<void (const std::string &)> log;
 	};
 
 	struct NetStats {
@@ -94,24 +96,11 @@ namespace SpiralOfFateNet
 			EventHandlers handlers;
 		};
 
-	private:
-		void *buffer;
-		unsigned _inputSize;
-		unsigned _playerCount;
-		EventHandlers _evntHandlers;
-		std::unique_ptr<NetHandler> _handler;
-
-		NetManager(unsigned inputSize, unsigned playerCount, EventHandlers handlers);
-	public:
 		~NetManager();
-		static NetManager *syncTest(Params params);
-		static NetManager *host(Params params, unsigned short port);
-		static NetManager *connect(Params params, const std::string &ip, unsigned short port);
-		static NetManager *spectate(Params params, const std::string &ip, unsigned short port);
-		void addInputs(void *data, unsigned playerID);
-		void switchMenu(unsigned menuId, void *initFrame, size_t frameSize);
-		NetStats getNetStats();
-		Params getParams();
+		static NetHandler *syncTest(Params params);
+		static NetHandler *host(Params params, unsigned short port);
+		static NetHandler *connect(Params params, const std::string &ip, unsigned short port);
+		static NetHandler *spectate(Params params, const std::string &ip, unsigned short port);
 	};
 }
 
