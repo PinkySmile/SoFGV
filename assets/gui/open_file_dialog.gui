@@ -1,23 +1,11 @@
 Renderer.1 {
-    backgroundcolor = #F5F5F5;
-    backgroundcolordisabled = #E6E6E6;
-    backgroundcolordown = #EBEBEB;
-    backgroundcolorhover = white;
-    bordercolor = #3C3C3C;
-    bordercolordisabled = #7D7D7D;
-    bordercolordown = black;
-    bordercolorfocused = #1E1EB4;
-    bordercolorhover = black;
-    borders = (1, 1, 1, 1);
-    textcolor = #3C3C3C;
-    textcolordisabled = #7D7D7D;
-    textcolordown = black;
-    textcolorhover = black;
-    texture = None;
+    textcolor = rgb(190, 190, 190);
+    textcolorhover = rgb(250, 250, 250);
+    texture = "assets/gui/themes/Black.png" Part( 0, 64, 45, 50) Middle(10, 0, 25, 50);
     texturedisabled = None;
-    texturedown = None;
-    texturefocused = None;
-    texturehover = None;
+    texturedown = "assets/gui/themes/Black.png" Part(90, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturefocused = "assets/gui/themes/Black.png" Part(135, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturehover = "assets/gui/themes/Black.png" Part(45, 64, 45, 50) Middle(10, 0, 25, 50);
 }
 
 ScrollablePanel.Folders {
@@ -26,10 +14,20 @@ ScrollablePanel.Folders {
     Size = (480, 190);
 
     Renderer {
-        backgroundcolor = white;
-        bordercolor = black;
+	BackgroundColor = rgb(80, 80, 80);
         borders = (1, 1, 1, 1);
         texturebackground = None;
+
+	scrollbar {
+	    texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+	    texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+	    texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+	    texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+	    texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+	    texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+	    texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+	    texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
+	}
     }
 }
 
@@ -43,18 +41,33 @@ ComboBox.Patterns {
     TextSize = 13;
 
     Renderer {
-        arrowbackgroundcolor = #F5F5F5;
-        arrowbackgroundcolorhover = white;
-        arrowcolor = #3C3C3C;
-        arrowcolorhover = black;
-        backgroundcolor = #F5F5F5;
-        bordercolor = black;
-        borders = (1, 1, 1, 1);
-        padding = (0, 0, 0, 0);
-        textcolor = #3C3C3C;
-        texturearrow = None;
-        texturearrowhover = None;
-        texturebackground = None;
+        padding = (3, 3, 3, 3);
+        textcolor = rgb(190, 190, 190);
+        texturearrow = "assets/gui/themes/Black.png" Part(60, 0, 32, 32);
+        texturearrowhover = "assets/gui/themes/Black.png" Part(60, 32, 32, 32);
+        texturebackground = "assets/gui/themes/Black.png" Part(0, 154, 48, 48) Middle(16, 16, 16, 16);
+
+        listbox {
+            backgroundcolorhover = rgb(100, 100, 100);
+            padding = (3, 3, 3, 3);
+            selectedbackgroundcolor = rgb( 10, 110, 255);
+            selectedbackgroundcolorhover = rgb(30, 150, 255);
+            selectedtextcolor = White;
+            textcolor = rgb(190, 190, 190);
+            textcolorhover = rgb(250, 250, 250);
+            texturebackground = "assets/gui/themes/Black.png" Part(0, 154, 48, 48) Middle(16, 16, 16, 16);
+
+            scrollbar {
+                texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+                texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+                texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+                texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+                texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+                texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+                texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+                texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
+            }
+        }
     }
 }
 
@@ -64,25 +77,16 @@ EditBox.file {
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = #F5F5F5;
-        backgroundcolordisabled = #E6E6E6;
-        backgroundcolorhover = white;
-        bordercolor = #3C3C3C;
-        bordercolordisabled = #7D7D7D;
-        bordercolorhover = black;
-        borders = (1, 1, 1, 1);
-        caretcolor = black;
-        caretwidth = 1;
-        defaulttextcolor = #A0A0A0;
-        padding = (0, 0, 0, 0);
-        selectedtextbackgroundcolor = #006EFF;
-        selectedtextcolor = white;
-        textcolor = #3C3C3C;
-        textcolordisabled = #7D7D7D;
-        texture = None;
+        caretcolor = rgb(110, 110, 255);
+        defaulttextcolor = rgb(120, 120, 120);
+        padding = (6, 4, 6, 4);
+        selectedtextbackgroundcolor = rgb( 10, 110, 255);
+        selectedtextcolor = White;
+        textcolor = rgb(190, 190, 190);
+        texture = "assets/gui/themes/Black.png" Part(0, 114, 60, 40) Middle(15, 0, 30, 40);
         texturedisabled = None;
-        texturefocused = None;
-        texturehover = None;
+        texturefocused = "assets/gui/themes/Black.png" Part(120, 114, 60, 40) Middle(15, 0, 30, 40);
+        texturehover = "assets/gui/themes/Black.png" Part(60, 114, 60, 40) Middle(15, 0, 30, 40);
     }
 }
 
@@ -95,11 +99,19 @@ Label.Label1 {
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = transparent;
-        bordercolor = #3C3C3C;
-        borders = (0, 0, 0, 0);
-        textcolor = #3C3C3C;
+        textcolor = rgb(190, 190, 190);
         texturebackground = None;
+
+        scrollbar {
+            texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+            texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+            texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+            texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
+        }
     }
 }
 
@@ -129,15 +141,22 @@ TextBox.Path {
     VerticalScrollbarPolicy = Never;
 
     Renderer {
-        backgroundcolor = white;
-        bordercolor = black;
-        borders = (1, 1, 1, 1);
-        caretcolor = black;
-        caretwidth = 1;
-        padding = (0, 0, 0, 0);
-        selectedtextbackgroundcolor = #006EFF;
-        selectedtextcolor = white;
-        textcolor = #3C3C3C;
-        texturebackground = None;
+        caretcolor = rgb(110, 110, 255);
+        padding = (3, 3, 3, 3);
+        selectedtextbackgroundcolor = rgb( 10, 110, 255);
+        selectedtextcolor = White;
+        textcolor = rgb(190, 190, 190);
+        texturebackground = "assets/gui/themes/Black.png" Part(0, 154, 48, 48) Middle(16, 16, 16, 16);
+
+        scrollbar {
+            texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+            texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+            texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+            texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
+        }
     }
 }

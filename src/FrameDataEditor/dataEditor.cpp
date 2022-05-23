@@ -424,6 +424,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 			label->setPosition(10, i * 25 + 12);
 			button->setPosition(50, i * 25 + 10);
 			button->setSize(430, 20);
+			Utils::setRenderer(button);
+			Utils::setRenderer(label);
 			if (object->_moves.find(move.first) == object->_moves.end()) {
 				button->getRenderer()->setTextColor(tgui::Color::Red);
 				button->getRenderer()->setTextColorHover(tgui::Color{0xFF, 0x40, 0x40});
@@ -2150,7 +2152,7 @@ void	run()
 	gui.setView(guiView);
 	while (SpiralOfFate::game->screen->isOpen()) {
 		timer++;
-		SpiralOfFate::game->screen->clear(sf::Color::Cyan);
+		SpiralOfFate::game->screen->clear(sf::Color::Black);
 		SpiralOfFate::game->screen->draw(sprite);
 		if (object) {
 			if (timer >= updateTimer || updateAnyway) {
