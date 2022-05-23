@@ -1,11 +1,11 @@
 Renderer.1 {
     textcolor = rgb(190, 190, 190);
     textcolorhover = rgb(250, 250, 250);
-    texture = "themes/Black.png" Part( 0, 64, 45, 50) Middle(10, 0, 25, 50);
+    texture = "assets/gui/themes/Black.png" Part( 0, 64, 45, 50) Middle(10, 0, 25, 50);
     texturedisabled = None;
-    texturedown = "themes/Black.png" Part(90, 64, 45, 50) Middle(10, 0, 25, 50);
-    texturefocused = "themes/Black.png" Part(135, 64, 45, 50) Middle(10, 0, 25, 50);
-    texturehover = "themes/Black.png" Part(45, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturedown = "assets/gui/themes/Black.png" Part(90, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturefocused = "assets/gui/themes/Black.png" Part(135, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturehover = "assets/gui/themes/Black.png" Part(45, 64, 45, 50) Middle(10, 0, 25, 50);
 }
 
 Label.Label {
@@ -21,14 +21,14 @@ Label.Label {
         texturebackground = None;
 
         scrollbar {
-            texturearrowdown = "themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
-            texturearrowdownhover = "themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
-            texturearrowup = "themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
-            texturearrowuphover = "themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
-            texturethumb = "themes/Black.png" Part(143, 154, 20, 20);
-            texturethumbhover = "themes/Black.png" Part(143, 174, 20, 20);
-            texturetrack = "themes/Black.png" Part(123, 154, 20, 20);
-            texturetrackhover = "themes/Black.png" Part(123, 174, 20, 20);
+            texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+            texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+            texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+            texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
         }
     }
 }

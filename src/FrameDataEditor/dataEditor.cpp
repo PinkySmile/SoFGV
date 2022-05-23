@@ -415,6 +415,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto pan = tgui::ScrollablePanel::create({"&.w", "&.h"});
 		unsigned i = 0;
 
+		Utils::setRenderer(pan);
 		window->setTitle("Default character moves");
 		window->add(pan);
 		for (auto &move : SpiralOfFate::actionNames) {
