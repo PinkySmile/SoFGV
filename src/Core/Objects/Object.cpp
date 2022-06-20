@@ -388,8 +388,8 @@ namespace SpiralOfFate
 		if (data->dFlag.resetSpeed)
 			this->_speed = {0, 0};
 		if (data->dFlag.resetRotation)
-			this->_rotation = this->_baseRotation;
-		this->_rotation += data->rotation;
+			this->_rotation = this->_baseRotation * this->_dir;
+		this->_rotation += data->rotation * this->_dir;
 		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 		this->_position += this->_speed;
 		this->_checkPlatforms(oldPos);

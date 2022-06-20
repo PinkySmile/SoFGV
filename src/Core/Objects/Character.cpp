@@ -1407,7 +1407,7 @@ namespace SpiralOfFate
 		) {
 			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
 				game->soundMgr.play(BASICSOUND_LAND);
-				if (action == ACTION_IDLE)
+				if (this->_action == ACTION_FALLING)
 					return this->_forceStartMove(ACTION_LANDING);
 			}
 		}
