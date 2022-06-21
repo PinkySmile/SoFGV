@@ -637,7 +637,7 @@ namespace SpiralOfFate
 
 		if (
 			(this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) &&
-			this->_moves.at(this->_action).size() > 1 &&
+			this->_moves.at(this->_action).size() > 2 &&
 			this->_actionBlock == 1 && (
 			!this->_input->isPressed(
 				(this->_direction ? this->_action == ACTION_BACKWARD_DASH : this->_action == ACTION_FORWARD_DASH) ?
@@ -1142,7 +1142,15 @@ namespace SpiralOfFate
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
 			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING;
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
-			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return this->_jumpsUsed < this->_maxJumps && (
+				this->_action <= ACTION_WALK_BACKWARD || (
+					this->_action >= ACTION_NEUTRAL_JUMP &&
+					this->_action <= ACTION_BACKWARD_JUMP &&
+					this->getCurrentFrameData()->oFlag.jumpCancelable
+				) ||
+				this->_action == ACTION_FALLING ||
+				this->_action == ACTION_LANDING
+			);
 		if (this->_action == action)
 			return false;
 		if (isBlockingAction(action))
@@ -1152,7 +1160,7 @@ namespace SpiralOfFate
 		if (isBlockingAction(this->_action))
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
-			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return (action || this->_action != ACTION_LANDING) && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
 		return false;
@@ -1169,7 +1177,7 @@ namespace SpiralOfFate
 		if ((this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) && this->_moves.at(this->_action).size() > 1) {
 			if (this->_actionBlock == 0)
 				this->_actionBlock++;
-			if (this->_actionBlock == 1)
+			if (this->_actionBlock == 1 && this->_moves.at(this->_action).size() > 2)
 				return Object::_onMoveEnd(lastData);
 		}
 

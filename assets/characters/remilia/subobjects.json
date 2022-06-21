@@ -4,7 +4,99 @@
         "framedata": [
             [
                 {
-                    "sprite": ""
+                    "duration": 10,
+                    "offset": {
+                        "x": 0,
+                        "y": -128
+                    },
+                    "rotation": 6.720000308426622,
+                    "size": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "texture_bounds": {
+                        "height": 128,
+                        "left": 14,
+                        "top": 8902,
+                        "width": 128
+                    }
+                },
+                {
+                    "duration": 10,
+                    "offset": {
+                        "x": 0,
+                        "y": -128
+                    },
+                    "rotation": 6.720000308426622,
+                    "size": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "texture_bounds": {
+                        "height": 128,
+                        "left": 148,
+                        "top": 8902,
+                        "width": 128
+                    }
+                },
+                {
+                    "duration": 10,
+                    "offset": {
+                        "x": 0,
+                        "y": -128
+                    },
+                    "rotation": 6.720000308426622,
+                    "size": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "texture_bounds": {
+                        "height": 128,
+                        "left": 282,
+                        "top": 8902,
+                        "width": 128
+                    }
+                },
+                {
+                    "duration": 10,
+                    "offset": {
+                        "x": 0,
+                        "y": -128
+                    },
+                    "rotation": 6.720000308426622,
+                    "size": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "texture_bounds": {
+                        "height": 128,
+                        "left": 416,
+                        "top": 8902,
+                        "width": 128
+                    }
+                },
+                {
+                    "duration": 10,
+                    "offset": {
+                        "x": 0,
+                        "y": -128
+                    },
+                    "rotation": 6.720000308426622,
+                    "size": {
+                        "x": 256,
+                        "y": 256
+                    },
+                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "texture_bounds": {
+                        "height": 128,
+                        "left": 550,
+                        "top": 8902,
+                        "width": 128
+                    }
                 }
             ]
         ]

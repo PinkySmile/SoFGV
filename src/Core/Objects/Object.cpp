@@ -396,9 +396,10 @@ namespace SpiralOfFate
 		if (!this->_isGrounded()) {
 			this->_speed.x *= this->_airDrag.x;
 			this->_speed.y *= this->_airDrag.y;
-			this->_speed += this->_gravity;
+			this->_speed.y += this->_gravity.y;
 		} else
 			this->_speed *= this->_groundDrag;
+		this->_speed.x += this->_gravity.x * this->_dir;
 	}
 
 	void Object::_checkPlatforms(Vector2f oldPos)
