@@ -436,7 +436,7 @@ namespace SpiralOfFate
 			return data;
 		this->_fakeFrameData = *data;
 		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
-		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
@@ -1303,14 +1303,14 @@ namespace SpiralOfFate
 			return game->battleMgr->setHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		if (
-			this->_isBlocking() &&
-			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
-			!data->oFlag.unblockable &&
-			!data->oFlag.grab
+			!this->_isBlocking() ||
+			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
+			data->oFlag.unblockable ||
+			data->oFlag.grab
 		)
-			this->_blockMove(dynamic_cast<Object *>(&other), *data);
-		else
 			this->_getHitByMove(dynamic_cast<Object *>(&other), *data);
+		else
+			this->_blockMove(dynamic_cast<Object *>(&other), *data);
 	}
 
 	bool Character::_isBlocking() const
@@ -3912,12 +3912,9 @@ namespace SpiralOfFate
 		auto chr = dynamic_cast<Character *>(other);
 
 		if (chr) {
-			if (data->oFlag.voidMana)
-				chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
-			if (data->oFlag.spiritMana)
-				chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
-			if (data->oFlag.matterMana)
-				chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
+			chr->_voidMana   -= 50 + isStrongest * 50;
+			chr->_spiritMana -= 50 + isStrongest * 50;
+			chr->_matterMana -= 50 + isStrongest * 50;
 			if (
 				chr->_voidMana < 0 ||
 				chr->_spiritMana < 0 ||
