@@ -83,13 +83,17 @@ namespace SpiralOfFate::Utils
 	//! @param startColor The color to initialize the picker.
 	//! @return A pointer to the window
 	tgui::ChildWindow::Ptr makeColorPickWindow(tgui::Gui &gui, const std::function<void(sf::Color color)> &onFinish, sf::Color startColor);
+	tgui::Theme &getTheme();
+	void setRenderer(const tgui::Widget::Ptr &widget);
 #else
 	#define openWindowWithFocus(...) __nothing2()
 	#define makeSliderWindow(...) __nothing2()
 	#define makeColorPickWindow(...) __nothing2()
 	#define openFileDialog(...) __nothing3()
 	#define saveFileDialog(...) __nothing3()
-	#define dispMsg(...) __nothing();
+	#define dispMsg(...) __nothing()
+	#define setRendered(...) __nothing()
+	#define getTheme() *(tgui::Theme *)nullptr
 	void __nothing();
 	void *__nothing2();
 	std::string __nothing3();

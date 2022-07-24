@@ -16,6 +16,7 @@
 
 namespace SpiralOfFate::Utils
 {
+	static tgui::Theme *theme = nullptr;
 	static const std::map<std::string, std::string> _icons{
 		{"folder", "assets/icons/folder.png"     },
 		{".rar",   "assets/icons/archive.png"    },
@@ -71,6 +72,21 @@ namespace SpiralOfFate::Utils
 		{".bat",   "assets/icons/shellScript.png"},
 		{"",       "assets/icons/unknownFile.png"},
 	};
+
+	tgui::Theme &getTheme()
+	{
+		if (!theme)
+			theme = new tgui::Theme("assets/gui/themes/Black.txt");
+		return *theme;
+	}
+
+	void setRenderer(const tgui::Widget::Ptr &widget)
+	{
+		auto renderer = getTheme().getRendererNoThrow(widget->getWidgetType());
+
+		if (renderer)
+			widget->setRenderer(renderer);
+	}
 
 	std::wstring utf8ToWstring(const std::string& str)
 	{
@@ -135,6 +151,8 @@ namespace SpiralOfFate::Utils
 		float currentWidth = startWidth;
 		auto size = text->getTextSize();
 
+		setRenderer(button);
+		setRenderer(text);
 		for (char c: content) {
 			currentWidth += font.getGlyph(c, size, false).advance;
 			width = std::max(static_cast<unsigned>(currentWidth), width);
@@ -199,7 +217,7 @@ namespace SpiralOfFate::Utils
 				gui.handleEvent(event);
 			}
 
-			win.clear({230, 230, 230, 255});
+			win.clear({80, 80, 80, 255});
 			gui.draw();
 			win.display();
 		}
@@ -254,12 +272,15 @@ namespace SpiralOfFate::Utils
 					file->setText(fileStr);
 			});
 			renderer->setBackgroundColor("transparent");
-			renderer->setBackgroundColorFocused("blue");
-			renderer->setBackgroundColorHover("#00BFFF");
+			renderer->setBackgroundColorFocused("#A0A0A0");
+			renderer->setBackgroundColorHover("#808080");
+			renderer->setBackgroundColorDown("#303030");
 			renderer->setBorderColor("transparent");
-			renderer->setBorderColorHover("#00BFFF");
+			renderer->setBorderColorFocused("#B0B0B0");
+			renderer->setBorderColorHover("#909090");
 			label->setPosition(40, pos + 2);
 			label->ignoreMouseEvents();
+			setRenderer(label);
 			picture->setPosition(12, pos + 2);
 			picture->ignoreMouseEvents();
 			panel->add(button);
@@ -421,7 +442,7 @@ namespace SpiralOfFate::Utils
 				}
 				gui.handleEvent(event);
 			}
-			window.clear({200, 200, 200});
+			window.clear({80, 80, 80});
 			gui.draw();
 			window.display();
 		}
@@ -454,6 +475,7 @@ namespace SpiralOfFate::Utils
 			gui.setTabKeyUsageEnabled(tabUsageEnabled);
 		};
 
+		setRenderer(window);
 		panel->connect("Clicked", closeWindow);
 		window->connect({"Closed", "EscapeKeyPressed"}, closeWindow);
 		return window;

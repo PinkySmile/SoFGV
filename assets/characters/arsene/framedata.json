@@ -135,6 +135,172 @@
         ]
     },
     {
+        "action": 1,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 62,
+                        "y": 146
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 73,
+                        "left": 307,
+                        "top": 0,
+                        "width": 31
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 2,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 93,
+                        "left": -18,
+                        "top": -91,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 99999,
+                    "hurt_boxes": [
+                        {
+                            "height": 107,
+                            "left": -24,
+                            "top": -107,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 120
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 60,
+                        "left": 340,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 3,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 62,
+                        "y": 146
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 73,
+                        "left": 307,
+                        "top": 0,
+                        "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
         "action": 4,
         "framedata": [
             [
@@ -169,43 +335,6 @@
                         "left": 99,
                         "top": 0,
                         "width": 36
-                    }
-                },
-                {
-                    "collision_box": {
-                        "height": 133,
-                        "left": -18,
-                        "top": -131,
-                        "width": 39
-                    },
-                    "defense_flag": 2097664,
-                    "duration": 6,
-                    "hurt_boxes": [
-                        {
-                            "height": 149,
-                            "left": -24,
-                            "top": -149,
-                            "width": 50
-                        }
-                    ],
-                    "offset": {
-                        "x": -1,
-                        "y": 0
-                    },
-                    "size": {
-                        "x": 62,
-                        "y": 164
-                    },
-                    "speed": {
-                        "x": 4,
-                        "y": 0
-                    },
-                    "sprite": "assets/characters/arsene/sheet.png",
-                    "texture_bounds": {
-                        "height": 82,
-                        "left": 31,
-                        "top": 0,
-                        "width": 31
                     }
                 },
                 {
@@ -263,6 +392,43 @@
                         }
                     ],
                     "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 242,
+                        "top": 0,
+                        "width": 32
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
                         "x": -1,
                         "y": 0
                     },
@@ -277,9 +443,153 @@
                     "sprite": "assets/characters/arsene/sheet.png",
                     "texture_bounds": {
                         "height": 82,
-                        "left": 31,
+                        "left": 170,
                         "top": 0,
                         "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 72,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 205,
+                        "top": 0,
+                        "width": 36
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -1,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 62,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 170,
+                        "top": 0,
+                        "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 242,
+                        "top": 0,
+                        "width": 32
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 136,
+                        "top": 0,
+                        "width": 32
                     }
                 }
             ]
@@ -340,6 +650,80 @@
                         }
                     ],
                     "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 136,
+                        "top": 0,
+                        "width": 32
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 242,
+                        "top": 0,
+                        "width": 32
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
                         "x": -1,
                         "y": 0
                     },
@@ -354,9 +738,116 @@
                     "sprite": "assets/characters/arsene/sheet.png",
                     "texture_bounds": {
                         "height": 82,
-                        "left": 31,
+                        "left": 170,
                         "top": 0,
                         "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 72,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 205,
+                        "top": 0,
+                        "width": 36
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -1,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 62,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 170,
+                        "top": 0,
+                        "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2097664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -4,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 242,
+                        "top": 0,
+                        "width": 32
                     }
                 },
                 {
@@ -395,6 +886,1238 @@
                         "top": 0,
                         "width": 32
                     }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 6,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8704,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 20,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8704,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 31,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 67,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 104,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": 9,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 141,
+                        "top": 83,
+                        "width": 44
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 104,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": 13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 67,
+                        "top": 83,
+                        "width": 35
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8704,
+                    "duration": 16,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 7,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8705,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -20,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8705,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -1,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 31,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 67,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 104,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": 9,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 88,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 141,
+                        "top": 83,
+                        "width": 44
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 104,
+                        "top": 83,
+                        "width": 35
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 2105856,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 70,
+                        "y": 158
+                    },
+                    "speed": {
+                        "x": -13,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 67,
+                        "top": 83,
+                        "width": 35
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -28,
+                        "top": -131,
+                        "width": 49
+                    },
+                    "defense_flag": 8704,
+                    "duration": 16,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 83,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 8,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8200,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": 18
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 9,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8200,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 7,
+                        "y": 16
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 10,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8200,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -7,
+                        "y": 16
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 11,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 24584,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": 24
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 12,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 24584,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 14,
+                        "y": 22
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 13,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 24584,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -14,
+                        "y": 22
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 25344,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 14,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 8,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
                 },
                 {
                     "collision_box": {
@@ -403,8 +2126,8 @@
                         "top": -131,
                         "width": 39
                     },
-                    "defense_flag": 2097664,
-                    "duration": 6,
+                    "defense_flag": 8960,
+                    "duration": 8,
                     "hurt_boxes": [
                         {
                             "height": 149,
@@ -421,9 +2144,71 @@
                         "x": 62,
                         "y": 164
                     },
-                    "speed": {
-                        "x": -4,
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 31,
+                        "top": 0,
+                        "width": 31
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 8,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -2,
                         "y": 0
+                    },
+                    "size": {
+                        "x": 64,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 65,
+                        "top": 0,
+                        "width": 32
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 8,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "offset": {
+                        "x": -1,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 62,
+                        "y": 164
                     },
                     "sprite": "assets/characters/arsene/sheet.png",
                     "texture_bounds": {
@@ -431,6 +2216,1761 @@
                         "left": 31,
                         "top": 0,
                         "width": 31
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 15,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 25,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1672,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 26,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1056,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1072,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 27,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1088,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1120,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 28,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1040,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1104,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 29,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 8192,
+                    "duration": 40000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 152,
+                            "left": -23,
+                            "top": -148,
+                            "width": 48
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 30,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 68232,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 31,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67616,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67632,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 32,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67648,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67680,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 33,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67600,
+                    "duration": 40000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 67664,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 34,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 73728,
+                    "duration": 40000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 65536,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 152,
+                            "left": -23,
+                            "top": -148,
+                            "width": 48
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 35,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3976,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 36,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3360,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3376,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 37,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3392,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3424,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 38,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3344,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 3408,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 39,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 8448,
+                    "duration": 40000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 65536,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 152,
+                            "left": -23,
+                            "top": -148,
+                            "width": 48
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 40,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 71,
+                        "left": -18,
+                        "top": -69,
+                        "width": 39
+                    },
+                    "defense_flag": 8193,
+                    "duration": 5,
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 41,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 71,
+                        "left": -18,
+                        "top": -69,
+                        "width": 39
+                    },
+                    "defense_flag": 1,
+                    "duration": 25,
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 42,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 71,
+                        "left": -18,
+                        "top": -69,
+                        "width": 39
+                    },
+                    "defense_flag": 1,
+                    "duration": 19,
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 50,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8704,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 52,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "rotation": 20.159999711024014,
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 53,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "rotation": 335.15998836558504,
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 54,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8192,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 55,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 2105344,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": 18
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 56,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 2105344,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": 7,
+                        "y": 16
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 57,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 118,
+                        "left": -18,
+                        "top": -116,
+                        "width": 39
+                    },
+                    "defense_flag": 8200,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 133,
+                            "left": -24,
+                            "top": -133,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 158
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 79,
+                        "left": 276,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 114,
+                        "left": -18,
+                        "top": -112,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "hurt_boxes": [
+                        {
+                            "height": 125,
+                            "left": -24,
+                            "top": -125,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "speed": {
+                        "x": -7,
+                        "y": 16
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 131,
+                        "left": -18,
+                        "top": -129,
+                        "width": 39
+                    },
+                    "defense_flag": 8960,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 150,
+                            "left": -24,
+                            "top": -150,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 58,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1672,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 59,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2696,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 60,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2696,
+                    "duration": 8000,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 61,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1408,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 1408,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 62,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2432,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2432,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 63,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2432,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 133,
+                        "left": -18,
+                        "top": -131,
+                        "width": 39
+                    },
+                    "defense_flag": 2432,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 149,
+                            "left": -24,
+                            "top": -149,
+                            "width": 50
+                        }
+                    ],
+                    "size": {
+                        "x": 60,
+                        "y": 164
+                    },
+                    "sprite": "assets/characters/arsene/sheet.png",
+                    "texture_bounds": {
+                        "height": 82,
+                        "left": 0,
+                        "top": 0,
+                        "width": 30
                     }
                 }
             ]

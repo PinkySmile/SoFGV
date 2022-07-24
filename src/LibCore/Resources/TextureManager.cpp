@@ -133,10 +133,10 @@ namespace SpiralOfFate
 
 		for (unsigned x = 0; x < size.x; x++)
 			for (unsigned y = 0; y < size.y; y++) {
-				buffer[x + y * size.y].r = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.y].r;
-				buffer[x + y * size.y].g = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.y].g;
-				buffer[x + y * size.y].b = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.y].b;
-				buffer[x + y * size.y].a = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.y].a;
+				buffer[x + y * size.x].r = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].r;
+				buffer[x + y * size.x].g = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].g;
+				buffer[x + y * size.x].b = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].b;
+				buffer[x + y * size.x].a = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].a;
 			}
 		return buffer;
 	}
@@ -237,12 +237,14 @@ namespace SpiralOfFate
 			for (unsigned x = 0; x < realSize.x; x++)
 				for (unsigned y = 0; y < realSize.y; y++) {
 					auto &color = pixels[x + y * realSize.x];
+					auto oldA = color.a;
 					auto it = std::find_if(pal1.begin(), pal1.end(), [color](Color &a){
 						return a.r == color.r && a.g == color.g && a.b == color.b;
 					});
 
 					if (it != pal1.end())
 						color = pal2[it - pal1.begin()];
+					color.a = oldA;
 				}
 
 		game->logger.debug("Reloading resulting image (" + std::to_string(pal1.size()) + " paletted colors)");

@@ -436,7 +436,7 @@ namespace SpiralOfFate
 			return data;
 		this->_fakeFrameData = *data;
 		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
-		this->_fakeFrameData.oFlag.voidElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
@@ -637,7 +637,7 @@ namespace SpiralOfFate
 
 		if (
 			(this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) &&
-			this->_moves.at(this->_action).size() > 1 &&
+			this->_moves.at(this->_action).size() > 2 &&
 			this->_actionBlock == 1 && (
 			!this->_input->isPressed(
 				(this->_direction ? this->_action == ACTION_BACKWARD_DASH : this->_action == ACTION_FORWARD_DASH) ?
@@ -1142,7 +1142,15 @@ namespace SpiralOfFate
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
 			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING;
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
-			return this->_jumpsUsed < this->_maxJumps && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return this->_jumpsUsed < this->_maxJumps && (
+				this->_action <= ACTION_WALK_BACKWARD || (
+					this->_action >= ACTION_NEUTRAL_JUMP &&
+					this->_action <= ACTION_BACKWARD_JUMP &&
+					this->getCurrentFrameData()->oFlag.jumpCancelable
+				) ||
+				this->_action == ACTION_FALLING ||
+				this->_action == ACTION_LANDING
+			);
 		if (this->_action == action)
 			return false;
 		if (isBlockingAction(action))
@@ -1152,7 +1160,7 @@ namespace SpiralOfFate
 		if (isBlockingAction(this->_action))
 			return !this->_blockStun;
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
-			return (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
+			return (action || this->_action != ACTION_LANDING) && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
 		return false;
@@ -1169,7 +1177,7 @@ namespace SpiralOfFate
 		if ((this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) && this->_moves.at(this->_action).size() > 1) {
 			if (this->_actionBlock == 0)
 				this->_actionBlock++;
-			if (this->_actionBlock == 1)
+			if (this->_actionBlock == 1 && this->_moves.at(this->_action).size() > 2)
 				return Object::_onMoveEnd(lastData);
 		}
 
@@ -1295,14 +1303,14 @@ namespace SpiralOfFate
 			return game->battleMgr->setHitStop(data->hitStop);
 		this->_restand = data->oFlag.restand;
 		if (
-			this->_isBlocking() &&
-			(!myData->dFlag.airborne || !data->oFlag.airUnblockable) &&
-			!data->oFlag.unblockable &&
-			!data->oFlag.grab
+			!this->_isBlocking() ||
+			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
+			data->oFlag.unblockable ||
+			data->oFlag.grab
 		)
-			this->_blockMove(dynamic_cast<Object *>(&other), *data);
-		else
 			this->_getHitByMove(dynamic_cast<Object *>(&other), *data);
+		else
+			this->_blockMove(dynamic_cast<Object *>(&other), *data);
 	}
 
 	bool Character::_isBlocking() const
@@ -1407,7 +1415,7 @@ namespace SpiralOfFate
 		) {
 			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
 				game->soundMgr.play(BASICSOUND_LAND);
-				if (action == ACTION_IDLE)
+				if (this->_action == ACTION_FALLING)
 					return this->_forceStartMove(ACTION_LANDING);
 			}
 		}
@@ -3904,12 +3912,9 @@ namespace SpiralOfFate
 		auto chr = dynamic_cast<Character *>(other);
 
 		if (chr) {
-			if (data->oFlag.voidMana)
-				chr->_voidMana -= chr->getCurrentFrameData()->oFlag.voidElement * (50 + isStrongest * 50);
-			if (data->oFlag.spiritMana)
-				chr->_spiritMana -= chr->getCurrentFrameData()->oFlag.spiritElement * (50 + isStrongest * 50);
-			if (data->oFlag.matterMana)
-				chr->_matterMana -= chr->getCurrentFrameData()->oFlag.matterElement * (50 + isStrongest * 50);
+			chr->_voidMana   -= 50 + isStrongest * 50;
+			chr->_spiritMana -= 50 + isStrongest * 50;
+			chr->_matterMana -= 50 + isStrongest * 50;
 			if (
 				chr->_voidMana < 0 ||
 				chr->_spiritMana < 0 ||
