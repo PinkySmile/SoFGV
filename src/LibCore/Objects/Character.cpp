@@ -435,7 +435,7 @@ namespace SpiralOfFate
 		if (!this->_grabInvul && !this->_wrongMana && !this->_neutralEffectTimer)
 			return data;
 		this->_fakeFrameData = *data;
-		this->_fakeFrameData.dFlag.grabInvulnerable = this->_grabInvul;
+		this->_fakeFrameData.dFlag.grabInvulnerable |= this->_grabInvul;
 		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
@@ -1586,7 +1586,7 @@ namespace SpiralOfFate
 			return 800;
 		if (data->oFlag.super)
 			return 700;
-		if (action == ACTION_AIR_REVERSAL || action == ACTION_GROUND_HIGH_REVERSAL || action == ACTION_GROUND_LOW_HIT)
+		if (action == ACTION_AIR_REVERSAL || action == ACTION_GROUND_HIGH_REVERSAL || action == ACTION_GROUND_LOW_REVERSAL)
 			return 700;
 		switch (action) {
 		case ACTION_5N:
