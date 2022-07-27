@@ -415,7 +415,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto pan = tgui::ScrollablePanel::create({"&.w", "&.h"});
 		unsigned i = 0;
 
-		Utils::setRenderer(pan);
+		SpiralOfFate::Utils::setRenderer(pan);
 		window->setTitle("Default character moves");
 		window->add(pan);
 		for (auto &move : SpiralOfFate::actionNames) {
@@ -425,8 +425,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 			label->setPosition(10, i * 25 + 12);
 			button->setPosition(50, i * 25 + 10);
 			button->setSize(430, 20);
-			Utils::setRenderer(button);
-			Utils::setRenderer(label);
+			SpiralOfFate::Utils::setRenderer(button);
+			SpiralOfFate::Utils::setRenderer(label);
 			if (object->_moves.find(move.first) == object->_moves.end()) {
 				button->getRenderer()->setTextColor(tgui::Color::Red);
 				button->getRenderer()->setTextColorHover(tgui::Color{0xFF, 0x40, 0x40});
