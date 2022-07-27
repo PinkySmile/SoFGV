@@ -89,9 +89,6 @@ namespace SpiralOfFate
 		/* 61  */ ACTION_GROUND_HIGH_NEUTRAL_PARRY,
 		/* 62  */ ACTION_GROUND_LOW_NEUTRAL_PARRY,
 		/* 63  */ ACTION_AIR_NEUTRAL_PARRY,
-		/* 64  */ ACTION_GROUND_HIGH_REVERSAL,
-		/* 65  */ ACTION_GROUND_LOW_REVERSAL,
-		/* 66  */ ACTION_AIR_REVERSAL,
 
 		/* 100 */ ACTION_5N = 100,
 		/* 101 */ ACTION_6N,
@@ -296,6 +293,10 @@ namespace SpiralOfFate
 		/* 405 */ ACTION_GAME_START2,
 		/* 406 */ ACTION_GAME_START3,
 		/* 407 */ ACTION_GAME_START4,
+
+		/* 450  */ ACTION_GROUND_HIGH_REVERSAL = 450,
+		/* 451  */ ACTION_GROUND_LOW_REVERSAL,
+		/* 452  */ ACTION_AIR_REVERSAL,
 	};
 
 	extern MYDLL_API const std::map<CharacterActions, std::string> actionNames;

@@ -6319,7 +6319,7 @@
         ]
     },
     {
-        "action": 64,
+        "action": 450,
         "framedata": [
             [
                 {
@@ -6395,12 +6395,11 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 3,
+                        "x": -3,
                         "y": 18
                     },
                     "hit_stop": 16,
-                    "hit_stun": 25,
-                    "neutral_limit": 100,
+                    "hit_stun": 250,
                     "offense_flag": 2104,
                     "offset": {
                         "x": 14,
@@ -6460,7 +6459,7 @@
         ]
     },
     {
-        "action": 65,
+        "action": 451,
         "framedata": [
             [
                 {
@@ -6536,12 +6535,11 @@
                         }
                     ],
                     "hit_speed": {
-                        "x": 3,
+                        "x": -3,
                         "y": 18
                     },
                     "hit_stop": 16,
-                    "hit_stun": 25,
-                    "neutral_limit": 100,
+                    "hit_stun": 250,
                     "offense_flag": 2104,
                     "offset": {
                         "x": 14,
@@ -6601,7 +6599,7 @@
         ]
     },
     {
-        "action": 66,
+        "action": 452,
         "framedata": [
             [
                 {
@@ -6676,9 +6674,12 @@
                             "width": 39
                         }
                     ],
+                    "hit_speed": {
+                        "x": -3,
+                        "y": 18
+                    },
                     "hit_stop": 16,
-                    "hit_stun": 25,
-                    "neutral_limit": 100,
+                    "hit_stun": 250,
                     "offense_flag": 2104,
                     "offset": {
                         "x": 14,
