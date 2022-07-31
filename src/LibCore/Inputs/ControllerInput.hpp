@@ -8,6 +8,7 @@
 
 #include <map>
 #include <array>
+#include <memory>
 #include "IInput.hpp"
 
 namespace SpiralOfFate
