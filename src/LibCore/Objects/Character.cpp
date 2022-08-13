@@ -1301,7 +1301,7 @@ namespace SpiralOfFate
 		}
 		if (myData->dFlag.invulnerableArmor)
 			return game->battleMgr->setHitStop(data->hitStop);
-		this->_restand = data->oFlag.restand;
+		this->_restand = false;
 		if (
 			!this->_isBlocking() ||
 			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
@@ -3546,6 +3546,9 @@ namespace SpiralOfFate
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else {
 				this->_forceStartMove(ACTION_AIR_HIT);
+				this->_restand = data.oFlag.restand;
+				if (this->_moves.at(ACTION_AIR_HIT).size() > 2)
+					this->_actionBlock = 2;
 				stun = data.untech;
 			}
 			this->_speedReset = data.oFlag.resetSpeed;
@@ -3570,6 +3573,9 @@ namespace SpiralOfFate
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else {
 					this->_forceStartMove(ACTION_AIR_HIT);
+					this->_restand = data.oFlag.restand;
+					if (this->_moves.at(ACTION_AIR_HIT).size() > 2)
+						this->_actionBlock = 2;
 					stun = data.untech;
 				}
 				this->_totalDamage += damage;
@@ -3602,8 +3608,7 @@ namespace SpiralOfFate
 				this->_forceStartMove(ACTION_WALL_SLAM);
 				this->_speed.x *= -0.15;
 				this->_speed.y = 7.5;
-			} else
-				this->_speed.x = 0;
+			}
 			return;
 		}
 
@@ -3618,8 +3623,7 @@ namespace SpiralOfFate
 			this->_forceStartMove(ACTION_WALL_SLAM);
 			this->_speed.x *= -0.15;
 			this->_speed.y = 7.5;
-		} else
-			this->_speed.x = 0;
+		}
 	}
 
 	void Character::_processGroundSlams()
@@ -4021,6 +4025,18 @@ namespace SpiralOfFate
 		return result;
 	}
 
+	bool Character::isHitAction(unsigned int action)
+	{
+		switch (action) {
+		case ACTION_GROUND_HIGH_HIT:
+		case ACTION_GROUND_LOW_HIT:
+		case ACTION_AIR_HIT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	bool Character::isBlockingAction(unsigned int action)
 	{
 		switch (action) {
@@ -4269,5 +4285,21 @@ namespace SpiralOfFate
 			return false;
 		this->_tickMove();
 		return this->_animation + this->_animationCtr;
+	}
+
+	void Character::_tickMove()
+	{
+		if ((isHitAction(this->_action) || isBlockingAction(this->_action)) && this->_actionBlock == 1 && this->_moves.at(this->_action).size() > 2) {
+			auto data = this->getCurrentFrameData();
+
+			if (data->specialMarker >= this->_blockStun) {
+				this->_actionBlock++;
+				this->_animation = 0;
+				this->_animationCtr = 0;
+				this->_applyNewAnimFlags();
+				return;
+			}
+		}
+		Object::_tickMove();
 	}
 }

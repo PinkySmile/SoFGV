@@ -621,7 +621,9 @@ namespace SpiralOfFate
 		static bool isParryAction(unsigned action);
 		static bool isOverdriveAction(unsigned action);
 		static bool isRomanCancelAction(unsigned action);
+		static bool isHitAction(unsigned int action);
 
+		void _tickMove() override;
 		void _applyNewAnimFlags() override;
 		void _applyMoveAttributes() override;
 		void _forceStartMove(unsigned action) override;
