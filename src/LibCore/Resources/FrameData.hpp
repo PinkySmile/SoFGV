@@ -112,6 +112,8 @@ namespace SpiralOfFate
 		Box *collisionBox = nullptr;
 		unsigned blockStun = 0;
 		unsigned hitStun = 0;
+		unsigned untech = 0;
+		unsigned guardDmg = 0;
 		float prorate = 0;
 		unsigned neutralLimit = 0;
 		unsigned voidLimit = 0;

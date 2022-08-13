@@ -205,6 +205,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto pushBlock = panel->get<tgui::EditBox>("PushBlock");
 	auto blockStun = panel->get<tgui::EditBox>("BlockStun");
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
+	auto untech = panel->get<tgui::EditBox>("Untech");
+	auto gdmg = panel->get<tgui::EditBox>("GuardDMG");
 	auto hitStop = panel->get<tgui::EditBox>("HitStop");
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
@@ -246,6 +248,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	pushBlock->setText(std::to_string(data.pushBlock));
 	blockStun->setText(std::to_string(data.blockStun));
 	hitStun->setText(std::to_string(data.hitStun));
+	untech->setText(std::to_string(data.untech));
+	gdmg->setText(std::to_string(data.guardDmg));
 	hitStop->setText(std::to_string(data.hitStop));
 	spiritLimit->setText(std::to_string(data.spiritLimit));
 	voidLimit->setText(std::to_string(data.voidLimit));
@@ -338,6 +342,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto pushBlock = panel->get<tgui::EditBox>("PushBlock");
 	auto blockStun = panel->get<tgui::EditBox>("BlockStun");
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
+	auto untech = panel->get<tgui::EditBox>("Untech");
+	auto gdmg = panel->get<tgui::EditBox>("GuardDMG");
 	auto spiritLimit = panel->get<tgui::EditBox>("SpiritLimit");
 	auto voidLimit = panel->get<tgui::EditBox>("VoidLimit");
 	auto matterLimit = panel->get<tgui::EditBox>("MatterLimit");
@@ -835,6 +841,26 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.hitStun = std::stoul(t);
+	});
+	untech->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.untech = std::stoul(t);
+	});
+	gdmg->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.guardDmg = std::stoul(t);
 	});
 	neutralLimit->connect("TextChanged", [&object](std::string t){
 		if (*c)
