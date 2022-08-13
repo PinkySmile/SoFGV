@@ -3447,7 +3447,7 @@ namespace SpiralOfFate
 				this->_blockStun = data.blockStun;
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
-			this->_processGuardLoss(wrongBlock);
+			this->_processGuardLoss(data.guardDmg);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
 		else if (isParryAction(this->_action) && this->_animation == 0) {
@@ -3508,6 +3508,7 @@ namespace SpiralOfFate
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;
+		auto stun = data.hitStun;
 
 		my_assert(!data.oFlag.ultimate || chr);
 		if (
@@ -3543,14 +3544,16 @@ namespace SpiralOfFate
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-			else
+			else {
 				this->_forceStartMove(ACTION_AIR_HIT);
+				stun = data.untech;
+			}
 			this->_speedReset = data.oFlag.resetSpeed;
 			damage *= 1.5;
 			this->_totalDamage += damage;
 			this->_counter = true;
 			this->_comboCtr++;
-			this->_blockStun = data.hitStun * 1.5;
+			this->_blockStun = stun * 1.5;
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
 			this->_prorate *= data.prorate / 100;
@@ -3565,11 +3568,13 @@ namespace SpiralOfFate
 			if (!myData->dFlag.superarmor || data.oFlag.grab) {
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				else
+				else {
 					this->_forceStartMove(ACTION_AIR_HIT);
+					stun = data.untech;
+				}
 				this->_totalDamage += damage;
 				this->_comboCtr++;
-				this->_blockStun = data.hitStun;
+				this->_blockStun = stun;
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
 				this->_speed.y =  data.hitSpeed.y;
 				this->_prorate *= data.prorate / 100;
@@ -3884,10 +3889,8 @@ namespace SpiralOfFate
 			obj.second.reset();
 	}
 
-	void Character::_processGuardLoss(bool wrongBlock)
+	void Character::_processGuardLoss(unsigned loss)
 	{
-		auto loss = this->_blockStun * 4;
-
 		if (this->_guardCooldown)
 			return;
 		if (loss >= this->_guardBar) {

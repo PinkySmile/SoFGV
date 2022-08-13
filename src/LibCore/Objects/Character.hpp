@@ -589,7 +589,7 @@ namespace SpiralOfFate
 		virtual void _parryVoidEffect(Object *other, bool isStrongest);
 		virtual void _parryMatterEffect(Object *other, bool isStrongest);
 		virtual void _parrySpiritEffect(Object *other, bool isStrongest);
-		virtual void _processGuardLoss(bool wrongBlock);
+		virtual void _processGuardLoss(unsigned loss);
 		virtual bool _executeAirDashes(const InputStruct &input);
 		virtual bool _executeAirParry(const InputStruct &input);
 		virtual bool _executeAirJump(const InputStruct &input);
