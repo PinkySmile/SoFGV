@@ -1094,7 +1094,7 @@ namespace SpiralOfFate
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (this->_jumpCanceled && (
+		if (this->_jumpCanceled && !data.oFlag.cancelable && (
 			this->_action == ACTION_NEUTRAL_JUMP ||
 			this->_action == ACTION_FORWARD_JUMP ||
 			this->_action == ACTION_BACKWARD_JUMP ||

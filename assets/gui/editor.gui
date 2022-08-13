@@ -121,7 +121,7 @@ Panel.Panel1 {
 
     Label.Label2 {
         AutoSize = true;
-        Position = (380, 52);
+        Position = (510, 52);
         ScrollbarPolicy = Never;
         Size = (56.2, 18);
         Text = "Frame 0";
@@ -151,7 +151,7 @@ Panel.Panel1 {
 
     Label.SpeedLabel {
         AutoSize = true;
-        Position = (510, 52);
+        Position = (410, 52);
         ScrollbarPolicy = Never;
         Size = (19.2, 18);
         Text = x0;
@@ -620,7 +620,7 @@ Panel.Panel1 {
 
             EditBox.MoveSpeed {
                 InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
-                Position = (250, 210);
+                Position = (250, 240);
                 Size = (70, 22);
                 Text = "(0,0)";
                 TextSize = 13;
@@ -807,8 +807,8 @@ Panel.Panel1 {
 
         EditBox.Duration {
             InputValidator = UInt;
-            Position = (360, 70);
-            Size = (100, 22);
+            Position = (340, 70);
+            Size = (50, 22);
             Text = 1;
             TextSize = 13;
             renderer = &6;
@@ -816,7 +816,7 @@ Panel.Panel1 {
 
         Label.Label8 {
             AutoSize = true;
-            Position = (300, 72);
+            Position = (270, 72);
             ScrollbarPolicy = Never;
             Size = (58.2, 18);
             Text = Duration;
@@ -826,7 +826,7 @@ Panel.Panel1 {
 
         Label.Label9 {
             AutoSize = true;
-            Position = (450, 162);
+            Position = (480, 162);
             ScrollbarPolicy = Never;
             Size = (46.2, 18);
             Text = Marker;
@@ -836,8 +836,8 @@ Panel.Panel1 {
 
         EditBox.Marker {
             InputValidator = UInt;
-            Position = (500, 160);
-            Size = (90, 22);
+            Position = (540, 160);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -863,7 +863,7 @@ Panel.Panel1 {
         EditBox.BlockStun {
             InputValidator = UInt;
             Position = (90, 190);
-            Size = (110, 22);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -871,7 +871,7 @@ Panel.Panel1 {
 
         Label.Level90 {
             AutoSize = true;
-            Position = (448, 192);
+            Position = (478, 192);
             ScrollbarPolicy = Never;
             Size = (52.2, 18);
             Text = "Hit stun";
@@ -881,8 +881,8 @@ Panel.Panel1 {
 
         EditBox.HitStun {
             InputValidator = UInt;
-            Position = (500, 190);
-            Size = (90, 22);
+            Position = (540, 190);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -920,7 +920,7 @@ Panel.Panel1 {
         EditBox.PushBack {
             InputValidator = Int;
             Position = (90, 160);
-            Size = (110, 22);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -928,7 +928,7 @@ Panel.Panel1 {
 
         Label.Label13 {
             AutoSize = true;
-            Position = (218, 162);
+            Position = (148, 162);
             ScrollbarPolicy = Never;
             Size = (71.2, 18);
             Text = "Push block";
@@ -938,8 +938,8 @@ Panel.Panel1 {
 
         EditBox.PushBlock {
             InputValidator = Int;
-            Position = (290, 160);
-            Size = (140, 22);
+            Position = (230, 160);
+            Size = (80, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -958,7 +958,7 @@ Panel.Panel1 {
         EditBox.SpiritLimit {
             InputValidator = "100|[0-9]{1,2}";
             Position = (90, 220);
-            Size = (110, 22);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -966,8 +966,8 @@ Panel.Panel1 {
 
         EditBox.VoidLimit {
             InputValidator = "100|[0-9]{1,2}";
-            Position = (500, 220);
-            Size = (90, 22);
+            Position = (390, 220);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -975,7 +975,7 @@ Panel.Panel1 {
 
         Label.Label45 {
             AutoSize = true;
-            Position = (430, 222);
+            Position = (320, 222);
             ScrollbarPolicy = Never;
             Size = (65.2, 18);
             Text = "Void Limit";
@@ -985,8 +985,8 @@ Panel.Panel1 {
 
         EditBox.MatterLimit {
             InputValidator = "100|[0-9]{1,2}";
-            Position = (90, 250);
-            Size = (80, 22);
+            Position = (540, 220);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -994,7 +994,7 @@ Panel.Panel1 {
 
         Label.Label15 {
             AutoSize = true;
-            Position = (10, 252);
+            Position = (450, 222);
             ScrollbarPolicy = Never;
             Size = (79.2, 18);
             Text = "Matter Limit";
@@ -1004,8 +1004,8 @@ Panel.Panel1 {
 
         EditBox.SubObj {
             InputValidator = Int;
-            Position = (500, 130);
-            Size = (90, 22);
+            Position = (540, 130);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -1013,7 +1013,7 @@ Panel.Panel1 {
 
         Label.Label16 {
             AutoSize = true;
-            Position = (430, 132);
+            Position = (470, 132);
             ScrollbarPolicy = Never;
             Size = (66.2, 18);
             Text = Subobject;
@@ -1023,8 +1023,8 @@ Panel.Panel1 {
 
         EditBox.HitStop {
             InputValidator = UInt;
-            Position = (500, 100);
-            Size = (90, 22);
+            Position = (540, 100);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -1032,7 +1032,7 @@ Panel.Panel1 {
 
         Label.Label22 {
             AutoSize = true;
-            Position = (440, 102);
+            Position = (480, 102);
             ScrollbarPolicy = Never;
             Size = (53.2, 18);
             Text = "Hit Stop";
@@ -1128,7 +1128,7 @@ Panel.Panel1 {
 
         Label.Label27 {
             AutoSize = true;
-            Position = (200, 252);
+            Position = (200, 282);
             ScrollbarPolicy = Never;
             Size = (43.2, 18);
             Text = Speed;
@@ -1138,7 +1138,7 @@ Panel.Panel1 {
 
         Label.Label28 {
             AutoSize = true;
-            Position = (230, 192);
+            Position = (160, 192);
             ScrollbarPolicy = Never;
             Size = (58.2, 18);
             Text = Damage;
@@ -1148,8 +1148,8 @@ Panel.Panel1 {
 
         EditBox.Damage {
             InputValidator = UInt;
-            Position = (290, 190);
-            Size = (140, 22);
+            Position = (230, 190);
+            Size = (80, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -1157,8 +1157,8 @@ Panel.Panel1 {
 
         EditBox.NLimit {
             InputValidator = UInt;
-            Position = (290, 220);
-            Size = (140, 22);
+            Position = (250, 220);
+            Size = (60, 22);
             Text = 0;
             TextSize = 13;
             renderer = &6;
@@ -1166,7 +1166,7 @@ Panel.Panel1 {
 
         Label.qdqzd {
             AutoSize = true;
-            Position = (205, 222);
+            Position = (155, 222);
             ScrollbarPolicy = Never;
             Size = (84.2, 18);
             Text = "Neutral Limit";
@@ -1176,15 +1176,15 @@ Panel.Panel1 {
 
         EditBox.Gravity {
             InputValidator = "\\(?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\.?[0-9]*\\)?";
-            Position = (250, 280);
-            Size = (70, 22);
+            Position = (90, 250);
+            Size = (220, 22);
             TextSize = 13;
             renderer = &6;
         }
 
         Label.Label29 {
             AutoSize = true;
-            Position = (200, 282);
+            Position = (20, 252);
             ScrollbarPolicy = Never;
             Size = (50.2, 18);
             Text = Gravity;
@@ -1195,7 +1195,7 @@ Panel.Panel1 {
         EditBox.SFX {
             DefaultText = "assets/....";
             Position = (90, 130);
-            Size = (330, 22);
+            Size = (260, 22);
             TextSize = 13;
             renderer = &6;
         }
@@ -1223,7 +1223,7 @@ Panel.Panel1 {
         EditBox.HitSFX {
             DefaultText = "assets/....";
             Position = (90, 100);
-            Size = (330, 22);
+            Size = (260, 22);
             TextSize = 13;
             renderer = &6;
         }
@@ -1267,7 +1267,7 @@ Panel.Panel1 {
 
         Label.Label34 {
             AutoSize = true;
-            Position = (330, 252);
+            Position = (310, 252);
             ScrollbarPolicy = Never;
             Size = (75.2, 18);
             Text = "Guard dmg";
@@ -1292,7 +1292,7 @@ Panel.Panel1 {
 
         Label.Label35 {
             AutoSize = true;
-            Position = (350, 282);
+            Position = (330, 282);
             ScrollbarPolicy = Never;
             Size = (48.2, 18);
             Text = Untech;
@@ -1317,8 +1317,8 @@ Panel.Panel1 {
 
         EditBox.GuardDMG {
             InputValidator = Float;
-            Position = (410, 250);
-            Size = (40, 22);
+            Position = (390, 250);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &8;
@@ -1326,8 +1326,8 @@ Panel.Panel1 {
 
         EditBox.Untech {
             InputValidator = Float;
-            Position = (410, 280);
-            Size = (40, 22);
+            Position = (390, 280);
+            Size = (50, 22);
             Text = 0;
             TextSize = 13;
             renderer = &8;
@@ -1337,7 +1337,7 @@ Panel.Panel1 {
     SpinButton.Speed {
         Maximum = 1;
         Minimum = 0;
-        Position = (460, 50);
+        Position = (360, 50);
         Size = (42, 20);
         Step = 0.05;
         Value = 0;
@@ -1349,6 +1349,23 @@ Panel.Panel1 {
         Size = (200, 22);
         TextSize = 10;
         renderer = &3;
+    }
+
+    SpinButton.Frame {
+        Maximum = 1;
+        Minimum = 0;
+        Position = (460, 50);
+        Size = (42, 20);
+        Step = 1;
+        Value = 0;
+
+        Renderer {
+            borderbetweenarrows = 0;
+            texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+            texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+            texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+        }
     }
 }
 

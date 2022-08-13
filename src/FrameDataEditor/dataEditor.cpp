@@ -185,6 +185,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 
 void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object)
 {
+	auto frame = panel->get<tgui::SpinButton>("Frame");
 	auto progress = panel->get<tgui::Slider>("Progress");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
@@ -236,6 +237,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	chip->setText(std::to_string(data.chipDamage));
 	progress->setMinimum(0);
 	progress->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
+	frame->setMinimum(0);
+	frame->setMaximum(object->_moves.at(object->_action)[object->_actionBlock].size() - 1);
 	progress->setValue(object->_animation);
 	sprite->setText(data.spritePath);
 	sound->setText(data.soundPath);
@@ -323,6 +326,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto blockLabel = panel->get<tgui::Label>("Label1");
 	auto frameLabel = panel->get<tgui::Label>("Label2");
 	auto progress = panel->get<tgui::Slider>("Progress");
+	auto frame = panel->get<tgui::SpinButton>("Frame");
 	auto play = panel->get<tgui::Button>("Play");
 	auto step = panel->get<tgui::Button>("Step");
 	auto speedCtrl = panel->get<tgui::SpinButton>("Speed");
@@ -476,7 +480,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		else
 			block->setValue(0);
 	});
-	block->connect("ValueChanged", [&object, blockLabel, progress](float f){
+	block->connect("ValueChanged", [&object, blockLabel, progress, frame](float f){
 		int i = f;
 
 		blockLabel->setText("Block " + std::to_string(i));
@@ -485,18 +489,34 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 			object->_moves[object->_action][i].emplace_back();
 		progress->setMaximum(object->_moves[object->_action][i].size() - 1);
 		progress->setMinimum(0);
+		frame->setMaximum(object->_moves[object->_action][i].size() - 1);
+		frame->setMinimum(0);
 		if (progress->getValue() == 0)
 			progress->onValueChange.emit(&*progress, 0);
 		else
 			progress->setValue(0);
 	});
-	progress->connect("ValueChanged", [boxes, &object, frameLabel, panWeak](float f){
+	progress->connect("ValueChanged", [boxes, &object, frameLabel, panWeak, frame](float f){
 		int i = f;
 
 		frameLabel->setText("Frame " + std::to_string(i));
 		object->_animation = i;
 		object->_animationCtr = 0;
+		frame->onValueChange.setEnabled(false);
+		frame->setValue(i);
 		refreshFrameDataPanel(panWeak.lock(), boxes, object);
+		frame->onValueChange.setEnabled(true);
+	});
+	frame->connect("ValueChanged", [boxes, &object, frameLabel, panWeak, progress](float f){
+		int i = f;
+
+		frameLabel->setText("Frame " + std::to_string(i));
+		object->_animation = i;
+		object->_animationCtr = 0;
+		progress->onValueChange.setEnabled(false);
+		progress->setValue(i);
+		refreshFrameDataPanel(panWeak.lock(), boxes, object);
+		progress->onValueChange.setEnabled(true);
 	});
 	play->connect("Clicked", [speedLabel, speedCtrl]{
 		speedCtrl->setValue(1);
