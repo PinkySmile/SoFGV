@@ -2889,7 +2889,7 @@ namespace SpiralOfFate
 			(input.verticalAxis < 0 && this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_1)) ||
 			(input.verticalAxis < 0 &&                                          this->_startMove(ACTION_AIR_DASH_2)) ||
 			(                          this->_dir * input.horizontalAxis > 0 && this->_startMove(ACTION_AIR_DASH_6)) ||
-			(                                                                   this->_startMove(ACTION_AIR_DASH_4));
+			(                          this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_AIR_DASH_4));
 	}
 
 	bool Character::_executeAirParry(const InputStruct &input)
