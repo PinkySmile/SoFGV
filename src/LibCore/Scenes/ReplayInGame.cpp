@@ -11,8 +11,8 @@
 
 namespace SpiralOfFate
 {
-	ReplayInGame::ReplayInGame(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson) :
-		PracticeInGame(params, platforms, stage, leftChr, rightChr, lJson, rJson)
+	ReplayInGame::ReplayInGame(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+		PracticeInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson)
 	{
 		this->_replay = true;
 		this->_manager->replay = true;

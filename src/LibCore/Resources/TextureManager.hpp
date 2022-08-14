@@ -31,6 +31,7 @@ namespace SpiralOfFate
 		Vector2u getTextureSize(unsigned id) const;
 		void addRef(unsigned id);
 		void remove(unsigned id);
+		void setTexture(Sprite &sprite) const;
 		void render(Sprite &sprite) const;
 		void reloadEverything();
 

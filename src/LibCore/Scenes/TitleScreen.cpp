@@ -682,6 +682,7 @@ namespace SpiralOfFate
 			stages[params.stage],
 			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_shared<ReplayInput>(P1inputs)),
 			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_shared<ReplayInput>(P2inputs)),
+			0, 0, //TODO: Do this properly
 			entries[P1pos].entry,
 			entries[P2pos].entry
 		};

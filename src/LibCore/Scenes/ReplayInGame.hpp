@@ -36,7 +36,7 @@ namespace SpiralOfFate
 		bool _practiceConfirm() override;
 
 	public:
-		ReplayInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		ReplayInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson);
 		~ReplayInGame() override;
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;

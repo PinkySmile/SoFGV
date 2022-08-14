@@ -149,6 +149,10 @@ namespace SpiralOfFate
 
 		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
 		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
+		auto &lentry = this->_entries[this->_leftPos];
+		auto &rentry = this->_entries[this->_rightPos];
+		auto &licon = lentry.icon[this->_leftPalette];
+		auto &ricon = rentry.icon[this->_rightPalette];
 
 		if (this->_practice)
 			return new PracticeInGame(
@@ -157,8 +161,10 @@ namespace SpiralOfFate
 				stage,
 				lchr,
 				rchr,
-				this->_entries[this->_leftPos].entry,
-				this->_entries[this->_rightPos].entry
+				licon.textureHandle,
+				ricon.textureHandle,
+				lentry.entry,
+				rentry.entry
 			);
 		return new InGame(
 			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
@@ -166,8 +172,10 @@ namespace SpiralOfFate
 			stage,
 			lchr,
 			rchr,
-			this->_entries[this->_leftPos].entry,
-			this->_entries[this->_rightPos].entry
+			licon.textureHandle,
+			ricon.textureHandle,
+			lentry.entry,
+			rentry.entry
 		);
 	}
 
