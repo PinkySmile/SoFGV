@@ -3547,8 +3547,8 @@ namespace SpiralOfFate
 			else {
 				this->_forceStartMove(ACTION_AIR_HIT);
 				this->_restand = data.oFlag.restand;
-				if (this->_moves.at(ACTION_AIR_HIT).size() > 2)
-					this->_actionBlock = 2;
+				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3)
+					this->_actionBlock = 3;
 				stun = data.untech;
 			}
 			this->_speedReset = data.oFlag.resetSpeed;
@@ -3574,8 +3574,8 @@ namespace SpiralOfFate
 				else {
 					this->_forceStartMove(ACTION_AIR_HIT);
 					this->_restand = data.oFlag.restand;
-					if (this->_moves.at(ACTION_AIR_HIT).size() > 2)
-						this->_actionBlock = 2;
+					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3)
+						this->_actionBlock = 3;
 					stun = data.untech;
 				}
 				this->_totalDamage += damage;
@@ -4031,6 +4031,8 @@ namespace SpiralOfFate
 		case ACTION_GROUND_HIGH_HIT:
 		case ACTION_GROUND_LOW_HIT:
 		case ACTION_AIR_HIT:
+		case ACTION_WALL_SLAM:
+		case ACTION_GROUND_SLAM:
 			return true;
 		default:
 			return false;
@@ -4289,7 +4291,11 @@ namespace SpiralOfFate
 
 	void Character::_tickMove()
 	{
-		if ((isHitAction(this->_action) || isBlockingAction(this->_action)) && this->_actionBlock == 1 && this->_moves.at(this->_action).size() > 2) {
+		if (
+			(this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT || isBlockingAction(this->_action)) &&
+			this->_actionBlock == 1 &&
+			this->_moves.at(this->_action).size() > 2
+		) {
 			auto data = this->getCurrentFrameData();
 
 			if (data->specialMarker >= this->_blockStun) {
@@ -4299,6 +4305,18 @@ namespace SpiralOfFate
 				this->_applyNewAnimFlags();
 				return;
 			}
+		}
+		if (
+			this->_action == ACTION_AIR_HIT &&
+			this->_actionBlock == 1 &&
+			this->_moves.at(this->_action).size() > 2 &&
+			this->_speed.y < 0
+		) {
+			this->_actionBlock++;
+			this->_animation = 0;
+			this->_animationCtr = 0;
+			this->_applyNewAnimFlags();
+			return;
 		}
 		Object::_tickMove();
 	}
