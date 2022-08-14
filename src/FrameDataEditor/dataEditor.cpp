@@ -1772,13 +1772,17 @@ void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object
 
 void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
+    auto &action = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
 	object->_actionBlock = object->_moves.at(object->_action).size();
+    object->_animation = 0;
 	object->_moves.at(object->_action).emplace_back();
-	object->_moves.at(object->_action).back().emplace_back();
+	object->_moves.at(object->_action).back().emplace_back(action);
 	refreshRightPanel(gui, object, false);
 
 	auto block = panel->get<tgui::SpinButton>("Block");
 
+    block->setMaximum(object->_actionBlock + 1);
 	block->setValue(object->_moves.at(object->_action).size() - 1);
 }
 
@@ -1819,7 +1823,7 @@ void	removeFrameCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::P
 	selectBox(nullptr, nullptr);
 }
 
-void	removeAnimationBlockCallback(std::unique_ptr<EditableObject> &object)
+void	removeAnimationBlockCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
 	auto &arr = object->_moves.at(object->_action);
 
@@ -1831,6 +1835,11 @@ void	removeAnimationBlockCallback(std::unique_ptr<EditableObject> &object)
 	arr.erase(arr.begin() + object->_actionBlock);
 	if (object->_actionBlock == arr.size())
 		object->_actionBlock--;
+
+    auto block = panel->get<tgui::SpinButton>("Block");
+
+    block->setMaximum(arr.size() - 1);
+    block->setValue(object->_actionBlock);
 }
 
 void	removeActionCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
@@ -1932,7 +1941,7 @@ void	placeGuiHooks(tgui::Gui &gui, std::unique_ptr<EditableObject> &object)
 	bar->connectMenuItem({"New", "Hit box (Ctrl + Shift + H)"}, newHitBoxCallback, std::ref(object), boxes);
 
 	bar->connectMenuItem({"Remove", "Frame (Ctrl + Shift + Del)"}, removeFrameCallback, std::ref(object), boxes);
-	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, removeAnimationBlockCallback, std::ref(object));
+	bar->connectMenuItem({"Remove", "Animation block (Shift + Del)"}, removeAnimationBlockCallback, std::ref(object), panel);
 	bar->connectMenuItem({"Remove", "Action (Ctrl + Del)"}, removeActionCallback, std::ref(gui), std::ref(object));
 	bar->connectMenuItem({"Remove", "Selected box (Del)"}, removeBoxCallback, boxes, std::ref(object), panel);
 
@@ -2153,7 +2162,7 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 			else if (event.control)
 				removeActionCallback(gui, object);
 			else if (event.shift)
-				removeAnimationBlockCallback(object);
+				removeAnimationBlockCallback(object, panel);
 			else
 				removeBoxCallback(boxes, object, panel);
 		}

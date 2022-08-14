@@ -281,7 +281,7 @@
                         "top": -150,
                         "width": 55
                     },
-                    "defense_flag": 512,
+                    "defense_flag": 2097664,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -387,7 +387,7 @@
                         "top": -93,
                         "width": 55
                     },
-                    "defense_flag": 66048,
+                    "defense_flag": 2163200,
                     "duration": 100000,
                     "hurt_boxes": [
                         {
@@ -1665,7 +1665,7 @@
                 },
                 {
                     "collision_box": {
-                        "height": 107,
+                        "height": 98,
                         "left": -23,
                         "top": -165,
                         "width": 69
@@ -1674,10 +1674,10 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 104,
-                            "left": -23,
-                            "top": -164,
-                            "width": 66
+                            "height": 77,
+                            "left": -51,
+                            "top": -194,
+                            "width": 123
                         }
                     ],
                     "offset": {
@@ -2169,7 +2169,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2185,7 +2185,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -2209,7 +2209,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2225,7 +2225,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -2249,7 +2249,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2265,7 +2265,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -2289,7 +2289,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2305,7 +2305,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2329,7 +2329,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2345,7 +2345,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2369,7 +2369,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2385,7 +2385,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2409,7 +2409,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2425,7 +2425,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2449,7 +2449,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2459,7 +2459,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -2483,7 +2483,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2493,7 +2493,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -2517,7 +2517,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2539,7 +2539,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -2563,7 +2563,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2573,7 +2573,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -2700,7 +2700,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 4864,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -2715,7 +2715,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -2743,7 +2743,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2759,7 +2759,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -2783,7 +2783,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2799,7 +2799,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -2823,7 +2823,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2839,7 +2839,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -2863,7 +2863,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2879,7 +2879,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2903,7 +2903,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2919,7 +2919,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2943,7 +2943,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2959,7 +2959,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -2983,7 +2983,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -2999,7 +2999,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -3023,7 +3023,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3033,7 +3033,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -3057,7 +3057,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3067,7 +3067,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -3091,7 +3091,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3113,7 +3113,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -3137,7 +3137,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3147,7 +3147,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -3274,7 +3274,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 4864,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -3289,7 +3289,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -3317,7 +3317,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3333,7 +3333,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -3357,7 +3357,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3373,7 +3373,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -3397,7 +3397,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3413,7 +3413,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -3437,7 +3437,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3453,7 +3453,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -3477,7 +3477,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3493,7 +3493,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -3517,7 +3517,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3533,7 +3533,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -3557,7 +3557,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3573,7 +3573,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -3597,7 +3597,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3607,7 +3607,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -3631,7 +3631,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3641,7 +3641,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -3665,7 +3665,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3687,7 +3687,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -3711,7 +3711,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3721,7 +3721,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -3752,7 +3752,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 16384,
+                    "defense_flag": 2113536,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -3785,7 +3785,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 16384,
+                    "defense_flag": 2113536,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -3892,7 +3892,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3908,6 +3908,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -3931,7 +3932,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3947,6 +3948,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -3970,7 +3972,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -3986,6 +3988,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -4009,7 +4012,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4025,6 +4028,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4048,7 +4052,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4064,6 +4068,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4087,7 +4092,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4103,6 +4108,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4126,7 +4132,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4142,7 +4148,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4166,7 +4172,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4176,7 +4182,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -4200,7 +4206,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4210,7 +4216,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -4234,7 +4240,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4256,7 +4262,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -4280,7 +4286,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4290,7 +4296,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -4419,7 +4425,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 17152,
+                    "defense_flag": 21248,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -4434,6 +4440,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -4461,7 +4468,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4477,6 +4484,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -4500,7 +4508,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4516,6 +4524,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -4539,7 +4548,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4555,6 +4564,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -4578,7 +4588,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4594,6 +4604,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4656,7 +4667,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4672,6 +4683,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4695,7 +4707,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4711,7 +4723,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -4735,7 +4747,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4745,7 +4757,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -4769,7 +4781,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4779,7 +4791,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -4803,7 +4815,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4825,7 +4837,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -4849,7 +4861,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -4859,7 +4871,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -4988,7 +5000,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 17152,
+                    "defense_flag": 21248,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -5003,6 +5015,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -5030,7 +5043,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5046,6 +5059,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -5069,7 +5083,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5085,6 +5099,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -5108,7 +5123,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5124,6 +5139,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -5147,7 +5163,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5163,6 +5179,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -5186,7 +5203,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5202,6 +5219,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -5225,7 +5243,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 541440,
+                    "defense_flag": 545536,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5241,6 +5259,7 @@
                             "width": 80
                         }
                     ],
+                    "offense_flag": 2099200,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -5264,7 +5283,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5280,7 +5299,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -5304,7 +5323,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5314,7 +5333,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -5338,7 +5357,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5348,7 +5367,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -5372,7 +5391,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5394,7 +5413,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -5418,7 +5437,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -5428,7 +5447,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -5597,6 +5616,164 @@
         ]
     },
     {
+        "action": 19,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 123,
+                        "left": -26,
+                        "top": -124,
+                        "width": 55
+                    },
+                    "defense_flag": 2097408,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 90,
+                            "left": -66,
+                            "top": -103,
+                            "width": 136
+                        }
+                    ],
+                    "offset": {
+                        "x": 15,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 224,
+                        "y": 138
+                    },
+                    "speed": {
+                        "x": -30,
+                        "y": 0
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 69,
+                        "left": 413,
+                        "top": 600,
+                        "width": 112
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 123,
+                        "left": -26,
+                        "top": -124,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "gravity": {
+                        "x": 1.5,
+                        "y": 0.0
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 90,
+                            "left": -66,
+                            "top": -103,
+                            "width": 136
+                        }
+                    ],
+                    "offset": {
+                        "x": 15,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 224,
+                        "y": 138
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 69,
+                        "left": 413,
+                        "top": 600,
+                        "width": 112
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 123,
+                        "left": -26,
+                        "top": -124,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 5,
+                    "gravity": {
+                        "x": 2.25,
+                        "y": 0.0
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 142,
+                            "left": -43,
+                            "top": -139,
+                            "width": 89
+                        }
+                    ],
+                    "offset": {
+                        "x": -15,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 222,
+                        "y": 182
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 91,
+                        "left": 531,
+                        "top": 578,
+                        "width": 111
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 123,
+                        "left": -26,
+                        "top": -124,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "gravity": {
+                        "x": 3.0,
+                        "y": 0.0
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 167,
+                            "left": -43,
+                            "top": -170,
+                            "width": 107
+                        }
+                    ],
+                    "offset": {
+                        "x": -30,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 184,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 648,
+                        "top": 577,
+                        "width": 92
+                    }
+                }
+            ]
+        ]
+    },
+    {
         "action": 20,
         "framedata": [
             [
@@ -5607,8 +5784,7 @@
                         "top": -124,
                         "width": 55
                     },
-                    "defense_flag": 256,
-                    "duration": 2,
+                    "defense_flag": 2097408,
                     "gravity": {
                         "x": 0.0,
                         "y": 0.0
@@ -5694,7 +5870,6 @@
                         "width": 55
                     },
                     "defense_flag": 256,
-                    "duration": 3,
                     "gravity": {
                         "x": 0.0,
                         "y": 0.0
@@ -5764,94 +5939,8 @@
                         "y": 290
                     },
                     "speed": {
-                        "x": 20,
-                        "y": -4
-                    },
-                    "sprite": "assets/characters/remilia/remilia.png",
-                    "texture_bounds": {
-                        "height": 145,
-                        "left": 215,
-                        "top": 802,
-                        "width": 80
-                    }
-                },
-                {
-                    "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -124,
-                        "width": 55
-                    },
-                    "defense_flag": 256,
-                    "duration": 2,
-                    "gravity": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
-                    "hurt_boxes": [
-                        {
-                            "height": 84,
-                            "left": -45,
-                            "top": -122,
-                            "width": 81
-                        },
-                        {
-                            "height": 65,
-                            "left": -1,
-                            "top": -138,
-                            "width": 72
-                        }
-                    ],
-                    "offset": {
-                        "x": 15,
-                        "y": -33
-                    },
-                    "size": {
-                        "x": 160,
-                        "y": 290
-                    },
-                    "sprite": "assets/characters/remilia/remilia.png",
-                    "texture_bounds": {
-                        "height": 145,
-                        "left": 215,
-                        "top": 802,
-                        "width": 80
-                    }
-                },
-                {
-                    "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -124,
-                        "width": 55
-                    },
-                    "defense_flag": 256,
-                    "duration": 3,
-                    "gravity": {
-                        "x": -0.10000000149011612,
-                        "y": 0.0
-                    },
-                    "hurt_boxes": [
-                        {
-                            "height": 84,
-                            "left": -45,
-                            "top": -122,
-                            "width": 81
-                        },
-                        {
-                            "height": 65,
-                            "left": -1,
-                            "top": -138,
-                            "width": 72
-                        }
-                    ],
-                    "offset": {
-                        "x": 15,
-                        "y": -33
-                    },
-                    "size": {
-                        "x": 160,
-                        "y": 290
+                        "x": 30,
+                        "y": -6
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -5871,7 +5960,7 @@
                     "defense_flag": 256,
                     "duration": 5,
                     "gravity": {
-                        "x": -0.10000000149011612,
+                        "x": -1.0,
                         "y": 0.0
                     },
                     "hurt_boxes": [
@@ -5905,39 +5994,10 @@
                         "top": -124,
                         "width": 55
                     },
-                    "defense_flag": 256,
-                    "duration": 10,
+                    "defense_flag": 4864,
+                    "duration": 5,
                     "gravity": {
-                        "x": -0.10000000149011612,
-                        "y": 0.0
-                    },
-                    "offset": {
-                        "x": -15,
-                        "y": -3
-                    },
-                    "size": {
-                        "x": 120,
-                        "y": 80
-                    },
-                    "sprite": "assets/characters/remilia/remilia.png",
-                    "texture_bounds": {
-                        "height": 80,
-                        "left": 420,
-                        "top": 862,
-                        "width": 120
-                    }
-                },
-                {
-                    "collision_box": {
-                        "height": 123,
-                        "left": -26,
-                        "top": -124,
-                        "width": 55
-                    },
-                    "defense_flag": 256,
-                    "duration": 10,
-                    "gravity": {
-                        "x": -0.10000000149011612,
+                        "x": -3.0,
                         "y": 0.0
                     },
                     "hurt_boxes": [
@@ -5948,6 +6008,7 @@
                             "width": 64
                         }
                     ],
+                    "offense_flag": 2048,
                     "offset": {
                         "x": -15,
                         "y": -3
@@ -5962,6 +6023,954 @@
                         "left": 420,
                         "top": 862,
                         "width": 120
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 29,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 88,
+                            "left": -13,
+                            "top": -91,
+                            "width": 63
+                        },
+                        {
+                            "height": 59,
+                            "left": -48,
+                            "top": -142,
+                            "width": 73
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 188,
+                        "y": 224
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 112,
+                        "left": 1078,
+                        "top": 2312,
+                        "width": 94
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 100,
+                            "left": -34,
+                            "top": -95,
+                            "width": 65
+                        },
+                        {
+                            "height": 62,
+                            "left": -71,
+                            "top": -139,
+                            "width": 60
+                        }
+                    ],
+                    "offset": {
+                        "x": -36,
+                        "y": -11
+                    },
+                    "size": {
+                        "x": 200,
+                        "y": 218
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 109,
+                        "left": 1178,
+                        "top": 2315,
+                        "width": 100
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "duration": 6000,
+                    "hurt_boxes": [
+                        {
+                            "height": 73,
+                            "left": -36,
+                            "top": -87,
+                            "width": 69
+                        },
+                        {
+                            "height": 56,
+                            "left": -73,
+                            "top": -135,
+                            "width": 91
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -34,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 202,
+                        "y": 210
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 105,
+                        "left": 1284,
+                        "top": 2319,
+                        "width": 101
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 100,
+                            "left": -34,
+                            "top": -95,
+                            "width": 71
+                        },
+                        {
+                            "height": 64,
+                            "left": -74,
+                            "top": -140,
+                            "width": 63
+                        }
+                    ],
+                    "offset": {
+                        "x": -34,
+                        "y": -10
+                    },
+                    "size": {
+                        "x": 200,
+                        "y": 218
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 109,
+                        "left": 1178,
+                        "top": 2315,
+                        "width": 100
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 88,
+                            "left": -24,
+                            "top": -91,
+                            "width": 76
+                        },
+                        {
+                            "height": 63,
+                            "left": -42,
+                            "top": -146,
+                            "width": 60
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 188,
+                        "y": 224
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 112,
+                        "left": 1078,
+                        "top": 2312,
+                        "width": 94
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 30,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 5,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "subobject": 65,
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 580,
+                        "top": 2572,
+                        "width": 69
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 501,
+                        "top": 2572,
+                        "width": 70
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 66048,
+                    "duration": 60000,
+                    "hurt_boxes": [
+                        {
+                            "height": 105,
+                            "left": -35,
+                            "top": -108,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -32,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 220,
+                        "y": 144
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 72,
+                        "left": 382,
+                        "top": 2584,
+                        "width": 110
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 34,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 47,
+                        "left": -26,
+                        "top": -53,
+                        "width": 55
+                    },
+                    "defense_flag": 65536,
+                    "duration": 9,
+                    "hurt_boxes": [
+                        {
+                            "height": 67,
+                            "left": -8,
+                            "top": -77,
+                            "width": 74
+                        },
+                        {
+                            "height": 56,
+                            "left": -63,
+                            "top": -75,
+                            "width": 68
+                        },
+                        {
+                            "height": 77,
+                            "left": -24,
+                            "top": -135,
+                            "width": 40
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 212,
+                        "y": 194
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 97,
+                        "left": 1207,
+                        "top": 2203,
+                        "width": 106
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 47,
+                        "left": -26,
+                        "top": -53,
+                        "width": 55
+                    },
+                    "defense_flag": 65536,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 67,
+                            "left": -8,
+                            "top": -77,
+                            "width": 74
+                        },
+                        {
+                            "height": 56,
+                            "left": -63,
+                            "top": -75,
+                            "width": 68
+                        },
+                        {
+                            "height": 75,
+                            "left": -20,
+                            "top": -145,
+                            "width": 35
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 208,
+                        "y": 196
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 98,
+                        "left": 1097,
+                        "top": 2202,
+                        "width": 104
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 47,
+                        "left": -26,
+                        "top": -53,
+                        "width": 55
+                    },
+                    "defense_flag": 65536,
+                    "duration": 60000,
+                    "hurt_boxes": [
+                        {
+                            "height": 59,
+                            "left": -18,
+                            "top": -67,
+                            "width": 70
+                        },
+                        {
+                            "height": 56,
+                            "left": -70,
+                            "top": -91,
+                            "width": 68
+                        },
+                        {
+                            "height": 92,
+                            "left": -30,
+                            "top": -157,
+                            "width": 42
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 246,
+                        "y": 108
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 54,
+                        "left": 968,
+                        "top": 2246,
+                        "width": 123
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 39,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 87,
+                            "left": -8,
+                            "top": -97,
+                            "width": 74
+                        },
+                        {
+                            "height": 56,
+                            "left": -17,
+                            "top": -151,
+                            "width": 74
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 202,
+                        "y": 180
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 90,
+                        "left": 10,
+                        "top": 2210,
+                        "width": 101
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 5,
+                    "hurt_boxes": [
+                        {
+                            "height": 94,
+                            "left": -27,
+                            "top": -95,
+                            "width": 78
+                        },
+                        {
+                            "height": 63,
+                            "left": -30,
+                            "top": -152,
+                            "width": 70
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -30,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 190,
+                        "y": 174
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 87,
+                        "left": 117,
+                        "top": 2213,
+                        "width": 95
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": -3,
+                            "top": -88,
+                            "width": 66
+                        },
+                        {
+                            "height": 61,
+                            "left": -49,
+                            "top": -140,
+                            "width": 51
+                        },
+                        {
+                            "height": 37,
+                            "left": -16,
+                            "top": -103,
+                            "width": 34
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 150,
+                        "y": 150
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 75,
+                        "left": 219,
+                        "top": 2228,
+                        "width": 75
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": 2,
+                            "top": -116,
+                            "width": 66
+                        },
+                        {
+                            "height": 59,
+                            "left": -75,
+                            "top": -118,
+                            "width": 90
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 124
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 62,
+                        "left": 300,
+                        "top": 2238,
+                        "width": 87
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -7,
+                            "top": -121,
+                            "width": 66
+                        },
+                        {
+                            "height": 72,
+                            "left": -77,
+                            "top": -85,
+                            "width": 92
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 10,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 180,
+                        "y": 140
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 70,
+                        "left": 393,
+                        "top": 2230,
+                        "width": 90
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -20,
+                            "top": -134,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -51,
+                            "top": -71,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 45,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 210,
+                        "y": 172
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 86,
+                        "left": 489,
+                        "top": 2214,
+                        "width": 105
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 82,
+                            "left": -29,
+                            "top": -146,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -39,
+                            "top": -68,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 38,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 182
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 91,
+                        "left": 600,
+                        "top": 2209,
+                        "width": 87
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 694,
+                        "top": 2208,
+                        "width": 77
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 777,
+                        "top": 2208,
+                        "width": 77
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 90,
+                        "left": -26,
+                        "top": -96,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 9,
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 60,
+                            "left": -32,
+                            "top": -125,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 178,
+                        "y": 208
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 108,
+                        "left": 1611,
+                        "top": 2192,
+                        "width": 89
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 90,
+                        "left": -26,
+                        "top": -96,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 70,
+                            "left": -36,
+                            "top": -76,
+                            "width": 75
+                        },
+                        {
+                            "height": 55,
+                            "left": -27,
+                            "top": -133,
+                            "width": 61
+                        }
+                    ],
+                    "offset": {
+                        "x": 22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 178,
+                        "y": 222
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 111,
+                        "left": 1516,
+                        "top": 2189,
+                        "width": 89
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 90,
+                        "left": -26,
+                        "top": -96,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 40000,
+                    "hurt_boxes": [
+                        {
+                            "height": 85,
+                            "left": -25,
+                            "top": -94,
+                            "width": 62
+                        },
+                        {
+                            "height": 50,
+                            "left": -20,
+                            "top": -140,
+                            "width": 61
+                        }
+                    ],
+                    "offset": {
+                        "x": 10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 196,
+                        "y": 204
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 102,
+                        "left": 1412,
+                        "top": 2198,
+                        "width": 98
                     }
                 }
             ]
@@ -6023,6 +7032,80 @@
                         }
                     ],
                     "offense_flag": 2048,
+                    "offset": {
+                        "x": -22,
+                        "y": 1
+                    },
+                    "size": {
+                        "x": 170,
+                        "y": 180
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 90,
+                        "left": 1575,
+                        "top": 965,
+                        "width": 85
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 54,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 105,
+                        "left": -47,
+                        "top": -106,
+                        "width": 76
+                    },
+                    "defense_flag": 524288,
+                    "duration": 7,
+                    "hurt_boxes": [
+                        {
+                            "height": 108,
+                            "left": -37,
+                            "top": -107,
+                            "width": 78
+                        }
+                    ],
+                    "offset": {
+                        "x": -22,
+                        "y": 1
+                    },
+                    "size": {
+                        "x": 212,
+                        "y": 142
+                    },
+                    "sound": "11",
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 72,
+                        "left": 1466,
+                        "top": 980,
+                        "width": 106
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 145,
+                        "left": -47,
+                        "top": -146,
+                        "width": 76
+                    },
+                    "defense_flag": 524288,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 146,
+                            "left": -37,
+                            "top": -145,
+                            "width": 78
+                        }
+                    ],
                     "offset": {
                         "x": -22,
                         "y": 1
@@ -7765,6 +8848,224 @@
                         "left": 1198,
                         "top": 945,
                         "width": 90
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 58,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 5,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "subobject": 65,
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 580,
+                        "top": 2572,
+                        "width": 69
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 501,
+                        "top": 2572,
+                        "width": 70
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 66048,
+                    "duration": 60000,
+                    "hurt_boxes": [
+                        {
+                            "height": 105,
+                            "left": -35,
+                            "top": -108,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -32,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 220,
+                        "y": 144
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 72,
+                        "left": 382,
+                        "top": 2584,
+                        "width": 110
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 59,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 5,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "subobject": 66,
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 580,
+                        "top": 2572,
+                        "width": 69
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 512,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 98,
+                            "left": -31,
+                            "top": -104,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -10,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 138,
+                        "y": 168
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 84,
+                        "left": 501,
+                        "top": 2572,
+                        "width": 70
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 72,
+                        "left": -26,
+                        "top": -78,
+                        "width": 55
+                    },
+                    "defense_flag": 66048,
+                    "duration": 60000,
+                    "hurt_boxes": [
+                        {
+                            "height": 105,
+                            "left": -35,
+                            "top": -108,
+                            "width": 67
+                        }
+                    ],
+                    "offset": {
+                        "x": -32,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 220,
+                        "y": 144
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 72,
+                        "left": 382,
+                        "top": 2584,
+                        "width": 110
                     }
                 }
             ]

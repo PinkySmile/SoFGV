@@ -13067,8 +13067,8 @@
                         "y": -15
                     },
                     "prorate": 93.0,
-                    "push_back": 2,
-                    "push_block": 8,
+                    "push_back": 8,
+                    "push_block": 2,
                     "size": {
                         "x": 208,
                         "y": 184
@@ -13084,25 +13084,13 @@
                     "untech": 60
                 },
                 {
-                    "block_stun": 24,
                     "collision_box": {
                         "height": 138,
                         "left": -20,
                         "top": -139,
                         "width": 38
                     },
-                    "counter_hit_speed": {
-                        "x": 22,
-                        "y": 16
-                    },
-                    "damage": 1000,
                     "duration": 20,
-                    "hit_speed": {
-                        "x": 18,
-                        "y": 12
-                    },
-                    "hit_stop": 18,
-                    "hit_stun": 60,
                     "hurt_boxes": [
                         {
                             "height": 45,
@@ -13123,15 +13111,11 @@
                             "width": 51
                         }
                     ],
-                    "matter_limit": 40,
                     "offense_flag": 2048,
                     "offset": {
                         "x": 13,
                         "y": -1
                     },
-                    "prorate": 93.0,
-                    "push_back": 2,
-                    "push_block": 8,
                     "size": {
                         "x": 104,
                         "y": 170
@@ -17667,7 +17651,7 @@
                         "top": -152,
                         "width": 39
                     },
-                    "damage": 200,
+                    "damage": 1000,
                     "duration": 4,
                     "guard_damage": 30,
                     "hitSound": "assets/sfxs/se/012.wav",
@@ -17700,7 +17684,7 @@
                         "x": 49,
                         "y": 0
                     },
-                    "prorate": 110.0,
+                    "prorate": 120.0,
                     "push_back": 2,
                     "push_block": 12,
                     "size": {
@@ -18341,7 +18325,7 @@
                         "top": -159,
                         "width": 41
                     },
-                    "damage": 200,
+                    "damage": 1000,
                     "defense_flag": 2097472,
                     "duration": 2,
                     "guard_damage": 30,
@@ -18381,7 +18365,7 @@
                         "x": 55,
                         "y": 0
                     },
-                    "prorate": 110.0,
+                    "prorate": 120.0,
                     "push_back": 2,
                     "push_block": 12,
                     "size": {
