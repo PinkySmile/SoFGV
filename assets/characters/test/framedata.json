@@ -2965,7 +2965,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "duration": 5,
+                    "duration": 60000,
                     "hurt_boxes": [
                         {
                             "height": 183,
@@ -3406,21 +3406,25 @@
                         "width": 40
                     },
                     "defense_flag": 65536,
-                    "duration": 5,
+                    "duration": 60000,
                     "hurt_boxes": [
                         {
                             "height": 66,
-                            "left": -52,
-                            "top": -113,
+                            "left": -72,
+                            "top": -116,
                             "width": 74
                         },
                         {
                             "height": 66,
-                            "left": 1,
-                            "top": -66,
+                            "left": -14,
+                            "top": -68,
                             "width": 54
                         }
                     ],
+                    "offset": {
+                        "x": -20,
+                        "y": 0
+                    },
                     "size": {
                         "x": 104,
                         "y": 110
@@ -3935,6 +3939,7 @@
                         "width": 40
                     },
                     "defense_flag": 256,
+                    "duration": 60000,
                     "hurt_boxes": [
                         {
                             "height": 175,
@@ -3969,6 +3974,7 @@
                         "width": 40
                     },
                     "defense_flag": 256,
+                    "duration": 60000,
                     "hurt_boxes": [
                         {
                             "height": 101,
@@ -4015,6 +4021,7 @@
                         "width": 40
                     },
                     "defense_flag": 256,
+                    "duration": 60000,
                     "hurt_boxes": [
                         {
                             "height": 101,
