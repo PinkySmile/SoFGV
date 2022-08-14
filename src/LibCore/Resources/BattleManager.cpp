@@ -89,6 +89,34 @@ namespace SpiralOfFate
 		this->_roundSprites[4].loadFromFile("assets/icons/rounds/id.png");
 		for (int i = 1; i < FIRST_TO * 2; i++)
 			this->_roundSprites[4 + i].loadFromFile("assets/icons/rounds/round" + std::to_string(i) + ".png");
+		this->_leftIcon.textureHandle = leftCharacter.icon;
+		game->textureMgr.addRef(this->_leftIcon.textureHandle);
+		this->_rightIcon.textureHandle = rightCharacter.icon;
+		game->textureMgr.addRef(this->_rightIcon.textureHandle);
+		this->_oosBubble.textureHandle = game->textureMgr.load("assets/effects/oosBubble.png");
+		this->_oosBubbleMask.textureHandle = game->textureMgr.load("assets/effects/oosBubbleMask.png");
+		game->textureMgr.setTexture(this->_oosBubbleMask);
+		game->textureMgr.setTexture(this->_oosBubble);
+		game->textureMgr.setTexture(this->_leftIcon);
+		game->textureMgr.setTexture(this->_rightIcon);
+
+		auto texSize1 = game->textureMgr.getTextureSize(this->_leftIcon.textureHandle).to<float>();
+		auto texSize2 = game->textureMgr.getTextureSize(this->_rightIcon.textureHandle).to<float>();
+		auto texSize = game->textureMgr.getTextureSize(this->_oosBubble.textureHandle);
+		auto s1 = texSize.x / texSize1.x;
+		auto s2 = texSize.x / texSize2.x;
+
+		texSize1.x = 0;
+		texSize1.y = texSize.y - texSize1.y * s1;
+		this->_leftIcon.setScale({s1, s1});
+		this->_leftIcon.setPosition(texSize1);
+
+		texSize2.x = 0;
+		texSize2.y = texSize.y - texSize2.y * s2;
+		this->_rightIcon.setScale({s2, s2});
+		this->_rightIcon.setPosition(texSize2);
+
+		my_assert(this->_target.create(texSize.x, texSize.y));
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)
@@ -123,6 +151,51 @@ namespace SpiralOfFate
 
 		this->_renderLeftHUD();
 		this->_renderRightHUD();
+
+		if (this->_leftCharacter->_position.y > 540) {
+			this->_target.clear(sf::Color::Transparent);
+			this->_target.draw(this->_oosBubbleMask, sf::BlendNone);
+			this->_target.draw(this->_leftIcon, sf::BlendMode{
+				sf::BlendMode::SrcColor,
+				sf::BlendMode::Zero,
+				sf::BlendMode::Add,
+				sf::BlendMode::Zero,
+				sf::BlendMode::DstColor,
+				sf::BlendMode::Add
+			});
+			this->_target.draw(this->_oosBubble);
+			this->_target.display();
+
+			sf::Sprite sprite(this->_target.getTexture());
+			auto pos = this->_leftCharacter->_position;
+
+			pos.x -= this->_target.getSize().x / 2;
+			pos.y = std::max(-pos.y, -540.f);
+			sprite.setPosition(pos);
+			game->screen->draw(sprite);
+		}
+		if (this->_rightCharacter->_position.y > 540) {
+			this->_target.clear(sf::Color::Transparent);
+			this->_target.draw(this->_oosBubbleMask, sf::BlendNone);
+			this->_target.draw(this->_rightIcon, sf::BlendMode{
+				sf::BlendMode::SrcColor,
+				sf::BlendMode::Zero,
+				sf::BlendMode::Add,
+				sf::BlendMode::Zero,
+				sf::BlendMode::DstColor,
+				sf::BlendMode::Add
+			});
+			this->_target.draw(this->_oosBubble);
+			this->_target.display();
+
+			sf::Sprite sprite(this->_target.getTexture());
+			auto pos = this->_rightCharacter->_position;
+
+			pos.x -= this->_target.getSize().x / 2;
+			pos.y = std::max(-pos.y, -540.f);
+			sprite.setPosition(pos);
+			game->screen->draw(sprite);
+		}
 
 		for (auto time : this->_tpsTimes)
 			total += time;

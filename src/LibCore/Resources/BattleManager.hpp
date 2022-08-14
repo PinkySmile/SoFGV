@@ -43,17 +43,22 @@ namespace SpiralOfFate
 		};
 #pragma pack(pop)
 
-		// Non Game State
+		// Non-Game State
 		unsigned _nbPlatform = 0;
 		sf::Clock _tpsClock;
 		std::list<unsigned> _tpsTimes;
 		mutable sf::Clock _fpsClock;
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
-		unsigned int _leftGuardCrossTimer = 0;
-		unsigned int _rightGuardCrossTimer = 0;
-		unsigned int _leftOverdriveCrossTimer = 0;
-		unsigned int _rightOverdriveCrossTimer = 0;
+		unsigned _leftGuardCrossTimer = 0;
+		unsigned _rightGuardCrossTimer = 0;
+		unsigned _leftOverdriveCrossTimer = 0;
+		unsigned _rightOverdriveCrossTimer = 0;
+		sf::RenderTexture _target;
+		Sprite _leftIcon;
+		Sprite _rightIcon;
+		Sprite _oosBubble;
+		Sprite _oosBubbleMask;
 		sf::Sprite _roundSprite;
 		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;
@@ -110,6 +115,7 @@ namespace SpiralOfFate
 	public:
 		struct CharacterParams {
 			Character *character;
+			unsigned icon;
 			unsigned hp;
 			Vector2f gravity;
 			unsigned char maxJumps;
@@ -155,7 +161,7 @@ namespace SpiralOfFate
 
 			return {needRegister ? this->registerObject(obj) : 0, obj};
 		}
-		unsigned int getBufferSize() const;
+		unsigned getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
 		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;

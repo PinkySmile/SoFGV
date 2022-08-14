@@ -164,6 +164,13 @@ namespace SpiralOfFate
 		this->_freedIndexes.push_back(id);
 	}
 
+	void TextureManager::setTexture(Sprite &sprite) const
+	{
+		if (!sprite.textureHandle)
+			return;
+		sprite.setTexture(this->_textures.at(sprite.textureHandle));
+	}
+
 	void TextureManager::render(Sprite &sprite) const
 	{
 		if (!sprite.textureHandle)

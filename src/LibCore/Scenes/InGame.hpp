@@ -70,6 +70,8 @@ namespace SpiralOfFate
 			const struct StageEntry &stage,
 			Character *leftChr,
 			Character *rightChr,
+			unsigned licon,
+			unsigned ricon,
 			const nlohmann::json &lJson,
 			const nlohmann::json &rJson,
 			bool goBackToTitle = false

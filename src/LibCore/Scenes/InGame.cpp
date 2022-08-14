@@ -70,7 +70,7 @@ namespace SpiralOfFate
 		SpiralOfFate::game->screen->setView(view);
 	}
 
-	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
+	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
 		InGame(params)
 	{
 		this->_goBackToTitle = goBackToTitle;
@@ -92,6 +92,7 @@ namespace SpiralOfFate
 			},
 			BattleManager::CharacterParams{
 				leftChr,
+				licon,
 				lJson["hp"],
 				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
 				lJson["jump_count"],
@@ -108,6 +109,7 @@ namespace SpiralOfFate
 			},
 			BattleManager::CharacterParams{
 				rightChr,
+				ricon,
 				rJson["hp"],
 				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
 				rJson["jump_count"],
