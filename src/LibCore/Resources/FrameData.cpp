@@ -413,6 +413,8 @@ namespace SpiralOfFate
 		this->oFlag = other.oFlag;
 		this->blockStun = other.blockStun;
 		this->hitStun = other.hitStun;
+		this->untech = other.untech;
+		this->guardDmg = other.guardDmg;
 		this->prorate = other.prorate;
 		this->neutralLimit = other.neutralLimit;
 		this->voidLimit = other.voidLimit;
