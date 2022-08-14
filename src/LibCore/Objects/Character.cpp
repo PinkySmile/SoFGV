@@ -3542,57 +3542,53 @@ namespace SpiralOfFate
 		}
 		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
+			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
+			this->_speed.y =  data.counterHitSpeed.y;
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			else {
 				this->_forceStartMove(ACTION_AIR_HIT);
 				this->_restand = data.oFlag.restand;
-				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3)
+				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
 					this->_actionBlock = 3;
+				else if (this->_speed.y < 0 && !data.oFlag.resetSpeed)
+					this->_actionBlock = 1;
 				stun = data.untech;
 			}
-			this->_speedReset = data.oFlag.resetSpeed;
-			damage *= 1.5;
-			this->_totalDamage += damage;
 			this->_counter = true;
-			this->_comboCtr++;
-			this->_blockStun = stun * 1.5;
-			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
-			this->_speed.y =  data.counterHitSpeed.y;
-			this->_prorate *= data.prorate / 100;
-			this->_limit[0] += data.neutralLimit;
-			this->_limit[1] += data.voidLimit;
-			this->_limit[2] += data.matterLimit;
-			this->_limit[3] += data.spiritLimit;
+			damage *= 1.5;
+			stun *= 1.5;
 			game->battleMgr->setHitStop(data.hitStop * 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
 			if (!myData->dFlag.superarmor || data.oFlag.grab) {
+				this->_speed.x = -data.hitSpeed.x * this->_dir;
+				this->_speed.y =  data.hitSpeed.y;
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 				else {
 					this->_forceStartMove(ACTION_AIR_HIT);
 					this->_restand = data.oFlag.restand;
-					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3)
+					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
 						this->_actionBlock = 3;
+					else if (this->_speed.y < 0 && !data.oFlag.resetSpeed)
+						this->_actionBlock = 1;
 					stun = data.untech;
 				}
-				this->_totalDamage += damage;
-				this->_comboCtr++;
-				this->_blockStun = stun;
-				this->_speed.x = -data.hitSpeed.x * this->_dir;
-				this->_speed.y =  data.hitSpeed.y;
-				this->_prorate *= data.prorate / 100;
-				this->_limit[0] += data.neutralLimit;
-				this->_limit[1] += data.voidLimit;
-				this->_limit[2] += data.matterLimit;
-				this->_limit[3] += data.spiritLimit;
-				this->_speedReset = data.oFlag.resetSpeed;
 			}
 			game->battleMgr->setHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
+		this->_blockStun = stun;
+		this->_totalDamage += damage;
+		this->_comboCtr++;
+		this->_prorate *= data.prorate / 100;
+		this->_limit[0] += data.neutralLimit;
+		this->_limit[1] += data.voidLimit;
+		this->_limit[2] += data.matterLimit;
+		this->_limit[3] += data.spiritLimit;
+		this->_speedReset = data.oFlag.resetSpeed;
 		this->_hp -= damage;
 	}
 

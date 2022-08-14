@@ -289,14 +289,14 @@ namespace SpiralOfFate
 					if (this->_leftPalette == 0)
 						this->_leftPalette = static_cast<int>(this->_entries[this->_leftPos].palettes.size());
 					this->_leftPalette--;
-				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
+				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette && this->_leftPos == this->_rightPos);
 			} else if (lInputs.verticalAxis == 1) {
 				game->soundMgr.play(BASICSOUND_MENU_MOVE);
 				do {
 					this->_leftPalette++;
 					if (this->_leftPalette == static_cast<int>(this->_entries[this->_leftPos].palettes.size()))
 						this->_leftPalette = 0;
-				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
+				} while (this->_entries[this->_leftPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette && this->_leftPos == this->_rightPos);
 			}
 		}
 		if (this->_rightPos >= 0) {
@@ -306,14 +306,14 @@ namespace SpiralOfFate
 					if (this->_rightPalette == 0)
 						this->_rightPalette = static_cast<int>(this->_entries[this->_rightPos].palettes.size());
 					this->_rightPalette--;
-				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
+				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette && this->_leftPos == this->_rightPos);
 			} else if (rInputs.verticalAxis == 1) {
 				game->soundMgr.play(BASICSOUND_MENU_MOVE);
 				do {
 					this->_rightPalette++;
 					if (this->_rightPalette == static_cast<int>(this->_entries[this->_rightPos].palettes.size()))
 						this->_rightPalette = 0;
-				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette);
+				} while (this->_entries[this->_rightPos].palettes.size() > 1 && this->_rightPalette == this->_leftPalette && this->_leftPos == this->_rightPos);
 			}
 		}
 
