@@ -148,6 +148,8 @@ namespace SpiralOfFate
 			this->_fpsTimes.pop_front();
 		this->_fpsTimes.push_back(this->_fpsClock.restart().asMilliseconds());
 		game->textureMgr.render(this->_stage);
+		for (auto &object : this->_stageObjects)
+			object->render();
 
 		this->_renderLeftHUD();
 		this->_renderRightHUD();
@@ -467,6 +469,8 @@ namespace SpiralOfFate
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
 			for (auto &object: this->_objects)
 				object.second->update();
+			for (auto &object : this->_stageObjects)
+				object->update();
 			if (lchr->hits(*rchr))
 				collisions.emplace_back(&*lchr, &*rchr, lchr->getCurrentFrameData());
 			if (rchr->hits(*lchr))
@@ -502,6 +506,21 @@ namespace SpiralOfFate
 					if (object2.second != object.second)
 						if (object.second->hits(*object2.second))
 							collisions.emplace_back(&*object.second, &*object2.second, object.second->getCurrentFrameData());
+			}
+			for (auto &object: this->_stageObjects) {
+				if (lchr->hits(*object))
+					collisions.emplace_back(&*lchr, &*object, lchr->getCurrentFrameData());
+				if (object->hits(*lchr))
+					collisions.emplace_back(&*object, &*lchr, object->getCurrentFrameData());
+
+				if (rchr->hits(*object))
+					collisions.emplace_back(&*rchr, &*object, rchr->getCurrentFrameData());
+				if (object->hits(*rchr))
+					collisions.emplace_back(&*object, &*rchr, object->getCurrentFrameData());
+
+				for (auto &object2: this->_objects)
+					if (object->hits(*object2.second))
+						collisions.emplace_back(&*object, &*object2.second, object->getCurrentFrameData());
 			}
 
 			for (auto &[attacker, defender, data]: collisions) {

@@ -1,0 +1,18 @@
+[
+    {
+        "class": 0,
+        "framedata": "assets/stages/alpha/sun.json",
+        "action": 0,
+        "x": -20,
+        "y": 500,
+        "team": 2
+    },
+    {
+        "class": 0,
+        "framedata": "assets/stages/alpha/sun.json",
+        "action": 1,
+        "x": -20,
+        "y": 500,
+        "team": 2
+    }
+]

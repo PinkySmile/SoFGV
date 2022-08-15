@@ -33,6 +33,8 @@ namespace SpiralOfFate
 			platform->showBoxes = this->_showBoxes;
 		for (auto &obj : this->_objects)
 			obj.second->showBoxes = this->_showBoxes;
+		for (auto &obj : this->_stageObjects)
+			obj->showBoxes = this->_showBoxes;
 		BattleManager::render();
 		if (this->_showBoxes) {
 			game->screen->borderColor(2, sf::Color::White);

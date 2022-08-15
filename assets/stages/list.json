@@ -2,7 +2,8 @@
     {
         "name": "Alpha stage",
         "credits": "Vitalemon",
-        "image": "assets/stages/14687.png",
+        "image": "assets/stages/alpha/stage.png",
+        "objects": "assets/stages/alpha/objects.json",
         "platforms": [
             [
                 {

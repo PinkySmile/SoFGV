@@ -390,6 +390,7 @@ namespace SpiralOfFate
 		if (data->dFlag.resetRotation)
 			this->_rotation = this->_baseRotation * this->_dir;
 		this->_rotation += data->rotation * this->_dir;
+		this->_rotation = std::fmod(this->_rotation, 2 * M_PI);
 		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 		this->_position += this->_speed;
 		this->_checkPlatforms(oldPos);

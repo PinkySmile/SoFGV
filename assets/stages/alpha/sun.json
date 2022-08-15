@@ -1,0 +1,24 @@
+[
+    {
+        "action": 0,
+        "framedata": [
+            [
+                {
+                    "rotation": 0.14876,
+                    "sprite": "assets/stages/alpha/sun.png"
+                }
+            ]
+        ]
+    },
+    {
+        "action": 1,
+        "framedata": [
+            [
+                {
+                    "rotation": 359.95,
+                    "sprite": "assets/stages/alpha/sun.png"
+                }
+            ]
+        ]
+    }
+]

@@ -125,7 +125,7 @@ add_library(
 	src/LibCore/Resources/version.h
 	src/LibCore/Scenes/ReplayInGame.cpp
 	src/LibCore/Scenes/ReplayInGame.hpp
-)
+        src/LibCore/Objects/StageObject.cpp src/LibCore/Objects/StageObject.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)
