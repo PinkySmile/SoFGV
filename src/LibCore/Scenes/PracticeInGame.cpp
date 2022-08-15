@@ -8,7 +8,7 @@
 #include "../Resources/PracticeBattleManager.hpp"
 #include "../Logger.hpp"
 #include "TitleScreen.hpp"
-#include "Objects/StageObject.hpp"
+#include "Objects/StageObjects/StageObject.hpp"
 
 namespace SpiralOfFate
 {
@@ -18,30 +18,8 @@ namespace SpiralOfFate
 		this->_manager = new PracticeBattleManager(
 			BattleManager::StageParams{
 				stage.imagePath,
-				[&stage]{
-					if (stage.objectPath.empty())
-						return std::vector<IObject *>{};
-
-					std::ifstream stream{stage.objectPath};
-					nlohmann::json json;
-					std::vector<IObject *> objects;
-
-					if (stream.fail()) {
-						game->logger.error("Failed to open stage object file: " + stage.objectPath + ": " + strerror(errno));
-						return std::vector<IObject *>{};
-					}
-
-					try {
-						stream >> json;
-						for (auto &obj : json)
-							objects.push_back(new StageObject(obj));
-						return objects;
-					} catch (std::exception &e) {
-						game->logger.error("Error while loading objects: " + std::string(e.what()));
-						for (auto object : objects)
-							delete object;
-					}
-					return std::vector<IObject *>{};
+				[&stage, this]{
+					return this->_generateStageObjects(stage);
 				},
 				[&platforms]{
 					std::vector<Platform *> objects;

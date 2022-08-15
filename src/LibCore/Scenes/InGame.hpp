@@ -60,6 +60,7 @@ namespace SpiralOfFate
 		void _renderMoveList(Character *chr, const std::string &title) const;
 		void _moveListUpdate(InputStruct input);
 		void _calculateMoveListOrder();
+		std::vector<IObject *> _generateStageObjects(const struct StageEntry &stage);
 
 		InGame(const GameParams &params);
 

@@ -6,8 +6,8 @@
 #define SOFGV_STAGEOBJECT_HPP
 
 
-#include <nlohmann/json.hpp>
-#include "Object.hpp"
+#include "nlohmann/json.hpp"
+#include "../Object.hpp"
 
 namespace SpiralOfFate
 {

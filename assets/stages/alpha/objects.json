@@ -5,7 +5,8 @@
         "action": 0,
         "x": -20,
         "y": 500,
-        "team": 2
+        "team": 2,
+        "dir": false
     },
     {
         "class": 0,
@@ -13,6 +14,55 @@
         "action": 1,
         "x": -20,
         "y": 500,
-        "team": 2
+        "team": 2,
+        "dir": false
+    },
+    {
+        "class": 1,
+        "framedata": "assets/stages/alpha/clouds.json",
+        "x": 200,
+        "y": 400,
+        "maxY": 500,
+        "minY": 350,
+        "maxSpeed": 2,
+        "minSpeed": 0.5,
+        "team": 2,
+        "dir": false
+    },
+    {
+        "class": 1,
+        "framedata": "assets/stages/alpha/clouds.json",
+        "x": 400,
+        "y": 400,
+        "maxY": 500,
+        "minY": 350,
+        "maxSpeed": 2,
+        "minSpeed": 0.5,
+        "team": 2,
+        "dir": false
+    },
+    {
+        "class": 1,
+        "framedata": "assets/stages/alpha/clouds.json",
+        "x": 600,
+        "y": 400,
+        "maxY": 500,
+        "minY": 350,
+        "maxSpeed": 2,
+        "minSpeed": 0.5,
+        "team": 2,
+        "dir": false
+    },
+    {
+        "class": 1,
+        "framedata": "assets/stages/alpha/clouds.json",
+        "x": 800,
+        "y": 400,
+        "maxY": 500,
+        "minY": 350,
+        "maxSpeed": 2,
+        "minSpeed": 0.5,
+        "team": 2,
+        "dir": false
     }
 ]

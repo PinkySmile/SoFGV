@@ -22,7 +22,8 @@
 #include "PracticeInGame.hpp"
 #include "../Utils.hpp"
 #include "../Resources/version.h"
-#include "Objects/StageObject.hpp"
+#include "Objects/StageObjects/StageObject.hpp"
+#include "Objects/StageObjects/Cloud.hpp"
 
 unsigned getMagic()
 {
@@ -78,30 +79,8 @@ namespace SpiralOfFate
 		game->battleMgr = std::make_unique<BattleManager>(
 			BattleManager::StageParams{
 				stage.imagePath,
-				[&stage]{
-					if (stage.objectPath.empty())
-						return std::vector<IObject *>{};
-
-					std::ifstream stream{stage.objectPath};
-					nlohmann::json json;
-					std::vector<IObject *> objects;
-
-					if (stream.fail()) {
-						game->logger.error("Failed to open stage object file: " + stage.objectPath + ": " + strerror(errno));
-						return std::vector<IObject *>{};
-					}
-
-					try {
-						stream >> json;
-						for (auto &obj : json)
-							objects.push_back(new StageObject(obj));
-						return objects;
-					} catch (std::exception &e) {
-						game->logger.error("Error while loading objects: " + std::string(e.what()));
-						for (auto object : objects)
-							delete object;
-					}
-					return std::vector<IObject *>{};
+				[&stage, this]{
+					return this->_generateStageObjects(stage);
 				},
 				[&platforms]{
 					std::vector<Platform *> objects;
@@ -606,5 +585,40 @@ namespace SpiralOfFate
 		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
 		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
 		game->logger.info(std::string(buf2) + " created.");
+	}
+
+	std::vector<IObject *> InGame::_generateStageObjects(const StageEntry &stage)
+	{
+
+		if (stage.objectPath.empty())
+			return std::vector<IObject *>{};
+
+		std::ifstream stream{stage.objectPath};
+		nlohmann::json json;
+		std::vector<IObject *> objects;
+
+		if (stream.fail()) {
+			game->logger.error("Failed to open stage object file: " + stage.objectPath + ": " + strerror(errno));
+			return {};
+		}
+
+		try {
+			stream >> json;
+			for (auto &obj : json) {
+				switch (obj["class"].get<int>()) {
+				case 1:
+					objects.push_back(new Cloud(obj));
+					break;
+				default:
+					objects.push_back(new StageObject(obj));
+				}
+			}
+			return objects;
+		} catch (std::exception &e) {
+			game->logger.error("Error while loading objects: " + std::string(e.what()));
+			for (auto object : objects)
+				delete object;
+		}
+		return {};
 	}
 }
