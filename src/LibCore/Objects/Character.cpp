@@ -1281,36 +1281,42 @@ namespace SpiralOfFate
 		}
 	}
 
-	void Character::getHit(IObject &other, const FrameData *data)
+	void Character::getHit(IObject &other, const FrameData *dat)
 	{
-		auto myData = this->getCurrentFrameData();
 		char buffer[38];
-		auto chr = dynamic_cast<Character *>(&other);
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		game->logger.debug(buffer);
-		if (!data)
+		if (!dat)
 			return;
+
+		FrameData data;
+		auto myData = this->getCurrentFrameData();
+		auto chr = dynamic_cast<Character *>(&other);
+
+		data.setSlave();
+		data = *dat;
+		this->_mutateHitFramedata(data);
 		if (chr) {
-			if (data->oFlag.voidMana)
-				chr->_voidMana += data->manaGain;
-			if (data->oFlag.spiritMana)
-				chr->_spiritMana += data->manaGain;
-			if (data->oFlag.matterMana)
-				chr->_matterMana += data->manaGain;
+			if (data.oFlag.voidMana)
+				chr->_voidMana += data.manaGain;
+			if (data.oFlag.spiritMana)
+				chr->_spiritMana += data.manaGain;
+			if (data.oFlag.matterMana)
+				chr->_matterMana += data.manaGain;
 		}
 		if (myData->dFlag.invulnerableArmor)
-			return game->battleMgr->setHitStop(data->hitStop);
+			return game->battleMgr->setHitStop(data.hitStop);
 		this->_restand = false;
 		if (
 			!this->_isBlocking() ||
-			(myData->dFlag.airborne && data->oFlag.airUnblockable) ||
-			data->oFlag.unblockable ||
-			data->oFlag.grab
+			(myData->dFlag.airborne && data.oFlag.airUnblockable) ||
+			data.oFlag.unblockable ||
+			data.oFlag.grab
 		)
-			this->_getHitByMove(dynamic_cast<Object *>(&other), *data);
+			this->_getHitByMove(dynamic_cast<Object *>(&other), data);
 		else
-			this->_blockMove(dynamic_cast<Object *>(&other), *data);
+			this->_blockMove(dynamic_cast<Object *>(&other), data);
 	}
 
 	bool Character::_isBlocking() const
@@ -4283,6 +4289,10 @@ namespace SpiralOfFate
 			return false;
 		this->_tickMove();
 		return this->_animation + this->_animationCtr;
+	}
+
+	void Character::_mutateHitFramedata(FrameData &) const
+	{
 	}
 
 	void Character::_tickMove()

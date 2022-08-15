@@ -582,6 +582,7 @@ namespace SpiralOfFate
 		unsigned char _forceBlock = 0;
 		unsigned char _counterHit = 0;
 
+		virtual void _mutateHitFramedata(FrameData &framedata) const;
 		virtual bool _executeNeutralAttack(unsigned base);
 		virtual bool _executeDownAttack(unsigned base);
 		virtual unsigned _getReversalAction();
