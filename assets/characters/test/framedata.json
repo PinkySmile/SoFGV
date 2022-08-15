@@ -17816,7 +17816,7 @@
                         "y": 6
                     },
                     "hit_stop": 6,
-                    "hit_stun": 20,
+                    "hit_stun": 18,
                     "hurt_boxes": [
                         {
                             "height": 194,
@@ -17851,7 +17851,8 @@
                         "top": 182,
                         "width": 30
                     },
-                    "untech": 24
+                    "untech": 24,
+                    "void_limit": 20
                 },
                 {
                     "block_stun": 7,
@@ -17867,13 +17868,11 @@
                     },
                     "damage": 500,
                     "defense_flag": 16640,
-                    "duration": 6,
+                    "duration": 7,
                     "hit_speed": {
                         "x": 1,
                         "y": 2
                     },
-                    "hit_stop": 2,
-                    "hit_stun": 10,
                     "hurt_boxes": [
                         {
                             "height": 194,
