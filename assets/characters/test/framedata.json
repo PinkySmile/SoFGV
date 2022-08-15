@@ -8555,7 +8555,8 @@
                         "left": 325,
                         "top": 688,
                         "width": 47
-                    }
+                    },
+                    "untech": 60000
                 },
                 {
                     "collision_box": {
@@ -8663,7 +8664,8 @@
                         "left": 373,
                         "top": 688,
                         "width": 43
-                    }
+                    },
+                    "untech": 60000
                 },
                 {
                     "collision_box": {
@@ -11841,7 +11843,8 @@
                         "left": 325,
                         "top": 688,
                         "width": 47
-                    }
+                    },
+                    "untech": 60000
                 },
                 {
                     "collision_box": {
@@ -11952,7 +11955,8 @@
                         "left": 373,
                         "top": 688,
                         "width": 43
-                    }
+                    },
+                    "untech": 60000
                 },
                 {
                     "collision_box": {
@@ -17847,8 +17851,7 @@
                         "top": 182,
                         "width": 30
                     },
-                    "untech": 24,
-                    "void_limit": 40
+                    "untech": 24
                 },
                 {
                     "block_stun": 7,
