@@ -57,15 +57,6 @@ else ()
 endif ()
 
 add_library(
-	SoFGVNetCore SHARED
-	src/LibNet/NetManager.cpp
-	src/LibNet/NetManager.hpp
-	src/LibNet/Exception.hpp
-	src/LibNet/Protocol.hpp
-	src/LibNet/NetHandler.hpp
-	src/LibNet/SyncTestHandler.cpp src/LibNet/SyncTestHandler.hpp)
-
-add_library(
 	SoFGVCore SHARED
 	src/LibCore/Data/Color.hpp
 	src/LibCore/Data/Vector.hpp
@@ -125,7 +116,11 @@ add_library(
 	src/LibCore/Resources/version.h
 	src/LibCore/Scenes/ReplayInGame.cpp
 	src/LibCore/Scenes/ReplayInGame.hpp
-        src/LibCore/Objects/StageObjects/StageObject.cpp src/LibCore/Objects/StageObjects/StageObject.hpp src/LibCore/Objects/StageObjects/Cloud.hpp src/LibCore/Objects/StageObjects/Cloud.cpp)
+        src/LibCore/Objects/StageObjects/StageObject.cpp
+	src/LibCore/Objects/StageObjects/StageObject.hpp
+	src/LibCore/Objects/StageObjects/Cloud.hpp
+	src/LibCore/Objects/StageObjects/Cloud.cpp
+	src/LibCore/Scenes/Network/SyncTestInGame.cpp src/LibCore/Scenes/Network/SyncTestInGame.hpp src/LibCore/Scenes/Network/RollbackMachine.cpp src/LibCore/Scenes/Network/RollbackMachine.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)
@@ -137,9 +132,6 @@ if (WIN32)
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
 		${TGUI_LIB}
-	)
-	target_link_libraries(
-		SoFGVNetCore
 		${SFML_NETWORK_LIB}
 		ws2_32
 	)
@@ -154,9 +146,6 @@ else ()
 		pthread
 		png
 		xcb
-	)
-	target_link_libraries(
-		SoFGVNetCore
 		${SFML_NETWORK_LIB}
 	)
 endif ()
@@ -167,6 +156,7 @@ add_executable(
 	src/Game/main.cpp
 	src/LibCore/LibCore.hpp)
 target_link_libraries(SoFGV SoFGVCore)
+target_include_directories(SoFGV PRIVATE src/LibCore)
 
 add_executable(
 	FrameDataEditor

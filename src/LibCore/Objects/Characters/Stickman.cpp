@@ -3,7 +3,7 @@
 //
 
 #include "Stickman.hpp"
-#include "../../Resources/Game.hpp"
+#include "Resources/Game.hpp"
 
 #define MIN_RANDOM_FLAGS 6
 #define NEW_FLAG_STEP 5
@@ -194,5 +194,26 @@ namespace SpiralOfFate
 	void Stickman::_enemyBuffEffect(FrameData &framedata) const
 	{
 
+	}
+
+	size_t Stickman::printDifference(const char *msgStart, void *data1, void *data2) const
+	{
+		auto length = Character::printDifference(msgStart, data1, data2);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
+
+		if (dat1->_buff != dat2->_buff)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_buff: " + std::to_string(dat1->_buff) + " vs " + std::to_string(dat2->_buff));
+		if (dat1->_time != dat2->_time)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time) + " vs " + std::to_string(dat2->_time));
+		if (dat1->_oldAction != dat2->_oldAction)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction) + " vs " + std::to_string(dat2->_oldAction));
+		if (dat1->_buffTimer != dat2->_buffTimer)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer) + " vs " + std::to_string(dat2->_buffTimer));
+		return length + sizeof(Data);
 	}
 }

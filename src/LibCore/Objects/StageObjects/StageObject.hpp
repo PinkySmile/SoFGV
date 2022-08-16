@@ -7,7 +7,7 @@
 
 
 #include "nlohmann/json.hpp"
-#include "../Object.hpp"
+#include "Objects/Object.hpp"
 
 namespace SpiralOfFate
 {

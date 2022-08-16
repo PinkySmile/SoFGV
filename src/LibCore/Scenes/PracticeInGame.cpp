@@ -4,14 +4,19 @@
 
 #include "CharacterSelect.hpp"
 #include "PracticeInGame.hpp"
-#include "../Resources/Game.hpp"
-#include "../Resources/PracticeBattleManager.hpp"
-#include "../Logger.hpp"
+#include "Resources/Game.hpp"
+#include "Resources/PracticeBattleManager.hpp"
+#include "Logger.hpp"
 #include "TitleScreen.hpp"
 #include "Objects/StageObjects/StageObject.hpp"
 
 namespace SpiralOfFate
 {
+	InGame *createPracticeInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
+	{
+		return new PracticeInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson);
+	}
+
 	PracticeInGame::PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(params)
 	{

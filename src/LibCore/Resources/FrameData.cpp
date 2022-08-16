@@ -5,7 +5,7 @@
 #include <fstream>
 #include "FrameData.hpp"
 #include "Game.hpp"
-#include "../Logger.hpp"
+#include "Logger.hpp"
 
 namespace SpiralOfFate
 {

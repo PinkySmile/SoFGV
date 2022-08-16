@@ -10,8 +10,8 @@
 #include <string>
 #include <SFML/Audio.hpp>
 #include "Sprite.hpp"
-#include "../Data/Vector.hpp"
-#include "../Data/Color.hpp"
+#include "Data/Vector.hpp"
+#include "Data/Color.hpp"
 
 namespace SpiralOfFate
 {

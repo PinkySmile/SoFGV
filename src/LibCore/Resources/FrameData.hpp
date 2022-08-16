@@ -12,8 +12,8 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include "../Data/Vector.hpp"
-#include "../Data/Color.hpp"
+#include "Data/Vector.hpp"
+#include "Data/Color.hpp"
 
 namespace SpiralOfFate
 {

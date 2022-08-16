@@ -3,7 +3,7 @@
 //
 
 #include "Platform.hpp"
-#include "../Resources/Game.hpp"
+#include "Resources/Game.hpp"
 
 namespace SpiralOfFate
 {
@@ -116,5 +116,24 @@ namespace SpiralOfFate
 	unsigned int Platform::getBufferSize() const
 	{
 		return Object::getBufferSize() + sizeof(Data);
+	}
+
+	size_t Platform::printDifference(const char *msgStart, void *data1, void *data2) const
+	{
+		auto length = Object::printDifference(msgStart, data1, data2);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
+
+		if (dat1->_width != dat2->_width)
+			game->logger.fatal(std::string(msgStart) + "Platform::_width: " + std::to_string(dat1->_width) + " vs " + std::to_string(dat2->_width));
+		if (dat1->_cooldown != dat2->_cooldown)
+			game->logger.fatal(std::string(msgStart) + "Platform::_cooldown: " + std::to_string(dat1->_cooldown) + " vs " + std::to_string(dat2->_cooldown));
+		if (dat1->_deathTimer != dat2->_deathTimer)
+			game->logger.fatal(std::string(msgStart) + "Platform::_deathTimer: " + std::to_string(dat1->_deathTimer) + " vs " + std::to_string(dat2->_deathTimer));
+		return length + sizeof(Data);
 	}
 }

@@ -6,17 +6,17 @@
 #include <fstream>
 #include "CharacterSelect.hpp"
 #include "InGame.hpp"
-#include "../Resources/Game.hpp"
+#include "Resources/Game.hpp"
 #include "PracticeInGame.hpp"
-#include "../Objects/Characters/Stickman.hpp"
+#include "Objects/Characters/Stickman.hpp"
 #include "TitleScreen.hpp"
 
 namespace SpiralOfFate
 {
-	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, bool practice)	:
+	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, InGame *(*sceneCreator)(const InGame::GameParams &, const std::vector<struct PlatformSkeleton> &, const struct StageEntry &, Character *, Character *, unsigned, unsigned, const nlohmann::json &, const nlohmann::json &))	:
 		_leftInput(std::move(leftInput)),
 		_rightInput(std::move(rightInput)),
-		_practice(practice)
+		_sceneCreator(sceneCreator)
 	{
 		sf::View view{{0, 0, 1680, 960}};
 		std::ifstream stream{"assets/characters/list.json"};
@@ -35,8 +35,13 @@ namespace SpiralOfFate
 		this->_randomSprite.textureHandle = game->textureMgr.load("assets/stages/random.png");
 	}
 
-	CharacterSelect::CharacterSelect(std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput, int _leftPos, int _rightPos, int _leftPalette, int _rightPalette, bool practice) :
-		CharacterSelect(std::move(leftInput), std::move(rightInput), practice)
+	CharacterSelect::CharacterSelect(
+		std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput,
+		int _leftPos, int _rightPos,
+		int _leftPalette, int _rightPalette,
+		InGame *(*sceneCreator)(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
+	) :
+		CharacterSelect(std::move(leftInput), std::move(rightInput), sceneCreator)
 	{
 		this->_leftPos = _leftPos;
 		this->_rightPos = _rightPos;
@@ -154,19 +159,7 @@ namespace SpiralOfFate
 		auto &licon = lentry.icon[this->_leftPalette];
 		auto &ricon = rentry.icon[this->_rightPalette];
 
-		if (this->_practice)
-			return new PracticeInGame(
-				{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
-				stage.platforms[this->_platform],
-				stage,
-				lchr,
-				rchr,
-				licon.textureHandle,
-				ricon.textureHandle,
-				lentry.entry,
-				rentry.entry
-			);
-		return new InGame(
+		return this->_sceneCreator(
 			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
 			stage.platforms[this->_platform],
 			stage,

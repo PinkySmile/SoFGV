@@ -6,8 +6,8 @@
 #define SOFGV_BATTLEMANAGER_HPP
 
 
-#include "../Objects/Character.hpp"
-#include "../Objects/Platform.hpp"
+#include "Objects/Character.hpp"
+#include "Objects/Platform.hpp"
 #include "MoveListData.hpp"
 
 namespace SpiralOfFate
@@ -62,10 +62,7 @@ namespace SpiralOfFate
 		sf::Sprite _roundSprite;
 		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;
-		bool _step = false;
-		bool _next = false;
 		unsigned char _speed = 60;
-		float _time = 0;
 		unsigned _lastObjectId = 0;
 		std::vector<std::unique_ptr<IObject>> _stageObjects;
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
@@ -154,6 +151,7 @@ namespace SpiralOfFate
 		const Character *getRightCharacter() const;
 		const std::vector<Character::ReplayData> &getLeftReplayData() const;
 		const std::vector<Character::ReplayData> &getRightReplayData() const;
+		void logDifference(void *data1, void *data2);
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, const Args &... args)
 		{

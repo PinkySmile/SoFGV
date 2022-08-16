@@ -4,7 +4,7 @@
 
 #include <sstream>
 #include "BattleManager.hpp"
-#include "../Logger.hpp"
+#include "Logger.hpp"
 #include "Game.hpp"
 
 #define FIRST_TO 2
@@ -127,17 +127,7 @@ namespace SpiralOfFate
 
 	bool BattleManager::update()
 	{
-		if (this->_step && !this->_next)
-			return true;
-		this->_next = false;
-
-		this->_time += this->_speed / 60.f;
-		while (this->_time > 1) {
-			this->_time -= 1;
-			if (!this->_updateLoop())
-				return false;
-		}
-		return true;
+		return this->_updateLoop();
 	}
 
 	void BattleManager::render()
@@ -1278,5 +1268,143 @@ namespace SpiralOfFate
 	BattleManager::~BattleManager()
 	{
 		game->logger.debug("~BattleManager()");
+	}
+
+	void BattleManager::logDifference(void *data1, void *data2)
+	{
+		auto dat1 = reinterpret_cast<Data *>(data1);
+		auto dat2 = reinterpret_cast<Data *>(data2);
+		ptrdiff_t ptr1 = (ptrdiff_t)data1 + sizeof(Data);
+		ptrdiff_t ptr2 = (ptrdiff_t)data2 + sizeof(Data);
+
+		if (dat1->_ended != dat2->_ended)
+			game->logger.fatal("BattleManager::ended differs: " + std::to_string(dat1->_ended) + " vs " + std::to_string(dat2->_ended));
+		if (dat1->_lastObjectId != dat2->_lastObjectId)
+			game->logger.fatal("BattleManager::lastObjectId differs: " + std::to_string(dat1->_lastObjectId) + " vs " + std::to_string(dat2->_lastObjectId));
+		if (dat1->_leftComboCtr != dat2->_leftComboCtr)
+			game->logger.fatal("BattleManager::leftComboCtr differs: " + std::to_string(dat1->_leftComboCtr) + " vs " + std::to_string(dat2->_leftComboCtr));
+		if (dat1->_leftHitCtr != dat2->_leftHitCtr)
+			game->logger.fatal("BattleManager::leftHitCtr differs: " + std::to_string(dat1->_leftHitCtr) + " vs " + std::to_string(dat2->_leftHitCtr));
+		if (dat1->_leftNeutralLimit != dat2->_leftNeutralLimit)
+			game->logger.fatal("BattleManager::leftNeutralLimit differs: " + std::to_string(dat1->_leftNeutralLimit) + " vs " + std::to_string(dat2->_leftNeutralLimit));
+		if (dat1->_leftVoidLimit != dat2->_leftVoidLimit)
+			game->logger.fatal("BattleManager::leftVoidLimit differs: " + std::to_string(dat1->_leftVoidLimit) + " vs " + std::to_string(dat2->_leftVoidLimit));
+		if (dat1->_leftMatterLimit != dat2->_leftMatterLimit)
+			game->logger.fatal("BattleManager::leftMatterLimit differs: " + std::to_string(dat1->_leftMatterLimit) + " vs " + std::to_string(dat2->_leftMatterLimit));
+		if (dat1->_leftSpiritLimit != dat2->_leftSpiritLimit)
+			game->logger.fatal("BattleManager::leftSpiritLimit differs: " + std::to_string(dat1->_leftSpiritLimit) + " vs " + std::to_string(dat2->_leftSpiritLimit));
+		if (dat1->_leftTotalDamage != dat2->_leftTotalDamage)
+			game->logger.fatal("BattleManager::leftTotalDamage differs: " + std::to_string(dat1->_leftTotalDamage) + " vs " + std::to_string(dat2->_leftTotalDamage));
+		if (dat1->_leftProration != dat2->_leftProration)
+			game->logger.fatal("BattleManager::leftProration differs: " + std::to_string(dat1->_leftProration) + " vs " + std::to_string(dat2->_leftProration));
+		if (dat1->_rightComboCtr != dat2->_rightComboCtr)
+			game->logger.fatal("BattleManager::rightComboCtr differs: " + std::to_string(dat1->_rightComboCtr) + " vs " + std::to_string(dat2->_rightComboCtr));
+		if (dat1->_rightHitCtr != dat2->_rightHitCtr)
+			game->logger.fatal("BattleManager::rightHitCtr differs: " + std::to_string(dat1->_rightHitCtr) + " vs " + std::to_string(dat2->_rightHitCtr));
+		if (dat1->_rightNeutralLimit != dat2->_rightNeutralLimit)
+			game->logger.fatal("BattleManager::rightNeutralLimit differs: " + std::to_string(dat1->_rightNeutralLimit) + " vs " + std::to_string(dat2->_rightNeutralLimit));
+		if (dat1->_rightVoidLimit != dat2->_rightVoidLimit)
+			game->logger.fatal("BattleManager::rightVoidLimit differs: " + std::to_string(dat1->_rightVoidLimit) + " vs " + std::to_string(dat2->_rightVoidLimit));
+		if (dat1->_rightSpiritLimit != dat2->_rightSpiritLimit)
+			game->logger.fatal("BattleManager::rightSpiritLimit differs: " + std::to_string(dat1->_rightSpiritLimit) + " vs " + std::to_string(dat2->_rightSpiritLimit));
+		if (dat1->_rightMatterLimit != dat2->_rightMatterLimit)
+			game->logger.fatal("BattleManager::rightMatterLimit differs: " + std::to_string(dat1->_rightMatterLimit) + " vs " + std::to_string(dat2->_rightMatterLimit));
+		if (dat1->_rightTotalDamage != dat2->_rightTotalDamage)
+			game->logger.fatal("BattleManager::rightTotalDamage differs: " + std::to_string(dat1->_rightTotalDamage) + " vs " + std::to_string(dat2->_rightTotalDamage));
+		if (dat1->_rightProration != dat2->_rightProration)
+			game->logger.fatal("BattleManager::rightProration differs: " + std::to_string(dat1->_rightProration) + " vs " + std::to_string(dat2->_rightProration));
+		if (dat1->_score != dat2->_score)
+			game->logger.fatal("BattleManager::score differs: " + std::to_string(dat1->_score.first) + "|" + std::to_string(dat1->_score.second) + " vs " + std::to_string(dat2->_score.first) + "|" + std::to_string(dat2->_score.second));
+		if (dat1->_currentRound != dat2->_currentRound)
+			game->logger.fatal("BattleManager::currentRound differs: " + std::to_string(dat1->_currentRound) + " vs " + std::to_string(dat2->_currentRound));
+		if (dat1->_roundStartTimer != dat2->_roundStartTimer)
+			game->logger.fatal("BattleManager::roundStartTimer differs: " + std::to_string(dat1->_roundStartTimer) + " vs " + std::to_string(dat2->_roundStartTimer));
+		if (dat1->_roundEndTimer != dat2->_roundEndTimer)
+			game->logger.fatal("BattleManager::roundEndTimer differs: " + std::to_string(dat1->_roundEndTimer) + " vs " + std::to_string(dat2->_roundEndTimer));
+		if (dat1->_hitStop != dat2->_hitStop)
+			game->logger.fatal("BattleManager::hitStop differs: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
+		if (dat1->_nbObjects != dat2->_nbObjects)
+			game->logger.fatal("BattleManager::nbObjects differs: " + std::to_string(dat1->_nbObjects) + " vs " + std::to_string(dat2->_nbObjects));
+
+		auto length = this->_leftCharacter->printDifference("Player1: ", (void *)ptr1, (void *)ptr2);
+
+		if (!length)
+			return;
+		ptr1 += length;
+		ptr2 += length;
+
+		length = this->_rightCharacter->printDifference("Player2: ", (void *)ptr1, (void *)ptr2);
+		if (!length)
+			return;
+		ptr1 += length;
+		ptr2 += length;
+
+		if (dat1->_nbObjects != dat2->_nbObjects)
+			return;
+
+		for (size_t i = 0; i < dat1->_nbObjects; i++) {
+			std::shared_ptr<IObject> obj;
+			auto id1 = *(unsigned *)ptr1;
+			auto id2 = *(unsigned *)ptr2;
+
+			if (id1 != id2)
+				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::objectId differs: " + std::to_string(id1) + " vs " + std::to_string(id2));
+			ptr1 += sizeof(unsigned);
+			ptr2 += sizeof(unsigned);
+
+			auto cl1 = *(unsigned char *)ptr1;
+			auto cl2 = *(unsigned char *)ptr2;
+
+			if (cl1 != cl2) {
+				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::class differs: " + std::to_string(cl1) + " vs " + std::to_string(cl2));
+				return;
+			}
+			ptr1 += sizeof(unsigned char);
+			ptr2 += sizeof(unsigned char);
+
+			switch (cl1) {
+			case 0:
+				obj.reset(new Object());
+				break;
+			case 1:
+				obj.reset(new Character());
+				break;
+			case 2: {
+				auto owner1 = *(bool *)ptr1;
+				auto owner2 = *(bool *)ptr2;
+
+				if (owner1 != owner2)
+					game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::owner differs: " + std::to_string(owner1) + " vs " + std::to_string(owner2));
+				ptr1 += sizeof(bool);
+				ptr2 += sizeof(bool);
+
+				auto subobjid1 = *(unsigned *)ptr1;
+				auto subobjid2 = *(unsigned *)ptr2;
+
+				if (subobjid1 != subobjid2)
+					game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::subobjectId differs: " + std::to_string(subobjid1) + " vs " + std::to_string(subobjid2));
+				ptr1 += sizeof(unsigned);
+				ptr2 += sizeof(unsigned);
+				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubobject(subobjid1, false).second;
+				break;
+			}
+			default:
+				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::class invalid: " + std::to_string(cl1));
+				return;
+			}
+
+			length = obj->printDifference(("BattleManager::object[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2);
+			if (length == 0)
+				return;
+			ptr1 += length;
+			ptr2 += length;
+		}
+		for (size_t i = 0; i < this->_nbPlatform; i++) {
+			length = this->_platforms[i]->printDifference(("BattleManager::platform[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2);
+			if (length == 0)
+				return;
+			ptr1 += length;
+			ptr2 += length;
+		}
 	}
 }

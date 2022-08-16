@@ -6,7 +6,7 @@
 #define SOFGV_IOBJECT_HPP
 
 
-#include "../Resources/FrameData.hpp"
+#include "Resources/FrameData.hpp"
 
 namespace SpiralOfFate
 {
@@ -31,6 +31,7 @@ namespace SpiralOfFate
 		virtual unsigned getBufferSize() const = 0;
 		virtual void copyToBuffer(void *data) const = 0;
 		virtual void restoreFromBuffer(void *data) = 0;
+		virtual size_t printDifference(const char *msgStart, void *, void *) const = 0;
 		virtual unsigned getClassId() const = 0;
 	};
 }

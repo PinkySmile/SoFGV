@@ -3,8 +3,8 @@
 //
 
 #include "Object.hpp"
-#include "../Resources/Game.hpp"
-#include "../Logger.hpp"
+#include "Resources/Game.hpp"
+#include "Logger.hpp"
 
 namespace SpiralOfFate
 {
@@ -565,5 +565,43 @@ namespace SpiralOfFate
 				return true;
 			}
 		);
+	}
+
+	size_t Object::printDifference(const char *msgStart, void *data1, void *data2) const
+	{
+		auto dat1 = reinterpret_cast<Data *>(data1);
+		auto dat2 = reinterpret_cast<Data *>(data2);
+
+		if (dat1->_position != dat2->_position)
+			game->logger.fatal(std::string(msgStart) + "Object::_position: (" + std::to_string(dat1->_position.x) + ", " + std::to_string(dat1->_position.y) + ") vs (" + std::to_string(dat2->_position.x) + ", " + std::to_string(dat2->_position.y) + ")");
+		if (dat1->_speed != dat2->_speed)
+			game->logger.fatal(std::string(msgStart) + "Object::_speed: (" + std::to_string(dat1->_speed.x) + ", " + std::to_string(dat1->_speed.y) + ") vs (" + std::to_string(dat2->_speed.x) + ", " + std::to_string(dat2->_speed.y) + ")");
+		if (dat1->_gravity != dat2->_gravity)
+			game->logger.fatal(std::string(msgStart) + "Object::_gravity: (" + std::to_string(dat1->_gravity.x) + ", " + std::to_string(dat1->_gravity.y) + ") vs (" + std::to_string(dat2->_gravity.x) + ", " + std::to_string(dat2->_gravity.y) + ")");
+		if (dat1->_action != dat2->_action)
+			game->logger.fatal(std::string(msgStart) + "Object::_action: " + std::to_string(dat1->_action) + " vs " + std::to_string(dat2->_action));
+		if (dat1->_actionBlock != dat2->_actionBlock)
+			game->logger.fatal(std::string(msgStart) + "Object::_actionBlock: " + std::to_string(dat1->_actionBlock) + " vs " + std::to_string(dat2->_actionBlock));
+		if (dat1->_animation != dat2->_animation)
+			game->logger.fatal(std::string(msgStart) + "Object::_animation: " + std::to_string(dat1->_animation) + " vs " + std::to_string(dat2->_animation));
+		if (dat1->_animationCtr != dat2->_animationCtr)
+			game->logger.fatal(std::string(msgStart) + "Object::_animationCtr: " + std::to_string(dat1->_animationCtr) + " vs " + std::to_string(dat2->_animationCtr));
+		if (dat1->_hp != dat2->_hp)
+			game->logger.fatal(std::string(msgStart) + "Object::_hp: " + std::to_string(dat1->_hp) + " vs " + std::to_string(dat2->_hp));
+		if (dat1->_rotation != dat2->_rotation)
+			game->logger.fatal(std::string(msgStart) + "Object::_rotation: " + std::to_string(dat1->_rotation) + " vs " + std::to_string(dat2->_rotation));
+		if (dat1->_team != dat2->_team)
+			game->logger.fatal(std::string(msgStart) + "Object::_team: " + std::to_string(dat1->_team) + " vs " + std::to_string(dat2->_team));
+		if (dat1->_dead != dat2->_dead)
+			game->logger.fatal(std::string(msgStart) + "Object::_dead: " + std::to_string(dat1->_dead) + " vs " + std::to_string(dat2->_dead));
+		if (dat1->_hasHit != dat2->_hasHit)
+			game->logger.fatal(std::string(msgStart) + "Object::_hasHit: " + std::to_string(dat1->_hasHit) + " vs " + std::to_string(dat2->_hasHit));
+		if (dat1->_direction != dat2->_direction)
+			game->logger.fatal(std::string(msgStart) + "Object::_direction: " + std::to_string(dat1->_direction) + " vs " + std::to_string(dat2->_direction));
+		if (dat1->_cornerPriority != dat2->_cornerPriority)
+			game->logger.fatal(std::string(msgStart) + "Object::_cornerPriority: " + std::to_string(dat1->_cornerPriority) + " vs " + std::to_string(dat2->_cornerPriority));
+		if (dat1->_dir != dat2->_dir)
+			game->logger.fatal(std::string(msgStart) + "Object::_dir: " + std::to_string(dat1->_dir) + " vs " + std::to_string(dat2->_dir));
+		return sizeof(Data);
 	}
 }

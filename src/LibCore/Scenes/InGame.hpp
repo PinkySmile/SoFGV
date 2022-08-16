@@ -9,10 +9,10 @@
 #include <memory>
 #include <random>
 #include "IScene.hpp"
-#include "../Inputs/IInput.hpp"
-#include "../Objects/Character.hpp"
-#include "../Resources/MoveListData.hpp"
-#include "../Objects/FakeObject.hpp"
+#include "Inputs/IInput.hpp"
+#include "Objects/Character.hpp"
+#include "Resources/MoveListData.hpp"
+#include "Objects/FakeObject.hpp"
 
 namespace SpiralOfFate
 {
@@ -83,6 +83,8 @@ namespace SpiralOfFate
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;
 	};
+
+	InGame *createInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson);
 }
 
 

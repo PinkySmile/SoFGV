@@ -16,15 +16,16 @@
 #include "TitleScreen.hpp"
 #include "InGame.hpp"
 #include "CharacterSelect.hpp"
-#include "../Resources/Game.hpp"
-#include "../Logger.hpp"
-#include "../Inputs/KeyboardInput.hpp"
-#include "../Inputs/ControllerInput.hpp"
-#include "../Inputs/RemoteInput.hpp"
-#include "../Utils.hpp"
-#include "../Inputs/ReplayInput.hpp"
-#include "../Resources/version.h"
+#include "Resources/Game.hpp"
+#include "Logger.hpp"
+#include "Inputs/KeyboardInput.hpp"
+#include "Inputs/ControllerInput.hpp"
+#include "Inputs/RemoteInput.hpp"
+#include "Utils.hpp"
+#include "Inputs/ReplayInput.hpp"
+#include "Resources/version.h"
 #include "ReplayInGame.hpp"
+#include "Scenes/Network/SyncTestInGame.hpp"
 
 #define THRESHOLD 50
 
@@ -57,7 +58,7 @@ namespace SpiralOfFate
 		"Settings",
 		"Quit",
 #ifdef _DEBUG
-		"GGPO sync test"
+		"Sync test"
 #endif
 	};
 
@@ -178,14 +179,15 @@ namespace SpiralOfFate
 		case PLAY_BUTTON:
 			this->_nextScene = new CharacterSelect(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
-				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second)
+				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
+				createInGameSceneIScene
 			);
 			break;
 		case PRACTICE_BUTTON:
 			this->_nextScene = new CharacterSelect(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
 				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
-				true
+				createPracticeInGameSceneIScene
 			);
 			break;
 		case HOST_BUTTON:
@@ -195,6 +197,11 @@ namespace SpiralOfFate
 			this->_connect();
 			break;
 		case SYNC_TEST_BUTTON:
+			this->_nextScene = new CharacterSelect(
+				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
+				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
+				createSyncTestInGameSceneIScene
+			);
 			break;
 		}
 	}

@@ -2,7 +2,7 @@
 // Created by PinkySmile on 02/02/2022.
 //
 
-#include "../Resources/Game.hpp"
+#include "Resources/Game.hpp"
 #include "Projectile.hpp"
 
 namespace SpiralOfFate
@@ -136,5 +136,22 @@ namespace SpiralOfFate
 		this->_actionBlock++;
 		my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 		Object::_onMoveEnd(lastData);
+	}
+
+	size_t Projectile::printDifference(const char *msgStart, void *data1, void *data2) const
+	{
+		auto length = Object::printDifference(msgStart, data1, data2);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
+
+		if (dat1->nbHit != dat2->nbHit)
+			game->logger.fatal(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit) + " vs " + std::to_string(dat2->nbHit));
+		if (dat1->maxHit != dat2->maxHit)
+			game->logger.fatal(std::string(msgStart) + "Projectile::maxHit: " + std::to_string(dat1->maxHit) + " vs " + std::to_string(dat2->maxHit));
+		return length + sizeof(Data);
 	}
 }

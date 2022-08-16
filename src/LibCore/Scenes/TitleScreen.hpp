@@ -10,8 +10,8 @@
 #include <memory>
 #include <thread>
 #include "IScene.hpp"
-#include "../Inputs/KeyboardInput.hpp"
-#include "../Inputs/ControllerInput.hpp"
+#include "Inputs/KeyboardInput.hpp"
+#include "Inputs/ControllerInput.hpp"
 
 namespace SpiralOfFate
 {

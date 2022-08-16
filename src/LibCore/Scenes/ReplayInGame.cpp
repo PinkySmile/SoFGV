@@ -3,11 +3,11 @@
 //
 
 #include "ReplayInGame.hpp"
-#include "../Resources/Game.hpp"
-#include "../Resources/PracticeBattleManager.hpp"
+#include "Resources/Game.hpp"
+#include "Resources/PracticeBattleManager.hpp"
 #include "TitleScreen.hpp"
-#include "../Inputs/ReplayInput.hpp"
-#include "../Utils.hpp"
+#include "Inputs/ReplayInput.hpp"
+#include "Utils.hpp"
 
 namespace SpiralOfFate
 {

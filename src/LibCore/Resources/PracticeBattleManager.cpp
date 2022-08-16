@@ -190,4 +190,19 @@ namespace SpiralOfFate
 		}
 		return true;
 	}
+
+	bool PracticeBattleManager::update()
+	{
+		if (this->_step && !this->_next)
+			return true;
+		this->_next = false;
+
+		this->_time += this->_speed / 60.f;
+		while (this->_time >= 1) {
+			this->_time -= 1;
+			if (!this->_updateLoop())
+				return false;
+		}
+		return true;
+	}
 }

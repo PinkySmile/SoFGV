@@ -5,7 +5,7 @@
 #ifndef __ANDROID__
 #include <cstring>
 #include "RemoteInput.hpp"
-#include "../Logger.hpp"
+#include "Logger.hpp"
 
 namespace SpiralOfFate
 {

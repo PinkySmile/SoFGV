@@ -13,15 +13,15 @@
 #endif
 #include <sys/stat.h>
 #include "InGame.hpp"
-#include "../Objects/Character.hpp"
-#include "../Resources/Game.hpp"
-#include "../Resources/PracticeBattleManager.hpp"
-#include "../Logger.hpp"
+#include "Objects/Character.hpp"
+#include "Resources/Game.hpp"
+#include "Resources/PracticeBattleManager.hpp"
+#include "Logger.hpp"
 #include "CharacterSelect.hpp"
 #include "TitleScreen.hpp"
 #include "PracticeInGame.hpp"
-#include "../Utils.hpp"
-#include "../Resources/version.h"
+#include "Utils.hpp"
+#include "Resources/version.h"
 #include "Objects/StageObjects/StageObject.hpp"
 #include "Objects/StageObjects/Cloud.hpp"
 
@@ -36,6 +36,11 @@ unsigned getMagic()
 
 namespace SpiralOfFate
 {
+	InGame *createInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
+	{
+		return new InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson);
+	}
+
 	static const char * const text[] = {
 		"in the air",
 		"during transform",
@@ -159,7 +164,7 @@ namespace SpiralOfFate
 			rinput->update();
 			this->_moveListUpdate((this->_paused == 1 ? linput : rinput)->getInputs());
 		} else if (!this->_paused) {
-			if (!SpiralOfFate::game->battleMgr->update()) {
+			if (!game->battleMgr->update()) {
 				if (this->_goBackToTitle)
 					this->_nextScene = new TitleScreen(game->P1, game->P2);
 				else
@@ -170,7 +175,7 @@ namespace SpiralOfFate
 						game->battleMgr->getRightCharacter()->index & 0xFFFF,
 						game->battleMgr->getLeftCharacter()->index >> 16,
 						game->battleMgr->getRightCharacter()->index >> 16,
-						dynamic_cast<PracticeInGame *>(this) != nullptr
+						dynamic_cast<PracticeInGame *>(this) != nullptr ? createPracticeInGameSceneIScene : createInGameSceneIScene
 					);
 				return this->_nextScene;
 			}
@@ -191,12 +196,10 @@ namespace SpiralOfFate
 			if (this->_paused) {
 				this->_paused = 3;
 				this->_pauseCursor = 0;
-			} else if (game->battleMgr->getLeftCharacter()->getInput()->getName() == "Keyboard")
+			} else if (game->battleMgr->getLeftCharacter()->getInput()->getName() == "Keyboard" || game->battleMgr->getRightCharacter()->getInput()->getName() != "Keyboard")
 				this->_paused = 1;
-			else if (game->battleMgr->getRightCharacter()->getInput()->getName() == "Keyboard")
-				this->_paused = 2;
 			else
-				this->_paused = 1;
+				this->_paused = 2;
 		}
 	}
 
@@ -292,7 +295,7 @@ namespace SpiralOfFate
 				game->battleMgr->getRightCharacter()->index & 0xFFFF,
 				game->battleMgr->getLeftCharacter()->index >> 16,
 				game->battleMgr->getRightCharacter()->index >> 16,
-				dynamic_cast<PracticeInGame *>(this) != nullptr
+				dynamic_cast<PracticeInGame *>(this) != nullptr ? createPracticeInGameSceneIScene : createInGameSceneIScene
 			);
 			return false;
 		case 4:

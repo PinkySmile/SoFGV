@@ -6,8 +6,8 @@
 #define SOFGV_STICKMAN_HPP
 
 
-#include "../Character.hpp"
 #include <random>
+#include "Objects/Character.hpp"
 
 namespace SpiralOfFate
 {
@@ -68,6 +68,7 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		bool matchEndUpdate() override;
 		void onMatchEnd() override;
 	};

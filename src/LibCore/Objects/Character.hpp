@@ -8,8 +8,8 @@
 
 #include <list>
 #include "Object.hpp"
-#include "../Inputs/IInput.hpp"
-#include "../Data/Color.hpp"
+#include "Inputs/IInput.hpp"
+#include "Data/Color.hpp"
 #include "Projectile.hpp"
 
 #ifdef _MSC_VER
@@ -726,10 +726,13 @@ namespace SpiralOfFate
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
 
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;
 		friend class ReplayInGame;
 		friend class BattleManager;
+		friend class RollbackMachine;
 	};
 }
 

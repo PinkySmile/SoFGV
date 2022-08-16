@@ -21,6 +21,7 @@ namespace SpiralOfFate
 		virtual void consumeEvent(const sf::Event &event) = 0;
 		virtual std::string getName() const = 0;
 		virtual std::vector<std::string> getKeyNames() const = 0;
+		virtual bool hasInputs() { return true; };
 	};
 }
 

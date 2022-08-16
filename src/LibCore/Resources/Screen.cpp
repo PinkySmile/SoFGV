@@ -2,7 +2,7 @@
 // Created by PinkySmile on 15/01/2019.
 //
 
-#include "../Logger.hpp"
+#include "Logger.hpp"
 #include "Screen.hpp"
 #include "Game.hpp"
 

@@ -13,7 +13,7 @@
 #include <bitset>
 #include <deque>
 #include "IInput.hpp"
-#include "../Resources/BattleManager.hpp"
+#include "Resources/BattleManager.hpp"
 
 namespace SpiralOfFate
 {

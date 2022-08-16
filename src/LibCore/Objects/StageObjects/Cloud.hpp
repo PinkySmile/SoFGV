@@ -6,7 +6,7 @@
 #define SOFGV_CLOUD_HPP
 
 
-#include "../Object.hpp"
+#include "Objects/Object.hpp"
 
 namespace SpiralOfFate
 {

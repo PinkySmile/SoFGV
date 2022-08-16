@@ -3,7 +3,7 @@
 //
 
 #include "Cloud.hpp"
-#include "../../Resources/Game.hpp"
+#include "Resources/Game.hpp"
 
 namespace SpiralOfFate
 {

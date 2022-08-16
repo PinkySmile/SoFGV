@@ -4,7 +4,7 @@
 
 #include <cstring>
 #include "ReplayInput.hpp"
-#include "../Logger.hpp"
+#include "Logger.hpp"
 
 namespace SpiralOfFate
 {

@@ -12,11 +12,11 @@
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
 #include "SoundManager.hpp"
-#include "../Scenes/IScene.hpp"
-#include "../Inputs/KeyboardInput.hpp"
-#include "../Inputs/ControllerInput.hpp"
-#include "../Inputs/RemoteInput.hpp"
-#include "../Logger.hpp"
+#include "Scenes/IScene.hpp"
+#include "Inputs/KeyboardInput.hpp"
+#include "Inputs/ControllerInput.hpp"
+#include "Inputs/RemoteInput.hpp"
+#include "Logger.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS

@@ -4,7 +4,7 @@
 
 #include "SoundManager.hpp"
 #include "Game.hpp"
-#include "../Logger.hpp"
+#include "Logger.hpp"
 
 namespace SpiralOfFate
 {
