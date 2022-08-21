@@ -1,5 +1,5 @@
 //
-// Created by PinkySmile on 18/09/2021
+// Created by PinkySmile on 18/09/2021.
 //
 
 #ifdef _WIN32
@@ -1337,6 +1337,7 @@ namespace SpiralOfFate
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto data = &this->_moves.at(action).at(0).at(0);
 
+		this->_armorUsed = false;
 		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
 			(data->oFlag.spiritMana && this->_spiritMana < data->manaCost) ||
 			(data->oFlag.matterMana && this->_matterMana < data->manaCost);
@@ -3568,7 +3569,7 @@ namespace SpiralOfFate
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
-			if (!myData->dFlag.superarmor || data.oFlag.grab) {
+			if (!myData->dFlag.superarmor || data.oFlag.grab || this->_armorUsed) {
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
 				this->_speed.y =  data.hitSpeed.y;
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
@@ -3582,7 +3583,8 @@ namespace SpiralOfFate
 						this->_actionBlock = 1;
 					stun = data.untech;
 				}
-			}
+			} else
+				stun = 0;
 			game->battleMgr->setHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
@@ -3596,6 +3598,7 @@ namespace SpiralOfFate
 		this->_limit[3] += data.spiritLimit;
 		this->_speedReset = data.oFlag.resetSpeed;
 		this->_hp -= damage;
+		this->_armorUsed = true;
 	}
 
 	void Character::_processWallSlams()
@@ -3603,8 +3606,8 @@ namespace SpiralOfFate
 		if (this->_position.x < 0) {
 			this->_position.x = 0;
 			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT)
-			) {
+				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
+			)) {
 				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 				game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 				this->_forceStartMove(ACTION_WALL_SLAM);
@@ -3792,6 +3795,7 @@ namespace SpiralOfFate
 		dat->_comboCtr = this->_comboCtr;
 		dat->_totalDamage = this->_totalDamage;
 		dat->_prorate = this->_prorate;
+		dat->_armorUsed = this->_armorUsed;
 		dat->_atkDisabled = this->_atkDisabled;
 		dat->_inputDisabled = this->_inputDisabled;
 		dat->_hasJumped = this->_hasJumped;
@@ -3845,6 +3849,7 @@ namespace SpiralOfFate
 		this->_jumpsUsed = dat->_jumpsUsed;
 		this->_airDashesUsed = dat->_airDashesUsed;
 		this->_comboCtr = dat->_comboCtr;
+		this->_armorUsed = dat->_armorUsed;
 		this->_totalDamage = dat->_totalDamage;
 		this->_prorate = dat->_prorate;
 		this->_atkDisabled = dat->_atkDisabled;

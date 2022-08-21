@@ -1,5 +1,5 @@
 //
-// Created by PinkySmile on 18/09/2021
+// Created by PinkySmile on 18/09/2021.
 //
 
 #ifndef SOFGV_GAME_HPP
@@ -15,7 +15,7 @@
 #include "Scenes/IScene.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
-#include "Inputs/RemoteInput.hpp"
+#include "Inputs/RollbackInput.hpp"
 #include "Logger.hpp"
 
 #ifdef _MSC_VER
@@ -113,7 +113,6 @@ namespace SpiralOfFate
 		TextureManager textureMgr;
 		SoundManager soundMgr;
 		std::unique_ptr<BattleManager> battleMgr;
-//		NetManager networkMgr;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;

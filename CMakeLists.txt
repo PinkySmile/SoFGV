@@ -66,8 +66,8 @@ add_library(
 	src/LibCore/Inputs/InputEnum.hpp
 	src/LibCore/Inputs/KeyboardInput.cpp
 	src/LibCore/Inputs/KeyboardInput.hpp
-	src/LibCore/Inputs/RemoteInput.cpp
-	src/LibCore/Inputs/RemoteInput.hpp
+	src/LibCore/Inputs/RollbackInput.cpp
+	src/LibCore/Inputs/RollbackInput.hpp
 	src/LibCore/Logger.cpp
 	src/LibCore/Logger.hpp
 	src/LibCore/Objects/Character.cpp
@@ -120,7 +120,7 @@ add_library(
 	src/LibCore/Objects/StageObjects/StageObject.hpp
 	src/LibCore/Objects/StageObjects/Cloud.hpp
 	src/LibCore/Objects/StageObjects/Cloud.cpp
-	src/LibCore/Scenes/Network/SyncTestInGame.cpp src/LibCore/Scenes/Network/SyncTestInGame.hpp src/LibCore/Scenes/Network/RollbackMachine.cpp src/LibCore/Scenes/Network/RollbackMachine.hpp)
+	src/LibCore/Scenes/Network/SyncTestInGame.cpp src/LibCore/Scenes/Network/SyncTestInGame.hpp src/LibCore/Scenes/Network/RollbackMachine.cpp src/LibCore/Scenes/Network/RollbackMachine.hpp src/LibCore/Resources/Network/NetManager.cpp src/LibCore/Resources/Network/NetManager.hpp src/LibCore/Resources/Network/IConnection.hpp src/LibCore/Resources/Network/Packet.hpp src/LibCore/Resources/Network/Connection.cpp src/LibCore/Resources/Network/Connection.hpp src/LibCore/Resources/Network/Exceptions.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)

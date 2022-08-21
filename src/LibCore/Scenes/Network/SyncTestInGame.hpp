@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 15/08/2022.
+// Created by PinkySmile on 15/08/2022.
 //
 
 #ifndef SOFGV_SYNCTESTINGAME_HPP

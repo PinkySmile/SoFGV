@@ -15,13 +15,13 @@
 
 namespace SpiralOfFate
 {
-	class RemoteInput : public IInput {
+	class RollbackInput : public IInput {
 	public:
 		std::bitset<INPUT_NUMBER - 1> _keyStates;
 		std::array<int, INPUT_NUMBER - 1> _keyDuration;
 		int _paused = 0;
 
-		RemoteInput();
+		RollbackInput();
 		bool isPressed(InputEnum input) const override;
 		InputStruct getInputs() const override;
 		void update() override;

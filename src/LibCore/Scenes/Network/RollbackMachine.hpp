@@ -1,5 +1,5 @@
 //
-// Created by Gegel85 on 15/08/2022.
+// Created by PinkySmile on 15/08/2022.
 //
 
 #ifndef SOFGV_ROLLBACKMACHINE_HPP
@@ -9,7 +9,7 @@
 #include <list>
 #include <memory>
 #include <optional>
-#include "Inputs/RemoteInput.hpp"
+#include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
 #define MAX_ROLLBACK 8
@@ -41,8 +41,8 @@ namespace SpiralOfFate
 		std::list<RollbackData> _savedData;
 		std::shared_ptr<IInput> _realInputLeft;
 		std::shared_ptr<IInput> _realInputRight;
-		std::shared_ptr<RemoteInput> inputLeft = std::make_shared<RemoteInput>();
-		std::shared_ptr<RemoteInput> inputRight = std::make_shared<RemoteInput>();
+		std::shared_ptr<RollbackInput> inputLeft = std::make_shared<RollbackInput>();
+		std::shared_ptr<RollbackInput> inputRight = std::make_shared<RollbackInput>();
 
 		void _manageRollback(std::list<RollbackData>::iterator it);
 		static int _computeCheckSum(short *data, size_t size);

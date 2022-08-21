@@ -1,5 +1,5 @@
 //
-// Created by andgel on 15/08/22
+// Created by PinkySmile on 15/08/2022.
 //
 
 #ifndef SOFGV_STAGEOBJECT_HPP

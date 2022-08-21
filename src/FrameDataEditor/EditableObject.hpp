@@ -1,5 +1,5 @@
 //
-// Created by PinkySmile on 18/09/2021
+// Created by PinkySmile on 18/09/2021.
 //
 
 #ifndef BATTLE_EditableObject_HPP
@@ -39,6 +39,7 @@ public:
 	void copyToBuffer(void *data) const override;
 	void restoreFromBuffer(void *data) override;
 	unsigned int getClassId() const override;
+	size_t printDifference(const char *msgStart, void *, void *) const override;
 };
 
 

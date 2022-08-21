@@ -1,5 +1,5 @@
 //
-// Created by PinkySmile on 18/09/2021
+// Created by PinkySmile on 18/09/2021.
 //
 
 #ifndef SOFGV_CHARACTER_HPP
@@ -394,6 +394,7 @@ namespace SpiralOfFate
 			bool _speedReset;
 			bool _justGotCorner;
 			char _normalTreeFlag;
+			bool _armorUsed;
 			unsigned char _specialInputs[50];
 			float _regen;
 			float _voidMana;
@@ -546,6 +547,7 @@ namespace SpiralOfFate
 		bool _restand = false;
 		bool _justGotCorner = false;
 		bool _hadUltimate = false;
+		bool _armorUsed = false;
 		char _normalTreeFlag = 0;
 		float _prorate = 1;
 		float _regen = 0;

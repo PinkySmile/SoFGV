@@ -1,5 +1,5 @@
 //
-// Created by PinkySmile on 18/09/2021
+// Created by PinkySmile on 18/09/2021.
 //
 
 #include "EditableObject.hpp"
@@ -117,6 +117,11 @@ void EditableObject::restoreFromBuffer(void *)
 }
 
 unsigned int EditableObject::getClassId() const
+{
+	return 0;
+}
+
+size_t EditableObject::printDifference(const char *msgStart, void *pVoid, void *pVoid1) const
 {
 	return 0;
 }
