@@ -120,7 +120,22 @@ add_library(
 	src/LibCore/Objects/StageObjects/StageObject.hpp
 	src/LibCore/Objects/StageObjects/Cloud.hpp
 	src/LibCore/Objects/StageObjects/Cloud.cpp
-	src/LibCore/Scenes/Network/SyncTestInGame.cpp src/LibCore/Scenes/Network/SyncTestInGame.hpp src/LibCore/Scenes/Network/RollbackMachine.cpp src/LibCore/Scenes/Network/RollbackMachine.hpp src/LibCore/Resources/Network/NetManager.cpp src/LibCore/Resources/Network/NetManager.hpp src/LibCore/Resources/Network/IConnection.hpp src/LibCore/Resources/Network/Packet.hpp src/LibCore/Resources/Network/Connection.cpp src/LibCore/Resources/Network/Connection.hpp src/LibCore/Resources/Network/Exceptions.hpp)
+	src/LibCore/Scenes/Network/SyncTestInGame.cpp
+	src/LibCore/Scenes/Network/SyncTestInGame.hpp
+	src/LibCore/Scenes/Network/RollbackMachine.cpp
+	src/LibCore/Scenes/Network/RollbackMachine.hpp
+	src/LibCore/Resources/Network/NetManager.cpp
+	src/LibCore/Resources/Network/NetManager.hpp
+	src/LibCore/Resources/Network/Packet.hpp
+	src/LibCore/Resources/Network/Connection.cpp
+	src/LibCore/Resources/Network/Connection.hpp
+	src/LibCore/Resources/Network/Exceptions.hpp
+	src/LibCore/Resources/Network/ServerConnection.cpp
+	src/LibCore/Resources/Network/ServerConnection.hpp
+	src/LibCore/Resources/Network/ClientConnection.cpp
+	src/LibCore/Resources/Network/ClientConnection.hpp
+	src/LibCore/Resources/Network/IConnection.hpp
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)

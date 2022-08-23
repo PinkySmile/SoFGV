@@ -9,34 +9,54 @@
 #include <thread>
 #include <SFML/Network.hpp>
 #include <vector>
+#include <mutex>
 #include "Packet.hpp"
 #include "Inputs/InputEnum.hpp"
+#include "IConnection.hpp"
 
 namespace SpiralOfFate
 {
-	class Connection {
+	class Connection : public IConnection {
 	protected:
-		struct Remote {
+		class Remote {
+		private:
+			struct Ping {
+				unsigned sequence = 0;
+				sf::Clock clock;
+			};
+
+			Connection &base;
+
+			void _pingLoop();
+
+		public:
 			sf::IpAddress ip;
 			unsigned short port;
-			int connectPhase = 0;
-			std::vector<std::pair<unsigned, time_t>> pingsSent;
+			volatile int connectPhase = 0;
+			std::list<Ping> pingsSent;
 			unsigned pingTimeLast = 0;
 			unsigned pingTimePeak = 0;
-			std::vector<time_t> pingsReceived;
+			unsigned pingTimeSum = 0;
+			unsigned pingLost = 0;
+			std::list<unsigned> pingsReceived;
+			sf::Thread pingThread{&Remote::_pingLoop, this};
 
-			Remote(const sf::IpAddress &ip, unsigned short port) : ip(ip), port(port) {};
+			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) : base(base), ip(ip), port(port) {};
+			~Remote();
 		};
 
-		bool _endThread = false;
+		std::mutex _mutex;
+		bool _endThread = true;
 		sf::Thread _netThread{&Connection::_threadLoop, this};
 		unsigned _delay;
 		unsigned _expectedDelay;
-		unsigned _currentFrame;
-		std::vector<InputStruct> _buffer;
+		unsigned _currentFrame = 0;
+		Remote *_opponent = nullptr;
+		std::vector<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
 		sf::UdpSocket _socket;
-		std::vector<Remote> _remotes;
+		std::list<Remote> _remotes;
+		std::pair<std::string, std::string> _names;
 
 		void _send(Remote &remote, void *packet, size_t size);
 
@@ -57,21 +77,23 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, PacketReplay &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size);
-		virtual void _handlePacket(Remote &remote, PacketGameStarted &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 		void _threadLoop();
 
 	public:
 		std::vector<std::string> blacklist;
+		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
 
 		Connection();
 		virtual ~Connection() = default;
 		void updateDelay(unsigned int delay);
-		void send(InputStruct &inputs);
+		virtual bool send(InputStruct &inputs);
 		unsigned int getCurrentDelay();
-		std::vector<InputStruct> receive();
+		std::vector<PacketInput> receive();
 		void terminate();
+		bool isTerminated() const;
+		const std::pair<std::string, std::string> &getNames() const;
 	};
 }
 

@@ -175,6 +175,8 @@ namespace SpiralOfFate
 						game->battleMgr->getRightCharacter()->index & 0xFFFF,
 						game->battleMgr->getLeftCharacter()->index >> 16,
 						game->battleMgr->getRightCharacter()->index >> 16,
+						//TODO: Save the stage and platform config properly
+						0, 0,
 						dynamic_cast<PracticeInGame *>(this) != nullptr ? createPracticeInGameSceneIScene : createInGameSceneIScene
 					);
 				return this->_nextScene;
@@ -295,6 +297,8 @@ namespace SpiralOfFate
 				game->battleMgr->getRightCharacter()->index & 0xFFFF,
 				game->battleMgr->getLeftCharacter()->index >> 16,
 				game->battleMgr->getRightCharacter()->index >> 16,
+				//TODO: Save the stage and platform config properly
+				0, 0,
 				dynamic_cast<PracticeInGame *>(this) != nullptr ? createPracticeInGameSceneIScene : createInGameSceneIScene
 			);
 			return false;

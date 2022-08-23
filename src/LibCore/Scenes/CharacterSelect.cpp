@@ -37,16 +37,19 @@ namespace SpiralOfFate
 
 	CharacterSelect::CharacterSelect(
 		std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput,
-		int _leftPos, int _rightPos,
-		int _leftPalette, int _rightPalette,
+		int leftPos, int rightPos,
+		int leftPalette, int rightPalette,
+		int stage, int platformCfg,
 		InGame *(*sceneCreator)(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
 	) :
 		CharacterSelect(std::move(leftInput), std::move(rightInput), sceneCreator)
 	{
-		this->_leftPos = _leftPos;
-		this->_rightPos = _rightPos;
-		this->_leftPalette = _leftPalette;
-		this->_rightPalette = _rightPalette;
+		this->_leftPos = leftPos;
+		this->_rightPos = rightPos;
+		this->_leftPalette = leftPalette;
+		this->_rightPalette = rightPalette;
+		this->_stage = stage;
+		this->_platform = platformCfg;
 	}
 
 	CharacterSelect::~CharacterSelect()
@@ -118,6 +121,9 @@ namespace SpiralOfFate
 
 	InGame *CharacterSelect::_launchGame()
 	{
+		if (!this->_sceneCreator)
+			return nullptr;
+
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
 

@@ -95,6 +95,7 @@ namespace SpiralOfFate
 			std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput,
 			int leftPos, int rightPos,
 			int leftPalette, int rightPalette,
+			int stage, int platformCfg,
 			InGame *(*sceneCreator)(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
 		);
 		~CharacterSelect();

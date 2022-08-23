@@ -54,6 +54,8 @@ namespace SpiralOfFate
 						game->battleMgr->getRightCharacter()->index & 0xFFFF,
 						game->battleMgr->getLeftCharacter()->index >> 16,
 						game->battleMgr->getRightCharacter()->index >> 16,
+						//TODO: Save the stage and platform config properly
+						0, 0,
 						createSyncTestInGameSceneIScene
 					);
 				return this->_nextScene;
