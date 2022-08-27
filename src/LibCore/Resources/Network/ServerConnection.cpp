@@ -45,15 +45,13 @@ namespace SpiralOfFate
 	{
 		int err = -1;
 
-		if (remote.connectPhase != 0)
-			return;
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
 		else if (packet.spectator && !this->_playing)
 			err = ERROR_GAME_NOT_STARTED;
 		else if (packet.spectator && !this->spectatorEnabled)
 			err = ERROR_SPECTATORS_DISABLED;
-		else if (!packet.spectator && this->_playing)
+		else if (!packet.spectator && this->_playing && remote.connectPhase != 1)
 			err = ERROR_GAME_ALREADY_STARTED;
 
 		if (err != -1) {

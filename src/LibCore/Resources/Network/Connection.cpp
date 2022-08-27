@@ -57,10 +57,6 @@ namespace SpiralOfFate
 		this->_sendMutex.lock();
 		this->_sendBuffer.emplace_back(this->_currentFrame, input);
 		this->_currentFrame++;
-
-		auto packet = PacketGameFrame::create(this->_sendBuffer);
-
-		this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
 		this->_sendMutex.unlock();
 		return true;
 	}
@@ -72,9 +68,16 @@ namespace SpiralOfFate
 
 	std::list<PacketInput> Connection::receive()
 	{
+		this->_sendMutex.lock();
 		std::list<PacketInput> b = this->_buffer;
 
+		if (!this->_sendBuffer.empty()) {
+			auto packet = PacketGameFrame::create(this->_sendBuffer);
+
+			this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
+		}
 		this->_buffer.clear();
+		this->_sendMutex.unlock();
 		return b;
 	}
 
@@ -349,7 +352,9 @@ namespace SpiralOfFate
 		for (size_t i = 0; i < packet.nbInputs; i++) {
 			if (this->_nextExpectedFrame == packet.frameId + i) {
 				this->_nextExpectedFrame++;
+				this->_sendMutex.lock();
 				this->_buffer.push_back(packet.inputs[i]);
+				this->_sendMutex.unlock();
 			}
 		}
 		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first + BUFFER_MIN_SIZE < this->_nextExpectedFrame)
