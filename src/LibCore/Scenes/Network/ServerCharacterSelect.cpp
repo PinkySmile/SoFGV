@@ -32,7 +32,7 @@ namespace SpiralOfFate
 	{
 		IScene *result = nullptr;
 
-		if (!this->_localDelayBuffer.empty()) {
+		if (!this->_remoteDelayBuffer.empty()) {
 			this->_rightRollbackInput->_keyStates[INPUT_LEFT] = this->_remoteDelayBuffer.front().horizontalAxis < 0;
 			this->_rightRollbackInput->_keyStates[INPUT_RIGHT] = this->_remoteDelayBuffer.front().horizontalAxis > 0;
 			this->_rightRollbackInput->_keyStates[INPUT_UP] = this->_remoteDelayBuffer.front().verticalAxis > 0;
@@ -60,27 +60,28 @@ namespace SpiralOfFate
 			result = CharacterSelect::update();
 		}
 
-		if (this->_inputBuffer.empty())
-			this->_inputBuffer = game->connection->receive();
-
-		if (this->_localDelayBuffer.size() != CHARACTER_SELECT_DELAY) {
-			if (!this->_inputBuffer.empty()) {
-				this->_localInput->update();
-				this->_localDelayBuffer.push_back(this->_localInput->getInputs());
-				game->connection->send(this->_localDelayBuffer.back());
-				this->_remoteDelayBuffer.push_back({
-					this->_inputBuffer.front()._h,
-					this->_inputBuffer.front()._v,
-					this->_inputBuffer.front().n,
-					this->_inputBuffer.front().m,
-					this->_inputBuffer.front().s,
-					this->_inputBuffer.front().v,
-					this->_inputBuffer.front().a,
-					this->_inputBuffer.front().d,
-					false
-				});
-				this->_inputBuffer.pop_front();
-			}
+		while (this->_localDelayBuffer.size() != CHARACTER_SELECT_DELAY) {
+			this->_localInput->update();
+			this->_localDelayBuffer.push_back(this->_localInput->getInputs());
+			game->connection->send(this->_localDelayBuffer.back());
+		}
+		while (!this->_inputBuffer.empty() && this->_remoteDelayBuffer.size() != CHARACTER_SELECT_DELAY) {
+			if (this->_inputBuffer.empty())
+				this->_inputBuffer = game->connection->receive();
+			if (this->_inputBuffer.empty())
+				continue;
+			this->_remoteDelayBuffer.push_back({
+				this->_inputBuffer.front()._h,
+				this->_inputBuffer.front()._v,
+				this->_inputBuffer.front().n,
+				this->_inputBuffer.front().m,
+				this->_inputBuffer.front().s,
+				this->_inputBuffer.front().v,
+				this->_inputBuffer.front().a,
+				this->_inputBuffer.front().d,
+				false
+			});
+			this->_inputBuffer.pop_front();
 		}
 		return result;
 	}
