@@ -62,18 +62,19 @@ namespace SpiralOfFate
 
 		this->_playing = true;
 		this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-		if (this->onConnection)
-			this->onConnection(remote, packet);
-		if (!packet.spectator)
-			this->_opponent = &remote;
-		remote.connectPhase = 1 + packet.spectator;
-
+		if (remote.connectPhase == 0) {
+			if (this->onConnection)
+				this->onConnection(remote, packet);
+			if (!packet.spectator)
+				this->_opponent = &remote;
+			remote.connectPhase = 1 + packet.spectator;
+			game->sceneMutex.lock();
+			game->scene.reset(new ServerCharacterSelect(this->_localInput));
+			game->sceneMutex.unlock();
+		}
 		PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
 
 		this->_send(remote, &result, sizeof(result));
-		game->sceneMutex.lock();
-		game->scene.reset(new ServerCharacterSelect(this->_localInput));
-		game->sceneMutex.unlock();
 	}
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitSuccess &, size_t size)

@@ -225,7 +225,11 @@ namespace SpiralOfFate
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (realSize != size) {
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size " + std::to_string(realSize) + " != " + std::to_string(size));
+				std::string s;
+
+				for (size_t i = 0; i < realSize; i++)
+					s += " " + std::to_string(((unsigned char *)packet)[i]);
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size (received " + std::to_string(realSize) + " != expected " + std::to_string(size) + ")" + s);
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			}
