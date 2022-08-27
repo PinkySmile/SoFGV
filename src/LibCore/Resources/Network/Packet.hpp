@@ -7,11 +7,9 @@
 
 
 #include <memory>
-#include <cstdlib>
 #include <string>
-#include <cstring>
 #include <vector>
-#include "Resources/Game.hpp"
+#include <list>
 
 namespace SpiralOfFate
 {
@@ -94,34 +92,11 @@ namespace SpiralOfFate
 		uint32_t targetIp;
 		uint32_t targetPort;
 
-		static unsigned computeMagic(const char *version)
-		{
-			unsigned magic = magicStart;
+		static unsigned computeMagic(const char *version);
 
-			for (int i = 0; version[i]; i++) {
-				magic <<= 1;
-				magic += version[i];
-			}
-			return magic;
-		}
-
-		PacketHello(const char *version, unsigned targetIp, unsigned targetPort) :
-			opcode(OPCODE_HELLO),
-			magic(computeMagic(version)),
-			targetIp(targetIp),
-			targetPort(targetPort)
-		{
-		}
-
-		unsigned int getMagic() const
-		{
-			return this->magic;
-		}
-
-		std::string toString() const
-		{
-			return "Packet HELLO: magic " + std::to_string(this->magic) + " targetIp " + std::to_string(((char *)&this->targetIp)[0]) + "." + std::to_string(((char *)&this->targetIp)[1]) + "." + std::to_string(((char *)&this->targetIp)[2]) + "." + std::to_string(((char *)&this->targetIp)[3]) + " targetPort " + std::to_string(this->targetPort);
-		}
+		PacketHello(const char *version, unsigned targetIp, unsigned targetPort);
+		unsigned int getMagic() const;
+		std::string toString() const;
 	};
 
 	struct PacketOlleh {
@@ -129,12 +104,8 @@ namespace SpiralOfFate
 		Opcode opcode;
 
 	public:
-		PacketOlleh() : opcode(OPCODE_OLLEH) {}
-
-		std::string toString() const
-		{
-			return "Packet OLLEH";
-		}
+		PacketOlleh();
+		std::string toString() const;
 	};
 
 	struct PacketGameStart {
@@ -158,28 +129,8 @@ namespace SpiralOfFate
 			unsigned p2pal,
 			unsigned stage,
 			unsigned platformConfig
-		) :
-			opcode(OPCODE_GAME_START),
-			seed(seed),
-			p1chr(p1chr),
-			p1pal(p1pal),
-			p2chr(p2chr),
-			p2pal(p2pal),
-			stage(stage),
-			platformConfig(platformConfig)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet GAMESTART"
-			       "seed" + std::to_string(this->seed) +
-			       "p1chr" + std::to_string(this->p1chr) +
-			       "p1pal" + std::to_string(this->p1pal) +
-			       "p2chr" + std::to_string(this->p2chr) +
-			       "p2pal" + std::to_string(this->p2pal) +
-			       "stage" + std::to_string(this->stage) +
-			       "platformConfig" + std::to_string(this->platformConfig);
-		}
+		);
+		std::string toString() const;
 	};
 
 	struct PacketRedirect {
@@ -190,16 +141,8 @@ namespace SpiralOfFate
 		uint32_t targetIp;
 		uint32_t targetPort;
 
-		PacketRedirect(unsigned targetIp, unsigned targetPort) :
-			opcode(OPCODE_REDIRECT),
-			targetIp(targetIp),
-			targetPort(targetPort)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet REDIRECT: targetIp " + std::to_string(((char *)&this->targetIp)[0]) + "." + std::to_string(((char *)&this->targetIp)[1]) + "." + std::to_string(((char *)&this->targetIp)[2]) + "." + std::to_string(((char *)&this->targetIp)[3]) + " targetPort " + std::to_string(this->targetPort);
-		}
+		PacketRedirect(unsigned targetIp, unsigned targetPort);
+		std::string toString() const;
 	};
 
 	struct PacketPunch {
@@ -210,16 +153,8 @@ namespace SpiralOfFate
 		uint32_t targetIp;
 		uint32_t targetPort;
 
-		PacketPunch(unsigned targetIp, unsigned targetPort) :
-			opcode(OPCODE_PUNCH),
-			targetIp(targetIp),
-			targetPort(targetPort)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet PUNCH: targetIp " + std::to_string(((char *)&this->targetIp)[0]) + "." + std::to_string(((char *)&this->targetIp)[1]) + "." + std::to_string(((char *)&this->targetIp)[2]) + "." + std::to_string(((char *)&this->targetIp)[3]) + " targetPort " + std::to_string(this->targetPort);
-		}
+		PacketPunch(unsigned targetIp, unsigned targetPort);
+		std::string toString() const;
 	};
 
 	struct PacketPing {
@@ -229,15 +164,8 @@ namespace SpiralOfFate
 	public:
 		uint32_t seqId;
 
-		PacketPing(unsigned seqId) :
-			opcode(OPCODE_PING),
-			seqId(seqId)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet PING: seqId " + std::to_string(this->seqId);
-		}
+		PacketPing(unsigned seqId);
+		std::string toString() const;
 	};
 
 	struct PacketPong {
@@ -247,15 +175,8 @@ namespace SpiralOfFate
 	public:
 		uint32_t seqId;
 
-		PacketPong(unsigned seqId) :
-			opcode(OPCODE_PONG),
-			seqId(seqId)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet PONG: seqId " + std::to_string(this->seqId);
-		}
+		PacketPong(unsigned seqId);
+		std::string toString() const;
 	};
 
 	struct PacketInput {
@@ -273,34 +194,14 @@ namespace SpiralOfFate
 	private:
 		Opcode opcode;
 
-		PacketGameFrame() :
-			opcode(OPCODE_GAME_FRAME)
-		{}
+		PacketGameFrame();
 	public:
 		uint32_t frameId;
 		uint32_t nbInputs;
 		PacketInput inputs[];
 
-		static std::shared_ptr<PacketGameFrame> create(std::list<std::pair<unsigned, PacketInput>> &inputs)
-		{
-			void *buffer = malloc(inputs.size() * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
-			auto *packet = new(buffer) PacketGameFrame();
-			size_t i = 0;
-
-			my_assert(!inputs.empty());
-			packet->frameId = inputs.front().first;
-			packet->nbInputs = inputs.size();
-			for (auto &input : inputs) {
-				packet->inputs[i] = input.second;
-				i++;
-			}
-			return std::shared_ptr<PacketGameFrame>(packet, free);
-		}
-
-		std::string toString() const
-		{
-			return "Packet GAMEFRAME: " + std::to_string(this->nbInputs) + " inputs from frame " + std::to_string(this->frameId);
-		}
+		static std::shared_ptr<PacketGameFrame> create(std::list<std::pair<unsigned, PacketInput>> &inputs);
+		std::string toString() const;
 	};
 
 	struct PacketInitRequest {
@@ -312,29 +213,8 @@ namespace SpiralOfFate
 		char playerName[32];
 		char gameVersion[32];
 
-		PacketInitRequest(const char *name, const char *version, bool spectator) :
-			opcode(OPCODE_INIT_REQUEST),
-			spectator(spectator)
-		{
-			my_assert(strlen(name) < sizeof(this->playerName));
-			my_assert(strlen(version) < sizeof(this->gameVersion));
-			strncpy(this->playerName, name, sizeof(this->playerName));
-			strncpy(this->gameVersion, version, sizeof(this->gameVersion));
-		}
-
-		std::string toString() const
-		{
-			char buffer[130];
-
-			memset(buffer, 0, sizeof(buffer));
-			strcpy(buffer, "Packet INITREQUEST: As ");
-			strcat(buffer, this->spectator ? "spectator" : "player");
-			strcat(buffer, " from player ");
-			strncat(buffer, this->playerName, sizeof(this->playerName));
-			strcat(buffer, " using game version ");
-			strncat(buffer, this->gameVersion, sizeof(this->gameVersion));
-			return buffer;
-		}
+		PacketInitRequest(const char *name, const char *version, bool spectator);
+		std::string toString() const;
 	};
 
 	struct PacketInitSuccess {
@@ -345,24 +225,8 @@ namespace SpiralOfFate
 		char playerName[32];
 		char gameVersion[32];
 
-		PacketInitSuccess(const char *name, const char *version) :
-			opcode(OPCODE_INIT_SUCCESS)
-		{
-			strncpy(this->playerName, name, sizeof(this->playerName));
-			strncpy(this->gameVersion, version, sizeof(this->gameVersion));
-		}
-
-		std::string toString() const
-		{
-			char buffer[130];
-
-			memset(buffer, 0, sizeof(buffer));
-			strcpy(buffer, "Packet INITSUCCESS: From player ");
-			strncat(buffer, this->playerName, sizeof(this->playerName));
-			strcat(buffer, " using game version ");
-			strncat(buffer, this->gameVersion, sizeof(this->gameVersion));
-			return buffer;
-		}
+		PacketInitSuccess(const char *name, const char *version);
+		std::string toString() const;
 	};
 
 	struct PacketError {
@@ -374,18 +238,8 @@ namespace SpiralOfFate
 		Opcode offendingPacket;
 		uint64_t offendingPacketSize;
 
-		PacketError(unsigned code, Opcode offendingPacket, size_t offendingPacketSize) :
-			opcode(OPCODE_ERROR),
-			code(code),
-			offendingPacket(offendingPacket),
-			offendingPacketSize(offendingPacketSize)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet ERROR: code " + std::to_string(this->code) + " (" + (this->code < errorStrings.size() ? errorStrings[this->code] : "Unknown code") + "). "
-			       "Faulting packet: " + std::to_string(this->offendingPacket) + " (" + (this->offendingPacket < opcodeStrings.size() ? opcodeStrings[this->offendingPacket] : "Unknown opcode") + ") of size " + std::to_string(this->offendingPacketSize) + " bytes.";
-		}
+		PacketError(unsigned code, Opcode offendingPacket, size_t offendingPacketSize);
+		std::string toString() const;
 	};
 
 	struct PacketDelayUpdate {
@@ -400,16 +254,8 @@ namespace SpiralOfFate
 		//      This will prevent cheating by sending this packet over to the client so that
 		//      the Player 2 thinks the delay is higher and use a higher delay than Player 1.
 		//      Send the inputs for the current frame and add delay after receiving?
-		PacketDelayUpdate(unsigned newDelay, unsigned frameId) :
-			opcode(OPCODE_DELAY_UPDATE),
-			frameId(frameId),
-			newDelay(newDelay)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet DELAYUPDATE: delay " + std::to_string(this->newDelay) + " frameId " + std::to_string(this->frameId);
-		}
+		PacketDelayUpdate(unsigned newDelay, unsigned frameId);
+		std::string toString() const;
 	};
 
 	struct PacketMenuSwitch {
@@ -419,15 +265,8 @@ namespace SpiralOfFate
 	public:
 		uint32_t menuId;
 
-		PacketMenuSwitch(unsigned menuId) :
-			opcode(OPCODE_MENU_SWITCH),
-			menuId(menuId)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet MENUSWITCH: menuId " + std::to_string(this->menuId);
-		}
+		PacketMenuSwitch(unsigned menuId);
+		std::string toString() const;
 	};
 
 	struct PacketSyncTest {
@@ -438,68 +277,34 @@ namespace SpiralOfFate
 		uint32_t frameId;
 		uint32_t stateChecksum;
 
-		PacketSyncTest(unsigned stateChecksum, unsigned frameId) :
-			opcode(OPCODE_SYNC_TEST),
-			frameId(frameId),
-			stateChecksum(stateChecksum)
-		{}
-
-		std::string toString() const
-		{
-			return "Packet SYNCTEST: stateChecksum " + std::to_string(this->stateChecksum) + " frameId " + std::to_string(this->frameId);
-		}
+		PacketSyncTest(unsigned stateChecksum, unsigned frameId);
+		std::string toString() const;
 	};
 
 	struct PacketState {
 	private:
 		Opcode opcode;
 
-		PacketState() :
-			opcode(OPCODE_STATE)
-		{}
+		PacketState();
 	public:
 		uint32_t compressedSize;
 		uint8_t compressedData[0];
 
-		std::shared_ptr<PacketState> create(void *data, size_t size)
-		{
-			void *buffer = malloc(size + 1);
-			auto *packet = new(buffer) PacketState();
-
-			//TODO: Compress the data
-			return std::shared_ptr<PacketState>(packet, free);
-		}
-
-		std::string toString() const
-		{
-			return "Packet STATE: " + std::to_string(this->compressedSize) + " compressed bytes";
-		}
+		std::shared_ptr<PacketState> create(void *data, size_t size);
+		std::string toString() const;
 	};
 
 	struct PacketReplay {
 	private:
 		Opcode opcode;
 
-		PacketReplay() :
-			opcode(OPCODE_REPLAY)
-		{}
+		PacketReplay();
 	public:
 		uint32_t compressedSize;
 		uint8_t compressedData[0];
 
-		std::shared_ptr<PacketReplay> create(void *data, size_t size)
-		{
-			void *buffer = malloc(size + 5);
-			auto *packet = new(buffer) PacketReplay();
-
-			//TODO: Compress the data
-			return std::shared_ptr<PacketReplay>(packet, free);
-		}
-
-		std::string toString() const
-		{
-			return "Packet REPLAY: " + std::to_string(this->compressedSize) + " compressed bytes";
-		}
+		std::shared_ptr<PacketReplay> create(void *data, size_t size);
+		std::string toString() const;
 	};
 
 	struct PacketQuit {
@@ -507,12 +312,8 @@ namespace SpiralOfFate
 		Opcode opcode;
 
 	public:
-		PacketQuit() : opcode(OPCODE_QUIT) {}
-
-		std::string toString() const
-		{
-			return "Packet QUIT";
-		}
+		PacketQuit();
+		std::string toString() const;
 	};
 
 	union Packet {
@@ -535,47 +336,7 @@ namespace SpiralOfFate
 		PacketQuit quit;
 		PacketGameStart gameStart;
 
-		std::string toString() const
-		{
-			switch (opcode) {
-			case OPCODE_HELLO:
-				return this->hello.toString();
-			case OPCODE_OLLEH:
-				return this->olleh.toString();
-			case OPCODE_REDIRECT:
-				return this->redirect.toString();
-			case OPCODE_PUNCH:
-				return this->punch.toString();
-			case OPCODE_PING:
-				return this->ping.toString();
-			case OPCODE_PONG:
-				return this->pong.toString();
-			case OPCODE_GAME_FRAME:
-				return this->gameFrame.toString();
-			case OPCODE_INIT_REQUEST:
-				return this->initRequest.toString();
-			case OPCODE_INIT_SUCCESS:
-				return this->initSuccess.toString();
-			case OPCODE_ERROR:
-				return this->error.toString();
-			case OPCODE_DELAY_UPDATE:
-				return this->delayUpdate.toString();
-			case OPCODE_MENU_SWITCH:
-				return this->menuSwitch.toString();
-			case OPCODE_SYNC_TEST:
-				return this->syncTest.toString();
-			case OPCODE_STATE:
-				return this->state.toString();
-			case OPCODE_REPLAY:
-				return this->replay.toString();
-			case OPCODE_QUIT:
-				return this->quit.toString();
-			case OPCODE_GAME_START:
-				return this->gameStart.toString();
-			default:
-				return "Packet UNKNOWN";
-			}
-		}
+		std::string toString() const;
 	};
 #pragma pack(pop)
 }

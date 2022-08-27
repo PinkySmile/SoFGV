@@ -7,8 +7,8 @@
 
 
 #include <thread>
+#include <list>
 #include <SFML/Network.hpp>
-#include <vector>
 #include "Packet.hpp"
 #include "Inputs/InputEnum.hpp"
 
@@ -17,7 +17,7 @@ namespace SpiralOfFate
 	class IConnection {
 	public:
 		virtual ~IConnection() = default;
-		virtual std::vector<PacketInput> receive() = 0;
+		virtual std::list<PacketInput> receive() = 0;
 	};
 }
 

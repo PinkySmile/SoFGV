@@ -126,6 +126,7 @@ add_library(
 	src/LibCore/Scenes/Network/RollbackMachine.hpp
 	src/LibCore/Resources/Network/NetManager.cpp
 	src/LibCore/Resources/Network/NetManager.hpp
+	src/LibCore/Resources/Network/Packet.cpp
 	src/LibCore/Resources/Network/Packet.hpp
 	src/LibCore/Resources/Network/Connection.cpp
 	src/LibCore/Resources/Network/Connection.hpp
@@ -135,6 +136,10 @@ add_library(
 	src/LibCore/Resources/Network/ClientConnection.cpp
 	src/LibCore/Resources/Network/ClientConnection.hpp
 	src/LibCore/Resources/Network/IConnection.hpp
+	src/LibCore/Scenes/Network/ClientCharacterSelect.cpp
+	src/LibCore/Scenes/Network/ClientCharacterSelect.hpp
+	src/LibCore/Scenes/Network/ServerCharacterSelect.cpp
+	src/LibCore/Scenes/Network/ServerCharacterSelect.hpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 

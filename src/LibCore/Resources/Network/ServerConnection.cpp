@@ -4,12 +4,20 @@
 
 #include "ServerConnection.hpp"
 #include "Resources/version.h"
+#include "Resources/Game.hpp"
+#include "Scenes/Network/ServerCharacterSelect.hpp"
 
 namespace SpiralOfFate
 {
-	ServerConnection::ServerConnection(const std::string &name)
+	ServerConnection::ServerConnection(const std::string &name, std::shared_ptr<IInput> localInput) :
+		_localInput(std::move(localInput))
 	{
 		this->_names.first = name;
+	}
+
+	ServerConnection::~ServerConnection()
+	{
+		this->_socket.unbind();
 	}
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketOlleh &, size_t size)
@@ -33,30 +41,12 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketGameFrame &packet, size_t size)
-	{
-		if (remote.connectPhase != 1) {
-			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_GAME_FRAME, size};
-
-			return this->_send(remote, &error, sizeof(error));
-		}
-		if (size < sizeof(packet) || size != packet.nbInputs * sizeof(*packet.inputs) + sizeof(packet)) {
-			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_GAME_FRAME, size};
-
-			return this->_send(remote, &error, sizeof(error));
-		}
-		if (this->_sendBuffer.front().first != packet.frameId)
-			return;
-		for (size_t i = 0; i < packet.nbInputs; i++) {
-			this->_buffer.push_back(packet.inputs[i]);
-			this->_sendBuffer.pop_front();
-		}
-	}
-
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
 	{
 		int err = -1;
 
+		if (remote.connectPhase != 0)
+			return;
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
 		else if (packet.spectator && !this->_playing)
@@ -83,6 +73,9 @@ namespace SpiralOfFate
 		PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
 
 		this->_send(remote, &result, sizeof(result));
+		game->sceneMutex.lock();
+		game->scene.reset(new ServerCharacterSelect(this->_localInput));
+		game->sceneMutex.unlock();
 	}
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitSuccess &, size_t size)
@@ -154,6 +147,11 @@ namespace SpiralOfFate
 		this->_currentMenu = id;
 		this->_sendBuffer.clear();
 		this->_states.clear();
+		if (id == 2) {
+			game->sceneMutex.lock();
+			game->scene.reset(new ServerCharacterSelect(this->_localInput));
+			game->sceneMutex.unlock();
+		}
 	}
 
 	void ServerConnection::reportChecksum(unsigned int checksum)
@@ -195,9 +193,10 @@ namespace SpiralOfFate
 
 	void ServerConnection::host(unsigned short port)
 	{
+		game->logger.info("Hosting on port " + std::to_string(port));
 		this->_endThread = false;
 		this->_states.clear();
 		this->_socket.bind(port);
-		this->_netThread.launch();
+		this->_netThread = std::thread{&ServerConnection::_threadLoop, this};
 	}
 }

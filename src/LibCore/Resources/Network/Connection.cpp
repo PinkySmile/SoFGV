@@ -5,12 +5,23 @@
 #include "Connection.hpp"
 #include "Resources/version.h"
 #include "Exceptions.hpp"
+#include "Resources/Game.hpp"
+
+// The minimum size of the send buffer. This exists to mitigate cases where input packet are lost only one way.
+#define BUFFER_MIN_SIZE 3
 
 namespace SpiralOfFate
 {
 	Connection::Connection()
 	{
 		this->_socket.setBlocking(false);
+	}
+
+	Connection::~Connection()
+	{
+		this->_endThread = true;
+		if (this->_netThread.joinable())
+			this->_netThread.join();
 	}
 
 	void Connection::updateDelay(unsigned int delay)
@@ -59,9 +70,9 @@ namespace SpiralOfFate
 		return this->_delay;
 	}
 
-	std::vector<PacketInput> Connection::receive()
+	std::list<PacketInput> Connection::receive()
 	{
-		std::vector<PacketInput> b = this->_buffer;
+		std::list<PacketInput> b = this->_buffer;
 
 		this->_buffer.clear();
 		return b;
@@ -69,7 +80,7 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
-		game->logger.debug("[<" + remote.ip.toString() + "] " + packet.toString());
+		game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
 		this->_mutex.lock();
 		try {
 			switch (packet.opcode) {
@@ -142,11 +153,12 @@ namespace SpiralOfFate
 		Packet *packet = nullptr;
 		size_t allocSize = 0;
 
+		game->logger.info("Starting network loop");
 		while (!this->_endThread) {
 			uint32_t size;
 			size_t realSize;
 			sf::IpAddress ip = sf::IpAddress::Any;
-			unsigned short port = 0;
+			unsigned short port = 10800;
 			auto res = this->_socket.receive(&size, sizeof(size), realSize, ip, port);
 			auto iter = this->_remotes.begin();
 			auto olditer = iter;
@@ -170,11 +182,15 @@ namespace SpiralOfFate
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (res != sf::Socket::Done) {
-				game->logger.error("Error receiving packet " + std::to_string(res));
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet size " + std::to_string(res));
+				//if (res == sf::Socket::Error) {
+				//	game->logger.error("Aborting");
+				//	return;
+				//}
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (realSize != sizeof(size)) {
-				game->logger.error("Invalid packet header size " + std::to_string(realSize) + " != " + std::to_string(sizeof(size)));
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet header size " + std::to_string(realSize) + " != " + std::to_string(sizeof(size)));
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			}
@@ -191,7 +207,7 @@ namespace SpiralOfFate
 				auto old = (Packet *)realloc(packet, size);
 
 				if (!old) {
-					game->logger.error("Error allocating packet of size " + std::to_string(size));
+					game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error allocating packet of size " + std::to_string(size));
 					this->terminate();
 					return;
 				}
@@ -204,11 +220,15 @@ namespace SpiralOfFate
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (res != sf::Socket::Done) {
-				game->logger.error("Error receiving packet " + std::to_string(res));
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string(res));
+				//if (res == sf::Socket::Error) {
+				//	game->logger.error("Aborting");
+				//	return;
+				//}
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (realSize != size) {
-				game->logger.error("Invalid packet size " + std::to_string(realSize) + " != " + std::to_string(size));
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size " + std::to_string(realSize) + " != " + std::to_string(size));
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			}
@@ -216,16 +236,17 @@ namespace SpiralOfFate
 			try {
 				this->_handlePacket(*it, *packet, realSize);
 			} catch (ErrorPacketException &e) {
-				game->logger.error("Peer responded with " + e.getPacket().toString());
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Peer responded with " + e.getPacket().toString());
 				if (this->onError)
 					this->onError(*it, e.getPacket());
 			}
 		}
+		game->logger.info("Stopping network loop");
 	}
 
-	void Connection::_send(Remote &remote, void *packet, size_t size)
+	void Connection::_send(Remote &remote, void *packet, uint32_t size)
 	{
-		game->logger.debug("[>" + remote.ip.toString() + "] " + reinterpret_cast<Packet *>(packet)->toString());
+		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + reinterpret_cast<Packet *>(packet)->toString());
 		this->_socket.send(&size, sizeof(size), remote.ip, remote.port);
 		this->_socket.send(packet, size, remote.ip, remote.port);
 	}
@@ -315,12 +336,35 @@ namespace SpiralOfFate
 		}
 	}
 
-	void Connection::_handlePacket(Remote &remote, PacketGameFrame &, size_t size)
+	void Connection::_handlePacket(Remote &remote, PacketGameFrame &packet, size_t size)
 	{
-		//Implemented in children classes
-		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_GAME_FRAME, size};
+		if (remote.connectPhase != 1) {
+			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_GAME_FRAME, size};
 
-		this->_send(remote, &error, sizeof(error));
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (size < sizeof(packet) || size != packet.nbInputs * sizeof(*packet.inputs) + sizeof(packet)) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_GAME_FRAME, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+
+		for (size_t i = 0; i < packet.nbInputs; i++) {
+			if (this->_nextExpectedFrame == packet.frameId + i) {
+				this->_nextExpectedFrame++;
+				this->_buffer.push_back(packet.inputs[i]);
+			}
+		}
+		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first + BUFFER_MIN_SIZE < this->_nextExpectedFrame)
+			this->_sendBuffer.pop_front();
+		/*
+		for (size_t i = 0; i < packet.nbInputs; i++)
+			if (this->_lastReceivedFrame <= packet.frameId + i)
+				this->_buffer.push_back(packet.inputs[i]);
+		this->_lastReceivedFrame = packet.frameId + packet.nbInputs;
+		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < packet.frameId)
+			this->_sendBuffer.pop_front();
+		 */
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketInitRequest &, size_t size)
@@ -426,6 +470,10 @@ namespace SpiralOfFate
 	bool Connection::isTerminated() const
 	{
 		return this->_endThread;
+	}
+
+	void Connection::reportChecksum(unsigned int)
+	{
 	}
 
 	void Connection::Remote::_pingLoop()

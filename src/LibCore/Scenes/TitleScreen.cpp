@@ -26,6 +26,8 @@
 #include "Resources/version.h"
 #include "ReplayInGame.hpp"
 #include "Scenes/Network/SyncTestInGame.hpp"
+#include "Resources/Network/ServerConnection.hpp"
+#include "Resources/Network/ClientConnection.hpp"
 
 #define THRESHOLD 50
 
@@ -105,6 +107,8 @@ namespace SpiralOfFate
 
 		if (this->_connecting)
 			this->_showConnectMessage();
+		else if (game->connection)
+			this->_showHostMessage();
 		else if (this->_chooseSpecCount)
 			this->_showChooseSpecCount();
 		else if (this->_askingInputs)
@@ -161,12 +165,70 @@ namespace SpiralOfFate
 		game->menu.second->consumeEvent(event);
 	}
 
-	void TitleScreen::_host(unsigned spec)
+	void TitleScreen::_host(bool spec)
 	{
+		// TODO: Handle names
+		auto con = new ServerConnection(
+			"SpiralOfFate::ServerConnection",
+			this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second)
+		);
+
+		game->connection.reset(con);
+		// TODO: Allow to change port
+		con->onConnection = [this](Connection::Remote &remote, PacketInitRequest &packet){
+			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
+			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
+
+			game->logger.info(name + " connected with game version " + vers);
+			this->_onConnect(remote.ip.toString());
+		};
+		con->onError = [](Connection::Remote &remote, const PacketError &e){
+			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+		};
+		con->onDisconnect = [this](Connection::Remote &remote){
+			this->_onDisconnect(remote.ip.toString());
+		};
+		con->spectatorEnabled = spec;
+		con->host(10800);
 	}
 
 	void TitleScreen::_connect()
 	{
+		// TODO: Handle names
+		auto con = new ClientConnection(
+			"SpiralOfFate::ClientConnection",
+			this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second)
+		);
+		auto ipString = sf::Clipboard::getString();
+
+		game->connection.reset(con);
+		if (ipString.isEmpty()) {
+			Utils::dispMsg("Error", "No ip is copied to the clipboard", MB_ICONERROR, &*game->screen);
+			return;
+		}
+
+		sf::IpAddress ip = static_cast<std::string>(ipString);
+
+		if (ip == sf::IpAddress()) {
+			Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
+			return;
+		}
+		// TODO: Allow to change port
+		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
+			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
+			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
+
+			game->logger.info("Connected to " + name + " with game version " + vers);
+			this->_onConnect(remote.ip.toString());
+		};
+		con->onError = [](Connection::Remote &remote, const PacketError &e){
+			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+		};
+		con->onDisconnect = [this](Connection::Remote &remote){
+			this->_onDisconnect(remote.ip.toString());
+		};
+		con->connect(ip, 10800);
+		this->_connecting = true;
 	}
 
 	void TitleScreen::_onInputsChosen()
@@ -410,6 +472,8 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoUp()
 	{
+		if (game->connection)
+			return;
 		if (this->_chooseSpecCount)
 			return;
 		if (this->_changingInputs) {
@@ -431,6 +495,8 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoDown()
 	{
+		if (game->connection)
+			return;
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			do {
@@ -450,9 +516,10 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoLeft()
 	{
+		if (game->connection)
+			return;
 		if (this->_chooseSpecCount) {
-			if (this->_specCount)
-				this->_specCount--;
+			this->_specEnabled = !this->_specEnabled;
 			return;
 		}
 		if (this->_changingInputs) {
@@ -470,8 +537,10 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoRight()
 	{
+		if (game->connection)
+			return;
 		if (this->_chooseSpecCount) {
-			this->_specCount++;
+			this->_specEnabled = !this->_specEnabled;
 			return;
 		}
 		if (this->_changingInputs) {
@@ -489,9 +558,11 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onConfirm(unsigned stickId)
 	{
+		if (game->connection)
+			return;
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
-			this->_host(this->_specCount);
+			this->_host(this->_specEnabled);
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
@@ -551,6 +622,8 @@ namespace SpiralOfFate
 	void TitleScreen::_onCancel()
 	{
 		game->soundMgr.play(BASICSOUND_MENU_CANCEL);
+		if (game->connection)
+			return game->connection.reset();
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
 			return;
@@ -573,18 +646,22 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onDisconnect(const std::string &address)
 	{
+		game->logger.info(address + " disconnected");
 		if (this->_remote == address) {
 			this->_connected = false;
 			this->_remote.clear();
+			game->connection.reset();
 		}
 	}
 
 	void TitleScreen::_onConnect(const std::string &address)
 	{
-		game->soundMgr.play(this->_netbellSound);
-		this->_connected = true;
-		if (this->_remote.empty())
+		game->logger.info(address + " connected");
+		if (this->_remote.empty()) {
+			this->_connected = true;
+			game->soundMgr.play(this->_netbellSound);
 			this->_remote = address;
+		}
 	}
 
 	void TitleScreen::_pingUpdate(unsigned int ping)
@@ -604,8 +681,8 @@ namespace SpiralOfFate
 	{
 		game->screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement("Select spectator count.", {640, 280}, 400, Screen::ALIGN_CENTER);
-		game->screen->displayElement((this->_specCount ? std::to_string(this->_specCount) : "No") + (this->_specCount > 1 ? " spectator slots." : " spectator slot."), {640, 340}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement("Enable spectating?", {640, 280}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
 
 	void TitleScreen::_loadReplay(const std::string &path)

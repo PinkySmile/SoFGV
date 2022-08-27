@@ -17,7 +17,7 @@
 namespace SpiralOfFate
 {
 	class Connection : public IConnection {
-	protected:
+	public:
 		class Remote {
 		private:
 			struct Ping {
@@ -39,26 +39,28 @@ namespace SpiralOfFate
 			unsigned pingTimeSum = 0;
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
-			sf::Thread pingThread{&Remote::_pingLoop, this};
+			std::thread pingThread;//{&Remote::_pingLoop, this}
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) : base(base), ip(ip), port(port) {};
 			~Remote();
 		};
 
+	protected:
 		std::mutex _mutex;
 		bool _endThread = true;
-		sf::Thread _netThread{&Connection::_threadLoop, this};
+		std::thread _netThread;
 		unsigned _delay;
 		unsigned _expectedDelay;
 		unsigned _currentFrame = 0;
+		unsigned _nextExpectedFrame = 0;
 		Remote *_opponent = nullptr;
-		std::vector<PacketInput> _buffer;
+		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
 		sf::UdpSocket _socket;
 		std::list<Remote> _remotes;
 		std::pair<std::string, std::string> _names;
 
-		void _send(Remote &remote, void *packet, size_t size);
+		void _send(Remote &remote, void *packet, uint32_t size);
 
 		virtual void _handlePacket(Remote &remote, PacketHello &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size);
@@ -86,14 +88,15 @@ namespace SpiralOfFate
 		std::function<void (Remote &remote, const PacketError &e)> onError;
 
 		Connection();
-		virtual ~Connection() = default;
+		~Connection();
 		void updateDelay(unsigned int delay);
 		virtual bool send(InputStruct &inputs);
 		unsigned int getCurrentDelay();
-		std::vector<PacketInput> receive();
+		std::list<PacketInput> receive();
 		void terminate();
 		bool isTerminated() const;
 		const std::pair<std::string, std::string> &getNames() const;
+		virtual void reportChecksum(unsigned checksum);
 	};
 }
 

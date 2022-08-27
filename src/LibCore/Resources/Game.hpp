@@ -6,12 +6,14 @@
 #define SOFGV_GAME_HPP
 
 
+#include <mutex>
 #include <memory>
 #include <random>
 #include "Screen.hpp"
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
 #include "SoundManager.hpp"
+#include "Resources/Network/Connection.hpp"
 #include "Scenes/IScene.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
@@ -117,6 +119,8 @@ namespace SpiralOfFate
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
 		std::shared_ptr<IScene> scene;
+		std::mutex sceneMutex;
+		std::shared_ptr<class Connection> connection;
 
 		Game(const std::string &loggerPath = "./latest.log");
 		~Game();

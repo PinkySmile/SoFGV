@@ -12,6 +12,7 @@
 #include "IScene.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
+#include "Resources/Network/Connection.hpp"
 
 namespace SpiralOfFate
 {
@@ -32,13 +33,13 @@ namespace SpiralOfFate
 		unsigned _lastPing = 0;
 		unsigned _peakPing = 0;
 		unsigned _delay = 0;
-		unsigned _specCount = 0;
 		unsigned _netbellSound;
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;
 		bool _chooseSpecCount = false;
 		bool _replaySelect = false;
+		bool _specEnabled = false;
 		std::string _basePath;
 		std::vector<std::pair<bool, std::string>> _replays;
 		unsigned char _changingInputs = 0;
@@ -51,7 +52,7 @@ namespace SpiralOfFate
 		void _loadReplay(const std::string &path);
 		void _fetchReplayList();
 		void _onInputsChosen();
-		void _host(unsigned spec);
+		void _host(bool spec);
 		void _connect();
 		bool _onKeyPressed(sf::Event::KeyEvent ev);
 		bool _onJoystickMoved(sf::Event::JoystickMoveEvent ev);

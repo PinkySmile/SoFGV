@@ -226,6 +226,7 @@ void	run()
 	SpiralOfFate::game->screen->setFont(SpiralOfFate::game->font);
 	SpiralOfFate::game->scene = std::make_unique<SpiralOfFate::TitleScreen>(SpiralOfFate::game->P1, SpiralOfFate::game->P2);
 	while (SpiralOfFate::game->screen->isOpen()) {
+		SpiralOfFate::game->sceneMutex.lock();
 		SpiralOfFate::IScene *newScene = SpiralOfFate::game->scene->update();
 
 		SpiralOfFate::game->screen->clear(sf::Color::White);
@@ -239,6 +240,7 @@ void	run()
 		}
 		if (newScene)
 			SpiralOfFate::game->scene.reset(newScene);
+		SpiralOfFate::game->sceneMutex.unlock();
 	}
 	saveSettings();
 }

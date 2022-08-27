@@ -7,11 +7,13 @@
 
 
 #include "Connection.hpp"
+#include "Inputs/IInput.hpp"
 
 namespace SpiralOfFate
 {
 	class ServerConnection : public Connection {
 	protected:
+		std::shared_ptr<IInput> _localInput;
 		unsigned _currentMenu = 0;
 		unsigned _opCurrentMenu = 0;
 		bool _playing = false;
@@ -27,7 +29,6 @@ namespace SpiralOfFate
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
-		void _handlePacket(Remote &remote, PacketGameFrame &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitRequest &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitSuccess &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketDelayUpdate &packet, size_t size) override;
@@ -41,7 +42,8 @@ namespace SpiralOfFate
 		bool spectatorEnabled = true;
 		std::function<void (Remote &remote, PacketInitRequest &packet)> onConnection;
 
-		ServerConnection(const std::string &name);
+		ServerConnection(const std::string &name, std::shared_ptr<IInput> localInput);
+		~ServerConnection();
 
 		bool send(InputStruct &inputs) override;
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
