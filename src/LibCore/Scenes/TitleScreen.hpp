@@ -48,6 +48,7 @@ namespace SpiralOfFate
 		bool _connected = false;
 		std::string _remote;
 		std::string _oldRemote;
+		std::function<void ()> onDestruct;
 
 		void _loadReplay(const std::string &path);
 		void _fetchReplayList();
