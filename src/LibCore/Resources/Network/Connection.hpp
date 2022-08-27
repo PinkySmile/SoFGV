@@ -10,6 +10,7 @@
 #include <SFML/Network.hpp>
 #include <vector>
 #include <mutex>
+#include <functional>
 #include "Packet.hpp"
 #include "Inputs/InputEnum.hpp"
 #include "IConnection.hpp"
