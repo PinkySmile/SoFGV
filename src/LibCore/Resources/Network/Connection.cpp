@@ -54,14 +54,14 @@ namespace SpiralOfFate
 		else
 			input._v = 1;
 
-		this->_mutex.lock();
+		this->_sendMutex.lock();
 		this->_sendBuffer.emplace_back(this->_currentFrame, input);
 		this->_currentFrame++;
 
 		auto packet = PacketGameFrame::create(this->_sendBuffer);
 
 		this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
-		this->_mutex.unlock();
+		this->_sendMutex.unlock();
 		return true;
 	}
 
@@ -81,7 +81,7 @@ namespace SpiralOfFate
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
 		game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
-		this->_mutex.lock();
+		this->_sendMutex.lock();
 		try {
 			switch (packet.opcode) {
 			case OPCODE_HELLO:
@@ -142,10 +142,10 @@ namespace SpiralOfFate
 				break;
 			}
 		} catch (...) {
-			this->_mutex.unlock();
+			this->_sendMutex.unlock();
 			throw;
 		}
-		this->_mutex.unlock();
+		this->_sendMutex.unlock();
 	}
 
 	void Connection::_threadLoop()
@@ -155,27 +155,21 @@ namespace SpiralOfFate
 
 		game->logger.info("Starting network loop");
 		while (!this->_endThread) {
-			uint32_t size;
-			size_t realSize;
+			uint16_t size = 0;
+			size_t realSize = 0;
 			sf::IpAddress ip = sf::IpAddress::Any;
 			unsigned short port = 10800;
 			auto res = this->_socket.receive(&size, sizeof(size), realSize, ip, port);
-			auto iter = this->_remotes.begin();
-			auto olditer = iter;
 
-			while (iter != this->_remotes.end()) {
+			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
 				if (iter->connectPhase >= 0) {
-					olditer = iter;
 					iter++;
 					continue;
 				}
 				if (this->onDisconnect)
 					this->onDisconnect(*iter);
 				this->_remotes.erase(iter);
-				if (olditer == iter)
-					olditer = this->_remotes.begin();
-				else
-					olditer = iter;
+				iter = this->_remotes.begin();
 			}
 
 			if (res == sf::Socket::NotReady) {
@@ -244,8 +238,11 @@ namespace SpiralOfFate
 		game->logger.info("Stopping network loop");
 	}
 
-	void Connection::_send(Remote &remote, void *packet, uint32_t size)
+	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
 	{
+		uint16_t size = realSize;
+
+		my_assert(realSize < UINT16_MAX);
 		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + reinterpret_cast<Packet *>(packet)->toString());
 		this->_socket.send(&size, sizeof(size), remote.ip, remote.port);
 		this->_socket.send(packet, size, remote.ip, remote.port);
