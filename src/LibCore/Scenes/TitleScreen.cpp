@@ -92,6 +92,8 @@ namespace SpiralOfFate
 
 	TitleScreen::~TitleScreen()
 	{
+		if (this->onDestruct)
+			this->onDestruct();
 		game->logger.debug("~TitleScreen");
 		game->soundMgr.remove(this->_netbellSound);
 		if (this->_thread.joinable())
@@ -190,6 +192,10 @@ namespace SpiralOfFate
 		};
 		con->spectatorEnabled = spec;
 		con->host(10800);
+		this->onDestruct = [con]{
+			con->onConnection = nullptr;
+			con->onDisconnect = nullptr;
+		};
 	}
 
 	void TitleScreen::_connect()
@@ -201,9 +207,9 @@ namespace SpiralOfFate
 		);
 		auto ipString = sf::Clipboard::getString();
 
-		game->connection.reset(con);
 		if (ipString.isEmpty()) {
 			Utils::dispMsg("Error", "No ip is copied to the clipboard", MB_ICONERROR, &*game->screen);
+			delete con;
 			return;
 		}
 
@@ -211,8 +217,10 @@ namespace SpiralOfFate
 
 		if (ip == sf::IpAddress()) {
 			Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
+			delete con;
 			return;
 		}
+		game->connection.reset(con);
 		game->lastIp = ip.toString();
 		// TODO: Allow to change port
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
@@ -230,6 +238,10 @@ namespace SpiralOfFate
 		};
 		con->connect(ip, 10800);
 		this->_connecting = true;
+		this->onDestruct = [con]{
+			con->onConnection = nullptr;
+			con->onDisconnect = nullptr;
+		};
 	}
 
 	void TitleScreen::_onInputsChosen()
