@@ -108,7 +108,11 @@ namespace SpiralOfFate
 
 	std::string PacketPunch::toString() const
 	{
-		return "Packet PUNCH: targetIp " + std::to_string(((char *)&this->targetIp)[0]) + "." + std::to_string(((char *)&this->targetIp)[1]) + "." + std::to_string(((char *)&this->targetIp)[2]) + "." + std::to_string(((char *)&this->targetIp)[3]) + " targetPort " + std::to_string(this->targetPort);
+		return "Packet PUNCH: targetIp " +
+			std::to_string(((unsigned char *)&this->targetIp)[0]) + "." +
+			std::to_string(((unsigned char *)&this->targetIp)[1]) + "." +
+			std::to_string(((unsigned char *)&this->targetIp)[2]) + "." +
+			std::to_string(((unsigned char *)&this->targetIp)[3]) + " targetPort " + std::to_string(this->targetPort);
 	}
 
 	PacketPing::PacketPing(unsigned seqId) :

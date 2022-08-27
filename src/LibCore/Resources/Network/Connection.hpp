@@ -46,7 +46,7 @@ namespace SpiralOfFate
 		};
 
 	protected:
-		std::mutex _mutex;
+		std::mutex _sendMutex;
 		bool _endThread = true;
 		std::thread _netThread;
 		unsigned _delay;
