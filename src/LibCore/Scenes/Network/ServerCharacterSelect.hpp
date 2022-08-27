@@ -18,8 +18,8 @@ namespace SpiralOfFate
 {
 	class ServerCharacterSelect : public CharacterSelect {
 	private:
-		std::shared_ptr<RollbackInput> _leftInput = std::make_shared<RollbackInput>();
-		std::shared_ptr<RollbackInput> _rightInput = std::make_shared<RollbackInput>();
+		std::shared_ptr<RollbackInput> _leftRollbackInput = std::make_shared<RollbackInput>();
+		std::shared_ptr<RollbackInput> _rightRollbackInput = std::make_shared<RollbackInput>();
 		std::shared_ptr<IInput> _localInput;
 		std::list<PacketInput> _inputBuffer;
 		unsigned _currentFrameToSend = 0;

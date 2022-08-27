@@ -213,6 +213,7 @@ namespace SpiralOfFate
 			Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
 			return;
 		}
+		game->lastIp = ip.toString();
 		// TODO: Allow to change port
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
 			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
@@ -622,8 +623,10 @@ namespace SpiralOfFate
 	void TitleScreen::_onCancel()
 	{
 		game->soundMgr.play(BASICSOUND_MENU_CANCEL);
-		if (game->connection)
+		if (game->connection) {
+			this->_connecting = false;
 			return game->connection.reset();
+		}
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
 			return;
