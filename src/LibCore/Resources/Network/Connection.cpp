@@ -153,16 +153,14 @@ namespace SpiralOfFate
 
 	void Connection::_threadLoop()
 	{
-		Packet *packet = nullptr;
-		size_t allocSize = 0;
+		auto packet = (Packet *)malloc(2048);
 
 		game->logger.info("Starting network loop");
 		while (!this->_endThread) {
-			uint16_t size = 0;
 			size_t realSize = 0;
 			sf::IpAddress ip = sf::IpAddress::Any;
 			unsigned short port = 10800;
-			auto res = this->_socket.receive(&size, sizeof(size), realSize, ip, port);
+			auto res = this->_socket.receive(packet, 2048, realSize, ip, port);
 
 			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
 				if (iter->connectPhase >= 0) {
@@ -179,18 +177,22 @@ namespace SpiralOfFate
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
 			} else if (res != sf::Socket::Done) {
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet size " + std::to_string(res));
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string(res));
 				//if (res == sf::Socket::Error) {
 				//	game->logger.error("Aborting");
 				//	return;
 				//}
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
-			} else if (realSize != sizeof(size)) {
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet header size " + std::to_string(realSize) + " != " + std::to_string(sizeof(size)));
+			}/* else if (realSize != size) {
+				std::string s;
+
+				for (size_t i = 0; i < realSize; i++)
+					s += " " + std::to_string(((unsigned char *)packet)[i]);
+				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size (received " + std::to_string(realSize) + " != expected " + std::to_string(size) + ")" + s);
 				std::this_thread::sleep_for(std::chrono::milliseconds(2));
 				continue;
-			}
+			}*/
 
 			auto it = std::find_if(this->_remotes.begin(), this->_remotes.end(), [&ip, &port](Remote &remote) {
 				return remote.ip == ip && remote.port == port;
@@ -199,39 +201,6 @@ namespace SpiralOfFate
 			if (it == this->_remotes.end()) {
 				this->_remotes.emplace_back(*this, ip, port);
 				it = std::prev(this->_remotes.end());
-			}
-			if (allocSize < size) {
-				auto old = (Packet *)realloc(packet, size);
-
-				if (!old) {
-					game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error allocating packet of size " + std::to_string(size));
-					this->terminate();
-					return;
-				}
-				packet = old;
-				allocSize = size;
-			}
-
-			res = this->_socket.receive(packet, size, realSize, ip, port);
-			if (res == sf::Socket::NotReady) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
-			} else if (res != sf::Socket::Done) {
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string(res));
-				//if (res == sf::Socket::Error) {
-				//	game->logger.error("Aborting");
-				//	return;
-				//}
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
-			} else if (realSize != size) {
-				std::string s;
-
-				for (size_t i = 0; i < realSize; i++)
-					s += " " + std::to_string(((unsigned char *)packet)[i]);
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size (received " + std::to_string(realSize) + " != expected " + std::to_string(size) + ")" + s);
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
 			}
 
 			try {
@@ -247,20 +216,9 @@ namespace SpiralOfFate
 
 	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
 	{
-		my_assert(realSize < UINT16_MAX);
-
-#pragma pack(push, 1)
-		struct tmp {
-			uint16_t s;
-			char p[0];
-		} *pack = (tmp *)malloc(realSize + sizeof(uint16_t));
-#pragma pack(pop)
-
-		pack->s = realSize;
-		memcpy(pack->p, packet, realSize);
+		my_assert(realSize < 2048);
 		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + reinterpret_cast<Packet *>(packet)->toString());
-		this->_socket.send(pack, pack->s + sizeof(uint16_t), remote.ip, remote.port);
-		free(pack);
+		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketHello &packet, size_t size)
