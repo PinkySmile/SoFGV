@@ -249,15 +249,18 @@ namespace SpiralOfFate
 	{
 		my_assert(realSize < UINT16_MAX);
 
+#pragma pack(push, 1)
 		struct tmp {
 			uint16_t s;
 			char p[0];
 		} *pack = (tmp *)malloc(realSize + sizeof(uint16_t));
+#pragma pack(pop)
 
 		pack->s = realSize;
 		memcpy(pack->p, packet, realSize);
 		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + reinterpret_cast<Packet *>(packet)->toString());
 		this->_socket.send(pack, pack->s + sizeof(uint16_t), remote.ip, remote.port);
+		free(pack);
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketHello &packet, size_t size)

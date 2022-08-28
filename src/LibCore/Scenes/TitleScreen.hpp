@@ -39,7 +39,7 @@ namespace SpiralOfFate
 		bool _askingInputs = false;
 		bool _chooseSpecCount = false;
 		bool _replaySelect = false;
-		bool _specEnabled = false;
+		bool _specEnabled = true;
 		std::string _basePath;
 		std::vector<std::pair<bool, std::string>> _replays;
 		unsigned char _changingInputs = 0;
