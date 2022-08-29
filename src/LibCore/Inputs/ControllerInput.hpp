@@ -15,6 +15,7 @@ namespace SpiralOfFate
 {
 	class ControllerKey {
 	public:
+		virtual ~ControllerKey() = default;
 		virtual bool isPressed() = 0;
 		virtual void consumeEvent(const sf::Event &event) = 0;
 		virtual void setJoystickId(unsigned id) = 0;

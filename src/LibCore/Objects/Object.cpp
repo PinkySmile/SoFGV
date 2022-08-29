@@ -188,7 +188,7 @@ namespace SpiralOfFate
 
 	void Object::hit(IObject &other, const FrameData *)
 	{
-		char buffer[36];
+		char buffer[52];
 		auto obj = dynamic_cast<Object *>(&other);
 
 		if (obj && obj->_team == this->_team)
@@ -200,7 +200,7 @@ namespace SpiralOfFate
 
 	void Object::getHit(IObject &other, const FrameData *data)
 	{
-		char buffer[38];
+		char buffer[54];
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		game->logger.debug(buffer);

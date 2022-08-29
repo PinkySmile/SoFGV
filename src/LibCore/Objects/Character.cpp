@@ -1283,7 +1283,7 @@ namespace SpiralOfFate
 
 	void Character::getHit(IObject &other, const FrameData *dat)
 	{
-		char buffer[38];
+		char buffer[48];
 
 		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
 		game->logger.debug(buffer);
@@ -3180,8 +3180,8 @@ namespace SpiralOfFate
 			"Jumped: %s\n"
 			"Restand: %s\n"
 			"Action: %i\n"
-			"ActionBlock: %i/%llu\n"
-			"Animation: %i/%llu\n"
+			"ActionBlock: %i/%zu\n"
+			"Animation: %i/%zu\n"
 			"AnimationCtr: %i/%i\n"
 			"Hp: %i/%i\n"
 			"Rotation: %f\n"
