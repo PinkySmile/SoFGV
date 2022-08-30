@@ -11,8 +11,11 @@ include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCor
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		add_compile_options(-W -Wall -Wextra -fsanitize=address)
-		link_libraries(asan)
+		add_compile_options(-W -Wall -Wextra)
+		if (NOT WIN32)
+			add_compile_options(-fsanitize=address)
+			link_libraries(asan)
+		endif ()
 	endif ()
 	add_compile_definitions(_DEBUG=1)
 else ()
