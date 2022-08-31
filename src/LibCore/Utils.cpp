@@ -2,6 +2,9 @@
 // Created by PinkySmile on 07/04/2020.
 //
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 #ifdef __GNUG__
 #include <cxxabi.h>
 #endif
@@ -141,6 +144,11 @@ namespace SpiralOfFate::Utils
 #ifndef __ANDROID__
 	int	dispMsg(const std::string &title, const std::string &content, int variate, sf::RenderWindow *w)
 	{
+#ifdef _WIN32
+		HWND hwnd = w ? w->getSystemHandle() : nullptr;
+
+		return MessageBoxA(hwnd, content.c_str(), title.c_str(), variate);
+#else
 		auto button = tgui::Button::create("OK");
 		auto text = tgui::TextBox::create();
 		tgui::Gui gui;
@@ -223,6 +231,7 @@ namespace SpiralOfFate::Utils
 		}
 
 		return 0;
+#endif
 	}
 
 	static void _makeFolders(
@@ -328,6 +337,72 @@ namespace SpiralOfFate::Utils
 
 	std::string openFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns, bool overWriteWarning, bool mustExist)
 	{
+#ifdef _WIN32
+		std::filesystem::path cwd = std::filesystem::current_path();
+		OPENFILENAME ofn;
+		char fileName[MAX_PATH];
+		char *pattern;
+		size_t size = strlen("All Files*.*") + 3;
+		std::vector<std::pair<std::string, std::string>> pats;
+
+		for (auto &pat : patterns) {
+			std::string result;
+
+			result.reserve(pat.first.size());
+			for (int i = 0; i < pat.first.size(); i++) {
+				if (pat.first[i] == '*')
+					continue;
+				if (pat.first[i] == '\\') {
+					result += pat.first[++i];
+					continue;
+				}
+				if (pat.first[i] == '.')
+					result += '*';
+				else
+					result += pat.first[i];
+			}
+			pats.emplace_back(result, pat.second);
+		}
+		pats.emplace_back("*.*", "All Files");
+		for (auto &pat : pats)
+			size += strlen(pat.first.c_str()) + strlen(pat.second.c_str()) + 2;
+		pattern = new char[size + 1];
+		size = 0;
+		for (auto &pat : pats) {
+			strcpy(pattern + size, pat.second.c_str());
+			size += pat.second.size() + 1;
+			strcpy(pattern + size, pat.first.c_str());
+			size += pat.first.size() + 1;
+		}
+		pattern[size] = '\0';
+
+		if (basePath != ".")
+			strcpy(fileName, basePath.c_str());
+		else
+			*fileName = 0;
+		ZeroMemory(&ofn, sizeof(OPENFILENAME));
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.hwndOwner = NULL;
+		ofn.lpstrFilter = pattern;
+		ofn.lpstrFile = fileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.lpstrTitle = title.c_str();
+		ofn.lpstrInitialDir = basePath.c_str();
+		ofn.Flags = OFN_ENABLESIZING | OFN_EXPLORER;
+		if (overWriteWarning)
+			ofn.Flags |= OFN_OVERWRITEPROMPT;
+		if (mustExist)
+			ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+		bool result = GetOpenFileName(&ofn);
+
+		std::filesystem::current_path(cwd);
+		delete[] pattern;
+		if (result)
+			return ofn.lpstrFile;
+		else
+			return "";
+#else
 		sf::RenderWindow window{{500, 300}, title, sf::Style::Titlebar};
 		tgui::Gui gui{window};
 		std::string result;
@@ -447,6 +522,7 @@ namespace SpiralOfFate::Utils
 			window.display();
 		}
 		return result;
+#endif
 	}
 
 	std::string saveFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns)

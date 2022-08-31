@@ -12,9 +12,15 @@ namespace SpiralOfFate
 #ifdef __ANDROID__
 		sf::RenderWindow(sf::VideoMode::getDesktopMode(), title), _title(title)
 #else
-		sf::RenderWindow(sf::VideoMode(1680, 960), title), _title(title)
+		sf::RenderWindow([]{
+			auto desktop = sf::VideoMode::getDesktopMode();
+
+			desktop.height -= 40;
+			return desktop;
+		}(), title), _title(title)
 #endif
 	{
+		this->setPosition(sf::Vector2i(0, 0));
 		game->logger.info("Opening game window \"" + title + "\"");
 		this->setFramerateLimit(60);
 	}
