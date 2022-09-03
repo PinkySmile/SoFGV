@@ -392,6 +392,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto voidMana = panel->get<tgui::CheckBox>("VoidMana");
 	auto matterMana = panel->get<tgui::CheckBox>("MatterMana");
 	auto spiritMana = panel->get<tgui::CheckBox>("SpiritMana");
+	auto turnAround = panel->get<tgui::CheckBox>("turn");
+	auto forceTurnAround = panel->get<tgui::CheckBox>("fturn");
 
 	auto invulnerable = panel->get<tgui::CheckBox>("Invulnerable");
 	auto invulnerableArmor = panel->get<tgui::CheckBox>("InvulnerableArmor");
@@ -419,6 +421,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto matterInvul = panel->get<tgui::CheckBox>("MInv");
 	auto spiritInvul = panel->get<tgui::CheckBox>("SInv");
 	auto voidInvul = panel->get<tgui::CheckBox>("VInv");
+	auto neutralArmor = panel->get<tgui::CheckBox>("NArmor");
+	auto matterArmor = panel->get<tgui::CheckBox>("MArmor");
+	auto spiritArmor = panel->get<tgui::CheckBox>("SArmor");
+	auto voidArmor = panel->get<tgui::CheckBox>("VArmor");
 
 	actionName->connect("Clicked", [&gui, &object, block, action]{
 		auto window = SpiralOfFate::Utils::openWindowWithFocus(gui, 500, "&.h - 100");
@@ -1241,7 +1247,29 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [&object, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
+	turnAround->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.turnAround = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	forceTurnAround->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.forceTurnAround = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	oFlags->connect("TextChanged", [&object, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
@@ -1278,6 +1306,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		voidMana->setChecked(data.oFlag.voidMana);
 		matterMana->setChecked(data.oFlag.matterMana);
 		spiritMana->setChecked(data.oFlag.spiritMana);
+		turnAround->setChecked(data.oFlag.turnAround);
+		forceTurnAround->setChecked(data.oFlag.forceTurnAround);
 		if (!g)
 			*c = false;
 	});
@@ -1568,7 +1598,51 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		dFlags->setText(std::to_string(data.dFlag.flags));
 		*c = false;
 	});
-	dFlags->connect("TextChanged", [neutralInvul, matterInvul, spiritInvul, voidInvul, projInvul, proj, resOPS, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
+	neutralArmor->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.neutralArmor = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	matterArmor->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.matterArmor = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	spiritArmor->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.spiritArmor = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	voidArmor->connect("Changed", [&object, dFlags](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.dFlag.voidArmor = b;
+		dFlags->setText(std::to_string(data.dFlag.flags));
+		*c = false;
+	});
+	dFlags->connect("TextChanged", [neutralArmor, matterArmor, spiritArmor, voidArmor, neutralInvul, matterInvul, spiritInvul, voidInvul, projInvul, proj, resOPS, lc, dc, crouch, flash, invulnerable, invulnerableArmor, superArmor, grabInvul, voidBlock, spiritBlock, matterBlock, neutralBlock, airborne, canBlock, highBlock, lowBlock, dashSpeed, resetRotation, counterHit, &object](std::string t){
 		if (t.empty())
 			return;
 
@@ -1605,6 +1679,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		matterInvul->setChecked(data.dFlag.matterInvul);
 		spiritInvul->setChecked(data.dFlag.spiritInvul);
 		voidInvul->setChecked(data.dFlag.voidInvul);
+		neutralArmor->setChecked(data.dFlag.neutralArmor);
+		matterArmor->setChecked(data.dFlag.matterArmor);
+		spiritArmor->setChecked(data.dFlag.spiritArmor);
+		voidArmor->setChecked(data.dFlag.voidArmor);
 		if (!g)
 			*c = false;
 	});

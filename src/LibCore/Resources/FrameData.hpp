@@ -52,6 +52,10 @@ namespace SpiralOfFate
 			bool matterInvul : 1;
 			bool spiritInvul : 1;
 			bool voidInvul : 1;
+			bool neutralArmor : 1;
+			bool matterArmor : 1;
+			bool spiritArmor : 1;
+			bool voidArmor : 1;
 		};
 	};
 
@@ -84,6 +88,8 @@ namespace SpiralOfFate
 			bool voidMana : 1;
 			bool spiritMana : 1;
 			bool matterMana : 1;
+			bool turnAround : 1;
+			bool forceTurnAround : 1;
 		};
 	};
 
