@@ -20,6 +20,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -53,6 +54,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -19,
                         "y": 0
@@ -119,6 +121,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -19,
                         "y": 0
@@ -152,6 +155,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -18,
                         "y": 0
@@ -185,6 +189,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -14,
                         "y": 0
@@ -218,6 +223,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -251,6 +257,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 0,
                         "y": -6
@@ -291,6 +298,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -18,
                         "y": 12
@@ -324,6 +332,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -8,
                         "y": 6
@@ -357,6 +366,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -8,
                         "y": 0
@@ -397,6 +407,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -8,
                         "y": 1
@@ -437,6 +448,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -18,
                         "y": 0
@@ -470,6 +482,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -28,
                         "y": 12
@@ -503,6 +516,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -18,
                         "y": 12
@@ -543,6 +557,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -28,
                         "y": 0
@@ -580,6 +595,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -28,
                         "y": -8
@@ -617,6 +633,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -28,
                         "y": -4
@@ -654,6 +671,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -38,
                         "y": 0
@@ -691,6 +709,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -32,
                         "y": 0
@@ -728,6 +747,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -765,6 +785,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -32,
                         "y": 0
@@ -802,6 +823,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -32,
                         "y": 0
@@ -846,6 +868,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 18,
                         "y": 0
@@ -883,6 +906,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 22,
                         "y": 0
@@ -920,6 +944,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 30,
                         "y": 0
@@ -957,6 +982,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 42,
                         "y": 0
@@ -994,6 +1020,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 52,
                         "y": 0
@@ -1031,6 +1058,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 34,
                         "y": 0
@@ -1068,6 +1096,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 20,
                         "y": 0
@@ -1105,6 +1134,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 30,
                         "y": 0
@@ -1142,6 +1172,7 @@
                             "width": 63
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 32,
                         "y": 0
@@ -5488,6 +5519,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -12,
                         "y": 0
@@ -5521,6 +5553,7 @@
                             "width": 72
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -12,
                         "y": 0
@@ -6056,6 +6089,7 @@
                             "width": 73
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -6374,6 +6408,7 @@
                             "width": 40
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -6512,6 +6547,7 @@
                             "width": 74
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -22,
                         "y": 0
@@ -7016,10 +7052,38 @@
                         "width": 55
                     },
                     "defense_flag": 2097152,
-                    "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
+                    },
+                    "size": {
+                        "x": 178,
+                        "y": 94
+                    },
+                    "speed": {
+                        "x": 1,
+                        "y": 16
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 47,
+                        "left": 103,
+                        "top": 2493,
+                        "width": 89
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 84,
+                        "left": -26,
+                        "top": -85,
+                        "width": 55
+                    },
+                    "defense_flag": 2097152,
+                    "duration": 2,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": 0.0
                     },
                     "size": {
                         "x": 178,
@@ -7027,7 +7091,7 @@
                     },
                     "speed": {
                         "x": 0,
-                        "y": 16
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7048,11 +7112,15 @@
                     "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
                     },
                     "size": {
                         "x": 162,
                         "y": 130
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7073,11 +7141,15 @@
                     "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
                     },
                     "size": {
                         "x": 138,
                         "y": 164
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7098,11 +7170,15 @@
                     "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
                     },
                     "size": {
                         "x": 172,
                         "y": 140
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7123,11 +7199,15 @@
                     "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
                     },
                     "size": {
                         "x": 158,
                         "y": 120
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7148,11 +7228,15 @@
                     "duration": 3,
                     "gravity": {
                         "x": 0.0,
-                        "y": 2.0
+                        "y": 0.0
                     },
                     "size": {
                         "x": 168,
                         "y": 116
+                    },
+                    "speed": {
+                        "x": 0,
+                        "y": -1
                     },
                     "sprite": "assets/characters/remilia/remilia.png",
                     "texture_bounds": {
@@ -7628,7 +7712,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 4864,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -7643,7 +7727,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -7671,7 +7755,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7687,7 +7771,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -7711,7 +7795,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7727,7 +7811,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -7751,7 +7835,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7767,7 +7851,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -7791,7 +7875,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7807,7 +7891,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -7831,7 +7915,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7847,7 +7931,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -7871,7 +7955,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7887,7 +7971,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -7911,7 +7995,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7927,7 +8011,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -7951,7 +8035,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7961,7 +8045,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -7985,7 +8069,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -7995,7 +8079,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -8019,7 +8103,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8041,7 +8125,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -8065,7 +8149,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8075,7 +8159,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -8204,7 +8288,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 4864,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -8219,7 +8303,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -8247,7 +8331,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8263,7 +8347,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -8287,7 +8371,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8303,7 +8387,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -8327,7 +8411,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8343,7 +8427,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -8367,7 +8451,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8383,7 +8467,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -8407,7 +8491,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8423,7 +8507,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -8447,7 +8531,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8463,7 +8547,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -8487,7 +8571,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8503,7 +8587,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -8527,7 +8611,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8537,7 +8621,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -8561,7 +8645,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8571,7 +8655,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -8595,7 +8679,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8617,7 +8701,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -8641,7 +8725,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8651,7 +8735,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5
@@ -8780,7 +8864,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 4864,
                     "hurt_boxes": [
                         {
                             "height": 90,
@@ -8795,7 +8879,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -8823,7 +8907,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8839,7 +8923,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -10,
                         "y": -5
@@ -8863,7 +8947,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8879,7 +8963,7 @@
                             "width": 72
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 0,
                         "y": -35
@@ -8903,7 +8987,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8919,7 +9003,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -35
@@ -8943,7 +9027,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8959,7 +9043,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -8983,7 +9067,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -8999,7 +9083,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -9023,7 +9107,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9039,7 +9123,7 @@
                             "width": 80
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -9063,7 +9147,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9079,7 +9163,7 @@
                             "width": 73
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 20,
                         "y": -5
@@ -9103,7 +9187,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9113,7 +9197,7 @@
                             "width": 67
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -9137,7 +9221,7 @@
                         "top": -123,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9147,7 +9231,7 @@
                             "width": 81
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": 25,
                         "y": -5
@@ -9171,7 +9255,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9193,7 +9277,7 @@
                             "width": 51
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -35
@@ -9217,7 +9301,7 @@
                         "top": -118,
                         "width": 55
                     },
-                    "defense_flag": 525056,
+                    "defense_flag": 529152,
                     "duration": 3,
                     "hurt_boxes": [
                         {
@@ -9227,7 +9311,7 @@
                             "width": 65
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2361344,
                     "offset": {
                         "x": -25,
                         "y": -5

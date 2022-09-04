@@ -20,6 +20,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 164
@@ -49,6 +50,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -82,6 +84,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -115,6 +118,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -155,6 +159,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 158
@@ -184,6 +189,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 62,
                         "y": 146
@@ -220,6 +226,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 120
@@ -256,6 +263,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 62,
                         "y": 146
@@ -285,6 +293,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 158
@@ -321,6 +330,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 72,
                         "y": 164
@@ -354,6 +364,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -391,6 +402,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -428,6 +440,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -465,6 +478,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 72,
                         "y": 164
@@ -498,6 +512,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -535,6 +550,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -572,6 +588,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -616,6 +633,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 72,
                         "y": 164
@@ -649,6 +667,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -686,6 +705,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -723,6 +743,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -760,6 +781,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 72,
                         "y": 164
@@ -793,6 +815,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -830,6 +853,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -867,6 +891,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -2107,6 +2132,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 164
@@ -2136,6 +2162,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -2169,6 +2196,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -2,
                         "y": 0
@@ -2202,6 +2230,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -1,
                         "y": 0
@@ -2509,6 +2538,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 164
@@ -2806,6 +2836,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 164
@@ -3104,6 +3135,7 @@
                             "width": 50
                         }
                     ],
+                    "offense_flag": 67108864,
                     "size": {
                         "x": 60,
                         "y": 164

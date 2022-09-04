@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <array>
 
 namespace SpiralOfFate
 {

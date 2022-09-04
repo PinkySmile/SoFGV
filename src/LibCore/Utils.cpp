@@ -17,6 +17,13 @@
 #include <cmath>
 #include "Utils.hpp"
 
+#ifdef max
+#undef max
+#endif
+#ifdef min
+#undef min
+#endif
+
 namespace SpiralOfFate::Utils
 {
 	static tgui::Theme *theme = nullptr;
