@@ -10675,7 +10675,7 @@
                         }
                     ],
                     "neutral_limit": 15,
-                    "offense_flag": 2048,
+                    "offense_flag": 2304,
                     "offset": {
                         "x": 2,
                         "y": -28
@@ -15438,7 +15438,7 @@
                             "width": 63
                         }
                     ],
-                    "offense_flag": 6293776,
+                    "offense_flag": 6293520,
                     "offset": {
                         "x": 8,
                         "y": 0
@@ -15513,7 +15513,7 @@
                             "width": 52
                         }
                     ],
-                    "offense_flag": 6301968,
+                    "offense_flag": 6301712,
                     "offset": {
                         "x": 25,
                         "y": 0
@@ -15613,7 +15613,7 @@
                         }
                     ],
                     "mana_gain": 20,
-                    "offense_flag": 65022224,
+                    "offense_flag": 65021968,
                     "offset": {
                         "x": 43,
                         "y": 0
@@ -16241,8 +16241,42 @@
                         "top": -166,
                         "width": 34
                     },
+                    "defense_flag": 8449,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 193,
+                            "left": -26,
+                            "top": -192,
+                            "width": 56
+                        }
+                    ],
+                    "offense_flag": 2099200,
+                    "offset": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 60,
+                        "y": 192
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 364,
+                        "top": 301,
+                        "width": 30
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 164,
+                        "left": -17,
+                        "top": -166,
+                        "width": 34
+                    },
                     "defense_flag": 532737,
-                    "duration": 8,
+                    "duration": 4,
                     "hurt_boxes": [
                         {
                             "height": 193,
@@ -17453,7 +17487,7 @@
                             "width": 102
                         }
                     ],
-                    "offense_flag": 8470538,
+                    "offense_flag": 8470536,
                     "offset": {
                         "x": 49,
                         "y": 0
@@ -18132,7 +18166,7 @@
                             "width": 102
                         }
                     ],
-                    "offense_flag": 81930,
+                    "offense_flag": 81928,
                     "offset": {
                         "x": 55,
                         "y": 0
@@ -18182,7 +18216,7 @@
                             "width": 102
                         }
                     ],
-                    "offense_flag": 2179082,
+                    "offense_flag": 2179080,
                     "offset": {
                         "x": 55,
                         "y": 0
@@ -18348,7 +18382,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 2058,
+                    "offense_flag": 10,
                     "prorate": 100.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -18369,7 +18403,7 @@
                         "width": 61
                     },
                     "untech": 40,
-                    "void_limit": 50
+                    "void_limit": 100
                 },
                 {
                     "block_stun": 12,
@@ -18407,7 +18441,7 @@
                             "width": 153
                         }
                     ],
-                    "offense_flag": 2058,
+                    "offense_flag": 10,
                     "prorate": 90.0,
                     "push_back": 5,
                     "push_block": 8,
@@ -18423,7 +18457,7 @@
                         "width": 61
                     },
                     "untech": 40,
-                    "void_limit": 50
+                    "void_limit": 100
                 },
                 {
                     "collision_box": {
@@ -18442,7 +18476,6 @@
                             "width": 113
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 94,
                         "y": 166
