@@ -84,71 +84,64 @@ namespace SpiralOfFate
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
 		game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
-		this->_sendMutex.lock();
-		try {
-			switch (packet.opcode) {
-			case OPCODE_HELLO:
-				this->_handlePacket(remote, packet.hello, size);
-				break;
-			case OPCODE_OLLEH:
-				this->_handlePacket(remote, packet.olleh, size);
-				break;
-			case OPCODE_REDIRECT:
-				this->_handlePacket(remote, packet.redirect, size);
-				break;
-			case OPCODE_PUNCH:
-				this->_handlePacket(remote, packet.punch, size);
-				break;
-			case OPCODE_PING:
-				this->_handlePacket(remote, packet.ping, size);
-				break;
-			case OPCODE_PONG:
-				this->_handlePacket(remote, packet.pong, size);
-				break;
-			case OPCODE_GAME_START:
-				this->_handlePacket(remote, packet.gameStart, size);
-				break;
-			case OPCODE_GAME_FRAME:
-				this->_handlePacket(remote, packet.gameFrame, size);
-				break;
-			case OPCODE_INIT_REQUEST:
-				this->_handlePacket(remote, packet.initRequest, size);
-				break;
-			case OPCODE_INIT_SUCCESS:
-				this->_handlePacket(remote, packet.initSuccess, size);
-				break;
-			case OPCODE_ERROR:
-				this->_handlePacket(remote, packet.error, size);
-				break;
-			case OPCODE_DELAY_UPDATE:
-				this->_handlePacket(remote, packet.delayUpdate, size);
-				break;
-			case OPCODE_MENU_SWITCH:
-				this->_handlePacket(remote, packet.menuSwitch, size);
-				break;
-			case OPCODE_SYNC_TEST:
-				this->_handlePacket(remote, packet.syncTest, size);
-				break;
-			case OPCODE_STATE:
-				this->_handlePacket(remote, packet.state, size);
-				break;
-			case OPCODE_REPLAY:
-				this->_handlePacket(remote, packet.replay, size);
-				break;
-			case OPCODE_QUIT:
-				this->_handlePacket(remote, packet.quit, size);
-				break;
-			default:
-				PacketError error{ERROR_INVALID_OPCODE, packet.opcode, size};
+		switch (packet.opcode) {
+		case OPCODE_HELLO:
+			this->_handlePacket(remote, packet.hello, size);
+			break;
+		case OPCODE_OLLEH:
+			this->_handlePacket(remote, packet.olleh, size);
+			break;
+		case OPCODE_REDIRECT:
+			this->_handlePacket(remote, packet.redirect, size);
+			break;
+		case OPCODE_PUNCH:
+			this->_handlePacket(remote, packet.punch, size);
+			break;
+		case OPCODE_PING:
+			this->_handlePacket(remote, packet.ping, size);
+			break;
+		case OPCODE_PONG:
+			this->_handlePacket(remote, packet.pong, size);
+			break;
+		case OPCODE_GAME_START:
+			this->_handlePacket(remote, packet.gameStart, size);
+			break;
+		case OPCODE_GAME_FRAME:
+			this->_handlePacket(remote, packet.gameFrame, size);
+			break;
+		case OPCODE_INIT_REQUEST:
+			this->_handlePacket(remote, packet.initRequest, size);
+			break;
+		case OPCODE_INIT_SUCCESS:
+			this->_handlePacket(remote, packet.initSuccess, size);
+			break;
+		case OPCODE_ERROR:
+			this->_handlePacket(remote, packet.error, size);
+			break;
+		case OPCODE_DELAY_UPDATE:
+			this->_handlePacket(remote, packet.delayUpdate, size);
+			break;
+		case OPCODE_MENU_SWITCH:
+			this->_handlePacket(remote, packet.menuSwitch, size);
+			break;
+		case OPCODE_SYNC_TEST:
+			this->_handlePacket(remote, packet.syncTest, size);
+			break;
+		case OPCODE_STATE:
+			this->_handlePacket(remote, packet.state, size);
+			break;
+		case OPCODE_REPLAY:
+			this->_handlePacket(remote, packet.replay, size);
+			break;
+		case OPCODE_QUIT:
+			this->_handlePacket(remote, packet.quit, size);
+			break;
+		default:
+			PacketError error{ERROR_INVALID_OPCODE, packet.opcode, size};
 
-				this->_send(remote, &error, sizeof(error));
-				break;
-			}
-		} catch (...) {
-			this->_sendMutex.unlock();
-			throw;
+			this->_send(remote, &error, sizeof(error));
+			break;
 		}
-		this->_sendMutex.unlock();
 	}
 
 	void Connection::_threadLoop()
@@ -217,7 +210,10 @@ namespace SpiralOfFate
 	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
 	{
 		my_assert(realSize < 2048);
-		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + reinterpret_cast<Packet *>(packet)->toString());
+
+		auto str = reinterpret_cast<Packet *>(packet)->toString();
+
+		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str);
 		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}
 
@@ -327,6 +323,7 @@ namespace SpiralOfFate
 				this->_sendMutex.unlock();
 			}
 		}
+		this->_sendMutex.lock();
 		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first + BUFFER_MIN_SIZE < this->_nextExpectedFrame)
 			this->_sendBuffer.pop_front();
 		/*
@@ -337,6 +334,7 @@ namespace SpiralOfFate
 		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < packet.frameId)
 			this->_sendBuffer.pop_front();
 		 */
+		this->_sendMutex.unlock();
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketInitRequest &, size_t size)
@@ -428,7 +426,9 @@ namespace SpiralOfFate
 
 	void Connection::terminate()
 	{
+		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
+		this->_sendMutex.unlock();
 		this->_endThread = true;
 		this->_remotes.clear();
 		this->_opponent = nullptr;

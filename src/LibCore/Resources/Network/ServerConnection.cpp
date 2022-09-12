@@ -44,6 +44,7 @@ namespace SpiralOfFate
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
 	{
 		int err = -1;
+		PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
 
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
@@ -60,6 +61,7 @@ namespace SpiralOfFate
 			return this->_send(remote, &error, sizeof(error));
 		}
 
+		this->_send(remote, &result, sizeof(result));
 		this->_playing = true;
 		this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
 		if (remote.connectPhase == 0) {
@@ -67,14 +69,12 @@ namespace SpiralOfFate
 				this->onConnection(remote, packet);
 			if (!packet.spectator)
 				this->_opponent = &remote;
+			this->_currentMenu = 2;
 			remote.connectPhase = 1 + packet.spectator;
 			game->sceneMutex.lock();
 			game->scene.reset(new ServerCharacterSelect(this->_localInput));
 			game->sceneMutex.unlock();
 		}
-		PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
-
-		this->_send(remote, &result, sizeof(result));
 	}
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitSuccess &, size_t size)
@@ -144,7 +144,9 @@ namespace SpiralOfFate
 	void ServerConnection::switchMenu(unsigned int id)
 	{
 		this->_currentMenu = id;
+		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
+		this->_sendMutex.unlock();
 		this->_states.clear();
 		if (id == 2) {
 			game->sceneMutex.lock();
@@ -155,10 +157,12 @@ namespace SpiralOfFate
 
 	void ServerConnection::reportChecksum(unsigned int checksum)
 	{
+		this->_sendMutex.lock();
 		PacketSyncTest syncTest{checksum, this->_sendBuffer.back().first};
 
 		this->_states[this->_sendBuffer.back().first] = checksum;
 		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
+		this->_sendMutex.unlock();
 	}
 
 	void ServerConnection::startGame(unsigned int _seed, unsigned int _p1chr, unsigned int _p1pal, unsigned int _p2chr, unsigned int _p2pal, unsigned int _stage, unsigned int _platformConfig)

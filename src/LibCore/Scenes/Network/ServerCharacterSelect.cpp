@@ -65,11 +65,11 @@ namespace SpiralOfFate
 			this->_localDelayBuffer.push_back(this->_localInput->getInputs());
 			game->connection->send(this->_localDelayBuffer.back());
 		}
-		while (!this->_inputBuffer.empty() && this->_remoteDelayBuffer.size() != CHARACTER_SELECT_DELAY) {
+		while (this->_remoteDelayBuffer.size() != CHARACTER_SELECT_DELAY) {
+			for (auto &input : game->connection->receive())
+				this->_inputBuffer.push_back(input);
 			if (this->_inputBuffer.empty())
-				this->_inputBuffer = game->connection->receive();
-			if (this->_inputBuffer.empty())
-				continue;
+				break;
 			this->_remoteDelayBuffer.push_back({
 				this->_inputBuffer.front()._h,
 				this->_inputBuffer.front()._v,

@@ -71,14 +71,19 @@ namespace SpiralOfFate
 		PacketMenuSwitch menuSwitch{2};
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
+		if (this->_currentMenu == 2)
+			return;
 		remote.connectPhase = 1;
+		this->_opponent = &remote;
 		this->_currentMenu = 2;
 		this->_opCurrentMenu = 2;
 		this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-		//TODO: Switch scene
 		game->sceneMutex.lock();
 		game->scene.reset(new ClientCharacterSelect(this->_localInput));
 		game->sceneMutex.unlock();
+		this->_sendMutex.lock();
+		this->_sendBuffer.clear();
+		this->_sendMutex.unlock();
 	}
 
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketDelayUpdate &, size_t size)
