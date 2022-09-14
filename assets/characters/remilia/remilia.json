@@ -7530,6 +7530,784 @@
         ]
     },
     {
+        "action": 52,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 94,
+                            "left": -12,
+                            "top": -96,
+                            "width": 78
+                        },
+                        {
+                            "height": 63,
+                            "left": -17,
+                            "top": -150,
+                            "width": 70
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 202,
+                        "y": 180
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 90,
+                        "left": 10,
+                        "top": 2210,
+                        "width": 101
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 2,
+                    "hurt_boxes": [
+                        {
+                            "height": 94,
+                            "left": -27,
+                            "top": -95,
+                            "width": 78
+                        },
+                        {
+                            "height": 63,
+                            "left": -30,
+                            "top": -152,
+                            "width": 70
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -30,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 190,
+                        "y": 174
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 87,
+                        "left": 117,
+                        "top": 2213,
+                        "width": 95
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": -3,
+                            "top": -88,
+                            "width": 66
+                        },
+                        {
+                            "height": 61,
+                            "left": -49,
+                            "top": -140,
+                            "width": 51
+                        },
+                        {
+                            "height": 37,
+                            "left": -16,
+                            "top": -103,
+                            "width": 34
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 150,
+                        "y": 150
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 75,
+                        "left": 219,
+                        "top": 2228,
+                        "width": 75
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": 2,
+                            "top": -116,
+                            "width": 66
+                        },
+                        {
+                            "height": 59,
+                            "left": -75,
+                            "top": -118,
+                            "width": 90
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 124
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 62,
+                        "left": 300,
+                        "top": 2238,
+                        "width": 87
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -7,
+                            "top": -121,
+                            "width": 66
+                        },
+                        {
+                            "height": 72,
+                            "left": -77,
+                            "top": -85,
+                            "width": 92
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 10,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 180,
+                        "y": 140
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 70,
+                        "left": 393,
+                        "top": 2230,
+                        "width": 90
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -20,
+                            "top": -134,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -51,
+                            "top": -71,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 45,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 210,
+                        "y": 172
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 86,
+                        "left": 489,
+                        "top": 2214,
+                        "width": 105
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "hurt_boxes": [
+                        {
+                            "height": 82,
+                            "left": -29,
+                            "top": -146,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -39,
+                            "top": -68,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 38,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 182
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 91,
+                        "left": 600,
+                        "top": 2209,
+                        "width": 87
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "rotation": 332.9200068813659,
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 694,
+                        "top": 2208,
+                        "width": 77
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "rotation": 335.15998836558504,
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 777,
+                        "top": 2208,
+                        "width": 77
+                    }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 53,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 2,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 94,
+                            "left": -12,
+                            "top": -96,
+                            "width": 78
+                        },
+                        {
+                            "height": 63,
+                            "left": -17,
+                            "top": -150,
+                            "width": 70
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -22,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 202,
+                        "y": 180
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 90,
+                        "left": 10,
+                        "top": 2210,
+                        "width": 101
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 2,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 94,
+                            "left": -27,
+                            "top": -95,
+                            "width": 78
+                        },
+                        {
+                            "height": 63,
+                            "left": -30,
+                            "top": -152,
+                            "width": 70
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": -30,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 190,
+                        "y": 174
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 87,
+                        "left": 117,
+                        "top": 2213,
+                        "width": 95
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": -3,
+                            "top": -88,
+                            "width": 66
+                        },
+                        {
+                            "height": 61,
+                            "left": -49,
+                            "top": -140,
+                            "width": 51
+                        },
+                        {
+                            "height": 37,
+                            "left": -16,
+                            "top": -103,
+                            "width": 34
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 150,
+                        "y": 150
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 75,
+                        "left": 219,
+                        "top": 2228,
+                        "width": 75
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 83,
+                            "left": 2,
+                            "top": -116,
+                            "width": 66
+                        },
+                        {
+                            "height": 59,
+                            "left": -75,
+                            "top": -118,
+                            "width": 90
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 0,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 124
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 62,
+                        "left": 300,
+                        "top": 2238,
+                        "width": 87
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -7,
+                            "top": -121,
+                            "width": 66
+                        },
+                        {
+                            "height": 72,
+                            "left": -77,
+                            "top": -85,
+                            "width": 92
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 10,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 180,
+                        "y": 140
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 70,
+                        "left": 393,
+                        "top": 2230,
+                        "width": 90
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 65,
+                            "left": -20,
+                            "top": -134,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -51,
+                            "top": -71,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 45,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 210,
+                        "y": 172
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 86,
+                        "left": 489,
+                        "top": 2214,
+                        "width": 105
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 59,
+                        "left": -26,
+                        "top": -102,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 82,
+                            "left": -29,
+                            "top": -146,
+                            "width": 66
+                        },
+                        {
+                            "height": 64,
+                            "left": -39,
+                            "top": -68,
+                            "width": 81
+                        }
+                    ],
+                    "marker": 8,
+                    "offset": {
+                        "x": 38,
+                        "y": -4
+                    },
+                    "size": {
+                        "x": 174,
+                        "y": 182
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 91,
+                        "left": 600,
+                        "top": 2209,
+                        "width": 87
+                    }
+                }
+            ],
+            [
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "rotation": 332.9200068813659,
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 694,
+                        "top": 2208,
+                        "width": 77
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 144,
+                        "left": -26,
+                        "top": -150,
+                        "width": 55
+                    },
+                    "defense_flag": 256,
+                    "duration": 4,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.20000000298023224
+                    },
+                    "hurt_boxes": [
+                        {
+                            "height": 58,
+                            "left": -19,
+                            "top": -67,
+                            "width": 57
+                        },
+                        {
+                            "height": 75,
+                            "left": -51,
+                            "top": -140,
+                            "width": 72
+                        }
+                    ],
+                    "offset": {
+                        "x": 16,
+                        "y": -4
+                    },
+                    "rotation": 335.15998836558504,
+                    "size": {
+                        "x": 154,
+                        "y": 184
+                    },
+                    "sprite": "assets/characters/remilia/remilia.png",
+                    "texture_bounds": {
+                        "height": 92,
+                        "left": 777,
+                        "top": 2208,
+                        "width": 77
+                    }
+                }
+            ]
+        ]
+    },
+    {
         "action": 54,
         "framedata": [
             [
