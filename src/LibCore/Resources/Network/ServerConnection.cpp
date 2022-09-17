@@ -152,7 +152,7 @@ namespace SpiralOfFate
 		if (id == 2)
 			game->scene.reset(new ServerCharacterSelect(this->_localInput));
 		//else if (id == 1)
-		//	game->scene.reset(new ServerCharacterSelect(this->_localInput));
+		//	game->scene.reset(new ServerInGame(this->_localInput));
 		game->sceneMutex.unlock();
 	}
 
