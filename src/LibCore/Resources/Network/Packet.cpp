@@ -142,13 +142,14 @@ namespace SpiralOfFate
 	{
 	}
 
-	std::shared_ptr<PacketGameFrame> PacketGameFrame::create(std::list<std::pair<unsigned, PacketInput>> &inputs)
+	std::shared_ptr<PacketGameFrame> PacketGameFrame::create(std::list<std::pair<unsigned, PacketInput>> &inputs, uint32_t lastRecvFrameId)
 	{
 		void *buffer = malloc(inputs.size() * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
 		auto *packet = new(buffer) PacketGameFrame();
 		size_t i = 0;
 
 		my_assert(!inputs.empty());
+		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = inputs.front().first;
 		packet->nbInputs = inputs.size();
 		for (auto &input : inputs) {
@@ -160,7 +161,7 @@ namespace SpiralOfFate
 
 	std::string PacketGameFrame::toString() const
 	{
-		return "Packet GAMEFRAME: " + std::to_string(this->nbInputs) + " inputs from frame " + std::to_string(this->frameId);
+		return "Packet GAMEFRAME: " + std::to_string(this->nbInputs) + " inputs from frame " + std::to_string(this->frameId) + " expecting " + std::to_string(this->lastRecvFrameId);
 	}
 
 	PacketInitRequest::PacketInitRequest(const char *name, const char *version, bool spectator) :

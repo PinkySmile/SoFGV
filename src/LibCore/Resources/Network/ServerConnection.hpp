@@ -45,11 +45,11 @@ namespace SpiralOfFate
 		ServerConnection(const std::string &name, std::shared_ptr<IInput> localInput);
 		~ServerConnection();
 
-		bool send(InputStruct &inputs) override;
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
 		void reportChecksum(unsigned checksum);
 		void switchMenu(unsigned id);
 		void host(unsigned short port);
+		std::list<PacketInput> receive() override;
 	};
 }
 

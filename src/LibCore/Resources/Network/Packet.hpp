@@ -198,10 +198,11 @@ namespace SpiralOfFate
 		PacketGameFrame();
 	public:
 		uint32_t frameId;
+		uint32_t lastRecvFrameId;
 		uint32_t nbInputs;
 		PacketInput inputs[];
 
-		static std::shared_ptr<PacketGameFrame> create(std::list<std::pair<unsigned, PacketInput>> &inputs);
+		static std::shared_ptr<PacketGameFrame> create(std::list<std::pair<unsigned, PacketInput>> &inputs, uint32_t lastRecvFrameId);
 		std::string toString() const;
 	};
 

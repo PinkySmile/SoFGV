@@ -148,11 +148,12 @@ namespace SpiralOfFate
 		this->_sendBuffer.clear();
 		this->_sendMutex.unlock();
 		this->_states.clear();
-		if (id == 2) {
-			game->sceneMutex.lock();
+		game->sceneMutex.lock();
+		if (id == 2)
 			game->scene.reset(new ServerCharacterSelect(this->_localInput));
-			game->sceneMutex.unlock();
-		}
+		//else if (id == 1)
+		//	game->scene.reset(new ServerCharacterSelect(this->_localInput));
+		game->sceneMutex.unlock();
 	}
 
 	void ServerConnection::reportChecksum(unsigned int checksum)
@@ -177,7 +178,7 @@ namespace SpiralOfFate
 		this->switchMenu(1);
 	}
 
-	bool ServerConnection::send(InputStruct &inputs)
+	std::list<PacketInput> ServerConnection::receive()
 	{
 		if (this->_currentMenu != this->_opCurrentMenu) {
 			if (this->_currentMenu == 1) {
@@ -189,9 +190,9 @@ namespace SpiralOfFate
 
 				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 			}
-			return false;
+			return {};
 		}
-		return Connection::send(inputs);
+		return Connection::receive();
 	}
 
 	void ServerConnection::host(unsigned short port)
