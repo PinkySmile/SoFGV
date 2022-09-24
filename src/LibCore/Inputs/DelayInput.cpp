@@ -7,16 +7,16 @@
 
 namespace SpiralOfFate
 {
-	DelayInput::DelayInput(IInput &input) :
-		_input(input)
+	DelayInput::DelayInput(std::shared_ptr<IInput> input) :
+		_input(std::move(input))
 	{
 	}
 
 	void DelayInput::update()
 	{
-		while (this->_input.hasInputs() && this->_delayBuffer.size() <= this->_delay) {
-			this->_input.update();
-			this->_delayBuffer.push_back(this->_input.getInputs());
+		while (this->_input->hasInputs() && this->_delayBuffer.size() <= this->_delay) {
+			this->_input->update();
+			this->_delayBuffer.push_back(this->_input->getInputs());
 		}
 		my_assert(!this->_delayBuffer.empty());
 		this->_keyStates[INPUT_LEFT] = this->_delayBuffer.front().horizontalAxis < 0;
@@ -44,11 +44,18 @@ namespace SpiralOfFate
 
 	bool DelayInput::hasInputs()
 	{
-		return !this->_delayBuffer.empty() || this->_input.hasInputs();
+		return this->_input->hasInputs() || !this->_delayBuffer.empty();
 	}
 
 	void DelayInput::consumeEvent(const sf::Event &event)
 	{
-		this->_input.consumeEvent(event);
+		this->_input->consumeEvent(event);
+	}
+
+	void DelayInput::flush()
+	{
+		this->_delayBuffer.clear();
+		while (this->_delay > this->_delayBuffer.size())
+			this->_delayBuffer.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 }

@@ -146,6 +146,8 @@ add_library(
 	src/LibCore/Scenes/Network/ServerCharacterSelect.hpp
 	src/LibCore/Scenes/Network/NetworkCharacterSelect.cpp
 	src/LibCore/Scenes/Network/NetworkCharacterSelect.hpp
+	src/LibCore/Scenes/Network/ClientInGame.cpp
+	src/LibCore/Scenes/Network/ClientInGame.hpp
 	src/LibCore/Scenes/Network/ServerInGame.cpp
 	src/LibCore/Scenes/Network/ServerInGame.hpp
 	src/LibCore/Inputs/RemoteInput.cpp

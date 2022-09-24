@@ -19,13 +19,14 @@ namespace SpiralOfFate
 		InGame *_launchGame() override;
 
 	public:
-		ServerCharacterSelect(std::shared_ptr<IInput> localInput);
+		ServerCharacterSelect();
 		ServerCharacterSelect(
-			std::shared_ptr<IInput> localInput,
 			int leftPos, int rightPos,
 			int leftPalette, int rightPalette,
 			int stage, int platformCfg
 		);
+
+		friend class ServerConnection;
 	};
 }
 

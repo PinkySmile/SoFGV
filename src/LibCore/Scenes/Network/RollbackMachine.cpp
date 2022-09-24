@@ -75,8 +75,10 @@ namespace SpiralOfFate
 			++it;
 
 		this->_manageRollback(it);
-		this->_realInputLeft->update();
-		this->_realInputRight->update();
+		if (this->_realInputLeft->hasInputs())
+			this->_realInputLeft->update();
+		if (this->_realInputRight->hasInputs())
+			this->_realInputRight->update();
 		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight, this->_savedData.empty() ? nullptr : &this->_savedData.back());
 		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
 		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;

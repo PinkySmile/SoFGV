@@ -169,11 +169,10 @@ namespace SpiralOfFate
 
 	void TitleScreen::_host(bool spec)
 	{
+		game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
+
 		// TODO: Handle names
-		auto con = new ServerConnection(
-			"SpiralOfFate::ServerConnection",
-			this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second)
-		);
+		auto con = new ServerConnection("SpiralOfFate::ServerConnection");
 
 		game->connection.reset(con);
 		// TODO: Allow to change port
@@ -200,11 +199,10 @@ namespace SpiralOfFate
 
 	void TitleScreen::_connect()
 	{
+		game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
+
 		// TODO: Handle names
-		auto con = new ClientConnection(
-			"SpiralOfFate::ClientConnection",
-			this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second)
-		);
+		auto con = new ClientConnection("SpiralOfFate::ClientConnection");
 		auto ipString = sf::Clipboard::getString();
 
 		if (ipString.isEmpty()) {

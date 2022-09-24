@@ -7,22 +7,23 @@
 
 
 #include <list>
+#include <memory>
 #include "RollbackInput.hpp"
 
 namespace SpiralOfFate
 {
 	class DelayInput : public RollbackInput {
 	private:
-		IInput &_input;
+		std::shared_ptr<IInput> _input;
 		unsigned int _delay;
 		std::list<InputStruct> _delayBuffer;
 
 	public:
-		DelayInput(IInput &input);
+		DelayInput(std::shared_ptr<IInput> input);
 		void update() override;
 		void setDelay(unsigned delay);
 		bool hasInputs() override;
-
+		void flush();
 		void consumeEvent(const sf::Event &event) override;
 	};
 }

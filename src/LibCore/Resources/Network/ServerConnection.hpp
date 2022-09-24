@@ -13,7 +13,6 @@ namespace SpiralOfFate
 {
 	class ServerConnection : public Connection {
 	protected:
-		std::shared_ptr<IInput> _localInput;
 		unsigned _currentMenu = 0;
 		unsigned _opCurrentMenu = 0;
 		bool _playing = false;
@@ -42,12 +41,12 @@ namespace SpiralOfFate
 		bool spectatorEnabled = true;
 		std::function<void (Remote &remote, PacketInitRequest &packet)> onConnection;
 
-		ServerConnection(const std::string &name, std::shared_ptr<IInput> localInput);
+		ServerConnection(const std::string &name);
 		~ServerConnection();
 
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
 		void reportChecksum(unsigned checksum);
-		void switchMenu(unsigned id);
+		void switchMenu(unsigned id, bool lock = true);
 		void host(unsigned short port);
 		std::list<PacketInput> receive() override;
 	};

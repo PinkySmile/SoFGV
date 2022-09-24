@@ -9,20 +9,18 @@
 
 namespace SpiralOfFate
 {
-	ClientCharacterSelect::ClientCharacterSelect(std::shared_ptr<IInput> localInput) :
-		NetworkCharacterSelect(std::move(localInput))
+	ClientCharacterSelect::ClientCharacterSelect()
 	{
 		this->_leftInput = std::shared_ptr<IInput>(this->_remoteInput);
 		this->_rightInput = std::shared_ptr<IInput>(this->_localInput);
 	}
 
 	ClientCharacterSelect::ClientCharacterSelect(
-		std::shared_ptr<IInput> localInput,
 		int leftPos, int rightPos,
 		int leftPalette, int rightPalette,
 		int stage, int platformCfg
 	) :
-		NetworkCharacterSelect(std::move(localInput), leftPos, rightPos, leftPalette, rightPalette, stage, platformCfg)
+		NetworkCharacterSelect(leftPos, rightPos, leftPalette, rightPalette, stage, platformCfg)
 	{
 		this->_leftInput = std::shared_ptr<IInput>(this->_remoteInput);
 		this->_rightInput = std::shared_ptr<IInput>(this->_localInput);

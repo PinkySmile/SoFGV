@@ -429,6 +429,9 @@ namespace SpiralOfFate
 	{
 		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
 		this->_sendMutex.unlock();
 		this->_endThread = true;
 		this->_remotes.clear();

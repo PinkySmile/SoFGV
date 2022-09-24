@@ -22,13 +22,12 @@ namespace SpiralOfFate
 	protected:
 		std::shared_ptr<NetworkInput> _localRealInput;
 		std::shared_ptr<RemoteInput> _remoteRealInput;
-		DelayInput *_localInput = nullptr;
-		DelayInput *_remoteInput = nullptr;
+		std::shared_ptr<DelayInput> _localInput;
+		std::shared_ptr<DelayInput> _remoteInput;
 
 	public:
-		NetworkCharacterSelect(std::shared_ptr<IInput> localInput);
+		NetworkCharacterSelect();
 		NetworkCharacterSelect(
-			std::shared_ptr<IInput> localInput,
 			int leftPos, int rightPos,
 			int leftPalette, int rightPalette,
 			int stage, int platformCfg

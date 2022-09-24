@@ -2,8 +2,8 @@
 // Created by PinkySmile on 13/09/2022.
 //
 
-#ifndef SOFGV_SERVERINGAME_HPP
-#define SOFGV_SERVERINGAME_HPP
+#ifndef SOFGV_CLIENTINGAME_HPP
+#define SOFGV_CLIENTINGAME_HPP
 
 
 #include "RollbackMachine.hpp"
@@ -12,13 +12,13 @@
 
 namespace SpiralOfFate
 {
-	class ServerInGame : public InGame {
+	class ClientInGame : public InGame {
 	private:
 		RollbackMachine _rMachine;
 		std::shared_ptr<RemoteInput> _input;
 
 	public:
-		ServerInGame(
+		ClientInGame(
 			std::shared_ptr<RemoteInput> input,
 			const GameParams &params,
 			const std::vector<struct PlatformSkeleton> &platforms,
@@ -36,4 +36,4 @@ namespace SpiralOfFate
 }
 
 
-#endif //SOFGV_SERVERINGAME_HPP
+#endif //SOFGV_CLIENTINGAME_HPP

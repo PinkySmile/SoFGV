@@ -12,17 +12,17 @@ namespace SpiralOfFate
 {
 	class ClientConnection : public Connection {
 	protected:
-		std::shared_ptr<IInput> _localInput;
 		unsigned _currentMenu = 0;
 		unsigned _opCurrentMenu = 0;
 		bool _playing = false;
 		std::map<unsigned, unsigned> _states;
-		unsigned int p1chr = 0;
-		unsigned int p1pal = 0;
-		unsigned int p2chr = 0;
-		unsigned int p2pal = 0;
-		unsigned int stage = 0;
-		unsigned int platformConfig = 0;
+		unsigned int seed;
+		unsigned int p1chr;
+		unsigned int p1pal;
+		unsigned int p2chr;
+		unsigned int p2pal;
+		unsigned int stage;
+		unsigned int platformConfig;
 
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
@@ -39,7 +39,7 @@ namespace SpiralOfFate
 	public:
 		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
 
-		ClientConnection(const std::string &name, std::shared_ptr<IInput> localInput);
+		ClientConnection(const std::string &name);
 
 		void reportChecksum(unsigned checksum);
 		void connect(sf::IpAddress ip, unsigned short port);

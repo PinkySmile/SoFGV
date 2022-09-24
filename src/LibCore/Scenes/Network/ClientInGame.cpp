@@ -2,14 +2,14 @@
 // Created by PinkySmile on 13/09/2022.
 //
 
-#include "ServerInGame.hpp"
+#include "ClientInGame.hpp"
 #include "Resources/Game.hpp"
 #include "Scenes/CharacterSelect.hpp"
-#include "ServerCharacterSelect.hpp"
+#include "ClientCharacterSelect.hpp"
 
 namespace SpiralOfFate
 {
-	ServerInGame::ServerInGame(
+	ClientInGame::ClientInGame(
 		std::shared_ptr<RemoteInput> input,
 		const InGame::GameParams &params,
 		const std::vector<struct PlatformSkeleton> &platforms,
@@ -27,7 +27,7 @@ namespace SpiralOfFate
 	{
 	}
 
-	IScene *ServerInGame::update()
+	IScene *ClientInGame::update()
 	{
 		this->_input->refreshInputs();
 
@@ -48,17 +48,8 @@ namespace SpiralOfFate
 		} else if (this->_paused)
 			this->_pauseUpdate();
 		if (!this->_paused) {
-			if (!game->battleMgr->update()) {
-				this->_nextScene = new ServerCharacterSelect(
-					game->battleMgr->getLeftCharacter()->index & 0xFFFF,
-					game->battleMgr->getRightCharacter()->index & 0xFFFF,
-					game->battleMgr->getLeftCharacter()->index >> 16,
-					game->battleMgr->getRightCharacter()->index >> 16,
-					//TODO: Save the stage and platform config properly
-					0, 0
-				);
+			if (!game->battleMgr->update())
 				return this->_nextScene;
-			}
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;
 			else if (rinput->getInputs().pause == 1)
@@ -67,7 +58,7 @@ namespace SpiralOfFate
 		return this->_nextScene;
 	}
 
-	void ServerInGame::consumeEvent(const sf::Event &event)
+	void ClientInGame::consumeEvent(const sf::Event &event)
 	{
 		this->_rMachine.consumeEvent(event);
 		InGame::consumeEvent(event);

@@ -7,28 +7,27 @@
 
 namespace SpiralOfFate
 {
-	NetworkCharacterSelect::NetworkCharacterSelect(std::shared_ptr<IInput> localInput) :
+	NetworkCharacterSelect::NetworkCharacterSelect() :
 		CharacterSelect(nullptr, nullptr, nullptr),
-		_localRealInput{new NetworkInput(*localInput, *game->connection)},
+		_localRealInput{new NetworkInput(*game->activeNetInput, *game->connection)},
 		_remoteRealInput{new RemoteInput(*game->connection)},
-		_localInput{new DelayInput(*this->_localRealInput)},
-		_remoteInput{new DelayInput(*this->_remoteRealInput)}
+		_localInput{new DelayInput(this->_localRealInput)},
+		_remoteInput{new DelayInput(this->_remoteRealInput)}
 	{
 		this->_localInput->setDelay(CHARACTER_SELECT_DELAY);
 		this->_remoteInput->setDelay(CHARACTER_SELECT_DELAY);
 	}
 
 	NetworkCharacterSelect::NetworkCharacterSelect(
-		std::shared_ptr<IInput> localInput,
 		int leftPos, int rightPos,
 		int leftPalette, int rightPalette,
 		int stage, int platformCfg
 	) :
 		CharacterSelect(nullptr, nullptr, leftPos, rightPos, leftPalette, rightPalette, stage, platformCfg, nullptr),
-		_localRealInput{new NetworkInput(*localInput, *game->connection)},
+		_localRealInput{new NetworkInput(*game->activeNetInput, *game->connection)},
 		_remoteRealInput{new RemoteInput(*game->connection)},
-		_localInput{new DelayInput(*this->_localRealInput)},
-		_remoteInput{new DelayInput(*this->_remoteRealInput)}
+		_localInput{new DelayInput(this->_localRealInput)},
+		_remoteInput{new DelayInput(this->_remoteRealInput)}
 	{
 		this->_localInput->setDelay(CHARACTER_SELECT_DELAY);
 		this->_remoteInput->setDelay(CHARACTER_SELECT_DELAY);
