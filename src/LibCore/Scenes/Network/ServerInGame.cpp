@@ -30,11 +30,11 @@ namespace SpiralOfFate
 	IScene *ServerInGame::update()
 	{
 		this->_input->refreshInputs();
+		if (this->_nextScene)
+			return this->_nextScene;
 
 		auto status = this->_rMachine.update(true, true);
 
-		if (this->_nextScene)
-			return this->_nextScene;
 		if (status == RollbackMachine::UPDATESTATUS_NO_INPUTS)
 			return nullptr;
 
