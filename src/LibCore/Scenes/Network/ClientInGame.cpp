@@ -48,7 +48,7 @@ namespace SpiralOfFate
 		} else if (this->_paused)
 			this->_pauseUpdate();
 		if (!this->_paused) {
-			if (!game->battleMgr->update())
+			if (status == RollbackMachine::UPDATESTATUS_GAME_ENDED)
 				return this->_nextScene;
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;

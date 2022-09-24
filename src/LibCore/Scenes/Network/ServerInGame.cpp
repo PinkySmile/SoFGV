@@ -48,7 +48,7 @@ namespace SpiralOfFate
 		} else if (this->_paused)
 			this->_pauseUpdate();
 		if (!this->_paused) {
-			if (!game->battleMgr->update()) {
+			if (status == RollbackMachine::UPDATESTATUS_GAME_ENDED) {
 				this->_nextScene = new ServerCharacterSelect(
 					game->battleMgr->getLeftCharacter()->index & 0xFFFF,
 					game->battleMgr->getRightCharacter()->index & 0xFFFF,
