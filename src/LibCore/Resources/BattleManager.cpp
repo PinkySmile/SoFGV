@@ -651,6 +651,10 @@ namespace SpiralOfFate
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
 		}
+		//TODO: Also save the stage objects.
+		//      Not mandatory now since no character make use of them.
+		//      Even if none does, it would be better to have the stage
+		//      objects behave normally on rollback rounds.
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)

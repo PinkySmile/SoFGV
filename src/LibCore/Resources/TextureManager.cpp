@@ -88,6 +88,10 @@ namespace SpiralOfFate
 		for (unsigned x = 0; x < realSize.x; x++)
 			for (unsigned y = 0; y < realSize.y; y++) {
 				auto &color = pixels[x + y * realSize.x];
+
+				if (color.a < 150)
+					continue;
+
 				auto it = std::find_if(palette.first.begin(), palette.first.end(), [color](Color &a){
 					return a.r == color.r && a.g == color.g && a.b == color.b;
 				});
@@ -123,6 +127,7 @@ namespace SpiralOfFate
 	{
 		sf::Image image;
 
+		// TODO: Cache this too
 		game->logger.debug("Loading pixels from " + file);
 		if (!image.loadFromFile(file))
 			return nullptr;

@@ -2,7 +2,6 @@
 // Created by PinkySmile on 27/09/2021.
 //
 
-#ifndef __ANDROID__
 #include <cstring>
 #include "RollbackInput.hpp"
 #include "Logger.hpp"
@@ -62,4 +61,3 @@ namespace SpiralOfFate
 		return std::vector<std::string>{INPUT_NUMBER};
 	}
 }
-#endif

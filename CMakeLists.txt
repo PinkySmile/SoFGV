@@ -144,6 +144,18 @@ add_library(
 	src/LibCore/Scenes/Network/ClientCharacterSelect.hpp
 	src/LibCore/Scenes/Network/ServerCharacterSelect.cpp
 	src/LibCore/Scenes/Network/ServerCharacterSelect.hpp
+	src/LibCore/Scenes/Network/NetworkCharacterSelect.cpp
+	src/LibCore/Scenes/Network/NetworkCharacterSelect.hpp
+	src/LibCore/Scenes/Network/ClientInGame.cpp
+	src/LibCore/Scenes/Network/ClientInGame.hpp
+	src/LibCore/Scenes/Network/ServerInGame.cpp
+	src/LibCore/Scenes/Network/ServerInGame.hpp
+	src/LibCore/Inputs/RemoteInput.cpp
+	src/LibCore/Inputs/RemoteInput.hpp
+	src/LibCore/Inputs/NetworkInput.cpp
+	src/LibCore/Inputs/NetworkInput.hpp
+	src/LibCore/Inputs/DelayInput.cpp
+	src/LibCore/Inputs/DelayInput.hpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 

@@ -29,7 +29,7 @@ namespace SpiralOfFate
 		this->_expectedDelay = delay;
 	}
 
-	bool Connection::send(InputStruct &inputs)
+	bool Connection::send(const InputStruct &inputs)
 	{
 		PacketInput input;
 
@@ -72,7 +72,7 @@ namespace SpiralOfFate
 		std::list<PacketInput> b = this->_buffer;
 
 		if (!this->_sendBuffer.empty()) {
-			auto packet = PacketGameFrame::create(this->_sendBuffer);
+			auto packet = PacketGameFrame::create(this->_sendBuffer, this->_nextExpectedFrame);
 
 			this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
 		}
@@ -323,8 +323,9 @@ namespace SpiralOfFate
 				this->_sendMutex.unlock();
 			}
 		}
+		this->_lastOpRecvFrame = packet.lastRecvFrameId;
 		this->_sendMutex.lock();
-		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first + BUFFER_MIN_SIZE < this->_nextExpectedFrame)
+		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < this->_lastOpRecvFrame)
 			this->_sendBuffer.pop_front();
 		/*
 		for (size_t i = 0; i < packet.nbInputs; i++)
@@ -428,6 +429,9 @@ namespace SpiralOfFate
 	{
 		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
 		this->_sendMutex.unlock();
 		this->_endThread = true;
 		this->_remotes.clear();

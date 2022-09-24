@@ -121,6 +121,7 @@ namespace SpiralOfFate
 		std::shared_ptr<IScene> scene;
 		std::mutex sceneMutex;
 		std::shared_ptr<class Connection> connection;
+		std::shared_ptr<IInput> activeNetInput;
 
 		Game(const std::string &loggerPath = "./latest.log");
 		~Game();

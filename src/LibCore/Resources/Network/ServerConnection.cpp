@@ -6,11 +6,11 @@
 #include "Resources/version.h"
 #include "Resources/Game.hpp"
 #include "Scenes/Network/ServerCharacterSelect.hpp"
+#include "Scenes/Network/ServerInGame.hpp"
 
 namespace SpiralOfFate
 {
-	ServerConnection::ServerConnection(const std::string &name, std::shared_ptr<IInput> localInput) :
-		_localInput(std::move(localInput))
+	ServerConnection::ServerConnection(const std::string &name)
 	{
 		this->_names.first = name;
 	}
@@ -72,7 +72,7 @@ namespace SpiralOfFate
 			this->_currentMenu = 2;
 			remote.connectPhase = 1 + packet.spectator;
 			game->sceneMutex.lock();
-			game->scene.reset(new ServerCharacterSelect(this->_localInput));
+			game->scene.reset(new ServerCharacterSelect());
 			game->sceneMutex.unlock();
 		}
 	}
@@ -141,18 +141,50 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ServerConnection::switchMenu(unsigned int id)
+	void ServerConnection::switchMenu(unsigned int id, bool lock)
 	{
 		this->_currentMenu = id;
 		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
 		this->_sendMutex.unlock();
 		this->_states.clear();
-		if (id == 2) {
+		if (lock)
 			game->sceneMutex.lock();
-			game->scene.reset(new ServerCharacterSelect(this->_localInput));
-			game->sceneMutex.unlock();
+		if (id == 2)
+			game->scene.reset(new ServerCharacterSelect());
+		else if (id == 1) {
+			auto scene = reinterpret_cast<ServerCharacterSelect *>(&*game->scene);
+			auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
+			auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
+			auto &lentry = scene->_entries[this->p1chr];
+			auto &rentry = scene->_entries[this->p2chr];
+			auto &licon = lentry.icon[this->p1pal];
+			auto &ricon = rentry.icon[this->p2pal];
+			auto &stageObj = scene->_stages[this->stage];
+
+			scene->_localInput->setDelay(2);
+			scene->_remoteInput->setDelay(2);
+			scene->_localInput->flush();
+			scene->_remoteInput->flush();
+			game->battleRandom.seed(this->seed);
+			game->scene.reset(new ServerInGame(
+				scene->_remoteRealInput,
+				{static_cast<unsigned>(this->stage), 0, static_cast<unsigned>(this->platformConfig)},
+				stageObj.platforms[scene->_platform],
+				stageObj,
+				lchr,
+				rchr,
+				licon.textureHandle,
+				ricon.textureHandle,
+				lentry.entry,
+				rentry.entry
+			));
 		}
+		if (lock)
+			game->sceneMutex.unlock();
 	}
 
 	void ServerConnection::reportChecksum(unsigned int checksum)
@@ -167,6 +199,8 @@ namespace SpiralOfFate
 
 	void ServerConnection::startGame(unsigned int _seed, unsigned int _p1chr, unsigned int _p1pal, unsigned int _p2chr, unsigned int _p2pal, unsigned int _stage, unsigned int _platformConfig)
 	{
+		PacketGameStart gameStart{_seed, _p1chr, _p1pal, _p2chr, _p2pal, _stage, _platformConfig};
+
 		this->seed = _seed;
 		this->p1chr = _p1chr;
 		this->p1pal = _p1pal;
@@ -174,10 +208,11 @@ namespace SpiralOfFate
 		this->p2pal = _p2pal;
 		this->stage = _stage;
 		this->platformConfig = _platformConfig;
-		this->switchMenu(1);
+		this->_send(*this->_opponent, &gameStart, sizeof(gameStart));
+		this->switchMenu(1, false);
 	}
 
-	bool ServerConnection::send(InputStruct &inputs)
+	std::list<PacketInput> ServerConnection::receive()
 	{
 		if (this->_currentMenu != this->_opCurrentMenu) {
 			if (this->_currentMenu == 1) {
@@ -189,9 +224,9 @@ namespace SpiralOfFate
 
 				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 			}
-			return false;
+			return {};
 		}
-		return Connection::send(inputs);
+		return Connection::receive();
 	}
 
 	void ServerConnection::host(unsigned short port)

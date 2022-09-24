@@ -35,6 +35,7 @@ namespace SpiralOfFate
 		else
 			this->keyDuration.fill(0);
 		if (input.hasInputs()) {
+			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
 				this->keyStates[i] = input.isPressed(static_cast<InputEnum>(i));
 			this->predicted = false;
@@ -74,8 +75,10 @@ namespace SpiralOfFate
 			++it;
 
 		this->_manageRollback(it);
-		this->_realInputLeft->update();
-		this->_realInputRight->update();
+		if (this->_realInputLeft->hasInputs())
+			this->_realInputLeft->update();
+		if (this->_realInputRight->hasInputs())
+			this->_realInputRight->update();
 		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight, this->_savedData.empty() ? nullptr : &this->_savedData.back());
 		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
 		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;
@@ -124,7 +127,10 @@ namespace SpiralOfFate
 					if (((char *)data)[i] != ((char *)data2)[i])
 						game->logger.fatal("Old data at index " + std::to_string(i) + ": " + std::to_string(((char *)data)[i]) + " vs new data at index " + std::to_string(i) + ": " + std::to_string(((char *)data2)[i]));
 			game->battleMgr->logDifference(data, data2);
-			my_assert_eq(oldChecksum, newChecksum);
+			throw AssertionFailedException(
+				"oldChecksum == newChecksum",
+				std::to_string(oldChecksum) + " != " + std::to_string(newChecksum)
+			);
 		}
 		free(data);
 		free(data2);

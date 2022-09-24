@@ -6,11 +6,11 @@
 #include "ClientConnection.hpp"
 #include "Resources/version.h"
 #include "Resources/Game.hpp"
+#include "Scenes/Network/ClientInGame.hpp"
 
 namespace SpiralOfFate
 {
-	ClientConnection::ClientConnection(const std::string &name, std::shared_ptr<IInput> localInput) :
-		_localInput(localInput)
+	ClientConnection::ClientConnection(const std::string &name)
 	{
 		this->_names.second = name;
 	}
@@ -70,20 +70,23 @@ namespace SpiralOfFate
 
 		PacketMenuSwitch menuSwitch{2};
 
+		if (this->_currentMenu != 2) {
+			remote.connectPhase = 1;
+			this->_opponent = &remote;
+			this->_currentMenu = 2;
+			this->_opCurrentMenu = 2;
+			this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
+			game->sceneMutex.lock();
+			game->scene.reset(new ClientCharacterSelect());
+			game->sceneMutex.unlock();
+			this->_sendMutex.lock();
+			this->_sendBuffer.clear();
+			this->_currentFrame = 0;
+			this->_lastOpRecvFrame = 0;
+			this->_nextExpectedFrame = 0;
+			this->_sendMutex.unlock();
+		}
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-		if (this->_currentMenu == 2)
-			return;
-		remote.connectPhase = 1;
-		this->_opponent = &remote;
-		this->_currentMenu = 2;
-		this->_opCurrentMenu = 2;
-		this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-		game->sceneMutex.lock();
-		game->scene.reset(new ClientCharacterSelect(this->_localInput));
-		game->sceneMutex.unlock();
-		this->_sendMutex.lock();
-		this->_sendBuffer.clear();
-		this->_sendMutex.unlock();
 	}
 
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketDelayUpdate &, size_t size)
@@ -107,8 +110,36 @@ namespace SpiralOfFate
 		}
 		if (packet.menuId == 1)
 			return;
+
+		PacketMenuSwitch pack{packet.menuId};
+
+		this->_send(remote, &pack, sizeof(pack));
 		this->_opCurrentMenu = packet.menuId;
-		//TODO: Switch scene
+		if (this->_currentMenu == packet.menuId)
+			return;
+
+		if (packet.menuId == 2) {
+			game->sceneMutex.lock();
+			if (this->_currentMenu == 1)
+				game->scene.reset(new ClientCharacterSelect(
+					game->battleMgr->getLeftCharacter()->index & 0xFFFF,
+					game->battleMgr->getRightCharacter()->index & 0xFFFF,
+					game->battleMgr->getLeftCharacter()->index >> 16,
+					game->battleMgr->getRightCharacter()->index >> 16,
+					//TODO: Save the stage and platform config properly
+					0, 0
+				));
+			else
+				game->scene.reset(new ClientCharacterSelect());
+			game->sceneMutex.unlock();
+		}
+		this->_sendMutex.lock();
+		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
+		this->_sendMutex.unlock();
+		this->_currentMenu = packet.menuId;
 	}
 
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
@@ -151,7 +182,49 @@ namespace SpiralOfFate
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		this->_opCurrentMenu = 1;
-		//TODO: Switch scene
+		if (this->_currentMenu == 1)
+			return;
+		this->_currentMenu = 1;
+		this->seed = packet.seed;
+		this->p1chr = packet.p1chr;
+		this->p1pal = packet.p1pal;
+		this->p2chr = packet.p2chr;
+		this->p2pal = packet.p2pal;
+		this->stage = packet.stage;
+		this->platformConfig = packet.platformConfig;
+		this->_sendMutex.lock();
+		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
+		this->_sendMutex.unlock();
+
+		auto scene = reinterpret_cast<ClientCharacterSelect *>(&*game->scene);
+		auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
+		auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
+		auto &lentry = scene->_entries[this->p1chr];
+		auto &rentry = scene->_entries[this->p2chr];
+		auto &licon = lentry.icon[this->p1pal];
+		auto &ricon = rentry.icon[this->p2pal];
+		auto &stageObj = scene->_stages[this->stage];
+
+		scene->_localInput->setDelay(2);
+		scene->_remoteInput->setDelay(2);
+		scene->_localInput->flush();
+		scene->_remoteInput->flush();
+		game->battleRandom.seed(this->seed);
+		game->scene.reset(new ClientInGame(
+			scene->_remoteRealInput,
+			{static_cast<unsigned>(this->stage), 0, static_cast<unsigned>(this->platformConfig)},
+			stageObj.platforms[scene->_platform],
+			stageObj,
+			lchr,
+			rchr,
+			licon.textureHandle,
+			ricon.textureHandle,
+			lentry.entry,
+			rentry.entry
+		));
 	}
 
 	void ClientConnection::reportChecksum(unsigned int checksum)

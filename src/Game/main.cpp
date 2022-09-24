@@ -9,14 +9,14 @@
 #include "../LibCore/LibCore.hpp"
 
 #ifdef _WIN32
-std::string getLastError(int err = GetLastError())
+std::wstring getLastError(int err = GetLastError())
 {
-	char *s = nullptr;
-	std::string str;
+	wchar_t *s = nullptr;
+	std::wstring str;
 
-	FormatMessageA(
+	FormatMessageW(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&s, 0, nullptr
+		nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPWSTR)&s, 0, nullptr
 	);
 	str = s;
 	LocalFree(s);
@@ -32,37 +32,51 @@ std::string getLastError(int err = errno)
 #ifdef _WIN32
 LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 {
-	char buf[MAX_PATH], buf2[MAX_PATH];
+	if (!ExPtr) {
+		puts("No ExPtr....");
+		return 0;
+	}
+	puts("Caught fatal exception! Generating dump...");
 
+	wchar_t buf[2048];
+	wchar_t buf2[MAX_PATH];
 	time_t timer;
-	char timebuffer[26];
+	char timebuffer[31];
 	struct tm* tm_info;
 
 	time(&timer);
 	tm_info = localtime(&timer);
-	strftime(timebuffer, 26, "%Y%m%d%H%M%S", tm_info);
-	sprintf(buf2, "crash_%s.dmp", timebuffer);
+	strftime(timebuffer, sizeof(timebuffer), "%Y-%m-%d-%H-%M-%S", tm_info);
+	mkdir("crashes");
+	wsprintfW(buf2, L"crashes/crash_%S.dmp", timebuffer);
+	wsprintfW(buf, L"Game crashed!\nReceived fatal exception %X at address %x.\n", ExPtr->ExceptionRecord->ExceptionCode, ExPtr->ExceptionRecord->ExceptionAddress);
 
-	HANDLE hFile = CreateFile(buf2, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	HANDLE hFile = CreateFileW(buf2, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
+	if (hFile != INVALID_HANDLE_VALUE) {
 		MINIDUMP_EXCEPTION_INFORMATION md;
 		md.ThreadId = GetCurrentThreadId();
 		md.ExceptionPointers = ExPtr;
 		md.ClientPointers = FALSE;
-		BOOL win = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &md, 0, 0);
+		BOOL win = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &md, nullptr, nullptr);
 
-		if (!win)
-			sprintf(buf, "Le jeu a un peu crash en fait.\nMiniDumpWriteDump failed.\n%s: %s", getLastError().c_str(), buf2);
-		else
-			sprintf(buf, "Le jeu a un peu crash en fait.\nMinidump created %s", buf2);
+		if (!win) {
+			wcscat(buf, L"MiniDumpWriteDump failed.\n");
+			wcscat(buf, getLastError().c_str());
+			wcscat(buf, L": ");
+		} else
+			wcscat(buf, L"Minidump created ");
+		wcscat(buf, buf2);
 		CloseHandle(hFile);
-	} else
-		sprintf(buf, "Le jeu a un peu crash en fait.\nCould not create file %s\n%s", buf2, getLastError().c_str());
-	SpiralOfFate::game->logger.fatal(buf);
-	SpiralOfFate::Utils::dispMsg("Alors...", buf, MB_ICONERROR, &*SpiralOfFate::game->screen);
-	exit(EXIT_FAILURE);
+	} else {
+		wcscat(buf, L"CreateFileW(");
+		wcscat(buf, buf2);
+		wcscat(buf, L") failed: ");
+		wcscat(buf, getLastError().c_str());
+	}
+	printf("%S\n", buf);
+	MessageBoxW(nullptr, buf, L"Fatal Error", MB_ICONERROR);
+	exit(ExPtr->ExceptionRecord->ExceptionCode);
 }
 #endif
 
@@ -251,14 +265,14 @@ int	main()
 	SetUnhandledExceptionFilter(UnhandledExFilter);
 #endif
 
-	#ifndef _DEBUG
+	#if !defined(_DEBUG) || defined(_WIN32)
 	try {
 	#endif
 		new SpiralOfFate::Game();
 		SpiralOfFate::game->logger.info("Starting game->");
 		run();
 		SpiralOfFate::game->logger.info("Goodbye !");
-	#ifndef _DEBUG
+	#if !defined(_DEBUG) || defined(_WIN32)
 	} catch (std::exception &e) {
 		if (SpiralOfFate::game) {
 			SpiralOfFate::game->logger.fatal(e.what());

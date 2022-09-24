@@ -1177,6 +1177,17 @@ namespace SpiralOfFate
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
 		}
+		if (
+			this->_action == ACTION_AIR_HIT &&
+			this->_actionBlock == 1 &&
+			this->_moves.at(this->_action).size() > 2
+		) {
+			this->_actionBlock++;
+			this->_animation = 0;
+			this->_animationCtr = 0;
+			this->_applyNewAnimFlags();
+			return;
+		}
 
 		if ((this->_action == ACTION_FORWARD_DASH || this->_action == ACTION_BACKWARD_DASH) && this->_moves.at(this->_action).size() > 1) {
 			if (this->_actionBlock == 0)
@@ -1185,7 +1196,7 @@ namespace SpiralOfFate
 				return Object::_onMoveEnd(lastData);
 		}
 
-		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock) {
+		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock && this->_action != ACTION_AIR_HIT) {
 			this->_actionBlock++;
 			my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
 			Object::_onMoveEnd(lastData);
@@ -4330,7 +4341,7 @@ namespace SpiralOfFate
 		}
 		if (
 			this->_action == ACTION_AIR_HIT &&
-			this->_actionBlock == 1 &&
+			this->_actionBlock == 0 &&
 			this->_moves.at(this->_action).size() > 2 &&
 			this->_speed.y < 0
 		) {

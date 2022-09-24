@@ -54,6 +54,7 @@ namespace SpiralOfFate
 		unsigned _expectedDelay;
 		unsigned _currentFrame = 0;
 		unsigned _nextExpectedFrame = 0;
+		unsigned _lastOpRecvFrame = 0;
 		Remote *_opponent = nullptr;
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
@@ -91,7 +92,7 @@ namespace SpiralOfFate
 		Connection();
 		~Connection();
 		void updateDelay(unsigned int delay);
-		virtual bool send(InputStruct &inputs);
+		virtual bool send(const InputStruct &inputs);
 		unsigned int getCurrentDelay();
 		std::list<PacketInput> receive();
 		void terminate();

@@ -2,9 +2,8 @@
 // Created by PinkySmile on 27/09/2021.
 //
 
-#ifndef __ANDROID__
-#ifndef SOFGV_REMOTEINPUT_HPP
-#define SOFGV_REMOTEINPUT_HPP
+#ifndef SOFGV_ROLLBACKINPUT_HPP
+#define SOFGV_ROLLBACKINPUT_HPP
 
 
 #include <thread>
@@ -32,5 +31,4 @@ namespace SpiralOfFate
 }
 
 
-#endif //SOFGV_REMOTEINPUT_HPP
-#endif
+#endif //SOFGV_ROLLBACKINPUT_HPP
