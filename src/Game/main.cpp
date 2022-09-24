@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <dbghelp.h>
 #include <crtdbg.h>
+#include <direct.h>
 #endif
 #include <sys/stat.h>
 #include "../LibCore/LibCore.hpp"
@@ -47,7 +48,7 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	time(&timer);
 	tm_info = localtime(&timer);
 	strftime(timebuffer, sizeof(timebuffer), "%Y-%m-%d-%H-%M-%S", tm_info);
-	mkdir("crashes");
+	_mkdir("crashes");
 	wsprintfW(buf2, L"crashes/crash_%S.dmp", timebuffer);
 	wsprintfW(buf, L"Game crashed!\nReceived fatal exception %X at address %x.\n", ExPtr->ExceptionRecord->ExceptionCode, ExPtr->ExceptionRecord->ExceptionAddress);
 
