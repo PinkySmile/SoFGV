@@ -27,9 +27,11 @@ namespace SpiralOfFate
 		game->screen->setView(view);
 		game->logger.info("CharacterSelect scene created");
 		stream >> json;
+		this->_entries.reserve(json.size());
 		for (auto &elem : json)
 			this->_entries.emplace_back(elem);
 		stream2 >> json2;
+		this->_stages.reserve(json2.size());
 		for (auto &elem: json2)
 			this->_stages.emplace_back(elem);
 		this->_randomSprite.textureHandle = game->textureMgr.load("assets/stages/random.png");

@@ -40,10 +40,12 @@ namespace SpiralOfFate
 
 			unsigned actionId = action;
 
+			data[actionId].reserve(framedata.size());
 			for (auto &block : framedata) {
 				my_assert2(block.is_array(), "Invalid json");
 				my_assert2(!block.empty(), "Invalid json");
 				data[actionId].emplace_back();
+				data[actionId].back().reserve(block.size());
 				for (auto &frame : block)
 					data[actionId].back().emplace_back(frame, palette);
 			}

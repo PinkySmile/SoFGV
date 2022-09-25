@@ -7,8 +7,9 @@
 #include "Exceptions.hpp"
 #include "Resources/Game.hpp"
 
-// The minimum size of the send buffer. This exists to mitigate cases where input packet are lost only one way.
-#define BUFFER_MIN_SIZE 3
+// The size of the recv buffer. Packets bigger than this won't be able to be received.
+// Additionally, the game will check if it is not attempting to send larger packets than this.
+#define RECV_BUFFER_SIZE 2048
 
 namespace SpiralOfFate
 {
@@ -146,14 +147,14 @@ namespace SpiralOfFate
 
 	void Connection::_threadLoop()
 	{
-		auto packet = (Packet *)malloc(2048);
+		auto packet = (Packet *)malloc(RECV_BUFFER_SIZE);
 
 		game->logger.info("Starting network loop");
 		while (!this->_endThread) {
 			size_t realSize = 0;
 			sf::IpAddress ip = sf::IpAddress::Any;
 			unsigned short port = 10800;
-			auto res = this->_socket.receive(packet, 2048, realSize, ip, port);
+			auto res = this->_socket.receive(packet, RECV_BUFFER_SIZE, realSize, ip, port);
 
 			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
 				if (iter->connectPhase >= 0) {
@@ -205,15 +206,17 @@ namespace SpiralOfFate
 			}
 		}
 		game->logger.info("Stopping network loop");
+		free(packet);
 	}
 
 	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
 	{
-		my_assert(realSize < 2048);
-
-		auto str = reinterpret_cast<Packet *>(packet)->toString();
+		auto pack = reinterpret_cast<Packet *>(packet);
+		//TODO: To net endianness
+		auto str = pack->toString();
 
 		game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str);
+		my_assert(realSize <= RECV_BUFFER_SIZE);
 		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}
 

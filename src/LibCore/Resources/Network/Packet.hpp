@@ -14,6 +14,7 @@
 
 namespace SpiralOfFate
 {
+	//TODO: Handle endianness properly
 	constexpr unsigned magicStart = 0x9DAC3E63;
 
 	enum Opcode : unsigned char {
