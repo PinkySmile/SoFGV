@@ -15044,7 +15044,6 @@
                         "y": 188
                     },
                     "sprite": "assets/characters/test/sheet.png",
-                    "subobject": 129,
                     "texture_bounds": {
                         "height": 94,
                         "left": 389,

@@ -140,7 +140,8 @@ namespace SpiralOfFate
 	{
 		auto old = it;
 
-		--old;
+        if (it != this->_savedData.begin())
+		    --old;
 		while (it != this->_savedData.end()) {
 			auto left  = it->left.predicted  ? InputData(*this->_realInputLeft,  it == this->_savedData.begin() ? nullptr : &old->left)  : it->left;
 			auto right = it->right.predicted ? InputData(*this->_realInputRight, it == this->_savedData.begin() ? nullptr : &old->right) : it->right;
