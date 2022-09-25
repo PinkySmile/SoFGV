@@ -30,10 +30,15 @@ namespace SpiralOfFate
 
 	RollbackMachine::InputData::InputData(IInput &input, InputData *old)
 	{
-		if (old)
+		this->keyDuration.fill(0);
+		if (old) {
 			this->keyDuration = old->keyDuration;
-		else
-			this->keyDuration.fill(0);
+			for (size_t i = 0; i < old->keyStates.size(); i++)
+				if (old->keyStates[i])
+					this->keyDuration[i]++;
+				else
+					this->keyDuration[i] = 0;
+		}
 		if (input.hasInputs()) {
 			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
@@ -81,8 +86,8 @@ namespace SpiralOfFate
 			this->_realInputRight->update();
 		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight, this->_savedData.empty() ? nullptr : &this->_savedData.back());
 		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
-		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;
 		this->inputLeft->_keyDuration = this->_savedData.back().left.keyDuration;
+		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;
 		this->inputRight->_keyDuration = this->_savedData.back().right.keyDuration;
 		while (this->_savedData.size() > MAX_ROLLBACK)
 			this->_savedData.pop_front();
