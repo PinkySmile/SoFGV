@@ -42,6 +42,7 @@
 
 namespace SpiralOfFate
 {
+
 	static const unsigned inputs[]{
 		INPUT_LEFT,
 		INPUT_RIGHT,
@@ -51,23 +52,48 @@ namespace SpiralOfFate
 		INPUT_SPIRIT,
 		INPUT_PAUSE
 	};
-	static const char * const menuItems[] = {
-		"Play",
-		"Practice",
-		"Replay",
-		"Host",
-		"Connect",
-		"Settings",
-		"Quit",
-#ifdef _DEBUG
-		"Sync test"
-#endif
-	};
 
 	TitleScreen::TitleScreen(
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1,
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2
 	) :
+		_menuObject{{
+			{"vsplayer", "Play a game against a human opponent", [this]{
+				this->_askingInputs = true;
+			}},
+			{"practicemode", "Free training", [this]{
+				this->_askingInputs = true;
+			}},
+			{"replays", "Select a replay to watch", [this]{
+				auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
+
+				if (!path.empty()) {
+					try {
+						this->_loadReplay(path);
+					} catch (std::exception &e) {
+						Utils::dispMsg("Replay loading failed", "This replay is invalid, corrupted or was created for an different version of the game: " + std::string(e.what()), MB_ICONERROR);
+					}
+				}
+			}},
+			{"host", "Host an online game (on port 10800)", [this]{
+				this->_askingInputs = true;
+			}},
+			{"connect", "Connect to ip from clipboard (on port 10800)", [this]{
+				this->_askingInputs = true;
+			}},
+			{"settings", "Change inputs", [this]{
+				this->_changingInputs = 1;
+				this->_cursorInputs = 0;
+			}},
+			{"quit", "Quit game", []{
+				game->screen->close();
+			}},
+#ifdef _DEBUG
+			{"synctest", "Verify that rollback doesn't desync", [this]{
+				this->_askingInputs = true;
+			}},
+#endif
+		}},
 		_P1(std::move(P1)),
 		_P2(std::move(P2))
 	{
@@ -75,6 +101,12 @@ namespace SpiralOfFate
 
 		game->screen->setView(view);
 		game->logger.info("Title scene created");
+		this->_titleBg.textureHandle = game->textureMgr.load("assets/ui/titlebackground.png");
+		this->_titleLogo.textureHandle = game->textureMgr.load("assets/ui/title.png");
+		this->_titleLogo.setPosition({275, 31});
+		this->_titleSpiral.textureHandle = game->textureMgr.load("assets/ui/spiral.png");
+		this->_titleSpiral.setOrigin({140, 131});
+		this->_titleSpiral.setPosition({328, 139});
 		this->_netbellSound = game->soundMgr.load("assets/sfxs/se/057.wav");
 		this->_inputs.resize(INPUT_NUMBER);
 		this->_inputs[INPUT_LEFT].loadFromFile("assets/icons/inputs/4.png");
@@ -88,6 +120,7 @@ namespace SpiralOfFate
 		this->_inputs[INPUT_A].loadFromFile("assets/icons/inputs/ascend.png");
 		this->_inputs[INPUT_D].loadFromFile("assets/icons/inputs/dash.png");
 		this->_inputs[INPUT_PAUSE].loadFromFile("assets/icons/inputs/pause.png");
+		this->_menuObject.displayed = true;
 	}
 
 	TitleScreen::~TitleScreen()
@@ -96,17 +129,19 @@ namespace SpiralOfFate
 			this->onDestruct();
 		game->logger.debug("~TitleScreen");
 		game->soundMgr.remove(this->_netbellSound);
+		game->textureMgr.remove(this->_titleBg.textureHandle);
+		game->textureMgr.remove(this->_titleLogo.textureHandle);
+		game->textureMgr.remove(this->_titleSpiral.textureHandle);
 		if (this->_thread.joinable())
 			this->_thread.join();
 	}
 
 	void TitleScreen::render() const
 	{
-		for (unsigned i = 0; i < sizeof(menuItems) / sizeof(*menuItems); i++) {
-			game->screen->fillColor(this->_selectedEntry == i ? sf::Color::Red : sf::Color::Black);
-			game->screen->displayElement(menuItems[i], {100, static_cast<float>(100 + i * 40)});
-		}
-
+		game->textureMgr.render(this->_titleBg);
+		game->textureMgr.render(this->_titleSpiral);
+		game->textureMgr.render(this->_titleLogo);
+		this->_menuObject.render();
 		if (this->_connecting)
 			this->_showConnectMessage();
 		else if (game->connection)
@@ -121,6 +156,7 @@ namespace SpiralOfFate
 
 	IScene *TitleScreen::update()
 	{
+		this->_titleSpiral.setRotation(std::fmod(this->_titleSpiral.getRotation() + 0.25, 360));
 		game->random();
 		this->_oldRemote = this->_remote;
 		game->menu.first->update();
@@ -140,6 +176,10 @@ namespace SpiralOfFate
 			this->_onCancel();
 		if (inputs.n == 1)
 			this->_onConfirm(this->_latestJoystickId + 1);
+		if (game->connection || this->_chooseSpecCount || this->_changingInputs || this->_askingInputs)
+			this->_menuObject.update({});
+		else
+			this->_menuObject.update(inputs);
 		return this->_nextScene;
 	}
 
@@ -248,7 +288,7 @@ namespace SpiralOfFate
 			this->_P1.second->setJoystickId(this->_leftInput - 2);
 		if (this->_rightInput > 1)
 			this->_P2.second->setJoystickId(this->_rightInput - 2);
-		switch (this->_selectedEntry) {
+		switch (this->_menuObject.getSelectedItem()) {
 		case PLAY_BUTTON:
 			this->_nextScene = new CharacterSelect(
 				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
@@ -368,13 +408,21 @@ namespace SpiralOfFate
 		else
 			game->screen->displayElement("Press [Confirm]", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		if (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON)
+		if (
+			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
+			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
+			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+		)
 			game->screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game->screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game->screen->displayElement("P2", {540 + 420, 190});
 		game->screen->fillColor(sf::Color::White);
-		if (this->_leftInput && (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON)) {
+		if (this->_leftInput && (
+			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
+			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
+			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
 					this->_rightInput == 1 ?
@@ -388,7 +436,11 @@ namespace SpiralOfFate
 				game->screen->displayElement("Press [Confirm]", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || (this->_selectedEntry != PLAY_BUTTON && this->_selectedEntry != PRACTICE_BUTTON && this->_selectedEntry != SYNC_TEST_BUTTON)))
+		if (this->_leftInput && (this->_rightInput || (
+			this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
+			this->_menuObject.getSelectedItem() != PRACTICE_BUTTON &&
+			this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON
+		)))
 			game->screen->displayElement("Press [Confirm] to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -499,9 +551,7 @@ namespace SpiralOfFate
 		if (this->_askingInputs)
 			return;
 		game->soundMgr.play(BASICSOUND_MENU_MOVE);
-		this->_selectedEntry += sizeof(menuItems) / sizeof(*menuItems);
-		this->_selectedEntry--;
-		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
+		this->_menuObject.setSelectedItem(this->_menuObject.getSelectedItem() - 1);
 	}
 
 	void TitleScreen::_onGoDown()
@@ -521,8 +571,7 @@ namespace SpiralOfFate
 		if (this->_askingInputs)
 			return;
 		game->soundMgr.play(BASICSOUND_MENU_MOVE);
-		this->_selectedEntry++;
-		this->_selectedEntry %= sizeof(menuItems) / sizeof(*menuItems);
+		this->_menuObject.setSelectedItem(this->_menuObject.getSelectedItem() + 1);
 	}
 
 	void TitleScreen::_onGoLeft()
@@ -583,7 +632,11 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput || (this->_leftInput && (this->_selectedEntry != PLAY_BUTTON && this->_selectedEntry != PRACTICE_BUTTON && this->_selectedEntry != SYNC_TEST_BUTTON)))
+			if (this->_rightInput || (this->_leftInput && (
+				this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
+				this->_menuObject.getSelectedItem() != PRACTICE_BUTTON &&
+				this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON
+			)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (stickId != 1 && this->_leftInput == stickId)
@@ -593,40 +646,6 @@ namespace SpiralOfFate
 				this->_leftInput = stickId;
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
-		}
-		game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
-
-		switch (this->_selectedEntry) {
-		case PLAY_BUTTON:
-		case PRACTICE_BUTTON:
-		case HOST_BUTTON:
-		case CONNECT_BUTTON:
-			this->_askingInputs = true;
-			break;
-		case REPLAY_BUTTON: {
-			auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
-
-			if (!path.empty()) {
-				try {
-					this->_loadReplay(path);
-				} catch (std::exception &e) {
-					Utils::dispMsg("Replay loading failed", "This replay is invalid, corrupted or was created for an different version of the game: " + std::string(e.what()), MB_ICONERROR);
-				}
-			}
-			break;
-		}
-		case SETTINGS_BUTTON:
-			this->_changingInputs = 1;
-			this->_cursorInputs = 0;
-			break;
-		case QUIT_BUTTON:
-			game->screen->close();
-			break;
-		case SYNC_TEST_BUTTON:
-			this->_askingInputs = true;
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -646,7 +665,11 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
-			if (this->_rightInput && (this->_selectedEntry == PLAY_BUTTON || this->_selectedEntry == PRACTICE_BUTTON || this->_selectedEntry == SYNC_TEST_BUTTON))
+			if (this->_rightInput && (
+				this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
+				this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
+				this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+			))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;
@@ -654,7 +677,7 @@ namespace SpiralOfFate
 				this->_askingInputs = false;
 			return;
 		}
-		this->_selectedEntry = QUIT_BUTTON;
+		this->_menuObject.setSelectedItem(QUIT_BUTTON);
 	}
 
 	void TitleScreen::_onDisconnect(const std::string &address)

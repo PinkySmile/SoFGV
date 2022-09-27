@@ -156,7 +156,7 @@ add_library(
 	src/LibCore/Inputs/NetworkInput.hpp
 	src/LibCore/Inputs/DelayInput.cpp
 	src/LibCore/Inputs/DelayInput.hpp
-)
+	src/LibCore/Scenes/Menu.cpp src/LibCore/Scenes/Menu.hpp src/LibCore/Scenes/MenuItem.cpp src/LibCore/Scenes/MenuItem.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)

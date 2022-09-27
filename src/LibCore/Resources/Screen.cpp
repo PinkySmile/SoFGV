@@ -115,7 +115,7 @@ namespace SpiralOfFate
 		this->displayElement(sprite);
 	}
 
-	void	Screen::displayElement(sf::Sprite &sprite)
+	void	Screen::displayElement(const sf::Sprite &sprite)
 	{
 		this->draw(sprite);
 	}

@@ -10,6 +10,7 @@
 #include <memory>
 #include <thread>
 #include "IScene.hpp"
+#include "Menu.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
 #include "Resources/Network/Connection.hpp"
@@ -18,6 +19,10 @@ namespace SpiralOfFate
 {
 	class TitleScreen : public IScene {
 	private:
+		mutable Sprite _titleBg;
+		mutable Sprite _titleLogo;
+		mutable Sprite _titleSpiral;
+		Menu _menuObject;
 		std::vector<sf::Texture> _inputs;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P2;
@@ -25,7 +30,6 @@ namespace SpiralOfFate
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		std::pair<unsigned, unsigned> _spec;
 		unsigned _latestJoystickId = 0;
-		unsigned _selectedEntry = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
 		float _totalPing = 0;
