@@ -7,6 +7,7 @@
 
 
 #include "Resources/Sprite.hpp"
+#include <functional>
 
 namespace SpiralOfFate
 {
