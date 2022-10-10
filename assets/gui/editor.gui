@@ -150,7 +150,7 @@ ScrollablePanel.Panel1 {
     EditBox.Action {
         InputValidator = "[0-9]{0,3}";
         Position = (70, 20);
-        Size = (30, 22);
+        Size = (45, 22);
         TextSize = 13;
         renderer = &7;
     }

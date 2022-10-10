@@ -123,6 +123,8 @@ namespace SpiralOfFate
 	{
 		this->_leftCharacter->consumeEvent(event);
 		this->_rightCharacter->consumeEvent(event);
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F1)
+			game->screen->setSize({1100, 700});
 	}
 
 	bool BattleManager::update()
