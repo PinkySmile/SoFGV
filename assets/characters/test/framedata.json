@@ -12228,10 +12228,10 @@
                     "duration": 7,
                     "hurt_boxes": [
                         {
-                            "height": 203,
-                            "left": -22,
-                            "top": -194,
-                            "width": 47
+                            "height": 80,
+                            "left": -36,
+                            "top": -71,
+                            "width": 77
                         }
                     ],
                     "offense_flag": 2080,
@@ -12319,10 +12319,10 @@
                     "hitSound": "assets/sfxs/se/003.wav",
                     "hit_boxes": [
                         {
-                            "height": 94,
-                            "left": 17,
-                            "top": -262,
-                            "width": 90
+                            "height": 72,
+                            "left": 10,
+                            "top": -271,
+                            "width": 102
                         }
                     ],
                     "hit_speed": {
