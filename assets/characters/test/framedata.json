@@ -5090,10 +5090,6 @@
                     },
                     "defense_flag": 256,
                     "duration": 4,
-                    "gravity": {
-                        "x": 0.0,
-                        "y": 0.0
-                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5124,6 +5120,7 @@
                         "top": -136,
                         "width": 40
                     },
+                    "defense_flag": 256,
                     "duration": 30,
                     "hurt_boxes": [
                         {
@@ -5636,8 +5633,7 @@
                             "width": 53
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 125829120,
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 16,
                         "y": 0
@@ -5677,7 +5673,7 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 3,
+                    "mana_cost": 10,
                     "offense_flag": 58720256,
                     "offset": {
                         "x": 4,
@@ -5708,20 +5704,12 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 54,
+                            "height": 177,
                             "left": -20,
-                            "top": -191,
-                            "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
+                            "top": -177,
+                            "width": 47
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": 14,
                         "y": 0
@@ -5755,8 +5743,6 @@
                             "width": 47
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": 4,
                         "y": 0
@@ -5782,9 +5768,9 @@
             [
                 {
                     "collision_box": {
-                        "height": 104,
+                        "height": 136,
                         "left": -19,
-                        "top": -104,
+                        "top": -136,
                         "width": 40
                     },
                     "defense_flag": 68232,
@@ -5803,8 +5789,7 @@
                             "width": 65
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 125829120,
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": -4,
                         "y": 0
@@ -5844,7 +5829,7 @@
                             "width": 66
                         }
                     ],
-                    "mana_cost": 3,
+                    "mana_cost": 10,
                     "offense_flag": 58720256,
                     "offset": {
                         "x": -13,
@@ -5887,8 +5872,6 @@
                             "width": 59
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": -6,
                         "y": 0
@@ -5928,8 +5911,6 @@
                             "width": 56
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": -20,
                         "y": 0
@@ -5960,7 +5941,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 1928,
+                    "defense_flag": 3976,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -5976,8 +5957,7 @@
                             "width": 53
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 125829120,
+                    "offense_flag": 67108864,
                     "offset": {
                         "x": 16,
                         "y": 0
@@ -6001,7 +5981,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 1928,
+                    "defense_flag": 3976,
                     "duration": 2,
                     "hurt_boxes": [
                         {
@@ -6017,7 +5997,7 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 3,
+                    "mana_cost": 10,
                     "offense_flag": 58720256,
                     "offset": {
                         "x": 4,
@@ -6044,13 +6024,13 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 1928,
+                    "defense_flag": 3976,
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 54,
+                            "height": 38,
                             "left": -20,
-                            "top": -191,
+                            "top": -175,
                             "width": 48
                         },
                         {
@@ -6060,8 +6040,6 @@
                             "width": 53
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": 14,
                         "y": 0
@@ -6085,7 +6063,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 1928,
+                    "defense_flag": 3976,
                     "duration": 2,
                     "hurt_boxes": [
                         {
@@ -6095,8 +6073,6 @@
                             "width": 47
                         }
                     ],
-                    "mana_cost": 3,
-                    "offense_flag": 58720256,
                     "offset": {
                         "x": 4,
                         "y": 0
