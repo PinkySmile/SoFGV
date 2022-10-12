@@ -1352,6 +1352,7 @@ namespace SpiralOfFate
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto data = &this->_moves.at(action).at(0).at(0);
 
+		this->startedAttack |= action >= ACTION_5N;
 		this->_armorUsed = false;
 		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
 			(data->oFlag.spiritMana && this->_spiritMana < data->manaCost) ||

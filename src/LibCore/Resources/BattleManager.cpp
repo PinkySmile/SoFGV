@@ -221,8 +221,11 @@ namespace SpiralOfFate
 
 		for (auto &platform : this->_platforms)
 			platform->render();
-		this->_leftCharacter->render();
+		if (this->_leftFirst)
+			this->_leftCharacter->render();
 		this->_rightCharacter->render();
+		if (!this->_leftFirst)
+			this->_leftCharacter->render();
 		for (auto &object : this->_objects)
 			object.second->render();
 		if (this->_roundEndTimer < 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
@@ -570,6 +573,12 @@ namespace SpiralOfFate
 			this->_rightCounter      = this->_leftCharacter->_counter;
 			this->_rightComboCtr     = 120;
 		}
+		if (this->_leftCharacter->startedAttack)
+			this->_leftFirst = false;
+		else if (this->_rightCharacter->startedAttack)
+			this->_leftFirst = true;
+		this->_leftCharacter->startedAttack = false;
+		this->_rightCharacter->startedAttack = false;
 	}
 
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const

@@ -682,6 +682,7 @@ namespace SpiralOfFate
 		unsigned index;
 		std::string name;
 		bool showAttributes = false;
+		bool startedAttack = false;
 
 		Character();
 		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);

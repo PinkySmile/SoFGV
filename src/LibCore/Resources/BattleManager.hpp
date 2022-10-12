@@ -66,6 +66,7 @@ namespace SpiralOfFate
 		unsigned _lastObjectId = 0;
 		std::vector<std::unique_ptr<IObject>> _stageObjects;
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
+		bool _leftFirst = false;
 
 		// Game State
 		std::unique_ptr<Character> _leftCharacter;
