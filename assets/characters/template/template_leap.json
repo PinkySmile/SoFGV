@@ -301,7 +301,35 @@
                         "width": 38
                     },
                     "defense_flag": 2097152,
-                    "duration": 5,
+                    "duration": 6,
+                    "hurt_boxes": [
+                        {
+                            "height": 190,
+                            "left": -30,
+                            "top": -190,
+                            "width": 59
+                        }
+                    ],
+                    "size": {
+                        "x": 120,
+                        "y": 212
+                    },
+                    "sprite": "assets/characters/template/sheet.png",
+                    "texture_bounds": {
+                        "height": 106,
+                        "left": 360,
+                        "top": 0,
+                        "width": 60
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 167,
+                        "left": -20,
+                        "top": -168,
+                        "width": 38
+                    },
+                    "defense_flag": 256,
                     "hurt_boxes": [
                         {
                             "height": 190,
@@ -316,8 +344,8 @@
                     },
                     "sound": "13",
                     "speed": {
-                        "x": 5,
-                        "y": 0
+                        "x": 15,
+                        "y": 15
                     },
                     "sprite": "assets/characters/template/sheet.png",
                     "texture_bounds": {
@@ -326,9 +354,7 @@
                         "top": 0,
                         "width": 60
                     }
-                }
-            ],
-            [
+                },
                 {
                     "collision_box": {
                         "height": 167,
@@ -336,7 +362,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 2101248,
+                    "defense_flag": 528640,
                     "duration": 10000,
                     "hurt_boxes": [
                         {
@@ -346,14 +372,10 @@
                             "width": 59
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2048,
                     "size": {
                         "x": 120,
                         "y": 212
-                    },
-                    "speed": {
-                        "x": 11,
-                        "y": 0
                     },
                     "sprite": "assets/characters/template/sheet.png",
                     "texture_bounds": {
@@ -372,8 +394,8 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 2101760,
-                    "duration": 9,
+                    "defense_flag": 4096,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 190,
@@ -382,14 +404,10 @@
                             "width": 59
                         }
                     ],
-                    "offense_flag": 264192,
+                    "offense_flag": 2048,
                     "size": {
                         "x": 120,
                         "y": 212
-                    },
-                    "speed": {
-                        "x": 7,
-                        "y": 0
                     },
                     "sprite": "assets/characters/template/sheet.png",
                     "texture_bounds": {

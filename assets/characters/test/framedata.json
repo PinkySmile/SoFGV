@@ -11359,7 +11359,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 234,
@@ -11385,7 +11385,8 @@
                         "left": 631,
                         "top": 693,
                         "width": 79
-                    }
+                    },
+                    "untech": 40
                 },
                 {
                     "collision_box": {
@@ -11823,7 +11824,8 @@
                         "left": 631,
                         "top": 693,
                         "width": 79
-                    }
+                    },
+                    "untech": 120
                 },
                 {
                     "block_stun": 2,
@@ -11969,7 +11971,8 @@
                         "left": 631,
                         "top": 693,
                         "width": 79
-                    }
+                    },
+                    "untech": 120
                 },
                 {
                     "block_stun": 2,
@@ -13153,7 +13156,7 @@
                         "y": 10
                     },
                     "hit_stop": 6,
-                    "hit_stun": 12,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 233,
@@ -13179,7 +13182,8 @@
                         "left": 2,
                         "top": 917,
                         "width": 79
-                    }
+                    },
+                    "untech": 40
                 },
                 {
                     "collision_box": {
