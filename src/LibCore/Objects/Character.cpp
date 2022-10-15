@@ -3507,7 +3507,10 @@ namespace SpiralOfFate
 			this->_blockStun = data.blockStun;
 		}
 		this->_speed.x += data.pushBlock * -this->_dir;
-		this->_hp -= data.chipDamage;
+		if (data.chipDamage < this->_hp)
+			this->_hp -= data.chipDamage;
+		else
+			this->_hp = 0;
 	}
 
 	bool Character::_isOnPlatform() const
@@ -3613,7 +3616,10 @@ namespace SpiralOfFate
 		this->_limit[2] += data.matterLimit;
 		this->_limit[3] += data.spiritLimit;
 		this->_speedReset = data.oFlag.resetSpeed;
-		this->_hp -= damage;
+		if (this->_hp > damage)
+			this->_hp -= damage;
+		else
+			this->_hp = 0;
 		this->_armorUsed = true;
 	}
 

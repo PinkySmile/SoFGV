@@ -35,7 +35,7 @@ namespace SpiralOfFate
 			unsigned short _actionBlock;
 			unsigned short _animation;
 			unsigned short _animationCtr;
-			short _hp;
+			unsigned short _hp;
 			float _rotation;
 			unsigned _team;
 			bool _dead;
@@ -54,7 +54,7 @@ namespace SpiralOfFate
 		unsigned short _actionBlock = 0;
 		unsigned short _animation = 0;
 		unsigned short _animationCtr = 0;
-		short _hp = 0;
+		unsigned short _hp = 0;
 		float _rotation = 0;
 		unsigned _team = 0;
 		bool _dead = false;
@@ -70,7 +70,7 @@ namespace SpiralOfFate
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
-		short _baseHp = 0;
+		unsigned short _baseHp = 0;
 
 		void _drawBox(const Rectangle &box, const sf::Color &color) const;
 		std::vector<Rectangle> _getModifiedBoxes(const FrameData &data, const std::vector<Box> &) const;

@@ -770,7 +770,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 256,
                     "hurt_boxes": [
                         {
                             "height": 190,
@@ -784,8 +784,8 @@
                         "y": 212
                     },
                     "speed": {
-                        "x": 7,
-                        "y": -16
+                        "x": -7,
+                        "y": 16
                     },
                     "sprite": "assets/characters/template/sheet.png",
                     "texture_bounds": {
