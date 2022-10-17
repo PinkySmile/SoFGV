@@ -95,9 +95,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::copyToBuffer(data);
-#ifdef _DEBUG
-		game->logger.debug("Saving Platform (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Saving Platform (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_width = this->_width;
 		dat->_cooldown = this->_cooldown;
 		dat->_deathTimer = this->_deathTimer;
@@ -111,6 +109,7 @@ namespace SpiralOfFate
 		this->_width = dat->_width;
 		this->_cooldown = dat->_cooldown;
 		this->_deathTimer = dat->_deathTimer;
+		game->logger.verbose("Restored Platform @" + std::to_string((uintptr_t)dat));
 	}
 
 	unsigned int Platform::getBufferSize() const

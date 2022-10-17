@@ -29,7 +29,7 @@
                         "x": 184,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 9,
@@ -63,7 +63,7 @@
                         "x": 186,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 106,
@@ -96,7 +96,7 @@
                         "x": 224,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 204,
@@ -130,7 +130,7 @@
                         "x": 234,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 319,
@@ -164,7 +164,7 @@
                         "x": 148,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 441,
@@ -198,7 +198,7 @@
                         "x": 148,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 522,
@@ -232,7 +232,7 @@
                         "x": 240,
                         "y": 190
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 605,
@@ -266,7 +266,7 @@
                         "x": 158,
                         "y": 204
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 102,
                         "left": 728,
@@ -307,7 +307,7 @@
                         "x": 204,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 893,
@@ -341,7 +341,7 @@
                         "x": 204,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 999,
@@ -375,7 +375,7 @@
                         "x": 142,
                         "y": 126
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 63,
                         "left": 1101,
@@ -416,7 +416,7 @@
                         "x": 150,
                         "y": 130
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 65,
                         "left": 1175,
@@ -457,7 +457,7 @@
                         "x": 160,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 1255,
@@ -491,7 +491,7 @@
                         "x": 160,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 1337,
@@ -525,7 +525,7 @@
                         "x": 204,
                         "y": 176
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 893,
@@ -570,7 +570,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 9,
@@ -608,7 +608,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 103,
                         "left": 103,
@@ -646,7 +646,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 188,
@@ -684,7 +684,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 295,
@@ -722,7 +722,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 389,
@@ -760,7 +760,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 481,
@@ -798,7 +798,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 570,
@@ -836,7 +836,7 @@
                         "x": 9,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 666,
@@ -881,7 +881,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 9,
@@ -919,7 +919,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 82,
@@ -957,7 +957,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 155,
@@ -995,7 +995,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 236,
@@ -1033,7 +1033,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 329,
@@ -1071,7 +1071,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 439,
@@ -1109,7 +1109,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 535,
@@ -1147,7 +1147,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 631,
@@ -1185,7 +1185,7 @@
                         "x": -6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 734,
@@ -1224,7 +1224,7 @@
                         "x": 180,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 9,
@@ -1256,7 +1256,7 @@
                         "x": 150,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 120,
@@ -1289,7 +1289,7 @@
                         "x": 140,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 195,
@@ -1319,7 +1319,7 @@
                         "y": 224
                     },
                     "sound": "13",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 264,
@@ -1339,7 +1339,7 @@
                         "x": 228,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 372,
@@ -1381,7 +1381,7 @@
                         "x": 3,
                         "y": 22
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 486,
@@ -1424,7 +1424,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 486,
@@ -1468,7 +1468,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 585,
@@ -1508,7 +1508,7 @@
                         "x": 176,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 692,
@@ -1549,7 +1549,7 @@
                         "x": 176,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 692,
@@ -1591,7 +1591,7 @@
                         "x": 140,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 778,
@@ -1631,7 +1631,7 @@
                         "x": 202,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 851,
@@ -1662,7 +1662,7 @@
                         "x": 222,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 9,
@@ -1686,7 +1686,7 @@
                         "x": 140,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 121,
@@ -1720,7 +1720,7 @@
                         "y": 240
                     },
                     "sound": "13",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 195,
@@ -1759,7 +1759,7 @@
                         "x": 222,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 324,
@@ -1792,7 +1792,7 @@
                         "x": 222,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 439,
@@ -1828,7 +1828,7 @@
                         "x": -20,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 553,
@@ -1864,7 +1864,7 @@
                         "x": -2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 553,
@@ -1907,7 +1907,7 @@
                         "x": -2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 663,
@@ -1940,7 +1940,7 @@
                         "x": 222,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 775,
@@ -1973,7 +1973,7 @@
                         "x": 222,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 887,
@@ -2006,7 +2006,7 @@
                         "x": 188,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 998,
@@ -2039,7 +2039,7 @@
                         "x": 222,
                         "y": 240
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 120,
                         "left": 1096,
@@ -2078,7 +2078,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -2110,7 +2110,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -2142,7 +2142,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -2185,7 +2185,7 @@
                         "x": 0,
                         "y": 20
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -2225,7 +2225,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -2265,7 +2265,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -2305,7 +2305,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -2345,7 +2345,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -2385,7 +2385,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -2425,7 +2425,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -2465,7 +2465,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -2499,7 +2499,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -2533,7 +2533,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -2579,7 +2579,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -2613,7 +2613,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -2652,7 +2652,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -2684,7 +2684,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -2716,7 +2716,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -2759,7 +2759,7 @@
                         "x": 8,
                         "y": 18
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -2799,7 +2799,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -2839,7 +2839,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -2879,7 +2879,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -2919,7 +2919,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -2959,7 +2959,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -2999,7 +2999,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -3039,7 +3039,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -3073,7 +3073,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -3107,7 +3107,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -3153,7 +3153,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -3187,7 +3187,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -3226,7 +3226,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -3258,7 +3258,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -3290,7 +3290,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -3333,7 +3333,7 @@
                         "x": -8,
                         "y": 18
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -3373,7 +3373,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -3413,7 +3413,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -3453,7 +3453,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -3493,7 +3493,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -3533,7 +3533,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -3573,7 +3573,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -3613,7 +3613,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -3647,7 +3647,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -3681,7 +3681,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -3727,7 +3727,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -3761,7 +3761,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -3801,7 +3801,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -3834,7 +3834,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -3866,7 +3866,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -3908,7 +3908,7 @@
                         "x": 0,
                         "y": 30
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -3948,7 +3948,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -3988,7 +3988,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -4028,7 +4028,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -4068,7 +4068,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -4108,7 +4108,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -4148,7 +4148,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -4188,7 +4188,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -4222,7 +4222,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -4256,7 +4256,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -4302,7 +4302,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -4336,7 +4336,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -4376,7 +4376,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -4409,7 +4409,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -4441,7 +4441,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -4484,7 +4484,7 @@
                         "x": 13,
                         "y": 25
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -4524,7 +4524,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -4564,7 +4564,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -4604,7 +4604,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -4644,7 +4644,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -4683,7 +4683,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -4723,7 +4723,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -4763,7 +4763,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -4797,7 +4797,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -4831,7 +4831,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -4877,7 +4877,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -4911,7 +4911,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -4951,7 +4951,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -4984,7 +4984,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -5016,7 +5016,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -5059,7 +5059,7 @@
                         "x": -13,
                         "y": 25
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -5099,7 +5099,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -5139,7 +5139,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -5179,7 +5179,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -5219,7 +5219,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -5259,7 +5259,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -5299,7 +5299,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -5339,7 +5339,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -5373,7 +5373,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -5407,7 +5407,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -5453,7 +5453,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -5487,7 +5487,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -5528,7 +5528,7 @@
                         "x": 188,
                         "y": 230
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 115,
                         "left": 1282,
@@ -5562,7 +5562,7 @@
                         "x": 188,
                         "y": 230
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 115,
                         "left": 1374,
@@ -5603,7 +5603,7 @@
                         "x": 212,
                         "y": 142
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 72,
                         "left": 1466,
@@ -5637,7 +5637,7 @@
                         "x": 170,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 1575,
@@ -5684,7 +5684,7 @@
                         "x": -30,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 69,
                         "left": 413,
@@ -5722,7 +5722,7 @@
                         "y": 138
                     },
                     "sound": "13",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 69,
                         "left": 413,
@@ -5759,7 +5759,7 @@
                         "x": 222,
                         "y": 182
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 91,
                         "left": 531,
@@ -5796,7 +5796,7 @@
                         "x": 184,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 648,
@@ -5845,7 +5845,7 @@
                         "x": 140,
                         "y": 280
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 140,
                         "left": 9,
@@ -5888,7 +5888,7 @@
                         "x": 140,
                         "y": 280
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 140,
                         "left": 75,
@@ -5931,7 +5931,7 @@
                         "y": 290
                     },
                     "sound": "13",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 145,
                         "left": 146,
@@ -5977,7 +5977,7 @@
                         "x": 30,
                         "y": -6
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 145,
                         "left": 215,
@@ -6014,7 +6014,7 @@
                         "x": 220,
                         "y": 160
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 80,
                         "left": 297,
@@ -6052,7 +6052,7 @@
                         "x": 220,
                         "y": 160
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 80,
                         "left": 420,
@@ -6091,7 +6091,7 @@
                         "x": 184,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 65,
                     "texture_bounds": {
                         "height": 87,
@@ -6124,7 +6124,7 @@
                         "x": 182,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 885,
@@ -6158,7 +6158,7 @@
                         "x": 176,
                         "y": 178
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 65,
                     "texture_bounds": {
                         "height": 89,
@@ -6205,7 +6205,7 @@
                         "x": 188,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 1078,
@@ -6243,7 +6243,7 @@
                         "x": 200,
                         "y": 218
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 109,
                         "left": 1178,
@@ -6284,7 +6284,7 @@
                         "x": 202,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 1284,
@@ -6324,7 +6324,7 @@
                         "x": 200,
                         "y": 218
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 109,
                         "left": 1178,
@@ -6362,7 +6362,7 @@
                         "x": 188,
                         "y": 224
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 112,
                         "left": 1078,
@@ -6402,7 +6402,7 @@
                         "x": 138,
                         "y": 168
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 65,
                     "texture_bounds": {
                         "height": 84,
@@ -6436,7 +6436,7 @@
                         "x": 138,
                         "y": 168
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 84,
                         "left": 501,
@@ -6471,7 +6471,7 @@
                         "x": 220,
                         "y": 144
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 72,
                         "left": 382,
@@ -6524,7 +6524,7 @@
                         "x": 212,
                         "y": 194
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 97,
                         "left": 1207,
@@ -6569,7 +6569,7 @@
                         "x": 208,
                         "y": 196
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 98,
                         "left": 1097,
@@ -6616,7 +6616,7 @@
                         "x": 246,
                         "y": 108
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 54,
                         "left": 968,
@@ -6663,7 +6663,7 @@
                         "x": 202,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 10,
@@ -6705,7 +6705,7 @@
                         "x": 190,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 117,
@@ -6751,7 +6751,7 @@
                         "x": 150,
                         "y": 150
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 75,
                         "left": 219,
@@ -6791,7 +6791,7 @@
                         "x": 174,
                         "y": 124
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 62,
                         "left": 300,
@@ -6831,7 +6831,7 @@
                         "x": 180,
                         "y": 140
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 70,
                         "left": 393,
@@ -6871,7 +6871,7 @@
                         "x": 210,
                         "y": 172
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 86,
                         "left": 489,
@@ -6911,7 +6911,7 @@
                         "x": 174,
                         "y": 182
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 91,
                         "left": 600,
@@ -6952,7 +6952,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 694,
@@ -6991,7 +6991,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 777,
@@ -7032,7 +7032,7 @@
                         "x": 178,
                         "y": 208
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 108,
                         "left": 1611,
@@ -7071,7 +7071,7 @@
                         "x": 178,
                         "y": 222
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 111,
                         "left": 1516,
@@ -7110,7 +7110,7 @@
                         "x": 196,
                         "y": 204
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 102,
                         "left": 1412,
@@ -7143,7 +7143,7 @@
                         "y": 80
                     },
                     "sound": "4",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 40,
                         "left": 10,
@@ -7171,7 +7171,7 @@
                         "x": 1,
                         "y": 16
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 47,
                         "left": 103,
@@ -7200,7 +7200,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 47,
                         "left": 103,
@@ -7229,7 +7229,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 65,
                         "left": 198,
@@ -7258,7 +7258,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 82,
                         "left": 285,
@@ -7287,7 +7287,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 70,
                         "left": 360,
@@ -7316,7 +7316,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 60,
                         "left": 452,
@@ -7345,7 +7345,7 @@
                         "x": 0,
                         "y": -1
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 58,
                         "left": 537,
@@ -7370,7 +7370,7 @@
                         "x": 168,
                         "y": 116
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 54,
                         "left": 630,
@@ -7406,7 +7406,7 @@
                         "x": 172,
                         "y": 108
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 54,
                         "left": 724,
@@ -7438,7 +7438,7 @@
                         "x": 166,
                         "y": 88
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 44,
                         "left": 883,
@@ -7463,7 +7463,7 @@
                         "x": 160,
                         "y": 110
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 55,
                         "left": 972,
@@ -7492,7 +7492,7 @@
                         "x": 198,
                         "y": 200
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 100,
                         "left": 1058,
@@ -7521,7 +7521,7 @@
                         "x": 302,
                         "y": 172
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 86,
                         "left": 1163,
@@ -7550,7 +7550,7 @@
                         "x": 252,
                         "y": 148
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 74,
                         "left": 1320,
@@ -7591,7 +7591,7 @@
                         "x": 212,
                         "y": 142
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 72,
                         "left": 1466,
@@ -7625,7 +7625,7 @@
                         "x": 170,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 1575,
@@ -7672,7 +7672,7 @@
                         "x": 202,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 10,
@@ -7712,7 +7712,7 @@
                         "x": 190,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 117,
@@ -7757,7 +7757,7 @@
                         "x": 150,
                         "y": 150
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 75,
                         "left": 219,
@@ -7796,7 +7796,7 @@
                         "x": 174,
                         "y": 124
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 62,
                         "left": 300,
@@ -7836,7 +7836,7 @@
                         "x": 180,
                         "y": 140
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 70,
                         "left": 393,
@@ -7875,7 +7875,7 @@
                         "x": 210,
                         "y": 172
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 86,
                         "left": 489,
@@ -7914,7 +7914,7 @@
                         "x": 174,
                         "y": 182
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 91,
                         "left": 600,
@@ -7956,7 +7956,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 694,
@@ -7996,7 +7996,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 777,
@@ -8047,7 +8047,7 @@
                         "x": 202,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 10,
@@ -8091,7 +8091,7 @@
                         "x": 190,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 117,
@@ -8140,7 +8140,7 @@
                         "x": 150,
                         "y": 150
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 75,
                         "left": 219,
@@ -8183,7 +8183,7 @@
                         "x": 174,
                         "y": 124
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 62,
                         "left": 300,
@@ -8227,7 +8227,7 @@
                         "x": 180,
                         "y": 140
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 70,
                         "left": 393,
@@ -8270,7 +8270,7 @@
                         "x": 210,
                         "y": 172
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 86,
                         "left": 489,
@@ -8313,7 +8313,7 @@
                         "x": 174,
                         "y": 182
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 91,
                         "left": 600,
@@ -8359,7 +8359,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 694,
@@ -8403,7 +8403,7 @@
                         "x": 154,
                         "y": 184
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 92,
                         "left": 777,
@@ -8444,7 +8444,7 @@
                         "y": 142
                     },
                     "sound": "11",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 72,
                         "left": 1466,
@@ -8477,7 +8477,7 @@
                         "x": 170,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 1575,
@@ -8517,7 +8517,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -8550,7 +8550,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -8582,7 +8582,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -8625,7 +8625,7 @@
                         "x": 0,
                         "y": 20
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -8665,7 +8665,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -8705,7 +8705,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -8745,7 +8745,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -8785,7 +8785,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -8825,7 +8825,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -8865,7 +8865,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -8905,7 +8905,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -8939,7 +8939,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -8973,7 +8973,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -9019,7 +9019,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -9053,7 +9053,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -9093,7 +9093,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -9126,7 +9126,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -9158,7 +9158,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -9201,7 +9201,7 @@
                         "x": 8,
                         "y": 18
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -9241,7 +9241,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -9281,7 +9281,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -9321,7 +9321,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -9361,7 +9361,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -9401,7 +9401,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -9441,7 +9441,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -9481,7 +9481,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -9515,7 +9515,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -9549,7 +9549,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -9595,7 +9595,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -9629,7 +9629,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -9669,7 +9669,7 @@
                         "x": 220,
                         "y": 180
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 90,
                         "left": 9,
@@ -9702,7 +9702,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -9734,7 +9734,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 124,
@@ -9777,7 +9777,7 @@
                         "x": -8,
                         "y": 18
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -9817,7 +9817,7 @@
                         "x": 170,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 225,
@@ -9857,7 +9857,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 314,
@@ -9897,7 +9897,7 @@
                         "x": 176,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 416,
@@ -9937,7 +9937,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 506,
@@ -9977,7 +9977,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 607,
@@ -10017,7 +10017,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 696,
@@ -10057,7 +10057,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 800,
@@ -10091,7 +10091,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 893,
@@ -10125,7 +10125,7 @@
                         "x": 220,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 987,
@@ -10171,7 +10171,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1098,
@@ -10205,7 +10205,7 @@
                         "x": 180,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 1198,
@@ -10244,7 +10244,7 @@
                         "x": 184,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 66,
                     "texture_bounds": {
                         "height": 87,
@@ -10277,7 +10277,7 @@
                         "x": 182,
                         "y": 174
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 87,
                         "left": 885,
@@ -10311,7 +10311,7 @@
                         "x": 176,
                         "y": 178
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 65,
                     "texture_bounds": {
                         "height": 89,
@@ -10352,7 +10352,7 @@
                         "x": 138,
                         "y": 168
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "subobject": 66,
                     "texture_bounds": {
                         "height": 84,
@@ -10386,7 +10386,7 @@
                         "x": 138,
                         "y": 168
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 84,
                         "left": 501,
@@ -10421,7 +10421,7 @@
                         "x": 220,
                         "y": 144
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 72,
                         "left": 382,
@@ -10460,7 +10460,7 @@
                         "x": 168,
                         "y": 190
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 10,
@@ -10498,7 +10498,7 @@
                         "x": 200,
                         "y": 190
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 99,
@@ -10536,7 +10536,7 @@
                         "x": 222,
                         "y": 190
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 201,
@@ -10614,7 +10614,7 @@
                         "y": 190
                     },
                     "sound": "assets/sfxs/se/027.wav",
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 318,
@@ -10653,7 +10653,7 @@
                         "x": 222,
                         "y": 190
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 95,
                         "left": 452,
@@ -10697,7 +10697,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 88,
                         "left": 9,
@@ -10734,7 +10734,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 82,
                         "left": 9,
@@ -10771,7 +10771,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 82,
                         "left": 124,
@@ -10845,7 +10845,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 238,
@@ -10883,7 +10883,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 352,
@@ -10921,7 +10921,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 470,
@@ -10959,7 +10959,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 561,
@@ -10997,7 +10997,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 674,
@@ -11077,7 +11077,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 770,
@@ -11121,7 +11121,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 902,
@@ -11165,7 +11165,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 1037,
@@ -11203,7 +11203,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 1128,
@@ -11237,7 +11237,7 @@
                         "x": 1,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 118,
                         "left": 1215,
@@ -11278,7 +11278,7 @@
                         "x": 212,
                         "y": 192
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 96,
                         "left": 5,
@@ -11318,7 +11318,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 110,
@@ -11358,7 +11358,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 210,
@@ -11375,7 +11375,7 @@
                     },
                     "defense_flag": 4,
                     "guard_damage": 10000,
-                    "hitSound": "assets/sfxs/se/remilia/064.wav",
+                    "hitSound": "assets/sfxs/se/merilia/064.wav",
                     "hit_boxes": [
                         {
                             "height": 181,
@@ -11410,7 +11410,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 210,
@@ -11452,7 +11452,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 210,
@@ -11495,7 +11495,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 210,
@@ -11535,7 +11535,7 @@
                         "x": 212,
                         "y": 210
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 310,
@@ -11579,7 +11579,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 518,
@@ -11623,7 +11623,7 @@
                         "x": 6,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 603,
@@ -11674,9 +11674,9 @@
                         "x": 160,
                         "y": 210
                     },
-                    "sound": "assets/sfxs/se/remilia/065.wav",
+                    "sound": "assets/sfxs/se/merilia/065.wav",
                     "spirit_limit": 100,
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 105,
                         "left": 703,
@@ -11714,7 +11714,7 @@
                         "x": 4,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 778,
@@ -11751,7 +11751,7 @@
                         "x": 2,
                         "y": 0
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 778,
@@ -11784,7 +11784,7 @@
                         "x": 160,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 778,
@@ -11817,7 +11817,7 @@
                         "x": 232,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 2012,
@@ -11850,7 +11850,7 @@
                         "x": 200,
                         "y": 220
                     },
-                    "sprite": "assets/characters/remilia/remilia.png",
+                    "sprite": "assets/characters/merilia/remilia.png",
                     "texture_bounds": {
                         "height": 110,
                         "left": 2128,

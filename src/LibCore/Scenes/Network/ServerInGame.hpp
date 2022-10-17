@@ -16,6 +16,11 @@ namespace SpiralOfFate
 	private:
 		RollbackMachine _rMachine;
 		std::shared_ptr<RemoteInput> _input;
+#ifdef _DEBUG
+		bool _displayInputs = false;
+		Character *_leftChr;
+		Character *_rightChr;
+#endif
 
 	public:
 		ServerInGame(
@@ -32,6 +37,9 @@ namespace SpiralOfFate
 		);
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;
+#ifdef _DEBUG
+		void render() const override;
+#endif
 	};
 }
 

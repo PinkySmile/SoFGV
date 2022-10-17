@@ -502,9 +502,7 @@ namespace SpiralOfFate
 	{
 		auto dat = reinterpret_cast<Data *>(data);
 
-#ifdef _DEBUG
-		game->logger.debug("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_position = this->_position;
 		dat->_speed = this->_speed;
 		dat->_gravity = this->_gravity;
@@ -541,6 +539,7 @@ namespace SpiralOfFate
 		this->_direction = dat->_direction;
 		this->_cornerPriority = dat->_cornerPriority;
 		this->_dir = dat->_dir;
+		game->logger.verbose("Restored Object @" + std::to_string((uintptr_t)dat));
 	}
 
 	unsigned int Object::getClassId() const

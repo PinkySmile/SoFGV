@@ -50,7 +50,7 @@ namespace SpiralOfFate
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F11)
 			this->_step = !this->_step;
 #ifdef _DEBUG
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F1)
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F2)
 #else
 		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F12)
 #endif

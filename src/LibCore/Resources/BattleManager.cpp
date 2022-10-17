@@ -609,9 +609,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
 
-#ifdef _DEBUG
-		game->logger.debug("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftComboCtr = this->_leftComboCtr;
@@ -747,6 +745,7 @@ namespace SpiralOfFate
 		}
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
+		game->logger.verbose("Restored BattleManager @" + std::to_string((uintptr_t)dat));
 	}
 
 	bool BattleManager::_updateLoop()

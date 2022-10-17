@@ -14,7 +14,7 @@ namespace SpiralOfFate
 			file[pos] = '/';
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
-			game->logger.debug("Returning already loaded file " + file);
+			game->logger.verbose("Returning already loaded file " + file);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
 			return this->_allocatedTextures[file].first;
@@ -155,7 +155,7 @@ namespace SpiralOfFate
 			if (attr.first == id && attr.second) {
 				attr.second--;
 				if (attr.second) {
-					game->logger.debug("Remove ref to " + loadedPath);
+					game->logger.verbose("Remove ref to " + loadedPath);
 					return;
 				}
 				game->logger.debug("Destroying texture " + loadedPath);
@@ -192,7 +192,7 @@ namespace SpiralOfFate
 			if (attr.first == id && attr.second) {
 				attr.second++;
 				my_assert(attr.second > 1);
-				game->logger.debug("Adding ref to " + loadedPath);
+				game->logger.verbose("Adding ref to " + loadedPath);
 				return;
 			}
 	}

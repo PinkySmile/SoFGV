@@ -14,7 +14,7 @@ namespace SpiralOfFate
 			file[pos] = '/';
 		if (this->_allocatedSounds[file].second != 0) {
 			this->_allocatedSounds[file].second++;
-			game->logger.debug("Returning already loaded file " + file);
+			game->logger.verbose("Returning already loaded file " + file);
 			return this->_allocatedSounds[file].first;
 		}
 
@@ -49,7 +49,7 @@ namespace SpiralOfFate
 			if (attr.first == id && attr.second) {
 				attr.second--;
 				if (attr.second) {
-					game->logger.debug("Remove ref to " + loadedPath);
+					game->logger.verbose("Remove ref to " + loadedPath);
 					return;
 				}
 				game->logger.debug("Destroying sound " + loadedPath);
@@ -88,7 +88,7 @@ namespace SpiralOfFate
 			if (attr.first == id && attr.second) {
 				if (attr.second < 1)
 					return game->logger.warn("Cannot add ref to " + loadedPath + " (" + std::to_string(id) + ") because it was unloaded");
-				game->logger.debug("Adding ref to " + loadedPath);
+				game->logger.verbose("Adding ref to " + loadedPath);
 				attr.second++;
 				return;
 			}

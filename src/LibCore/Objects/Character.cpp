@@ -1172,7 +1172,7 @@ namespace SpiralOfFate
 
 	void Character::_onMoveEnd(const FrameData &lastData)
 	{
-		game->logger.debug(std::to_string(this->_action) + " ended");
+		game->logger.verbose(std::to_string(this->_action) + " ended");
 		if (this->_action == ACTION_BEING_KNOCKED_DOWN) {
 			this->_blockStun = 0;
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
@@ -3790,9 +3790,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
-#ifdef _DEBUG
-		game->logger.debug("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
@@ -3903,6 +3901,7 @@ namespace SpiralOfFate
 					(LastInput *)&dat[1]
 				)[dat->_nbLastInputs])
 			)[i]);
+		game->logger.verbose("Restored Character @" + std::to_string((uintptr_t)dat));
 	}
 
 	void Character::resolveSubObjects(const BattleManager &manager)

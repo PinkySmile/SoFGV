@@ -109,9 +109,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
 		Character::copyToBuffer(data);
-#ifdef _DEBUG
-		game->logger.debug("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_buff = this->_buff;
 		dat->_time = this->_time;
 		dat->_oldAction = this->_oldAction;
@@ -128,9 +126,7 @@ namespace SpiralOfFate
 		this->_time = dat->_time;
 		this->_oldAction = dat->_oldAction;
 		this->_buffTimer = dat->_buffTimer;
-#ifdef _DEBUG
-		game->logger.debug("Restored Stickman @" + std::to_string((uintptr_t)dat));
-#endif
+		game->logger.verbose("Restored Stickman @" + std::to_string((uintptr_t)dat));
 	}
 
 	std::pair<unsigned int, std::shared_ptr<IObject>> Stickman::_spawnSubobject(unsigned int id, bool needRegister)

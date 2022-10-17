@@ -24,6 +24,11 @@ namespace SpiralOfFate
 		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson),
 		_rMachine(leftChr, rightChr),
 		_input(std::move(input))
+#ifdef _DEBUG
+		,
+		_leftChr(leftChr),
+		_rightChr(rightChr)
+#endif
 	{
 	}
 
@@ -58,9 +63,30 @@ namespace SpiralOfFate
 		return this->_nextScene;
 	}
 
+#ifdef _DEBUG
+	void ClientInGame::render() const
+	{
+		InGame::render();
+		if (this->_displayInputs) {
+			game->battleMgr->renderLeftInputs();
+			game->battleMgr->renderRightInputs();
+		}
+	}
+#endif
+
 	void ClientInGame::consumeEvent(const sf::Event &event)
 	{
 		this->_rMachine.consumeEvent(event);
 		InGame::consumeEvent(event);
+#ifdef _DEBUG
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::F2)
+				this->_leftChr->showAttributes = this->_rightChr->showAttributes = !this->_rightChr->showAttributes;
+			if (event.key.code == sf::Keyboard::F3)
+				this->_leftChr->showAttributes = this->_rightChr->showBoxes = !this->_rightChr->showBoxes;
+			if (event.key.code == sf::Keyboard::F4)
+				this->_displayInputs = !this->_displayInputs;
+		}
+#endif
 	}
 }

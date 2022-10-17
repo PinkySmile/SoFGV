@@ -15463,7 +15463,8 @@
                         "left": 603,
                         "top": 407,
                         "width": 48
-                    }
+                    },
+                    "untech": 20
                 },
                 {
                     "collision_box": {

@@ -67,8 +67,10 @@ namespace SpiralOfFate
 		if (this->_savedData.size() == MAX_ROLLBACK && (
 			(!this->_realInputLeft->hasInputs() && this->_savedData.front().left.predicted) ||
 			(!this->_realInputRight->hasInputs() && this->_savedData.front().right.predicted)
-		))
+		)) {
+			game->logger.verbose("Skipping 1 frame!");
 			return UPDATESTATUS_NO_INPUTS;
+		}
 
 		auto it = this->_savedData.begin();
 
@@ -145,8 +147,18 @@ namespace SpiralOfFate
 	{
 		auto old = it;
 
-        if (it != this->_savedData.begin())
+		if (it != this->_savedData.begin())
 		    --old;
+#ifdef _DEBUG
+		size_t total = 0;
+		auto newit = it;
+
+		while (newit != this->_savedData.end()) {
+			newit++;
+			total++;
+		}
+		game->logger.verbose("Rolling back " + std::to_string(total) + " frames");
+#endif
 		while (it != this->_savedData.end()) {
 			auto left  = it->left.predicted  ? InputData(*this->_realInputLeft,  it == this->_savedData.begin() ? nullptr : &old->left)  : it->left;
 			auto right = it->right.predicted ? InputData(*this->_realInputRight, it == this->_savedData.begin() ? nullptr : &old->right) : it->right;
@@ -183,8 +195,7 @@ namespace SpiralOfFate
 	}
 
 	/*
-	 * Simple checksum function stolen from wikipedia:
-	 *
+	 * Simple checksum function from wikipedia:
 	 *   http://en.wikipedia.org/wiki/Fletcher%27s_checksum
 	 */
 	int RollbackMachine::_computeCheckSum(short *data, size_t len)
