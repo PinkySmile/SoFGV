@@ -35,11 +35,16 @@ namespace SpiralOfFate
 	IScene *ClientInGame::update()
 	{
 		this->_input->refreshInputs();
+		if (this->_nextScene)
+			return this->_nextScene;
+		if (
+			!game->battleMgr->getLeftCharacter()->getInput()->hasInputs() ||
+			!game->battleMgr->getRightCharacter()->getInput()->hasInputs()
+		)
+			return nullptr;
 
 		auto status = this->_rMachine.update(true, true);
 
-		if (this->_nextScene)
-			return this->_nextScene;
 		if (status == RollbackMachine::UPDATESTATUS_NO_INPUTS)
 			return nullptr;
 

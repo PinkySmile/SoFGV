@@ -208,10 +208,8 @@ namespace SpiralOfFate
 		auto &ricon = rentry.icon[this->p2pal];
 		auto &stageObj = scene->_stages[this->stage];
 
-		scene->_localInput->setDelay(2);
-		scene->_remoteInput->setDelay(2);
-		scene->_localInput->flush();
-		scene->_remoteInput->flush();
+		scene->_localInput->flush(2);
+		scene->_remoteInput->flush(2);
 		game->battleRandom.seed(this->seed);
 		game->scene.reset(new ClientInGame(
 			scene->_remoteRealInput,

@@ -52,8 +52,9 @@ namespace SpiralOfFate
 		this->_input->consumeEvent(event);
 	}
 
-	void DelayInput::flush()
+	void DelayInput::flush(unsigned delay)
 	{
+		this->_delay = delay;
 		this->_delayBuffer.clear();
 		while (this->_delay > this->_delayBuffer.size())
 			this->_delayBuffer.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0});

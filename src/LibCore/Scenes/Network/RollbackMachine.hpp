@@ -49,8 +49,8 @@ namespace SpiralOfFate
 
 	public:
 		enum UpdateStatus {
-			UPDATESTATUS_OK,
 			UPDATESTATUS_GAME_ENDED,
+			UPDATESTATUS_OK,
 			UPDATESTATUS_NO_INPUTS,
 		};
 

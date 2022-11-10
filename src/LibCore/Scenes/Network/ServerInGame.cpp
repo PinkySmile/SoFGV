@@ -22,7 +22,7 @@ namespace SpiralOfFate
 		const nlohmann::json &rJson
 	) :
 		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson),
-		_rMachine(leftChr, rightChr),
+		//_rMachine(leftChr, rightChr),
 		_input(std::move(input))
 #ifdef _DEBUG
 		,
@@ -37,6 +37,11 @@ namespace SpiralOfFate
 		this->_input->refreshInputs();
 		if (this->_nextScene)
 			return this->_nextScene;
+		if (
+			!game->battleMgr->getLeftCharacter()->getInput()->hasInputs() ||
+			!game->battleMgr->getRightCharacter()->getInput()->hasInputs()
+		)
+			return nullptr;
 
 		auto status = this->_rMachine.update(true, true);
 
