@@ -10,7 +10,6 @@
 #include "NetworkCharacterSelect.hpp"
 
 // I took examples on the bests
-#define CHARACTER_SELECT_DELAY 6
 
 namespace SpiralOfFate
 {

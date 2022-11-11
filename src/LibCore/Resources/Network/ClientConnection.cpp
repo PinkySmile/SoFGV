@@ -79,12 +79,6 @@ namespace SpiralOfFate
 			game->sceneMutex.lock();
 			game->scene.reset(new ClientCharacterSelect());
 			game->sceneMutex.unlock();
-			this->_sendMutex.lock();
-			this->_sendBuffer.clear();
-			this->_currentFrame = 0;
-			this->_lastOpRecvFrame = 0;
-			this->_nextExpectedFrame = 0;
-			this->_sendMutex.unlock();
 		}
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 	}
@@ -133,12 +127,6 @@ namespace SpiralOfFate
 				game->scene.reset(new ClientCharacterSelect());
 			game->sceneMutex.unlock();
 		}
-		this->_sendMutex.lock();
-		this->_sendBuffer.clear();
-		this->_currentFrame = 0;
-		this->_lastOpRecvFrame = 0;
-		this->_nextExpectedFrame = 0;
-		this->_sendMutex.unlock();
 		this->_currentMenu = packet.menuId;
 	}
 
@@ -192,12 +180,6 @@ namespace SpiralOfFate
 		this->p2pal = packet.p2pal;
 		this->stage = packet.stage;
 		this->platformConfig = packet.platformConfig;
-		this->_sendMutex.lock();
-		this->_sendBuffer.clear();
-		this->_currentFrame = 0;
-		this->_lastOpRecvFrame = 0;
-		this->_nextExpectedFrame = 0;
-		this->_sendMutex.unlock();
 
 		auto scene = reinterpret_cast<ClientCharacterSelect *>(&*game->scene);
 		auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
@@ -208,8 +190,9 @@ namespace SpiralOfFate
 		auto &ricon = rentry.icon[this->p2pal];
 		auto &stageObj = scene->_stages[this->stage];
 
-		scene->_localInput->flush(2);
+		scene->_localInput->flush(3);
 		scene->_remoteInput->flush(2);
+		game->connection->nextGame();
 		game->battleRandom.seed(this->seed);
 		game->scene.reset(new ClientInGame(
 			scene->_remoteRealInput,

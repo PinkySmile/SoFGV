@@ -120,7 +120,7 @@ add_library(
 	src/LibCore/Resources/version.h
 	src/LibCore/Scenes/ReplayInGame.cpp
 	src/LibCore/Scenes/ReplayInGame.hpp
-        src/LibCore/Objects/StageObjects/StageObject.cpp
+	src/LibCore/Objects/StageObjects/StageObject.cpp
 	src/LibCore/Objects/StageObjects/StageObject.hpp
 	src/LibCore/Objects/StageObjects/Cloud.hpp
 	src/LibCore/Objects/StageObjects/Cloud.cpp
@@ -150,13 +150,19 @@ add_library(
 	src/LibCore/Scenes/Network/ClientInGame.hpp
 	src/LibCore/Scenes/Network/ServerInGame.cpp
 	src/LibCore/Scenes/Network/ServerInGame.hpp
+	src/LibCore/Scenes/Network/NetworkInGame.cpp
+	src/LibCore/Scenes/Network/NetworkInGame.hpp
 	src/LibCore/Inputs/RemoteInput.cpp
 	src/LibCore/Inputs/RemoteInput.hpp
 	src/LibCore/Inputs/NetworkInput.cpp
 	src/LibCore/Inputs/NetworkInput.hpp
 	src/LibCore/Inputs/DelayInput.cpp
 	src/LibCore/Inputs/DelayInput.hpp
-	src/LibCore/Scenes/Menu.cpp src/LibCore/Scenes/Menu.hpp src/LibCore/Scenes/MenuItem.cpp src/LibCore/Scenes/MenuItem.hpp)
+	src/LibCore/Scenes/Menu.cpp
+	src/LibCore/Scenes/Menu.hpp
+	src/LibCore/Scenes/MenuItem.cpp
+	src/LibCore/Scenes/MenuItem.hpp
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)

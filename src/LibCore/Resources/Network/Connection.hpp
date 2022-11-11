@@ -55,6 +55,7 @@ namespace SpiralOfFate
 		unsigned _currentFrame = 0;
 		unsigned _nextExpectedFrame = 0;
 		unsigned _lastOpRecvFrame = 0;
+		unsigned _gameId = 0;
 		Remote *_opponent = nullptr;
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
@@ -97,6 +98,7 @@ namespace SpiralOfFate
 		std::list<PacketInput> receive();
 		void terminate();
 		bool isTerminated() const;
+		void nextGame();
 		const std::pair<std::string, std::string> &getNames() const;
 		virtual void reportChecksum(unsigned checksum);
 	};

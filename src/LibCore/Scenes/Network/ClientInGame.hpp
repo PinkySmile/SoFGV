@@ -7,20 +7,15 @@
 
 
 #include "RollbackMachine.hpp"
+#include "NetworkInGame.hpp"
 #include <Inputs/RemoteInput.hpp>
 #include <Scenes/InGame.hpp>
 
 namespace SpiralOfFate
 {
-	class ClientInGame : public InGame {
-	private:
-		RollbackMachine _rMachine;
-		std::shared_ptr<RemoteInput> _input;
-#ifdef _DEBUG
-		bool _displayInputs = false;
-		Character *_leftChr;
-		Character *_rightChr;
-#endif
+	class ClientInGame : public NetworkInGame {
+	protected:
+		void _onGameEnd() override;
 
 	public:
 		ClientInGame(
@@ -35,11 +30,6 @@ namespace SpiralOfFate
 			const nlohmann::json &lJson,
 			const nlohmann::json &rJson
 		);
-		IScene *update() override;
-		void consumeEvent(const sf::Event &event) override;
-#ifdef _DEBUG
-		void render() const override;
-#endif
 	};
 }
 

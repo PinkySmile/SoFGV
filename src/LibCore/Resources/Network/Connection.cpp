@@ -73,7 +73,7 @@ namespace SpiralOfFate
 		std::list<PacketInput> b = this->_buffer;
 
 		if (!this->_sendBuffer.empty()) {
-			auto packet = PacketGameFrame::create(this->_sendBuffer, this->_nextExpectedFrame);
+			auto packet = PacketGameFrame::create(this->_sendBuffer, this->_nextExpectedFrame, this->_gameId);
 
 			this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
 		}
@@ -317,6 +317,8 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
+		if (packet.gameId != this->_gameId)
+			return;
 
 		for (size_t i = 0; i < packet.nbInputs; i++) {
 			if (this->_nextExpectedFrame == packet.frameId + i) {
@@ -453,6 +455,17 @@ namespace SpiralOfFate
 
 	void Connection::reportChecksum(unsigned int)
 	{
+	}
+
+	void Connection::nextGame()
+	{
+		this->_gameId++;
+		this->_sendMutex.lock();
+		this->_sendBuffer.clear();
+		this->_currentFrame = 0;
+		this->_lastOpRecvFrame = 0;
+		this->_nextExpectedFrame = 0;
+		this->_sendMutex.unlock();
 	}
 
 	void Connection::Remote::_pingLoop()
