@@ -174,7 +174,7 @@
                         "top": -106,
                         "width": 40
                     },
-                    "defense_flag": 66048,
+                    "defense_flag": 74240,
                     "hurt_boxes": [
                         {
                             "height": 156,
@@ -210,7 +210,7 @@
                         "top": -119,
                         "width": 40
                     },
-                    "defense_flag": 512,
+                    "defense_flag": 8704,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -247,7 +247,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2097664,
+                    "defense_flag": 2105856,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -414,7 +414,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2097664,
+                    "defense_flag": 2105856,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -581,7 +581,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2097152,
+                    "defense_flag": 2105344,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -836,7 +836,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2097153,
+                    "defense_flag": 2105345,
                     "duration": 4,
                     "hurt_boxes": [
                         {
@@ -12683,7 +12683,7 @@
                     }
                 },
                 {
-                    "block_stun": 11,
+                    "block_stun": 8,
                     "collision_box": {
                         "height": 95,
                         "left": -23,
@@ -12718,7 +12718,7 @@
                         "y": 0
                     },
                     "hit_stop": 10,
-                    "hit_stun": 28,
+                    "hit_stun": 24,
                     "hurt_boxes": [
                         {
                             "height": 153,
@@ -12756,7 +12756,7 @@
                     "untech": 20
                 },
                 {
-                    "block_stun": 9,
+                    "block_stun": 8,
                     "collision_box": {
                         "height": 95,
                         "left": -23,
@@ -12791,7 +12791,7 @@
                         "y": 0
                     },
                     "hit_stop": 10,
-                    "hit_stun": 28,
+                    "hit_stun": 24,
                     "hurt_boxes": [
                         {
                             "height": 153,
@@ -12812,7 +12812,7 @@
                         "y": 2
                     },
                     "prorate": 80.0,
-                    "push_back": 3,
+                    "push_back": 8,
                     "push_block": 3,
                     "size": {
                         "x": 148,
@@ -15463,8 +15463,7 @@
                         "left": 603,
                         "top": 407,
                         "width": 48
-                    },
-                    "untech": 20
+                    }
                 },
                 {
                     "collision_box": {
