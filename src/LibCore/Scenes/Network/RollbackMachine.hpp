@@ -12,7 +12,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
-#define MAX_ROLLBACK 8
+#define MAX_ROLLBACK 0
 
 namespace SpiralOfFate
 {

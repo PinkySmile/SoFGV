@@ -24,6 +24,7 @@ namespace SpiralOfFate
 		void setDelay(unsigned delay);
 		bool hasInputs() override;
 		void flush(unsigned delay);
+		void fillBuffer();
 		void consumeEvent(const sf::Event &event) override;
 	};
 }

@@ -101,6 +101,10 @@ namespace SpiralOfFate
 		void nextGame();
 		const std::pair<std::string, std::string> &getNames() const;
 		virtual void reportChecksum(unsigned checksum);
+
+#ifdef _DEBUG
+		friend class NetworkInGame;
+#endif
 	};
 }
 

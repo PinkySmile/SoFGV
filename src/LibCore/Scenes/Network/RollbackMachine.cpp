@@ -43,13 +43,39 @@ namespace SpiralOfFate
 			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
 				this->keyStates[i] = input.isPressed(static_cast<InputEnum>(i));
+#ifdef _DEBUG
+			std::string str = "RB: {";
+			const char *names[] = {
+				"ha",
+				"va",
+				"n",
+				"m",
+				"s",
+				"v",
+				"a",
+				"d",
+			};
+
+			for (unsigned i = 0; i < 8; i++) {
+				if (i)
+					str += ", ";
+				str += names[i];
+				str += this->keyStates[i] ? ":true" : ":false";
+			}
+			str += "}";
+			game->logger.debug(str);
+#endif
 			this->predicted = false;
 		} else {
+#if MAX_ROLLBACK == 0
+			my_assert(false);
+#else
 			if (old)
 				this->keyStates = old->keyStates;
 			else
 				this->keyStates.reset();
 			this->predicted = true;
+#endif
 		}
 	}
 
@@ -64,10 +90,14 @@ namespace SpiralOfFate
 	RollbackMachine::UpdateStatus RollbackMachine::update(bool useP1Inputs, bool useP2Inputs)
 	{
 		//TODO: Use useP1Inputs, useP2Inputs and check the fake pause
+#if MAX_ROLLBACK == 0
+		if (!this->_realInputLeft->hasInputs() || !this->_realInputRight->hasInputs()) {
+#else
 		if (this->_savedData.size() == MAX_ROLLBACK && (
 			(!this->_realInputLeft->hasInputs() && this->_savedData.front().left.predicted) ||
 			(!this->_realInputRight->hasInputs() && this->_savedData.front().right.predicted)
 		)) {
+#endif
 			game->logger.verbose("Skipping 1 frame!");
 			return UPDATESTATUS_NO_INPUTS;
 		}
@@ -82,10 +112,6 @@ namespace SpiralOfFate
 			++it;
 
 		this->_manageRollback(it);
-		if (this->_realInputLeft->hasInputs())
-			this->_realInputLeft->update();
-		if (this->_realInputRight->hasInputs())
-			this->_realInputRight->update();
 		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight, this->_savedData.empty() ? nullptr : &this->_savedData.back());
 		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
 		this->inputLeft->_keyDuration = this->_savedData.back().left.keyDuration;
@@ -157,7 +183,8 @@ namespace SpiralOfFate
 			newit++;
 			total++;
 		}
-		game->logger.verbose("Rolling back " + std::to_string(total) + " frames");
+		if (total)
+			game->logger.verbose("Rolling back " + std::to_string(total) + " frames");
 #endif
 		while (it != this->_savedData.end()) {
 			auto left  = it->left.predicted  ? InputData(*this->_realInputLeft,  it == this->_savedData.begin() ? nullptr : &old->left)  : it->left;

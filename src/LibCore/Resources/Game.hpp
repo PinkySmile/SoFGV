@@ -5,7 +5,6 @@
 #ifndef SOFGV_GAME_HPP
 #define SOFGV_GAME_HPP
 
-
 #include <mutex>
 #include <memory>
 #include <random>

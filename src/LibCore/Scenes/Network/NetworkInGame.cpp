@@ -5,6 +5,7 @@
 #include "NetworkInGame.hpp"
 #include "Resources/Game.hpp"
 #include "Scenes/CharacterSelect.hpp"
+#include "Inputs/DelayInput.hpp"
 
 namespace SpiralOfFate
 {
@@ -21,6 +22,8 @@ namespace SpiralOfFate
 		const nlohmann::json &rJson
 	) :
 		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson),
+		_leftDInput(reinterpret_cast<DelayInput *>(&*game->battleMgr->getLeftCharacter()->getInput())),
+		_rightDInput(reinterpret_cast<DelayInput *>(&*game->battleMgr->getRightCharacter()->getInput())),
 		_rMachine(leftChr, rightChr),
 		_input(std::move(input))
 #ifdef _DEBUG
@@ -37,13 +40,20 @@ namespace SpiralOfFate
 		if (this->_nextScene)
 			return this->_nextScene;
 
+		auto linput = game->battleMgr->getLeftCharacter()->getInput();
+		auto rinput = game->battleMgr->getRightCharacter()->getInput();
+
+		this->_leftDInput->fillBuffer();
+		this->_rightDInput->fillBuffer();
+
 		auto status = this->_rMachine.update(true, true);
 
 		if (status == RollbackMachine::UPDATESTATUS_NO_INPUTS)
 			return nullptr;
-
-		auto linput = game->battleMgr->getLeftCharacter()->getInput();
-		auto rinput = game->battleMgr->getRightCharacter()->getInput();
+		this->_currentFrame++;
+#ifdef _DEBUG
+		my_assert_eq(this->_currentFrame, game->connection->_currentFrame);
+#endif
 
 		if (this->_moveList) {
 			linput->update();

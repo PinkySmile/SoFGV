@@ -14,7 +14,7 @@
 #include "Inputs/NetworkInput.hpp"
 
 // I took examples on the bests
-#define CHARACTER_SELECT_DELAY 6
+#define CHARACTER_SELECT_DELAY 0
 
 namespace SpiralOfFate
 {

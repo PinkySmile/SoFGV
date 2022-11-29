@@ -36,6 +36,13 @@ namespace SpiralOfFate
 
 	IScene *NetworkCharacterSelect::update()
 	{
+		// Dirty fix because we don't actually want to update the input itself.
+		// The DelayInput refreshes its buffer in hasInputs().
+		// If we don't call this, in delay 0, the local input never sends its first input.
+		// In turn, the remote does the same, so we are in both cases waiting for the remote
+		// to send their input to proceed, which will never happen.
+		this->_localInput->fillBuffer();
+		this->_remoteInput->fillBuffer();
 		this->_remoteRealInput->refreshInputs();
 		if (this->_remoteInput->hasInputs())
 			return CharacterSelect::update();

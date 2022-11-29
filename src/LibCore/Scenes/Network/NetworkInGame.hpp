@@ -7,6 +7,7 @@
 
 
 #include "RollbackMachine.hpp"
+#include "Inputs/DelayInput.hpp"
 #include <Inputs/RemoteInput.hpp>
 #include <Scenes/InGame.hpp>
 
@@ -14,9 +15,12 @@ namespace SpiralOfFate
 {
 	class NetworkInGame : public InGame {
 	protected:
+		DelayInput *_leftDInput;
+		DelayInput *_rightDInput;
 		RollbackMachine _rMachine;
 		std::shared_ptr<RemoteInput> _input;
 #ifdef _DEBUG
+		unsigned _currentFrame = 0;
 		bool _displayInputs = false;
 		Character *_leftChr;
 		Character *_rightChr;
