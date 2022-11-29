@@ -94,7 +94,7 @@ namespace SpiralOfFate
 			if (event.key.code == sf::Keyboard::F2)
 				this->_leftChr->showAttributes = this->_rightChr->showAttributes = !this->_rightChr->showAttributes;
 			if (event.key.code == sf::Keyboard::F3)
-				this->_leftChr->showAttributes = this->_rightChr->showBoxes = !this->_rightChr->showBoxes;
+				this->_leftChr->showBoxes = this->_rightChr->showBoxes = !this->_rightChr->showBoxes;
 			if (event.key.code == sf::Keyboard::F4)
 				this->_displayInputs = !this->_displayInputs;
 		}

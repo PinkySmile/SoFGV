@@ -10,7 +10,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 2105856,
+                    "defense_flag": 8704,
                     "duration": 10000,
                     "hurt_boxes": [
                         {
@@ -229,6 +229,7 @@
                         }
                     ],
                     "offense_flag": 67108864,
+                    "rotation": 0.2800000002026108,
                     "size": {
                         "x": 120,
                         "y": 212
@@ -300,7 +301,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 2097152,
+                    "defense_flag": 2105344,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -413,7 +414,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 2097153,
+                    "defense_flag": 2105345,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -820,7 +821,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 20488,
+                    "defense_flag": 2117640,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -919,7 +920,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 20488,
+                    "defense_flag": 2117640,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -1018,7 +1019,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 20488,
+                    "defense_flag": 2117640,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -1117,7 +1118,7 @@
                         "top": -168,
                         "width": 38
                     },
-                    "defense_flag": 768,
+                    "defense_flag": 8960,
                     "duration": 10000,
                     "hurt_boxes": [
                         {
