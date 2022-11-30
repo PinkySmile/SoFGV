@@ -190,6 +190,7 @@ namespace SpiralOfFate
 		auto &ricon = rentry.icon[this->p2pal];
 		auto &stageObj = scene->_stages[this->stage];
 
+		game->sceneMutex.lock();
 		scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
 		scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
 		game->connection->nextGame();
@@ -206,6 +207,7 @@ namespace SpiralOfFate
 			lentry.entry,
 			rentry.entry
 		));
+		game->sceneMutex.unlock();
 	}
 
 	void ClientConnection::reportChecksum(unsigned int checksum)

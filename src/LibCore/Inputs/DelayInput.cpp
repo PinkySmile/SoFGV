@@ -59,9 +59,9 @@ namespace SpiralOfFate
 	void DelayInput::setDelay(unsigned int delay)
 	{
 		this->_delay = delay;
-		while (delay < this->_delayBuffer.size())
+		while (this->_delay < this->_delayBuffer.size())
 			this->_delayBuffer.pop_front();
-		while (delay > this->_delayBuffer.size())
+		while (this->_delay > this->_delayBuffer.size())
 			this->_delayBuffer.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0});
 	}
 

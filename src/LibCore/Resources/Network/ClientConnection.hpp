@@ -38,6 +38,7 @@ namespace SpiralOfFate
 
 	public:
 		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
+		std::function<void (PacketGameStart &packet)> onGameStart;
 
 		ClientConnection(const std::string &name);
 
