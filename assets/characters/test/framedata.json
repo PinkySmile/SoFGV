@@ -5060,6 +5060,10 @@
                         "width": 40
                     },
                     "defense_flag": 256,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.75
+                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5090,6 +5094,10 @@
                     },
                     "defense_flag": 256,
                     "duration": 4,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.75
+                    },
                     "hurt_boxes": [
                         {
                             "height": 188,
@@ -5122,6 +5130,10 @@
                     },
                     "defense_flag": 256,
                     "duration": 30,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.75
+                    },
                     "hurt_boxes": [
                         {
                             "height": 176,
