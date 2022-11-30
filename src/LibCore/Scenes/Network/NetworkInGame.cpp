@@ -50,8 +50,8 @@ namespace SpiralOfFate
 
 		if (status == RollbackMachine::UPDATESTATUS_NO_INPUTS)
 			return nullptr;
-		this->_currentFrame++;
 #ifdef _DEBUG
+		this->_currentFrame++;
 		my_assert_eq(this->_currentFrame, game->connection->_currentFrame);
 #endif
 
