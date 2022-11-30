@@ -37,6 +37,8 @@
 #define FCT_NAME __func__
 #endif
 
+#define HARDCODED_CURRENT_DELAY 2
+
 #define my_assert(_Expression)                                                                 \
 	do {                                                                                   \
 		if (_Expression);                                                              \

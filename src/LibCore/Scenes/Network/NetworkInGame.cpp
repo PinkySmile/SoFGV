@@ -52,7 +52,7 @@ namespace SpiralOfFate
 			return nullptr;
 #ifdef _DEBUG
 		this->_currentFrame++;
-		my_assert_eq(this->_currentFrame, game->connection->_currentFrame);
+		my_assert(this->_currentFrame <= game->connection->_currentFrame + HARDCODED_CURRENT_DELAY);
 #endif
 
 		if (this->_moveList) {
