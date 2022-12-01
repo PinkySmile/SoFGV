@@ -251,4 +251,14 @@ namespace SpiralOfFate
 		this->_realInputLeft->consumeEvent(event);
 		this->_realInputRight->consumeEvent(event);
 	}
+
+	size_t RollbackMachine::getBufferSize() const
+	{
+		return this->_savedData.size();
+	}
+
+	size_t RollbackMachine::getMaxBufferSize() const
+	{
+		return MAX_ROLLBACK;
+	}
 }

@@ -26,6 +26,8 @@ namespace SpiralOfFate
 		void flush(unsigned delay);
 		void fillBuffer();
 		void consumeEvent(const sf::Event &event) override;
+		unsigned getDelay() const;
+		size_t getBufferSize() const;
 	};
 }
 

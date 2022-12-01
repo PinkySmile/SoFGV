@@ -58,6 +58,8 @@ namespace SpiralOfFate
 		UpdateStatus update(bool useP1Inputs, bool useP2Inputs);
 		void debugRollback();
 		void consumeEvent(const sf::Event &event);
+		size_t getBufferSize() const;
+		size_t getMaxBufferSize() const;
 	};
 }
 

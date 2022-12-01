@@ -90,4 +90,14 @@ namespace SpiralOfFate
 			this->_delayBuffer.push_back(this->_input->getInputs());
 		}
 	}
+
+	unsigned DelayInput::getDelay() const
+	{
+		return this->_delay;
+	}
+
+	size_t DelayInput::getBufferSize() const
+	{
+		return this->_delayBuffer.size();
+	}
 }

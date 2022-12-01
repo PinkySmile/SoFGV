@@ -42,9 +42,7 @@ namespace SpiralOfFate
 		);
 		IScene *update() override;
 		void consumeEvent(const sf::Event &event) override;
-#ifdef _DEBUG
 		void render() const override;
-#endif
 	};
 }
 
