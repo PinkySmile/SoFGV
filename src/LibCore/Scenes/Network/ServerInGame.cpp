@@ -6,6 +6,7 @@
 #include "Resources/Game.hpp"
 #include "Scenes/CharacterSelect.hpp"
 #include "ServerCharacterSelect.hpp"
+#include "Resources/Network/ServerConnection.hpp"
 
 namespace SpiralOfFate
 {
@@ -25,7 +26,9 @@ namespace SpiralOfFate
 	{
 	}
 
-	void ServerInGame::_onGameEnd() {
+	void ServerInGame::_onGameEnd()
+	{
+		reinterpret_cast<ServerConnection *>(&*game->connection)->switchMenu(2, false);
 		this->_nextScene = new ServerCharacterSelect(
 			game->battleMgr->getLeftCharacter()->index & 0xFFFF,
 			game->battleMgr->getRightCharacter()->index & 0xFFFF,

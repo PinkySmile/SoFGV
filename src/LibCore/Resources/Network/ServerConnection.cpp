@@ -153,7 +153,7 @@ namespace SpiralOfFate
 		this->_states.clear();
 		if (lock)
 			game->sceneMutex.lock();
-		if (id == 2)
+		if (id == 2 && lock)
 			game->scene.reset(new ServerCharacterSelect());
 		else if (id == 1) {
 			auto scene = reinterpret_cast<ServerCharacterSelect *>(&*game->scene);
