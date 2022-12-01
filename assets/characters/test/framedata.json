@@ -12219,7 +12219,6 @@
                             "width": 79
                         }
                     ],
-                    "matter_limit": 35,
                     "offense_flag": 2594,
                     "offset": {
                         "x": 40,
@@ -16147,7 +16146,7 @@
                         "width": 34
                     },
                     "defense_flag": 24833,
-                    "duration": 7,
+                    "duration": 17,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -16245,7 +16244,7 @@
                     },
                     "prorate": 98.0,
                     "push_block": 1,
-                    "rotation": 46.20000181686906,
+                    "rotation": 47.32000227302545,
                     "size": {
                         "x": 104,
                         "y": 192
@@ -16337,7 +16336,7 @@
                     },
                     "prorate": 98.0,
                     "push_block": 1,
-                    "rotation": 40.59999710757542,
+                    "rotation": 49.560003185338225,
                     "size": {
                         "x": 104,
                         "y": 192
@@ -16424,7 +16423,7 @@
                     },
                     "prorate": 98.0,
                     "push_block": 1,
-                    "rotation": 36.12000013997328,
+                    "rotation": 40.59999710757542,
                     "size": {
                         "x": 104,
                         "y": 192
@@ -16621,7 +16620,7 @@
                         "width": 34
                     },
                     "defense_flag": 8449,
-                    "duration": 4,
+                    "duration": 14,
                     "hurt_boxes": [
                         {
                             "height": 193,
@@ -16655,7 +16654,7 @@
                         "width": 34
                     },
                     "defense_flag": 532737,
-                    "duration": 4,
+                    "duration": 14,
                     "hurt_boxes": [
                         {
                             "height": 193,
@@ -17206,7 +17205,7 @@
                         "width": 39
                     },
                     "defense_flag": 8,
-                    "duration": 9,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 27,
@@ -17253,7 +17252,7 @@
                         "width": 43
                     },
                     "defense_flag": 2187264,
-                    "duration": 9,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 61,
@@ -17896,7 +17895,7 @@
                         "width": 39
                     },
                     "defense_flag": 16384,
-                    "duration": 7,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -18051,7 +18050,7 @@
                     },
                     "damage": 500,
                     "defense_flag": 16640,
-                    "duration": 7,
+                    "duration": 12,
                     "hit_speed": {
                         "x": 1,
                         "y": 2
@@ -18238,7 +18237,7 @@
                         "top": -150,
                         "width": 42
                     },
-                    "duration": 10,
+                    "duration": 15,
                     "hurt_boxes": [
                         {
                             "height": 200,
@@ -18624,7 +18623,7 @@
                         "width": 41
                     },
                     "defense_flag": 2113792,
-                    "duration": 7,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -18849,7 +18848,7 @@
                     "duration": 60,
                     "gravity": {
                         "x": 0.0,
-                        "y": -0.800000011920929
+                        "y": -0.6000000238418579
                     },
                     "hurt_boxes": [
                         {
