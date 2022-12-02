@@ -324,6 +324,8 @@ namespace SpiralOfFate
 			if (this->_nextExpectedFrame == packet.frameId + i) {
 				this->_nextExpectedFrame++;
 				this->_sendMutex.lock();
+				if (packet.gameId != this->_gameId)
+					return this->_sendMutex.unlock();
 				this->_buffer.push_back(packet.inputs[i]);
 				this->_sendMutex.unlock();
 			}
@@ -459,8 +461,8 @@ namespace SpiralOfFate
 
 	void Connection::nextGame()
 	{
-		this->_gameId++;
 		this->_sendMutex.lock();
+		this->_gameId++;
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
