@@ -12224,7 +12224,7 @@
                         "x": 40,
                         "y": -1
                     },
-                    "prorate": 92.0,
+                    "prorate": 95.0,
                     "push_back": 6,
                     "push_block": 8,
                     "size": {
@@ -12293,7 +12293,6 @@
                         "x": 122,
                         "y": 254
                     },
-                    "sound": "assets/sfxs/se/alice/021.wav",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 127,
@@ -16110,7 +16109,7 @@
                         "top": -166,
                         "width": 34
                     },
-                    "defense_flag": 24833,
+                    "defense_flag": 24832,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -16145,7 +16144,7 @@
                         "top": -166,
                         "width": 34
                     },
-                    "defense_flag": 24833,
+                    "defense_flag": 24832,
                     "duration": 17,
                     "hurt_boxes": [
                         {
@@ -16244,7 +16243,7 @@
                     },
                     "prorate": 98.0,
                     "push_block": 1,
-                    "rotation": 47.32000227302545,
+                    "rotation": 47.32000713004886,
                     "size": {
                         "x": 104,
                         "y": 192
