@@ -28,6 +28,7 @@
 #include "Scenes/Network/SyncTestInGame.hpp"
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
+#include "LoadingScene.hpp"
 
 #define THRESHOLD 50
 
@@ -97,9 +98,6 @@ namespace SpiralOfFate
 		_P1(std::move(P1)),
 		_P2(std::move(P2))
 	{
-		sf::View view{{0, 0, 1680, 960}};
-
-		game->screen->setView(view);
 		game->logger.info("Title scene created");
 		this->_titleBg.textureHandle = game->textureMgr.load("assets/ui/titlebackground.png");
 		this->_titleLogo.textureHandle = game->textureMgr.load("assets/ui/title.png");
@@ -138,6 +136,9 @@ namespace SpiralOfFate
 
 	void TitleScreen::render() const
 	{
+		sf::View view{{0, 0, 1680, 960}};
+
+		game->screen->setView(view);
 		game->textureMgr.render(this->_titleBg);
 		game->textureMgr.render(this->_titleSpiral);
 		game->textureMgr.render(this->_titleLogo);
@@ -284,24 +285,36 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onInputsChosen()
 	{
+		auto tmp = game->scene; // This should be us
+
 		if (this->_leftInput > 1)
 			this->_P1.second->setJoystickId(this->_leftInput - 2);
 		if (this->_rightInput > 1)
 			this->_P2.second->setJoystickId(this->_rightInput - 2);
 		switch (this->_menuObject.getSelectedItem()) {
 		case PLAY_BUTTON:
-			this->_nextScene = new CharacterSelect(
-				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
-				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
-				createInGameSceneIScene
-			);
+			this->_nextScene = new LoadingScene([tmp](LoadingScene *me){
+				auto *This = reinterpret_cast<TitleScreen *>(&*tmp);
+
+				me->setStatus("Loading assets...");
+				return new CharacterSelect(
+					This->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P1.first) : static_cast<std::shared_ptr<IInput>>(This->_P1.second),
+					This->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P2.first) : static_cast<std::shared_ptr<IInput>>(This->_P2.second),
+					createInGameSceneIScene
+				);
+			});
 			break;
 		case PRACTICE_BUTTON:
-			this->_nextScene = new CharacterSelect(
-				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
-				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
-				createPracticeInGameSceneIScene
-			);
+			this->_nextScene = new LoadingScene([tmp](LoadingScene *me){
+				auto *This = reinterpret_cast<TitleScreen *>(&*tmp);
+
+				me->setStatus("Loading assets...");
+				return new CharacterSelect(
+					This->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P1.first) : static_cast<std::shared_ptr<IInput>>(This->_P1.second),
+					This->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P2.first) : static_cast<std::shared_ptr<IInput>>(This->_P2.second),
+					createPracticeInGameSceneIScene
+				);
+			});
 			break;
 		case HOST_BUTTON:
 			this->_chooseSpecCount = true;
@@ -310,11 +323,16 @@ namespace SpiralOfFate
 			this->_connect();
 			break;
 		case SYNC_TEST_BUTTON:
-			this->_nextScene = new CharacterSelect(
-				this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second),
-				this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P2.first) : static_cast<std::shared_ptr<IInput>>(this->_P2.second),
-				createSyncTestInGameSceneIScene
-			);
+			this->_nextScene = new LoadingScene([tmp](LoadingScene *me){
+				auto *This = reinterpret_cast<TitleScreen *>(&*tmp);
+
+				me->setStatus("Loading assets...");
+				return new CharacterSelect(
+					This->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P1.first) : static_cast<std::shared_ptr<IInput>>(This->_P1.second),
+					This->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(This->_P2.first) : static_cast<std::shared_ptr<IInput>>(This->_P2.second),
+					createSyncTestInGameSceneIScene
+				);
+			});
 			break;
 		}
 	}
@@ -351,8 +369,6 @@ namespace SpiralOfFate
 
 	bool TitleScreen::_onJoystickMoved(sf::Event::JoystickMoveEvent ev)
 	{
-		auto old = this->_oldStickValues[ev.joystickId][ev.axis];
-
 		this->_oldStickValues[ev.joystickId][ev.axis] = ev.position;
 		if (this->_changeInput && this->_changingInputs) {
 			if (!this->_latestJoystickId)

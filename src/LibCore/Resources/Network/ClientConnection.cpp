@@ -68,18 +68,36 @@ namespace SpiralOfFate
 			return this->_send(remote, &error, sizeof(error));
 		}
 
-		PacketMenuSwitch menuSwitch{2};
 
-		if (this->_currentMenu != 2) {
+		if (this->_currentMenu != MENUSTATE_LOADING_CHARSELECT && this->_currentMenu != MENUSTATE_CHARSELECT) {
 			remote.connectPhase = 1;
 			this->_opponent = &remote;
-			this->_currentMenu = 2;
-			this->_opCurrentMenu = 2;
+			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
+			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
 			game->sceneMutex.lock();
-			game->scene.reset(new ClientCharacterSelect());
+			game->scene.reset(new LoadingScene([this](LoadingScene *me){
+				me->setStatus("Loading assets...");
+				auto result = new ClientCharacterSelect();
+				int i = 0;
+				PacketMenuSwitch menuSwitch{MENUSTATE_CHARSELECT};
+
+				this->_currentMenu = MENUSTATE_CHARSELECT;
+				me->setStatus("Waiting for opponent to finish loading...");
+				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT) {
+					if (i % 20 == 0)
+						this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+					i++;
+					std::this_thread::sleep_for(std::chrono::milliseconds(5));
+				}
+				return result;
+			}));
 			game->sceneMutex.unlock();
 		}
+
+		PacketMenuSwitch menuSwitch{this->_currentMenu};
+
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 	}
 
@@ -102,32 +120,46 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
-		if (packet.menuId == 1)
+		this->_opCurrentMenu = packet.menuId;
+		if (packet.menuId == MENUSTATE_INGAME || packet.menuId == MENUSTATE_LOADING_INGAME)
 			return;
 
-		PacketMenuSwitch pack{packet.menuId};
+		auto menu = this->_currentMenu;
+
+		if (menu > MENUSTATE_LOADING_OFFSET)
+			menu -= MENUSTATE_LOADING_OFFSET;
+		if (menu == packet.menuId || menu + MENUSTATE_LOADING_OFFSET == packet.menuId)
+			return;
+
+		PacketMenuSwitch pack{packet.menuId + MENUSTATE_LOADING_OFFSET};
 
 		this->_send(remote, &pack, sizeof(pack));
-		this->_opCurrentMenu = packet.menuId;
-		if (this->_currentMenu == packet.menuId)
-			return;
+		if (packet.menuId == MENUSTATE_CHARSELECT || packet.menuId == MENUSTATE_LOADING_CHARSELECT) {
+			auto restore = this->_currentMenu == MENUSTATE_INGAME || this->_currentMenu == MENUSTATE_LOADING_INGAME;
 
-		if (packet.menuId == 2) {
+			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			game->sceneMutex.lock();
-			if (this->_currentMenu == 1)
-				game->scene.reset(new ClientCharacterSelect(
-					game->battleMgr->getLeftCharacter()->index & 0xFFFF,
-					game->battleMgr->getRightCharacter()->index & 0xFFFF,
-					game->battleMgr->getLeftCharacter()->index >> 16,
-					game->battleMgr->getRightCharacter()->index >> 16,
-					//TODO: Save the stage and platform config properly
-					0, 0
-				));
-			else
-				game->scene.reset(new ClientCharacterSelect());
+			game->scene.reset(new LoadingScene([this, restore](LoadingScene *me){
+				me->setStatus("Loading assets...");
+				auto result = restore ?
+					new ClientCharacterSelect(this->p1chr, this->p2chr, this->p1pal, this->p2pal, this->stage, this->platformConfig) :
+					new ClientCharacterSelect();
+				int i = 0;
+				PacketMenuSwitch menuSwitch{MENUSTATE_CHARSELECT};
+
+				this->_currentMenu = MENUSTATE_CHARSELECT;
+				me->setStatus("Waiting for opponent to finish loading...");
+				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT) {
+					if (i % 20 == 0)
+						this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+					i++;
+					std::this_thread::sleep_for(std::chrono::milliseconds(5));
+				}
+				return result;
+			}));
 			game->sceneMutex.unlock();
 		}
-		this->_currentMenu = packet.menuId;
 	}
 
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
@@ -166,13 +198,14 @@ namespace SpiralOfFate
 			this->_send(remote, &error, sizeof(error));
 		}
 
-		PacketMenuSwitch menuSwitch{1};
+		this->_opCurrentMenu = MENUSTATE_LOADING_INGAME;
+		if (this->_currentMenu == MENUSTATE_LOADING_INGAME || this->_currentMenu == MENUSTATE_INGAME) {
+			PacketMenuSwitch menuSwitch{this->_currentMenu};
 
-		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-		this->_opCurrentMenu = 1;
-		if (this->_currentMenu == 1)
+			this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 			return;
-		this->_currentMenu = 1;
+		}
+		this->_currentMenu = MENUSTATE_LOADING_INGAME;
 		this->seed = packet.seed;
 		this->p1chr = packet.p1chr;
 		this->p1pal = packet.p1pal;
@@ -181,32 +214,54 @@ namespace SpiralOfFate
 		this->stage = packet.stage;
 		this->platformConfig = packet.platformConfig;
 
-		auto scene = reinterpret_cast<ClientCharacterSelect *>(&*game->scene);
-		auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
-		auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
-		auto &lentry = scene->_entries[this->p1chr];
-		auto &rentry = scene->_entries[this->p2chr];
-		auto &licon = lentry.icon[this->p1pal];
-		auto &ricon = rentry.icon[this->p2pal];
-		auto &stageObj = scene->_stages[this->stage];
+		PacketMenuSwitch menuSwitch{this->_currentMenu};
+		auto tmp = game->scene;
 
+		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		game->sceneMutex.lock();
-		scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
-		scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
-		game->connection->nextGame();
-		game->battleRandom.seed(this->seed);
-		game->scene.reset(new ClientInGame(
-			scene->_remoteRealInput,
-			{static_cast<unsigned>(this->stage), 0, static_cast<unsigned>(this->platformConfig)},
-			stageObj.platforms[scene->_platform],
-			stageObj,
-			lchr,
-			rchr,
-			licon.textureHandle,
-			ricon.textureHandle,
-			lentry.entry,
-			rentry.entry
-		));
+		game->scene.reset(new LoadingScene([this, tmp](LoadingScene *me){
+			auto scene = reinterpret_cast<ClientCharacterSelect *>(&*tmp);
+			me->setStatus("Loading P1's character (" + scene->_entries[this->p1chr].name + ")");
+			auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
+			me->setStatus("Loading P2's character (" + scene->_entries[this->p2chr].name + ")");
+			auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
+			auto &lentry = scene->_entries[this->p1chr];
+			auto &rentry = scene->_entries[this->p2chr];
+			auto &licon = lentry.icon[this->p1pal];
+			auto &ricon = rentry.icon[this->p2pal];
+			auto &stageObj = scene->_stages[this->stage];
+			int i = 0;
+
+			scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
+			scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
+			game->connection->nextGame();
+			game->battleRandom.seed(this->seed);
+			me->setStatus("Creating scene...");
+			auto result = new ClientInGame(
+				scene->_remoteRealInput,
+				{static_cast<unsigned>(this->stage), 0, static_cast<unsigned>(this->platformConfig)},
+				stageObj.platforms[scene->_platform],
+				stageObj,
+				lchr,
+				rchr,
+				licon.textureHandle,
+				ricon.textureHandle,
+				lentry.entry,
+				rentry.entry
+			);
+			PacketMenuSwitch menuSwitch{MENUSTATE_INGAME};
+
+			this->_currentMenu = MENUSTATE_INGAME;
+			me->setStatus("Waiting for opponent to finish loading...");
+			this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+			while (this->_opCurrentMenu != MENUSTATE_INGAME) {
+				if (i % 20 == 0)
+					this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+				i++;
+				std::this_thread::sleep_for(std::chrono::milliseconds(5));
+			}
+			return result;
+		}));
 		game->sceneMutex.unlock();
 	}
 

@@ -244,6 +244,8 @@ void	run()
 		SpiralOfFate::game->sceneMutex.lock();
 		SpiralOfFate::IScene *newScene = SpiralOfFate::game->scene->update();
 
+		if (newScene)
+			SpiralOfFate::game->scene.reset(newScene);
 		SpiralOfFate::game->screen->clear(sf::Color::White);
 		SpiralOfFate::game->scene->render();
 		SpiralOfFate::game->screen->display();
@@ -253,8 +255,6 @@ void	run()
 				SpiralOfFate::game->screen->close();
 			SpiralOfFate::game->scene->consumeEvent(event);
 		}
-		if (newScene)
-			SpiralOfFate::game->scene.reset(newScene);
 		SpiralOfFate::game->sceneMutex.unlock();
 	}
 	saveSettings();

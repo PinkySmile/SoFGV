@@ -121,63 +121,81 @@ namespace SpiralOfFate
 		return chr;
 	}
 
-	InGame *CharacterSelect::_launchGame()
+	LoadingScene *CharacterSelect::_launchGame()
 	{
 		if (!this->_sceneCreator)
 			return nullptr;
 
-		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
-		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
+		auto tmp = game->scene;
 
-		if (this->_stage == -1) {
-			this->_platform = -1;
-			this->_stage = dist2(game->battleRandom);
-		}
+		return new LoadingScene([tmp](LoadingScene *me) {
+			auto *This = reinterpret_cast<CharacterSelect *>(&*tmp);
 
-		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
-		auto &stage = this->_stages[this->_stage];
+			me->setStatus("Preparing state...");
+			std::uniform_int_distribution<size_t> dist{0, This->_entries.size() - 1};
+			std::uniform_int_distribution<size_t> dist2{0, This->_stages.size() - 1};
 
-		if (this->_platform == -1)
-			this->_platform = dist3(game->battleRandom);
-		if (this->_leftPos < 0)
-			this->_leftPalette = 0;
-		if (this->_rightPos < 0)
-			this->_rightPalette = 0;
-		if (this->_leftPos < 0)
-			this->_leftPos = dist(game->random);
-		if (this->_rightPos < 0)
-			this->_rightPos = dist(game->random);
-		if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() <= 1) {
-			this->_leftPalette = 0;
-			this->_rightPalette = 0;
-		} else if (this->_leftPos == this->_rightPos && this->_entries[this->_leftPos].palettes.size() == 2 && this->_leftPalette == this->_rightPalette) {
-			this->_leftPalette = 0;
-			this->_rightPalette = 1;
-		}
-		if (this->_leftPos == this->_rightPos && this->_leftPalette == this->_rightPalette && this->_entries[this->_leftPos].palettes.size() > 1) {
-			this->_rightPalette++;
-			this->_rightPalette %= this->_entries[this->_leftPos].palettes.size();
-		}
-		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
+			if (This->_stage == -1) {
+				This->_platform = -1;
+				This->_stage = dist2(game->battleRandom);
+			}
 
-		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
-		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
-		auto &lentry = this->_entries[this->_leftPos];
-		auto &rentry = this->_entries[this->_rightPos];
-		auto &licon = lentry.icon[this->_leftPalette];
-		auto &ricon = rentry.icon[this->_rightPalette];
+			std::uniform_int_distribution<size_t> dist3{0, This->_stages[This->_stage].platforms.size() - 1};
+			auto &stage = This->_stages[This->_stage];
 
-		return this->_sceneCreator(
-			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
-			stage.platforms[this->_platform],
-			stage,
-			lchr,
-			rchr,
-			licon.textureHandle,
-			ricon.textureHandle,
-			lentry.entry,
-			rentry.entry
-		);
+			if (This->_platform == -1)
+				This->_platform = dist3(game->battleRandom);
+			if (This->_leftPos < 0)
+				This->_leftPalette = 0;
+			if (This->_rightPos < 0)
+				This->_rightPalette = 0;
+			if (This->_leftPos < 0)
+				This->_leftPos = dist(game->random);
+			if (This->_rightPos < 0)
+				This->_rightPos = dist(game->random);
+			if (This->_leftPos == This->_rightPos && This->_entries[This->_leftPos].palettes.size() <= 1) {
+				This->_leftPalette = 0;
+				This->_rightPalette = 0;
+			} else if (
+				This->_leftPos == This->_rightPos &&
+				This->_entries[This->_leftPos].palettes.size() == 2 &&
+				This->_leftPalette == This->_rightPalette
+			) {
+				This->_leftPalette = 0;
+				This->_rightPalette = 1;
+			}
+			if (
+				This->_leftPos == This->_rightPos &&
+				This->_leftPalette == This->_rightPalette &&
+				This->_entries[This->_leftPos].palettes.size() > 1
+			) {
+				This->_rightPalette++;
+				This->_rightPalette %= This->_entries[This->_leftPos].palettes.size();
+			}
+			game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
+
+			me->setStatus("Loading P1's character (" + This->_entries[This->_leftPos].name + ")");
+			auto lchr = This->_createCharacter(This->_leftPos, This->_leftPalette, This->_leftInput);
+			me->setStatus("Loading P2's character (" + This->_entries[This->_rightPos].name + ")");
+			auto rchr = This->_createCharacter(This->_rightPos, This->_rightPalette, This->_rightInput);
+			auto &lentry = This->_entries[This->_leftPos];
+			auto &rentry = This->_entries[This->_rightPos];
+			auto &licon = lentry.icon[This->_leftPalette];
+			auto &ricon = rentry.icon[This->_rightPalette];
+
+			me->setStatus("Creating scene...");
+			return This->_sceneCreator(
+				{static_cast<unsigned>(This->_stage), 0, static_cast<unsigned>(This->_platform)},
+				stage.platforms[This->_platform],
+				stage,
+				lchr,
+				rchr,
+				licon.textureHandle,
+				ricon.textureHandle,
+				lentry.entry,
+				rentry.entry
+			);
+		});
 	}
 
 	void CharacterSelect::_selectCharacterRender() const

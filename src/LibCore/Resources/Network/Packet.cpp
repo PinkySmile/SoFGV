@@ -37,8 +37,8 @@ namespace SpiralOfFate
 
 	std::string PacketHello::toString() const
 	{
-		return "Packet HELLO: magic " + std::to_string(this->magic) + " "
-			"targetIp " + std::to_string(((unsigned char *)&this->targetIp)[0]) +
+		return "Packet HELLO: magic " + std::to_string(this->magic) +
+			" targetIp " + std::to_string(((unsigned char *)&this->targetIp)[0]) +
 			"." + std::to_string(((unsigned char *)&this->targetIp)[1]) +
 			"." + std::to_string(((unsigned char *)&this->targetIp)[2]) +
 			"." + std::to_string(((unsigned char *)&this->targetIp)[3]) +
@@ -78,13 +78,13 @@ namespace SpiralOfFate
 	std::string PacketGameStart::toString() const
 	{
 		return "Packet GAMESTART"
-		       "seed" + std::to_string(this->seed) +
-		       "p1chr" + std::to_string(this->p1chr) +
-		       "p1pal" + std::to_string(this->p1pal) +
-		       "p2chr" + std::to_string(this->p2chr) +
-		       "p2pal" + std::to_string(this->p2pal) +
-		       "stage" + std::to_string(this->stage) +
-		       "platformConfig" + std::to_string(this->platformConfig);
+		       " seed" + std::to_string(this->seed) +
+		       " p1chr" + std::to_string(this->p1chr) +
+		       " p1pal" + std::to_string(this->p1pal) +
+		       " p2chr" + std::to_string(this->p2chr) +
+		       " p2pal" + std::to_string(this->p2pal) +
+		       " stage" + std::to_string(this->stage) +
+		       " platformConfig" + std::to_string(this->platformConfig);
 	}
 
 	PacketRedirect::PacketRedirect(unsigned targetIp, unsigned targetPort) :

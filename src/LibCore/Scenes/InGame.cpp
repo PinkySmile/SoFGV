@@ -53,8 +53,6 @@ namespace SpiralOfFate
 		_random(game->battleRandom),
 		_params(params)
 	{
-		sf::View view{{-50, -600, 1100, 700}};
-
 		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
 		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
 		this->_moveSprites[SPRITE_4].loadFromFile("assets/icons/inputs/4.png");
@@ -74,7 +72,6 @@ namespace SpiralOfFate
 		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
 		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
 		game->logger.info("InGame scene created");
-		SpiralOfFate::game->screen->setView(view);
 	}
 
 	InGame::InGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson, bool goBackToTitle) :
@@ -139,6 +136,9 @@ namespace SpiralOfFate
 
 	void InGame::render() const
 	{
+		sf::View view{{-50, -600, 1100, 700}};
+
+		game->screen->setView(view);
 		game->battleMgr->render();
 		if (this->_moveList) {
 			auto linput = game->battleMgr->getLeftCharacter();

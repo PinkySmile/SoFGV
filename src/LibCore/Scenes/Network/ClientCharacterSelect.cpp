@@ -26,7 +26,7 @@ namespace SpiralOfFate
 		this->_rightInput = std::shared_ptr<IInput>(this->_localInput);
 	}
 
-	InGame *ClientCharacterSelect::_launchGame()
+	LoadingScene *ClientCharacterSelect::_launchGame()
 	{
 		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 		return nullptr;

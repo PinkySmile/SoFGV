@@ -13,6 +13,7 @@
 #include "Resources/FrameData.hpp"
 #include "Objects/Character.hpp"
 #include "InGame.hpp"
+#include "LoadingScene.hpp"
 
 namespace SpiralOfFate
 {
@@ -81,7 +82,7 @@ namespace SpiralOfFate
 		bool _selectingStage = false;
 
 		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
-		virtual InGame *_launchGame();
+		virtual LoadingScene *_launchGame();
 		void _selectCharacterRender() const;
 		void _selectStageRender() const;
 		IScene *_selectCharacterUpdate();

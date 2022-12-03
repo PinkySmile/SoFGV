@@ -162,7 +162,7 @@ add_library(
 	src/LibCore/Scenes/Menu.hpp
 	src/LibCore/Scenes/MenuItem.cpp
 	src/LibCore/Scenes/MenuItem.hpp
-)
+	src/LibCore/Scenes/LoadingScene.cpp src/LibCore/Scenes/LoadingScene.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 
 if (WIN32)

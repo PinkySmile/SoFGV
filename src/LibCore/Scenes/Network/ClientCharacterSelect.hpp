@@ -15,7 +15,7 @@ namespace SpiralOfFate
 {
 	class ClientCharacterSelect : public NetworkCharacterSelect {
 	protected:
-		InGame *_launchGame() override;
+		LoadingScene *_launchGame() override;
 
 	public:
 		ClientCharacterSelect();

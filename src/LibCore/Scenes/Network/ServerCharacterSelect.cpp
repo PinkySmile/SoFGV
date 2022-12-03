@@ -25,7 +25,7 @@ namespace SpiralOfFate
 		this->_rightInput = std::shared_ptr<IInput>(this->_remoteInput);
 	}
 
-	InGame *ServerCharacterSelect::_launchGame()
+	LoadingScene *ServerCharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};

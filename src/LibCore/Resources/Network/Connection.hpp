@@ -15,6 +15,15 @@
 #include "Inputs/InputEnum.hpp"
 #include "IConnection.hpp"
 
+enum MenuStates {
+	MENUSTATE_NOMENU,
+	MENUSTATE_CHARSELECT,
+	MENUSTATE_INGAME,
+	MENUSTATE_LOADING_CHARSELECT,
+	MENUSTATE_LOADING_INGAME,
+};
+#define MENUSTATE_LOADING_OFFSET (MENUSTATE_LOADING_CHARSELECT - MENUSTATE_CHARSELECT)
+
 namespace SpiralOfFate
 {
 	class Connection : public IConnection {

@@ -25,6 +25,7 @@ namespace SpiralOfFate
 		unsigned int stage;
 		unsigned int platformConfig;
 
+		void _checkOpponentState();
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
@@ -44,6 +45,7 @@ namespace SpiralOfFate
 		ServerConnection(const std::string &name);
 		~ServerConnection();
 
+		class LoadingScene *getChrLoadingScreen();
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
 		void reportChecksum(unsigned checksum);
 		void switchMenu(unsigned id, bool lock = true);

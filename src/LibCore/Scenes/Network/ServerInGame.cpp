@@ -5,7 +5,6 @@
 #include "ServerInGame.hpp"
 #include "Resources/Game.hpp"
 #include "Scenes/CharacterSelect.hpp"
-#include "ServerCharacterSelect.hpp"
 #include "Resources/Network/ServerConnection.hpp"
 
 namespace SpiralOfFate
@@ -28,14 +27,9 @@ namespace SpiralOfFate
 
 	void ServerInGame::_onGameEnd()
 	{
-		reinterpret_cast<ServerConnection *>(&*game->connection)->switchMenu(2, false);
-		this->_nextScene = new ServerCharacterSelect(
-			game->battleMgr->getLeftCharacter()->index & 0xFFFF,
-			game->battleMgr->getRightCharacter()->index & 0xFFFF,
-			game->battleMgr->getLeftCharacter()->index >> 16,
-			game->battleMgr->getRightCharacter()->index >> 16,
-			//TODO: Save the stage and platform config properly
-			0, 0
-		);
+		auto conn = reinterpret_cast<ServerConnection *>(&*game->connection);
+
+		conn->switchMenu(MENUSTATE_CHARSELECT, false);
+		this->_nextScene = conn->getChrLoadingScreen();
 	}
 }
