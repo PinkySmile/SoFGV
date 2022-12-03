@@ -1098,7 +1098,7 @@ namespace SpiralOfFate
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (this->_jumpCanceled && !data.oFlag.cancelable && (
+		if (this->_jumpCanceled && !this->getCurrentFrameData()->oFlag.cancelable && (
 			this->_action == ACTION_NEUTRAL_JUMP ||
 			this->_action == ACTION_FORWARD_JUMP ||
 			this->_action == ACTION_BACKWARD_JUMP ||
@@ -1166,6 +1166,18 @@ namespace SpiralOfFate
 		if (action <= ACTION_WALK_BACKWARD || action == ACTION_FALLING || action == ACTION_LANDING)
 			return (action || this->_action != ACTION_LANDING) && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
+			return true;
+		if (!this->getCurrentFrameData()->dFlag.airborne && (
+			this->_action == ACTION_NEUTRAL_JUMP ||
+			this->_action == ACTION_FORWARD_JUMP ||
+			this->_action == ACTION_BACKWARD_JUMP ||
+			this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
+			this->_action == ACTION_FORWARD_HIGH_JUMP ||
+			this->_action == ACTION_BACKWARD_HIGH_JUMP ||
+			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+			this->_action == ACTION_FORWARD_AIR_JUMP ||
+			this->_action == ACTION_BACKWARD_AIR_JUMP
+		))
 			return true;
 		return false;
 	}
@@ -3218,7 +3230,8 @@ namespace SpiralOfFate
 			"Overdrive CD: %u/%u\n"
 			"SupersUsed %u\n"
 			"SkillsUsed %u\n"
-			"Normal flag: %x",
+			"NormalFlag: %x\n"
+			"JumpCancel: %s",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -3260,7 +3273,8 @@ namespace SpiralOfFate
 			this->_maxOdCooldown,
 			this->_supersUsed,
 			this->_skillsUsed,
-			this->_normalTreeFlag
+			this->_normalTreeFlag,
+			this->_jumpCanceled ? "true" : "false"
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});

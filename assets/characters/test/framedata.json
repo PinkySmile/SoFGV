@@ -964,7 +964,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 4104,
+                    "defense_flag": 8,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -974,7 +974,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -1062,7 +1061,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 4104,
+                    "defense_flag": 8,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -1078,7 +1077,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -1166,7 +1164,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 4104,
+                    "defense_flag": 8,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -1176,7 +1174,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -1264,7 +1261,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2117640,
+                    "defense_flag": 2113544,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -1274,7 +1271,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -1363,7 +1359,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2117640,
+                    "defense_flag": 2113544,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -1373,7 +1369,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -1462,7 +1457,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2117640,
+                    "defense_flag": 2113544,
                     "duration": 6,
                     "hurt_boxes": [
                         {
@@ -1472,7 +1467,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -5317,7 +5311,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2101256,
+                    "defense_flag": 2097160,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -5327,7 +5321,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -5415,7 +5408,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2101256,
+                    "defense_flag": 2097160,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -5431,7 +5424,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -5519,7 +5511,7 @@
                         "top": -136,
                         "width": 40
                     },
-                    "defense_flag": 2101256,
+                    "defense_flag": 2097160,
                     "duration": 5,
                     "hurt_boxes": [
                         {
@@ -5529,7 +5521,6 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 2048,
                     "size": {
                         "x": 48,
                         "y": 192
@@ -7328,7 +7319,6 @@
                             "width": 46
                         }
                     ],
-                    "offense_flag": 2048,
                     "offset": {
                         "x": 2,
                         "y": 0
@@ -7362,7 +7352,6 @@
                             "width": 79
                         }
                     ],
-                    "offense_flag": 2048,
                     "offset": {
                         "x": 2,
                         "y": 0
@@ -15618,7 +15607,8 @@
                         "left": 603,
                         "top": 407,
                         "width": 48
-                    }
+                    },
+                    "untech": 50
                 },
                 {
                     "collision_box": {
