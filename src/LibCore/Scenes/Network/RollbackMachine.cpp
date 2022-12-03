@@ -43,28 +43,6 @@ namespace SpiralOfFate
 			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
 				this->keyStates[i] = input.isPressed(static_cast<InputEnum>(i));
-#ifdef _DEBUG
-			std::string str = "RB: {";
-			const char *names[] = {
-				"ha",
-				"va",
-				"n",
-				"m",
-				"s",
-				"v",
-				"a",
-				"d",
-			};
-
-			for (unsigned i = 0; i < 8; i++) {
-				if (i)
-					str += ", ";
-				str += names[i];
-				str += this->keyStates[i] ? ":true" : ":false";
-			}
-			str += "}";
-			game->logger.debug(str);
-#endif
 			this->predicted = false;
 		} else {
 #if MAX_ROLLBACK == 0

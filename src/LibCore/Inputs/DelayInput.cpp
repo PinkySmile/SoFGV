@@ -29,30 +29,6 @@ namespace SpiralOfFate
 		this->_keyStates[INPUT_V] = input.v != 0;
 		this->_keyStates[INPUT_A] = input.a != 0;
 		this->_keyStates[INPUT_D] = input.d != 0;
-#ifdef _DEBUG
-		std::string str = "{";
-		const char *names[] = {
-			"left",
-			"right",
-			"up",
-			"down",
-			"n",
-			"m",
-			"s",
-			"v",
-			"a",
-			"d",
-		};
-
-		for (unsigned i = 0; i < INPUT_PAUSE - 1; i++) {
-			if (i)
-				str += ", ";
-			str += names[i];
-			str += ((int *)&input)[i] ? ":true" : ":false";
-		}
-		str += "}";
-		game->logger.debug(str);
-#endif
 		RollbackInput::update();
 	}
 
