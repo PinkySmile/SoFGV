@@ -1177,7 +1177,7 @@ namespace SpiralOfFate
 			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
 			this->_action == ACTION_FORWARD_AIR_JUMP ||
 			this->_action == ACTION_BACKWARD_AIR_JUMP
-		) && action < 100)
+		) && action >= 100)
 			return true;
 		return false;
 	}
