@@ -36,7 +36,9 @@ namespace SpiralOfFate
 		game->screen->fillColor();
 		game->screen->textSize(50);
 		game->screen->displayElement("Loading...", {0, 440}, 1680, Screen::ALIGN_CENTER);
+		this->_mutex.lock();
 		game->screen->displayElement(this->_status, {0, 490}, 1680, Screen::ALIGN_CENTER);
+		this->_mutex.unlock();
 		game->screen->borderColor();
 		game->screen->textSize(30);
 	}
@@ -58,6 +60,8 @@ namespace SpiralOfFate
 
 	void LoadingScene::setStatus(const std::string &status)
 	{
+		this->_mutex.lock();
 		this->_status = status;
+		this->_mutex.unlock();
 	}
 }

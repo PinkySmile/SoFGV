@@ -6,6 +6,7 @@
 #define SOFGV_LOADINGSCENE_HPP
 
 
+#include <mutex>
 #include <functional>
 #include "IScene.hpp"
 
@@ -13,6 +14,7 @@ namespace SpiralOfFate
 {
 	class LoadingScene : public IScene {
 	private:
+		mutable std::mutex _mutex;
 		std::string _status;
 		IScene *_nextScene = nullptr;
 		std::function<void (LoadingScene *)> onUpdate;

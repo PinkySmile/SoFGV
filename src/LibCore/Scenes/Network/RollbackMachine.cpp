@@ -31,6 +31,7 @@ namespace SpiralOfFate
 	RollbackMachine::InputData::InputData(IInput &input, InputData *old)
 	{
 		this->keyDuration.fill(0);
+#if MAX_ROLLBACK != 0
 		if (old) {
 			this->keyDuration = old->keyDuration;
 			for (size_t i = 0; i < old->keyStates.size(); i++)
@@ -39,6 +40,7 @@ namespace SpiralOfFate
 				else
 					this->keyDuration[i] = 0;
 		}
+#endif
 		if (input.hasInputs()) {
 			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
@@ -46,7 +48,7 @@ namespace SpiralOfFate
 			this->predicted = false;
 		} else {
 #if MAX_ROLLBACK == 0
-			my_assert(false);
+			throw AssertionFailedException("input.hasInput", "");
 #else
 			if (old)
 				this->keyStates = old->keyStates;
@@ -82,6 +84,7 @@ namespace SpiralOfFate
 
 		auto it = this->_savedData.begin();
 
+#if MAX_ROLLBACK == 0
 		while (it != this->_savedData.end() && (
 			(!it->left.predicted && !it->right.predicted) ||
 			(it->left.predicted  && this->_realInputLeft->hasInputs()) ||
@@ -90,11 +93,27 @@ namespace SpiralOfFate
 			++it;
 
 		this->_manageRollback(it);
+#endif
 		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight, this->_savedData.empty() ? nullptr : &this->_savedData.back());
+#if MAX_ROLLBACK == 0
+		for (size_t i = 0; i < this->inputLeft->_keyStates.size(); i++)
+			if (this->inputLeft->_keyStates[i])
+				this->inputLeft->_keyDuration[i]++;
+			else
+				this->inputLeft->_keyDuration[i] = 0;
+		for (size_t i = 0; i < this->inputRight->_keyStates.size(); i++)
+			if (this->inputRight->_keyStates[i])
+				this->inputRight->_keyDuration[i]++;
+			else
+				this->inputRight->_keyDuration[i] = 0;
+		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
+		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;
+#else
 		this->inputLeft->_keyStates = this->_savedData.back().left.keyStates;
 		this->inputLeft->_keyDuration = this->_savedData.back().left.keyDuration;
 		this->inputRight->_keyStates = this->_savedData.back().right.keyStates;
 		this->inputRight->_keyDuration = this->_savedData.back().right.keyDuration;
+#endif
 		while (this->_savedData.size() > MAX_ROLLBACK)
 			this->_savedData.pop_front();
 		return game->battleMgr->update() ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
