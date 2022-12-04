@@ -78,13 +78,13 @@ namespace SpiralOfFate
 	std::string PacketGameStart::toString() const
 	{
 		return "Packet GAMESTART"
-		       " seed" + std::to_string(this->seed) +
-		       " p1chr" + std::to_string(this->p1chr) +
-		       " p1pal" + std::to_string(this->p1pal) +
-		       " p2chr" + std::to_string(this->p2chr) +
-		       " p2pal" + std::to_string(this->p2pal) +
-		       " stage" + std::to_string(this->stage) +
-		       " platformConfig" + std::to_string(this->platformConfig);
+		       " seed:" + std::to_string(this->seed) +
+		       " p1chr:" + std::to_string(this->p1chr) +
+		       " p1pal:" + std::to_string(this->p1pal) +
+		       " p2chr:" + std::to_string(this->p2chr) +
+		       " p2pal:" + std::to_string(this->p2pal) +
+		       " stage:" + std::to_string(this->stage) +
+		       " platformConfig:" + std::to_string(this->platformConfig);
 	}
 
 	PacketRedirect::PacketRedirect(unsigned targetIp, unsigned targetPort) :
@@ -233,15 +233,16 @@ namespace SpiralOfFate
 		return "Packet DELAYUPDATE: delay " + std::to_string(this->newDelay) + " frameId " + std::to_string(this->frameId);
 	}
 
-	PacketMenuSwitch::PacketMenuSwitch(unsigned menuId) :
+	PacketMenuSwitch::PacketMenuSwitch(unsigned menuId, unsigned op) :
 		opcode(OPCODE_MENU_SWITCH),
-		menuId(menuId)
+		menuId(menuId),
+		opMenuId(op)
 	{
 	}
 
 	std::string PacketMenuSwitch::toString() const
 	{
-		return "Packet MENUSWITCH: menuId " + std::to_string(this->menuId);
+		return "Packet MENUSWITCH: menuId " + std::to_string(this->menuId) + " opmenuId " + std::to_string(this->opMenuId);
 	}
 
 	PacketSyncTest::PacketSyncTest(unsigned stateChecksum, unsigned frameId) :

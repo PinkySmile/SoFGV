@@ -56,11 +56,9 @@ namespace SpiralOfFate
 		};
 
 	protected:
-		std::mutex _sendMutex;
-		bool _endThread = true;
-		std::thread _netThread;
+		bool _terminated = true;
 		unsigned _delay;
-		unsigned _expectedDelay;
+		unsigned _expectedDelay = 0;
 		unsigned _currentFrame = 0;
 		unsigned _nextExpectedFrame = 0;
 		unsigned _lastOpRecvFrame = 0;
@@ -92,7 +90,6 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, PacketQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
-		void _threadLoop();
 
 	public:
 		std::vector<std::string> blacklist;
@@ -108,6 +105,7 @@ namespace SpiralOfFate
 		void terminate();
 		bool isTerminated() const;
 		void nextGame();
+		virtual void update();
 		const std::pair<std::string, std::string> &getNames() const;
 		virtual void reportChecksum(unsigned checksum);
 

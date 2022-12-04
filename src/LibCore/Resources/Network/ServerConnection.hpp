@@ -50,7 +50,7 @@ namespace SpiralOfFate
 		void reportChecksum(unsigned checksum);
 		void switchMenu(unsigned id, bool lock = true);
 		void host(unsigned short port);
-		std::list<PacketInput> receive() override;
+		void update() override;
 	};
 }
 

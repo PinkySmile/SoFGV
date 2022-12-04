@@ -268,8 +268,9 @@ namespace SpiralOfFate
 
 	public:
 		uint32_t menuId;
+		uint32_t opMenuId;
 
-		PacketMenuSwitch(unsigned menuId);
+		PacketMenuSwitch(unsigned menuId, unsigned opMenuId);
 		std::string toString() const;
 	};
 

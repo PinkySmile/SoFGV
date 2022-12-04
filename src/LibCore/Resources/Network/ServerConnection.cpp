@@ -72,25 +72,16 @@ namespace SpiralOfFate
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			remote.connectPhase = 1 + packet.spectator;
-			game->sceneMutex.lock();
 			game->scene.reset(new LoadingScene([this](LoadingScene *me){
 				me->setStatus("Loading assets...");
 				auto result = new ServerCharacterSelect();
-				int i = 0;
-				PacketMenuSwitch menuSwitch{MENUSTATE_CHARSELECT};
 
-				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 				this->_currentMenu = MENUSTATE_CHARSELECT;
 				me->setStatus("Waiting for opponent to finish loading...");
-				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT) {
-					if (i % 20 == 0)
-						this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-					i++;
+				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
 				return result;
-			}), [this](LoadingScene *){this->_checkOpponentState();});
-			game->sceneMutex.unlock();
+			}));
 		}
 	}
 
@@ -119,6 +110,11 @@ namespace SpiralOfFate
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_MENU_SWITCH, size};
 
 			return this->_send(remote, &error, sizeof(error));
+		}
+		if (packet.opMenuId != this->_currentMenu) {
+			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
+
+			this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 		}
 		this->_opCurrentMenu = packet.menuId;
 	}
@@ -163,51 +159,33 @@ namespace SpiralOfFate
 		return new LoadingScene([this](LoadingScene *me){
 			me->setStatus("Loading assets...");
 			auto result = new ServerCharacterSelect(this->p1chr, this->p2chr, this->p1pal, this->p2pal, this->stage, this->platformConfig);
-			int i = 0;
-			PacketMenuSwitch menuSwitch{MENUSTATE_CHARSELECT};
 
 			this->_currentMenu = MENUSTATE_CHARSELECT;
-			this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 			me->setStatus("Waiting for opponent to finish loading...");
-			while (this->_opCurrentMenu != MENUSTATE_CHARSELECT) {
-				if (i % 20 == 0)
-					this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-				i++;
+			while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
 				std::this_thread::sleep_for(std::chrono::milliseconds(5));
-			}
 			return result;
-		}, [this](LoadingScene *){this->_checkOpponentState();});
+		});
 	}
 
 	void ServerConnection::switchMenu(unsigned int id, bool lock)
 	{
-		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
-		this->_sendMutex.unlock();
 		this->_states.clear();
-		if (lock)
-			game->sceneMutex.lock();
 		if (id == MENUSTATE_CHARSELECT && lock)
 			game->scene.reset(new LoadingScene([this](LoadingScene *me){
 				me->setStatus("Loading assets...");
 				auto result = new ServerCharacterSelect();
-				int i = 0;
-				PacketMenuSwitch menuSwitch{MENUSTATE_CHARSELECT};
 
 				this->_currentMenu = MENUSTATE_CHARSELECT;
-				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 				me->setStatus("Waiting for opponent to finish loading...");
-				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT) {
-					if (i % 20 == 0)
-						this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-					i++;
+				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
 				return result;
-			}), [this](LoadingScene *){this->_checkOpponentState();});
+			}));
 		else if (id == MENUSTATE_INGAME) {
 			auto tmp = game->scene;
 
@@ -240,41 +218,29 @@ namespace SpiralOfFate
 					lentry.entry,
 					rentry.entry
 				);
-				int i = 0;
-				PacketMenuSwitch menuSwitch{MENUSTATE_INGAME};
 
 				this->_currentMenu = MENUSTATE_INGAME;
 				me->setStatus("Waiting for opponent to finish loading...");
-				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-				while (this->_opCurrentMenu != MENUSTATE_INGAME) {
-					if (i % 20 == 0)
-						this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-					i++;
+				while (this->_opCurrentMenu != MENUSTATE_INGAME)
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
 				return result;
-			}), [this](LoadingScene *){this->_checkOpponentState();});
+			}));
 		}
 		this->_currentMenu = id + MENUSTATE_LOADING_OFFSET;
 
-		PacketMenuSwitch menuSwitch{this->_currentMenu};
+		PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-		this->_currentMenu = MENUSTATE_CHARSELECT;
-		if (lock)
-			game->sceneMutex.unlock();
 	}
 
 	void ServerConnection::reportChecksum(unsigned int checksum)
 	{
-		this->_sendMutex.lock();
 		PacketSyncTest syncTest{checksum, this->_sendBuffer.back().first};
 
 		this->_states[this->_sendBuffer.back().first] = checksum;
 		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
-		this->_sendMutex.unlock();
 	}
 
 	void ServerConnection::startGame(unsigned int _seed, unsigned int _p1chr, unsigned int _p1pal, unsigned int _p2chr, unsigned int _p2pal, unsigned int _stage, unsigned int _platformConfig)
@@ -292,19 +258,18 @@ namespace SpiralOfFate
 		this->switchMenu(MENUSTATE_INGAME, false);
 	}
 
-	std::list<PacketInput> ServerConnection::receive()
+	void ServerConnection::update()
 	{
 		this->_checkOpponentState();
-		return Connection::receive();
+		Connection::update();
 	}
 
 	void ServerConnection::host(unsigned short port)
 	{
 		game->logger.info("Hosting on port " + std::to_string(port));
-		this->_endThread = false;
 		this->_states.clear();
 		this->_socket.bind(port);
-		this->_netThread = std::thread{&ServerConnection::_threadLoop, this};
+		this->_terminated = false;
 	}
 
 	void ServerConnection::_checkOpponentState()
@@ -313,13 +278,13 @@ namespace SpiralOfFate
 
 		if (menu > MENUSTATE_LOADING_OFFSET)
 			menu -= MENUSTATE_LOADING_OFFSET;
-		if (menu != this->_opCurrentMenu && menu + MENUSTATE_LOADING_OFFSET != this->_opCurrentMenu) {
-			if (menu == MENUSTATE_INGAME) {
+		if (this->_currentMenu != this->_opCurrentMenu) {
+			if (menu == MENUSTATE_INGAME && this->_opCurrentMenu != MENUSTATE_INGAME && this->_opCurrentMenu != MENUSTATE_LOADING_INGAME) {
 				PacketGameStart gameStart{this->seed, this->p1chr, this->p1pal, this->p2chr, this->p2pal, this->stage, this->platformConfig};
 
 				this->_send(*this->_opponent, &gameStart, sizeof(gameStart));
 			} else {
-				PacketMenuSwitch menuSwitch{this->_currentMenu};
+				PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
 				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 			}

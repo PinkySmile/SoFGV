@@ -18,12 +18,7 @@ namespace SpiralOfFate
 		this->_socket.setBlocking(false);
 	}
 
-	Connection::~Connection()
-	{
-		this->_endThread = true;
-		if (this->_netThread.joinable())
-			this->_netThread.join();
-	}
+	Connection::~Connection() = default;
 
 	void Connection::updateDelay(unsigned int delay)
 	{
@@ -55,10 +50,8 @@ namespace SpiralOfFate
 		else
 			input._v = 1;
 
-		this->_sendMutex.lock();
 		this->_sendBuffer.emplace_back(this->_currentFrame, input);
 		this->_currentFrame++;
-		this->_sendMutex.unlock();
 		return true;
 	}
 
@@ -69,7 +62,6 @@ namespace SpiralOfFate
 
 	std::list<PacketInput> Connection::receive()
 	{
-		this->_sendMutex.lock();
 		std::list<PacketInput> b = this->_buffer;
 
 		if (!this->_sendBuffer.empty()) {
@@ -78,7 +70,6 @@ namespace SpiralOfFate
 			this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
 		}
 		this->_buffer.clear();
-		this->_sendMutex.unlock();
 		return b;
 	}
 
@@ -146,12 +137,15 @@ namespace SpiralOfFate
 		}
 	}
 
-	void Connection::_threadLoop()
+	void Connection::update()
 	{
-		auto packet = (Packet *)malloc(RECV_BUFFER_SIZE);
+		if (this->_terminated)
+			return;
 
-		game->logger.info("Starting network loop");
-		while (!this->_endThread) {
+		char buffer[RECV_BUFFER_SIZE];
+		auto packet = (Packet *)buffer;
+
+		while (true) {
 			size_t realSize = 0;
 			sf::IpAddress ip = sf::IpAddress::Any;
 			unsigned short port = 10800;
@@ -168,26 +162,12 @@ namespace SpiralOfFate
 				iter = this->_remotes.begin();
 			}
 
-			if (res == sf::Socket::NotReady) {
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
-			} else if (res != sf::Socket::Done) {
+			if (res == sf::Socket::NotReady)
+				return;
+			else if (res != sf::Socket::Done) {
 				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string(res));
-				//if (res == sf::Socket::Error) {
-				//	game->logger.error("Aborting");
-				//	return;
-				//}
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
-			}/* else if (realSize != size) {
-				std::string s;
-
-				for (size_t i = 0; i < realSize; i++)
-					s += " " + std::to_string(((unsigned char *)packet)[i]);
-				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Invalid packet size (received " + std::to_string(realSize) + " != expected " + std::to_string(size) + ")" + s);
-				std::this_thread::sleep_for(std::chrono::milliseconds(2));
-				continue;
-			}*/
+				return;
+			}
 
 			auto it = std::find_if(this->_remotes.begin(), this->_remotes.end(), [&ip, &port](Remote &remote) {
 				return remote.ip == ip && remote.port == port;
@@ -206,8 +186,6 @@ namespace SpiralOfFate
 					this->onError(*it, e.getPacket());
 			}
 		}
-		game->logger.info("Stopping network loop");
-		free(packet);
 	}
 
 	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
@@ -326,15 +304,12 @@ namespace SpiralOfFate
 		for (size_t i = 0; i < packet.nbInputs; i++) {
 			if (this->_nextExpectedFrame == packet.frameId + i) {
 				this->_nextExpectedFrame++;
-				this->_sendMutex.lock();
 				if (packet.gameId != this->_gameId)
-					return this->_sendMutex.unlock();
+					return;
 				this->_buffer.push_back(packet.inputs[i]);
-				this->_sendMutex.unlock();
 			}
 		}
 		this->_lastOpRecvFrame = packet.lastRecvFrameId;
-		this->_sendMutex.lock();
 		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < this->_lastOpRecvFrame)
 			this->_sendBuffer.pop_front();
 		/*
@@ -345,7 +320,6 @@ namespace SpiralOfFate
 		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < packet.frameId)
 			this->_sendBuffer.pop_front();
 		 */
-		this->_sendMutex.unlock();
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketInitRequest &, size_t size)
@@ -437,13 +411,10 @@ namespace SpiralOfFate
 
 	void Connection::terminate()
 	{
-		this->_sendMutex.lock();
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
-		this->_sendMutex.unlock();
-		this->_endThread = true;
 		this->_remotes.clear();
 		this->_opponent = nullptr;
 	}
@@ -455,7 +426,7 @@ namespace SpiralOfFate
 
 	bool Connection::isTerminated() const
 	{
-		return this->_endThread;
+		return this->_remotes.empty();
 	}
 
 	void Connection::reportChecksum(unsigned int)
@@ -464,13 +435,11 @@ namespace SpiralOfFate
 
 	void Connection::nextGame()
 	{
-		this->_sendMutex.lock();
 		this->_gameId++;
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
-		this->_sendMutex.unlock();
 	}
 
 	void Connection::Remote::_pingLoop()

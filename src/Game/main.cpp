@@ -242,6 +242,9 @@ void	run()
 	SpiralOfFate::game->scene = std::make_unique<SpiralOfFate::TitleScreen>(SpiralOfFate::game->P1, SpiralOfFate::game->P2);
 	while (SpiralOfFate::game->screen->isOpen()) {
 		SpiralOfFate::game->sceneMutex.lock();
+		if (SpiralOfFate::game->connection)
+			SpiralOfFate::game->connection->update();
+
 		SpiralOfFate::IScene *newScene = SpiralOfFate::game->scene->update();
 
 		if (newScene)
