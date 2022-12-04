@@ -24,7 +24,7 @@ namespace SpiralOfFate
 
 	bool Platform::isDestructed()
 	{
-		return this->_hp <= 0;
+		return this->_hp == 0;
 	}
 
 	void Platform::update()
@@ -53,7 +53,10 @@ namespace SpiralOfFate
 	void Platform::getHit(IObject &other, const FrameData *data)
 	{
 		Object::getHit(other, data);
-		this->_hp -= data->damage;
+		if (this->_hp < data->damage)
+			this->_hp = 0;
+		else
+			this->_hp -= data->damage;
 		if (this->isDestructed()) {
 			this->_hp = 0;
 			this->_deathTimer = this->_cooldown;
