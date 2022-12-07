@@ -13,7 +13,9 @@ namespace SpiralOfFate
 {
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		_leftCharacter(leftCharacter.character),
-		_rightCharacter(rightCharacter.character)
+		_rightCharacter(rightCharacter.character),
+		_leftHUDData{*this, *this->_leftCharacter},
+		_rightHUDData{*this, *this->_rightCharacter}
 	{
 		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
 		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
@@ -99,6 +101,7 @@ namespace SpiralOfFate
 		game->textureMgr.setTexture(this->_oosBubble);
 		game->textureMgr.setTexture(this->_leftIcon);
 		game->textureMgr.setTexture(this->_rightIcon);
+		this->_font.loadFromFile("assets/battleui/AERO_03.ttf");
 
 		auto texSize1 = game->textureMgr.getTextureSize(this->_leftIcon.textureHandle).to<float>();
 		auto texSize2 = game->textureMgr.getTextureSize(this->_rightIcon.textureHandle).to<float>();
@@ -116,7 +119,11 @@ namespace SpiralOfFate
 		this->_rightIcon.setScale({s2, s2});
 		this->_rightIcon.setPosition(texSize2);
 
-		my_assert(this->_target.create(texSize.x, texSize.y));
+		my_assert(this->_leftHUDData.target.create(texSize.x, texSize.y));
+		my_assert(this->_rightHUDData.target.create(texSize.x, texSize.y));
+		my_assert(this->_leftHUD.create(550, 700));
+		my_assert(this->_rightHUD.create(550, 700));
+		my_assert(this->_hud.create(1100, 700));
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)
@@ -143,53 +150,31 @@ namespace SpiralOfFate
 		for (auto &object : this->_stageObjects)
 			object->render();
 
-		this->_renderLeftHUD();
-		this->_renderRightHUD();
+		sf::Sprite sprite;
 
-		if (this->_leftCharacter->_position.y > 540) {
-			this->_target.clear(sf::Color::Transparent);
-			this->_target.draw(this->_oosBubbleMask, sf::BlendNone);
-			this->_target.draw(this->_leftIcon, sf::BlendMode{
-				sf::BlendMode::SrcColor,
-				sf::BlendMode::Zero,
-				sf::BlendMode::Add,
-				sf::BlendMode::Zero,
-				sf::BlendMode::DstColor,
-				sf::BlendMode::Add
-			});
-			this->_target.draw(this->_oosBubble);
-			this->_target.display();
+		this->_leftHUDData.render(this->_leftHUD);
+		this->_leftHUD.display();
+		this->_rightHUDData.render(this->_rightHUD);
+		this->_rightHUD.display();
 
-			sf::Sprite sprite(this->_target.getTexture());
-			auto pos = this->_leftCharacter->_position;
+		this->_hud.clear(sf::Color::Transparent);
+		sprite.setTexture(this->_leftHUD.getTexture(), true);
+		sprite.setScale(1, 1);
+		sprite.setPosition(0, 0);
+		this->_hud.draw(sprite);
+		sprite.setTexture(this->_rightHUD.getTexture(), true);
+		sprite.setScale(-1, 1);
+		sprite.setPosition(1100, 0);
+		this->_hud.draw(sprite);
 
-			pos.x -= this->_target.getSize().x / 2;
-			pos.y = std::max(-pos.y, -540.f);
-			sprite.setPosition(pos);
-			game->screen->draw(sprite);
-		}
-		if (this->_rightCharacter->_position.y > 540) {
-			this->_target.clear(sf::Color::Transparent);
-			this->_target.draw(this->_oosBubbleMask, sf::BlendNone);
-			this->_target.draw(this->_rightIcon, sf::BlendMode{
-				sf::BlendMode::SrcColor,
-				sf::BlendMode::Zero,
-				sf::BlendMode::Add,
-				sf::BlendMode::Zero,
-				sf::BlendMode::DstColor,
-				sf::BlendMode::Add
-			});
-			this->_target.draw(this->_oosBubble);
-			this->_target.display();
+		this->_leftHUDData.renderNoReverse(this->_hud, false);
+		this->_rightHUDData.renderNoReverse(this->_hud, true);
 
-			sf::Sprite sprite(this->_target.getTexture());
-			auto pos = this->_rightCharacter->_position;
-
-			pos.x -= this->_target.getSize().x / 2;
-			pos.y = std::max(-pos.y, -540.f);
-			sprite.setPosition(pos);
-			game->screen->draw(sprite);
-		}
+		this->_hud.display();
+		sprite.setScale(1, 1);
+		sprite.setPosition(-50, -600);
+		sprite.setTexture(this->_hud.getTexture(), true);
+		game->screen->draw(sprite);
 
 		for (auto time : this->_tpsTimes)
 			total += time;
@@ -444,6 +429,8 @@ namespace SpiralOfFate
 			this->_hitStop--;
 			this->_leftCharacter->updateInputs();
 			this->_rightCharacter->updateInputs();
+			this->_leftHUDData.update();
+			this->_rightHUDData.update();
 			return;
 		}
 
@@ -541,44 +528,14 @@ namespace SpiralOfFate
 		}
 		lchr->postUpdate();
 		rchr->postUpdate();
-		if (this->_leftComboCtr)
-			this->_leftComboCtr--;
-		if (this->_rightComboCtr)
-			this->_rightComboCtr--;
-		if (this->_rightCharacter->_comboCtr) {
-			auto superRate = this->_rightCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->_rightCharacter->_supersUsed - 2))) / 100.f)) : 1;
-			auto skillRate = this->_rightCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->_rightCharacter->_skillsUsed - 2))) / 100.f)) : 1;
-
-			this->_leftHitCtr       = this->_rightCharacter->_comboCtr;
-			this->_leftNeutralLimit = this->_rightCharacter->_limit[0];
-			this->_leftVoidLimit    = this->_rightCharacter->_limit[1];
-			this->_leftMatterLimit  = this->_rightCharacter->_limit[2];
-			this->_leftSpiritLimit  = this->_rightCharacter->_limit[3];
-			this->_leftTotalDamage  = this->_rightCharacter->_totalDamage;
-			this->_leftProration    = this->_rightCharacter->_prorate * superRate * skillRate;
-			this->_leftCounter      = this->_rightCharacter->_counter;
-			this->_leftComboCtr     = 120;
-		}
-		if (this->_leftCharacter->_comboCtr) {
-			auto superRate = this->_leftCharacter->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->_leftCharacter->_supersUsed - 2))) / 100.f)) : 1;
-			auto skillRate = this->_leftCharacter->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->_leftCharacter->_skillsUsed - 2))) / 100.f)) : 1;
-
-			this->_rightHitCtr       = this->_leftCharacter->_comboCtr;
-			this->_rightNeutralLimit = this->_leftCharacter->_limit[0];
-			this->_rightVoidLimit    = this->_leftCharacter->_limit[1];
-			this->_rightMatterLimit  = this->_leftCharacter->_limit[2];
-			this->_rightSpiritLimit  = this->_leftCharacter->_limit[3];
-			this->_rightTotalDamage  = this->_leftCharacter->_totalDamage;
-			this->_rightProration    = this->_leftCharacter->_prorate * superRate * skillRate;
-			this->_rightCounter      = this->_leftCharacter->_counter;
-			this->_rightComboCtr     = 120;
-		}
 		if (this->_leftCharacter->startedAttack)
 			this->_leftFirst = false;
 		else if (this->_rightCharacter->startedAttack)
 			this->_leftFirst = true;
 		this->_leftCharacter->startedAttack = false;
 		this->_rightCharacter->startedAttack = false;
+		this->_leftHUDData.update();
+		this->_rightHUDData.update();
 	}
 
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
@@ -612,23 +569,8 @@ namespace SpiralOfFate
 		game->logger.verbose("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
-		dat->_leftComboCtr = this->_leftComboCtr;
-		dat->_leftHitCtr = this->_leftHitCtr;
-		dat->_leftNeutralLimit = this->_leftNeutralLimit;
-		dat->_leftVoidLimit = this->_leftVoidLimit;
-		dat->_leftMatterLimit = this->_leftMatterLimit;
-		dat->_leftSpiritLimit = this->_leftSpiritLimit;
-		dat->_leftTotalDamage = this->_leftTotalDamage;
-		dat->_leftProration = this->_leftProration;
-		dat->_rightComboCtr = this->_rightComboCtr;
-		dat->_rightHitCtr = this->_rightHitCtr;
-		dat->_rightNeutralLimit = this->_rightNeutralLimit;
-		dat->_rightVoidLimit = this->_rightVoidLimit;
-		dat->_rightSpiritLimit = this->_rightSpiritLimit;
-		dat->_rightMatterLimit = this->_rightMatterLimit;
-		dat->_rightTotalDamage = this->_rightTotalDamage;
-		dat->_rightProration = this->_rightProration;
-		dat->_score = this->_score;
+		dat->_leftHUDData = this->_leftHUDData;
+		dat->_rightHUDData = this->_rightHUDData;
 		dat->_currentRound = this->_currentRound;
 		dat->_roundStartTimer = this->_roundStartTimer;
 		dat->_roundEndTimer = this->_roundEndTimer;
@@ -673,23 +615,8 @@ namespace SpiralOfFate
 
 		this->_ended = dat->_ended;
 		this->_lastObjectId = dat->_lastObjectId;
-		this->_leftComboCtr = dat->_leftComboCtr;
-		this->_leftHitCtr = dat->_leftHitCtr;
-		this->_leftNeutralLimit = dat->_leftNeutralLimit;
-		this->_leftVoidLimit = dat->_leftVoidLimit;
-		this->_leftMatterLimit = dat->_leftMatterLimit;
-		this->_leftSpiritLimit = dat->_leftSpiritLimit;
-		this->_leftTotalDamage = dat->_leftTotalDamage;
-		this->_leftProration = dat->_leftProration;
-		this->_rightComboCtr = dat->_rightComboCtr;
-		this->_rightHitCtr = dat->_rightHitCtr;
-		this->_rightNeutralLimit = dat->_rightNeutralLimit;
-		this->_rightVoidLimit = dat->_rightVoidLimit;
-		this->_rightSpiritLimit = dat->_rightSpiritLimit;
-		this->_rightMatterLimit = dat->_rightMatterLimit;
-		this->_rightTotalDamage = dat->_rightTotalDamage;
-		this->_rightProration = dat->_rightProration;
-		this->_score = dat->_score;
+		this->_leftHUDData = dat->_leftHUDData;
+		this->_rightHUDData = dat->_rightHUDData;
 		this->_currentRound = dat->_currentRound;
 		this->_roundStartTimer = dat->_roundStartTimer;
 		this->_roundEndTimer = dat->_roundEndTimer;
@@ -750,14 +677,6 @@ namespace SpiralOfFate
 
 	bool BattleManager::_updateLoop()
 	{
-		if (this->_leftCharacter->_guardCooldown)
-			this->_leftGuardCrossTimer++;
-		if (this->_rightCharacter->_guardCooldown)
-			this->_rightGuardCrossTimer++;
-		if (this->_leftCharacter->_odCooldown)
-			this->_leftOverdriveCrossTimer++;
-		if (this->_rightCharacter->_odCooldown)
-			this->_rightOverdriveCrossTimer++;
 		while (this->_tpsTimes.size() >= 15)
 			this->_tpsTimes.pop_front();
 		this->_tpsTimes.push_back(this->_tpsClock.restart().asMilliseconds());
@@ -777,336 +696,6 @@ namespace SpiralOfFate
 		} else if (this->_roundStartTimer < 140)
 			this->_updateRoundStartAnimation();
 		return true;
-	}
-
-	void BattleManager::_renderLeftHUD() const
-	{
-		sf::RectangleShape rect;
-		sf::Sprite sprite;
-
-		rect.setOutlineThickness(1);
-		rect.setOutlineColor(sf::Color::Black);
-
-		//HP Back
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(0, -590);
-		rect.setSize({400.f, 20});
-		game->screen->draw(rect);
-
-		//HP Red bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
-		rect.setPosition(0, -590);
-		rect.setSize({400.f * std::min<float>(this->_leftCharacter->_hp + static_cast<float>(this->_leftCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_leftCharacter->_baseHp, 20});
-		game->screen->draw(rect);
-
-		//HP left
-		rect.setFillColor(sf::Color::Yellow);
-		rect.setPosition(0, -590);
-		rect.setSize({400.f * this->_leftCharacter->_hp / this->_leftCharacter->_baseHp, 20});
-		if (this->_leftCharacter->_hp > 0)
-			game->screen->draw(rect);
-
-		//OD bar back
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(300 - 15 * FIRST_TO, -562);
-		rect.setSize({100, 12});
-		game->screen->draw(rect);
-
-		//OD bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(this->_leftCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
-		if (this->_leftCharacter->_odCooldown) {
-			rect.setPosition(300 - 15 * FIRST_TO + 100.f * this->_leftCharacter->_odCooldown / this->_leftCharacter->_barMaxOdCooldown, -562);
-			rect.setSize({100.f - 100 * this->_leftCharacter->_odCooldown / this->_leftCharacter->_barMaxOdCooldown, 12});
-		} else {
-			rect.setPosition(300 - 15 * FIRST_TO, -562);
-			rect.setSize({100.f, 12});
-		}
-		game->screen->draw(rect);
-		game->screen->textSize(10);
-		game->screen->fillColor(sf::Color::White);
-		game->screen->borderColor(1, sf::Color::Black);
-		game->screen->displayElement("OVERDRIVE", {300.f - 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
-		game->screen->borderColor(0, sf::Color::Transparent);
-		game->screen->textSize(30);
-
-		//OD Cross
-		if (this->_leftCharacter->_odCooldown && this->_leftOverdriveCrossTimer % 60 > 30) {
-			sprite.setTexture(this->_cross, true);
-			sprite.setPosition(300 - 15 * FIRST_TO + 50 - 8, -564);
-			game->screen->draw(sprite);
-		}
-
-		//Guard bar back
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(190 - 15 * FIRST_TO, -562);
-		rect.setSize({100, 12});
-		game->screen->draw(rect);
-
-		//Guard bar
-		auto guardVals = this->_leftCharacter->_guardCooldown ?
-			std::pair<int, int>(this->_leftCharacter->_maxGuardCooldown - this->_leftCharacter->_guardCooldown, this->_leftCharacter->_maxGuardCooldown) :
-			std::pair<int, int>(this->_leftCharacter->_guardBar, this->_leftCharacter->_maxGuardBar);
-
-		rect.setOutlineThickness(0);
-		rect.setFillColor(this->_leftCharacter->_guardCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
-		rect.setPosition(290 - 15 * FIRST_TO - 100.f * guardVals.first / guardVals.second, -562);
-		rect.setSize({100.f * guardVals.first / guardVals.second, 12});
-		game->screen->draw(rect);
-		game->screen->textSize(10);
-		game->screen->borderColor(1, sf::Color::Black);
-		game->screen->displayElement("GUARD", {190 - 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
-		game->screen->borderColor(0, sf::Color::Transparent);
-		game->screen->textSize(30);
-
-		//Guard Cross
-		if (this->_leftCharacter->_guardCooldown && this->_leftGuardCrossTimer % 60 > 30) {
-			sprite.setTexture(this->_cross, true);
-			sprite.setPosition(190 - 15 * FIRST_TO + 50 - 8, -564);
-			game->screen->draw(sprite);
-		}
-
-		//Score
-		rect.setFillColor(sf::Color::White);
-		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(390 - i * 15, -560);
-			rect.setSize({10, 8});
-			game->screen->draw(rect);
-		}
-		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
-		for (int i = 0; i < this->_score.first; i++) {
-			rect.setPosition(392 - i * 15, -558);
-			rect.setSize({6, 4});
-			game->screen->draw(rect);
-		}
-
-		Vector2f pos{100, 70};
-		float size = 67.f * this->_leftCharacter->_spiritMana / this->_leftCharacter->_spiritManaMax;
-
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(100, 70);
-		rect.setSize({200.f, 10});
-		game->screen->draw(rect);
-
-		//Spirit mana
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		//Matter mana
-		pos.x += size;
-		size = 67.f * this->_leftCharacter->_matterMana / this->_leftCharacter->_matterManaMax;
-		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		//Void mana
-		pos.x += size;
-		size = 67.f * this->_leftCharacter->_voidMana / this->_leftCharacter->_voidManaMax;
-		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		if (this->_leftComboCtr) {
-			unsigned char alpha = this->_leftComboCtr > 51 ? 0xFF : this->_leftComboCtr * 5;
-
-			game->screen->borderColor(2, sf::Color{0, 0, 0, alpha});
-			game->screen->fillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
-			game->screen->displayElement(std::to_string(this->_leftHitCtr) + " Hit" + (this->_leftHitCtr < 2 ? "" : "s"), {0, -560}, 400, Screen::ALIGN_LEFT);
-			game->screen->textSize(20);
-			game->screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
-			game->screen->displayElement(std::to_string(this->_leftTotalDamage) + " damage", {0, -510}, 400, Screen::ALIGN_LEFT);
-			game->screen->displayElement(std::to_string(static_cast<int>(this->_leftProration * 100)) + "% proration", {0, -480}, 400, Screen::ALIGN_LEFT);
-			game->screen->textSize(15);
-			game->screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
-			game->screen->displayElement("Neutral Limit: " + std::to_string(this->_leftNeutralLimit), {0, -445}, 400, Screen::ALIGN_LEFT);
-			game->screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
-			game->screen->displayElement("Void Limit: " + std::to_string(this->_leftVoidLimit), {0, -415}, 400, Screen::ALIGN_LEFT);
-			game->screen->fillColor(sf::Color{187, 94, 0, alpha});
-			game->screen->displayElement("Matter Limit: " + std::to_string(this->_leftMatterLimit), {0, -390}, 400, Screen::ALIGN_LEFT);
-			game->screen->fillColor(sf::Color{51, 204, 204, alpha});
-			game->screen->displayElement("Spirit Limit: " + std::to_string(this->_leftSpiritLimit), {0, -365}, 400, Screen::ALIGN_LEFT);
-			if (this->_leftCounter) {
-				game->screen->textSize(20);
-				game->screen->fillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
-				game->screen->displayElement("Counter !", {0, -340}, 400, Screen::ALIGN_LEFT);
-			}
-			game->screen->borderColor(0, sf::Color{0, 0, 0, 0});
-			game->screen->textSize(30);
-		}
-	}
-
-	void BattleManager::_renderRightHUD() const
-	{
-		sf::RectangleShape rect;
-		sf::Sprite sprite;
-
-		rect.setOutlineThickness(1);
-		rect.setOutlineColor(sf::Color::Black);
-
-		//HP Back
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(600.f, -590);
-		rect.setSize({400.f, 20});
-		game->screen->draw(rect);
-
-		//HP Red bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
-		rect.setPosition(1000 - 400.f * std::min<float>(this->_rightCharacter->_hp + this->_rightCharacter->_totalDamage, this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, -590);
-		rect.setSize({400.f * std::min<float>(this->_rightCharacter->_hp + static_cast<float>(this->_rightCharacter->_totalDamage), this->_rightCharacter->_baseHp) / this->_rightCharacter->_baseHp, 20});
-		game->screen->draw(rect);
-
-		//HP left
-		rect.setFillColor(sf::Color::Yellow);
-		rect.setPosition(1000 - 400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, -590);
-		rect.setSize({400.f * this->_rightCharacter->_hp / this->_rightCharacter->_baseHp, 20});
-		if (this->_rightCharacter->_hp > 0)
-			game->screen->draw(rect);
-
-		//OD bar back
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(600 + 15 * FIRST_TO, -562);
-		rect.setSize({100, 12});
-		game->screen->draw(rect);
-
-		//OD bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(this->_rightCharacter->_odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
-		rect.setPosition(600 + 15 * FIRST_TO, -562);
-		if (this->_rightCharacter->_odCooldown)
-			rect.setSize({100.f - 100 * this->_rightCharacter->_odCooldown / this->_rightCharacter->_barMaxOdCooldown, 12});
-		else
-			rect.setSize({100, 12});
-		game->screen->draw(rect);
-		game->screen->textSize(10);
-		game->screen->fillColor(sf::Color::White);
-		game->screen->borderColor(1, sf::Color::Black);
-		game->screen->displayElement("OVERDRIVE", {600.f + 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
-		game->screen->borderColor(0, sf::Color::Transparent);
-		game->screen->textSize(30);
-
-		//OD Cross
-		if (this->_rightCharacter->_odCooldown && this->_rightOverdriveCrossTimer % 60 > 30) {
-			sprite.setTexture(this->_cross, true);
-			sprite.setPosition(600 + 15 * FIRST_TO + 50 - 8, -564);
-			game->screen->draw(sprite);
-		}
-
-		//Guard bar back
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(710 + 15 * FIRST_TO, -562);
-		rect.setSize({100, 12});
-		game->screen->draw(rect);
-
-		//Guard bar
-		auto guardVals = this->_rightCharacter->_guardCooldown ?
-			std::pair<int, int>(this->_rightCharacter->_maxGuardCooldown - this->_rightCharacter->_guardCooldown, this->_rightCharacter->_maxGuardCooldown) :
-			std::pair<int, int>(this->_rightCharacter->_guardBar, this->_rightCharacter->_maxGuardBar);
-
-		rect.setOutlineThickness(0);
-		rect.setFillColor(this->_rightCharacter->_guardCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
-		rect.setPosition(710 + 15 * FIRST_TO, -562);
-		rect.setSize({100.f * guardVals.first / guardVals.second, 12});
-		game->screen->draw(rect);
-		game->screen->textSize(10);
-		game->screen->fillColor(sf::Color::White);
-		game->screen->borderColor(1, sf::Color::Black);
-		game->screen->displayElement("GUARD", {710.f + 15 * FIRST_TO, -562}, 100, Screen::ALIGN_CENTER);
-		game->screen->borderColor(0, sf::Color::Transparent);
-		game->screen->textSize(30);
-
-		//Guard Cross
-		if (this->_rightCharacter->_guardCooldown && this->_rightGuardCrossTimer % 60 > 30) {
-			sprite.setTexture(this->_cross, true);
-			sprite.setPosition(710 + 15 * FIRST_TO + 50 - 8, -564);
-			game->screen->draw(sprite);
-		}
-
-		//Score
-		rect.setFillColor(sf::Color::White);
-		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(600 + i * 15, -560);
-			rect.setSize({10, 8});
-			game->screen->draw(rect);
-		}
-		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
-		for (int i = 0; i < this->_score.second; i++) {
-			rect.setPosition(602 + i * 15, -558);
-			rect.setSize({6, 4});
-			game->screen->draw(rect);
-		}
-
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(700, 70);
-		rect.setSize({201.f, 10});
-		game->screen->draw(rect);
-
-		Vector2f pos = {900, 70};
-		float size = 67.f * this->_rightCharacter->_spiritMana / this->_rightCharacter->_spiritManaMax;
-
-		//Spirit mana
-		pos.x -= size;
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		//Matter mana
-		size = 67.f * this->_rightCharacter->_matterMana / this->_rightCharacter->_matterManaMax;
-		pos.x -= size;
-		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		//Void mana
-		size = 67.f * this->_rightCharacter->_voidMana / this->_rightCharacter->_voidManaMax;
-		pos.x -= size;
-		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		game->screen->draw(rect);
-
-		if (this->_rightComboCtr) {
-			unsigned char alpha = this->_rightComboCtr > 51 ? 0xFF : this->_rightComboCtr * 5;
-
-			game->screen->borderColor(2, sf::Color{0, 0, 0, alpha});
-			game->screen->fillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
-			game->screen->displayElement(std::to_string(this->_rightHitCtr) + " Hit" + (this->_rightHitCtr < 2 ? "" : "s"), {600, -560}, 400, Screen::ALIGN_RIGHT);
-			game->screen->textSize(20);
-			game->screen->fillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
-			game->screen->displayElement(std::to_string(this->_rightTotalDamage) + " damage", {600, -510}, 400, Screen::ALIGN_RIGHT);
-			game->screen->displayElement(std::to_string(static_cast<int>(this->_rightProration * 100)) + "% proration", {600, -480}, 400, Screen::ALIGN_RIGHT);
-			game->screen->textSize(15);
-			game->screen->fillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
-			game->screen->displayElement("Neutral Limit: " + std::to_string(this->_rightNeutralLimit), {600, -445}, 400, Screen::ALIGN_RIGHT);
-			game->screen->fillColor(sf::Color{0x80, 0x00, 0x80, alpha});
-			game->screen->displayElement("Void Limit: " + std::to_string(this->_rightVoidLimit), {600, -415}, 400, Screen::ALIGN_RIGHT);
-			game->screen->fillColor(sf::Color{187, 94, 0, alpha});
-			game->screen->displayElement("Matter Limit: " + std::to_string(this->_rightMatterLimit), {600, -390}, 400, Screen::ALIGN_RIGHT);
-			game->screen->fillColor(sf::Color{51, 204, 204, alpha});
-			game->screen->displayElement("Spirit Limit: " + std::to_string(this->_rightSpiritLimit), {600, -365}, 400, Screen::ALIGN_RIGHT);
-			if (this->_rightCounter) {
-				game->screen->textSize(20);
-				game->screen->fillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
-				game->screen->displayElement("Counter !", {600, -340}, 400, Screen::ALIGN_RIGHT);
-			}
-			game->screen->borderColor(0, sf::Color{0, 0, 0, 0});
-			game->screen->textSize(30);
-		}
 	}
 
 	const std::vector<std::shared_ptr<Platform>> &BattleManager::getPlatforms() const
@@ -1295,40 +884,42 @@ namespace SpiralOfFate
 			game->logger.fatal("BattleManager::ended differs: " + std::to_string(dat1->_ended) + " vs " + std::to_string(dat2->_ended));
 		if (dat1->_lastObjectId != dat2->_lastObjectId)
 			game->logger.fatal("BattleManager::lastObjectId differs: " + std::to_string(dat1->_lastObjectId) + " vs " + std::to_string(dat2->_lastObjectId));
-		if (dat1->_leftComboCtr != dat2->_leftComboCtr)
-			game->logger.fatal("BattleManager::leftComboCtr differs: " + std::to_string(dat1->_leftComboCtr) + " vs " + std::to_string(dat2->_leftComboCtr));
-		if (dat1->_leftHitCtr != dat2->_leftHitCtr)
-			game->logger.fatal("BattleManager::leftHitCtr differs: " + std::to_string(dat1->_leftHitCtr) + " vs " + std::to_string(dat2->_leftHitCtr));
-		if (dat1->_leftNeutralLimit != dat2->_leftNeutralLimit)
-			game->logger.fatal("BattleManager::leftNeutralLimit differs: " + std::to_string(dat1->_leftNeutralLimit) + " vs " + std::to_string(dat2->_leftNeutralLimit));
-		if (dat1->_leftVoidLimit != dat2->_leftVoidLimit)
-			game->logger.fatal("BattleManager::leftVoidLimit differs: " + std::to_string(dat1->_leftVoidLimit) + " vs " + std::to_string(dat2->_leftVoidLimit));
-		if (dat1->_leftMatterLimit != dat2->_leftMatterLimit)
-			game->logger.fatal("BattleManager::leftMatterLimit differs: " + std::to_string(dat1->_leftMatterLimit) + " vs " + std::to_string(dat2->_leftMatterLimit));
-		if (dat1->_leftSpiritLimit != dat2->_leftSpiritLimit)
-			game->logger.fatal("BattleManager::leftSpiritLimit differs: " + std::to_string(dat1->_leftSpiritLimit) + " vs " + std::to_string(dat2->_leftSpiritLimit));
-		if (dat1->_leftTotalDamage != dat2->_leftTotalDamage)
-			game->logger.fatal("BattleManager::leftTotalDamage differs: " + std::to_string(dat1->_leftTotalDamage) + " vs " + std::to_string(dat2->_leftTotalDamage));
-		if (dat1->_leftProration != dat2->_leftProration)
-			game->logger.fatal("BattleManager::leftProration differs: " + std::to_string(dat1->_leftProration) + " vs " + std::to_string(dat2->_leftProration));
-		if (dat1->_rightComboCtr != dat2->_rightComboCtr)
-			game->logger.fatal("BattleManager::rightComboCtr differs: " + std::to_string(dat1->_rightComboCtr) + " vs " + std::to_string(dat2->_rightComboCtr));
-		if (dat1->_rightHitCtr != dat2->_rightHitCtr)
-			game->logger.fatal("BattleManager::rightHitCtr differs: " + std::to_string(dat1->_rightHitCtr) + " vs " + std::to_string(dat2->_rightHitCtr));
-		if (dat1->_rightNeutralLimit != dat2->_rightNeutralLimit)
-			game->logger.fatal("BattleManager::rightNeutralLimit differs: " + std::to_string(dat1->_rightNeutralLimit) + " vs " + std::to_string(dat2->_rightNeutralLimit));
-		if (dat1->_rightVoidLimit != dat2->_rightVoidLimit)
-			game->logger.fatal("BattleManager::rightVoidLimit differs: " + std::to_string(dat1->_rightVoidLimit) + " vs " + std::to_string(dat2->_rightVoidLimit));
-		if (dat1->_rightSpiritLimit != dat2->_rightSpiritLimit)
-			game->logger.fatal("BattleManager::rightSpiritLimit differs: " + std::to_string(dat1->_rightSpiritLimit) + " vs " + std::to_string(dat2->_rightSpiritLimit));
-		if (dat1->_rightMatterLimit != dat2->_rightMatterLimit)
-			game->logger.fatal("BattleManager::rightMatterLimit differs: " + std::to_string(dat1->_rightMatterLimit) + " vs " + std::to_string(dat2->_rightMatterLimit));
-		if (dat1->_rightTotalDamage != dat2->_rightTotalDamage)
-			game->logger.fatal("BattleManager::rightTotalDamage differs: " + std::to_string(dat1->_rightTotalDamage) + " vs " + std::to_string(dat2->_rightTotalDamage));
-		if (dat1->_rightProration != dat2->_rightProration)
-			game->logger.fatal("BattleManager::rightProration differs: " + std::to_string(dat1->_rightProration) + " vs " + std::to_string(dat2->_rightProration));
-		if (dat1->_score != dat2->_score)
-			game->logger.fatal("BattleManager::score differs: " + std::to_string(dat1->_score.first) + "|" + std::to_string(dat1->_score.second) + " vs " + std::to_string(dat2->_score.first) + "|" + std::to_string(dat2->_score.second));
+		if (dat1->_leftHUDData.comboCtr != dat2->_leftHUDData.comboCtr)
+			game->logger.fatal("BattleManager::leftHUDData.comboCtr differs: " + std::to_string(dat1->_leftHUDData.comboCtr) + " vs " + std::to_string(dat2->_leftHUDData.comboCtr));
+		if (dat1->_leftHUDData.hitCtr != dat2->_leftHUDData.hitCtr)
+			game->logger.fatal("BattleManager::leftHUDData.hitCtr differs: " + std::to_string(dat1->_leftHUDData.hitCtr) + " vs " + std::to_string(dat2->_leftHUDData.hitCtr));
+		if (dat1->_leftHUDData.neutralLimit != dat2->_leftHUDData.neutralLimit)
+			game->logger.fatal("BattleManager::leftHUDData.neutralLimit differs: " + std::to_string(dat1->_leftHUDData.neutralLimit) + " vs " + std::to_string(dat2->_leftHUDData.neutralLimit));
+		if (dat1->_leftHUDData.voidLimit != dat2->_leftHUDData.voidLimit)
+			game->logger.fatal("BattleManager::leftHUDData.voidLimit differs: " + std::to_string(dat1->_leftHUDData.voidLimit) + " vs " + std::to_string(dat2->_leftHUDData.voidLimit));
+		if (dat1->_leftHUDData.matterLimit != dat2->_leftHUDData.matterLimit)
+			game->logger.fatal("BattleManager::leftHUDData.matterLimit differs: " + std::to_string(dat1->_leftHUDData.matterLimit) + " vs " + std::to_string(dat2->_leftHUDData.matterLimit));
+		if (dat1->_leftHUDData.spiritLimit != dat2->_leftHUDData.spiritLimit)
+			game->logger.fatal("BattleManager::leftHUDData.spiritLimit differs: " + std::to_string(dat1->_leftHUDData.spiritLimit) + " vs " + std::to_string(dat2->_leftHUDData.spiritLimit));
+		if (dat1->_leftHUDData.totalDamage != dat2->_leftHUDData.totalDamage)
+			game->logger.fatal("BattleManager::leftHUDData.totalDamage differs: " + std::to_string(dat1->_leftHUDData.totalDamage) + " vs " + std::to_string(dat2->_leftHUDData.totalDamage));
+		if (dat1->_leftHUDData.proration != dat2->_leftHUDData.proration)
+			game->logger.fatal("BattleManager::leftHUDData.proration differs: " + std::to_string(dat1->_leftHUDData.proration) + " vs " + std::to_string(dat2->_leftHUDData.proration));
+		if (dat1->_leftHUDData.score != dat2->_leftHUDData.score)
+			game->logger.fatal("BattleManager::_leftHUDData.proration differs: " + std::to_string(dat1->_leftHUDData.score) + " vs " + std::to_string(dat2->_leftHUDData.score));
+		if (dat1->_rightHUDData.comboCtr != dat2->_rightHUDData.comboCtr)
+			game->logger.fatal("BattleManager::rightHUDData.comboCtr differs: " + std::to_string(dat1->_rightHUDData.comboCtr) + " vs " + std::to_string(dat2->_rightHUDData.comboCtr));
+		if (dat1->_rightHUDData.hitCtr != dat2->_rightHUDData.hitCtr)
+			game->logger.fatal("BattleManager::rightHUDData.hitCtr differs: " + std::to_string(dat1->_rightHUDData.hitCtr) + " vs " + std::to_string(dat2->_rightHUDData.hitCtr));
+		if (dat1->_rightHUDData.neutralLimit != dat2->_rightHUDData.neutralLimit)
+			game->logger.fatal("BattleManager::rightHUDData.neutralLimit differs: " + std::to_string(dat1->_rightHUDData.neutralLimit) + " vs " + std::to_string(dat2->_rightHUDData.neutralLimit));
+		if (dat1->_rightHUDData.voidLimit != dat2->_rightHUDData.voidLimit)
+			game->logger.fatal("BattleManager::rightHUDData.voidLimit differs: " + std::to_string(dat1->_rightHUDData.voidLimit) + " vs " + std::to_string(dat2->_rightHUDData.voidLimit));
+		if (dat1->_rightHUDData.spiritLimit != dat2->_rightHUDData.spiritLimit)
+			game->logger.fatal("BattleManager::rightHUDData.spiritLimit differs: " + std::to_string(dat1->_rightHUDData.spiritLimit) + " vs " + std::to_string(dat2->_rightHUDData.spiritLimit));
+		if (dat1->_rightHUDData.matterLimit != dat2->_rightHUDData.matterLimit)
+			game->logger.fatal("BattleManager::rightHUDData.matterLimit differs: " + std::to_string(dat1->_rightHUDData.matterLimit) + " vs " + std::to_string(dat2->_rightHUDData.matterLimit));
+		if (dat1->_rightHUDData.totalDamage != dat2->_rightHUDData.totalDamage)
+			game->logger.fatal("BattleManager::rightHUDData.totalDamage differs: " + std::to_string(dat1->_rightHUDData.totalDamage) + " vs " + std::to_string(dat2->_rightHUDData.totalDamage));
+		if (dat1->_rightHUDData.proration != dat2->_rightHUDData.proration)
+			game->logger.fatal("BattleManager::rightHUDData.proration differs: " + std::to_string(dat1->_rightHUDData.proration) + " vs " + std::to_string(dat2->_rightHUDData.proration));
+		if (dat1->_rightHUDData.score != dat2->_rightHUDData.score)
+			game->logger.fatal("BattleManager::rightHUDData.score differs: " + std::to_string(dat1->_rightHUDData.score) + " vs " + std::to_string(dat2->_rightHUDData.score));
 		if (dat1->_currentRound != dat2->_currentRound)
 			game->logger.fatal("BattleManager::currentRound differs: " + std::to_string(dat1->_currentRound) + " vs " + std::to_string(dat2->_currentRound));
 		if (dat1->_roundStartTimer != dat2->_roundStartTimer)
@@ -1420,5 +1011,332 @@ namespace SpiralOfFate
 			ptr1 += length;
 			ptr2 += length;
 		}
+	}
+
+	void BattleManager::HUDData::render(sf::RenderTarget &output) const
+	{
+		sf::RectangleShape rect;
+		sf::Sprite sprite;
+
+		rect.setOutlineThickness(1);
+		rect.setOutlineColor(sf::Color::Black);
+		output.clear(sf::Color::Transparent);
+
+		//HP Back
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(50, 10);
+		rect.setSize({400.f, 20});
+		output.draw(rect);
+
+		//HP Red bar
+		rect.setOutlineThickness(0);
+		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
+		rect.setPosition(50, 10);
+		rect.setSize({400.f * std::min<float>(this->base._hp + static_cast<float>(this->base._totalDamage), this->base._baseHp) / this->base._baseHp, 20});
+		output.draw(rect);
+
+		//HP left
+		rect.setFillColor(sf::Color::Yellow);
+		rect.setPosition(50, 10);
+		rect.setSize({400.f * this->base._hp / this->base._baseHp, 20});
+		if (this->base._hp > 0)
+			output.draw(rect);
+
+		//OD bar back
+		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(350 - 15 * FIRST_TO, 38);
+		rect.setSize({100, 12});
+		output.draw(rect);
+
+		//OD bar
+		rect.setOutlineThickness(0);
+		rect.setFillColor(this->base._odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		if (this->base._odCooldown) {
+			rect.setPosition(350 - 15 * FIRST_TO + 100.f * this->base._odCooldown / this->base._barMaxOdCooldown, 38);
+			rect.setSize({100.f - 100 * this->base._odCooldown / this->base._barMaxOdCooldown, 12});
+		} else {
+			rect.setPosition(350 - 15 * FIRST_TO, 38);
+			rect.setSize({100.f, 12});
+		}
+		output.draw(rect);
+
+		//OD Cross
+		if (this->base._odCooldown && this->overdriveCrossTimer % 60 > 30) {
+			sprite.setTexture(this->mgr._cross, true);
+			sprite.setPosition(350 - 15 * FIRST_TO + 50 - 8, 36);
+			output.draw(sprite);
+		}
+
+		//Guard bar back
+		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(240 - 15 * FIRST_TO, 38);
+		rect.setSize({100, 12});
+		output.draw(rect);
+
+		//Guard bar
+		auto guardVals = this->base._guardCooldown ?
+		                  std::pair<int, int>(this->base._maxGuardCooldown - this->base._guardCooldown, this->base._maxGuardCooldown) :
+		                  std::pair<int, int>(this->base._guardBar, this->base._maxGuardBar);
+
+		rect.setOutlineThickness(0);
+		rect.setFillColor(this->base._guardCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		rect.setPosition(340 - 15 * FIRST_TO - 100.f * guardVals.first / guardVals.second, 38);
+		rect.setSize({100.f * guardVals.first / guardVals.second, 12});
+		output.draw(rect);
+
+		//Guard Cross
+		if (this->base._guardCooldown && this->guardCrossTimer % 60 > 30) {
+			sprite.setTexture(this->mgr._cross, true);
+			sprite.setPosition(240 - 15 * FIRST_TO + 50 - 8, 36);
+			output.draw(sprite);
+		}
+
+		//Score
+		rect.setFillColor(sf::Color::White);
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(440 - i * 15, 40);
+			rect.setSize({10, 8});
+			output.draw(rect);
+		}
+		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
+		for (int i = 0; i < this->score; i++) {
+			rect.setPosition(442 - i * 15, 42);
+			rect.setSize({6, 4});
+			output.draw(rect);
+		}
+
+		Vector2f pos{150, 670};
+		float size = 67.f * this->base._spiritMana / this->base._spiritManaMax;
+
+		rect.setOutlineThickness(1);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
+		rect.setPosition(150, 670);
+		rect.setSize({200.f, 10});
+		output.draw(rect);
+
+		//Spirit mana
+		rect.setOutlineThickness(0);
+		rect.setFillColor(sf::Color{51, 204, 204});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
+		output.draw(rect);
+
+		//Matter mana
+		pos.x += size;
+		size = 67.f * this->base._matterMana / this->base._matterManaMax;
+		rect.setFillColor(sf::Color{187, 94, 0});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
+		output.draw(rect);
+
+		//Void mana
+		pos.x += size;
+		size = 67.f * this->base._voidMana / this->base._voidManaMax;
+		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
+		rect.setPosition(pos);
+		rect.setSize({size, 10});
+		output.draw(rect);
+	}
+
+	static float getTextSize(const std::string &str, const sf::Text &txt)
+	{
+		float size = 0;
+
+		for (char c : str)
+			size += txt.getFont()->getGlyph(c, txt.getCharacterSize(), false).advance;
+		return size;
+	}
+
+	static Vector2f getPos(Vector2f basePos, unsigned size, bool side)
+	{
+		if (!side)
+			return basePos;
+		return {
+			1100 - basePos.x - size,
+			basePos.y
+		};
+	}
+
+	static Vector2f getPos(const std::string &str, const sf::Text &txt, Vector2f basePos, bool side)
+	{
+		if (!side)
+			return basePos;
+		return {
+			1100 - basePos.x - getTextSize(str, txt),
+			basePos.y
+		};
+	}
+
+	static void renderText(sf::RenderTarget &output, const std::string &str, sf::Text &txt, Vector2f basePos, bool side)
+	{
+		txt.setPosition(getPos(str, txt, basePos, side));
+		txt.setString(str);
+		output.draw(txt);
+	}
+
+	void BattleManager::HUDData::renderNoReverse(sf::RenderTarget &output, bool side) const
+	{
+		sf::Text text;
+
+		text.setFont(this->mgr._font);
+		text.setCharacterSize(10);
+		text.setFillColor(sf::Color::White);
+		text.setOutlineColor(sf::Color::Black);
+		text.setOutlineThickness(1);
+		text.setPosition(getPos({350.f - 15 * FIRST_TO, 38}, 100, side) + Vector2f{50 - getTextSize("OVERDRIVE", text)/2, 0});
+		text.setString("OVERDRIVE");
+		output.draw(text);
+		text.setPosition(getPos({240.f - 15 * FIRST_TO, 38}, 100, side) + Vector2f{50 - getTextSize("GUARD", text)/2, 0});
+		text.setString("GUARD");
+		output.draw(text);
+		if (this->comboCtr) {
+			unsigned char alpha = this->comboCtr > 51 ? 0xFF : this->comboCtr * 5;
+
+			text.setCharacterSize(40);
+			text.setOutlineColor(sf::Color{0, 0, 0, alpha});
+			text.setOutlineThickness(2);
+			text.setFillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
+			renderText(output, std::to_string(this->hitCtr) + " Hit" + (this->hitCtr < 2 ? "" : "s"), text, {50, 40}, side);
+			text.setCharacterSize(30);
+			text.setFillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
+			renderText(output, std::to_string(this->totalDamage) + " damage", text, {50, 90}, side);
+			renderText(output, std::to_string(static_cast<int>(this->proration * 100)) + "% proration", text, {50, 120}, side);
+			text.setCharacterSize(20);
+			text.setFillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
+			renderText(output, "Neutral Limit: " + std::to_string(this->neutralLimit), text, {50, 160}, side);
+			text.setFillColor(sf::Color{0x80, 0x00, 0x80, alpha});
+			renderText(output, "Void Limit: " + std::to_string(this->voidLimit), text, {50, 185}, side);
+			text.setFillColor(sf::Color{187, 94, 0, alpha});
+			renderText(output, "Matter Limit: " + std::to_string(this->matterLimit), text, {50, 210}, side);
+			text.setFillColor(sf::Color{51, 204, 204, alpha});
+			renderText(output, "Spirit Limit: " + std::to_string(this->spiritLimit), text, {50, 235}, side);
+			if (this->counter) {
+				text.setCharacterSize(25);
+				text.setFillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
+				renderText(output, "Counter !", text, {50, 260}, side);
+			}
+		}
+		if (this->base._position.y > 540) {
+			this->target.clear(sf::Color::Transparent);
+			this->target.draw(this->mgr._oosBubbleMask, sf::BlendNone);
+			this->target.draw(side ? this->mgr._rightIcon : this->mgr._leftIcon, sf::BlendMode{
+				sf::BlendMode::SrcColor,
+				sf::BlendMode::Zero,
+				sf::BlendMode::Add,
+				sf::BlendMode::Zero,
+				sf::BlendMode::DstColor,
+				sf::BlendMode::Add
+			});
+			this->target.draw(this->mgr._oosBubble);
+			this->target.display();
+
+			sf::Sprite sprite(this->target.getTexture());
+			auto pos = this->base._position;
+
+			if (!this->base._direction) {
+				sprite.setScale(-1, 1);
+				pos.x += this->target.getSize().x / 2;
+			} else
+				pos.x -= this->target.getSize().x / 2;
+			pos.y = std::max(-pos.y, -540.f);
+			pos.x += 50;
+			pos.y += 600;
+			sprite.setPosition(pos);
+			output.draw(sprite);
+		}
+	}
+
+	void BattleManager::HUDData::update()
+	{
+		if (this->base._guardCooldown)
+			this->guardCrossTimer++;
+		if (this->base._odCooldown)
+			this->overdriveCrossTimer++;
+		if (this->comboCtr)
+			this->comboCtr--;
+		if (this->base._opponent->_comboCtr) {
+			auto superRate = this->base._opponent->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->base._opponent->_supersUsed - 2))) / 100.f)) : 1;
+			auto skillRate = this->base._opponent->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->base._opponent->_skillsUsed - 2))) / 100.f)) : 1;
+
+			this->hitCtr       = this->base._opponent->_comboCtr;
+			this->neutralLimit = this->base._opponent->_limit[0];
+			this->voidLimit    = this->base._opponent->_limit[1];
+			this->matterLimit  = this->base._opponent->_limit[2];
+			this->spiritLimit  = this->base._opponent->_limit[3];
+			this->totalDamage  = this->base._opponent->_totalDamage;
+			this->proration    = this->base._opponent->_prorate * superRate * skillRate;
+			this->counter      = this->base._opponent->_counter;
+			this->comboCtr     = 120;
+		}
+	}
+
+	BattleManager::HUDData &BattleManager::HUDData::operator=(BattleManager::HUDDataPacked &data)
+	{
+		this->comboCtr = data.comboCtr;
+		this->hitCtr = data.hitCtr;
+		this->neutralLimit = data.neutralLimit;
+		this->voidLimit = data.voidLimit;
+		this->spiritLimit = data.spiritLimit;
+		this->matterLimit = data.matterLimit;
+		this->totalDamage = data.totalDamage;
+		this->guardCrossTimer = data.guardCrossTimer;
+		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->proration = data.proration;
+		this->counter = data.counter;
+		this->score = data.score;
+		return *this;
+	}
+
+	BattleManager::HUDData &BattleManager::HUDData::operator=(const BattleManager::HUDDataPacked &data)
+	{
+		this->comboCtr = data.comboCtr;
+		this->hitCtr = data.hitCtr;
+		this->neutralLimit = data.neutralLimit;
+		this->voidLimit = data.voidLimit;
+		this->spiritLimit = data.spiritLimit;
+		this->matterLimit = data.matterLimit;
+		this->totalDamage = data.totalDamage;
+		this->guardCrossTimer = data.guardCrossTimer;
+		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->proration = data.proration;
+		this->counter = data.counter;
+		this->score = data.score;
+		return *this;
+	}
+
+	BattleManager::HUDDataPacked &BattleManager::HUDDataPacked::operator=(BattleManager::HUDData &data)
+	{
+		this->comboCtr = data.comboCtr;
+		this->hitCtr = data.hitCtr;
+		this->neutralLimit = data.neutralLimit;
+		this->voidLimit = data.voidLimit;
+		this->spiritLimit = data.spiritLimit;
+		this->matterLimit = data.matterLimit;
+		this->totalDamage = data.totalDamage;
+		this->guardCrossTimer = data.guardCrossTimer;
+		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->proration = data.proration;
+		this->counter = data.counter;
+		this->score = data.score;
+		return *this;
+	}
+
+	BattleManager::HUDDataPacked &BattleManager::HUDDataPacked::operator=(const BattleManager::HUDData &data)
+	{
+		this->comboCtr = data.comboCtr;
+		this->hitCtr = data.hitCtr;
+		this->neutralLimit = data.neutralLimit;
+		this->voidLimit = data.voidLimit;
+		this->spiritLimit = data.spiritLimit;
+		this->matterLimit = data.matterLimit;
+		this->totalDamage = data.totalDamage;
+		this->guardCrossTimer = data.guardCrossTimer;
+		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->proration = data.proration;
+		this->counter = data.counter;
+		this->score = data.score;
+		return *this;
 	}
 }

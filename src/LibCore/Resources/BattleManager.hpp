@@ -14,31 +14,59 @@ namespace SpiralOfFate
 {
 	class BattleManager {
 	protected:
+		struct HUDDataPacked;
+		struct HUDData {
+			BattleManager &mgr;
+			Character &base;
+			mutable sf::RenderTexture target;
+			unsigned comboCtr = 0;
+			unsigned hitCtr = 0;
+			unsigned neutralLimit = 0;
+			unsigned voidLimit = 0;
+			unsigned spiritLimit = 0;
+			unsigned matterLimit = 0;
+			unsigned totalDamage = 0;
+			unsigned guardCrossTimer = 0;
+			unsigned overdriveCrossTimer = 0;
+			float proration = 0;
+			bool counter = false;
+			unsigned char score = 0;
+
+			void render(sf::RenderTarget &output) const;
+			void renderNoReverse(sf::RenderTarget &output, bool side) const;
+			void update();
+			HUDData &operator=(HUDDataPacked &data);
+			HUDData &operator=(const HUDDataPacked &data);
+		};
+
 #pragma pack(push, 1)
+		struct HUDDataPacked {
+			unsigned comboCtr = 0;
+			unsigned hitCtr = 0;
+			unsigned neutralLimit = 0;
+			unsigned voidLimit = 0;
+			unsigned spiritLimit = 0;
+			unsigned matterLimit = 0;
+			unsigned totalDamage = 0;
+			unsigned guardCrossTimer = 0;
+			unsigned overdriveCrossTimer = 0;
+			float proration = 0;
+			bool counter = false;
+			unsigned char score = 0;
+
+			HUDDataPacked &operator=(HUDData &data);
+			HUDDataPacked &operator=(const HUDData &data);
+		};
+
 		struct Data {
-			std::pair<unsigned char, unsigned char> _score;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
 			unsigned _roundEndTimer;
 			unsigned _hitStop;
 			unsigned _nbObjects;
-			unsigned _leftComboCtr;
-			unsigned _leftHitCtr;
-			unsigned _leftNeutralLimit;
-			unsigned _leftVoidLimit;
-			unsigned _leftMatterLimit;
-			unsigned _leftSpiritLimit;
-			unsigned _leftTotalDamage;
-			float _leftProration;
-			unsigned _rightComboCtr;
-			unsigned _rightHitCtr;
-			unsigned _rightNeutralLimit;
-			unsigned _rightVoidLimit;
-			unsigned _rightSpiritLimit;
-			unsigned _rightMatterLimit;
-			unsigned _rightTotalDamage;
-			float _rightProration;
+			HUDDataPacked _leftHUDData;
+			HUDDataPacked _rightHUDData;
 			bool _ended;
 		};
 #pragma pack(pop)
@@ -50,11 +78,10 @@ namespace SpiralOfFate
 		mutable sf::Clock _fpsClock;
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
-		unsigned _leftGuardCrossTimer = 0;
-		unsigned _rightGuardCrossTimer = 0;
-		unsigned _leftOverdriveCrossTimer = 0;
-		unsigned _rightOverdriveCrossTimer = 0;
-		sf::RenderTexture _target;
+		sf::Font _font;
+		sf::RenderTexture _hud;
+		sf::RenderTexture _leftHUD;
+		sf::RenderTexture _rightHUD;
 		Sprite _leftIcon;
 		Sprite _rightIcon;
 		Sprite _oosBubble;
@@ -78,25 +105,9 @@ namespace SpiralOfFate
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;
 		unsigned _hitStop = 0;
-		unsigned _leftComboCtr = 0;
-		unsigned _leftHitCtr = 0;
-		unsigned _leftNeutralLimit = 0;
-		unsigned _leftVoidLimit = 0;
-		unsigned _leftMatterLimit = 0;
-		unsigned _leftSpiritLimit = 0;
-		unsigned _leftTotalDamage = 0;
-		bool _leftCounter = false;
-		float _leftProration = 0;
-		unsigned _rightComboCtr = 0;
-		unsigned _rightHitCtr = 0;
-		unsigned _rightNeutralLimit = 0;
-		unsigned _rightVoidLimit = 0;
-		unsigned _rightSpiritLimit = 0;
-		unsigned _rightMatterLimit = 0;
-		unsigned _rightTotalDamage = 0;
-		bool _rightCounter = false;
-		float _rightProration = 0;
 		bool _ended = false;
+		HUDData _leftHUDData;
+		HUDData _rightHUDData;
 
 		void _gameUpdate();
 		virtual bool _updateLoop();
@@ -106,8 +117,6 @@ namespace SpiralOfFate
 		void _renderRoundEndAnimation() const;
 		void _updateRoundStartAnimation();
 		void _renderRoundStartAnimation() const;
-		void _renderLeftHUD() const;
-		void _renderRightHUD() const;
 		void _renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side);
 
 	public:
