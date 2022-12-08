@@ -12,6 +12,26 @@
 
 namespace SpiralOfFate
 {
+	enum BattleUiSprite {
+		BATTLEUI_HUD_SEAT,
+		BATTLEUI_SPIRIT_MANA,
+		BATTLEUI_SPIRIT_MANA_FULL,
+		BATTLEUI_MATTER_MANA,
+		BATTLEUI_MATTER_MANA_FULL,
+		BATTLEUI_VOID_MANA,
+		BATTLEUI_VOID_MANA_FULL,
+		BATTLEUI_MANA_BAR,
+		BATTLEUI_GUARD_TEXT,
+		BATTLEUI_GUARD_BAR,
+		BATTLEUI_GUARD_BAR_DISABLED,
+		BATTLEUI_LIFE_BAR,
+		BATTLEUI_LIFE_BAR_RED,
+		BATTLEUI_LIFE_BAR_EFFECT,
+		BATTLEUI_OVERDRIVE,
+		BATTLEUI_OVERDRIVE_OUTLINE,
+		BATTLEUI_NB_SPRITES,
+	};
+
 	class BattleManager {
 	protected:
 		struct HUDDataPacked;
@@ -28,6 +48,7 @@ namespace SpiralOfFate
 			unsigned totalDamage = 0;
 			unsigned guardCrossTimer = 0;
 			unsigned overdriveCrossTimer = 0;
+			unsigned lifeBarEffect = 0;
 			float proration = 0;
 			bool counter = false;
 			unsigned char score = 0;
@@ -50,6 +71,7 @@ namespace SpiralOfFate
 			unsigned totalDamage = 0;
 			unsigned guardCrossTimer = 0;
 			unsigned overdriveCrossTimer = 0;
+			unsigned lifeBarEffect = 0;
 			float proration = 0;
 			bool counter = false;
 			unsigned char score = 0;
@@ -86,6 +108,7 @@ namespace SpiralOfFate
 		Sprite _rightIcon;
 		Sprite _oosBubble;
 		Sprite _oosBubbleMask;
+		Sprite _battleUi[BATTLEUI_NB_SPRITES];
 		sf::Sprite _roundSprite;
 		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;

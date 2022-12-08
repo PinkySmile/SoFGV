@@ -11,6 +11,25 @@
 
 namespace SpiralOfFate
 {
+	static const char *battleHudSprite[] = {
+		"assets/battleui/player_hud.png",        // BATTLEUI_HUD_SEAT
+		"assets/battleui/blue_bar.png",          // BATTLEUI_SPIRIT_MANA
+		"assets/battleui/blue_barMAX.png",       // BATTLEUI_SPIRIT_MANA_FULL
+		"assets/battleui/orange_bar.png",        // BATTLEUI_MATTER_MANA
+		"assets/battleui/orange_barMAX.png",     // BATTLEUI_MATTER_MANA_FULL
+		"assets/battleui/violet_bar.png",        // BATTLEUI_VOID_MANA
+		"assets/battleui/violet_barMAX.png",     // BATTLEUI_VOID_MANA_FULL
+		"assets/battleui/meterbars.png",         // BATTLEUI_MANA_BAR
+		"assets/battleui/guard.png",             // BATTLEUI_GUARD_TEXT
+		"assets/battleui/guardbar.png",          // BATTLEUI_GUARD_BAR
+		"assets/battleui/guard_red.png",         // BATTLEUI_GUARD_BAR_DISABLED
+		"assets/battleui/lifebar.png",           // BATTLEUI_LIFE_BAR
+		"assets/battleui/lifebar_red.png",       // BATTLEUI_LIFE_BAR_RED
+		"assets/battleui/lifebar_texture.png",   // BATTLEUI_LIFE_BAR_EFFECT
+		"assets/battleui/overdrive.png",         // BATTLEUI_OVERDRIVE
+		"assets/battleui/overdrive_outline.png", // BATTLEUI_OVERDRIVE_OUTLINE
+	};
+
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character),
@@ -118,6 +137,11 @@ namespace SpiralOfFate
 		texSize2.y = texSize.y - texSize2.y * s2;
 		this->_rightIcon.setScale({s2, s2});
 		this->_rightIcon.setPosition(texSize2);
+
+		for (int i = 0; i < BATTLEUI_NB_SPRITES; i++) {
+			this->_battleUi[i].textureHandle = game->textureMgr.load(battleHudSprite[i], nullptr, true);
+			game->textureMgr.setTexture(this->_battleUi[i]);
+		}
 
 		my_assert(this->_leftHUDData.target.create(texSize.x, texSize.y));
 		my_assert(this->_rightHUDData.target.create(texSize.x, texSize.y));
@@ -1013,28 +1037,85 @@ namespace SpiralOfFate
 		}
 	}
 
+	static float getTextSize(const std::string &str, const sf::Text &txt)
+	{
+		float size = 0;
+
+		for (char c : str)
+			size += txt.getFont()->getGlyph(c, txt.getCharacterSize(), false).advance;
+		return size;
+	}
+
+	static Vector2f getPos(Vector2f basePos, unsigned size, bool side)
+	{
+		if (!side)
+			return basePos;
+		return {
+			1100 - basePos.x - size,
+			basePos.y
+		};
+	}
+
+	static Vector2f getPos(const std::string &str, const sf::Text &txt, Vector2f basePos, bool side)
+	{
+		if (!side)
+			return basePos;
+		return {
+			1100 - basePos.x - getTextSize(str, txt),
+			basePos.y
+		};
+	}
+
+	static void renderText(sf::RenderTarget &output, const std::string &str, sf::Text &txt, Vector2f basePos, bool side)
+	{
+		txt.setPosition(getPos(str, txt, basePos, side));
+		txt.setString(str);
+		output.draw(txt);
+	}
+
 	void BattleManager::HUDData::render(sf::RenderTarget &output) const
 	{
-		sf::RectangleShape rect;
-		sf::Sprite sprite;
+		this->mgr._battleUi[BATTLEUI_HUD_SEAT].setPosition(20, 20);
+		output.draw(this->mgr._battleUi[BATTLEUI_HUD_SEAT], sf::BlendNone);
 
-		rect.setOutlineThickness(1);
-		rect.setOutlineColor(sf::Color::Black);
-		output.clear(sf::Color::Transparent);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR_RED].setPosition(69, 40);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR_RED].setTextureRect({
+			0, 0,
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_RED].textureHandle).x * std::min<float>(
+				this->base._hp + static_cast<float>(this->base._totalDamage), this->base._baseHp
+			) / this->base._baseHp),
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_RED].textureHandle).y)
+		});
+		output.draw(this->mgr._battleUi[BATTLEUI_LIFE_BAR_RED], sf::BlendAlpha);
 
-		//HP Back
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(50, 10);
-		rect.setSize({400.f, 20});
-		output.draw(rect);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR].setPosition(69, 40);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR].setTextureRect({
+			0, 0,
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR].textureHandle).x * this->base._hp / this->base._baseHp),
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR].textureHandle).y)
+		});
+		output.draw(this->mgr._battleUi[BATTLEUI_LIFE_BAR], sf::BlendAlpha);
 
-		//HP Red bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{0xFF, 0x50, 0x50});
-		rect.setPosition(50, 10);
-		rect.setSize({400.f * std::min<float>(this->base._hp + static_cast<float>(this->base._totalDamage), this->base._baseHp) / this->base._baseHp, 20});
-		output.draw(rect);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].setPosition(69, 40);
+		this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].setTextureRect({
+			static_cast<int>(this->lifeBarEffect), 0,
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR].textureHandle).x * this->base._hp / this->base._baseHp),
+			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR].textureHandle).y)
+		});
+		output.draw(this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT], sf::BlendMode{
+			sf::BlendMode::DstColor, sf::BlendMode::Zero, sf::BlendMode::Add,
+			sf::BlendMode::Zero,     sf::BlendMode::One,  sf::BlendMode::Add
+		});
+		//BATTLEUI_LIFE_BAR
+		//BATTLEUI_LIFE_BAR_RED
+		//BATTLEUI_LIFE_BAR_EFFECT
+		//BATTLEUI_GUARD_TEXT
+		//BATTLEUI_GUARD_BAR
+		//BATTLEUI_GUARD_BAR_DISABLED
+		//BATTLEUI_OVERDRIVE
+		//BATTLEUI_OVERDRIVE_OUTLINE
 
+		/*
 		//HP left
 		rect.setFillColor(sf::Color::Yellow);
 		rect.setPosition(50, 10);
@@ -1138,42 +1219,8 @@ namespace SpiralOfFate
 		rect.setPosition(pos);
 		rect.setSize({size, 10});
 		output.draw(rect);
-	}
 
-	static float getTextSize(const std::string &str, const sf::Text &txt)
-	{
-		float size = 0;
-
-		for (char c : str)
-			size += txt.getFont()->getGlyph(c, txt.getCharacterSize(), false).advance;
-		return size;
-	}
-
-	static Vector2f getPos(Vector2f basePos, unsigned size, bool side)
-	{
-		if (!side)
-			return basePos;
-		return {
-			1100 - basePos.x - size,
-			basePos.y
-		};
-	}
-
-	static Vector2f getPos(const std::string &str, const sf::Text &txt, Vector2f basePos, bool side)
-	{
-		if (!side)
-			return basePos;
-		return {
-			1100 - basePos.x - getTextSize(str, txt),
-			basePos.y
-		};
-	}
-
-	static void renderText(sf::RenderTarget &output, const std::string &str, sf::Text &txt, Vector2f basePos, bool side)
-	{
-		txt.setPosition(getPos(str, txt, basePos, side));
-		txt.setString(str);
-		output.draw(txt);
+		 */
 	}
 
 	void BattleManager::HUDData::renderNoReverse(sf::RenderTarget &output, bool side) const
@@ -1181,16 +1228,6 @@ namespace SpiralOfFate
 		sf::Text text;
 
 		text.setFont(this->mgr._font);
-		text.setCharacterSize(10);
-		text.setFillColor(sf::Color::White);
-		text.setOutlineColor(sf::Color::Black);
-		text.setOutlineThickness(1);
-		text.setPosition(getPos({350.f - 15 * FIRST_TO, 38}, 100, side) + Vector2f{50 - getTextSize("OVERDRIVE", text)/2, 0});
-		text.setString("OVERDRIVE");
-		output.draw(text);
-		text.setPosition(getPos({240.f - 15 * FIRST_TO, 38}, 100, side) + Vector2f{50 - getTextSize("GUARD", text)/2, 0});
-		text.setString("GUARD");
-		output.draw(text);
 		if (this->comboCtr) {
 			unsigned char alpha = this->comboCtr > 51 ? 0xFF : this->comboCtr * 5;
 
@@ -1198,24 +1235,24 @@ namespace SpiralOfFate
 			text.setOutlineColor(sf::Color{0, 0, 0, alpha});
 			text.setOutlineThickness(2);
 			text.setFillColor(sf::Color{0xFF, 0x00, 0x00, alpha});
-			renderText(output, std::to_string(this->hitCtr) + " Hit" + (this->hitCtr < 2 ? "" : "s"), text, {50, 40}, side);
+			renderText(output, std::to_string(this->hitCtr) + " Hit" + (this->hitCtr < 2 ? "" : "s"), text, {50, 80}, side);
 			text.setCharacterSize(30);
 			text.setFillColor(sf::Color{0xA0, 0xA0, 0xA0, alpha});
-			renderText(output, std::to_string(this->totalDamage) + " damage", text, {50, 90}, side);
-			renderText(output, std::to_string(static_cast<int>(this->proration * 100)) + "% proration", text, {50, 120}, side);
+			renderText(output, std::to_string(this->totalDamage) + " damage", text, {50, 130}, side);
+			renderText(output, std::to_string(static_cast<int>(this->proration * 100)) + "% proration", text, {50, 160}, side);
 			text.setCharacterSize(20);
 			text.setFillColor(sf::Color{0xFF, 0xFF, 0xFF, alpha});
-			renderText(output, "Neutral Limit: " + std::to_string(this->neutralLimit), text, {50, 160}, side);
+			renderText(output, "Neutral Limit: " + std::to_string(this->neutralLimit), text, {50, 200}, side);
 			text.setFillColor(sf::Color{0x80, 0x00, 0x80, alpha});
-			renderText(output, "Void Limit: " + std::to_string(this->voidLimit), text, {50, 185}, side);
+			renderText(output, "Void Limit: " + std::to_string(this->voidLimit), text, {50, 225}, side);
 			text.setFillColor(sf::Color{187, 94, 0, alpha});
-			renderText(output, "Matter Limit: " + std::to_string(this->matterLimit), text, {50, 210}, side);
+			renderText(output, "Matter Limit: " + std::to_string(this->matterLimit), text, {50, 250}, side);
 			text.setFillColor(sf::Color{51, 204, 204, alpha});
-			renderText(output, "Spirit Limit: " + std::to_string(this->spiritLimit), text, {50, 235}, side);
+			renderText(output, "Spirit Limit: " + std::to_string(this->spiritLimit), text, {50, 275}, side);
 			if (this->counter) {
 				text.setCharacterSize(25);
 				text.setFillColor(sf::Color{0xFF, 0x40, 0x20, alpha});
-				renderText(output, "Counter !", text, {50, 260}, side);
+				renderText(output, "Counter !", text, {50, 300}, side);
 			}
 		}
 		if (this->base._position.y > 540) {
@@ -1256,6 +1293,8 @@ namespace SpiralOfFate
 			this->overdriveCrossTimer++;
 		if (this->comboCtr)
 			this->comboCtr--;
+		this->lifeBarEffect++;
+		this->lifeBarEffect %= game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].textureHandle).x;
 		if (this->base._opponent->_comboCtr) {
 			auto superRate = this->base._opponent->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->base._opponent->_supersUsed - 2))) / 100.f)) : 1;
 			auto skillRate = this->base._opponent->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->base._opponent->_skillsUsed - 2))) / 100.f)) : 1;
@@ -1283,6 +1322,7 @@ namespace SpiralOfFate
 		this->totalDamage = data.totalDamage;
 		this->guardCrossTimer = data.guardCrossTimer;
 		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->lifeBarEffect = data.lifeBarEffect;
 		this->proration = data.proration;
 		this->counter = data.counter;
 		this->score = data.score;
@@ -1300,6 +1340,7 @@ namespace SpiralOfFate
 		this->totalDamage = data.totalDamage;
 		this->guardCrossTimer = data.guardCrossTimer;
 		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->lifeBarEffect = data.lifeBarEffect;
 		this->proration = data.proration;
 		this->counter = data.counter;
 		this->score = data.score;
@@ -1317,6 +1358,7 @@ namespace SpiralOfFate
 		this->totalDamage = data.totalDamage;
 		this->guardCrossTimer = data.guardCrossTimer;
 		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->lifeBarEffect = data.lifeBarEffect;
 		this->proration = data.proration;
 		this->counter = data.counter;
 		this->score = data.score;
@@ -1334,6 +1376,7 @@ namespace SpiralOfFate
 		this->totalDamage = data.totalDamage;
 		this->guardCrossTimer = data.guardCrossTimer;
 		this->overdriveCrossTimer = data.overdriveCrossTimer;
+		this->lifeBarEffect = data.lifeBarEffect;
 		this->proration = data.proration;
 		this->counter = data.counter;
 		this->score = data.score;

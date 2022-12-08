@@ -8,7 +8,7 @@
 
 namespace SpiralOfFate
 {
-	unsigned TextureManager::load(std::string file, Vector2u *size)
+	unsigned TextureManager::load(std::string file, Vector2u *size, bool repeated)
 	{
 		for (auto pos = file.find('\\'); pos != std::string::npos; pos = file.find('\\'))
 			file[pos] = '/';
@@ -40,6 +40,7 @@ namespace SpiralOfFate
 		if (size)
 			*size = this->_textures[index].getSize();
 
+		this->_textures[index].setRepeated(repeated);
 		this->_allocatedTextures[file].first = index;
 		this->_allocatedTextures[file].second = 1;
 		return index;

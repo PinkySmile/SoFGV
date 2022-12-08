@@ -558,8 +558,10 @@ namespace SpiralOfFate
 			this->_matterEffectTimer--;
 		}
 		if (this->_voidEffectTimer) {
-			if (this->_hp > 1)
+			if (this->_hp > 1) {
 				this->_hp--;
+				this->_totalDamage++;
+			}
 			this->_voidEffectTimer--;
 		}
 		if (!this->_ultimateUsed) {
