@@ -121,6 +121,7 @@ namespace SpiralOfFate
 		unsigned untech = 0;
 		unsigned guardDmg = 0;
 		float prorate = 0;
+		float minProrate = 0;
 		unsigned neutralLimit = 0;
 		unsigned voidLimit = 0;
 		unsigned spiritLimit = 0;

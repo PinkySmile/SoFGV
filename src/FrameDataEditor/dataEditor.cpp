@@ -214,6 +214,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto spiritLimit = panel->get<tgui::EditBox>("SpiritLimit");
 	auto voidLimit = panel->get<tgui::EditBox>("VoidLimit");
 	auto matterLimit = panel->get<tgui::EditBox>("MatterLimit");
+	auto minProrate = panel->get<tgui::EditBox>("MinRate");
 	auto prorate = panel->get<tgui::EditBox>("Rate");
 	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
@@ -257,6 +258,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	spiritLimit->setText(std::to_string(data.spiritLimit));
 	voidLimit->setText(std::to_string(data.voidLimit));
 	matterLimit->setText(std::to_string(data.matterLimit));
+	minProrate->setText(std::to_string(data.minProrate));
 	prorate->setText(std::to_string(data.prorate));
 	manaGain->setText(std::to_string(data.manaGain));
 	manaCost->setText(std::to_string(data.manaCost));
@@ -351,6 +353,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto spiritLimit = panel->get<tgui::EditBox>("SpiritLimit");
 	auto voidLimit = panel->get<tgui::EditBox>("VoidLimit");
 	auto matterLimit = panel->get<tgui::EditBox>("MatterLimit");
+	auto minProrate = panel->get<tgui::EditBox>("MinRate");
 	auto prorate = panel->get<tgui::EditBox>("Rate");
 	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
@@ -430,30 +433,55 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto window = SpiralOfFate::Utils::openWindowWithFocus(gui, 500, "&.h - 100");
 		auto pan = tgui::ScrollablePanel::create({"&.w", "&.h"});
 		unsigned i = 0;
+		float current = 0;
+		auto scroll = 0;
+		std::vector<unsigned> toDisplay;
 
+		for (auto &a : SpiralOfFate::actionNames)
+			toDisplay.push_back(a.first);
+		for (auto &a : object->_moves) {
+			if (std::find(toDisplay.begin(), toDisplay.end(), a.first) == toDisplay.end())
+				toDisplay.push_back(a.first);
+		}
+		std::sort(toDisplay.begin(), toDisplay.end());
 		SpiralOfFate::Utils::setRenderer(pan);
 		window->setTitle("Default character moves");
 		window->add(pan);
-		for (auto &move : SpiralOfFate::actionNames) {
-			auto label = tgui::Label::create(std::to_string(move.first));
-			auto button = tgui::Button::create(move.second);
+		for (auto &moveId : toDisplay) {
+			auto it = SpiralOfFate::actionNames.find(static_cast<SpiralOfFate::CharacterActions>(moveId));
+			auto label = tgui::Label::create(std::to_string(moveId));
+			auto button = tgui::Button::create(it == SpiralOfFate::actionNames.end() ? "Unnamed move #" + std::to_string(moveId) : it->second);
 
 			label->setPosition(10, i * 25 + 12);
 			button->setPosition(50, i * 25 + 10);
 			button->setSize(430, 20);
 			SpiralOfFate::Utils::setRenderer(button);
 			SpiralOfFate::Utils::setRenderer(label);
-			if (object->_moves.find(move.first) == object->_moves.end()) {
+			if (moveId == object->_action) {
+				if (i > 30)
+					scroll = (i - 20) * 25;
+				button->getRenderer()->setTextColor(tgui::Color::Green);
+				button->getRenderer()->setTextColorHover(tgui::Color{0x40, 0xFF, 0x40});
+				button->getRenderer()->setTextColorDisabled(tgui::Color{0x00, 0xA0, 0x00});
+				button->getRenderer()->setTextColorDown(tgui::Color{0x00, 0x80, 0x00});
+				button->getRenderer()->setTextColorFocused(tgui::Color{0x20, 0x80, 0x20});
+			} else if (object->_moves.find(moveId) == object->_moves.end()) {
 				button->getRenderer()->setTextColor(tgui::Color::Red);
 				button->getRenderer()->setTextColorHover(tgui::Color{0xFF, 0x40, 0x40});
 				button->getRenderer()->setTextColorDisabled(tgui::Color{0xA0, 0, 0});
 				button->getRenderer()->setTextColorDown(tgui::Color{0x80, 0x00, 0x00});
 				button->getRenderer()->setTextColorFocused(tgui::Color{0x80, 0x20, 0x20});
+			} else if (it == SpiralOfFate::actionNames.end()) {
+				button->getRenderer()->setTextColor(tgui::Color{0xFF, 0x80, 0x00});
+				button->getRenderer()->setTextColorHover(tgui::Color{0xFF, 0xA0, 0x40});
+				button->getRenderer()->setTextColorDisabled(tgui::Color{0xA0, 0x50, 0});
+				button->getRenderer()->setTextColorDown(tgui::Color{0x80, 0x40, 0x00});
+				button->getRenderer()->setTextColorFocused(tgui::Color{0x80, 0x60, 0x20});
 			}
 
-			button->connect("Clicked", [move, action](std::weak_ptr<tgui::ChildWindow> win){
+			button->connect("Clicked", [moveId, action](std::weak_ptr<tgui::ChildWindow> win){
 				win.lock()->close();
-				action->setText(std::to_string(move.first));
+				action->setText(std::to_string(moveId));
 				action->onReturnKeyPress.emit(&*action, action->getText());
 			}, std::weak_ptr<tgui::ChildWindow>(window));
 
@@ -461,6 +489,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 			pan->add(button);
 			i++;
 		}
+		pan->setVerticalScrollbarValue(scroll);
 
 		auto label = tgui::Label::create("");
 
@@ -927,6 +956,16 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.matterLimit = std::stoul(t);
+	});
+	minProrate->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.minProrate = std::stof(t);
 	});
 	prorate->connect("TextChanged", [&object](std::string t){
 		if (*c)

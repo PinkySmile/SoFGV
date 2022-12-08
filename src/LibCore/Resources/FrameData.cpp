@@ -216,6 +216,10 @@ namespace SpiralOfFate
 			my_assert2(data["prorate"].is_number(), "Invalid json");
 			this->prorate = data["prorate"];
 		}
+		if (data.contains("min_prorate")) {
+			my_assert2(data["min_prorate"].is_number(), "Invalid json");
+			this->minProrate = data["min_prorate"];
+		}
 		if (data.contains("neutral_limit")) {
 			my_assert2(data["neutral_limit"].is_number(), "Invalid json");
 			this->neutralLimit = data["neutral_limit"];
@@ -356,6 +360,7 @@ namespace SpiralOfFate
 		this->untech = other.untech;
 		this->guardDmg = other.guardDmg;
 		this->prorate = other.prorate;
+		this->minProrate = other.minProrate;
 		this->neutralLimit = other.neutralLimit;
 		this->voidLimit = other.voidLimit;
 		this->spiritLimit = other.spiritLimit;
@@ -418,6 +423,7 @@ namespace SpiralOfFate
 		this->untech = other.untech;
 		this->guardDmg = other.guardDmg;
 		this->prorate = other.prorate;
+		this->minProrate = other.minProrate;
 		this->neutralLimit = other.neutralLimit;
 		this->voidLimit = other.voidLimit;
 		this->spiritLimit = other.spiritLimit;
@@ -546,6 +552,8 @@ namespace SpiralOfFate
 			result["guard_damage"] = this->guardDmg;
 		if (this->prorate != 0)
 			result["prorate"] = this->prorate;
+		if (this->minProrate != 0)
+			result["min_prorate"] = this->minProrate;
 		if (this->neutralLimit)
 			result["neutral_limit"] = this->neutralLimit;
 		if (this->voidLimit)
