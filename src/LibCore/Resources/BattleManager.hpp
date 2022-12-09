@@ -38,6 +38,7 @@ namespace SpiralOfFate
 		struct HUDData {
 			BattleManager &mgr;
 			Character &base;
+			bool side;
 			mutable sf::RenderTexture target;
 			unsigned comboCtr = 0;
 			unsigned hitCtr = 0;
@@ -54,7 +55,7 @@ namespace SpiralOfFate
 			unsigned char score = 0;
 
 			void render(sf::RenderTarget &output) const;
-			void renderNoReverse(sf::RenderTarget &output, bool side) const;
+			void renderNoReverse(sf::RenderTarget &output) const;
 			void update();
 			HUDData &operator=(HUDDataPacked &data);
 			HUDData &operator=(const HUDDataPacked &data);
