@@ -13456,7 +13456,7 @@
                         }
                     ],
                     "matter_limit": 100,
-                    "min_prorate": 100.0,
+                    "min_prorate": 66.66666412353516,
                     "offense_flag": 66082,
                     "offset": {
                         "x": 19,
