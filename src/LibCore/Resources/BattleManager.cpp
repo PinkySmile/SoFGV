@@ -246,7 +246,7 @@ namespace SpiralOfFate
 			object.second->render();
 		if (this->_roundEndTimer < 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
 			this->_renderRoundEndAnimation();
-		else if (this->_score.first == FIRST_TO || this->_score.second == FIRST_TO)
+		else if (this->_leftHUDData.score == FIRST_TO || this->_rightHUDData.score == FIRST_TO)
 			this->_renderEndGameAnimation();
 		else if (this->_roundStartTimer < 140)
 			this->_renderRoundStartAnimation();
@@ -306,12 +306,12 @@ namespace SpiralOfFate
 		}
 		if (this->_roundEndTimer == 0) {
 			game->soundMgr.play(BASICSOUND_KNOCK_OUT);
-			this->_score.first += this->_rightCharacter->_hp <= 0;
-			this->_score.second += this->_leftCharacter->_hp <= 0;
+			this->_leftHUDData.score += this->_rightCharacter->_hp <= 0;
+			this->_rightHUDData.score += this->_leftCharacter->_hp <= 0;
 			this->_currentRound++;
-			if (this->_score.first == this->_score.second && this->_score.first == FIRST_TO) {
-				this->_score.first--;
-				this->_score.second--;
+			if (this->_leftHUDData.score == this->_rightHUDData.score && this->_leftHUDData.score == FIRST_TO) {
+				this->_leftHUDData.score--;
+				this->_rightHUDData.score--;
 			}
 			this->_leftCharacter->setAttacksDisabled(true);
 			this->_rightCharacter->setAttacksDisabled(true);
@@ -435,7 +435,7 @@ namespace SpiralOfFate
 			scale = 1 + (this->_roundStartTimer - 0x11) / 206.f;
 		}
 
-		this->_roundSprite.setTexture(this->_roundSprites[2 + (this->_score.second == FIRST_TO)], true);
+		this->_roundSprite.setTexture(this->_roundSprites[2 + (this->_rightHUDData.score == FIRST_TO)], true);
 		this->_roundSprite.setScale({scale, scale});
 		this->_roundSprite.setColor(sf::Color{0xFF, 0xFF, 0xFF, static_cast<sf::Uint8>(alpha)});
 		this->_roundSprite.setOrigin(
@@ -721,7 +721,7 @@ namespace SpiralOfFate
 
 		if (this->_roundEndTimer <= 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
 			this->_updateRoundEndAnimation();
-		else if (this->_score.first == FIRST_TO || this->_score.second == FIRST_TO) {
+		else if (this->_leftHUDData.score == FIRST_TO || this->_rightHUDData.score == FIRST_TO) {
 			if (!this->_updateEndGameAnimation())
 				return false;
 		} else if (this->_roundStartTimer < 140)
@@ -1234,7 +1234,7 @@ namespace SpiralOfFate
 
 		//Score
 		sf::RectangleShape rect;
-		rect.setFillColor(sf::Color::White);
+		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		for (int i = 0; i < FIRST_TO; i++) {
 			rect.setPosition(440 - i * 15, 20);
 			rect.setSize({10, 8});

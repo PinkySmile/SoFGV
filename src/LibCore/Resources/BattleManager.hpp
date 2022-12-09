@@ -119,7 +119,6 @@ namespace SpiralOfFate
 		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::shared_ptr<Platform>> _platforms;
 		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
-		std::pair<unsigned char, unsigned char> _score{0, 0};
 		unsigned _currentRound = 0;
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;

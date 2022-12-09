@@ -328,8 +328,10 @@ namespace SpiralOfFate
 
 		if (this->_paused)
 			return result;
-		if (!this->_replay)
-			this->_manager->_score = {0, 0};
+		if (!this->_replay) {
+			this->_manager->_leftHUDData.score = 0;
+			this->_manager->_rightHUDData.score = 0;
+		}
 		if (this->_block == Character::BLOCK_1ST_HIT) {
 			if (this->_manager->_rightCharacter->_blockStun) {
 				this->_manager->_rightCharacter->_forceBlock = Character::NO_BLOCK;
