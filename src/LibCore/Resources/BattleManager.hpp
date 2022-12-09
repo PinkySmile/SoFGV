@@ -14,12 +14,6 @@ namespace SpiralOfFate
 {
 	enum BattleUiSprite {
 		BATTLEUI_HUD_SEAT,
-		BATTLEUI_SPIRIT_MANA,
-		BATTLEUI_SPIRIT_MANA_FULL,
-		BATTLEUI_MATTER_MANA,
-		BATTLEUI_MATTER_MANA_FULL,
-		BATTLEUI_VOID_MANA,
-		BATTLEUI_VOID_MANA_FULL,
 		BATTLEUI_MANA_BAR,
 		BATTLEUI_GUARD_TEXT,
 		BATTLEUI_GUARD_BAR,
@@ -54,6 +48,7 @@ namespace SpiralOfFate
 			bool counter = false;
 			unsigned char score = 0;
 
+			void renderMeterBar(sf::RenderTarget &output, Vector2i pos, float bar, sf::Color minColor, sf::Color maxColor) const;
 			void render(sf::RenderTarget &output) const;
 			void renderNoReverse(sf::RenderTarget &output) const;
 			void update();

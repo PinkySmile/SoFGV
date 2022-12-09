@@ -13,12 +13,6 @@ namespace SpiralOfFate
 {
 	static const char *battleHudSprite[] = {
 		"assets/battleui/player_hud.png",        // BATTLEUI_HUD_SEAT
-		"assets/battleui/blue_bar.png",          // BATTLEUI_SPIRIT_MANA
-		"assets/battleui/blue_barMAX.png",       // BATTLEUI_SPIRIT_MANA_FULL
-		"assets/battleui/orange_bar.png",        // BATTLEUI_MATTER_MANA
-		"assets/battleui/orange_barMAX.png",     // BATTLEUI_MATTER_MANA_FULL
-		"assets/battleui/violet_bar.png",        // BATTLEUI_VOID_MANA
-		"assets/battleui/violet_barMAX.png",     // BATTLEUI_VOID_MANA_FULL
 		"assets/battleui/meterbars.png",         // BATTLEUI_MANA_BAR
 		"assets/battleui/guard.png",             // BATTLEUI_GUARD_TEXT
 		"assets/battleui/guardbar.png",          // BATTLEUI_GUARD_BAR
@@ -149,11 +143,11 @@ namespace SpiralOfFate
 		});
 		this->_battleUi[BATTLEUI_OVERDRIVE].setOrigin({
 			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE].textureHandle).x / 2),
-			0,
+			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE].textureHandle).y / 2),
 		});
 		this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].setOrigin({
 			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).x / 2),
-			0,
+			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).y / 2),
 		});
 
 		my_assert(this->_leftHUDData.target.create(texSize.x, texSize.y));
@@ -1086,8 +1080,52 @@ namespace SpiralOfFate
 		output.draw(txt);
 	}
 
+	void BattleManager::HUDData::renderMeterBar(sf::RenderTarget &output, Vector2i pos, float bar, sf::Color minColor, sf::Color maxColor) const
+	{
+		sf::VertexArray buffer{sf::TriangleStrip, 4};
+		sf::Vertex vertex;
+		sf::Text text;
+
+		vertex.color = minColor;
+		vertex.position = pos;
+		buffer[0] = vertex;
+		vertex.position = {16.f + pos.x, 16.f + pos.y};
+		buffer[2] = vertex;
+
+		vertex.color = sf::Color{
+			static_cast<sf::Uint8>(minColor.r + (maxColor.r - minColor.r) * bar),
+			static_cast<sf::Uint8>(minColor.g + (maxColor.g - minColor.g) * bar),
+			static_cast<sf::Uint8>(minColor.b + (maxColor.b - minColor.b) * bar),
+		};
+		vertex.position = {pos.x + bar * 169, pos.y * 1.f};
+		buffer[1] = vertex;
+		vertex.position = {16 + pos.x + bar * 169, 16.f + pos.y};
+		buffer[3] = vertex;
+		output.draw(buffer);
+
+		auto str = std::to_string((int)(bar * 100));
+
+		text.setFont(this->mgr._font);
+		text.setFillColor(vertex.color);
+		text.setOutlineThickness(0);
+		text.setCharacterSize(14);
+		if (this->side) {
+			size_t size = 0;
+
+			for (auto c : str)
+				size += this->mgr._font.getGlyph(c, 14, false).advance;
+			text.setScale(-1, 1);
+			text.setPosition(pos.x + 190 + size, pos.y - 1);
+		} else
+			text.setPosition(pos.x + 190, pos.y - 1);
+		text.setString(str);
+		output.draw(text);
+	}
+
 	void BattleManager::HUDData::render(sf::RenderTarget &output) const
 	{
+		output.clear(sf::Color::Transparent);
+
 		this->mgr._battleUi[BATTLEUI_HUD_SEAT].setPosition(20, 20);
 		output.draw(this->mgr._battleUi[BATTLEUI_HUD_SEAT], sf::BlendNone);
 
@@ -1120,11 +1158,9 @@ namespace SpiralOfFate
 			sf::BlendMode::Zero,     sf::BlendMode::One,  sf::BlendMode::Add
 		});
 
-
 		auto guardVals = this->base._guardCooldown ?
 		                 std::pair<int, int>(this->base._maxGuardCooldown - this->base._guardCooldown, this->base._maxGuardCooldown) :
 		                 std::pair<int, int>(this->base._guardBar, this->base._maxGuardBar);
-
 		auto guardId = this->base._guardCooldown ? BATTLEUI_GUARD_BAR_DISABLED : BATTLEUI_GUARD_BAR;
 
 		this->mgr._battleUi[guardId].setPosition(260, 78);
@@ -1137,13 +1173,9 @@ namespace SpiralOfFate
 
 		this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setScale(this->side ? -1 : 1, 1);
 		this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setPosition(222 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_GUARD_TEXT].textureHandle).x / 2, 62);
-		if (this->base._guardCooldown)
-			this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setColor(sf::Color{0x40, 0x40, 0x40});
-		else
-			this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setColor(sf::Color::White);
+		this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setColor(this->base._guardCooldown ? sf::Color{0x40, 0x40, 0x40} : sf::Color::White);
 		output.draw(this->mgr._battleUi[BATTLEUI_GUARD_TEXT], sf::BlendAlpha);
 
-		//Guard Cross
 		if (this->base._guardCooldown && this->guardCrossTimer % 60 > 30) {
 			sf::Sprite sprite;
 
@@ -1151,36 +1183,77 @@ namespace SpiralOfFate
 			sprite.setPosition(237, 65);
 			output.draw(sprite, sf::BlendAlpha);
 		}
-		//BATTLEUI_OVERDRIVE
-		//BATTLEUI_OVERDRIVE_OUTLINE
 
-		/*
-		//OD bar back
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(350 - 15 * FIRST_TO, 38);
-		rect.setSize({100, 12});
-		output.draw(rect);
+		auto size = game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_OVERDRIVE].textureHandle);
 
-		//OD bar
-		rect.setOutlineThickness(0);
-		rect.setFillColor(this->base._odCooldown ? sf::Color{0xA0, 0x00, 0x00} : sf::Color::Cyan);
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE].setScale(this->side ? -1 : 1, 1);
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE].setPosition(
+			420 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_OVERDRIVE].textureHandle).x / 2,
+			65 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_OVERDRIVE].textureHandle).y / 2
+		);
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE].setTextureRect({
+			0, 0,
+			static_cast<int>(size.x),
+			static_cast<int>(size.y)
+		});
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE].setColor(this->base._odCooldown ? sf::Color{0x40, 0x40, 0x40} : sf::Color::White);
+		output.draw(this->mgr._battleUi[BATTLEUI_OVERDRIVE], sf::BlendAlpha);
+
 		if (this->base._odCooldown) {
-			rect.setPosition(350 - 15 * FIRST_TO + 100.f * this->base._odCooldown / this->base._barMaxOdCooldown, 38);
-			rect.setSize({100.f - 100 * this->base._odCooldown / this->base._barMaxOdCooldown, 12});
-		} else {
-			rect.setPosition(350 - 15 * FIRST_TO, 38);
-			rect.setSize({100.f, 12});
+			this->mgr._battleUi[BATTLEUI_OVERDRIVE].setScale(this->side ? -1 : 1, 1);
+			this->mgr._battleUi[BATTLEUI_OVERDRIVE].setPosition(
+				420 + size.x / 2 + (this->side ? 0 : size.x * this->base._odCooldown / this->base._barMaxOdCooldown),
+				65 + size.y / 2
+			);
+			this->mgr._battleUi[BATTLEUI_OVERDRIVE].setTextureRect({
+				(this->side ? 0 : static_cast<int>(size.x * this->base._odCooldown / this->base._barMaxOdCooldown)),
+				0,
+				static_cast<int>(size.x - size.x * this->base._odCooldown / this->base._barMaxOdCooldown),
+				static_cast<int>(size.y)
+			});
+			this->mgr._battleUi[BATTLEUI_OVERDRIVE].setColor(sf::Color{0xFF, 0x80, 0x80});
+			output.draw(this->mgr._battleUi[BATTLEUI_OVERDRIVE], sf::BlendAlpha);
 		}
-		output.draw(rect);
 
-		//OD Cross
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE_OUTLINE].setScale(this->side ? -1 : 1, 1);
+		this->mgr._battleUi[BATTLEUI_OVERDRIVE_OUTLINE].setPosition(
+			420 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).x / 2,
+			65 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).y / 2
+		);
+		output.draw(this->mgr._battleUi[BATTLEUI_OVERDRIVE_OUTLINE], sf::BlendAlpha);
+
 		if (this->base._odCooldown && this->overdriveCrossTimer % 60 > 30) {
+			sf::Sprite sprite;
+
+			sprite.setScale(2, 2);
+			sprite.setOrigin(8, 8);
 			sprite.setTexture(this->mgr._cross, true);
-			sprite.setPosition(350 - 15 * FIRST_TO + 50 - 8, 36);
-			output.draw(sprite);
+			sprite.setPosition(420 + size.x / 2, 65 + size.y / 2);
+			output.draw(sprite, sf::BlendAlpha);
 		}
 
+		//Score
+		sf::RectangleShape rect;
+		rect.setFillColor(sf::Color::White);
+		for (int i = 0; i < FIRST_TO; i++) {
+			rect.setPosition(440 - i * 15, 20);
+			rect.setSize({10, 8});
+			output.draw(rect);
+		}
+		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
+		for (int i = 0; i < this->score; i++) {
+			rect.setPosition(442 - i * 15, 22);
+			rect.setSize({6, 4});
+			output.draw(rect);
+		}
+
+		this->mgr._battleUi[BATTLEUI_MANA_BAR].setPosition(20, 611);
+		output.draw(this->mgr._battleUi[BATTLEUI_MANA_BAR], sf::BlendNone);
+
+		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
+		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
+		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
+		/*
 		//Score
 		rect.setFillColor(sf::Color::White);
 		for (int i = 0; i < FIRST_TO; i++) {
