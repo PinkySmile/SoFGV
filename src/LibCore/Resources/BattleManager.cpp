@@ -147,6 +147,14 @@ namespace SpiralOfFate
 			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_GUARD_TEXT].textureHandle).x / 2),
 			0,
 		});
+		this->_battleUi[BATTLEUI_OVERDRIVE].setOrigin({
+			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE].textureHandle).x / 2),
+			0,
+		});
+		this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].setOrigin({
+			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).x / 2),
+			0,
+		});
 
 		my_assert(this->_leftHUDData.target.create(texSize.x, texSize.y));
 		my_assert(this->_rightHUDData.target.create(texSize.x, texSize.y));
@@ -1143,12 +1151,6 @@ namespace SpiralOfFate
 			sprite.setPosition(237, 65);
 			output.draw(sprite, sf::BlendAlpha);
 		}
-		//BATTLEUI_LIFE_BAR
-		//BATTLEUI_LIFE_BAR_RED
-		//BATTLEUI_LIFE_BAR_EFFECT
-		//BATTLEUI_GUARD_TEXT
-		//BATTLEUI_GUARD_BAR
-		//BATTLEUI_GUARD_BAR_DISABLED
 		//BATTLEUI_OVERDRIVE
 		//BATTLEUI_OVERDRIVE_OUTLINE
 
@@ -1224,7 +1226,6 @@ namespace SpiralOfFate
 		rect.setPosition(pos);
 		rect.setSize({size, 10});
 		output.draw(rect);
-
 		 */
 	}
 

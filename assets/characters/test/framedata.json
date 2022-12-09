@@ -8938,6 +8938,7 @@
                             "width": 72
                         }
                     ],
+                    "min_prorate": 100.0,
                     "offense_flag": 147512,
                     "offset": {
                         "x": -3,
