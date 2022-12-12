@@ -7,7 +7,10 @@ add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
-include_directories(include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore)
+include_directories(${CMAKE_SOURCE_DIR}/include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore)
+
+message("SFML include dir is ${SFML_INCLUDE_DIRS}")
+message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

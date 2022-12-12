@@ -26,6 +26,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_GRAPHICS_LIBRARY
                 NAMES
                 sfml-graphics
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
@@ -39,6 +40,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_AUDIO_LIBRARY
                 NAMES
                 sfml-audio
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
@@ -52,6 +54,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_NETWORK_LIBRARY
                 NAMES
                 sfml-network
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
@@ -65,6 +68,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_SYSTEM_LIBRARY
                 NAMES
                 sfml-system
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
@@ -78,6 +82,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_WINDOW_LIBRARY
                 NAMES
                 sfml-window
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
@@ -91,6 +96,7 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_PATH(SFML_INCLUDE_DIRS
                 NAMES
                 SFML/Graphics.hpp
+                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/include/             # SFML root directory (if provided)
                 ${SFML_DIR}                      # SFML root directory (if provided)
