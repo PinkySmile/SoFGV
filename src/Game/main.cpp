@@ -227,10 +227,8 @@ void	run()
 	loadSettings();
 #ifdef _WIN32
 	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
-#elif defined(__ANDROID__)
-	std::string font = "assets/fonts/test.ttf";
 #else
-	std::string font = "/usr/share/fonts/TTF/DejaVuSerif.ttf";
+	std::string font = "assets/fonts/Retro Gaming.ttf";
 #endif
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");

@@ -112,6 +112,7 @@ namespace SpiralOfFate
 		Logger logger;
 		sf::Font font;
 		std::string lastIp = "127.0.0.1";
+		unsigned short lastPort = 0;
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		SoundManager soundMgr;

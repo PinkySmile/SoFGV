@@ -79,7 +79,7 @@ namespace SpiralOfFate
 			{"host", "Host an online game (on port 10800)", [this]{
 				this->_askingInputs = true;
 			}},
-			{"connect", "Connect to ip from clipboard (on port 10800)", [this]{
+			{"connect", "Connect to ip from clipboard", [this]{
 				this->_askingInputs = true;
 			}},
 			{"settings", "Change inputs", [this]{
@@ -252,15 +252,31 @@ namespace SpiralOfFate
 			return;
 		}
 
-		sf::IpAddress ip = static_cast<std::string>(ipString);
+		size_t pos = ipString.find(':');
+		sf::IpAddress ip = static_cast<std::string>(ipString.substring(0, pos));
+		unsigned short port = 10800;
 
 		if (ip == sf::IpAddress()) {
 			Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
 			delete con;
 			return;
 		}
+		if (pos != std::string::npos) {
+			try {
+				auto p = std::stoul(static_cast<std::string>(ipString.substring(pos + 1)));
+
+				if (p > UINT16_MAX)
+					throw std::exception();
+				port = p;
+			} catch (...) {
+				Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
+				delete con;
+				return;
+			}
+		}
 		game->connection.reset(con);
 		game->lastIp = ip.toString();
+		game->lastPort = port;
 		// TODO: Allow to change port
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
 			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
@@ -275,7 +291,7 @@ namespace SpiralOfFate
 		con->onDisconnect = [this](Connection::Remote &remote){
 			this->_onDisconnect(remote.ip.toString());
 		};
-		con->connect(ip, 10800);
+		con->connect(ip, port);
 		this->_connecting = true;
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
@@ -489,7 +505,7 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_remote.empty()) {
 			game->screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
-			game->screen->displayElement("Connecting to " + game->lastIp + " on port 10800", {540, 300}, 600, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Connecting to " + game->lastIp + " on port " + std::to_string(game->lastPort), {540, 300}, 600, Screen::ALIGN_CENTER);
 		} else {
 			game->screen->displayElement({540, 280, 600, 130}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement("Connected to " + this->_remote + ".", {540, 300}, 600, Screen::ALIGN_CENTER);
