@@ -72,6 +72,7 @@ namespace SpiralOfFate
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			remote.connectPhase = 1 + packet.spectator;
+			game->connection->nextGame();
 			game->scene.reset(new LoadingScene([this](LoadingScene *me){
 				me->setStatus("Loading assets...");
 				auto result = new ServerCharacterSelect();
@@ -156,6 +157,7 @@ namespace SpiralOfFate
 
 	LoadingScene *ServerConnection::getChrLoadingScreen()
 	{
+		game->connection->nextGame();
 		return new LoadingScene([this](LoadingScene *me){
 			me->setStatus("Loading assets...");
 			auto result = new ServerCharacterSelect(this->p1chr, this->p2chr, this->p1pal, this->p2pal, this->stage, this->platformConfig);
@@ -175,6 +177,7 @@ namespace SpiralOfFate
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
 		this->_states.clear();
+		game->connection->nextGame();
 		if (id == MENUSTATE_CHARSELECT && lock)
 			game->scene.reset(new LoadingScene([this](LoadingScene *me){
 				me->setStatus("Loading assets...");
@@ -203,7 +206,6 @@ namespace SpiralOfFate
 
 				scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
 				scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
-				game->connection->nextGame();
 				game->battleRandom.seed(this->seed);
 				me->setStatus("Creating scene...");
 				auto result = new ServerInGame(

@@ -75,6 +75,7 @@ namespace SpiralOfFate
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
+			game->connection->nextGame();
 			game->scene.reset(new LoadingScene([this](LoadingScene *me){
 				me->setStatus("Loading assets...");
 				auto result = new ClientCharacterSelect();
@@ -143,6 +144,7 @@ namespace SpiralOfFate
 			auto restore = this->_currentMenu == MENUSTATE_INGAME || this->_currentMenu == MENUSTATE_LOADING_INGAME;
 
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
+			game->connection->nextGame();
 			game->scene.reset(new LoadingScene([this, restore](LoadingScene *me){
 				me->setStatus("Loading assets...");
 				auto result = restore ?
@@ -223,6 +225,7 @@ namespace SpiralOfFate
 		auto tmp = game->scene;
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
+		game->connection->nextGame();
 		game->scene.reset(new LoadingScene([this, tmp](LoadingScene *me){
 			auto scene = reinterpret_cast<ClientCharacterSelect *>(&*tmp);
 			me->setStatus("Loading P1's character (" + scene->_entries[this->p1chr].name + ")");
@@ -238,7 +241,6 @@ namespace SpiralOfFate
 
 			scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
 			scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
-			game->connection->nextGame();
 			game->battleRandom.seed(this->seed);
 			me->setStatus("Creating scene...");
 			auto result = new ClientInGame(

@@ -14,7 +14,6 @@ namespace SpiralOfFate
 		_localInput{new DelayInput(this->_localRealInput)},
 		_remoteInput{new DelayInput(this->_remoteRealInput)}
 	{
-		game->connection->nextGame();
 		this->_localInput->setDelay(CHARACTER_SELECT_DELAY);
 		this->_remoteInput->setDelay(CHARACTER_SELECT_DELAY);
 	}
@@ -30,7 +29,6 @@ namespace SpiralOfFate
 		_localInput{new DelayInput(this->_localRealInput)},
 		_remoteInput{new DelayInput(this->_remoteRealInput)}
 	{
-		game->connection->nextGame();
 		this->_localInput->setDelay(CHARACTER_SELECT_DELAY);
 		this->_remoteInput->setDelay(CHARACTER_SELECT_DELAY);
 	}
