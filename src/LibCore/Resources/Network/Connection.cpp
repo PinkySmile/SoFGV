@@ -75,7 +75,7 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
-		if (packet.opcode != OPCODE_GAME_FRAME)
+		//if (packet.opcode != OPCODE_GAME_FRAME)
 			game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
 		switch (packet.opcode) {
 		case OPCODE_HELLO:
@@ -192,11 +192,11 @@ namespace SpiralOfFate
 	{
 		auto pack = reinterpret_cast<Packet *>(packet);
 		//TODO: To net endianness
-		if (pack->opcode != OPCODE_GAME_FRAME) {
+		//if (pack->opcode != OPCODE_GAME_FRAME) {
 			auto str = pack->toString();
 
 			game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str);
-		}
+		//}
 		my_assert(realSize <= RECV_BUFFER_SIZE);
 		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}

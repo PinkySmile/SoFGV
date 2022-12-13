@@ -177,9 +177,9 @@ namespace SpiralOfFate
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
 		this->_states.clear();
-		game->connection->nextGame();
-		if (id == MENUSTATE_CHARSELECT && lock)
-			game->scene.reset(new LoadingScene([this](LoadingScene *me){
+		if (id == MENUSTATE_CHARSELECT && lock) {
+			game->connection->nextGame();
+			game->scene.reset(new LoadingScene([this](LoadingScene *me) {
 				me->setStatus("Loading assets...");
 				auto result = new ServerCharacterSelect();
 
@@ -189,9 +189,10 @@ namespace SpiralOfFate
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				return result;
 			}));
-		else if (id == MENUSTATE_INGAME) {
+		} else if (id == MENUSTATE_INGAME) {
 			auto tmp = game->scene;
 
+			game->connection->nextGame();
 			game->scene.reset(new LoadingScene([tmp, this](LoadingScene *me) {
 				auto *scene = reinterpret_cast<ServerCharacterSelect *>(&*tmp);
 				me->setStatus("Loading P1's character (" + scene->_entries[this->p1chr].name + ")");
