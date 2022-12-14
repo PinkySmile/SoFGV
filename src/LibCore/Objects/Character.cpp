@@ -1397,7 +1397,7 @@ namespace SpiralOfFate
 			if (this->_guardBar > loss)
 				this->_guardBar -= loss;
 			else {
-				this->_guardBar = 0;
+				this->_guardBar = this->_maxGuardBar;
 				this->_guardCooldown = this->_maxGuardCooldown;
 				game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 			}
@@ -3992,8 +3992,8 @@ namespace SpiralOfFate
 	{
 		auto data = this->getCurrentFrameData();
 		auto oData = other->getCurrentFrameData();
-		bool isStrongest;
-		bool isWeakest;
+		bool isStrongest = false;
+		bool isWeakest = false;
 
 		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
@@ -4025,10 +4025,14 @@ namespace SpiralOfFate
 		if (!isWeakest && (!data->dFlag.neutralBlock || isStrongest)) {
 			unsigned loss = (data->dFlag.neutralBlock + 1) * 60;
 
-			this->_guardBar += loss;
-			if (this->_guardBar > this->_maxGuardBar)
-				this->_guardBar = this->_maxGuardBar;
-			this->_guardCooldown = 0;
+			if (this->_guardCooldown) {
+				this->_guardCooldown = 0;
+				this->_guardBar = loss;
+			} else {
+				this->_guardBar += loss;
+				if (this->_guardBar > this->_maxGuardBar)
+					this->_guardBar = this->_maxGuardBar;
+			}
 		}
 		if (isStrongest) {
 			game->battleMgr->setHitStop(20);

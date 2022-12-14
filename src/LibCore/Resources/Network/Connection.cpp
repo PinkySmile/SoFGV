@@ -301,6 +301,8 @@ namespace SpiralOfFate
 		if (packet.gameId != this->_gameId)
 			return;
 
+		if (packet.frameId == 0 && packet.inputs[0].n)
+			puts("AH AH!");
 		for (size_t i = 0; i < packet.nbInputs; i++) {
 			if (this->_nextExpectedFrame == packet.frameId + i) {
 				this->_nextExpectedFrame++;
@@ -436,6 +438,7 @@ namespace SpiralOfFate
 	void Connection::nextGame()
 	{
 		this->_gameId++;
+		this->_buffer.clear();
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
