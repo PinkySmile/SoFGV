@@ -15,9 +15,25 @@
 namespace SpiralOfFate
 {
 	class IConnection {
+	protected:
+		std::vector<class RemoteInput *> _registeredInputs;
+
 	public:
 		virtual ~IConnection() = default;
 		virtual std::list<PacketInput> receive() = 0;
+
+		void registerInput(class RemoteInput *input)
+		{
+			this->_registeredInputs.push_back(input);
+		}
+
+		void unregisterInput(class RemoteInput *input)
+		{
+			this->_registeredInputs.erase(
+				std::remove(this->_registeredInputs.begin(), this->_registeredInputs.end(), input),
+				this->_registeredInputs.end()
+			);
+		};
 	};
 }
 

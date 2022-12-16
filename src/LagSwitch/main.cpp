@@ -69,16 +69,16 @@ int main(int argc, char **argv)
 			sf::IpAddress raddr = addr == haddr && port == hport ? caddr : haddr;
 			unsigned short rport = addr == haddr && port == hport ? cport : hport;
 
-			std::cout << "C" << (addr == haddr && port == hport ? '<' : '>') << "H " << total << "bytes ";
+			//std::cout << "C" << (addr == haddr && port == hport ? '<' : '>') << "H " << total << "bytes ";
 			if ((addr != haddr || port != hport) && cport == 0) {
 				caddr = addr;
 				cport = port;
 			}
 			if (loss_dist(random_gen) < packet_lost) {
-				std::cout << "Dropped" << std::endl;
+				//std::cout << "Dropped" << std::endl;
 				continue; // Oops, I lost your packet :(
 			}
-			std::cout << t / 1000 << "ms" << std::endl;
+			//std::cout << t / 1000 << "ms" << std::endl;
 			std::thread{[t, buffer, total, raddr, rport, &sock] {
 				std::this_thread::sleep_for(std::chrono::microseconds(t));
 				sock.send(&*buffer, total, raddr, rport);

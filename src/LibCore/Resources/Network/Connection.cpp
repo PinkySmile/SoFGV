@@ -6,6 +6,7 @@
 #include "Resources/version.h"
 #include "Exceptions.hpp"
 #include "Resources/Game.hpp"
+#include "Inputs/RemoteInput.hpp"
 
 // The size of the recv buffer. Packets bigger than this won't be able to be received.
 // Additionally, the game will check if it is not attempting to send larger packets than this.
@@ -301,13 +302,11 @@ namespace SpiralOfFate
 		if (packet.gameId != this->_gameId)
 			return;
 
-		if (packet.frameId == 0 && packet.inputs[0].n)
-			puts("AH AH!");
 		for (size_t i = 0; i < packet.nbInputs; i++) {
 			if (this->_nextExpectedFrame == packet.frameId + i) {
-				this->_nextExpectedFrame++;
 				if (packet.gameId != this->_gameId)
 					return;
+				this->_nextExpectedFrame++;
 				this->_buffer.push_back(packet.inputs[i]);
 			}
 		}
@@ -443,6 +442,8 @@ namespace SpiralOfFate
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
+		for (auto input : this->_registeredInputs)
+			input->flush();
 	}
 
 	void Connection::Remote::_pingLoop()

@@ -124,7 +124,7 @@ namespace SpiralOfFate
 		if (packet.opMenuId != this->_currentMenu) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
-			this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+			this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		}
 		this->_opCurrentMenu = packet.menuId;
 		if (packet.menuId == MENUSTATE_INGAME || packet.menuId == MENUSTATE_LOADING_INGAME)

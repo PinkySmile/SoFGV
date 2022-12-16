@@ -12,6 +12,12 @@ namespace SpiralOfFate
 	{
 		this->_keyStates.reset();
 		this->_keyDuration.fill(0);
+		this->_connection.registerInput(this);
+	}
+
+	RemoteInput::~RemoteInput()
+	{
+		this->_connection.unregisterInput(this);
 	}
 
 	void RemoteInput::update()
@@ -45,5 +51,10 @@ namespace SpiralOfFate
 	{
 		for (auto &input : this->_connection.receive())
 			this->_inputBuffer.push_back(input);
+	}
+
+	void RemoteInput::flush()
+	{
+		this->_inputBuffer.clear();
 	}
 }

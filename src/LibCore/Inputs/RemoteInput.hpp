@@ -20,10 +20,12 @@ namespace SpiralOfFate
 
 	public:
 		RemoteInput(IConnection &connection);
+		~RemoteInput();
 		void update() override;
 		std::string getName() const override;
 		bool hasInputs() override;
 		void refreshInputs();
+		void flush();
 	};
 } // SpiralOfFate
 
