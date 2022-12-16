@@ -22,6 +22,8 @@ namespace SpiralOfFate
 		"assets/battleui/lifebar_texture.png",   // BATTLEUI_LIFE_BAR_EFFECT
 		"assets/battleui/overdrive.png",         // BATTLEUI_OVERDRIVE
 		"assets/battleui/overdrive_outline.png", // BATTLEUI_OVERDRIVE_OUTLINE
+		"assets/battleui/round_container.png",  // BATTLEUI_SCORE_SEAT
+		"assets/battleui/round_point.png",      // BATTLEUI_SCORE_BULLET
 	};
 
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
@@ -1231,20 +1233,13 @@ namespace SpiralOfFate
 			sprite.setPosition(420 + size.x / 2, 65 + size.y / 2);
 			output.draw(sprite, sf::BlendAlpha);
 		}
-
-		//Score
-		sf::RectangleShape rect;
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
 		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(440 - i * 15, 20);
-			rect.setSize({10, 8});
-			output.draw(rect);
+			this->mgr._battleUi[BATTLEUI_SCORE_SEAT].setPosition(162 - i * 46, 69);
+			output.draw(this->mgr._battleUi[BATTLEUI_SCORE_SEAT], sf::BlendNone);
 		}
-		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
 		for (int i = 0; i < this->score; i++) {
-			rect.setPosition(442 - i * 15, 22);
-			rect.setSize({6, 4});
-			output.draw(rect);
+			this->mgr._battleUi[BATTLEUI_SCORE_BULLET].setPosition(167 - i * 46, 72);
+			output.draw(this->mgr._battleUi[BATTLEUI_SCORE_BULLET], sf::BlendNone);
 		}
 
 		this->mgr._battleUi[BATTLEUI_MANA_BAR].setPosition(20, 611);
@@ -1253,53 +1248,6 @@ namespace SpiralOfFate
 		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
 		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
 		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
-		/*
-		//Score
-		rect.setFillColor(sf::Color::White);
-		for (int i = 0; i < FIRST_TO; i++) {
-			rect.setPosition(440 - i * 15, 40);
-			rect.setSize({10, 8});
-			output.draw(rect);
-		}
-		rect.setFillColor(sf::Color{0xFF, 0x80, 0x00});
-		for (int i = 0; i < this->score; i++) {
-			rect.setPosition(442 - i * 15, 42);
-			rect.setSize({6, 4});
-			output.draw(rect);
-		}
-
-		Vector2f pos{150, 670};
-		float size = 67.f * this->base._spiritMana / this->base._spiritManaMax;
-
-		rect.setOutlineThickness(1);
-		rect.setFillColor(sf::Color{0xA0, 0xA0, 0xA0});
-		rect.setPosition(150, 670);
-		rect.setSize({200.f, 10});
-		output.draw(rect);
-
-		//Spirit mana
-		rect.setOutlineThickness(0);
-		rect.setFillColor(sf::Color{51, 204, 204});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		output.draw(rect);
-
-		//Matter mana
-		pos.x += size;
-		size = 67.f * this->base._matterMana / this->base._matterManaMax;
-		rect.setFillColor(sf::Color{187, 94, 0});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		output.draw(rect);
-
-		//Void mana
-		pos.x += size;
-		size = 67.f * this->base._voidMana / this->base._voidManaMax;
-		rect.setFillColor(sf::Color{0x80, 0x00, 0x80});
-		rect.setPosition(pos);
-		rect.setSize({size, 10});
-		output.draw(rect);
-		 */
 	}
 
 	void BattleManager::HUDData::renderNoReverse(sf::RenderTarget &output) const
