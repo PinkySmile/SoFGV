@@ -79,6 +79,7 @@ namespace SpiralOfFate
 		};
 
 		struct Data {
+			uint64_t random;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
@@ -112,6 +113,7 @@ namespace SpiralOfFate
 		std::vector<sf::Texture> _roundSprites;
 		unsigned char _speed = 60;
 		unsigned _lastObjectId = 0;
+		//TODO: Also save these in the rollback
 		std::vector<std::unique_ptr<IObject>> _stageObjects;
 		std::array<sf::Texture, NB_SPRITES> _moveSprites;
 		bool _leftFirst = false;

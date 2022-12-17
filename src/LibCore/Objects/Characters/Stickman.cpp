@@ -5,12 +5,6 @@
 #include "Stickman.hpp"
 #include "Resources/Game.hpp"
 
-#define MIN_RANDOM_FLAGS 6
-#define NEW_FLAG_STEP 5
-#define MAX_CHARGE 40
-#define HITSTUN_RATIO 2/3
-#define BLOCKSTUN_RATIO 2/3
-
 namespace SpiralOfFate
 {
 	Stickman::Stickman(
@@ -69,7 +63,8 @@ namespace SpiralOfFate
 			auto data = this->getCurrentFrameData();
 
 			if (data->specialMarker == 1) {
-				this->_buff = this->_rand(game->random);
+				this->_rand.reset();
+				this->_buff = this->_rand(game->battleRandom);
 				this->_buffTimer = timers[this->_buff].first;
 				this->_guardCooldown = timers[this->_buff].second;
 				this->_guardBar = timers[this->_buff].second;

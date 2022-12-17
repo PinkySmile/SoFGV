@@ -223,16 +223,35 @@ void	run()
 {
 	sf::Event event;
 	sf::Image icon;
-
-	loadSettings();
 #ifdef _WIN32
 	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
 #else
 	std::string font = "assets/fonts/Retro Gaming.ttf";
 #endif
+	char magic[] = {0x04, 0x03, 0x02, 0x01};
+
+	// We perform an endianness check here and display a warning if it fails.
+	// The affected stuff are:
+	//   - All the network stack
+	//   - Generated replays
+	//   - Computed state checksums
+	// We officially support only little endian but people can play if they have the same endianness.
+	// Regardless, the game should work in singleplayer.
+	if (*(unsigned *)magic != 0x01020304)
+		SpiralOfFate::Utils::dispMsg(
+			"Warning",
+			"Your version of the game has not been compiled in " + std::string(*(unsigned *)magic == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
+			"You will not be able to play with players using a different endianness.\n" +
+			"Moreover, you won't be able to load replays generated with a different endianness.\n"
+			"Your replays will also not be compatible with a different version of the game.",
+			MB_ICONWARNING,
+			nullptr
+		);
+	loadSettings();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
-	SpiralOfFate::game->font.loadFromFile(font);
+	if (!SpiralOfFate::game->font.loadFromFile(font))
+		my_assert(SpiralOfFate::game->font.loadFromFile("assets/fonts/Retro Gaming.ttf"));
 	SpiralOfFate::game->screen = std::make_unique<SpiralOfFate::Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		SpiralOfFate::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());

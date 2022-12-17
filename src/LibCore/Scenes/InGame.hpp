@@ -12,6 +12,7 @@
 #include "Inputs/IInput.hpp"
 #include "Objects/Character.hpp"
 #include "Resources/MoveListData.hpp"
+#include "Resources/RandomWrapper.hpp"
 #include "Objects/FakeObject.hpp"
 
 namespace SpiralOfFate
@@ -51,7 +52,7 @@ namespace SpiralOfFate
 		bool _replaySaved = false;
 		bool _goBackToTitle;
 
-		std::mt19937 _random;
+		RandomWrapper::SerializedWrapper _random;
 		struct GameParams _params;
 
 		virtual void _renderPause() const;

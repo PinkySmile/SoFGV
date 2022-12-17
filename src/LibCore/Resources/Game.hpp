@@ -18,6 +18,7 @@
 #include "Inputs/ControllerInput.hpp"
 #include "Inputs/RollbackInput.hpp"
 #include "Logger.hpp"
+#include "RandomWrapper.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS
@@ -108,7 +109,7 @@ namespace SpiralOfFate
 	struct Game {
 		bool hosting = false;
 		std::mt19937 random;
-		std::mt19937 battleRandom;
+		RandomWrapper battleRandom;
 		Logger logger;
 		sf::Font font;
 		std::string lastIp = "127.0.0.1";

@@ -38,13 +38,6 @@ namespace SpiralOfFate
 		this->_moveSprites[SPRITE_5].loadFromFile("assets/icons/inputs/5.png");
 		this->_moveSprites[SPRITE_6].loadFromFile("assets/icons/inputs/6.png");
 		this->_moveSprites[SPRITE_8].loadFromFile("assets/icons/inputs/8.png");
-		//this->_moveSprites[SPRITE_214].loadFromFile("assets/icons/inputs/214.png");
-		//this->_moveSprites[SPRITE_236].loadFromFile("assets/icons/inputs/236.png");
-		//this->_moveSprites[SPRITE_421].loadFromFile("assets/icons/inputs/421.png");
-		//this->_moveSprites[SPRITE_426].loadFromFile("assets/icons/inputs/426.png");
-		//this->_moveSprites[SPRITE_623].loadFromFile("assets/icons/inputs/623.png");
-		//this->_moveSprites[SPRITE_624].loadFromFile("assets/icons/inputs/624.png");
-		//this->_moveSprites[SPRITE_624684].loadFromFile("assets/icons/inputs/624684.png");
 		this->_moveSprites[SPRITE_N].loadFromFile("assets/icons/inputs/neutral.png");
 		this->_moveSprites[SPRITE_D].loadFromFile("assets/icons/inputs/dash.png");
 		this->_moveSprites[SPRITE_M].loadFromFile("assets/icons/inputs/matter.png");
@@ -597,9 +590,10 @@ namespace SpiralOfFate
 	void BattleManager::copyToBuffer(void *data) const
 	{
 		auto dat = reinterpret_cast<Data *>(data);
-		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
+		char *ptr = (char *)data + sizeof(Data);
 
 		game->logger.verbose("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		dat->random = game->battleRandom.ser.invoke_count;
 		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftHUDData = this->_leftHUDData;
@@ -644,8 +638,10 @@ namespace SpiralOfFate
 	void BattleManager::restoreFromBuffer(void *data)
 	{
 		auto dat = reinterpret_cast<Data *>(data);
-		ptrdiff_t ptr = (ptrdiff_t)data + sizeof(Data);
+		char *ptr = (char *)data + sizeof(Data);
 
+		if (dat->random != game->battleRandom.ser.invoke_count)
+			game->battleRandom.rollback(dat->random);
 		this->_ended = dat->_ended;
 		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftHUDData = dat->_leftHUDData;
@@ -910,9 +906,11 @@ namespace SpiralOfFate
 	{
 		auto dat1 = reinterpret_cast<Data *>(data1);
 		auto dat2 = reinterpret_cast<Data *>(data2);
-		ptrdiff_t ptr1 = (ptrdiff_t)data1 + sizeof(Data);
-		ptrdiff_t ptr2 = (ptrdiff_t)data2 + sizeof(Data);
+		char *ptr1 = (char *)data1 + sizeof(Data);
+		char *ptr2 = (char *)data2 + sizeof(Data);
 
+		if (dat1->random != dat2->random)
+			game->logger.fatal("BattleManager::random differs: " + std::to_string(dat1->random) + " vs " + std::to_string(dat2->random));
 		if (dat1->_ended != dat2->_ended)
 			game->logger.fatal("BattleManager::ended differs: " + std::to_string(dat1->_ended) + " vs " + std::to_string(dat2->_ended));
 		if (dat1->_lastObjectId != dat2->_lastObjectId)

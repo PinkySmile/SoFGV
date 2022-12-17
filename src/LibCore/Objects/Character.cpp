@@ -4334,7 +4334,7 @@ namespace SpiralOfFate
 
 		std::uniform_int_distribution<size_t> distribution{0, actions.size() - 1};
 
-		this->_forceStartMove(actions[distribution(game->random)]);
+		this->_forceStartMove(actions[distribution(game->battleRandom)]);
 	}
 
 	bool Character::matchEndUpdate()

@@ -50,7 +50,7 @@ namespace SpiralOfFate
 	};
 
 	InGame::InGame(const GameParams &params) :
-		_random(game->battleRandom),
+		_random(game->battleRandom.ser),
 		_params(params)
 	{
 		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
@@ -542,7 +542,7 @@ namespace SpiralOfFate
 		char timebuffer[40];
 		char timebuffer2[40];
 		struct tm* tm_info;
-		unsigned magic  = getMagic();
+		unsigned magic = getMagic();
 		auto leftChr    = game->battleMgr->getLeftCharacter();
 		auto rightChr   = game->battleMgr->getRightCharacter();
 		auto leftInputs = game->battleMgr->getLeftReplayData();

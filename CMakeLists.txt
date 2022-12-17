@@ -112,6 +112,8 @@ add_library(
 	src/LibCore/Scenes/TitleScreen.hpp
 	src/LibCore/Resources/PracticeBattleManager.cpp
 	src/LibCore/Resources/PracticeBattleManager.hpp
+	src/LibCore/Resources/RandomWrapper.cpp
+	src/LibCore/Resources/RandomWrapper.hpp
 	src/LibCore/Scenes/PracticeInGame.cpp
 	src/LibCore/Scenes/PracticeInGame.hpp
 	src/LibCore/Objects/Characters/Stickman.cpp
@@ -201,7 +203,8 @@ add_executable(
 	SoFGV
 	${GICON}
 	src/Game/main.cpp
-	src/LibCore/LibCore.hpp)
+	src/LibCore/LibCore.hpp
+)
 target_link_libraries(SoFGV SoFGVCore)
 target_include_directories(SoFGV PRIVATE src/LibCore)
 
