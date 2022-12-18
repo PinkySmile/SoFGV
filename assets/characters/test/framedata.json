@@ -6991,7 +6991,7 @@
                     }
                 },
                 {
-                    "block_stun": 12,
+                    "block_stun": 26,
                     "collision_box": {
                         "height": 138,
                         "left": -37,
@@ -7261,7 +7261,7 @@
                         "y": -1
                     },
                     "prorate": 90.0,
-                    "push_back": 10,
+                    "push_back": 5,
                     "push_block": 6,
                     "size": {
                         "x": 60,
@@ -7589,7 +7589,7 @@
                     }
                 },
                 {
-                    "block_stun": 9,
+                    "block_stun": 12,
                     "collision_box": {
                         "height": 95,
                         "left": -23,
@@ -10596,7 +10596,7 @@
                     }
                 },
                 {
-                    "block_stun": 12,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -10668,7 +10668,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -10739,7 +10739,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -10810,7 +10810,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -10881,7 +10881,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -10952,7 +10952,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -11023,7 +11023,7 @@
                     "untech": 15
                 },
                 {
-                    "block_stun": 10,
+                    "block_stun": 18,
                     "collision_box": {
                         "height": 137,
                         "left": -21,
@@ -11965,7 +11965,7 @@
                     }
                 },
                 {
-                    "block_stun": 14,
+                    "block_stun": 30,
                     "collision_box": {
                         "height": 138,
                         "left": -20,
@@ -12364,7 +12364,7 @@
                     "untech": 20
                 },
                 {
-                    "block_stun": 15,
+                    "block_stun": 33,
                     "collision_box": {
                         "height": 71,
                         "left": -22,
@@ -12600,7 +12600,7 @@
                     }
                 },
                 {
-                    "block_stun": 8,
+                    "block_stun": 26,
                     "collision_box": {
                         "height": 95,
                         "left": -23,
@@ -12674,7 +12674,7 @@
                     "untech": 20
                 },
                 {
-                    "block_stun": 8,
+                    "block_stun": 23,
                     "collision_box": {
                         "height": 95,
                         "left": -23,
@@ -12888,7 +12888,7 @@
                     }
                 },
                 {
-                    "block_stun": 15,
+                    "block_stun": 24,
                     "chip_damage": 600,
                     "collision_box": {
                         "height": 138,
@@ -14359,7 +14359,7 @@
                     }
                 },
                 {
-                    "block_stun": 14,
+                    "block_stun": 16,
                     "collision_box": {
                         "height": 138,
                         "left": -19,
@@ -14572,7 +14572,7 @@
                     }
                 },
                 {
-                    "block_stun": 17,
+                    "block_stun": 20,
                     "collision_box": {
                         "height": 71,
                         "left": -20,
@@ -15923,7 +15923,7 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 400,
+                    "mana_cost": 250,
                     "offense_flag": 16777216,
                     "offset": {
                         "x": 1,
@@ -17239,7 +17239,7 @@
                     "void_limit": 10
                 },
                 {
-                    "block_stun": 4,
+                    "block_stun": 13,
                     "collision_box": {
                         "height": 71,
                         "left": -22,
@@ -17699,7 +17699,7 @@
                         }
                     ],
                     "min_prorate": 60.0,
-                    "offense_flag": 8470536,
+                    "offense_flag": 8472584,
                     "offset": {
                         "x": 49,
                         "y": 0
@@ -17738,7 +17738,7 @@
                             "width": 78
                         }
                     ],
-                    "offense_flag": 65536,
+                    "offense_flag": 67584,
                     "offset": {
                         "x": 17,
                         "y": 0
@@ -17884,7 +17884,7 @@
                         "y": 2
                     },
                     "damage": 500,
-                    "defense_flag": 16640,
+                    "defense_flag": 540928,
                     "duration": 18,
                     "hit_speed": {
                         "x": 1,
@@ -18407,7 +18407,7 @@
                         }
                     ],
                     "min_prorate": 60.0,
-                    "offense_flag": 81928,
+                    "offense_flag": 83976,
                     "offset": {
                         "x": 55,
                         "y": 0
@@ -18457,7 +18457,7 @@
                             "width": 102
                         }
                     ],
-                    "offense_flag": 2179080,
+                    "offense_flag": 2181128,
                     "offset": {
                         "x": 55,
                         "y": 0
