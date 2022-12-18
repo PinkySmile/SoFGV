@@ -35,6 +35,7 @@ namespace SpiralOfFate
 		float _time = 0;
 		bool _step = false;
 		bool _next = false;
+		unsigned char *_startingState = nullptr;
 		unsigned char *_savedState = nullptr;
 
 		static bool _isBlocking(const Character &me);

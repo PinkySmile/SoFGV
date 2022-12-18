@@ -10,11 +10,14 @@ namespace SpiralOfFate
 	PracticeBattleManager::PracticeBattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		BattleManager(stage, leftCharacter, rightCharacter)
 	{
+		this->_startingState = new unsigned char[this->getBufferSize()];
+		this->copyToBuffer(this->_startingState);
 	}
 
 	PracticeBattleManager::~PracticeBattleManager()
 	{
-		delete[] _savedState;
+		delete[] this->_savedState;
+		delete[] this->_startingState;
 	}
 
 	bool PracticeBattleManager::_updateLoop()
@@ -67,6 +70,8 @@ namespace SpiralOfFate
 				this->_savedState = new unsigned char[this->getBufferSize()];
 				this->copyToBuffer(this->_savedState);
 			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F6)
+				this->restoreFromBuffer(this->_startingState);
 		}
 	}
 
