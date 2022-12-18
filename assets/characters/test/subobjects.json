@@ -5,7 +5,7 @@
             [
                 {
                     "block_stun": 8,
-                    "damage": 600,
+                    "damage": 700,
                     "defense_flag": 35913728,
                     "guard_damage": 20,
                     "hitSound": "assets/sfxs/se/011.wav",
@@ -66,7 +66,7 @@
                 {
                     "block_stun": 18,
                     "chip_damage": 50,
-                    "damage": 500,
+                    "damage": 600,
                     "defense_flag": 35913728,
                     "duration": 3,
                     "guard_damage": 20,
@@ -114,7 +114,7 @@
                 {
                     "block_stun": 18,
                     "chip_damage": 50,
-                    "damage": 500,
+                    "damage": 600,
                     "defense_flag": 35913728,
                     "duration": 3,
                     "guard_damage": 20,
@@ -161,7 +161,7 @@
                 {
                     "block_stun": 18,
                     "chip_damage": 50,
-                    "damage": 500,
+                    "damage": 600,
                     "defense_flag": 35913728,
                     "duration": 3,
                     "guard_damage": 20,
@@ -208,7 +208,7 @@
                 {
                     "block_stun": 18,
                     "chip_damage": 50,
-                    "damage": 500,
+                    "damage": 700,
                     "defense_flag": 35913728,
                     "duration": 3,
                     "guard_damage": 20,
