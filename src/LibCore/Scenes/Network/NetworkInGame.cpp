@@ -36,9 +36,9 @@ namespace SpiralOfFate
 
 	IScene *NetworkInGame::update()
 	{
-		this->_input->refreshInputs();
 		if (this->_nextScene)
 			return this->_nextScene;
+		this->_input->refreshInputs();
 
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game->battleMgr->getRightCharacter()->getInput();

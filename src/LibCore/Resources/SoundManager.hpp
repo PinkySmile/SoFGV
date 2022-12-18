@@ -25,7 +25,6 @@ namespace SpiralOfFate
 		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedSounds;
 
 	public:
-		~SoundManager();
 		unsigned load(std::string file);
 		void addRef(unsigned id);
 		void remove(unsigned id);

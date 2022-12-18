@@ -130,6 +130,9 @@ namespace SpiralOfFate
 		case OPCODE_QUIT:
 			this->_handlePacket(remote, packet.quit, size);
 			break;
+		case OPCODE_GAME_QUIT:
+			this->_handlePacket(remote, packet.gameQuit, size);
+			break;
 		default:
 			PacketError error{ERROR_INVALID_OPCODE, packet.opcode, size};
 
@@ -410,6 +413,14 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
+	void Connection::_handlePacket(Remote &remote, PacketGameQuit &, size_t size)
+	{
+		//Implemented in children classes
+		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_GAME_QUIT, size};
+
+		this->_send(remote, &error, sizeof(error));
+	}
+
 	void Connection::terminate()
 	{
 		this->_sendBuffer.clear();
@@ -444,6 +455,13 @@ namespace SpiralOfFate
 		this->_nextExpectedFrame = 0;
 		for (auto input : this->_registeredInputs)
 			input->flush();
+	}
+
+	void Connection::quitGame()
+	{
+		PacketGameQuit op;
+
+		this->_send(*this->_opponent, &op, sizeof(op));
 	}
 
 	void Connection::Remote::_pingLoop()

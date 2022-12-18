@@ -3543,11 +3543,15 @@ namespace SpiralOfFate
 			this->_skillsUsed = 0;
 			this->_prorate = max(0.25, this->_prorate);
 		}
+
+		auto myData = this->getCurrentFrameData();
+
+		if (this->_isGrounded() && myData->dFlag.crouch && this->_action != ACTION_GROUND_LOW_HIT)
+			this->_prorate = 1.15f;
 		this->_prorate = max(data.minProrate / 100, this->_prorate);
 
 		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
 		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
-		auto myData = this->getCurrentFrameData();
 		auto counter = this->_counterHit == 1;
 		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;

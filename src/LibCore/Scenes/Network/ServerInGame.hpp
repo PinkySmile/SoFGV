@@ -30,6 +30,8 @@ namespace SpiralOfFate
 			const nlohmann::json &lJson,
 			const nlohmann::json &rJson
 		);
+
+		void consumeEvent(const sf::Event &event) override;
 	};
 }
 

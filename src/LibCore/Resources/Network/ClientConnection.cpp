@@ -296,4 +296,11 @@ namespace SpiralOfFate
 		this->_states.clear();
 		this->_terminated = false;
 	}
+
+	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &packet, size_t size)
+	{
+		PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY, size};
+
+		this->_send(remote, &error, sizeof(error));
+	}
 }

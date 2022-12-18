@@ -8,6 +8,8 @@
 #include <cstring>
 #include <vector>
 #include "Resources/Game.hpp"
+#include "Packet.hpp"
+
 
 namespace SpiralOfFate
 {
@@ -305,6 +307,16 @@ namespace SpiralOfFate
 		return "Packet QUIT";
 	}
 
+	PacketGameQuit::PacketGameQuit() :
+		opcode(OPCODE_GAME_QUIT)
+	{
+	}
+
+	std::string PacketGameQuit::toString() const
+	{
+		return "Packet GAME_QUIT";
+	}
+
 	std::string Packet::toString() const
 	{
 		switch (opcode) {
@@ -342,6 +354,8 @@ namespace SpiralOfFate
 			return this->quit.toString();
 		case OPCODE_GAME_START:
 			return this->gameStart.toString();
+			case OPCODE_GAME_QUIT:
+			return this->gameQuit.toString();
 		default:
 			return "Packet UNKNOWN";
 		}

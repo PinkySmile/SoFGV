@@ -35,6 +35,7 @@ namespace SpiralOfFate
 		void _handlePacket(Remote &remote, PacketState &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketReplay &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size) override;
+		void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size) override;
 
 	public:
 		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
