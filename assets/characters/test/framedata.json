@@ -7418,7 +7418,7 @@
                     ],
                     "hit_speed": {
                         "x": 3,
-                        "y": 7
+                        "y": 0
                     },
                     "hit_stop": 8,
                     "hit_stun": 30,
@@ -10464,7 +10464,7 @@
                     ],
                     "mana_gain": 20,
                     "neutral_limit": 15,
-                    "offense_flag": 58723584,
+                    "offense_flag": 58722560,
                     "offset": {
                         "x": 2,
                         "y": -28
@@ -10503,7 +10503,7 @@
                             "width": 47
                         }
                     ],
-                    "offense_flag": 3072,
+                    "offense_flag": 2048,
                     "offset": {
                         "x": 2,
                         "y": 0
