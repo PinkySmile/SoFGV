@@ -171,6 +171,9 @@ add_library(
 	src/LibCore/Scenes/LoadingScene.hpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
+if (WIN32)
+	set_target_properties(SoFGVCore PROPERTIES SUFFIX ".dll")
+endif ()
 
 if (WIN32)
 	target_link_libraries(

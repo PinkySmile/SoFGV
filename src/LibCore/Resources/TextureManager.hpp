@@ -24,7 +24,6 @@ namespace SpiralOfFate
 
 		void _reload(const std::string &path, unsigned id);
 	public:
-		~TextureManager();
 		unsigned load(std::string file, Vector2u *size = nullptr, bool repeated = false);
 		unsigned load(const std::string &file, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size = nullptr);
 		unsigned load(const Color *pixels, Vector2u size);

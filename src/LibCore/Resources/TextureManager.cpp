@@ -205,11 +205,6 @@ namespace SpiralOfFate
 		return this->_textures.at(id).getSize();
 	}
 
-	TextureManager::~TextureManager()
-	{
-		game->logger.debug("~TextureManager()");
-	}
-
 	void TextureManager::reloadEverything()
 	{
 		for (auto &[loadedPath, attr] : this->_allocatedTextures)
