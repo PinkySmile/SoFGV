@@ -103,6 +103,8 @@ static const char *dFlags[] = {
 	"voidArmor"
 };
 
+extern unsigned char ttt;
+
 namespace SpiralOfFate
 {
 	std::function<bool (const Character::LastInput &)> Character::getInputN = [](const Character::LastInput &input) { return input.n; };
@@ -1366,6 +1368,14 @@ namespace SpiralOfFate
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto data = &this->_moves.at(action).at(0).at(0);
 
+		if (this->_opponent->_comboCtr) {
+			auto it = this->_usedMoves.find(this->_action);
+
+			if (it == this->_usedMoves.end())
+				this->_usedMoves[this->_action] = 1;
+			else
+				it->second++;
+		}
 		this->startedAttack |= action >= ACTION_5N;
 		this->_armorUsed = false;
 		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
@@ -1519,6 +1529,7 @@ namespace SpiralOfFate
 			this->_supersUsed = 0;
 			this->_skillsUsed = 0;
 			this->_limit.fill(0);
+			this->_opponent->_usedMoves.clear();
 			this->_counter = false;
 		}
 		Object::_forceStartMove(action);
@@ -3628,14 +3639,25 @@ namespace SpiralOfFate
 			game->battleMgr->setHitStop(data.hitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
+
+		unsigned nb = 0;
+
+		//TODO: Handle projectiles properly
+		if (chr) {
+			auto it = chr->_usedMoves.find(chr->_action);
+
+			if (it != chr->_usedMoves.end())
+				nb = it->second;
+		}
 		this->_blockStun = stun;
 		this->_totalDamage += damage;
 		this->_comboCtr++;
-		this->_prorate *= data.prorate / 100;
-		this->_limit[0] += data.neutralLimit;
-		this->_limit[1] += data.voidLimit;
-		this->_limit[2] += data.matterLimit;
-		this->_limit[3] += data.spiritLimit;
+		//TODO: Clean this mess
+		this->_prorate *= std::pow(data.prorate / 100, (ttt & 1) ? (nb + 1) : 1);
+		this->_limit[0] += data.neutralLimit * ((ttt & 2) ? (nb + 1) : 1);
+		this->_limit[1] += data.voidLimit * ((ttt & 2) ? (nb + 1) : 1);
+		this->_limit[2] += data.matterLimit * ((ttt & 2) ? (nb + 1) : 1);
+		this->_limit[3] += data.spiritLimit * ((ttt & 2) ? (nb + 1) : 1);
 		this->_speedReset = data.oFlag.resetSpeed;
 		if (this->_hp > damage)
 			this->_hp -= damage;
@@ -3811,6 +3833,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
+		//TODO: Save _usedMoves
 		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
