@@ -1323,19 +1323,10 @@ namespace SpiralOfFate
 
 		FrameData data;
 		auto myData = this->getCurrentFrameData();
-		auto chr = dynamic_cast<Character *>(&other);
 
 		data.setSlave();
 		data = *dat;
 		this->_mutateHitFramedata(data);
-		if (chr) {
-			if (data.oFlag.voidMana)
-				chr->_voidMana += data.manaGain;
-			if (data.oFlag.spiritMana)
-				chr->_spiritMana += data.manaGain;
-			if (data.oFlag.matterMana)
-				chr->_matterMana += data.manaGain;
-		}
 		if (myData->dFlag.invulnerableArmor)
 			return game->battleMgr->setHitStop(data.hitStop);
 		this->_restand = false;
@@ -3439,7 +3430,16 @@ namespace SpiralOfFate
 			((this->_forceBlock & 7) == RANDOM_HEIGHT_BLOCK && game->random() % 2)
 		);
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
+		auto chr = dynamic_cast<Character *>(other);
 
+		if (chr) {
+			if (data.oFlag.voidMana)
+				chr->_voidMana += data.manaGain / 4;
+			if (data.oFlag.spiritMana)
+				chr->_spiritMana += data.manaGain / 4;
+			if (data.oFlag.matterMana)
+				chr->_matterMana += data.manaGain / 4;
+		}
 		if (!isParryAction(this->_action)) {
 			if (
 				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
@@ -3568,6 +3568,14 @@ namespace SpiralOfFate
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 		auto stun = data.hitStun;
 
+		if (chr) {
+			if (data.oFlag.voidMana)
+				chr->_voidMana += data.manaGain;
+			if (data.oFlag.spiritMana)
+				chr->_spiritMana += data.manaGain;
+			if (data.oFlag.matterMana)
+				chr->_matterMana += data.manaGain;
+		}
 		my_assert(!data.oFlag.ultimate || chr);
 		if (
 			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
