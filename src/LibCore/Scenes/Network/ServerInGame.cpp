@@ -32,4 +32,13 @@ namespace SpiralOfFate
 		conn->switchMenu(MENUSTATE_CHARSELECT, false);
 		this->_nextScene = conn->getChrLoadingScreen();
 	}
+
+	void ServerInGame::consumeEvent(const sf::Event &event)
+	{
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+			game->soundMgr.play(BASICSOUND_MENU_CANCEL);
+			return this->_onGameEnd();
+		}
+		NetworkInGame::consumeEvent(event);
+	}
 }

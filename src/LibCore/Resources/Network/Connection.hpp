@@ -89,15 +89,18 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, PacketReplay &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
 		std::vector<std::string> blacklist;
 		std::function<void (Remote &remote)> onDisconnect;
+		std::function<void (unsigned newDelay)> onDelayUpdate;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
 
 		Connection();
 		~Connection();
+		void quitGame();
 		void updateDelay(unsigned int delay);
 		virtual bool send(const InputStruct &inputs);
 		unsigned int getCurrentDelay();

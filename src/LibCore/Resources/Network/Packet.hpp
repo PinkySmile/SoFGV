@@ -35,6 +35,7 @@ namespace SpiralOfFate
 		OPCODE_STATE,
 		OPCODE_REPLAY,
 		OPCODE_QUIT,
+		OPCODE_GAME_QUIT,
 		OPCODE_COUNT
 	};
 
@@ -81,7 +82,8 @@ namespace SpiralOfFate
 		"Sync test",
 		"State",
 		"Replay",
-		"Quit"
+		"Quit",
+		"Game quit"
 	};
 
 #pragma pack(push, 1)
@@ -254,10 +256,6 @@ namespace SpiralOfFate
 		uint32_t frameId;
 		uint32_t newDelay;
 
-		//TODO: Implement this so that it desyncs if both players don't use the same delay.
-		//      This will prevent cheating by sending this packet over to the client so that
-		//      the Player 2 thinks the delay is higher and use a higher delay than Player 1.
-		//      Send the inputs for the current frame and add delay after receiving?
 		PacketDelayUpdate(unsigned newDelay, unsigned frameId);
 		std::string toString() const;
 	};
@@ -321,6 +319,15 @@ namespace SpiralOfFate
 		std::string toString() const;
 	};
 
+	struct PacketGameQuit {
+	private:
+		Opcode opcode;
+
+	public:
+		PacketGameQuit();
+		std::string toString() const;
+	};
+
 	union Packet {
 		Opcode opcode;
 		PacketHello hello;
@@ -340,6 +347,7 @@ namespace SpiralOfFate
 		PacketReplay replay;
 		PacketQuit quit;
 		PacketGameStart gameStart;
+		PacketGameQuit gameQuit;
 
 		std::string toString() const;
 	};

@@ -155,6 +155,17 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
+	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &packet, size_t size)
+	{
+		if (remote.connectPhase != 1) {
+			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
+
+			this->_send(remote, &error, sizeof(error));
+		}
+		if (this->_currentMenu == MENUSTATE_INGAME)
+			this->switchMenu(MENUSTATE_CHARSELECT);
+	}
+
 	LoadingScene *ServerConnection::getChrLoadingScreen()
 	{
 		game->connection->nextGame();
