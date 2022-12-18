@@ -2524,16 +2524,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 189,
                             "left": -20,
-                            "top": -187,
+                            "top": -189,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offense_flag": 67108864,
@@ -2564,16 +2558,10 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 189,
+                            "left": -20,
+                            "top": -189,
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -2690,16 +2678,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 187,
                             "left": -20,
-                            "top": -187,
+                            "top": -188,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offset": {
@@ -2729,16 +2711,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 187,
                             "left": -20,
-                            "top": -187,
+                            "top": -188,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offset": {
@@ -2775,16 +2751,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 189,
                             "left": -20,
-                            "top": -187,
+                            "top": -188,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offset": {
@@ -2814,16 +2784,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 189,
+                            "left": -20,
+                            "top": -188,
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -2860,16 +2824,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 188,
                             "left": -20,
-                            "top": -187,
+                            "top": -189,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offset": {
@@ -2899,16 +2857,10 @@
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 188,
+                            "left": -20,
+                            "top": -189,
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -3023,7 +2975,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offense_flag": 67108864,
@@ -3045,9 +2997,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 136,
+                        "height": 101,
                         "left": -19,
-                        "top": -136,
+                        "top": -101,
                         "width": 40
                     },
                     "defense_flag": 68232,
@@ -3057,7 +3009,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
@@ -3165,7 +3117,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
@@ -3186,9 +3138,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 136,
+                        "height": 106,
                         "left": -19,
-                        "top": -136,
+                        "top": -106,
                         "width": 40
                     },
                     "defense_flag": 67632,
@@ -3198,12 +3150,12 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
                         "x": 10,
-                        "y": -20
+                        "y": -26
                     },
                     "size": {
                         "x": 80,
@@ -3238,7 +3190,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
@@ -3259,9 +3211,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 136,
+                        "height": 101,
                         "left": -19,
-                        "top": -136,
+                        "top": -101,
                         "width": 40
                     },
                     "defense_flag": 67680,
@@ -3276,7 +3228,7 @@
                     ],
                     "offset": {
                         "x": 10,
-                        "y": -22
+                        "y": -26
                     },
                     "size": {
                         "x": 80,
@@ -3311,7 +3263,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
@@ -3332,9 +3284,9 @@
                 },
                 {
                     "collision_box": {
-                        "height": 136,
+                        "height": 100,
                         "left": -19,
-                        "top": -136,
+                        "top": -100,
                         "width": 40
                     },
                     "defense_flag": 67664,
@@ -3344,7 +3296,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 56
                         }
                     ],
                     "offset": {
@@ -3381,10 +3333,10 @@
                     "duration": 5,
                     "hurt_boxes": [
                         {
-                            "height": 54,
+                            "height": 72,
                             "left": -62,
-                            "top": -134,
-                            "width": 68
+                            "top": -152,
+                            "width": 93
                         },
                         {
                             "height": 83,
@@ -3472,7 +3424,7 @@
                             "height": 187,
                             "left": -20,
                             "top": -189,
-                            "width": 54
+                            "width": 48
                         }
                     ],
                     "offense_flag": 67108864,
@@ -3503,10 +3455,10 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 189,
-                            "left": -19,
+                            "height": 187,
+                            "left": -20,
                             "top": -189,
-                            "width": 55
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -3635,22 +3587,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 188,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 41
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -3680,22 +3620,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 188,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 45
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -3724,30 +3652,18 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -19,
-                        "top": -136,
+                        "left": -15,
+                        "top": -138,
                         "width": 40
                     },
                     "defense_flag": 3392,
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 187,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 39
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -3769,30 +3685,18 @@
                 {
                     "collision_box": {
                         "height": 136,
-                        "left": -19,
-                        "top": -136,
+                        "left": -16,
+                        "top": -138,
                         "width": 40
                     },
                     "defense_flag": 3424,
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 187,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 39
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -3829,22 +3733,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 189,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 41
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -3874,22 +3766,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 189,
                             "left": -19,
-                            "top": -187,
+                            "top": -188,
                             "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -22,
-                            "top": -137,
-                            "width": 43
-                        },
-                        {
-                            "height": 20,
-                            "left": 6,
-                            "top": -101,
-                            "width": 31
                         }
                     ],
                     "offset": {
@@ -5624,16 +5504,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 181,
                             "left": -20,
-                            "top": -187,
+                            "top": -180,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offense_flag": 67108864,
@@ -5664,23 +5538,17 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 181,
+                            "left": -20,
+                            "top": -180,
+                            "width": 48
                         }
                     ],
                     "mana_cost": 10,
                     "offense_flag": 58720256,
                     "offset": {
                         "x": 4,
-                        "y": 0
+                        "y": -2
                     },
                     "size": {
                         "x": 46,
@@ -5780,16 +5648,16 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 54,
                             "left": -54,
-                            "top": -129,
-                            "width": 88
+                            "top": -133,
+                            "width": 84
                         },
                         {
                             "height": 79,
                             "left": -29,
                             "top": -80,
-                            "width": 65
+                            "width": 59
                         }
                     ],
                     "offense_flag": 67108864,
@@ -5820,16 +5688,16 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 57,
-                            "left": -55,
+                            "height": 54,
+                            "left": -54,
                             "top": -133,
-                            "width": 87
+                            "width": 84
                         },
                         {
-                            "height": 82,
-                            "left": -31,
-                            "top": -79,
-                            "width": 66
+                            "height": 79,
+                            "left": -29,
+                            "top": -80,
+                            "width": 59
                         }
                     ],
                     "mana_cost": 10,
@@ -5948,16 +5816,10 @@
                     "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 179,
                             "left": -20,
-                            "top": -187,
+                            "top": -180,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offense_flag": 67108864,
@@ -5988,16 +5850,10 @@
                     "duration": 2,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 181,
+                            "left": -20,
+                            "top": -182,
+                            "width": 48
                         }
                     ],
                     "mana_cost": 10,
@@ -6110,16 +5966,10 @@
                     "duration": 4,
                     "hurt_boxes": [
                         {
-                            "height": 50,
+                            "height": 188,
                             "left": -20,
-                            "top": -187,
+                            "top": -189,
                             "width": 48
-                        },
-                        {
-                            "height": 138,
-                            "left": -17,
-                            "top": -137,
-                            "width": 53
                         }
                     ],
                     "offset": {
@@ -6149,16 +5999,10 @@
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 50,
-                            "left": -19,
-                            "top": -187,
-                            "width": 47
-                        },
-                        {
-                            "height": 138,
-                            "left": -19,
-                            "top": -137,
-                            "width": 55
+                            "height": 188,
+                            "left": -20,
+                            "top": -189,
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -6198,7 +6042,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 55
                         }
                     ],
                     "offset": {
@@ -6231,7 +6075,7 @@
                             "height": 139,
                             "left": -31,
                             "top": -132,
-                            "width": 64
+                            "width": 55
                         }
                     ],
                     "offset": {
@@ -6271,7 +6115,7 @@
                             "height": 187,
                             "left": -20,
                             "top": -189,
-                            "width": 54
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -6301,10 +6145,10 @@
                     "duration": 10,
                     "hurt_boxes": [
                         {
-                            "height": 189,
-                            "left": -19,
+                            "height": 187,
+                            "left": -20,
                             "top": -189,
-                            "width": 55
+                            "width": 48
                         }
                     ],
                     "offset": {
@@ -6906,7 +6750,8 @@
                             "width": 48
                         }
                     ],
-                    "offense_flag": 7296,
+                    "mana_gain": 10,
+                    "offense_flag": 58727552,
                     "offset": {
                         "x": 16,
                         "y": 0
@@ -7196,8 +7041,9 @@
                             "width": 51
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 30,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": 8,
                         "y": 0
@@ -7407,8 +7253,9 @@
                             "width": 67
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 30,
-                    "offense_flag": 264834,
+                    "offense_flag": 58985090,
                     "offset": {
                         "x": 9,
                         "y": -1
@@ -7478,10 +7325,10 @@
                         "width": 43
                     },
                     "defense_flag": 90112,
-                    "duration": 8,
+                    "duration": 6,
                     "hurt_boxes": [
                         {
-                            "height": 61,
+                            "height": 53,
                             "left": -32,
                             "top": -52,
                             "width": 67
@@ -7517,25 +7364,19 @@
                         "width": 43
                     },
                     "defense_flag": 81920,
-                    "duration": 8,
+                    "duration": 5,
                     "hurt_boxes": [
                         {
-                            "height": 60,
+                            "height": 54,
                             "left": -32,
                             "top": -52,
-                            "width": 58
+                            "width": 86
                         },
                         {
                             "height": 82,
                             "left": -24,
                             "top": -130,
                             "width": 50
-                        },
-                        {
-                            "height": 33,
-                            "left": 22,
-                            "top": -49,
-                            "width": 34
                         }
                     ],
                     "offset": {
@@ -7555,7 +7396,7 @@
                     }
                 },
                 {
-                    "block_stun": 17,
+                    "block_stun": 22,
                     "collision_box": {
                         "height": 71,
                         "left": -22,
@@ -7564,7 +7405,7 @@
                     },
                     "damage": 500,
                     "defense_flag": 81920,
-                    "duration": 4,
+                    "duration": 2,
                     "guard_damage": 45,
                     "hitSound": "assets/sfxs/se/003.wav",
                     "hit_boxes": [
@@ -7607,8 +7448,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 25,
                     "neutral_limit": 20,
-                    "offense_flag": 2112,
+                    "offense_flag": 58722368,
                     "offset": {
                         "x": 22,
                         "y": -1
@@ -7638,25 +7480,19 @@
                         "width": 43
                     },
                     "defense_flag": 65536,
-                    "duration": 7,
+                    "duration": 8,
                     "hurt_boxes": [
                         {
                             "height": 52,
                             "left": -32,
                             "top": -52,
-                            "width": 58
+                            "width": 86
                         },
                         {
                             "height": 79,
                             "left": -24,
                             "top": -130,
                             "width": 50
-                        },
-                        {
-                            "height": 36,
-                            "left": 25,
-                            "top": -50,
-                            "width": 32
                         }
                     ],
                     "offense_flag": 2048,
@@ -7684,7 +7520,7 @@
                         "width": 43
                     },
                     "defense_flag": 65536,
-                    "duration": 8,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 52,
@@ -7793,7 +7629,8 @@
                             "width": 56
                         }
                     ],
-                    "offense_flag": 7232,
+                    "mana_gain": 10,
+                    "offense_flag": 58727488,
                     "offset": {
                         "x": 24,
                         "y": -2
@@ -7825,7 +7662,7 @@
                     },
                     "damage": 500,
                     "defense_flag": 65536,
-                    "duration": 3,
+                    "duration": 6,
                     "hit_stun": 10,
                     "hurt_boxes": [
                         {
@@ -7867,7 +7704,7 @@
                         "width": 47
                     },
                     "defense_flag": 65536,
-                    "duration": 9,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 136,
@@ -7969,7 +7806,7 @@
                     }
                 },
                 {
-                    "block_stun": 25,
+                    "block_stun": 30,
                     "chip_damage": 200,
                     "collision_box": {
                         "height": 136,
@@ -8013,8 +7850,9 @@
                             "width": 100
                         }
                     ],
+                    "mana_gain": 30,
                     "neutral_limit": 30,
-                    "offense_flag": 2616,
+                    "offense_flag": 58722872,
                     "offset": {
                         "x": 9,
                         "y": 0
@@ -8084,8 +7922,9 @@
                             "width": 100
                         }
                     ],
+                    "mana_gain": 30,
                     "neutral_limit": 30,
-                    "offense_flag": 2616,
+                    "offense_flag": 58722872,
                     "offset": {
                         "x": 9,
                         "y": 0
@@ -8737,7 +8576,7 @@
                             "height": 45,
                             "left": -32,
                             "top": -21,
-                            "width": 124
+                            "width": 129
                         }
                     ],
                     "hit_speed": {
@@ -8801,7 +8640,8 @@
                         "top": -100,
                         "width": 40
                     },
-                    "duration": 36,
+                    "defense_flag": 524288,
+                    "duration": 28,
                     "hurt_boxes": [
                         {
                             "height": 85,
@@ -9628,7 +9468,8 @@
                             "width": 57
                         }
                     ],
-                    "offense_flag": 2688,
+                    "mana_gain": 10,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": 0,
                         "y": 8
@@ -9657,7 +9498,7 @@
                         "width": 42
                     },
                     "defense_flag": 524544,
-                    "duration": 8,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 70,
@@ -9703,7 +9544,7 @@
                         "width": 42
                     },
                     "defense_flag": 524544,
-                    "duration": 6,
+                    "duration": 8,
                     "hurt_boxes": [
                         {
                             "height": 85,
@@ -9913,8 +9754,9 @@
                             "width": 67
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 40,
-                    "offense_flag": 2944,
+                    "offense_flag": 58723200,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -9981,8 +9823,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 40,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": 14,
                         "y": 0
@@ -10054,8 +9897,9 @@
                             "width": 45
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 40,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": 9,
                         "y": 0
@@ -10090,7 +9934,7 @@
                     },
                     "damage": 750,
                     "defense_flag": 256,
-                    "duration": 15,
+                    "duration": 12,
                     "hit_speed": {
                         "x": 5,
                         "y": 10
@@ -10150,7 +9994,7 @@
                     },
                     "damage": 750,
                     "defense_flag": 524544,
-                    "duration": 15,
+                    "duration": 10,
                     "hit_speed": {
                         "x": 5,
                         "y": 10
@@ -10245,12 +10089,6 @@
                     "duration": 8,
                     "hurt_boxes": [
                         {
-                            "height": 56,
-                            "left": -52,
-                            "top": -183,
-                            "width": 61
-                        },
-                        {
                             "height": 128,
                             "left": -24,
                             "top": -127,
@@ -10292,8 +10130,8 @@
                     "hit_boxes": [
                         {
                             "height": 61,
-                            "left": -53,
-                            "top": -186,
+                            "left": -54,
+                            "top": -187,
                             "width": 64
                         }
                     ],
@@ -10305,20 +10143,15 @@
                     "hit_stun": 24,
                     "hurt_boxes": [
                         {
-                            "height": 57,
-                            "left": -52,
-                            "top": -183,
-                            "width": 61
-                        },
-                        {
                             "height": 128,
                             "left": -22,
                             "top": -128,
                             "width": 36
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": -20,
                         "y": 0
@@ -10360,7 +10193,7 @@
                         {
                             "height": 62,
                             "left": -27,
-                            "top": -197,
+                            "top": -196,
                             "width": 60
                         }
                     ],
@@ -10372,20 +10205,15 @@
                     "hit_stun": 22,
                     "hurt_boxes": [
                         {
-                            "height": 59,
-                            "left": -25,
-                            "top": -191,
-                            "width": 54
-                        },
-                        {
                             "height": 132,
                             "left": -18,
                             "top": -134,
                             "width": 37
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "prorate": 95.0,
                     "push_back": 5,
                     "push_block": 5,
@@ -10434,20 +10262,15 @@
                     "hit_stun": 20,
                     "hurt_boxes": [
                         {
-                            "height": 57,
-                            "left": -8,
-                            "top": -181,
-                            "width": 61
-                        },
-                        {
                             "height": 126,
                             "left": -14,
                             "top": -126,
                             "width": 39
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 2688,
+                    "offense_flag": 58722944,
                     "offset": {
                         "x": 20,
                         "y": 0
@@ -10476,7 +10299,7 @@
                         "width": 54
                     },
                     "defense_flag": 540928,
-                    "duration": 6,
+                    "duration": 24,
                     "hurt_boxes": [
                         {
                             "height": 57,
@@ -10555,7 +10378,7 @@
                         "width": 35
                     },
                     "defense_flag": 549120,
-                    "duration": 9,
+                    "duration": 8,
                     "gravity": {
                         "x": 0.0,
                         "y": -0.5
@@ -10624,7 +10447,7 @@
                         "y": -10
                     },
                     "hit_stop": 10,
-                    "hit_stun": 20,
+                    "hit_stun": 24,
                     "hurt_boxes": [
                         {
                             "height": 177,
@@ -10639,8 +10462,9 @@
                             "width": 31
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 15,
-                    "offense_flag": 2304,
+                    "offense_flag": 58723584,
                     "offset": {
                         "x": 2,
                         "y": -28
@@ -10670,7 +10494,7 @@
                         "width": 35
                     },
                     "defense_flag": 524544,
-                    "duration": 12,
+                    "duration": 20,
                     "hurt_boxes": [
                         {
                             "height": 203,
@@ -10679,7 +10503,7 @@
                             "width": 47
                         }
                     ],
-                    "offense_flag": 2048,
+                    "offense_flag": 3072,
                     "offset": {
                         "x": 2,
                         "y": 0
@@ -10801,7 +10625,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -10816,8 +10640,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 264832,
+                    "offense_flag": 58985088,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -10872,7 +10697,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -10887,8 +10712,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -10942,7 +10768,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -10957,8 +10783,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -11012,7 +10839,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -11027,8 +10854,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -11082,7 +10910,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -11097,8 +10925,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -11152,7 +10981,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -11167,8 +10996,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -11222,7 +11052,7 @@
                         "y": 0
                     },
                     "hit_stop": 5,
-                    "hit_stun": 26,
+                    "hit_stun": 30,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -11237,8 +11067,9 @@
                             "width": 63
                         }
                     ],
+                    "mana_gain": 20,
                     "neutral_limit": 10,
-                    "offense_flag": 273024,
+                    "offense_flag": 58993280,
                     "offset": {
                         "x": 11,
                         "y": 0
@@ -11271,7 +11102,7 @@
                         "width": 47
                     },
                     "defense_flag": 524544,
-                    "duration": 10,
+                    "duration": 25,
                     "hurt_boxes": [
                         {
                             "height": 147,
@@ -12169,7 +12000,8 @@
                             "width": 79
                         }
                     ],
-                    "offense_flag": 2594,
+                    "mana_gain": 60,
+                    "offense_flag": 33557026,
                     "offset": {
                         "x": 40,
                         "y": -1
@@ -12230,8 +12062,9 @@
                             "width": 79
                         }
                     ],
+                    "mana_gain": 60,
                     "matter_limit": 35,
-                    "offense_flag": 10786,
+                    "offense_flag": 33565218,
                     "offset": {
                         "x": 40,
                         "y": -1
@@ -12424,8 +12257,9 @@
                             "width": 58
                         }
                     ],
+                    "mana_gain": 20,
                     "matter_limit": 10,
-                    "offense_flag": 544,
+                    "offense_flag": 33554976,
                     "offset": {
                         "x": 6,
                         "y": 1
@@ -12506,8 +12340,9 @@
                             "width": 65
                         }
                     ],
+                    "mana_gain": 20,
                     "matter_limit": 10,
-                    "offense_flag": 2108000,
+                    "offense_flag": 35662432,
                     "offset": {
                         "x": 50,
                         "y": 1
@@ -12580,8 +12415,9 @@
                             "width": 65
                         }
                     ],
+                    "mana_gain": 20,
                     "matter_limit": 10,
-                    "offense_flag": 10752,
+                    "offense_flag": 33565184,
                     "offset": {
                         "x": 50,
                         "y": -1
@@ -12656,7 +12492,7 @@
                         "width": 43
                     },
                     "defense_flag": 65536,
-                    "duration": 15,
+                    "duration": 12,
                     "hurt_boxes": [
                         {
                             "height": 52,
@@ -12799,7 +12635,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "hit_stop": 10,
+                    "hit_stop": 12,
                     "hit_stun": 24,
                     "hurt_boxes": [
                         {
@@ -12815,7 +12651,8 @@
                             "width": 60
                         }
                     ],
-                    "offense_flag": 2656,
+                    "mana_gain": 30,
+                    "offense_flag": 33557088,
                     "offset": {
                         "x": 37,
                         "y": 2
@@ -12872,7 +12709,7 @@
                         "x": 3,
                         "y": 0
                     },
-                    "hit_stop": 10,
+                    "hit_stop": 12,
                     "hit_stun": 24,
                     "hurt_boxes": [
                         {
@@ -12888,7 +12725,8 @@
                             "width": 60
                         }
                     ],
-                    "offense_flag": 2656,
+                    "mana_gain": 30,
+                    "offense_flag": 33557088,
                     "offset": {
                         "x": 48,
                         "y": 2
@@ -12917,7 +12755,7 @@
                         "width": 47
                     },
                     "defense_flag": 65536,
-                    "duration": 15,
+                    "duration": 20,
                     "hurt_boxes": [
                         {
                             "height": 136,
@@ -12984,7 +12822,7 @@
                             "width": 50
                         }
                     ],
-                    "mana_cost": 300,
+                    "mana_cost": 500,
                     "offense_flag": 33554464,
                     "offset": {
                         "x": -9,
@@ -13133,7 +12971,7 @@
                         "top": -139,
                         "width": 38
                     },
-                    "duration": 35,
+                    "duration": 38,
                     "hurt_boxes": [
                         {
                             "height": 45,
@@ -13330,7 +13168,7 @@
                     ],
                     "mana_cost": 1000,
                     "matter_limit": 100,
-                    "offense_flag": 33620000,
+                    "offense_flag": 100728864,
                     "offset": {
                         "x": 12,
                         "y": 0
@@ -13409,6 +13247,32 @@
                         "y": 192
                     },
                     "sound": "16",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 235,
+                        "top": 298,
+                        "width": 64
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 180,
+                        "left": -27,
+                        "top": -181,
+                        "width": 56
+                    },
+                    "defense_flag": 9,
+                    "offense_flag": 65568,
+                    "offset": {
+                        "x": 12,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 128,
+                        "y": 192
+                    },
+                    "sound": "0",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
@@ -13591,9 +13455,9 @@
                     "hit_stun": 30,
                     "hurt_boxes": [
                         {
-                            "height": 194,
+                            "height": 185,
                             "left": -21,
-                            "top": -186,
+                            "top": -177,
                             "width": 52
                         },
                         {
@@ -13603,8 +13467,9 @@
                             "width": 121
                         }
                     ],
+                    "mana_gain": 60,
                     "matter_limit": 20,
-                    "offense_flag": 2720,
+                    "offense_flag": 33557152,
                     "offset": {
                         "x": 6,
                         "y": -6
@@ -13638,7 +13503,7 @@
                         "width": 47
                     },
                     "defense_flag": 256,
-                    "duration": 21,
+                    "duration": 28,
                     "hurt_boxes": [
                         {
                             "height": 194,
@@ -13918,8 +13783,9 @@
                             "width": 31
                         }
                     ],
+                    "mana_gain": 60,
                     "matter_limit": 50,
-                    "offense_flag": 672,
+                    "offense_flag": 33555104,
                     "offset": {
                         "x": 2,
                         "y": -28
@@ -14495,7 +14361,7 @@
                     }
                 },
                 {
-                    "block_stun": 12,
+                    "block_stun": 14,
                     "collision_box": {
                         "height": 138,
                         "left": -19,
@@ -14504,7 +14370,7 @@
                     },
                     "damage": 400,
                     "defense_flag": 16384,
-                    "duration": 3,
+                    "duration": 4,
                     "guard_damage": 50,
                     "hitSound": "assets/sfxs/se/002.wav",
                     "hit_boxes": [
@@ -14565,7 +14431,7 @@
                         "top": -143,
                         "width": 40
                     },
-                    "duration": 6,
+                    "duration": 9,
                     "hurt_boxes": [
                         {
                             "height": 200,
@@ -14604,7 +14470,7 @@
                         "top": -143,
                         "width": 40
                     },
-                    "duration": 9,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 196,
@@ -14721,7 +14587,7 @@
                     },
                     "damage": 450,
                     "defense_flag": 16384,
-                    "duration": 6,
+                    "duration": 5,
                     "guard_damage": 55,
                     "hitSound": "assets/sfxs/se/002.wav",
                     "hit_boxes": [
@@ -14751,7 +14617,7 @@
                             "width": 52
                         }
                     ],
-                    "mana_gain": 30,
+                    "mana_gain": 60,
                     "offense_flag": 58984530,
                     "offset": {
                         "x": 55,
@@ -14785,7 +14651,7 @@
                     },
                     "damage": 450,
                     "defense_flag": 16384,
-                    "duration": 6,
+                    "duration": 5,
                     "guard_damage": 55,
                     "hitSound": "assets/sfxs/se/002.wav",
                     "hit_boxes": [
@@ -14815,7 +14681,7 @@
                             "width": 66
                         }
                     ],
-                    "mana_gain": 30,
+                    "mana_gain": 60,
                     "offense_flag": 58984530,
                     "offset": {
                         "x": 72,
@@ -14844,7 +14710,7 @@
                         "top": -73,
                         "width": 45
                     },
-                    "duration": 29,
+                    "duration": 20,
                     "hurt_boxes": [
                         {
                             "height": 127,
@@ -15033,7 +14899,7 @@
                             "width": 56
                         }
                     ],
-                    "mana_cost": 500,
+                    "mana_cost": 1400,
                     "offense_flag": 16842752,
                     "offset": {
                         "x": 24,
@@ -15403,7 +15269,7 @@
                             "width": 54
                         }
                     ],
-                    "mana_gain": 20,
+                    "mana_gain": 50,
                     "offense_flag": 58722320,
                     "offset": {
                         "x": 15,
@@ -15540,7 +15406,8 @@
                             "width": 63
                         }
                     ],
-                    "offense_flag": 10256,
+                    "mana_gain": 50,
+                    "offense_flag": 58730512,
                     "offset": {
                         "x": 29,
                         "y": 0
@@ -15570,7 +15437,7 @@
                         "width": 40
                     },
                     "defense_flag": 528640,
-                    "duration": 7,
+                    "duration": 14,
                     "gravity": {
                         "x": 0.0,
                         "y": -0.5
@@ -15614,7 +15481,7 @@
                         "width": 40
                     },
                     "defense_flag": 4352,
-                    "duration": 7,
+                    "duration": 14,
                     "gravity": {
                         "x": 0.0,
                         "y": -0.5
@@ -15757,7 +15624,8 @@
                             "width": 63
                         }
                     ],
-                    "offense_flag": 6293520,
+                    "mana_gain": 20,
+                    "offense_flag": 65013776,
                     "offset": {
                         "x": 8,
                         "y": 0
@@ -15832,7 +15700,8 @@
                             "width": 52
                         }
                     ],
-                    "offense_flag": 6301712,
+                    "mana_gain": 20,
+                    "offense_flag": 65021968,
                     "offset": {
                         "x": 25,
                         "y": 0
@@ -16005,7 +15874,7 @@
                         "width": 45
                     },
                     "defense_flag": 524544,
-                    "duration": 12,
+                    "duration": 25,
                     "hurt_boxes": [
                         {
                             "height": 103,
@@ -16060,7 +15929,7 @@
                             "width": 55
                         }
                     ],
-                    "mana_cost": 300,
+                    "mana_cost": 400,
                     "offense_flag": 16777216,
                     "offset": {
                         "x": 1,
@@ -16087,7 +15956,7 @@
                         "width": 34
                     },
                     "defense_flag": 24832,
-                    "duration": 17,
+                    "duration": 11,
                     "hurt_boxes": [
                         {
                             "height": 191,
@@ -16177,13 +16046,13 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 5,
+                    "mana_gain": 10,
                     "offense_flag": 60817920,
                     "offset": {
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 98.0,
+                    "prorate": 99.0,
                     "push_block": 1,
                     "rotation": 47.32000713004886,
                     "size": {
@@ -16269,13 +16138,13 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 5,
+                    "mana_gain": 10,
                     "offense_flag": 60826112,
                     "offset": {
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 98.0,
+                    "prorate": 99.0,
                     "push_block": 1,
                     "rotation": 49.560003185338225,
                     "size": {
@@ -16356,13 +16225,13 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 5,
+                    "mana_gain": 10,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 98.0,
+                    "prorate": 99.0,
                     "push_block": 1,
                     "rotation": 40.59999710757542,
                     "size": {
@@ -16443,13 +16312,13 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 5,
+                    "mana_gain": 10,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 98.0,
+                    "prorate": 99.0,
                     "push_block": 1,
                     "rotation": 43.96000090455629,
                     "size": {
@@ -16530,13 +16399,13 @@
                             "width": 57
                         }
                     ],
-                    "mana_gain": 5,
+                    "mana_gain": 10,
                     "offense_flag": 60828160,
                     "offset": {
                         "x": 1,
                         "y": 0
                     },
-                    "prorate": 98.0,
+                    "prorate": 99.0,
                     "push_block": 1,
                     "rotation": 49.560003185338225,
                     "size": {
@@ -17115,7 +16984,8 @@
                             "width": 43
                         }
                     ],
-                    "offense_flag": 2120,
+                    "mana_gain": 30,
+                    "offense_flag": 8390728,
                     "offset": {
                         "x": 6,
                         "y": 0
@@ -17146,7 +17016,7 @@
                         "width": 39
                     },
                     "defense_flag": 8,
-                    "duration": 12,
+                    "duration": 14,
                     "hurt_boxes": [
                         {
                             "height": 27,
@@ -17276,7 +17146,8 @@
                             "width": 34
                         }
                     ],
-                    "offense_flag": 2058,
+                    "mana_gain": 60,
+                    "offense_flag": 8390666,
                     "offset": {
                         "x": 11,
                         "y": -2
@@ -17348,7 +17219,8 @@
                             "width": 43
                         }
                     ],
-                    "offense_flag": 10312,
+                    "mana_gain": 60,
+                    "offense_flag": 8398920,
                     "offset": {
                         "x": 12,
                         "y": -2
@@ -17419,7 +17291,8 @@
                             "width": 57
                         }
                     ],
-                    "offense_flag": 272456,
+                    "mana_gain": 60,
+                    "offense_flag": 8661064,
                     "offset": {
                         "x": 12,
                         "y": -2
@@ -17499,7 +17372,7 @@
                         "width": 43
                     },
                     "defense_flag": 65536,
-                    "duration": 8,
+                    "duration": 10,
                     "hurt_boxes": [
                         {
                             "height": 52,
@@ -17682,7 +17555,7 @@
                             "width": 78
                         }
                     ],
-                    "mana_cost": 1000,
+                    "mana_cost": 900,
                     "offense_flag": 8454152,
                     "offset": {
                         "x": 17,
@@ -17770,6 +17643,31 @@
                     }
                 },
                 {
+                    "collision_box": {
+                        "height": 151,
+                        "left": -15,
+                        "top": -152,
+                        "width": 39
+                    },
+                    "offense_flag": 65544,
+                    "offset": {
+                        "x": 17,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 92,
+                        "y": 192
+                    },
+                    "sound": "0",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 6,
+                        "top": 339,
+                        "width": 46
+                    }
+                },
+                {
                     "block_stun": 15,
                     "chip_damage": 100,
                     "collision_box": {
@@ -17837,7 +17735,7 @@
                         "width": 39
                     },
                     "defense_flag": 16384,
-                    "duration": 12,
+                    "duration": 14,
                     "hurt_boxes": [
                         {
                             "height": 195,
@@ -17955,7 +17853,8 @@
                             "width": 49
                         }
                     ],
-                    "offense_flag": 2362632,
+                    "mana_gain": 60,
+                    "offense_flag": 10751240,
                     "offset": {
                         "x": 6,
                         "y": -6
@@ -17992,7 +17891,7 @@
                     },
                     "damage": 500,
                     "defense_flag": 16640,
-                    "duration": 12,
+                    "duration": 18,
                     "hit_speed": {
                         "x": 1,
                         "y": 2
@@ -18105,7 +18004,8 @@
                             "width": 55
                         }
                     ],
-                    "offense_flag": 2133128,
+                    "mana_gain": 60,
+                    "offense_flag": 10521736,
                     "offset": {
                         "x": 5,
                         "y": -6
@@ -18144,7 +18044,7 @@
                         "y": 2
                     },
                     "defense_flag": 524544,
-                    "duration": 6,
+                    "duration": 20,
                     "hurt_boxes": [
                         {
                             "height": 199,
@@ -18435,6 +18335,32 @@
                         "y": 192
                     },
                     "sound": "16",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 96,
+                        "left": 6,
+                        "top": 339,
+                        "width": 46
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 158,
+                        "left": -15,
+                        "top": -159,
+                        "width": 41
+                    },
+                    "defense_flag": 2097472,
+                    "offense_flag": 65544,
+                    "offset": {
+                        "x": 17,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 92,
+                        "y": 192
+                    },
+                    "sound": "0",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 96,
