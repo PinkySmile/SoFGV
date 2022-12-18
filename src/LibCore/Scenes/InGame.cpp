@@ -25,6 +25,9 @@
 #include "Objects/StageObjects/StageObject.hpp"
 #include "Objects/StageObjects/Cloud.hpp"
 
+//TODO: Clean this
+unsigned char ttt;
+
 unsigned getMagic()
 {
 	unsigned magic = REPLAY_MAGIC;
@@ -146,9 +149,14 @@ namespace SpiralOfFate
 			auto relevent = (this->_paused == 1 ? linput : rinput);
 
 			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
-		}
-		else if (this->_paused)
+		} else if (this->_paused)
 			this->_renderPause();
+
+		//TODO: Clean
+		game->screen->borderColor(2, sf::Color::Black);
+		game->screen->fillColor(sf::Color::White);
+		game->screen->displayElement(ttt == 0 ? "Normal" : ttt == 1 ? "Proration" : ttt == 2 ? "Limit" : "Protation and Limit", {-50, -600}, 1100, Screen::ALIGN_CENTER);
+		game->screen->borderColor(0, sf::Color::Transparent);
 	}
 
 	IScene *InGame::update()
@@ -203,6 +211,9 @@ namespace SpiralOfFate
 			else
 				this->_paused = 2;
 		}
+		//TODO: Clean
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5)
+			ttt = (ttt + 1) % 4;
 	}
 
 	void InGame::_renderPause() const
@@ -230,7 +241,7 @@ namespace SpiralOfFate
 		linput->update();
 		rinput->update();
 
-		auto relevent = (this->_paused == 1 ? linput : rinput)->getInputs();
+		auto relevant = (this->_paused == 1 ? linput : rinput)->getInputs();
 
 		if (this->_paused == 3) {
 			auto l = linput->getInputs();
@@ -245,20 +256,20 @@ namespace SpiralOfFate
 			this->_paused = 0;
 			return;
 		}
-		if (relevent.pause == 1 || relevent.s == 1) {
+		if (relevant.pause == 1 || relevant.s == 1) {
 			this->_pauseCursor = 0;
 			this->_paused = 3;
 			return;
 		}
-		if (relevent.verticalAxis == 1 || (relevent.verticalAxis >= 36 && relevent.verticalAxis % 6 == 0)) {
+		if (relevant.verticalAxis == 1 || (relevant.verticalAxis >= 36 && relevant.verticalAxis % 6 == 0)) {
 			this->_pauseCursor += sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
 			this->_pauseCursor--;
 			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
-		} else if (relevent.verticalAxis == -1 || (relevent.verticalAxis <= -36 && relevent.verticalAxis % 6 == 0)) {
+		} else if (relevant.verticalAxis == -1 || (relevant.verticalAxis <= -36 && relevant.verticalAxis % 6 == 0)) {
 			this->_pauseCursor++;
 			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
 		}
-		if (relevent.n == 1 && this->_pauseConfirm()) {
+		if (relevant.n == 1 && this->_pauseConfirm()) {
 			this->_pauseCursor = 0;
 			this->_paused = 3;
 		}

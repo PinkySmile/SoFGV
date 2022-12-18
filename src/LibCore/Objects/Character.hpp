@@ -516,6 +516,7 @@ namespace SpiralOfFate
 		// Game State
 		std::vector<ReplayData> _replayData;
 		std::list<LastInput> _lastInputs;
+		std::map<unsigned, unsigned> _usedMoves;
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit{0, 0, 0, 0};
 		InputStruct _inputBuffer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
