@@ -3439,6 +3439,12 @@ namespace SpiralOfFate
 				chr->_spiritMana += data.manaGain / 4;
 			if (data.oFlag.matterMana)
 				chr->_matterMana += data.manaGain / 4;
+			if (chr->_voidMana > chr->_voidManaMax)
+				chr->_voidMana = chr->_voidManaMax;
+			if (chr->_spiritMana > chr->_spiritManaMax)
+				chr->_spiritMana = chr->_spiritManaMax;
+			if (chr->_matterMana > chr->_matterManaMax)
+				chr->_matterMana = chr->_matterManaMax;
 		}
 		if (!isParryAction(this->_action)) {
 			if (
@@ -3575,6 +3581,12 @@ namespace SpiralOfFate
 				chr->_spiritMana += data.manaGain;
 			if (data.oFlag.matterMana)
 				chr->_matterMana += data.manaGain;
+			if (chr->_voidMana > chr->_voidManaMax)
+				chr->_voidMana = chr->_voidManaMax;
+			if (chr->_spiritMana > chr->_spiritManaMax)
+				chr->_spiritMana = chr->_spiritManaMax;
+			if (chr->_matterMana > chr->_matterManaMax)
+				chr->_matterMana = chr->_matterManaMax;
 		}
 		my_assert(!data.oFlag.ultimate || chr);
 		if (
