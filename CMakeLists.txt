@@ -9,9 +9,11 @@ find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore)
 
+
 message("SFML include dir is ${SFML_INCLUDE_DIRS}")
 message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		add_compile_options(-W -Wall -Wextra)

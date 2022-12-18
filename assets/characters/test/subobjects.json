@@ -5,7 +5,7 @@
             [
                 {
                     "block_stun": 8,
-                    "damage": 500,
+                    "damage": 600,
                     "defense_flag": 35913728,
                     "guard_damage": 20,
                     "hitSound": "assets/sfxs/se/011.wav",
@@ -36,7 +36,7 @@
                         "x": 29,
                         "y": -29
                     },
-                    "prorate": 90.0,
+                    "prorate": 85.0,
                     "push_block": 4,
                     "size": {
                         "x": 58,
@@ -233,7 +233,7 @@
                         "y": -30
                     },
                     "priority": 10,
-                    "prorate": 95.0,
+                    "prorate": 93.0,
                     "push_block": 4,
                     "size": {
                         "x": 64,

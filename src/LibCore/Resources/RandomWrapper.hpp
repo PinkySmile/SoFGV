@@ -8,6 +8,11 @@
 
 #include <random>
 
+#ifdef max
+#undef max
+#undef min
+#endif
+
 namespace SpiralOfFate
 {
 	class RandomWrapper {
