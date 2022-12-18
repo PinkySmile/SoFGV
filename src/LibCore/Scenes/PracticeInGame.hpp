@@ -24,7 +24,7 @@ namespace SpiralOfFate
 		unsigned _rightCounter = 0;
 		bool _hitboxes = false;
 		bool _debug = false;
-		bool _mana = false;
+		unsigned char _mana = 0;
 
 		constexpr static const char *_menuStrings[] = {
 			"Resume",
@@ -53,6 +53,7 @@ namespace SpiralOfFate
 		char const *dummyAirTechToString() const;
 		char const *dummyStateToString() const;
 		char const *blockToString() const;
+		char const *manaStateToString() const;
 		void _renderPause() const override;
 		void _pauseUpdate() override;
 		bool _pauseConfirm() override;

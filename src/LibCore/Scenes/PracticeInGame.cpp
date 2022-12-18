@@ -159,6 +159,23 @@ namespace SpiralOfFate
 		return nullptr;
 	}
 
+	char const *PracticeInGame::manaStateToString() const
+	{
+		switch (this->_mana) {
+		case 0:
+			return "Normal";
+		case 1:
+			return "0%";
+		case 2:
+			return "50%";
+		case 3:
+			return "100%";
+		case 4:
+			return "Infinite";
+		}
+		return nullptr;
+	}
+
 	char const *PracticeInGame::blockToString() const
 	{
 		switch (this->_block) {
@@ -214,7 +231,7 @@ namespace SpiralOfFate
 		values[7] = this->_overdrive == 0      ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
 		values[8] = this->_manager->_showBoxes ? "Shown"    : "Hidden";
 		values[9] = !this->_debug              ? "Disabled" : "Enabled";
-		values[10]= !this->_mana               ? "Normal"   : "Instant regeneration";
+		values[10]= this->manaStateToString();
 		values[11]= vals[this->_inputDisplay];
 
 		game->screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
@@ -312,7 +329,7 @@ namespace SpiralOfFate
 			this->_manager->_rightCharacter->showAttributes = this->_debug;
 			break;
 		case 10:
-			this->_mana = !this->_mana;
+			this->_mana = (this->_mana + 1) % 5;
 			break;
 		case 11:
 			this->_inputDisplay++;
@@ -349,11 +366,42 @@ namespace SpiralOfFate
 			else
 				this->_rightCounter--;
 		}
+		if (this->_mana == 4) {
+			this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
+			this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
+			this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
+			this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
+			this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
+			this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
+		}
 		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun && !this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
-			if (this->_mana) {
+			switch (this->_mana) {
+			case 0:
+				break;
+			case 1:
+				this->_manager->_leftCharacter->_voidMana   = 0;
+				this->_manager->_leftCharacter->_matterMana = 0;
+				this->_manager->_leftCharacter->_spiritMana = 0;
+				this->_manager->_rightCharacter->_voidMana   = 0;
+				this->_manager->_rightCharacter->_matterMana = 0;
+				this->_manager->_rightCharacter->_spiritMana = 0;
+				break;
+			case 2:
+				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax / 2.f;
+				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax / 2.f;
+				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax / 2.f;
+				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax / 2.f;
+				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax / 2.f;
+				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax / 2.f;
+				break;
+			case 3:
 				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
 				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
 				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
+				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
+				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
+				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
+				break;
 			}
 			if (!this->_replay) {
 				this->_manager->_leftCharacter->_hp = this->_manager->_leftCharacter->_baseHp;
@@ -361,28 +409,19 @@ namespace SpiralOfFate
 				this->_manager->_leftCharacter->_ultimateUsed &= this->_manager->_leftCharacter->getCurrentFrameData()->oFlag.ultimate;
 				this->_manager->_rightCharacter->_ultimateUsed &= this->_manager->_rightCharacter->getCurrentFrameData()->oFlag.ultimate;
 			}
-			if (this->_overdrive == 1)
+			if (this->_overdrive == 1) {
 				this->_manager->_leftCharacter->_odCooldown = this->_manager->_leftCharacter->_barMaxOdCooldown = this->_manager->_leftCharacter->_maxOdCooldown;
-			else if (this->_overdrive == 2)
+				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_barMaxOdCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
+			} else if (this->_overdrive == 2) {
 				this->_manager->_leftCharacter->_odCooldown = 0;
-			if (this->_guardBar == 1)
+				this->_manager->_rightCharacter->_odCooldown = 0;
+			}
+			if (this->_guardBar == 1) {
 				this->_manager->_leftCharacter->_guardCooldown = this->_manager->_leftCharacter->_maxGuardCooldown;
-			else if (this->_guardBar == 2) {
+				this->_manager->_rightCharacter->_guardCooldown = this->_manager->_rightCharacter->_maxGuardCooldown;
+			} else if (this->_guardBar == 2) {
 				this->_manager->_leftCharacter->_guardCooldown = 0;
 				this->_manager->_leftCharacter->_guardBar = this->_manager->_leftCharacter->_maxGuardBar;
-			}
-			if (this->_mana) {
-				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
-				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
-				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
-			}
-			if (this->_overdrive == 1)
-				this->_manager->_rightCharacter->_odCooldown = this->_manager->_rightCharacter->_barMaxOdCooldown = this->_manager->_rightCharacter->_maxOdCooldown;
-			else if (this->_overdrive == 2)
-				this->_manager->_rightCharacter->_odCooldown = 0;
-			if (this->_guardBar == 1)
-				this->_manager->_rightCharacter->_guardCooldown = this->_manager->_rightCharacter->_maxGuardCooldown;
-			else if (this->_guardBar == 2) {
 				this->_manager->_rightCharacter->_guardCooldown = 0;
 				this->_manager->_rightCharacter->_guardBar = this->_manager->_rightCharacter->_maxGuardBar;
 			}
