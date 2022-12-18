@@ -231,7 +231,7 @@ namespace SpiralOfFate
 			this->_onDisconnect(remote.ip.toString());
 		};
 		con->spectatorEnabled = spec;
-		con->host(10800);
+		con->host(25565);
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
 			con->onDisconnect = nullptr;

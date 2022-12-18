@@ -204,6 +204,7 @@ else ()
 	)
 endif ()
 
+message("${GICON}")
 add_executable(
 	SoFGV
 	${GICON}
@@ -213,6 +214,7 @@ add_executable(
 target_link_libraries(SoFGV SoFGVCore)
 target_include_directories(SoFGV PRIVATE src/LibCore)
 
+message("${FDICON}")
 add_executable(
 	FrameDataEditor
 	${FDICON}
