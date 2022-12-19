@@ -12624,10 +12624,10 @@
                             "width": 71
                         },
                         {
-                            "height": 31,
+                            "height": 37,
                             "left": 25,
-                            "top": -29,
-                            "width": 78
+                            "top": -35,
+                            "width": 72
                         }
                     ],
                     "hit_speed": {
@@ -12653,23 +12653,23 @@
                     "mana_gain": 30,
                     "offense_flag": 33557088,
                     "offset": {
-                        "x": 37,
+                        "x": 34,
                         "y": 2
                     },
                     "prorate": 80.0,
                     "push_back": 3,
                     "push_block": 3,
                     "size": {
-                        "x": 126,
+                        "x": 120,
                         "y": 136
                     },
                     "sound": "assets/sfxs/se/027.wav",
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 68,
-                        "left": 912,
-                        "top": 654,
-                        "width": 63
+                        "left": 850,
+                        "top": 839,
+                        "width": 60
                     },
                     "untech": 20
                 },
@@ -12693,15 +12693,15 @@
                     "hit_boxes": [
                         {
                             "height": 41,
-                            "left": 8,
-                            "top": -106,
-                            "width": 80
+                            "left": 13,
+                            "top": -107,
+                            "width": 72
                         },
                         {
-                            "height": 36,
+                            "height": 51,
                             "left": 25,
-                            "top": -34,
-                            "width": 101
+                            "top": -49,
+                            "width": 94
                         }
                     ],
                     "hit_speed": {
@@ -12727,22 +12727,22 @@
                     "mana_gain": 30,
                     "offense_flag": 33557088,
                     "offset": {
-                        "x": 48,
+                        "x": 43,
                         "y": 2
                     },
                     "prorate": 80.0,
                     "push_back": 8,
                     "push_block": 3,
                     "size": {
-                        "x": 148,
+                        "x": 138,
                         "y": 136
                     },
                     "sprite": "assets/characters/test/sheet.png",
                     "texture_bounds": {
                         "height": 68,
-                        "left": 866,
-                        "top": 731,
-                        "width": 74
+                        "left": 912,
+                        "top": 839,
+                        "width": 69
                     },
                     "untech": 20
                 },
