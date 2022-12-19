@@ -13377,6 +13377,269 @@
         ]
     },
     {
+        "action": 162,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 145,
+                        "left": -20,
+                        "top": -149,
+                        "width": 42
+                    },
+                    "defense_flag": 24832,
+                    "duration": 11,
+                    "hurt_boxes": [
+                        {
+                            "height": 187,
+                            "left": -20,
+                            "top": -188,
+                            "width": 68
+                        }
+                    ],
+                    "offset": {
+                        "x": 14,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 68,
+                        "y": 188
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 729,
+                        "top": 2,
+                        "width": 34
+                    }
+                },
+                {
+                    "block_stun": 20,
+                    "collision_box": {
+                        "height": 125,
+                        "left": -20,
+                        "top": -129,
+                        "width": 42
+                    },
+                    "counter_hit_speed": {
+                        "x": 4,
+                        "y": 9
+                    },
+                    "damage": 900,
+                    "defense_flag": 16640,
+                    "duration": 3,
+                    "guard_damage": 40,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 64,
+                            "left": 37,
+                            "top": -159,
+                            "width": 52
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 5,
+                        "y": 3
+                    },
+                    "hit_stop": 12,
+                    "hit_stun": 26,
+                    "hurt_boxes": [
+                        {
+                            "height": 53,
+                            "left": 23,
+                            "top": -152,
+                            "width": 59
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "mana_gain": 30,
+                    "matter_limit": 20,
+                    "offense_flag": 33819296,
+                    "offset": {
+                        "x": 30,
+                        "y": 0
+                    },
+                    "prorate": 82.0,
+                    "push_back": 2,
+                    "push_block": 3,
+                    "size": {
+                        "x": 100,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 775,
+                        "top": 2,
+                        "width": 50
+                    },
+                    "untech": 20
+                },
+                {
+                    "block_stun": 20,
+                    "collision_box": {
+                        "height": 125,
+                        "left": -20,
+                        "top": -129,
+                        "width": 42
+                    },
+                    "counter_hit_speed": {
+                        "x": 4,
+                        "y": 9
+                    },
+                    "damage": 900,
+                    "defense_flag": 16640,
+                    "duration": 3,
+                    "guard_damage": 40,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 81,
+                            "left": 44,
+                            "top": -138,
+                            "width": 63
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 5,
+                        "y": 3
+                    },
+                    "hit_stop": 12,
+                    "hit_stun": 26,
+                    "hurt_boxes": [
+                        {
+                            "height": 56,
+                            "left": 27,
+                            "top": -133,
+                            "width": 59
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "mana_gain": 30,
+                    "matter_limit": 20,
+                    "offense_flag": 33819296,
+                    "offset": {
+                        "x": 42,
+                        "y": 0
+                    },
+                    "prorate": 82.0,
+                    "push_back": 2,
+                    "push_block": 3,
+                    "size": {
+                        "x": 124,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 5,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 835,
+                        "top": 2,
+                        "width": 62
+                    },
+                    "untech": 20
+                },
+                {
+                    "collision_box": {
+                        "height": 125,
+                        "left": -20,
+                        "top": -129,
+                        "width": 42
+                    },
+                    "defense_flag": 256,
+                    "duration": 15,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 25,
+                            "top": -103,
+                            "width": 33
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "offense_flag": 264208,
+                    "offset": {
+                        "x": 18,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 76,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 916,
+                        "top": 2,
+                        "width": 38
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 125,
+                        "left": -20,
+                        "top": -129,
+                        "width": 42
+                    },
+                    "defense_flag": 524544,
+                    "duration": 15,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 25,
+                            "top": -103,
+                            "width": 33
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "offense_flag": 264208,
+                    "offset": {
+                        "x": 18,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 76,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 916,
+                        "top": 2,
+                        "width": 38
+                    }
+                }
+            ]
+        ]
+    },
+    {
         "action": 164,
         "framedata": [
             [
@@ -15099,6 +15362,445 @@
                         "top": 814,
                         "width": 23
                     }
+                }
+            ]
+        ]
+    },
+    {
+        "action": 212,
+        "framedata": [
+            [
+                {
+                    "collision_box": {
+                        "height": 142,
+                        "left": -20,
+                        "top": -146,
+                        "width": 42
+                    },
+                    "defense_flag": 24832,
+                    "duration": 11,
+                    "hurt_boxes": [
+                        {
+                            "height": 187,
+                            "left": -20,
+                            "top": -188,
+                            "width": 52
+                        }
+                    ],
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 52,
+                        "y": 188
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 670,
+                        "top": 916,
+                        "width": 26
+                    }
+                },
+                {
+                    "collision_box": {
+                        "height": 141,
+                        "left": -20,
+                        "top": -145,
+                        "width": 42
+                    },
+                    "defense_flag": 2121984,
+                    "hurt_boxes": [
+                        {
+                            "height": 187,
+                            "left": -20,
+                            "top": -188,
+                            "width": 52
+                        }
+                    ],
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 52,
+                        "y": 188
+                    },
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 670,
+                        "top": 916,
+                        "width": 26
+                    }
+                },
+                {
+                    "block_stun": 16,
+                    "collision_box": {
+                        "height": 139,
+                        "left": -20,
+                        "top": -143,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 16640,
+                    "duration": 3,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.5
+                    },
+                    "guard_damage": 10,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 64,
+                            "left": 35,
+                            "top": -140,
+                            "width": 52
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 57
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "mana_gain": 30,
+                    "offense_flag": 58722448,
+                    "offset": {
+                        "x": 33,
+                        "y": 0
+                    },
+                    "prorate": 94.0,
+                    "push_back": 1,
+                    "push_block": 2,
+                    "size": {
+                        "x": 106,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "speed": {
+                        "x": -2,
+                        "y": 0
+                    },
+                    "spirit_limit": 5,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 708,
+                        "top": 916,
+                        "width": 53
+                    },
+                    "untech": 22
+                },
+                {
+                    "block_stun": 13,
+                    "collision_box": {
+                        "height": 140,
+                        "left": -20,
+                        "top": -144,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.5
+                    },
+                    "guard_damage": 10,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 64,
+                            "left": 35,
+                            "top": -140,
+                            "width": 85
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 64
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "mana_gain": 30,
+                    "offense_flag": 58730640,
+                    "offset": {
+                        "x": 50,
+                        "y": 0
+                    },
+                    "prorate": 94.0,
+                    "push_back": 1,
+                    "push_block": 2,
+                    "size": {
+                        "x": 140,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 5,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 770,
+                        "top": 916,
+                        "width": 70
+                    },
+                    "untech": 22
+                },
+                {
+                    "block_stun": 9,
+                    "collision_box": {
+                        "height": 140,
+                        "left": -20,
+                        "top": -144,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 256,
+                    "duration": 3,
+                    "gravity": {
+                        "x": 0.0,
+                        "y": -0.5
+                    },
+                    "guard_damage": 10,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_boxes": [
+                        {
+                            "height": 64,
+                            "left": 35,
+                            "top": -140,
+                            "width": 112
+                        }
+                    ],
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 76
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "mana_gain": 30,
+                    "offense_flag": 58730640,
+                    "offset": {
+                        "x": 64,
+                        "y": 0
+                    },
+                    "prorate": 94.0,
+                    "push_back": 1,
+                    "push_block": 2,
+                    "size": {
+                        "x": 168,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 849,
+                        "top": 916,
+                        "width": 84
+                    },
+                    "untech": 22
+                },
+                {
+                    "block_stun": 11,
+                    "collision_box": {
+                        "height": 142,
+                        "left": -20,
+                        "top": -146,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 256,
+                    "duration": 10,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 32
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "offense_flag": 2064,
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 52,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 670,
+                        "top": 916,
+                        "width": 26
+                    },
+                    "untech": 22
+                },
+                {
+                    "block_stun": 11,
+                    "collision_box": {
+                        "height": 142,
+                        "left": -20,
+                        "top": -146,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 256,
+                    "duration": 10,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 32
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "offense_flag": 2064,
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 52,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 670,
+                        "top": 916,
+                        "width": 26
+                    },
+                    "untech": 22
+                },
+                {
+                    "block_stun": 11,
+                    "collision_box": {
+                        "height": 141,
+                        "left": -20,
+                        "top": -145,
+                        "width": 42
+                    },
+                    "damage": 300,
+                    "defense_flag": 524544,
+                    "duration": 11,
+                    "hitSound": "assets/sfxs/se/002.wav",
+                    "hit_speed": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "hit_stop": 5,
+                    "hit_stun": 18,
+                    "hurt_boxes": [
+                        {
+                            "height": 43,
+                            "left": 17,
+                            "top": -130,
+                            "width": 32
+                        },
+                        {
+                            "height": 190,
+                            "left": -21,
+                            "top": -191,
+                            "width": 49
+                        }
+                    ],
+                    "offense_flag": 2064,
+                    "offset": {
+                        "x": 6,
+                        "y": 0
+                    },
+                    "size": {
+                        "x": 52,
+                        "y": 188
+                    },
+                    "sound": "assets/sfxs/se/027.wav",
+                    "spirit_limit": 10,
+                    "sprite": "assets/characters/test/sheet.png",
+                    "texture_bounds": {
+                        "height": 94,
+                        "left": 670,
+                        "top": 916,
+                        "width": 26
+                    },
+                    "untech": 22
                 }
             ]
         ]
