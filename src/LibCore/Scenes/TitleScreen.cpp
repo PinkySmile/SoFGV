@@ -43,7 +43,6 @@
 
 namespace SpiralOfFate
 {
-
 	static const unsigned inputs[]{
 		INPUT_LEFT,
 		INPUT_RIGHT,
