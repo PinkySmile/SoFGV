@@ -3432,6 +3432,9 @@ namespace SpiralOfFate
 		unsigned char height = data.oFlag.lowHit | (data.oFlag.highHit << 1);
 		auto chr = dynamic_cast<Character *>(other);
 
+		if (chr)
+			chr->_forceCH = false;
+		this->_forceCH = false;
 		if (chr) {
 			if (data.oFlag.voidMana)
 				chr->_voidMana += data.manaGain / 4;
@@ -3570,11 +3573,16 @@ namespace SpiralOfFate
 		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
 		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto counter = this->_counterHit == 1;
+		auto forcedCounter = false;
 		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 		auto stun = data.hitStun;
 
+		this->_forceCH = false;
 		if (chr) {
+			forcedCounter = chr->_forceCH;
+			counter |= forcedCounter;
+			chr->_forceCH = false;
 			if (data.oFlag.voidMana)
 				chr->_voidMana += data.manaGain;
 			if (data.oFlag.spiritMana)
@@ -3618,7 +3626,7 @@ namespace SpiralOfFate
 			chr->_animation = 0;
 			chr->_applyNewAnimFlags();
 		}
-		if ((myData->dFlag.counterHit || counter) && data.oFlag.canCounterHit && this->_counterHit != 2 && !myData->dFlag.superarmor) {
+		if ((myData->dFlag.counterHit || counter) && (data.oFlag.canCounterHit || forcedCounter) && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
@@ -3634,8 +3642,8 @@ namespace SpiralOfFate
 				stun = data.untech;
 			}
 			this->_counter = true;
-			damage *= 1.5;
-			stun *= 1.5;
+			damage *= forcedCounter ? 2 : 1.5;
+			stun *= forcedCounter ? 2 : 1.5;
 			game->battleMgr->setHitStop(data.hitStop * 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
@@ -4001,9 +4009,9 @@ namespace SpiralOfFate
 	void Character::_parryVoidEffect(Object *other, bool isStrongest)
 	{
 		auto oData = other->getCurrentFrameData();
-		auto percent = isStrongest ? 100 : REFLECT_PERCENT;
 
-		other->_hp = max(1, static_cast<int>(other->_hp - percent * oData->damage / 100));
+		other->_hp = max(1, static_cast<int>(other->_hp - REFLECT_PERCENT * oData->damage / 100));
+		this->_forceCH = isStrongest;
 	}
 
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
@@ -4031,8 +4039,17 @@ namespace SpiralOfFate
 
 	void Character::_parrySpiritEffect(Object *other, bool isStrongest)
 	{
-		other->_speed.x += this->_dir * (5 + isStrongest * 10);
-		this->_speed.x -= this->_dir * (5 + isStrongest * 10);
+		if (isStrongest) {
+			auto pos = other->_position;
+
+			other->_position = this->_position;
+			this->_position = pos;
+			this->_dir *= -1;
+			this->_direction = !this->_direction;
+		} else {
+			other->_speed.x += this->_dir * 10;
+			this->_speed.x -= this->_dir * 10;
+		}
 	}
 
 	void Character::_parryEffect(Object *other)

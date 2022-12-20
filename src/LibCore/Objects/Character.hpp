@@ -549,6 +549,7 @@ namespace SpiralOfFate
 		bool _justGotCorner = false;
 		bool _hadUltimate = false;
 		bool _armorUsed = false;
+		bool _forceCH = false;
 		char _normalTreeFlag = 0;
 		float _prorate = 1;
 		float _regen = 0;
