@@ -57,7 +57,7 @@ namespace SpiralOfFate
 
 	protected:
 		bool _terminated = true;
-		unsigned _delay;
+		unsigned _delay = 0;
 		unsigned _expectedDelay = 0;
 		unsigned _currentFrame = 0;
 		unsigned _nextExpectedFrame = 0;

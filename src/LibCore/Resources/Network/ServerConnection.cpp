@@ -216,8 +216,8 @@ namespace SpiralOfFate
 				auto &ricon = rentry.icon[this->p2pal];
 				auto &stageObj = scene->_stages[this->stage];
 
-				scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
-				scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
+				scene->_localInput->flush(game->connection->getCurrentDelay());
+				scene->_remoteInput->flush(game->connection->getCurrentDelay());
 				game->battleRandom.seed(this->seed);
 				me->setStatus("Creating scene...");
 				auto result = new ServerInGame(

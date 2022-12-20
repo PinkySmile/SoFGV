@@ -23,7 +23,15 @@ namespace SpiralOfFate
 
 	void Connection::updateDelay(unsigned int delay)
 	{
+		PacketDelayUpdate packet{delay, 0};
+
+		//TODO: Do this better
+		this->_send(*this->_opponent, &packet, sizeof(packet));
+		this->_send(*this->_opponent, &packet, sizeof(packet));
+		this->_send(*this->_opponent, &packet, sizeof(packet));
+		this->_send(*this->_opponent, &packet, sizeof(packet));
 		this->_expectedDelay = delay;
+		this->_delay = delay;
 	}
 
 	bool Connection::send(const InputStruct &inputs)

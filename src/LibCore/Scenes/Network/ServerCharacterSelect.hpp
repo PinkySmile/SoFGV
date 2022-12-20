@@ -25,6 +25,8 @@ namespace SpiralOfFate
 			int stage, int platformCfg
 		);
 
+		void consumeEvent(const sf::Event &event) override;
+
 		friend class ServerConnection;
 	};
 }

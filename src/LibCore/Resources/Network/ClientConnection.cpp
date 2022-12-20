@@ -68,7 +68,6 @@ namespace SpiralOfFate
 			return this->_send(remote, &error, sizeof(error));
 		}
 
-
 		if (this->_currentMenu != MENUSTATE_LOADING_CHARSELECT && this->_currentMenu != MENUSTATE_CHARSELECT) {
 			remote.connectPhase = 1;
 			this->_opponent = &remote;
@@ -102,11 +101,22 @@ namespace SpiralOfFate
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketDelayUpdate &, size_t size)
+	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketDelayUpdate &packet, size_t size)
 	{
-		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_DELAY_UPDATE, size};
+		if (remote.connectPhase != 1) {
+			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
 
-		this->_send(remote, &error, sizeof(error));
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (size != sizeof(packet)) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_INIT_SUCCESS, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+
+		this->_expectedDelay = packet.newDelay;
+		//TODO
+		this->_delay = packet.newDelay;
 	}
 
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketMenuSwitch &packet, size_t size)
@@ -239,8 +249,8 @@ namespace SpiralOfFate
 			auto &stageObj = scene->_stages[this->stage];
 			int i = 0;
 
-			scene->_localInput->flush(HARDCODED_CURRENT_DELAY);
-			scene->_remoteInput->flush(HARDCODED_CURRENT_DELAY);
+			scene->_localInput->flush(game->connection->getCurrentDelay());
+			scene->_remoteInput->flush(game->connection->getCurrentDelay());
 			game->battleRandom.seed(this->seed);
 			me->setStatus("Creating scene...");
 			auto result = new ClientInGame(

@@ -34,6 +34,7 @@ namespace SpiralOfFate
 		);
 
 		IScene *update() override;
+		void render() const override;
 	};
 }
 

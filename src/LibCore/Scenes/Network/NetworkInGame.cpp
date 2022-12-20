@@ -52,7 +52,7 @@ namespace SpiralOfFate
 			return nullptr;
 #ifdef _DEBUG
 		this->_currentFrame++;
-		my_assert(this->_currentFrame <= game->connection->_currentFrame + HARDCODED_CURRENT_DELAY);
+		my_assert(this->_currentFrame <= game->connection->_currentFrame + game->connection->getCurrentDelay());
 #endif
 
 		if (this->_moveList) {
@@ -86,6 +86,9 @@ namespace SpiralOfFate
 		game->screen->displayElement(buffer, {-50, 50}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Rollback %zu/%zu", this->_rMachine.getBufferSize(), this->_rMachine.getMaxBufferSize());
 		game->screen->displayElement(buffer, {-50, 75}, 145, Screen::ALIGN_LEFT);
+		game->screen->textSize(15);
+		game->screen->displayElement(game->connection->getNames().first, {-50, -592}, 340, Screen::ALIGN_CENTER);
+		game->screen->displayElement(game->connection->getNames().second, {710, -592}, 340, Screen::ALIGN_CENTER);
 		game->screen->textSize(30);
 		game->screen->borderColor(0, sf::Color::Transparent);
 #ifdef _DEBUG

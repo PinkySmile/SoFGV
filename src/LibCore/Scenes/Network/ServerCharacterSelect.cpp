@@ -25,6 +25,18 @@ namespace SpiralOfFate
 		this->_rightInput = std::shared_ptr<IInput>(this->_remoteInput);
 	}
 
+	void ServerCharacterSelect::consumeEvent(const sf::Event &event)
+	{
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Subtract) {
+			if (game->connection->getCurrentDelay() > 0)
+				game->connection->updateDelay(game->connection->getCurrentDelay() - 1);
+		} else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Add) {
+			if (game->connection->getCurrentDelay() < 8)
+				game->connection->updateDelay(game->connection->getCurrentDelay() + 1);
+		}
+		CharacterSelect::consumeEvent(event);
+	}
+
 	LoadingScene *ServerCharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
