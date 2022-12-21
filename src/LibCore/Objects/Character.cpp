@@ -538,6 +538,12 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
+		if (this->_hitStop) {
+			this->_hitStop--;
+			this->updateInputs();
+			return;
+		}
+
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
@@ -1323,12 +1329,16 @@ namespace SpiralOfFate
 
 		FrameData data;
 		auto myData = this->getCurrentFrameData();
+		auto obj = reinterpret_cast<Object *>(&other);
 
 		data.setSlave();
 		data = *dat;
 		this->_mutateHitFramedata(data);
-		if (myData->dFlag.invulnerableArmor)
-			return game->battleMgr->setHitStop(data.hitStop);
+		if (myData->dFlag.invulnerableArmor) {
+			this->_hitStop = data.hitPlayerHitStop;
+			obj->_hitStop = data.hitOpponentHitStop * 2;
+			return;
+		}
 		this->_restand = false;
 		if (
 			!this->_isBlocking() ||
@@ -1336,9 +1346,9 @@ namespace SpiralOfFate
 			data.oFlag.unblockable ||
 			data.oFlag.grab
 		)
-			this->_getHitByMove(dynamic_cast<Object *>(&other), data);
+			this->_getHitByMove(obj, data);
 		else
-			this->_blockMove(dynamic_cast<Object *>(&other), data);
+			this->_blockMove(obj, data);
 	}
 
 	bool Character::_isBlocking() const
@@ -3301,7 +3311,10 @@ namespace SpiralOfFate
 			"subObjectSpawn: %u\n"
 			"manaGain: %u\n"
 			"manaCost: %u\n"
-			"hitStop: %u\n"
+			"hitPlayerHitStop: %u\n"
+			"hitOpponentHitStop: %u\n"
+			"blockPlayerHitStop: %u\n"
+			"blockOpponentHitStop: %u\n"
 			"damage: %u\n",
 			this->_voidMana,
 			this->_voidManaMax,
@@ -3322,7 +3335,10 @@ namespace SpiralOfFate
 			data->subObjectSpawn,
 			data->manaGain,
 			data->manaCost,
-			data->hitStop,
+			data->hitPlayerHitStop,
+			data->hitOpponentHitStop,
+			data->blockPlayerHitStop,
+			data->blockOpponentHitStop,
 			data->damage
 		);
 		for (unsigned tmp = data->dFlag.flags, i = 0; tmp; tmp >>= 1, i++)
@@ -3470,7 +3486,8 @@ namespace SpiralOfFate
 			}
 			this->_guardRegenCd = 120;
 		}
-		game->battleMgr->setHitStop(data.hitStop);
+		this->_hitStop = data.blockPlayerHitStop;
+		other->_hitStop = data.blockOpponentHitStop;
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3644,7 +3661,8 @@ namespace SpiralOfFate
 			this->_counter = true;
 			damage *= forcedCounter ? 2 : 1.5;
 			stun *= forcedCounter ? 2 : 1.5;
-			game->battleMgr->setHitStop(data.hitStop * 1.5);
+			this->_hitStop = data.hitPlayerHitStop * 1.5;
+			obj->_hitStop = data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
@@ -3664,7 +3682,8 @@ namespace SpiralOfFate
 				}
 			} else
 				stun = 0;
-			game->battleMgr->setHitStop(data.hitStop);
+			this->_hitStop = data.hitPlayerHitStop;
+			obj->_hitStop = data.hitOpponentHitStop;
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 
@@ -3873,6 +3892,7 @@ namespace SpiralOfFate
 		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
 		dat->_wrongMana = this->_wrongMana;
+		dat->_hitStop = this->_hitStop;
 		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
@@ -3925,6 +3945,7 @@ namespace SpiralOfFate
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
 		this->_voidEffectTimer = dat->_voidEffectTimer;
 		this->_wrongMana = dat->_wrongMana;
+		this->_hitStop = dat->_hitStop;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_supersUsed = dat->_supersUsed;
@@ -4099,7 +4120,8 @@ namespace SpiralOfFate
 			}
 		}
 		if (isStrongest) {
-			game->battleMgr->setHitStop(20);
+			this->_hitStop = 20;
+			other->_hitStop = 25;
 			game->soundMgr.play(BASICSOUND_BEST_PARRY);
 		} else if (isWeakest)
 			game->soundMgr.play(BASICSOUND_WORST_PARRY);
@@ -4465,6 +4487,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat1->_voidEffectTimer) + " vs " + std::to_string(dat2->_voidEffectTimer));
 		if (dat1->_wrongMana != dat2->_wrongMana)
 			game->logger.fatal(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat1->_wrongMana) + " vs " + std::to_string(dat2->_wrongMana));
+		if (dat1->_hitStop != dat2->_hitStop)
+			game->logger.fatal(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
 		if (dat1->_jumpCanceled != dat2->_jumpCanceled)
 			game->logger.fatal(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat1->_jumpCanceled) + " vs " + std::to_string(dat2->_jumpCanceled));
 		if (dat1->_hadUltimate != dat2->_hadUltimate)

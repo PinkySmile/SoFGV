@@ -208,7 +208,10 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
 	auto untech = panel->get<tgui::EditBox>("Untech");
 	auto gdmg = panel->get<tgui::EditBox>("GuardDMG");
-	auto hitStop = panel->get<tgui::EditBox>("HitStop");
+	auto bphitStop = panel->get<tgui::EditBox>("BPHitStop");
+	auto bohitStop = panel->get<tgui::EditBox>("BOHitStop");
+	auto hphitStop = panel->get<tgui::EditBox>("HPHitStop");
+	auto hohitStop = panel->get<tgui::EditBox>("HOHitStop");
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
 	auto spiritLimit = panel->get<tgui::EditBox>("SpiritLimit");
@@ -254,7 +257,10 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	hitStun->setText(std::to_string(data.hitStun));
 	untech->setText(std::to_string(data.untech));
 	gdmg->setText(std::to_string(data.guardDmg));
-	hitStop->setText(std::to_string(data.hitStop));
+	hphitStop->setText(std::to_string(data.hitPlayerHitStop));
+	hohitStop->setText(std::to_string(data.hitOpponentHitStop));
+	bphitStop->setText(std::to_string(data.blockPlayerHitStop));
+	bohitStop->setText(std::to_string(data.blockOpponentHitStop));
 	spiritLimit->setText(std::to_string(data.spiritLimit));
 	voidLimit->setText(std::to_string(data.voidLimit));
 	matterLimit->setText(std::to_string(data.matterLimit));
@@ -358,7 +364,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto damage = panel->get<tgui::EditBox>("Damage");
 	auto manaGain = panel->get<tgui::EditBox>("ManaGain");
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
-	auto hitStop = panel->get<tgui::EditBox>("HitStop");
+	auto bphitStop = panel->get<tgui::EditBox>("BPHitStop");
+	auto bohitStop = panel->get<tgui::EditBox>("BOHitStop");
+	auto hphitStop = panel->get<tgui::EditBox>("HPHitStop");
+	auto hohitStop = panel->get<tgui::EditBox>("HOHitStop");
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
 	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
 	auto gravity = panel->get<tgui::EditBox>("Gravity");
@@ -835,7 +844,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		data.manaCost = std::stoul(t);
 	});
-	hitStop->connect("TextChanged", [&object](std::string t){
+	hphitStop->connect("TextChanged", [&object](std::string t){
 		if (*c)
 			return;
 		if (t.empty())
@@ -843,7 +852,37 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		data.hitStop = std::stoul(t);
+		data.hitPlayerHitStop = std::stoul(t);
+	});
+	hohitStop->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.hitOpponentHitStop = std::stoul(t);
+	});
+	bphitStop->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.blockPlayerHitStop = std::stoul(t);
+	});
+	bohitStop->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.blockOpponentHitStop = std::stoul(t);
 	});
 	subObj->connect("TextChanged", [&object](std::string t){
 		if (*c)

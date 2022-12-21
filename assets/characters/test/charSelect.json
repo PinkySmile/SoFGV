@@ -186,6 +186,8 @@
                     }
                 },
                 {
+                    "block_opponent_hit_stop": 8,
+                    "block_player_hit_stop": 8,
                     "block_stun": 10,
                     "collision_box": {
                         "height": 138,
@@ -214,11 +216,12 @@
                             "width": 20
                         }
                     ],
+                    "hit_opponent_hit_stop": 8,
+                    "hit_player_hit_stop": 8,
                     "hit_speed": {
                         "x": 2,
                         "y": 20
                     },
-                    "hit_stop": 8,
                     "hit_stun": 20,
                     "hurt_boxes": [
                         {

@@ -131,7 +131,10 @@ namespace SpiralOfFate
 		int subObjectSpawn = 0;
 		unsigned manaGain = 0;
 		unsigned manaCost = 0;
-		unsigned hitStop = 0;
+		unsigned hitPlayerHitStop = 0;
+		unsigned hitOpponentHitStop = 0;
+		unsigned blockPlayerHitStop = 0;
+		unsigned blockOpponentHitStop = 0;
 		unsigned damage = 0;
 		unsigned chipDamage = 0;
 		std::optional<unsigned> priority;

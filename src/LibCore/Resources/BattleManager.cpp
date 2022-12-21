@@ -261,16 +261,6 @@ namespace SpiralOfFate
 		return this->_lastObjectId;
 	}
 
-	void BattleManager::setHitStop(unsigned int stop)
-	{
-		this->_hitStop = stop;
-	}
-
-	void BattleManager::addHitStop(unsigned int stop)
-	{
-		this->_hitStop += stop;
-	}
-
 	const Character *BattleManager::getLeftCharacter() const
 	{
 		return &*this->_leftCharacter;
@@ -450,16 +440,6 @@ namespace SpiralOfFate
 	void BattleManager::_gameUpdate()
 	{
 		std::vector<std::tuple<IObject *, IObject *, const FrameData *>> collisions;
-
-		if (this->_hitStop) {
-			this->_hitStop--;
-			this->_leftCharacter->updateInputs();
-			this->_rightCharacter->updateInputs();
-			this->_leftHUDData.update();
-			this->_rightHUDData.update();
-			return;
-		}
-
 		auto ldata = this->_leftCharacter->getCurrentFrameData();
 		auto rdata = this->_rightCharacter->getCurrentFrameData();
 		auto lchr = &*this->_leftCharacter;
@@ -601,7 +581,6 @@ namespace SpiralOfFate
 		dat->_currentRound = this->_currentRound;
 		dat->_roundStartTimer = this->_roundStartTimer;
 		dat->_roundEndTimer = this->_roundEndTimer;
-		dat->_hitStop = this->_hitStop;
 		dat->_nbObjects = this->_objects.size();
 		this->_leftCharacter->copyToBuffer((void *)ptr);
 		ptr += this->_leftCharacter->getBufferSize();
@@ -649,7 +628,6 @@ namespace SpiralOfFate
 		this->_currentRound = dat->_currentRound;
 		this->_roundStartTimer = dat->_roundStartTimer;
 		this->_roundEndTimer = dat->_roundEndTimer;
-		this->_hitStop = dat->_hitStop;
 		this->_leftCharacter->_removeSubobjects();
 		this->_rightCharacter->_removeSubobjects();
 		this->_leftCharacter->restoreFromBuffer((void *)ptr);
@@ -957,8 +935,6 @@ namespace SpiralOfFate
 			game->logger.fatal("BattleManager::roundStartTimer differs: " + std::to_string(dat1->_roundStartTimer) + " vs " + std::to_string(dat2->_roundStartTimer));
 		if (dat1->_roundEndTimer != dat2->_roundEndTimer)
 			game->logger.fatal("BattleManager::roundEndTimer differs: " + std::to_string(dat1->_roundEndTimer) + " vs " + std::to_string(dat2->_roundEndTimer));
-		if (dat1->_hitStop != dat2->_hitStop)
-			game->logger.fatal("BattleManager::hitStop differs: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
 		if (dat1->_nbObjects != dat2->_nbObjects)
 			game->logger.fatal("BattleManager::nbObjects differs: " + std::to_string(dat1->_nbObjects) + " vs " + std::to_string(dat2->_nbObjects));
 

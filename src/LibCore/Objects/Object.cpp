@@ -170,6 +170,10 @@ namespace SpiralOfFate
 
 	void Object::update()
 	{
+		if (this->_hitStop) {
+			this->_hitStop--;
+			return;
+		}
 		this->_tickMove();
 		this->_applyMoveAttributes();
 	}
@@ -507,6 +511,7 @@ namespace SpiralOfFate
 		dat->_speed = this->_speed;
 		dat->_gravity = this->_gravity;
 		dat->_action = this->_action;
+		dat->_hitStop = this->_hitStop;
 		dat->_actionBlock = this->_actionBlock;
 		dat->_animation = this->_animation;
 		dat->_animationCtr = this->_animationCtr;
@@ -528,6 +533,7 @@ namespace SpiralOfFate
 		this->_speed = dat->_speed;
 		this->_gravity = dat->_gravity;
 		this->_action = dat->_action;
+		this->_hitStop = dat->_hitStop;
 		this->_actionBlock = dat->_actionBlock;
 		this->_animation = dat->_animation;
 		this->_animationCtr = dat->_animationCtr;
@@ -579,6 +585,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Object::_gravity: (" + std::to_string(dat1->_gravity.x) + ", " + std::to_string(dat1->_gravity.y) + ") vs (" + std::to_string(dat2->_gravity.x) + ", " + std::to_string(dat2->_gravity.y) + ")");
 		if (dat1->_action != dat2->_action)
 			game->logger.fatal(std::string(msgStart) + "Object::_action: " + std::to_string(dat1->_action) + " vs " + std::to_string(dat2->_action));
+		if (dat1->_hitStop != dat2->_hitStop)
+			game->logger.fatal(std::string(msgStart) + "Object::_hitStop: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
 		if (dat1->_actionBlock != dat2->_actionBlock)
 			game->logger.fatal(std::string(msgStart) + "Object::_actionBlock: " + std::to_string(dat1->_actionBlock) + " vs " + std::to_string(dat2->_actionBlock));
 		if (dat1->_animation != dat2->_animation)

@@ -260,9 +260,21 @@ namespace SpiralOfFate
 			my_assert2(data["mana_cost"].is_number(), "Invalid json");
 			this->manaCost = data["mana_cost"];
 		}
-		if (data.contains("hit_stop")) {
-			my_assert2(data["hit_stop"].is_number(), "Invalid json");
-			this->hitStop = data["hit_stop"];
+		if (data.contains("hit_player_hit_stop")) {
+			my_assert2(data["hit_player_hit_stop"].is_number(), "Invalid json");
+			this->hitPlayerHitStop = data["hit_player_hit_stop"];
+		}
+		if (data.contains("hit_opponent_hit_stop")) {
+			my_assert2(data["hit_opponent_hit_stop"].is_number(), "Invalid json");
+			this->hitOpponentHitStop = data["hit_opponent_hit_stop"];
+		}
+		if (data.contains("block_player_hit_stop")) {
+			my_assert2(data["block_player_hit_stop"].is_number(), "Invalid json");
+			this->blockPlayerHitStop = data["block_player_hit_stop"];
+		}
+		if (data.contains("block_opponent_hit_stop")) {
+			my_assert2(data["block_opponent_hit_stop"].is_number(), "Invalid json");
+			this->blockOpponentHitStop = data["block_opponent_hit_stop"];
 		}
 		if (data.contains("damage")) {
 			my_assert2(data["damage"].is_number(), "Invalid json");
@@ -371,7 +383,10 @@ namespace SpiralOfFate
 		this->manaGain = other.manaGain;
 		this->manaCost = other.manaCost;
 		this->damage = other.damage;
-		this->hitStop = other.hitStop;
+		this->hitPlayerHitStop = other.hitPlayerHitStop;
+		this->hitOpponentHitStop = other.hitOpponentHitStop;
+		this->blockPlayerHitStop = other.blockPlayerHitStop;
+		this->blockOpponentHitStop = other.blockOpponentHitStop;
 		this->hitSpeed = other.hitSpeed;
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
@@ -434,7 +449,10 @@ namespace SpiralOfFate
 		this->manaGain = other.manaGain;
 		this->manaCost = other.manaCost;
 		this->damage = other.damage;
-		this->hitStop = other.hitStop;
+		this->hitPlayerHitStop = other.hitPlayerHitStop;
+		this->hitOpponentHitStop = other.hitOpponentHitStop;
+		this->blockPlayerHitStop = other.blockPlayerHitStop;
+		this->blockOpponentHitStop = other.blockOpponentHitStop;
 		this->hitSpeed = other.hitSpeed;
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
@@ -574,8 +592,14 @@ namespace SpiralOfFate
 			result["mana_gain"] = this->manaGain;
 		if (this->manaCost)
 			result["mana_cost"] = this->manaCost;
-		if (this->hitStop)
-			result["hit_stop"] = this->hitStop;
+		if (this->hitPlayerHitStop)
+			result["hit_player_hit_stop"] = this->hitPlayerHitStop;
+		if (this->hitOpponentHitStop)
+			result["hit_opponent_hit_stop"] = this->hitOpponentHitStop;
+		if (this->blockPlayerHitStop)
+			result["block_player_hit_stop"] = this->blockPlayerHitStop;
+		if (this->blockOpponentHitStop)
+			result["block_opponent_hit_stop"] = this->blockOpponentHitStop;
 		if (this->hitSpeed.x || this->hitSpeed.y)
 			result["hit_speed"] = {
 				{"x", this->hitSpeed.x},

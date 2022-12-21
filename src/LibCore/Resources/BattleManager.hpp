@@ -84,7 +84,6 @@ namespace SpiralOfFate
 			unsigned _currentRound;
 			int _roundStartTimer;
 			unsigned _roundEndTimer;
-			unsigned _hitStop;
 			unsigned _nbObjects;
 			HUDDataPacked _leftHUDData;
 			HUDDataPacked _rightHUDData;
@@ -126,7 +125,6 @@ namespace SpiralOfFate
 		unsigned _currentRound = 0;
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;
-		unsigned _hitStop = 0;
 		bool _ended = false;
 		HUDData _leftHUDData;
 		HUDData _rightHUDData;
@@ -167,8 +165,6 @@ namespace SpiralOfFate
 
 		BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		virtual ~BattleManager();
-		void setHitStop(unsigned stop);
-		void addHitStop(unsigned stop);
 		virtual bool update();
 		virtual void render();
 		void renderInputs();

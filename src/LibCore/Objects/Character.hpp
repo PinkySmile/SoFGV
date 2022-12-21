@@ -382,6 +382,12 @@ namespace SpiralOfFate
 			unsigned _matterEffectTimer;
 			unsigned _spiritEffectTimer;
 			unsigned _voidEffectTimer;
+			unsigned char _hitStop;
+			float _regen;
+			float _voidMana;
+			float _spiritMana;
+			float _matterMana;
+			float _prorate;
 			bool _ultimateUsed;
 			bool _counter;
 			bool _jumpCanceled;
@@ -396,11 +402,6 @@ namespace SpiralOfFate
 			char _normalTreeFlag;
 			bool _armorUsed;
 			unsigned char _specialInputs[50];
-			float _regen;
-			float _voidMana;
-			float _spiritMana;
-			float _matterMana;
-			float _prorate;
 		};
 		union SpecialInputs {
 			unsigned char _value[50] = {0};
@@ -537,6 +538,12 @@ namespace SpiralOfFate
 		unsigned _matterEffectTimer = 0;
 		unsigned _spiritEffectTimer = 0;
 		unsigned _voidEffectTimer = 0;
+		float _prorate = 1;
+		float _regen = 0;
+		float _voidMana = 0;
+		float _spiritMana = 0;
+		float _matterMana = 0;
+		SpecialInputs _specialInputs;
 		bool _speedReset = false;
 		bool _counter = false;
 		bool _wrongMana = false;
@@ -551,12 +558,6 @@ namespace SpiralOfFate
 		bool _armorUsed = false;
 		bool _forceCH = false;
 		char _normalTreeFlag = 0;
-		float _prorate = 1;
-		float _regen = 0;
-		float _voidMana = 0;
-		float _spiritMana = 0;
-		float _matterMana = 0;
-		SpecialInputs _specialInputs;
 
 		// Non Game State
 		sf::Text _text;

@@ -31,18 +31,19 @@ namespace SpiralOfFate
 			Vector2f _position;
 			Vector2f _speed;
 			Vector2f _gravity;
+			float _rotation;
+			float _dir;
+			unsigned _team;
 			unsigned short _action;
 			unsigned short _actionBlock;
 			unsigned short _animation;
 			unsigned short _animationCtr;
 			unsigned short _hp;
-			float _rotation;
-			unsigned _team;
+			unsigned char _hitStop;
 			bool _dead;
 			bool _hasHit;
 			bool _direction;
 			char _cornerPriority;
-			float _dir;
 		};
 #pragma pack(pop)
 
@@ -50,13 +51,14 @@ namespace SpiralOfFate
 		Vector2f _position = {0, 0};
 		Vector2f _speed = {0, 0};
 		Vector2f _gravity = {0, 0};
+		float _rotation = 0;
+		unsigned _team = 0;
 		unsigned short _action = 0;
 		unsigned short _actionBlock = 0;
 		unsigned short _animation = 0;
 		unsigned short _animationCtr = 0;
 		unsigned short _hp = 0;
-		float _rotation = 0;
-		unsigned _team = 0;
+		unsigned char _hitStop = 0;
 		bool _dead = false;
 		bool _hasHit = false;
 		bool _direction = false;
