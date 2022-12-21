@@ -103,8 +103,6 @@ static const char *dFlags[] = {
 	"voidArmor"
 };
 
-extern unsigned char ttt;
-
 namespace SpiralOfFate
 {
 	std::function<bool (const Character::LastInput &)> Character::getInputN = [](const Character::LastInput &input) { return input.n; };
@@ -3699,12 +3697,11 @@ namespace SpiralOfFate
 		this->_blockStun = stun;
 		this->_totalDamage += damage;
 		this->_comboCtr++;
-		//TODO: Clean this mess
-		this->_prorate *= std::pow(data.prorate / 100, (ttt & 1) ? (nb + 1) : 1);
-		this->_limit[0] += data.neutralLimit * ((ttt & 2) ? (nb + 1) : 1);
-		this->_limit[1] += data.voidLimit * ((ttt & 2) ? (nb + 1) : 1);
-		this->_limit[2] += data.matterLimit * ((ttt & 2) ? (nb + 1) : 1);
-		this->_limit[3] += data.spiritLimit * ((ttt & 2) ? (nb + 1) : 1);
+		this->_prorate *= std::pow(data.prorate / 100, (nb + 1));
+		this->_limit[0] += data.neutralLimit * (nb + 1);
+		this->_limit[1] += data.voidLimit * (nb + 1);
+		this->_limit[2] += data.matterLimit * (nb + 1);
+		this->_limit[3] += data.spiritLimit * (nb + 1);
 		this->_speedReset = data.oFlag.resetSpeed;
 		if (this->_hp > damage)
 			this->_hp -= damage;

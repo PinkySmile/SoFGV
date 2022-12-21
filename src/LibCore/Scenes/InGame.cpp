@@ -25,9 +25,6 @@
 #include "Objects/StageObjects/StageObject.hpp"
 #include "Objects/StageObjects/Cloud.hpp"
 
-//TODO: Clean this
-unsigned char ttt;
-
 unsigned getMagic()
 {
 	unsigned magic = REPLAY_MAGIC;
@@ -155,7 +152,6 @@ namespace SpiralOfFate
 		//TODO: Clean
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement(ttt == 0 ? "Normal" : ttt == 1 ? "Proration" : ttt == 2 ? "Limit" : "Protation and Limit", {-50, -600}, 1100, Screen::ALIGN_CENTER);
 		game->screen->borderColor(0, sf::Color::Transparent);
 	}
 
@@ -211,9 +207,6 @@ namespace SpiralOfFate
 			else
 				this->_paused = 2;
 		}
-		//TODO: Clean
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F5)
-			ttt = (ttt + 1) % 4;
 	}
 
 	void InGame::_renderPause() const
