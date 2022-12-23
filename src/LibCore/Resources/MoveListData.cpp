@@ -19,7 +19,6 @@ namespace SpiralOfFate
 		ACTION_6321469874N,
 		ACTION_j214N,
 		ACTION_j236N,
-		ACTION_j421N,
 		ACTION_j623N,
 		ACTION_j41236N,
 		ACTION_j63214N,
@@ -48,7 +47,6 @@ namespace SpiralOfFate
 		ACTION_6321469874M,
 		ACTION_j214M,
 		ACTION_j236M,
-		ACTION_j421M,
 		ACTION_j623M,
 		ACTION_j41236M,
 		ACTION_j63214M,
@@ -65,7 +63,6 @@ namespace SpiralOfFate
 		ACTION_6321469874S,
 		ACTION_j214S,
 		ACTION_j236S,
-		ACTION_j421S,
 		ACTION_j623S,
 		ACTION_j41236S,
 		ACTION_j63214S,
@@ -82,7 +79,6 @@ namespace SpiralOfFate
 		ACTION_6321469874V,
 		ACTION_j214V,
 		ACTION_j236V,
-		ACTION_j421V,
 		ACTION_j623V,
 		ACTION_j41236V,
 		ACTION_j63214V,
@@ -167,7 +163,6 @@ namespace SpiralOfFate
 		ACTION_6321469874N,
 		ACTION_j214N,
 		ACTION_j236N,
-		ACTION_j421N,
 		ACTION_j623N,
 		ACTION_j41236N,
 		ACTION_j63214N,
@@ -230,7 +225,6 @@ namespace SpiralOfFate
 		ACTION_6321469874M,
 		ACTION_j214M,
 		ACTION_j236M,
-		ACTION_j421M,
 		ACTION_j623M,
 		ACTION_j41236M,
 		ACTION_j63214M,
@@ -247,7 +241,6 @@ namespace SpiralOfFate
 		ACTION_6321469874S,
 		ACTION_j214S,
 		ACTION_j236S,
-		ACTION_j421S,
 		ACTION_j623S,
 		ACTION_j41236S,
 		ACTION_j63214S,
@@ -264,7 +257,6 @@ namespace SpiralOfFate
 		ACTION_6321469874V,
 		ACTION_j214V,
 		ACTION_j236V,
-		ACTION_j421V,
 		ACTION_j623V,
 		ACTION_j41236V,
 		ACTION_j63214V,
@@ -402,17 +394,17 @@ namespace SpiralOfFate
 		{ ACTION_c28N, {
 			"ACTION_c28N",
 			"ACTION_c28N",
-			{SPRITE_2, SPRITE_CHARGE, SPRITE_8, SPRITE_N}
+			{SPRITE_H2, SPRITE_CHARGE, SPRITE_8, SPRITE_N}
 		}},
 		{ ACTION_c46N, {
 			"ACTION_c46N",
 			"ACTION_c46N",
-			{SPRITE_4, SPRITE_CHARGE, SPRITE_6, SPRITE_N}
+			{SPRITE_H4, SPRITE_CHARGE, SPRITE_6, SPRITE_N}
 		}},
 		{ ACTION_c64N, {
 			"ACTION_c64N",
 			"ACTION_c64N",
-			{SPRITE_6, SPRITE_CHARGE, SPRITE_4, SPRITE_N}
+			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_N}
 		}},
 		{ ACTION_214N, {
 			"ACTION_214N",
@@ -453,11 +445,6 @@ namespace SpiralOfFate
 			"ACTION_j236N",
 			"ACTION_j236N",
 			{SPRITE_236, SPRITE_PLUS, SPRITE_N, SPRITE_AIR}
-		}},
-		{ ACTION_j421N, {
-			"ACTION_j421N",
-			"ACTION_j421N",
-			{SPRITE_421, SPRITE_PLUS, SPRITE_N, SPRITE_AIR}
 		}},
 		{ ACTION_j623N, {
 			"ACTION_j623N",
@@ -761,17 +748,17 @@ namespace SpiralOfFate
 		{ ACTION_c28M, {
 			"ACTION_c28M",
 			"ACTION_c28M",
-			{SPRITE_2, SPRITE_CHARGE, SPRITE_8, SPRITE_M}
+			{SPRITE_H2, SPRITE_CHARGE, SPRITE_8, SPRITE_M}
 		}},
 		{ ACTION_c46M, {
 			"ACTION_c46M",
 			"ACTION_c46M",
-			{SPRITE_4, SPRITE_CHARGE, SPRITE_6, SPRITE_M}
+			{SPRITE_H4, SPRITE_CHARGE, SPRITE_6, SPRITE_M}
 		}},
 		{ ACTION_c64M, {
 			"ACTION_c64M",
 			"ACTION_c64M",
-			{SPRITE_6, SPRITE_CHARGE, SPRITE_4, SPRITE_M}
+			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_M}
 		}},
 
 		{ ACTION_214S, {
@@ -843,17 +830,17 @@ namespace SpiralOfFate
 		{ ACTION_c28S, {
 			"ACTION_c28S",
 			"ACTION_c28S",
-			{SPRITE_2, SPRITE_CHARGE, SPRITE_8, SPRITE_S}
+			{SPRITE_H2, SPRITE_CHARGE, SPRITE_8, SPRITE_S}
 		}},
 		{ ACTION_c46S, {
 			"ACTION_c46S",
 			"ACTION_c46S",
-			{SPRITE_4, SPRITE_CHARGE, SPRITE_6, SPRITE_S}
+			{SPRITE_H4, SPRITE_CHARGE, SPRITE_6, SPRITE_S}
 		}},
 		{ ACTION_c64S, {
 			"ACTION_c64S",
 			"ACTION_c64S",
-			{SPRITE_6, SPRITE_CHARGE, SPRITE_4, SPRITE_S}
+			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_S}
 		}},
 
 		{ ACTION_214V, {
@@ -925,17 +912,17 @@ namespace SpiralOfFate
 		{ ACTION_c28V, {
 			"ACTION_c28V",
 			"ACTION_c28V",
-			{SPRITE_2, SPRITE_CHARGE, SPRITE_8, SPRITE_V}
+			{SPRITE_H2, SPRITE_CHARGE, SPRITE_8, SPRITE_V}
 		}},
 		{ ACTION_c46V, {
 			"ACTION_c46V",
 			"ACTION_c46V",
-			{SPRITE_4, SPRITE_CHARGE, SPRITE_6, SPRITE_V}
+			{SPRITE_H4, SPRITE_CHARGE, SPRITE_6, SPRITE_V}
 		}},
 		{ ACTION_c64V, {
 			"ACTION_c64V",
 			"ACTION_c64V",
-			{SPRITE_6, SPRITE_CHARGE, SPRITE_4, SPRITE_V}
+			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_V}
 		}},
 
 		{ ACTION_214D, {
@@ -1009,25 +996,46 @@ namespace SpiralOfFate
 			{SPRITE_624684, SPRITE_PLUS, SPRITE_D, SPRITE_AIR}
 		}},
 
+		{ ACTION_GROUND_HIGH_NEUTRAL_PARRY, {
+			"ACTION_NEUTRAL_OVERDRIVE",
+			"ACTION_NEUTRAL_OVERDRIVE",
+			{SPRITE_4, SPRITE_A, SPRITE_PLUS, SPRITE_N}
+		}},
+		{ ACTION_GROUND_HIGH_MATTER_PARRY, {
+			"ACTION_MATTER_OVERDRIVE",
+			"ACTION_MATTER_OVERDRIVE",
+			{SPRITE_4, SPRITE_A, SPRITE_PLUS, SPRITE_M}
+		}},
+		{ ACTION_GROUND_HIGH_SPIRIT_PARRY, {
+			"ACTION_SPIRIT_OVERDRIVE",
+			"ACTION_SPIRIT_OVERDRIVE",
+			{SPRITE_4, SPRITE_A, SPRITE_PLUS, SPRITE_S}
+		}},
+		{ ACTION_GROUND_HIGH_VOID_PARRY, {
+			"ACTION_VOID_OVERDRIVE",
+			"ACTION_VOID_OVERDRIVE",
+			{SPRITE_4, SPRITE_A, SPRITE_PLUS, SPRITE_V}
+		}},
+
 		{ ACTION_NEUTRAL_OVERDRIVE, {
 			"ACTION_NEUTRAL_OVERDRIVE",
 			"ACTION_NEUTRAL_OVERDRIVE",
-			{SPRITE_421, SPRITE_PLUS, SPRITE_N, SPRITE_ALSO_AIR}
+			{SPRITE_421, SPRITE_PLUS, SPRITE_N, SPRITE_ALSO_AIR, SPRITE_OR, SPRITE_A, SPRITE_PLUS, SPRITE_N}
 		}},
 		{ ACTION_MATTER_OVERDRIVE, {
 			"ACTION_MATTER_OVERDRIVE",
 			"ACTION_MATTER_OVERDRIVE",
-			{SPRITE_421, SPRITE_PLUS, SPRITE_M, SPRITE_ALSO_AIR}
+			{SPRITE_421, SPRITE_PLUS, SPRITE_M, SPRITE_ALSO_AIR, SPRITE_OR, SPRITE_A, SPRITE_PLUS, SPRITE_M}
 		}},
 		{ ACTION_SPIRIT_OVERDRIVE, {
 			"ACTION_SPIRIT_OVERDRIVE",
 			"ACTION_SPIRIT_OVERDRIVE",
-			{SPRITE_421, SPRITE_PLUS, SPRITE_S, SPRITE_ALSO_AIR}
+			{SPRITE_421, SPRITE_PLUS, SPRITE_S, SPRITE_ALSO_AIR, SPRITE_OR, SPRITE_A, SPRITE_PLUS, SPRITE_S}
 		}},
 		{ ACTION_VOID_OVERDRIVE, {
 			"ACTION_VOID_OVERDRIVE",
 			"ACTION_VOID_OVERDRIVE",
-			{SPRITE_421, SPRITE_PLUS, SPRITE_V, SPRITE_ALSO_AIR}
+			{SPRITE_421, SPRITE_PLUS, SPRITE_V, SPRITE_ALSO_AIR, SPRITE_OR, SPRITE_A, SPRITE_PLUS, SPRITE_V}
 		}},
 
 		{ ACTION_5A, {
@@ -1173,17 +1181,49 @@ namespace SpiralOfFate
 		{ ACTION_c28A, {
 			"ACTION_c28A",
 			"ACTION_c28A",
-			{SPRITE_2, SPRITE_CHARGE, SPRITE_8, SPRITE_A}
+			{SPRITE_H2, SPRITE_CHARGE, SPRITE_8, SPRITE_A}
 		}},
 		{ ACTION_c46A, {
 			"ACTION_c46A",
 			"ACTION_c46A",
-			{SPRITE_4, SPRITE_CHARGE, SPRITE_6, SPRITE_A}
+			{SPRITE_H4, SPRITE_CHARGE, SPRITE_6, SPRITE_A}
 		}},
 		{ ACTION_c64A, {
 			"ACTION_c64A",
 			"ACTION_c64A",
-			{SPRITE_6, SPRITE_CHARGE, SPRITE_4, SPRITE_A}
+			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_A}
 		}},
+	};
+
+	const std::array<std::string, NB_SPRITES> spritesPaths{
+		"assets/icons/inputs/1.png",      //SPRITE_1
+		"assets/icons/inputs/2.png",      //SPRITE_2
+		"assets/icons/inputs/3.png",      //SPRITE_3
+		"assets/icons/inputs/4.png",      //SPRITE_4
+		"assets/icons/inputs/6.png",      //SPRITE_6
+		"assets/icons/inputs/7.png",      //SPRITE_7
+		"assets/icons/inputs/8.png",      //SPRITE_8
+		"assets/icons/inputs/9.png",      //SPRITE_9
+		"assets/icons/inputs/h1.png",     //SPRITE_H1
+		"assets/icons/inputs/h2.png",     //SPRITE_H2
+		"assets/icons/inputs/h3.png",     //SPRITE_H3
+		"assets/icons/inputs/h4.png",     //SPRITE_H4
+		"assets/icons/inputs/h6.png",     //SPRITE_H6
+		"assets/icons/inputs/h7.png",     //SPRITE_H7
+		"assets/icons/inputs/h8.png",     //SPRITE_H8
+		"assets/icons/inputs/h9.png",     //SPRITE_H9
+		"assets/icons/inputs/214.png",    //SPRITE_214
+		"assets/icons/inputs/236.png",    //SPRITE_236
+		"assets/icons/inputs/421.png",    //SPRITE_421
+		"assets/icons/inputs/426.png",    //SPRITE_426
+		"assets/icons/inputs/623.png",    //SPRITE_623
+		"assets/icons/inputs/624.png",    //SPRITE_624
+		"assets/icons/inputs/624684.png", //SPRITE_624684
+		"assets/icons/inputs/neutral.png",//SPRITE_N
+		"assets/icons/inputs/dash.png",   //SPRITE_D
+		"assets/icons/inputs/matter.png", //SPRITE_M
+		"assets/icons/inputs/spirit.png", //SPRITE_S
+		"assets/icons/inputs/void.png",   //SPRITE_V
+		"assets/icons/inputs/ascend.png", //SPRITE_A
 	};
 }

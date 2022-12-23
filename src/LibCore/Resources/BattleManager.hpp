@@ -99,6 +99,7 @@ namespace SpiralOfFate
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
 		sf::Font _font;
+		sf::RenderTexture _tex;
 		sf::RenderTexture _hud;
 		sf::RenderTexture _leftHUD;
 		sf::RenderTexture _rightHUD;
@@ -114,7 +115,7 @@ namespace SpiralOfFate
 		unsigned _lastObjectId = 0;
 		//TODO: Also save these in the rollback
 		std::vector<std::unique_ptr<IObject>> _stageObjects;
-		std::array<sf::Texture, NB_SPRITES> _moveSprites;
+		std::array<unsigned, NB_SPRITES> _moveSprites;
 		bool _leftFirst = false;
 
 		// Game State
@@ -138,6 +139,7 @@ namespace SpiralOfFate
 		void _updateRoundStartAnimation();
 		void _renderRoundStartAnimation() const;
 		void _renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side);
+		void _renderButton(unsigned spriteId, float offset, int k, Vector2f pos);
 
 	public:
 		struct CharacterParams {

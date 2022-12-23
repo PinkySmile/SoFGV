@@ -13,12 +13,22 @@
 namespace SpiralOfFate
 {
 	enum MoveSprite {
+		SPRITE_1,
 		SPRITE_2,
 		SPRITE_3,
 		SPRITE_4,
-		SPRITE_5,
 		SPRITE_6,
+		SPRITE_7,
 		SPRITE_8,
+		SPRITE_9,
+		SPRITE_H1,
+		SPRITE_H2,
+		SPRITE_H3,
+		SPRITE_H4,
+		SPRITE_H6,
+		SPRITE_H7,
+		SPRITE_H8,
+		SPRITE_H9,
 		SPRITE_214,
 		SPRITE_236,
 		SPRITE_421,
@@ -37,7 +47,8 @@ namespace SpiralOfFate
 		SPRITE_TRANSFORM,
 		SPRITE_PLUS,
 		SPRITE_CHARGE,
-		SPRITE_ALSO_AIR
+		SPRITE_ALSO_AIR,
+		SPRITE_OR
 	};
 
 	struct MoveData {
@@ -61,6 +72,7 @@ namespace SpiralOfFate
 
 	};
 
+	extern const std::array<std::string, NB_SPRITES> spritesPaths;
 	extern const std::vector<unsigned> defaultMoveOrder;
 	extern const std::vector<unsigned> defaultCommandOrder;
 	extern const std::map<unsigned, MoveData> defaultMoveData;

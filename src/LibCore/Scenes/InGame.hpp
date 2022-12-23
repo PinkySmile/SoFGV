@@ -46,7 +46,7 @@ namespace SpiralOfFate
 		unsigned char _paused = 0;
 		unsigned char _pauseCursor = 0;
 		IScene *_nextScene = nullptr;
-		std::array<sf::Texture, NB_SPRITES> _moveSprites;
+		std::array<unsigned, NB_SPRITES> _moveSprites;
 		std::vector<unsigned> _moveOrder;
 		std::vector<unsigned> _moveDisplayed;
 		bool _replaySaved = false;

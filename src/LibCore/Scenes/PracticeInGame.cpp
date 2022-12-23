@@ -461,10 +461,21 @@ namespace SpiralOfFate
 
 	void PracticeInGame::render() const
 	{
-		InGame::render();
+		sf::View view{{-50, -600, 1100, 700}};
+
+		game->screen->setView(view);
+		game->battleMgr->render();
 		if (this->_inputDisplay & 1)
 			game->battleMgr->renderLeftInputs();
 		if (this->_inputDisplay & 2)
 			game->battleMgr->renderRightInputs();
+		if (this->_moveList) {
+			auto linput = game->battleMgr->getLeftCharacter();
+			auto rinput = game->battleMgr->getRightCharacter();
+			auto relevent = (this->_paused == 1 ? linput : rinput);
+
+			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
+		} else if (this->_paused)
+			this->_renderPause();
 	}
 }

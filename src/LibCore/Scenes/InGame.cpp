@@ -53,24 +53,8 @@ namespace SpiralOfFate
 		_random(game->battleRandom.ser),
 		_params(params)
 	{
-		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
-		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
-		this->_moveSprites[SPRITE_4].loadFromFile("assets/icons/inputs/4.png");
-		this->_moveSprites[SPRITE_6].loadFromFile("assets/icons/inputs/6.png");
-		this->_moveSprites[SPRITE_8].loadFromFile("assets/icons/inputs/8.png");
-		this->_moveSprites[SPRITE_214].loadFromFile("assets/icons/inputs/214.png");
-		this->_moveSprites[SPRITE_236].loadFromFile("assets/icons/inputs/236.png");
-		this->_moveSprites[SPRITE_421].loadFromFile("assets/icons/inputs/421.png");
-		this->_moveSprites[SPRITE_426].loadFromFile("assets/icons/inputs/426.png");
-		this->_moveSprites[SPRITE_623].loadFromFile("assets/icons/inputs/623.png");
-		this->_moveSprites[SPRITE_624].loadFromFile("assets/icons/inputs/624.png");
-		this->_moveSprites[SPRITE_624684].loadFromFile("assets/icons/inputs/624684.png");
-		this->_moveSprites[SPRITE_N].loadFromFile("assets/icons/inputs/neutral.png");
-		this->_moveSprites[SPRITE_D].loadFromFile("assets/icons/inputs/dash.png");
-		this->_moveSprites[SPRITE_M].loadFromFile("assets/icons/inputs/matter.png");
-		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
-		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
-		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
+		for (unsigned i = 0; i < spritesPaths.size(); i++)
+			this->_moveSprites[i] = game->textureMgr.load(spritesPaths[i]);
 		game->logger.info("InGame scene created");
 	}
 
@@ -131,6 +115,8 @@ namespace SpiralOfFate
 
 	InGame::~InGame()
 	{
+		for (auto id : this->_moveSprites)
+			game->textureMgr.remove(id);
 		this->saveReplay();
 	}
 
@@ -148,11 +134,6 @@ namespace SpiralOfFate
 			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
 		} else if (this->_paused)
 			this->_renderPause();
-
-		//TODO: Clean
-		game->screen->borderColor(2, sf::Color::Black);
-		game->screen->fillColor(sf::Color::White);
-		game->screen->borderColor(0, sf::Color::Transparent);
 	}
 
 	IScene *InGame::update()
@@ -319,7 +300,17 @@ namespace SpiralOfFate
 
 	void InGame::_renderMoveList(Character *relevent, const std::string &title) const
 	{
-		sf::Sprite sprite;
+		Sprite sprite;
+		unsigned noText[] = {
+			ACTION_NEUTRAL_OVERDRIVE,
+			ACTION_MATTER_OVERDRIVE,
+			ACTION_SPIRIT_OVERDRIVE,
+			ACTION_VOID_OVERDRIVE,
+			ACTION_GROUND_HIGH_NEUTRAL_PARRY,
+			ACTION_GROUND_HIGH_MATTER_PARRY,
+			ACTION_GROUND_HIGH_SPIRIT_PARRY,
+			ACTION_GROUND_HIGH_VOID_PARRY
+		};
 
 		sprite.setScale(0.5f, 0.5f);
 		game->screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
@@ -355,46 +346,37 @@ namespace SpiralOfFate
 				}, sf::Color{0xA0, 0xA0, 0xFF, 0xC0});
 
 			game->screen->fillColor(sf::Color::White);
-			switch (prio) {
-			case 800:
+			if (std::find(noText, noText + (sizeof(noText) / sizeof(*noText)), this->_moveOrder[i]) != noText + (sizeof(noText) / sizeof(*noText)))
+				game->screen->fillColor(sf::Color::Green);
+			else if (prio >= 800) {
 				game->screen->fillColor(sf::Color::Red);
 				str += " | Ultimate";
-				break;
-			case 700:
+			} else if (prio >= 700) {
 				game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
 				str += " | Super";
-				break;
-			case 500:
-				str += " | Typed skill";
-				break;
-			case 400:
+			} else if (prio >= 600)
 				str += " | Skill";
-				break;
-			case 300:
+			else if (prio >= 300)
 				str += " | Typed command normal";
-				break;
-			case 200:
+			else if (prio >= 200)
 				str += " | Command normal";
-				break;
-			case 100:
+			else if (prio >= 100)
 				str += " | Typed light attack";
-				break;
-			case 0:
+			else if (prio >= 0)
 				str += " | Light attack";
-				break;
-			}
+
 			game->screen->displayElement(str, pos);
 			game->screen->fillColor(sf::Color::White);
 
 			for (auto input : data->second.input) {
 				if (input < NB_SPRITES) {
 					sprite.setPosition(pos + Vector2f{0, 18});
-					sprite.setTexture(this->_moveSprites[input]);
-					game->screen->displayElement(sprite);
+					sprite.textureHandle = this->_moveSprites[input];
+					game->textureMgr.render(sprite);
 					pos.x += 35;
 				} else {
 					game->screen->displayElement(text[input - NB_SPRITES], pos + Vector2f{0, 25});
-					pos.x += strlen(text[input - NB_SPRITES]) * 10;
+					pos.x += game->screen->getTextSize(text[input - NB_SPRITES]) + 5;
 				}
 			}
 		}

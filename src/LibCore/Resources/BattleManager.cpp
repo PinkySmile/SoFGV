@@ -8,6 +8,7 @@
 #include "Game.hpp"
 
 #define FIRST_TO 2
+#define INPUT_DISPLAY_SIZE 24
 
 namespace SpiralOfFate
 {
@@ -32,18 +33,8 @@ namespace SpiralOfFate
 		_leftHUDData{*this, *this->_leftCharacter, false},
 		_rightHUDData{*this, *this->_rightCharacter, true}
 	{
-		this->_moveSprites[SPRITE_2].loadFromFile("assets/icons/inputs/2.png");
-		this->_moveSprites[SPRITE_3].loadFromFile("assets/icons/inputs/3.png");
-		this->_moveSprites[SPRITE_4].loadFromFile("assets/icons/inputs/4.png");
-		this->_moveSprites[SPRITE_5].loadFromFile("assets/icons/inputs/5.png");
-		this->_moveSprites[SPRITE_6].loadFromFile("assets/icons/inputs/6.png");
-		this->_moveSprites[SPRITE_8].loadFromFile("assets/icons/inputs/8.png");
-		this->_moveSprites[SPRITE_N].loadFromFile("assets/icons/inputs/neutral.png");
-		this->_moveSprites[SPRITE_D].loadFromFile("assets/icons/inputs/dash.png");
-		this->_moveSprites[SPRITE_M].loadFromFile("assets/icons/inputs/matter.png");
-		this->_moveSprites[SPRITE_S].loadFromFile("assets/icons/inputs/spirit.png");
-		this->_moveSprites[SPRITE_V].loadFromFile("assets/icons/inputs/void.png");
-		this->_moveSprites[SPRITE_A].loadFromFile("assets/icons/inputs/ascend.png");
+		for (unsigned i = 0; i < spritesPaths.size(); i++)
+			this->_moveSprites[i] = game->textureMgr.load(spritesPaths[i]);
 
 		//TODO: Move this in another function
 		this->_stage.textureHandle = game->textureMgr.load(stage.path);
@@ -150,6 +141,12 @@ namespace SpiralOfFate
 		my_assert(this->_leftHUD.create(550, 700));
 		my_assert(this->_rightHUD.create(550, 700));
 		my_assert(this->_hud.create(1100, 700));
+	}
+
+	BattleManager::~BattleManager()
+	{
+		for (auto id : this->_moveSprites)
+			game->textureMgr.remove(id);
 	}
 
 	void BattleManager::consumeEvent(const sf::Event &event)
@@ -728,31 +725,63 @@ namespace SpiralOfFate
 
 	void BattleManager::renderLeftInputs()
 	{
-		this->_renderInputs(this->_leftCharacter->getReplayData(), {-50, -515}, false);
+		this->_renderInputs(this->_leftCharacter->getReplayData(), {-50, -495}, false);
 	}
 
 	void BattleManager::renderRightInputs()
 	{
-		this->_renderInputs(this->_rightCharacter->getReplayData(), {900, -515}, true);
+		this->_renderInputs(this->_rightCharacter->getReplayData(), {900, -495}, true);
+	}
+
+	void BattleManager::_renderButton(unsigned spriteId, float offset, int k, Vector2f pos)
+	{
+		Sprite sprite;
+
+		sprite.textureHandle = this->_moveSprites[spriteId];
+		sprite.setScale({
+			(INPUT_DISPLAY_SIZE - 4.f) / game->textureMgr.getTextureSize(this->_moveSprites[spriteId]).x,
+			(INPUT_DISPLAY_SIZE - 4.f) / game->textureMgr.getTextureSize(this->_moveSprites[spriteId]).y
+		});
+		game->textureMgr.setTexture(sprite);
+		game->screen->displayElement(sprite, {
+			2 + pos.x + 4 + offset,
+			2 + pos.y + k * (INPUT_DISPLAY_SIZE + 4)
+		});
 	}
 
 	void BattleManager::_renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side)
 	{
-		sf::VertexArray arr{sf::Quads, 4};
-		sf::Sprite sprite;
+		Sprite sprite;
+		sf::Sprite s;
 		unsigned total = 0;
+		sf::RectangleShape shape;
+		float off = 0;
 
-		arr[0].color = sf::Color{0, 0, 0, 0x60};
-		arr[0].position = {pos.x, pos.y};
-		arr[1].color = sf::Color{0, 0, 0, 0x60};
-		arr[1].position = {pos.x + 150, pos.y};
-		arr[2].color = sf::Color{0, 0, 0, 0xA0};
-		arr[2].position = {pos.x + 150, pos.y + 565};
-		arr[3].color = sf::Color{0, 0, 0, 0xA0};
-		arr[3].position = {pos.x, pos.y + 565};
-		game->screen->draw(arr);
+		this->_tex.clear(sf::Color::Transparent);
+		this->_tex.create(150, INPUT_DISPLAY_SIZE);
+		shape.setOutlineThickness(0);
+		shape.setSize({INPUT_DISPLAY_SIZE, INPUT_DISPLAY_SIZE});
+		shape.setFillColor(sf::Color{0, 0, 0, 0xA0});
+		this->_tex.draw(shape);
+		shape.setPosition(INPUT_DISPLAY_SIZE, 0);
+		shape.setSize({150 - INPUT_DISPLAY_SIZE, INPUT_DISPLAY_SIZE});
+		shape.setFillColor(sf::Color{0xA0, 0xA0, 0xA0, 0xA0});
+		this->_tex.draw(shape);
+		this->_tex.display();
 
-		for (size_t i = 0, k = 0; i < data.size() && k < 28; i++) {
+		s.setTexture(this->_tex.getTexture());
+		if (!side) {
+			s.setScale({-1, 1});
+			off = 150;
+		}
+		for (unsigned k = 0; k < 18; k++) {
+			s.setPosition(pos.x + off, pos.y + k * (INPUT_DISPLAY_SIZE + 4));
+			game->screen->draw(s);
+		}
+		if (!side)
+			off -= INPUT_DISPLAY_SIZE;
+
+		for (size_t i = 0, k = 0; i < data.size() && k < 18; i++) {
 			auto &elem = data[data.size() - 1 - i];
 
 			total += elem.time + 1;
@@ -772,112 +801,63 @@ namespace SpiralOfFate
 					continue;
 			}
 
-			int spriteId = SPRITE_3;
-			float rotation = 0;
-			int j = 0;
+			int dir = ((elem._h + 2) + (elem._v + 1) * 3);
+			int spriteId = SPRITE_1 + dir - 1;
+			float offset = off;
 
-			switch ((elem._h + 2) + (elem._v + 1) * 3) {
-				case 1:
-					rotation = 90;
-					break;
-				case 7:
-					rotation = 180;
-					break;
-				case 9:
-					rotation = -90;
-					break;
-				case 2:
-					spriteId = SPRITE_2;
-					break;
-				case 4:
-					spriteId = SPRITE_4;
-					break;
-				case 5:
-					spriteId = SPRITE_5;
-					break;
-				case 6:
-					spriteId = SPRITE_6;
-					break;
-				case 8:
-					spriteId = SPRITE_8;
-					break;
+
+			game->textureMgr.setTexture(sprite);
+			if (dir != 5) {
+				if (spriteId > SPRITE_4)
+					spriteId -= 1;
+				sprite.textureHandle = this->_moveSprites[spriteId];
+				sprite.setScale({
+					(INPUT_DISPLAY_SIZE - 4.f) / game->textureMgr.getTextureSize(this->_moveSprites[spriteId]).x,
+					(INPUT_DISPLAY_SIZE - 4.f) / game->textureMgr.getTextureSize(this->_moveSprites[spriteId]).y
+				});
+				game->textureMgr.setTexture(sprite);
+				game->screen->displayElement(sprite, {
+					pos.x + 2 + offset,
+					pos.y + 2 + k * (INPUT_DISPLAY_SIZE + 4)
+				});
 			}
+			offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) + 4;
 
-			sprite.setOrigin(this->_moveSprites[spriteId].getSize().x / 2.f, this->_moveSprites[spriteId].getSize().y / 2.f);
-			sprite.setRotation(rotation);
-			sprite.setTexture(this->_moveSprites[spriteId]);
-			sprite.setScale({
-				16.f / this->_moveSprites[spriteId].getSize().x,
-				16.f / this->_moveSprites[spriteId].getSize().y
-			});
-			game->screen->textSize(10);
-			game->screen->displayElement(std::to_string(total), {pos.x + 2, pos.y + 545 - k * 20}, 146, (side ? Screen::ALIGN_LEFT : Screen::ALIGN_RIGHT));
-			game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0), pos.y + 552 - k * 20});
-			game->screen->textSize(30);
-
-			sprite.setRotation(0);
 			if (elem.n) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_N].getSize().x / 2.f, this->_moveSprites[SPRITE_N].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_N]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_N].getSize().x,
-					16.f / this->_moveSprites[SPRITE_N].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+				this->_renderButton(SPRITE_N, offset, k, pos);
+				offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) - 3;
 			}
-			if (elem.m) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_M].getSize().x / 2.f, this->_moveSprites[SPRITE_M].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_M]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_M].getSize().x,
-					16.f / this->_moveSprites[SPRITE_M].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
-			}
-			if (elem.s) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_S].getSize().x / 2.f, this->_moveSprites[SPRITE_S].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_S]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_S].getSize().x,
-					16.f / this->_moveSprites[SPRITE_S].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
-			}
-			if (elem.v) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_V].getSize().x / 2.f, this->_moveSprites[SPRITE_V].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_V]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_V].getSize().x,
-					16.f / this->_moveSprites[SPRITE_V].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
-			}
-			if (elem.d) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_D].getSize().x / 2.f, this->_moveSprites[SPRITE_D].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_D]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_D].getSize().x,
-					16.f / this->_moveSprites[SPRITE_D].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+			if (elem.m || elem.s || elem.v) {
+				if (elem.m) {
+					this->_renderButton(SPRITE_M, offset, k, pos);
+					offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) * 0.4;
+				}
+				if (elem.s) {
+					this->_renderButton(SPRITE_S, offset, k, pos);
+					offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) * 0.4;
+				}
+				if (elem.v) {
+					this->_renderButton(SPRITE_V, offset, k, pos);
+					offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) * 0.4;
+				}
+				offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) * 0.6 - 3;
 			}
 			if (elem.a) {
-				sprite.setOrigin(this->_moveSprites[SPRITE_A].getSize().x / 2.f, this->_moveSprites[SPRITE_A].getSize().y / 2.f);
-				sprite.setTexture(this->_moveSprites[SPRITE_A]);
-				sprite.setScale({
-					16.f / this->_moveSprites[SPRITE_A].getSize().x,
-					16.f / this->_moveSprites[SPRITE_A].getSize().y
-				});
-				game->screen->displayElement(sprite, {pos.x + 8 + (side ? 130 : 0) + (side ? -20.f : 20.f) * ++j, pos.y + 552 - k * 20});
+				this->_renderButton(SPRITE_A, offset, k, pos);
+				offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) - 3;
 			}
+			if (elem.d) {
+				this->_renderButton(SPRITE_D, offset, k, pos);
+				offset -= (side ? -INPUT_DISPLAY_SIZE : INPUT_DISPLAY_SIZE) - 3;
+			}
+			game->screen->textSize(12);
+			game->screen->setFont(this->_font);
+			game->screen->displayElement(std::to_string(total), {pos.x + 2, pos.y + k * (INPUT_DISPLAY_SIZE + 4) + 5}, 146, (!side ? Screen::ALIGN_LEFT : Screen::ALIGN_RIGHT));
+			game->screen->setFont(game->font);
+			game->screen->textSize(30);
 			k++;
 			total = 0;
 		}
-	}
-
-	BattleManager::~BattleManager()
-	{
-		game->logger.debug("~BattleManager()");
 	}
 
 	void BattleManager::logDifference(void *data1, void *data2)
