@@ -63,3 +63,15 @@ void SpiralOfFate::FakeObject::_onMoveEnd(const SpiralOfFate::FrameData &lastDat
 		return this->_forceStartMove(idleAction);
 	Object::_onMoveEnd(lastData);
 }
+
+void SpiralOfFate::FakeObject::_applyNewAnimFlags()
+{
+	auto data = this->getCurrentFrameData();
+
+	if (!data)
+		return;
+	this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
+	this->_hasHit &= !data->oFlag.resetHits;
+	if (data->dFlag.resetRotation)
+		this->_rotation = 0;
+}

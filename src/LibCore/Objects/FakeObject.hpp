@@ -13,6 +13,7 @@ namespace SpiralOfFate
 	class FakeObject : public Object {
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
+		void _applyNewAnimFlags() override;
 
 	public:
 		FakeObject(const std::map<unsigned, std::vector<std::vector<FrameData>>> &frameData);
