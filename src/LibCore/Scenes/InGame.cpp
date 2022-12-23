@@ -46,7 +46,8 @@ namespace SpiralOfFate
 		"during transform",
 		"+",
 		"charge",
-		"(also in the air)"
+		"(also in the air)",
+		"or"
 	};
 
 	InGame::InGame(const GameParams &params) :
