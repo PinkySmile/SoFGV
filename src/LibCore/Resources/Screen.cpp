@@ -92,7 +92,7 @@ namespace SpiralOfFate
 		this->_text.setCharacterSize(size);
 	}
 
-	void	Screen::displayElement(const std::string &str, sf::Vector2f pos, float boxSize, TextAlign align)
+	void	Screen::displayElement(const sf::String &str, sf::Vector2f pos, float boxSize, TextAlign align)
 	{
 		switch (align) {
 		case ALIGN_RIGHT:

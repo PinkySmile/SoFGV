@@ -1,7 +1,6 @@
 rm -rf android/app/src/main/assets/assets
 
 cp -r assets android/app/src/main/assets
-cp $SYSTEMROOT/Fonts/comic.ttf android/app/src/main/assets/assets/fonts/test.ttf
 echo -n 'LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -10,7 +9,7 @@ LOCAL_MODULE    := sfml-example
 
 LOCAL_SRC_FILES :=' > android/app/src/main/jni/Android.mk
 cd android/app/src/main/jni
-for file in `find ../../../../../src/Core -name "*.cpp"`; do
+for file in `find ../../../../../src/LibCore -name "*.cpp"`; do
 	echo -n " $file" >> Android.mk
 done
 for file in `find ../../../../../src/Game -name "*.cpp"`; do

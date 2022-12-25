@@ -14,7 +14,7 @@
                         "x": 256,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "sprite": "subobjects.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 14,
@@ -33,7 +33,7 @@
                         "x": 256,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "sprite": "subobjects.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 148,
@@ -52,7 +52,7 @@
                         "x": 256,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "sprite": "subobjects.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 282,
@@ -71,7 +71,7 @@
                         "x": 256,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "sprite": "subobjects.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 416,
@@ -90,7 +90,7 @@
                         "x": 256,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/subobjects.png",
+                    "sprite": "subobjects.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 550,
@@ -115,7 +115,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 0,
@@ -133,7 +133,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 64,
@@ -151,7 +151,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 128,
@@ -169,7 +169,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 192,
@@ -187,7 +187,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 256,
@@ -205,7 +205,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 320,
@@ -223,7 +223,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 384,
@@ -241,7 +241,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/rb.png",
+                    "sprite": "rb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 448,
@@ -266,7 +266,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 0,
@@ -284,7 +284,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 64,
@@ -302,7 +302,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 128,
@@ -320,7 +320,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 192,
@@ -338,7 +338,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 256,
@@ -356,7 +356,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 320,
@@ -374,7 +374,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 384,
@@ -392,7 +392,7 @@
                         "x": 128,
                         "y": 256
                     },
-                    "sprite": "assets/characters/remilia/wb.png",
+                    "sprite": "wb.png",
                     "texture_bounds": {
                         "height": 128,
                         "left": 448,

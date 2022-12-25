@@ -95,7 +95,6 @@ namespace SpiralOfFate
 
 	class FrameData {
 	private:
-		std::pair<std::vector<Color>, std::vector<Color>> _palette;
 		bool _slave = false;
 
 	public:
@@ -146,14 +145,14 @@ namespace SpiralOfFate
 		FrameData() = default;
 		~FrameData();
 		FrameData(const FrameData &other);
-		FrameData(const nlohmann::json &json, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
+		FrameData(const nlohmann::json &json, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		FrameData &operator=(const FrameData &other);
-		void reloadTexture();
+		void reloadTexture(const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		void reloadSound();
 		void setSlave(bool slave = true);
 		nlohmann::json toJson() const;
-		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
-		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
+		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
+		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 	};
 
 	inline void to_json(nlohmann::json &j, const FrameData &data) {

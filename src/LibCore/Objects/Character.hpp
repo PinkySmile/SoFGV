@@ -683,7 +683,7 @@ namespace SpiralOfFate
 
 	public:
 		unsigned index;
-		std::string name;
+		std::wstring name;
 		bool showAttributes = false;
 		bool startedAttack = false;
 

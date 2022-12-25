@@ -9,7 +9,7 @@
 
 namespace SpiralOfFate
 {
-	std::map<unsigned int, std::vector<std::vector<FrameData>>> SpiralOfFate::FrameData::loadFile(const std::string &path, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
+	std::map<unsigned int, std::vector<std::vector<FrameData>>> SpiralOfFate::FrameData::loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		std::ifstream stream{path};
 		nlohmann::json json;
@@ -17,10 +17,10 @@ namespace SpiralOfFate
 		game->logger.debug("Loading framedata file " + path);
 		my_assert2(!stream.fail(), path + ": " + strerror(errno));
 		stream >> json;
-		return loadFileJson(json, palette);
+		return loadFileJson(json, folder, palette);
 	}
 
-	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
+	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
@@ -47,13 +47,13 @@ namespace SpiralOfFate
 				data[actionId].emplace_back();
 				data[actionId].back().reserve(block.size());
 				for (auto &frame : block)
-					data[actionId].back().emplace_back(frame, palette);
+					data[actionId].back().emplace_back(frame, folder, palette);
 			}
 		}
 		return data;
 	}
 
-	FrameData::FrameData(const nlohmann::json &data, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
+	FrameData::FrameData(const nlohmann::json &data, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		my_assert2(data.is_object(), "Invalid json");
 		my_assert2(data.contains("sprite"), "Invalid json");
@@ -310,8 +310,7 @@ namespace SpiralOfFate
 
 		Vector2u textureSize;
 
-		this->_palette = palette;
-		this->textureHandle = game->textureMgr.load(this->spritePath, palette, &textureSize);
+		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette, &textureSize);
 		if (!this->soundPath.empty()) {
 			if (this->soundPath[0] != 'a') {
 				this->soundHandle = std::stoul(this->soundPath);
@@ -348,7 +347,6 @@ namespace SpiralOfFate
 
 	FrameData::FrameData(const FrameData &other)
 	{
-		this->_palette = other._palette;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;
 		this->spritePath = other.spritePath;
@@ -414,7 +412,6 @@ namespace SpiralOfFate
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 		}
-		this->_palette = other._palette;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;
 		this->spritePath = other.spritePath;
@@ -474,11 +471,11 @@ namespace SpiralOfFate
 		return *this;
 	}
 
-	void FrameData::reloadTexture()
+	void FrameData::reloadTexture(const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
 		my_assert(!this->_slave);
 		game->textureMgr.remove(this->textureHandle);
-		this->textureHandle = game->textureMgr.load(this->spritePath, this->_palette);
+		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette);
 	}
 
 	void FrameData::reloadSound()

@@ -25,7 +25,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -62,7 +62,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -92,7 +92,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -129,7 +129,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -166,7 +166,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -196,7 +196,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -238,7 +238,7 @@
                         "x": 5,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -279,7 +279,7 @@
                         "x": -5,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -320,7 +320,7 @@
                         "x": 5,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -356,7 +356,7 @@
                         "x": 11,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -392,7 +392,7 @@
                         "x": 7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -433,7 +433,7 @@
                         "x": -5,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -469,7 +469,7 @@
                         "x": -11,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -505,7 +505,7 @@
                         "x": -7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -542,7 +542,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -574,7 +574,7 @@
                         "x": 0,
                         "y": 18
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -603,7 +603,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -640,7 +640,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -672,7 +672,7 @@
                         "x": 7,
                         "y": 16
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -701,7 +701,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -738,7 +738,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -770,7 +770,7 @@
                         "x": -7,
                         "y": 16
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -799,7 +799,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -836,7 +836,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -869,7 +869,7 @@
                         "x": 0,
                         "y": 24
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -898,7 +898,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -935,7 +935,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -968,7 +968,7 @@
                         "x": 14,
                         "y": 22
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -997,7 +997,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -1034,7 +1034,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -1067,7 +1067,7 @@
                         "x": -14,
                         "y": 22
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -1096,7 +1096,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -1133,7 +1133,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -1169,7 +1169,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -1211,7 +1211,7 @@
                         "x": -12,
                         "y": -12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1241,7 +1241,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1283,7 +1283,7 @@
                         "x": 0,
                         "y": -12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1313,7 +1313,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1355,7 +1355,7 @@
                         "x": 12,
                         "y": -12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1385,7 +1385,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1426,7 +1426,7 @@
                         "x": -12,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1455,7 +1455,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1496,7 +1496,7 @@
                         "x": 12,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1525,7 +1525,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1567,7 +1567,7 @@
                         "x": -12,
                         "y": 12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1597,7 +1597,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1639,7 +1639,7 @@
                         "x": 0,
                         "y": 12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1669,7 +1669,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1711,7 +1711,7 @@
                         "x": 12,
                         "y": 12
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1741,7 +1741,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -1778,7 +1778,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -1809,7 +1809,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -1845,7 +1845,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -1874,7 +1874,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -1910,7 +1910,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -1939,7 +1939,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -1975,7 +1975,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -2004,7 +2004,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -2041,7 +2041,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -2071,7 +2071,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -2108,7 +2108,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -2139,7 +2139,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -2175,7 +2175,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -2204,7 +2204,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -2240,7 +2240,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -2269,7 +2269,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -2305,7 +2305,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -2334,7 +2334,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 180,
@@ -2371,7 +2371,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -2402,7 +2402,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 240,
@@ -2439,7 +2439,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -2470,7 +2470,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 300,
@@ -2506,7 +2506,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -2535,7 +2535,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 360,
@@ -2571,7 +2571,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -2600,7 +2600,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -2636,7 +2636,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -2665,7 +2665,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -2702,7 +2702,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -2733,7 +2733,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -2762,7 +2762,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -2790,7 +2790,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -2817,7 +2817,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -2849,7 +2849,7 @@
                         "x": -7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -2882,7 +2882,7 @@
                         "x": 7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -2914,7 +2914,7 @@
                         "x": 7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -2947,7 +2947,7 @@
                         "x": 7,
                         "y": 0
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -2982,7 +2982,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -3011,7 +3011,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -3042,7 +3042,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -3070,7 +3070,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3094,7 +3094,7 @@
                         "x": 0,
                         "y": 20
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3115,7 +3115,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3143,7 +3143,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3167,7 +3167,7 @@
                         "x": 0,
                         "y": -10
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3188,7 +3188,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3216,7 +3216,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3240,7 +3240,7 @@
                         "x": 7,
                         "y": 15
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3261,7 +3261,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3289,7 +3289,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3313,7 +3313,7 @@
                         "x": -7,
                         "y": 15
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3334,7 +3334,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3370,7 +3370,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -3406,7 +3406,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -3439,7 +3439,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -3471,7 +3471,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -3512,7 +3512,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -3548,7 +3548,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -3585,7 +3585,7 @@
                         "y": 212
                     },
                     "sound": "11",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -3622,7 +3622,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -3654,7 +3654,7 @@
                         "x": 0,
                         "y": 20
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -3683,7 +3683,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -3720,7 +3720,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -3752,7 +3752,7 @@
                         "x": 7,
                         "y": 15
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -3781,7 +3781,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -3818,7 +3818,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3850,7 +3850,7 @@
                         "x": -7,
                         "y": 15
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3879,7 +3879,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 540,
@@ -3916,7 +3916,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -3947,7 +3947,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -3978,7 +3978,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4015,7 +4015,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -4046,7 +4046,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -4077,7 +4077,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -4114,7 +4114,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -4145,7 +4145,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -4176,7 +4176,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -4212,7 +4212,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -4241,7 +4241,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -4277,7 +4277,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -4306,7 +4306,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -4342,7 +4342,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -4371,7 +4371,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 480,
@@ -4407,7 +4407,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4461,7 +4461,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4495,7 +4495,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4531,7 +4531,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4585,7 +4585,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4619,7 +4619,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4655,7 +4655,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4709,7 +4709,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4735,7 +4735,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4775,7 +4775,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4833,7 +4833,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4863,7 +4863,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 600,
@@ -4899,7 +4899,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -4953,7 +4953,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -4987,7 +4987,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5023,7 +5023,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -5077,7 +5077,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -5111,7 +5111,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 0,
@@ -5147,7 +5147,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5201,7 +5201,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5227,7 +5227,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5267,7 +5267,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5325,7 +5325,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5355,7 +5355,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 660,
@@ -5391,7 +5391,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5445,7 +5445,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5479,7 +5479,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5515,7 +5515,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5569,7 +5569,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5603,7 +5603,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5639,7 +5639,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5693,7 +5693,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5719,7 +5719,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5759,7 +5759,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5817,7 +5817,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5847,7 +5847,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 720,
@@ -5883,7 +5883,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -5937,7 +5937,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -5971,7 +5971,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6007,7 +6007,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6061,7 +6061,7 @@
                         "y": 212
                     },
                     "sound": "8",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6095,7 +6095,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6131,7 +6131,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6185,7 +6185,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6211,7 +6211,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6251,7 +6251,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6309,7 +6309,7 @@
                         "y": 212
                     },
                     "sound": "17",
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6339,7 +6339,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 780,
@@ -6367,7 +6367,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -6411,7 +6411,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -6446,7 +6446,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 420,
@@ -6474,7 +6474,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -6518,7 +6518,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -6553,7 +6553,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 60,
@@ -6581,7 +6581,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -6625,7 +6625,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,
@@ -6660,7 +6660,7 @@
                         "x": 120,
                         "y": 212
                     },
-                    "sprite": "assets/characters/template/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 106,
                         "left": 120,

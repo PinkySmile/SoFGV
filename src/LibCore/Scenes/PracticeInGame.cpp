@@ -474,7 +474,7 @@ namespace SpiralOfFate
 			auto rinput = game->battleMgr->getRightCharacter();
 			auto relevent = (this->_paused == 1 ? linput : rinput);
 
-			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
+			this->_renderMoveList(relevent, L"P" + sf::String(std::to_string(this->_paused)) + L" | " + relevent->name + L"'s " + this->_moveListName);
 		} else if (this->_paused)
 			this->_renderPause();
 	}

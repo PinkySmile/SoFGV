@@ -13,11 +13,21 @@ namespace SpiralOfFate
 		auto fctCopy = new std::function<IScene *(LoadingScene *)>(fct);
 
 		std::thread{[this, fctCopy]{
-			auto val = (*fctCopy)(this);
+			try {
+				auto val = (*fctCopy)(this);
 
-			this->setStatus("Cleaning up...");
-			delete fctCopy;
-			this->_nextScene = val;
+				this->setStatus("Cleaning up...");
+				delete fctCopy;
+				this->_nextScene = val;
+			} catch (std::exception &e) {
+				this->_errored = true;
+				this->setStatus(e.what());
+				game->logger.error(e.what());
+				//TODO: What to here ?
+#ifdef _DEBUG
+				throw;
+#endif
+			}
 		}}.detach();
 	}
 
@@ -35,7 +45,7 @@ namespace SpiralOfFate
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor();
 		game->screen->textSize(50);
-		game->screen->displayElement("Loading...", {0, 440}, 1680, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_errored ? "Error." : "Loading...", {0, 440}, 1680, Screen::ALIGN_CENTER);
 		this->_mutex.lock();
 		game->screen->displayElement(this->_status, {0, 490}, 1680, Screen::ALIGN_CENTER);
 		this->_mutex.unlock();
@@ -56,6 +66,13 @@ namespace SpiralOfFate
 		game->P2.first->consumeEvent(event);
 		game->P1.second->consumeEvent(event);
 		game->P2.second->consumeEvent(event);
+	}
+
+	void LoadingScene::setStatus(const std::wstring &status)
+	{
+		this->_mutex.lock();
+		this->_status = status;
+		this->_mutex.unlock();
 	}
 
 	void LoadingScene::setStatus(const std::string &status)

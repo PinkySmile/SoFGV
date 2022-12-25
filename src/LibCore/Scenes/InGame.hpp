@@ -38,7 +38,7 @@ namespace SpiralOfFate
 		std::map<unsigned, MoveData> _leftMoveData;
 		std::map<unsigned, MoveData> _rightMoveData;
 		std::unique_ptr<FakeObject> _moveListObject;
-		std::string _moveListName;
+		std::wstring _moveListName;
 		unsigned int _moveListCursorMax = 0;
 		unsigned int _moveListCursor = 0;
 		unsigned int _moveListTop = 0;
@@ -58,7 +58,7 @@ namespace SpiralOfFate
 		virtual void _renderPause() const;
 		virtual void _pauseUpdate();
 		virtual bool _pauseConfirm();
-		void _renderMoveList(Character *chr, const std::string &title) const;
+		void _renderMoveList(Character *chr, const std::wstring &title) const;
 		void _moveListUpdate(InputStruct input);
 		void _calculateMoveListOrder();
 		std::vector<IObject *> _generateStageObjects(const struct StageEntry &stage);

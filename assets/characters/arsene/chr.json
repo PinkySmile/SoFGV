@@ -1,0 +1,28 @@
+{
+	"hp": 20000,
+	"void_mana_max": 2000,
+	"spirit_mana_max": 2000,
+	"matter_mana_max": 2000,
+	"mana_regen": 0.000125,
+	"jump_count": 2,
+	"air_dash_count": 2,
+	"guard_bar": 900,
+	"guard_break_cooldown": 600,
+	"overdrive_cooldown": 3600,
+	"ground_drag": 0.73,
+	"air_drag": {"x": 0.985, "y": 1},
+	"gravity": {"x": 0, "y": -1},
+	"palettes": [
+		[{"r":   0, "g":   0, "b":   0}],
+		[{"r": 255, "g":   0, "b":   0}],
+		[{"r": 255, "g": 255, "b": 255}],
+		[{"r":   0, "g":   0, "b": 255}],
+		[{"r": 255, "g": 100, "b": 150}],
+		[{"r":   0, "g": 255, "b": 255}],
+		[{"r": 255, "g":   0, "b": 255}],
+		[{"r": 120, "g": 120, "b": 120}]
+	],
+	"name": "Ars\u00E8ne",
+	"pos": 1,
+	"hidden": true
+}

@@ -15,6 +15,7 @@
 #include <numeric>
 #include <fstream>
 #include <cmath>
+#include "Resources/Game.hpp"
 #include "Utils.hpp"
 
 #ifdef max
@@ -98,33 +99,80 @@ namespace SpiralOfFate::Utils
 			widget->setRenderer(renderer);
 	}
 
-	std::wstring utf8ToWstring(const std::string& str)
+	std::wstring utf8ToUtf16(const std::string &str)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-		return myconv.from_bytes(str);
+		std::wstring result;
+		size_t i = 0;
+
+		result.reserve(str.size());
+		while (i < str.size()) {
+			if ((signed char)str[i] >= 0) {
+				result += str[i];
+				i++;
+				continue;
+			}
+			if ((str[i] & 0b11100000) == 0b11000000) {
+				if (i + 1 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000) {
+					result += L'?';
+					i += 2;
+					continue;
+				}
+
+				int c = ((str[i] & 0b00011111) << 6) | (str[i + 1] & 0b00111111);
+
+				result += (wchar_t)c;
+				i += 2;
+				continue;
+			}
+			if ((str[i] & 0b11110000) == 0b11100000) {
+				if (i + 2 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000 || (str[i + 2] & 0b11000000) != 0b10000000) {
+					result += L'?';
+					i += 3;
+					continue;
+				}
+
+				unsigned short c = ((str[i] & 0b00001111) << 12) | ((str[i + 1] & 0b00111111) << 6) | (str[i + 2] & 0b00111111);
+
+				if (c > 0xD7FF && c < 0xE000) {
+					result += L'?';
+					i += 3;
+					continue;
+				}
+				result += (wchar_t)c;
+				i += 3;
+				continue;
+			}
+			if ((str[i] & 0b11111000) == 0b11110000) {
+				if (
+					i + 3 >= str.size() ||
+					(str[i + 1] & 0b11000000) != 0b10000000 ||
+					(str[i + 2] & 0b11000000) != 0b10000000 ||
+					(str[i + 3] & 0b11000000) != 0b10000000
+				) {
+					result += L'?';
+					i += 4;
+					continue;
+				}
+
+				unsigned short c =
+					((str[i] & 0b00001111) << 18) |
+					((str[i + 1] & 0b00111111) << 12) |
+					((str[i + 2] & 0b00111111) << 6) |
+					(str[i + 3] & 0b00111111);
+
+				result += (wchar_t)(0xD800 | ((c >> 10) & 0b1111111111));
+				result += (wchar_t)(0xDC00 | (c & 0b1111111111));
+			}
+			result += L'?';
+			i++;
+		}
+		return result;
 	}
 
 	std::string wstringToUtf8(const std::wstring& str)
 	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> myconv;
 		return myconv.to_bytes(str);
-	}
-
-	std::string pathToString(const std::filesystem::path &path) {
-#ifdef _GLIBCXX_FILESYSTEM_IS_WINDOWS
-		std::string result;
-		std::wstring p = path;
-
-		result.reserve(p.size());
-		for (wchar_t c : p)
-			if (c > 255)
-				result.push_back('?');
-			else
-				result.push_back(c);
-		return result;
-#else
-		return path.string();
-#endif
 	}
 
 	std::string getLastExceptionName()
@@ -257,19 +305,24 @@ namespace SpiralOfFate::Utils
 		for (auto &entry : std::filesystem::directory_iterator(currentPath))
 			paths.push_back(entry);
 
+		std::sort(paths.begin(), paths.end(), [](std::filesystem::directory_entry &a, std::filesystem::directory_entry &b){
+			if (a.is_directory() != b.is_directory())
+				return a.is_directory();
+			return a.path() < b.path();
+		});
 		panel->removeAllWidgets();
 		for (auto &entry : paths) {
 			std::string pic;
 			const auto &filePath = entry.path();
-			auto fileStr = pathToString(filePath.filename());
+			auto fileStr = filePath.filename().wstring();
 
 			if (entry.is_directory())
 				pic = _icons.at("folder");
-			else if (!std::regex_search(pathToString(filePath), pattern))
+			else if (!std::regex_search(filePath.string(), pattern))
 				continue;
 			else
 				try {
-					pic = _icons.at(pathToString(filePath.extension()));
+					pic = _icons.at(filePath.extension().string());
 				} catch (std::out_of_range &) {
 					pic = _icons.at("");
 				}
@@ -342,7 +395,7 @@ namespace SpiralOfFate::Utils
 		);
 	}
 
-	std::string openFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns, bool overWriteWarning, bool mustExist)
+	std::filesystem::path openFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns, bool overWriteWarning, bool mustExist)
 	{
 #ifdef _WIN32
 		std::filesystem::path cwd = std::filesystem::current_path();
@@ -412,8 +465,8 @@ namespace SpiralOfFate::Utils
 #else
 		sf::RenderWindow window{{500, 300}, title, sf::Style::Titlebar};
 		tgui::Gui gui{window};
-		std::string result;
-		std::string startText;
+		std::filesystem::path result;
+		std::wstring startText;
 		std::filesystem::path currentPath = basePath;
 		sf::Event event;
 
@@ -421,7 +474,7 @@ namespace SpiralOfFate::Utils
 		while (!std::filesystem::is_directory(currentPath)) {
 			if (!startText.empty())
 				startText += std::filesystem::path::preferred_separator;
-			startText += pathToString(currentPath.filename());
+			startText += utf8ToUtf16(currentPath.filename());
 			currentPath = currentPath.parent_path();
 		}
 
@@ -437,15 +490,15 @@ namespace SpiralOfFate::Utils
 
 			std::string ext = box->getSelectedItemId();
 
-			if (std::filesystem::path(file->getText()).is_relative())
-				result = path->getText() + std::filesystem::path::preferred_separator + file->getText();
+			if (std::filesystem::path(utf8ToUtf16(file->getText())).is_relative())
+				result = utf8ToUtf16(path->getText()) + static_cast<wchar_t>(std::filesystem::path::preferred_separator) + utf8ToUtf16(file->getText());
 			else
-				result = file->getText();
+				result = utf8ToUtf16(file->getText());
 
 			if (std::filesystem::is_directory(result)) {
 				result = cleanPath(result);
-				currentPath = result + static_cast<char>(std::filesystem::path::preferred_separator);
-				path->setText(pathToString(currentPath));
+				currentPath = result.wstring() + static_cast<wchar_t>(std::filesystem::path::preferred_separator);
+				path->setText(currentPath.string());
 				file->setText("");
 				_makeFolders(currentPath, panel, file, open, std::regex(box->getSelectedItemId().toAnsiString(), std::regex_constants::icase));
 				return;
@@ -478,7 +531,7 @@ namespace SpiralOfFate::Utils
 
 				auto label = win->get<tgui::Label>("Label");
 
-				label->setText(result + label->getText());
+				label->setText(result.wstring() + label->getText());
 				win->setSize(label->getSize().x + 20, 100);
 				win->get<tgui::Button>("Yes")->connect("Clicked", [&window]{
 					window.close();
@@ -509,7 +562,7 @@ namespace SpiralOfFate::Utils
 			_makeFolders(currentPath, panel, file, open, std::regex(box->getSelectedItemId().toAnsiString(), std::regex_constants::icase));
 		});
 
-		path->setText(pathToString(currentPath));
+		path->setText(utf8ToUtf16(currentPath.string()));
 		file->setText(startText);
 		_makeFolders(currentPath, panel, file, open, std::regex(box->getSelectedItemId().toAnsiString(), std::regex_constants::icase));
 
@@ -532,7 +585,7 @@ namespace SpiralOfFate::Utils
 #endif
 	}
 
-	std::string saveFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns)
+	std::filesystem::path saveFileDialog(const std::string &title, const std::string &basePath, const std::vector<std::pair<std::string, std::string>> &patterns)
 	{
 		return openFileDialog(title, basePath, patterns, true, false);
 	}
@@ -566,7 +619,7 @@ namespace SpiralOfFate::Utils
 #else
 	void __nothing() {};
 	void *__nothing2() { return nullptr; };
-	std::string __nothing3() { return "Not implemented"; }
+	std::filesystem::path __nothing3() { return "Not implemented"; }
 #endif
 
 	sf::Color HSLtoRGB(const HSLColor &color)

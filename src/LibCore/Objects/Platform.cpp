@@ -13,7 +13,8 @@ namespace SpiralOfFate
 	{
 		this->_team = 2;
 		this->_position = pos;
-		this->_moves = FrameData::loadFile(framedata);
+		//TODO
+		this->_moves = FrameData::loadFile(framedata, framedata.substr(0, framedata.find_last_of('/')));
 		this->_baseHp = this->_hp = hp;
 	}
 

@@ -55,4 +55,21 @@ namespace SpiralOfFate
 		this->scene.reset();
 		this->logger.debug("~Game()<");
 	}
+
+	std::vector<std::filesystem::path> Game::getCharacters()
+	{
+		std::vector<std::filesystem::path> result;
+
+		for (auto &entry : std::filesystem::directory_iterator("assets/characters")) {
+			if (!entry.is_directory())
+				continue;
+
+			auto file = entry.path() / "chr.json";
+
+			if (!exists(file))
+				continue;
+			result.push_back(entry.path());
+		}
+		return result;
+	}
 }

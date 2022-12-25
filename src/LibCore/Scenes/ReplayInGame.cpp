@@ -164,7 +164,7 @@ namespace SpiralOfFate
 	{
 		if (this->_moveList) {
 			game->battleMgr->render();
-			this->_renderMoveList(this->_chr, this->_chr->name + "'s " + this->_moveListName);
+			this->_renderMoveList(this->_chr, this->_chr->name + L"'s " + this->_moveListName);
 			return;
 		}
 		PracticeInGame::render();
@@ -246,7 +246,7 @@ namespace SpiralOfFate
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultMoveOrder;
 			this->_moveData = defaultMoveData;
-			this->_moveListName = "Move List";
+			this->_moveListName = L"Move List";
 			this->_calculateMoveListOrder();
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
@@ -257,7 +257,7 @@ namespace SpiralOfFate
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultMoveOrder;
 			this->_moveData = defaultMoveData;
-			this->_moveListName = "Move List";
+			this->_moveListName = L"Move List";
 			this->_calculateMoveListOrder();
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;

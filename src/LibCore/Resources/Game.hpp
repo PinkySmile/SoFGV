@@ -8,6 +8,7 @@
 #include <mutex>
 #include <memory>
 #include <random>
+#include <filesystem>
 #include "Screen.hpp"
 #include "TextureManager.hpp"
 #include "BattleManager.hpp"
@@ -126,6 +127,7 @@ namespace SpiralOfFate
 
 		Game(const std::string &loggerPath = "./latest.log");
 		~Game();
+		std::vector<std::filesystem::path> getCharacters();
 	};
 	extern MYDLL_API Game *game;
 }

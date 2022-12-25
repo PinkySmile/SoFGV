@@ -40,6 +40,8 @@ namespace SpiralOfFate::Utils
 	//! @return std::string Converted Path in String
 	std::string cleanPath(const std::string &path);
 
+	std::wstring utf8ToUtf16(const std::string &str);
+
 #ifndef __ANDROID__
 	//! @brief Display a Windows dialog box.
 	//! @details This functions opens a Windows dialog box and return the button clicked by the user.
@@ -55,14 +57,14 @@ namespace SpiralOfFate::Utils
 	//! @param basePath The path of the FileDialog
 	//! @param patterns The patterns of the FileDialog
 	//! @return std::string FileDialog message
-	std::string openFileDialog(const std::string &title = "Open file", const std::string &basePath = ".", const std::vector<std::pair<std::string, std::string>> &patterns = {}, bool overWriteWarning = false, bool mustExist = true);
+	std::filesystem::path openFileDialog(const std::string &title = "Open file", const std::string &basePath = ".", const std::vector<std::pair<std::string, std::string>> &patterns = {}, bool overWriteWarning = false, bool mustExist = true);
 
 	//! @brief Saves a file dialog
 	//! @param title Title of the FileDialog
 	//! @param basePath The path of the FileDialog
 	//! @param patterns The patterns of the FileDialog
 	//! @return std::string FileDialog message
-	std::string saveFileDialog(const std::string &title = "Save file", const std::string &basePath = ".", const std::vector<std::pair<std::string, std::string>> &patterns = {});
+	std::filesystem::path saveFileDialog(const std::string &title = "Save file", const std::string &basePath = ".", const std::vector<std::pair<std::string, std::string>> &patterns = {});
 
 	//! @brief Display a focused window.
 	//! @param gui The gui handling the window.
@@ -96,7 +98,7 @@ namespace SpiralOfFate::Utils
 	#define getTheme() *(tgui::Theme *)nullptr
 	void __nothing();
 	void *__nothing2();
-	std::string __nothing3();
+	std::filesystem::path __nothing3();
 #endif
 
 	HSLColor RGBtoHSL(const sf::Color &color);

@@ -206,9 +206,9 @@ namespace SpiralOfFate
 			game->connection->nextGame();
 			game->scene.reset(new LoadingScene([tmp, this](LoadingScene *me) {
 				auto *scene = reinterpret_cast<ServerCharacterSelect *>(&*tmp);
-				me->setStatus("Loading P1's character (" + scene->_entries[this->p1chr].name + ")");
+				me->setStatus(L"Loading P1's character (" + scene->_entries[this->p1chr].name + L")");
 				auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
-				me->setStatus("Loading P2's character (" + scene->_entries[this->p2chr].name + ")");
+				me->setStatus(L"Loading P2's character (" + scene->_entries[this->p2chr].name + L")");
 				auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
 				auto &lentry = scene->_entries[this->p1chr];
 				auto &rentry = scene->_entries[this->p2chr];

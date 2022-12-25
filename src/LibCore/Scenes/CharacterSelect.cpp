@@ -10,6 +10,7 @@
 #include "PracticeInGame.hpp"
 #include "Objects/Characters/Stickman.hpp"
 #include "TitleScreen.hpp"
+#include "Utils.hpp"
 
 namespace SpiralOfFate
 {
@@ -19,20 +20,31 @@ namespace SpiralOfFate
 		_sceneCreator(sceneCreator)
 	{
 		sf::View view{{0, 0, 1680, 960}};
-		std::ifstream stream{"assets/characters/list.json"};
-		std::ifstream stream2{"assets/stages/list.json"};
+		std::ifstream stream;
 		nlohmann::json json;
-		nlohmann::json json2;
+		auto chrList = game->getCharacters();
 
 		game->screen->setView(view);
 		game->logger.info("CharacterSelect scene created");
+		this->_entries.reserve(chrList.size());
+		for (auto &entry : chrList) {
+			auto file = entry / "chr.json";
+			std::ifstream s{file};
+
+			game->logger.debug("Loading character from " + file.string());
+			my_assert2(!s.fail(), file.string() + ": " + strerror(errno));
+			s >> json;
+			this->_entries.emplace_back(json, entry.string());
+		}
+		std::sort(this->_entries.begin(), this->_entries.end(), [](CharacterEntry &a, CharacterEntry &b){
+			return a.pos < b.pos;
+		});
+
+		stream.open("assets/stages/list.json");
+		my_assert2(!stream.fail(), "assets/stages/list.json: " + strerror(errno));
 		stream >> json;
-		this->_entries.reserve(json.size());
-		for (auto &elem : json)
-			this->_entries.emplace_back(elem);
-		stream2 >> json2;
-		this->_stages.reserve(json2.size());
-		for (auto &elem: json2)
+		this->_stages.reserve(json.size());
+		for (auto &elem: json)
 			this->_stages.emplace_back(elem);
 		this->_randomSprite.textureHandle = game->textureMgr.load("assets/stages/random.png");
 	}
@@ -97,11 +109,11 @@ namespace SpiralOfFate
 			palettes.second = entry.palettes[palette];
 		}
 		switch (entry._class) {
-		case 0:
+		case 1:
 			chr = new Stickman{
 				static_cast<unsigned>(palette << 16 | pos),
-				entry.framedataPath,
-				entry.subobjectDataPath,
+				entry.folder + "/framedata.json",
+				entry.folder + "/subobjects.json",
 				palettes,
 				std::move(input)
 			};
@@ -109,8 +121,8 @@ namespace SpiralOfFate
 		default:
 			chr = new Character{
 				static_cast<unsigned>(palette << 16 | pos),
-				entry.framedataPath,
-				entry.subobjectDataPath,
+				entry.folder + "/framedata.json",
+				entry.folder + "/subobjects.json",
 				palettes,
 				std::move(input)
 			};
@@ -174,9 +186,9 @@ namespace SpiralOfFate
 			}
 			game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 
-			me->setStatus("Loading P1's character (" + This->_entries[This->_leftPos].name + ")");
+			me->setStatus(L"Loading P1's character (" + This->_entries[This->_leftPos].name + L")");
 			auto lchr = This->_createCharacter(This->_leftPos, This->_leftPalette, This->_leftInput);
-			me->setStatus("Loading P2's character (" + This->_entries[This->_rightPos].name + ")");
+			me->setStatus(L"Loading P2's character (" + This->_entries[This->_rightPos].name + L")");
 			auto rchr = This->_createCharacter(This->_rightPos, This->_rightPalette, This->_rightInput);
 			auto &lentry = This->_entries[This->_leftPos];
 			auto &rentry = This->_entries[This->_rightPos];
@@ -218,8 +230,8 @@ namespace SpiralOfFate
 		game->screen->displayElement({1120, 0, 560, 480}, sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
 		game->screen->displayElement({1120, 480, 560, 480}, sf::Color::White);
 
-		game->screen->displayElement(this->_leftPos == -1 ? "Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
-		game->screen->displayElement(this->_rightPos == -1 ? "Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_leftPos == -1 ? L"Random select" : this->_entries[this->_leftPos].name, {0, 480}, 560, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_rightPos == -1 ? L"Random select" : this->_entries[this->_rightPos].name, {1120, 480}, 560, Screen::ALIGN_CENTER);
 
 		auto &leftSprites  = this->_entries[left].icon;
 		auto &rightSprites = this->_entries[right].icon;
@@ -428,13 +440,11 @@ namespace SpiralOfFate
 		}
 	}
 
-	CharacterEntry::CharacterEntry(const nlohmann::json &json) :
+	CharacterEntry::CharacterEntry(const nlohmann::json &json, const std::string &folder) :
 		entry(json)
 	{
 		if (!json.contains("pos"))
 			throw std::invalid_argument("pos is missing");
-		if (!json.contains("class"))
-			throw std::invalid_argument("class is missing");
 		if (!json.contains("name"))
 			throw std::invalid_argument("name is missing");
 		if (!json.contains("ground_drag"))
@@ -445,12 +455,6 @@ namespace SpiralOfFate
 			throw std::invalid_argument("air_drag.x is missing");
 		if (!json["air_drag"].contains("y"))
 			throw std::invalid_argument("air_drag.y is missing");
-		if (!json.contains("framedata"))
-			throw std::invalid_argument("framedata is missing");
-		if (!json.contains("subobjects"))
-			throw std::invalid_argument("subobjects is missing");
-		if (!json.contains("framedata_char_select"))
-			throw std::invalid_argument("framedata_char_select is missing");
 		if (!json.contains("hp"))
 			throw std::invalid_argument("hp is missing");
 		if (!json.contains("guard_bar"))
@@ -477,8 +481,6 @@ namespace SpiralOfFate
 			throw std::invalid_argument("matter_mana_max is missing");
 		if (!json.contains("mana_regen"))
 			throw std::invalid_argument("mana_regen is missing");
-		if (!json.contains("icon"))
-			throw std::invalid_argument("icon is missing");
 		if (!json.contains("palettes"))
 			throw std::invalid_argument("palettes is missing");
 
@@ -502,30 +504,20 @@ namespace SpiralOfFate
 		}
 
 		this->pos = json["pos"];
-		this->_class = json["class"];
-		this->name = json["name"];
-		this->framedataPath = json["framedata"];
-		this->subobjectDataPath = json["subobjects"];
-		this->data = FrameData::loadFile(json["framedata_char_select"]);
-		for (size_t i = 0; i < this->name.size(); i++) {
-			if ((this->name[i] & 0b11100000) == 0b11000000) {
-				int c = ((this->name[i] & 0b00011111) << 6) | (this->name[i + 1] & 0b00111111);
-
-				if (c <= 255)
-					this->name = this->name.substr(0, i) + (char)c + this->name.substr(i + 2);
-				else
-					this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 2);
-			} else if ((this->name[i] & 0b11110000) == 0b11100000)
-				this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 3);
-			else if ((this->name[i] & 0b11111000) == 0b11110000)
-				this->name = this->name.substr(0, i) + '?' + this->name.substr(i + 4);
-		}
+		this->name = Utils::utf8ToUtf16(json["name"]);
+		//FIXME: Temporary hack
+		this->_class = this->name != L"Stickman";
+		this->folder = folder;
+		this->data = FrameData::loadFile(folder + "/charSelect.json", folder);
 		if (this->palettes.empty())
-			this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(json["icon"]);
-		else {
-			for (auto &palette : this->palettes)
-				this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(json["icon"], {this->palettes[0], palette});
-		}
+			this->icon.emplace_back(), this->icon.back().textureHandle = game->textureMgr.load(folder + "/icon.png");
+		else
+			for (auto &palette : this->palettes) {
+				this->icon.emplace_back();
+				this->icon.back().textureHandle = game->textureMgr.load(
+					folder + "/icon.png", {this->palettes[0], palette}
+				);
+			}
 	}
 
 	CharacterEntry::CharacterEntry(const CharacterEntry &entry) :
@@ -533,8 +525,7 @@ namespace SpiralOfFate
 		pos(entry.pos),
 		_class(entry._class),
 		name(entry.name),
-		framedataPath(entry.framedataPath),
-		subobjectDataPath(entry.subobjectDataPath),
+		folder(entry.folder),
 		palettes(entry.palettes),
 		icon(entry.icon),
 		data(entry.data)
@@ -559,7 +550,8 @@ namespace SpiralOfFate
 		this->cd = json["cd"];
 		this->pos.x = json["pos"]["x"];
 		this->pos.y = json["pos"]["y"];
-		this->data = FrameData::loadFile(this->framedata)[0].front().front();
+		//TODO
+		this->data = FrameData::loadFile(this->framedata, this->framedata.substr(0, this->framedata.find_last_of('/')))[0].front().front();
 	}
 
 	StageEntry::StageEntry(const nlohmann::json &json) :

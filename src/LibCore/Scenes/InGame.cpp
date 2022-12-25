@@ -132,7 +132,7 @@ namespace SpiralOfFate
 			auto rinput = game->battleMgr->getRightCharacter();
 			auto relevent = (this->_paused == 1 ? linput : rinput);
 
-			this->_renderMoveList(relevent, "P" + std::to_string(this->_paused) + " | " + relevent->name + "'s " + this->_moveListName);
+			this->_renderMoveList(relevent, L"P" + sf::String(std::to_string(this->_paused)) + L" | " + relevent->name + L"'s " + this->_moveListName);
 		} else if (this->_paused)
 			this->_renderPause();
 	}
@@ -261,7 +261,7 @@ namespace SpiralOfFate
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultMoveOrder;
 			this->_moveData = defaultMoveData;
-			this->_moveListName = "Move List";
+			this->_moveListName = L"Move List";
 			this->_calculateMoveListOrder();
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
@@ -271,7 +271,7 @@ namespace SpiralOfFate
 			this->_moveListTop = 0;
 			this->_moveOrder = defaultCommandOrder;
 			this->_moveData = defaultMoveData;
-			this->_moveListName = "Command List";
+			this->_moveListName = L"Command List";
 			this->_calculateMoveListOrder();
 			this->_moveListObject = std::make_unique<FakeObject>(*this->_moveList);
 			return false;
@@ -299,7 +299,7 @@ namespace SpiralOfFate
 		}
 	}
 
-	void InGame::_renderMoveList(Character *relevent, const std::string &title) const
+	void InGame::_renderMoveList(Character *relevent, const std::wstring &title) const
 	{
 		Sprite sprite;
 		unsigned noText[] = {
@@ -546,7 +546,7 @@ namespace SpiralOfFate
 		strftime(timebuffer, 40, "%Y-%m-%d", tm_info);
 		strftime(timebuffer2, 40, "%H_%M_%S", tm_info);
 		sprintf(buf, "replays/%s", timebuffer);
-		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
+		sprintf(buf2, "%s/%s_(%ls_vs_%ls).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
 
 		if (makedir("replays", 0755) && errno != EEXIST) {
 			SpiralOfFate::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));

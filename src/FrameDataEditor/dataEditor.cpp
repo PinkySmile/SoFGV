@@ -1790,7 +1790,7 @@ void	saveCallback(std::unique_ptr<EditableObject> &object)
 		SpiralOfFate::Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
 		return;
 	}
-	stream << j.dump(4) << std::endl;
+	stream << j.dump() << std::endl;
 }
 
 void	saveAsCallback(std::unique_ptr<EditableObject> &object)

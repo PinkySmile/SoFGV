@@ -50,7 +50,7 @@
                         "y": 0
                     },
                     "spirit_limit": 10,
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 17,
                         "left": 145,
@@ -108,7 +108,7 @@
                         "y": 0
                     },
                     "spirit_limit": 10,
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 30,
                         "left": 167,
@@ -158,7 +158,7 @@
                         "y": 0
                     },
                     "spirit_limit": 10,
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 30,
                         "left": 167,
@@ -208,7 +208,7 @@
                         "y": 0
                     },
                     "spirit_limit": 10,
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 30,
                         "left": 208,
@@ -259,7 +259,7 @@
                         "y": 0
                     },
                     "spirit_limit": 10,
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 30,
                         "left": 208,
@@ -285,7 +285,7 @@
                         "x": 16,
                         "y": 24
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 12,
                         "left": 791,
@@ -303,7 +303,7 @@
                         "x": 26,
                         "y": 42
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 21,
                         "left": 807,
@@ -321,7 +321,7 @@
                         "x": 32,
                         "y": 68
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 34,
                         "left": 827,
@@ -340,7 +340,7 @@
                         "x": 32,
                         "y": 94
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 47,
                         "left": 848,
@@ -360,7 +360,7 @@
                         "x": 60,
                         "y": 108
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 56,
                         "left": 895,
@@ -378,7 +378,7 @@
                         "x": 50,
                         "y": 118
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 59,
                         "left": 930,
@@ -396,7 +396,7 @@
                         "x": 54,
                         "y": 116
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 58,
                         "left": 961,
@@ -414,7 +414,7 @@
                         "x": 54,
                         "y": 118
                     },
-                    "sprite": "assets/characters/test/sheet.png",
+                    "sprite": "sheet.png",
                     "texture_bounds": {
                         "height": 59,
                         "left": 992,

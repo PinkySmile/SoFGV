@@ -421,8 +421,10 @@ namespace SpiralOfFate
 		this->_text2.setOutlineThickness(2);
 		this->_text2.setCharacterSize(10);
 		this->_limit.fill(0);
-		this->_moves = FrameData::loadFile(frameData, palette);
-		this->_subObjectsData = FrameData::loadFile(subobjFrameData, palette);
+		//TODO
+		this->_moves = FrameData::loadFile(frameData, frameData.substr(0, frameData.find_last_of('/')), palette);
+		//TODO
+		this->_subObjectsData = FrameData::loadFile(subobjFrameData, subobjFrameData.substr(0, subobjFrameData.find_last_of('/')), palette);
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 	}
 

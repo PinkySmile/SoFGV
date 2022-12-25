@@ -14,8 +14,9 @@ namespace SpiralOfFate
 {
 	class LoadingScene : public IScene {
 	private:
+		bool _errored = false;
 		mutable std::mutex _mutex;
-		std::string _status;
+		sf::String _status;
 		IScene *_nextScene = nullptr;
 		std::function<void (LoadingScene *)> onUpdate;
 
@@ -25,6 +26,7 @@ namespace SpiralOfFate
 		void render() const override;
 		IScene *update() override;
 		void setStatus(const std::string &status);
+		void setStatus(const std::wstring &status);
 		void consumeEvent(const sf::Event &event) override;
 	};
 }

@@ -757,7 +757,6 @@ namespace SpiralOfFate
 		std::vector<StageEntry> stages;
 		std::vector<CharacterEntry> entries;
 		std::ifstream stream{path, std::ifstream::binary};
-		std::ifstream stream2{"assets/characters/list.json"};
 		std::ifstream stream3{"assets/stages/list.json"};
 		nlohmann::json json;
 		unsigned nb;
@@ -778,9 +777,23 @@ namespace SpiralOfFate
 		game->logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + std::to_string(magic));
 		if (magic != expectedMagic)
 			throw std::invalid_argument("INVALID_MAGIC");
-		stream2 >> json;
-		for (auto &elem : json)
-			entries.emplace_back(elem);
+
+		auto chrList = game->getCharacters();
+
+		entries.reserve(chrList.size());
+		for (auto &entry : chrList) {
+			auto file = entry / "chr.json";
+			std::ifstream s{file};
+
+			game->logger.debug("Loading character from " + file.string());
+			my_assert2(!s.fail(), file.string() + ": " + strerror(errno));
+			s >> json;
+			entries.emplace_back(json, entry.string());
+		}
+		std::sort(entries.begin(), entries.end(), [](CharacterEntry &a, CharacterEntry &b){
+			return a.pos < b.pos;
+		});
+
 		stream3 >> json;
 		for (auto &elem : json)
 			stages.emplace_back(elem);
