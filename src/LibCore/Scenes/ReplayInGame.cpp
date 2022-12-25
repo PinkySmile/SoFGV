@@ -20,8 +20,6 @@ namespace SpiralOfFate
 		auto left = reinterpret_cast<ReplayInput *>(&*this->_manager->getLeftCharacter()->getInput());
 		auto right= reinterpret_cast<ReplayInput *>(&*this->_manager->getRightCharacter()->getInput());
 
-		if (left->getRemainingTime() != right->getRemainingTime())
-			Utils::dispMsg("Corrupted replay?", "Replay file contains " + std::to_string(left->getRemainingTime()) + " frames of data for P1 but " + std::to_string(right->getRemainingTime()) + " frames for P2.\nIs it corrupted?", MB_ICONWARNING, &*game->screen);
 		this->_startTime = std::max(left->getRemainingTime(), right->getRemainingTime());
 	}
 

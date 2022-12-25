@@ -523,7 +523,7 @@ namespace SpiralOfFate
 		if (dynamic_cast<PracticeInGame *>(this) != nullptr || this->_goBackToTitle || !game->battleMgr)
 			return;
 
-		char buf[MAX_PATH];
+		char buf[60];
 		char buf2[MAX_PATH];
 		time_t timer;
 		char timebuffer[40];
@@ -546,7 +546,7 @@ namespace SpiralOfFate
 		strftime(timebuffer, 40, "%Y-%m-%d", tm_info);
 		strftime(timebuffer2, 40, "%H_%M_%S", tm_info);
 		sprintf(buf, "replays/%s", timebuffer);
-		sprintf(buf2, "%s/%s_(%ls_vs_%ls).replay", buf, timebuffer2, leftChr->name.c_str(), rightChr->name.c_str());
+		sprintf(buf2, "%s/%s_(%s_vs_%s).replay", buf, timebuffer2, sf::String(leftChr->name).toUtf8().c_str(), sf::String(rightChr->name).toUtf8().c_str());
 
 		if (makedir("replays", 0755) && errno != EEXIST) {
 			SpiralOfFate::game->logger.error("Failed to create replays folder: " + std::string(strerror(errno)));

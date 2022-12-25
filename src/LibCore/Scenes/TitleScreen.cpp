@@ -771,7 +771,10 @@ namespace SpiralOfFate
 		InGame::GameParams params;
 		unsigned magic;
 		unsigned expectedMagic = getMagic();
+		RandomWrapper::SerializedWrapper random;
 
+		if (!stream)
+			throw std::invalid_argument("Cannot load " + path + ": " + strerror(errno));
 		game->logger.info("Loading replay " + path);
 		stream.read(reinterpret_cast<char *>(&magic), 4);
 		game->logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + std::to_string(magic));
@@ -797,14 +800,15 @@ namespace SpiralOfFate
 		stream3 >> json;
 		for (auto &elem : json)
 			stages.emplace_back(elem);
-		stream.read(reinterpret_cast<char *>(&game->battleRandom), sizeof(game->battleRandom));
+		stream.read(reinterpret_cast<char *>(&random), sizeof(random));
 		stream.read(reinterpret_cast<char *>(&params), 12);
 		game->logger.debug("Params: stageID " + std::to_string(params.stage) + ", platformsID " + std::to_string(params.platforms) + ", musicID " + std::to_string(params.music));
 		if (params.stage >= stages.size())
 			throw std::invalid_argument("INVALID_STAGE");
 		if (params.platforms >= stages[params.stage].platforms.size())
 			throw std::invalid_argument("INVALID_PLAT_CONF");
-
+		game->battleRandom.seed(random.seed);
+		game->battleRandom.discard(random.invoke_count);
 
 		stream.read(reinterpret_cast<char *>(&P1pos), 2);
 		stream.read(reinterpret_cast<char *>(&P1palette), 2);

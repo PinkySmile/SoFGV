@@ -40,7 +40,77 @@ namespace SpiralOfFate::Utils
 	//! @return std::string Converted Path in String
 	std::string cleanPath(const std::string &path);
 
-	std::wstring utf8ToUtf16(const std::string &str);
+	template<typename T>
+	std::wstring utf8ToUtf16(const std::basic_string<T> &str, wchar_t replacement = L'?')
+	{
+		std::wstring result;
+		size_t i = 0;
+
+		static_assert(sizeof(T) == 1);
+		result.reserve(str.size());
+		while (i < str.size()) {
+			if ((signed char)str[i] >= 0) {
+				result += str[i];
+				i++;
+				continue;
+			}
+			if ((str[i] & 0b11100000) == 0b11000000) {
+				if (i + 1 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000) {
+					result += replacement;
+					i += 2;
+					continue;
+				}
+
+				int c = ((str[i] & 0b00011111) << 6) | (str[i + 1] & 0b00111111);
+
+				result += (wchar_t)c;
+				i += 2;
+				continue;
+			}
+			if ((str[i] & 0b11110000) == 0b11100000) {
+				if (i + 2 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000 || (str[i + 2] & 0b11000000) != 0b10000000) {
+					result += replacement;
+					i += 3;
+					continue;
+				}
+
+				unsigned short c = ((str[i] & 0b00001111) << 12) | ((str[i + 1] & 0b00111111) << 6) | (str[i + 2] & 0b00111111);
+
+				if (c > 0xD7FF && c < 0xE000) {
+					result += replacement;
+					i += 3;
+					continue;
+				}
+				result += (wchar_t)c;
+				i += 3;
+				continue;
+			}
+			if ((str[i] & 0b11111000) == 0b11110000) {
+				if (
+					i + 3 >= str.size() ||
+					(str[i + 1] & 0b11000000) != 0b10000000 ||
+					(str[i + 2] & 0b11000000) != 0b10000000 ||
+					(str[i + 3] & 0b11000000) != 0b10000000
+					) {
+					result += replacement;
+					i += 4;
+					continue;
+				}
+
+				unsigned short c =
+					((str[i] & 0b00001111) << 18) |
+					((str[i + 1] & 0b00111111) << 12) |
+					((str[i + 2] & 0b00111111) << 6) |
+					(str[i + 3] & 0b00111111);
+
+				result += (wchar_t)(0xD800 | ((c >> 10) & 0b1111111111));
+				result += (wchar_t)(0xDC00 | (c & 0b1111111111));
+			}
+			result += replacement;
+			i++;
+		}
+		return result;
+	}
 
 #ifndef __ANDROID__
 	//! @brief Display a Windows dialog box.

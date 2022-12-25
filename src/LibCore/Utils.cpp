@@ -99,76 +99,6 @@ namespace SpiralOfFate::Utils
 			widget->setRenderer(renderer);
 	}
 
-	std::wstring utf8ToUtf16(const std::string &str)
-	{
-		std::wstring result;
-		size_t i = 0;
-
-		result.reserve(str.size());
-		while (i < str.size()) {
-			if ((signed char)str[i] >= 0) {
-				result += str[i];
-				i++;
-				continue;
-			}
-			if ((str[i] & 0b11100000) == 0b11000000) {
-				if (i + 1 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000) {
-					result += L'?';
-					i += 2;
-					continue;
-				}
-
-				int c = ((str[i] & 0b00011111) << 6) | (str[i + 1] & 0b00111111);
-
-				result += (wchar_t)c;
-				i += 2;
-				continue;
-			}
-			if ((str[i] & 0b11110000) == 0b11100000) {
-				if (i + 2 >= str.size() || (str[i + 1] & 0b11000000) != 0b10000000 || (str[i + 2] & 0b11000000) != 0b10000000) {
-					result += L'?';
-					i += 3;
-					continue;
-				}
-
-				unsigned short c = ((str[i] & 0b00001111) << 12) | ((str[i + 1] & 0b00111111) << 6) | (str[i + 2] & 0b00111111);
-
-				if (c > 0xD7FF && c < 0xE000) {
-					result += L'?';
-					i += 3;
-					continue;
-				}
-				result += (wchar_t)c;
-				i += 3;
-				continue;
-			}
-			if ((str[i] & 0b11111000) == 0b11110000) {
-				if (
-					i + 3 >= str.size() ||
-					(str[i + 1] & 0b11000000) != 0b10000000 ||
-					(str[i + 2] & 0b11000000) != 0b10000000 ||
-					(str[i + 3] & 0b11000000) != 0b10000000
-				) {
-					result += L'?';
-					i += 4;
-					continue;
-				}
-
-				unsigned short c =
-					((str[i] & 0b00001111) << 18) |
-					((str[i + 1] & 0b00111111) << 12) |
-					((str[i + 2] & 0b00111111) << 6) |
-					(str[i + 3] & 0b00111111);
-
-				result += (wchar_t)(0xD800 | ((c >> 10) & 0b1111111111));
-				result += (wchar_t)(0xDC00 | (c & 0b1111111111));
-			}
-			result += L'?';
-			i++;
-		}
-		return result;
-	}
-
 	std::string wstringToUtf8(const std::wstring& str)
 	{
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> myconv;
@@ -314,7 +244,7 @@ namespace SpiralOfFate::Utils
 		for (auto &entry : paths) {
 			std::string pic;
 			const auto &filePath = entry.path();
-			auto fileStr = filePath.filename().wstring();
+			auto fileStr = utf8ToUtf16(filePath.filename().string());
 
 			if (entry.is_directory())
 				pic = _icons.at("folder");
@@ -474,7 +404,7 @@ namespace SpiralOfFate::Utils
 		while (!std::filesystem::is_directory(currentPath)) {
 			if (!startText.empty())
 				startText += std::filesystem::path::preferred_separator;
-			startText += utf8ToUtf16(currentPath.filename());
+			startText += utf8ToUtf16(currentPath.filename().string());
 			currentPath = currentPath.parent_path();
 		}
 
@@ -489,11 +419,12 @@ namespace SpiralOfFate::Utils
 				return;
 
 			std::string ext = box->getSelectedItemId();
+			auto f = std::filesystem::path(reinterpret_cast<char *>(file->getText().toUtf8().data()));
 
-			if (std::filesystem::path(utf8ToUtf16(file->getText())).is_relative())
-				result = utf8ToUtf16(path->getText()) + static_cast<wchar_t>(std::filesystem::path::preferred_separator) + utf8ToUtf16(file->getText());
+			if (f.is_relative())
+				result = std::filesystem::path(reinterpret_cast<char *>(path->getText().toUtf8().data())) / f;
 			else
-				result = utf8ToUtf16(file->getText());
+				result = f;
 
 			if (std::filesystem::is_directory(result)) {
 				result = cleanPath(result);
