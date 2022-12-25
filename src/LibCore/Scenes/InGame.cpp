@@ -530,6 +530,7 @@ namespace SpiralOfFate
 		char timebuffer2[40];
 		struct tm* tm_info;
 		unsigned magic = getMagic();
+		unsigned frame = game->battleMgr->getCurrentFrame();
 		auto leftChr    = game->battleMgr->getLeftCharacter();
 		auto rightChr   = game->battleMgr->getRightCharacter();
 		auto leftInputs = game->battleMgr->getLeftReplayData();
@@ -566,17 +567,18 @@ namespace SpiralOfFate
 			Utils::dispMsg("Replay saving failure", "Failed to create " + std::string(buf2) + ": " + strerror(errno), MB_ICONERROR, &*game->screen);
 			return;
 		}
-		stream.write(reinterpret_cast<char *>(&magic), 4);
+		stream.write(reinterpret_cast<char *>(&magic), sizeof(magic));
+		stream.write(reinterpret_cast<char *>(&frame), sizeof(frame));
 		stream.write(reinterpret_cast<char *>(&this->_random), sizeof(this->_random));
-		stream.write(reinterpret_cast<char *>(&this->_params), 12);
+		stream.write(reinterpret_cast<char *>(&this->_params), sizeof(this->_params));
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
-		stream.write(reinterpret_cast<char *>(&leftChrSer), 8);
+		stream.write(reinterpret_cast<char *>(&leftChrSer), sizeof(leftChrSer));
 		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
 
 		rightChrSer.index = rightChr->index;
 		rightChrSer.nbInputs = rightInputs.size();
-		stream.write(reinterpret_cast<char *>(&rightChrSer), 8);
+		stream.write(reinterpret_cast<char *>(&rightChrSer), sizeof(rightChrSer));
 		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
 		game->logger.info(std::string(buf2) + " created.");
 	}

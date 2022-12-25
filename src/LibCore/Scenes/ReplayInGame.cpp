@@ -11,16 +11,12 @@
 
 namespace SpiralOfFate
 {
-	ReplayInGame::ReplayInGame(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
+	ReplayInGame::ReplayInGame(const InGame::GameParams &params, unsigned frameCount, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		PracticeInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson)
 	{
 		this->_replay = true;
 		this->_manager->replay = true;
-
-		auto left = reinterpret_cast<ReplayInput *>(&*this->_manager->getLeftCharacter()->getInput());
-		auto right= reinterpret_cast<ReplayInput *>(&*this->_manager->getRightCharacter()->getInput());
-
-		this->_startTime = std::max(left->getRemainingTime(), right->getRemainingTime());
+		this->_startTime = frameCount;
 	}
 
 	ReplayInGame::~ReplayInGame()
@@ -167,14 +163,10 @@ namespace SpiralOfFate
 		}
 		PracticeInGame::render();
 
-		auto left = reinterpret_cast<ReplayInput *>(&*this->_manager->getLeftCharacter()->getInput());
-		auto right= reinterpret_cast<ReplayInput *>(&*this->_manager->getRightCharacter()->getInput());
-		auto current = this->_startTime - std::max(left->getRemainingTime(), right->getRemainingTime());
-
 		game->screen->displayElement({400, 0, 200, 20}, sf::Color::White);
-		game->screen->displayElement({400, 0, static_cast<int>(200.f * current / this->_startTime), 20}, sf::Color::Black);
+		game->screen->displayElement({400, 0, static_cast<int>(200.f * game->battleMgr->getCurrentFrame() / this->_startTime), 20}, sf::Color::Black);
 		game->screen->textSize(15);
-		game->screen->displayElement(std::to_string(current) + "/" + std::to_string(this->_startTime) + " frames", {400, 20}, 200, Screen::ALIGN_CENTER);
+		game->screen->displayElement(std::to_string(game->battleMgr->getCurrentFrame()) + "/" + std::to_string(this->_startTime) + " frames", {400, 20}, 200, Screen::ALIGN_CENTER);
 		game->screen->textSize(30);
 	}
 

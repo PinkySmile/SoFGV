@@ -579,6 +579,7 @@ namespace SpiralOfFate
 		dat->_roundStartTimer = this->_roundStartTimer;
 		dat->_roundEndTimer = this->_roundEndTimer;
 		dat->_nbObjects = this->_objects.size();
+		dat->_currentFrame = this->_currentFrame;
 		this->_leftCharacter->copyToBuffer((void *)ptr);
 		ptr += this->_leftCharacter->getBufferSize();
 		this->_rightCharacter->copyToBuffer((void *)ptr);
@@ -619,6 +620,7 @@ namespace SpiralOfFate
 		if (dat->random != game->battleRandom.ser.invoke_count)
 			game->battleRandom.rollback(dat->random);
 		this->_ended = dat->_ended;
+		this->_currentFrame = dat->_currentFrame;
 		this->_lastObjectId = dat->_lastObjectId;
 		this->_leftHUDData = dat->_leftHUDData;
 		this->_rightHUDData = dat->_rightHUDData;
@@ -692,6 +694,7 @@ namespace SpiralOfFate
 		)
 			this->_gameUpdate();
 
+		this->_currentFrame++;
 		if (this->_roundEndTimer <= 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
 			this->_updateRoundEndAnimation();
 		else if (this->_leftHUDData.score == FIRST_TO || this->_rightHUDData.score == FIRST_TO) {
@@ -869,6 +872,8 @@ namespace SpiralOfFate
 
 		if (dat1->random != dat2->random)
 			game->logger.fatal("BattleManager::random differs: " + std::to_string(dat1->random) + " vs " + std::to_string(dat2->random));
+		if (dat1->_currentFrame != dat2->_currentFrame)
+			game->logger.fatal("BattleManager::_currentFrame differs: " + std::to_string(dat1->_currentFrame) + " vs " + std::to_string(dat2->_currentFrame));
 		if (dat1->_ended != dat2->_ended)
 			game->logger.fatal("BattleManager::ended differs: " + std::to_string(dat1->_ended) + " vs " + std::to_string(dat2->_ended));
 		if (dat1->_lastObjectId != dat2->_lastObjectId)
@@ -998,6 +1003,11 @@ namespace SpiralOfFate
 			ptr1 += length;
 			ptr2 += length;
 		}
+	}
+
+	unsigned BattleManager::getCurrentFrame() const
+	{
+		return this->_currentFrame;
 	}
 
 	static float getTextSize(const std::string &str, const sf::Text &txt)

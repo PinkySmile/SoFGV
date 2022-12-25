@@ -770,13 +770,14 @@ namespace SpiralOfFate
 		Character::ReplayData *buffer2;
 		InGame::GameParams params;
 		unsigned magic;
+		unsigned frameCount;
 		unsigned expectedMagic = getMagic();
 		RandomWrapper::SerializedWrapper random;
 
 		if (!stream)
 			throw std::invalid_argument("Cannot load " + path + ": " + strerror(errno));
 		game->logger.info("Loading replay " + path);
-		stream.read(reinterpret_cast<char *>(&magic), 4);
+		stream.read(reinterpret_cast<char *>(&magic), sizeof(magic));
 		game->logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + std::to_string(magic));
 		if (magic != expectedMagic)
 			throw std::invalid_argument("INVALID_MAGIC");
@@ -800,8 +801,9 @@ namespace SpiralOfFate
 		stream3 >> json;
 		for (auto &elem : json)
 			stages.emplace_back(elem);
+		stream.read(reinterpret_cast<char *>(&frameCount), sizeof(frameCount));
 		stream.read(reinterpret_cast<char *>(&random), sizeof(random));
-		stream.read(reinterpret_cast<char *>(&params), 12);
+		stream.read(reinterpret_cast<char *>(&params), sizeof(params));
 		game->logger.debug("Params: stageID " + std::to_string(params.stage) + ", platformsID " + std::to_string(params.platforms) + ", musicID " + std::to_string(params.music));
 		if (params.stage >= stages.size())
 			throw std::invalid_argument("INVALID_STAGE");
@@ -810,15 +812,16 @@ namespace SpiralOfFate
 		game->battleRandom.seed(random.seed);
 		game->battleRandom.discard(random.invoke_count);
 
-		stream.read(reinterpret_cast<char *>(&P1pos), 2);
-		stream.read(reinterpret_cast<char *>(&P1palette), 2);
+
+		stream.read(reinterpret_cast<char *>(&P1pos), sizeof(P1pos));
+		stream.read(reinterpret_cast<char *>(&P1palette), sizeof(P1palette));
 		game->logger.debug("Reading P1 entry: pos " + std::to_string(P1pos) + ", pal " + std::to_string(P1palette));
 		if (P1pos >= entries.size())
 			throw std::invalid_argument("INVALID_P1POS");
 		if (P1palette >= entries[P1pos].palettes.size())
 			throw std::invalid_argument("INVALID_P1PAL");
 
-		stream.read(reinterpret_cast<char *>(&nb), 4);
+		stream.read(reinterpret_cast<char *>(&nb), sizeof(nb));
 		game->logger.debug("P1 has " + std::to_string(nb) + "inputs");
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
@@ -827,15 +830,15 @@ namespace SpiralOfFate
 		delete[] buffer;
 
 
-		stream.read(reinterpret_cast<char *>(&P2pos), 2);
-		stream.read(reinterpret_cast<char *>(&P2palette), 2);
+		stream.read(reinterpret_cast<char *>(&P2pos), sizeof(P2pos));
+		stream.read(reinterpret_cast<char *>(&P2palette), sizeof(P2palette));
 		game->logger.debug("Reading P2 entry: pos " + std::to_string(P2pos) + ", pal " + std::to_string(P2palette));
 		if (P2pos >= entries.size())
 			throw std::invalid_argument("INVALID_P2POS");
 		if (P2palette >= entries[P2pos].palettes.size())
 			throw std::invalid_argument("INVALID_P2PAL");
 
-		stream.read(reinterpret_cast<char *>(&nb), 4);
+		stream.read(reinterpret_cast<char *>(&nb), sizeof(nb));
 		game->logger.debug("P2 has " + std::to_string(nb) + "inputs");
 		buffer = new char[nb * sizeof(Character::ReplayData)];
 		stream.read(buffer, nb * sizeof(Character::ReplayData));
@@ -846,6 +849,7 @@ namespace SpiralOfFate
 
 		this->_nextScene = new ReplayInGame{
 			params,
+			frameCount,
 			stages[params.stage].platforms[params.platforms],
 			stages[params.stage],
 			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_shared<ReplayInput>(P1inputs)),

@@ -80,6 +80,7 @@ namespace SpiralOfFate
 
 		struct Data {
 			uint64_t random;
+			unsigned _currentFrame;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			int _roundStartTimer;
@@ -126,6 +127,7 @@ namespace SpiralOfFate
 		unsigned _currentRound = 0;
 		int _roundStartTimer = 0;
 		unsigned _roundEndTimer = 0;
+		unsigned _currentFrame = 0;
 		bool _ended = false;
 		HUDData _leftHUDData;
 		HUDData _rightHUDData;
@@ -181,6 +183,7 @@ namespace SpiralOfFate
 		const Character *getRightCharacter() const;
 		const std::vector<Character::ReplayData> &getLeftReplayData() const;
 		const std::vector<Character::ReplayData> &getRightReplayData() const;
+		unsigned getCurrentFrame() const;
 		void logDifference(void *data1, void *data2);
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, const Args &... args)
