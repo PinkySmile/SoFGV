@@ -4,9 +4,10 @@
 
 #include "EditableObject.hpp"
 
-EditableObject::EditableObject(const std::string &frameData)
+EditableObject::EditableObject(const std::string &frameData) :
+	_folder(frameData.substr(0, frameData.find_last_of('/')))
 {
-	this->_moves = SpiralOfFate::FrameData::loadFile(frameData);
+	this->_moves = SpiralOfFate::FrameData::loadFile(frameData, this->_folder);
 }
 
 void EditableObject::render() const

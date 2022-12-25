@@ -20,6 +20,7 @@ public:
 	unsigned _actionBlock = 0;
 	unsigned _animation = 0;
 	unsigned _animationCtr = 0;
+	std::string _folder;
 
 	EditableObject() = default;
 	EditableObject(const std::string &frameData);

@@ -603,7 +603,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.spritePath = t;
-		data.reloadTexture();
+		data.reloadTexture(object->_folder);
 	});
 	hitSound->connect("TextChanged", [&object](std::string t){
 		if (*c)
@@ -1790,7 +1790,7 @@ void	saveCallback(std::unique_ptr<EditableObject> &object)
 		SpiralOfFate::Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
 		return;
 	}
-	stream << j.dump() << std::endl;
+	stream << j.dump();
 }
 
 void	saveAsCallback(std::unique_ptr<EditableObject> &object)
@@ -1816,10 +1816,10 @@ void	saveAsCallback(std::unique_ptr<EditableObject> &object)
 	std::ofstream stream{path};
 
 	if (stream.fail()) {
-		SpiralOfFate::Utils::dispMsg("Saving failed", path + ": " + strerror(errno), MB_ICONERROR);
+		SpiralOfFate::Utils::dispMsg("Saving failed", path.string() + ": " + strerror(errno), MB_ICONERROR);
 		return;
 	}
-	stream << j.dump(4) << std::endl;
+	stream << j.dump();
 }
 
 void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
@@ -2448,7 +2448,7 @@ void	run()
 					SpiralOfFate::Utils::dispMsg("Saving failed", loadedPath + ": " + strerror(errno), MB_ICONERROR);
 					return;
 				}
-				stream << j.dump(4) << std::endl;
+				stream << j.dump();
 				SpiralOfFate::game->screen->close();
 			}, std::weak_ptr<tgui::ChildWindow>(window));
 			window->get<tgui::Button>("No")->connect("Clicked", []{
