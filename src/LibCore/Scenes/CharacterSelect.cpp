@@ -506,7 +506,7 @@ namespace SpiralOfFate
 		this->pos = json["pos"];
 		this->name = Utils::utf8ToUtf16(json["name"].get<std::string>());
 		//FIXME: Temporary hack
-		this->_class = this->name != L"Stickman";
+		this->_class = this->name == L"Stickman";
 		this->folder = folder;
 		this->data = FrameData::loadFile(folder + "/charSelect.json", folder);
 		if (this->palettes.empty())
