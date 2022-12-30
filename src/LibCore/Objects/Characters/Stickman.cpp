@@ -127,10 +127,10 @@ namespace SpiralOfFate
 	std::pair<unsigned int, std::shared_ptr<IObject>> Stickman::_spawnSubobject(unsigned int id, bool needRegister)
 	{
 		auto data = this->getCurrentFrameData();
-		auto pos = this->_position + Vector2i{
-			0,
-			data->offset.y
-		} + data->size / 2;
+		auto pos = this->_position + Vector2f{
+			data->size.x * this->_dir / 2,
+			data->offset.y + data->size.y / 2.f
+		};
 
 		if (id == 128)
 			return game->battleMgr->registerObject<Projectile>(

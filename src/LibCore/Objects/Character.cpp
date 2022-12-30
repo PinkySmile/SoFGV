@@ -3823,10 +3823,10 @@ namespace SpiralOfFate
 	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
 	{
 		auto data = this->getCurrentFrameData();
-		auto pos = this->_position + Vector2i{
-			0,
-			data->offset.y
-		} + data->size / 2;
+		auto pos = this->_position + Vector2f{
+			data->size.x * this->_dir / 2,
+			data->offset.y + data->size.y / 2.f
+		};
 
 		try {
 			return game->battleMgr->registerObject<Projectile>(
@@ -4409,6 +4409,7 @@ namespace SpiralOfFate
 
 	void Character::onMatchEnd()
 	{
+		return this->_forceStartMove(ACTION_WIN_MATCH2);
 		std::vector<unsigned> actions;
 
 		for (int i = 0; i < 4; i++)
