@@ -7,7 +7,7 @@ add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
 find_package(SFML REQUIRED)
 find_package(TGUI REQUIRED)
-include_directories(${CMAKE_SOURCE_DIR}/include ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore)
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src/LibCore ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS})
 
 
 message("SFML include dir is ${SFML_INCLUDE_DIRS}")

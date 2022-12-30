@@ -7,13 +7,16 @@ android {
         minSdkVersion 14
         targetSdkVersion 29
         versionCode 1
-        versionName "0.0.9"
+        versionName "alpha 0.1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             ndkBuild {
                 cppFlags "-fexceptions"
                 cppFlags "-std=c++17"
                 cppFlags "-frtti"
+            }
+            cmake {
+                arguments "-DCMAKE_VERBOSE_MAKEFILE=1"
             }
 
         }
@@ -31,9 +34,10 @@ android {
     externalNativeBuild {
         ndkBuild {
             path "src/main/jni/Android.mk"
-
         }
     }
+    namespace 'org.sfmldev.android'
+    ndkVersion '25.1.8937393'
 }
 
 dependencies {

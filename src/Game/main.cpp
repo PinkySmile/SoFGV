@@ -219,6 +219,81 @@ void	loadSettings()
 	SpiralOfFate::game->menu = loadMenuInputs(stream);
 }
 
+static void logEvent(sf::Event &event)
+{
+	switch (event.type) {
+	case sf::Event::Closed:                 ///< The window requested to be closed (no data)
+		SpiralOfFate::game->logger.debug("Closed");
+		break;
+	case sf::Event::Resized:                ///< The window was resized (data in event.size)
+		SpiralOfFate::game->logger.debug("Resized " + std::to_string(event.size.width) + "x" + std::to_string(event.size.height));
+		break;
+	case sf::Event::LostFocus:              ///< The window lost the focus (no data)
+		SpiralOfFate::game->logger.debug("LostFocus");
+		break;
+	case sf::Event::GainedFocus:            ///< The window gained the focus (no data)
+		SpiralOfFate::game->logger.debug("GainedFocus");
+		break;
+	case sf::Event::TextEntered:            ///< A character was entered (data in event.text)
+		SpiralOfFate::game->logger.debug("TextEntered " + std::to_string(event.text.unicode));
+		break;
+	case sf::Event::KeyPressed:             ///< A key was pressed (data in event.key)
+		SpiralOfFate::game->logger.debug("KeyPressed " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
+		break;
+	case sf::Event::KeyReleased:            ///< A key was released (data in event.key)
+		SpiralOfFate::game->logger.debug("KeyReleased " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
+		break;
+	case sf::Event::MouseWheelMoved:        ///< The mouse wheel was scrolled (data in event.mouseWheel) (deprecated)
+		SpiralOfFate::game->logger.debug("MouseWheelMoved");
+		break;
+	case sf::Event::MouseWheelScrolled:     ///< The mouse wheel was scrolled (data in event.mouseWheelScroll)
+		SpiralOfFate::game->logger.debug("MouseWheelScrolled");
+		break;
+	case sf::Event::MouseButtonPressed:     ///< A mouse button was pressed (data in event.mouseButton)
+		SpiralOfFate::game->logger.debug("MouseButtonPressed");
+		break;
+	case sf::Event::MouseButtonReleased:    ///< A mouse button was released (data in event.mouseButton)
+		SpiralOfFate::game->logger.debug("MouseButtonReleased");
+		break;
+	case sf::Event::MouseMoved:             ///< The mouse cursor moved (data in event.mouseMove)
+		SpiralOfFate::game->logger.debug("MouseMoved");
+		break;
+	case sf::Event::MouseEntered:           ///< The mouse cursor entered the area of the window (no data)
+		SpiralOfFate::game->logger.debug("MouseEntered");
+		break;
+	case sf::Event::MouseLeft:              ///< The mouse cursor left the area of the window (no data)
+		SpiralOfFate::game->logger.debug("MouseLeft");
+		break;
+	case sf::Event::JoystickButtonPressed:  ///< A joystick button was pressed (data in event.joystickButton)
+		SpiralOfFate::game->logger.debug("JoystickButtonPressed " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
+		break;
+	case sf::Event::JoystickButtonReleased: ///< A joystick button was released (data in event.joystickButton)
+		SpiralOfFate::game->logger.debug("JoystickButtonReleased " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
+		break;
+	case sf::Event::JoystickMoved:          ///< The joystick moved along an axis (data in event.joystickMove)
+		SpiralOfFate::game->logger.debug("JoystickMoved " + std::to_string(event.joystickMove.joystickId) + ": " + std::to_string(event.joystickMove.axis) + " " + std::to_string(event.joystickMove.position));
+		break;
+	case sf::Event::JoystickConnected:      ///< A joystick was connected (data in event.joystickConnect)
+		SpiralOfFate::game->logger.debug("JoystickConnected " + std::to_string(event.joystickConnect.joystickId));
+		break;
+	case sf::Event::JoystickDisconnected:   ///< A joystick was disconnected (data in event.joystickConnect)
+		SpiralOfFate::game->logger.debug("JoystickDisconnected " + std::to_string(event.joystickConnect.joystickId));
+		break;
+	case sf::Event::TouchBegan:             ///< A touch event began (data in event.touch)
+		SpiralOfFate::game->logger.debug("TouchBegan " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		break;
+	case sf::Event::TouchMoved:             ///< A touch moved (data in event.touch)
+		SpiralOfFate::game->logger.debug("TouchMoved " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		break;
+	case sf::Event::TouchEnded:             ///< A touch event ended (data in event.touch)
+		SpiralOfFate::game->logger.debug("TouchEnded " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		break;
+	case sf::Event::SensorChanged:          ///< A sensor value changed (data in event.sensor)
+		SpiralOfFate::game->logger.debug("SensorChanged");
+		break;
+	}
+}
+
 void	run()
 {
 	sf::Event event;
@@ -271,6 +346,9 @@ void	run()
 		SpiralOfFate::game->screen->display();
 
 		while (SpiralOfFate::game->screen->pollEvent(event)) {
+#ifdef __ANDROID__
+			logEvent(event);
+#endif
 			if (event.type == sf::Event::Closed)
 				SpiralOfFate::game->screen->close();
 			SpiralOfFate::game->scene->consumeEvent(event);
@@ -282,28 +360,34 @@ void	run()
 
 int	main()
 {
+	int ret = EXIT_SUCCESS;
+
 #ifdef _WIN32
 	SetUnhandledExceptionFilter(UnhandledExFilter);
 #endif
 
-	#if !defined(_DEBUG) || defined(_WIN32)
+#if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	try {
-	#endif
+#endif
 		new SpiralOfFate::Game();
 		SpiralOfFate::game->logger.info("Starting game->");
 		run();
 		SpiralOfFate::game->logger.info("Goodbye !");
-	#if !defined(_DEBUG) || defined(_WIN32)
+#if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	} catch (std::exception &e) {
 		if (SpiralOfFate::game) {
 			SpiralOfFate::game->logger.fatal(e.what());
 			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
 		} else
 			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
-		delete SpiralOfFate::game;
-		return EXIT_FAILURE;
+		ret = EXIT_FAILURE;
 	}
-	#endif
+#endif
 	delete SpiralOfFate::game;
-	return EXIT_SUCCESS;
+#ifdef __ANDROID__
+	// In android, it is possible to exit the app without killing the process.
+	// The main gets called again when the app is restarted so we need to make sure the global is set to null.
+	SpiralOfFate::game = nullptr;
+#endif
+	return ret;
 }

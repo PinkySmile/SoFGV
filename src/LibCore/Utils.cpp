@@ -27,7 +27,9 @@
 
 namespace SpiralOfFate::Utils
 {
+#ifndef __ANDROID__
 	static tgui::Theme *theme = nullptr;
+#endif
 	static const std::map<std::string, std::string> _icons{
 		{"folder", "assets/icons/folder.png"     },
 		{".rar",   "assets/icons/archive.png"    },
@@ -84,6 +86,7 @@ namespace SpiralOfFate::Utils
 		{"",       "assets/icons/unknownFile.png"},
 	};
 
+#ifndef __ANDROID__
 	tgui::Theme &getTheme()
 	{
 		if (!theme)
@@ -98,6 +101,7 @@ namespace SpiralOfFate::Utils
 		if (renderer)
 			widget->setRenderer(renderer);
 	}
+#endif
 
 	std::string wstringToUtf8(const std::wstring& str)
 	{
