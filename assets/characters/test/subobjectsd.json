@@ -1,0 +1,11 @@
+[
+  {
+    "index":0,
+    "action":0,
+    "spawn_offset":{
+      "anchor":"owner",
+      "x":0,
+      "y":96
+    }
+  }
+]

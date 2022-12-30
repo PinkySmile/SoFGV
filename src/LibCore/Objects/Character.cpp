@@ -1359,7 +1359,11 @@ namespace SpiralOfFate
 			return true;
 		if ((this->_forceBlock & 7) && ((this->_forceBlock & RANDOM_BLOCK) == 0 || game->random() % 8 != 0) && data->dFlag.canBlock)
 			return true;
-		return data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock;
+		if (data->dFlag.neutralBlock || data->dFlag.spiritBlock || data->dFlag.matterBlock || data->dFlag.voidBlock)
+			return true;
+		if (data->dFlag.lowBlock || data->dFlag.highBlock)
+			return true;
+		return isBlockingAction(this->_action);
 	}
 
 	void Character::_forceStartMove(unsigned int action)
@@ -3440,6 +3444,8 @@ namespace SpiralOfFate
 	void Character::_blockMove(Object *other, const FrameData &data)
 	{
 		auto myData = this->getCurrentFrameData();
+		bool blkAction = isBlockingAction(this->_action);
+		bool pressed = this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT);
 		bool low = (
 			this->_input->isPressed(INPUT_DOWN) ||
 			(this->_forceBlock & 7) == LOW_BLOCK ||
@@ -3496,15 +3502,15 @@ namespace SpiralOfFate
 			low = height & 2;
 
 		bool wrongBlock =
-			((height & 1) && !myData->dFlag.lowBlock && (!low || !myData->dFlag.canBlock)) ||
-			((height & 2) && !myData->dFlag.highBlock && (low || !myData->dFlag.canBlock));
+			((height & 1) && !myData->dFlag.lowBlock && (!low || (!blkAction && !myData->dFlag.canBlock))) ||
+			((height & 2) && !myData->dFlag.highBlock && (low || (!blkAction && !myData->dFlag.canBlock)));
 
 		if (
 			(
 				(
 					(this->_forceBlock & 7) || this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT)
 				) && myData->dFlag.canBlock
-			) || isBlockingAction(this->_action)
+			) || blkAction
 		) {
 			if (wrongBlock) {
 				if (this->_guardCooldown)
