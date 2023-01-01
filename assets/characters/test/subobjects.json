@@ -7,6 +7,10 @@
                     "block_opponent_hit_stop": 4,
                     "block_player_hit_stop": 4,
                     "block_stun": 8,
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 0
+                    },
                     "damage": 700,
                     "defense_flag": 35913728,
                     "guard_damage": 20,
