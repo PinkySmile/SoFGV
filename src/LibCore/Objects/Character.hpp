@@ -366,9 +366,12 @@ namespace SpiralOfFate
 		struct ProjectileData {
 			unsigned action;
 			unsigned maxHits;
+			unsigned endBlock;
 			Vector2f offset;
 			Vector2<ProjectileAnchor> anchor{ANCHOR_OWNER, ANCHOR_OWNER};
 			ProjectileDirection dir;
+			bool loop;
+			bool disableOnHit;
 		};
 #pragma pack(push, 1)
 		struct LastInput {
@@ -757,6 +760,7 @@ namespace SpiralOfFate
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
 		const FrameData *getCurrentFrameData() const override;
+		bool isHit() const;
 
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();

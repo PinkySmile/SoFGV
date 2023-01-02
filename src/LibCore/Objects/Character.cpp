@@ -3843,7 +3843,10 @@ namespace SpiralOfFate
 				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
 				id,
-				pdat.maxHits
+				pdat.maxHits,
+				pdat.loop,
+				pdat.endBlock,
+				pdat.disableOnHit
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
@@ -4671,6 +4674,9 @@ namespace SpiralOfFate
 
 			pdat.action = i["action"];
 			pdat.maxHits = i["hits"];
+			pdat.loop = i["loop"];
+			pdat.endBlock = i["end_block"];
+			pdat.disableOnHit = i["disable_on_hit"];
 			pdat.offset.x = i["spawn_offset"]["x"];
 			pdat.offset.y = i["spawn_offset"]["y"];
 			pdat.anchor.x = Character::anchorFromString(i["spawn_offset"]["anchorX"]);
@@ -4727,5 +4733,10 @@ namespace SpiralOfFate
 			return !this->_opponent->_direction;
 		}
 		my_assert(false);
+	}
+
+	bool Character::isHit() const
+	{
+		return isHitAction(this->_action);
 	}
 }

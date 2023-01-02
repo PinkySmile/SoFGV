@@ -9,7 +9,10 @@
       "y": 96
     },
     "dir": "front",
-    "hits": 1
+    "hits": 1,
+    "loop": true,
+    "disable_on_hit": true,
+    "end_block": 0
   },
   {
     "index": 128,
@@ -21,7 +24,10 @@
       "y": 94
     },
     "dir": "front",
-    "hits": 4
+    "hits": 4,
+    "loop": true,
+    "disable_on_hit": false,
+    "end_block": 0
   },
   {
     "index": 129,
@@ -33,6 +39,9 @@
       "y": 94
     },
     "dir": "front",
-    "hits": 1
+    "hits": 1,
+    "loop": true,
+    "disable_on_hit": false,
+    "end_block": 1
   }
 ]

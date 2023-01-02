@@ -14,20 +14,39 @@ namespace SpiralOfFate
 	private:
 		struct Data {
 			unsigned maxHit;
-			unsigned nbHit;
+			bool disabled;
 		};
 
-		unsigned maxHit;
-		unsigned nbHit = 0;
-		bool owner;
-		unsigned id;
+		// Game State
+		bool _disabled = false;
+		unsigned _nbHit = 0;
+
+		// Non Game state
+		unsigned _maxHit;
+		unsigned _id;
+		unsigned _endBlock;
+		bool _owner;
+		bool _loop;
+		bool _disableOnHit;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
+		void _disableObject();
 
 	public:
-		Projectile(bool owner, unsigned id, unsigned maxHit = 1);
-		Projectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id, unsigned maxHit = 1);
+		Projectile(bool owner, unsigned id, unsigned maxHit, bool loop, unsigned endBlock, bool disableOnHit);
+		Projectile(
+			const std::vector<std::vector<FrameData>> &frameData,
+			unsigned team,
+			bool direction,
+			Vector2f pos,
+			bool owner,
+			unsigned id,
+			unsigned maxHit,
+			bool loop,
+			unsigned endBlock,
+			bool disableOnHit
+		);
 		bool isDead() const override;
 		void update() override;
 		unsigned int getClassId() const override;
@@ -39,6 +58,7 @@ namespace SpiralOfFate
 		void restoreFromBuffer(void *data) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		void getHit(IObject &other, const FrameData *data) override;
+		bool hits(const IObject &other) const override;
 	};
 }
 
