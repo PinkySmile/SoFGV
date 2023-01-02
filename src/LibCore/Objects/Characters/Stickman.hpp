@@ -57,11 +57,10 @@ namespace SpiralOfFate
 		void _mutateHitFramedata(FrameData &framedata) const override;
 		void _allyBuffEffect(FrameData &framedata) const;
 		void _enemyBuffEffect(FrameData &framedata) const;
-		std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubobject(unsigned int id, bool needRegister) override;
 
 	public:
 		Stickman() = default;
-		Stickman(unsigned index, const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		Stickman(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		const FrameData *getCurrentFrameData() const override;
 		unsigned int getClassId() const override;
 		void update() override;

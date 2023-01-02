@@ -401,7 +401,7 @@ namespace SpiralOfFate
 		this->_fakeFrameData.setSlave();
 	}
 
-	Character::Character(unsigned index, const std::string &frameData, const std::string &subobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		_input(std::move(input)),
 		index(index)
 	{
@@ -422,10 +422,11 @@ namespace SpiralOfFate
 		this->_text2.setCharacterSize(10);
 		this->_limit.fill(0);
 		//TODO
-		this->_moves = FrameData::loadFile(frameData, frameData.substr(0, frameData.find_last_of('/')), palette);
+		this->_moves = FrameData::loadFile(folder + "/framedata.json", folder, palette);
 		//TODO
-		this->_subObjectsData = FrameData::loadFile(subobjFrameData, subobjFrameData.substr(0, subobjFrameData.find_last_of('/')), palette);
+		this->_subObjectsData = FrameData::loadFile(folder + "/subobj_data.json", folder, palette);
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
+		this->_loadProjectileData(folder + "/subobjects.json");
 	}
 
 	Character::~Character()
@@ -3826,23 +3827,23 @@ namespace SpiralOfFate
 			this->_consumeMatterMana(data->manaCost);
 	}
 
-	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubobject(unsigned id, bool needRegister)
+	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubObject(unsigned id, bool needRegister)
 	{
-		auto data = this->getCurrentFrameData();
-		auto pos = this->_position + Vector2f{
-			data->size.x * this->_dir / 2,
-			data->offset.y + data->size.y / 2.f
-		};
+		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+
+		auto &pdat = this->_projectileData[id];
+		bool dir = this->_getProjectileDirection(pdat);
 
 		try {
 			return game->battleMgr->registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(id),
 				this->_team,
-				this->_direction,
-				pos,
+				dir,
+				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
-				id
+				id,
+				pdat.maxHits
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
@@ -4295,7 +4296,7 @@ namespace SpiralOfFate
 			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
 				this->_subobjects[data->subObjectSpawn - 1].second->kill();
 
-			auto obj = this->_spawnSubobject(data->subObjectSpawn - 1);
+			auto obj = this->_spawnSubObject(data->subObjectSpawn - 1);
 
 			if (data->subObjectSpawn > 128)
 				return;
@@ -4623,5 +4624,108 @@ namespace SpiralOfFate
 		}
 
 		return length + sizeof(Data) + sizeof(LastInput) * dat1->_nbLastInputs + sizeof(ReplayData) * dat1->_nbReplayInputs;
+	}
+
+	Character::ProjectileAnchor Character::anchorFromString(const std::string &str)
+	{
+		if (str == "owner")
+			return ANCHOR_OWNER;
+		if (str == "opponent")
+			return ANCHOR_OPPONENT;
+		if (str == "stage_min")
+			return ANCHOR_STAGE_MIN;
+		if (str == "stage_max")
+			return ANCHOR_STAGE_MAX;
+		if (str == "stage_center")
+			return ANCHOR_STAGE_CENTER;
+		throw std::invalid_argument("Invalid anchor '" + str + "'");
+	}
+
+	Character::ProjectileDirection Character::directionFromString(const std::string &str)
+	{
+		if (str == "front")
+			return DIRECTION_FRONT;
+		if (str == "back")
+			return DIRECTION_BACK;
+		if (str == "left")
+			return DIRECTION_LEFT;
+		if (str == "right")
+			return DIRECTION_RIGHT;
+		if (str == "op_front")
+			return DIRECTION_OP_FRONT;
+		if (str == "op_back")
+			return DIRECTION_OP_BACK;
+		throw std::invalid_argument("Invalid dir '" + str + "'");
+	}
+
+	void Character::_loadProjectileData(const std::string &path)
+	{
+		std::ifstream stream{path};
+		nlohmann::json j;
+
+		if (stream.fail())
+			throw std::invalid_argument(path + ": " + strerror(errno));
+		stream >> j;
+		for (auto &i : j)  {
+			ProjectileData pdat;
+
+			pdat.action = i["action"];
+			pdat.maxHits = i["hits"];
+			pdat.offset.x = i["spawn_offset"]["x"];
+			pdat.offset.y = i["spawn_offset"]["y"];
+			pdat.anchor.x = Character::anchorFromString(i["spawn_offset"]["anchorX"]);
+			pdat.anchor.y = Character::anchorFromString(i["spawn_offset"]["anchorY"]);
+			pdat.dir = Character::directionFromString(i["dir"]);
+			this->_projectileData[i["index"]] = pdat;
+		}
+	}
+
+	Vector2f Character::_calcProjectilePosition(const ProjectileData &pdat, float dir)
+	{
+		auto data = this->getCurrentFrameData();
+		Vector2f pos{
+			this->_getAnchoredPos(pdat, false),
+			this->_getAnchoredPos(pdat, true)
+		};
+
+		pos.x += pdat.offset.x * dir;
+		pos.y += pdat.offset.y;
+		return pos;
+	}
+
+	float Character::_getAnchoredPos(const Character::ProjectileData &data, bool y)
+	{
+		switch ((&data.anchor.x)[y]) {
+		case ANCHOR_OWNER:
+			return (&this->_position.x)[y];
+		case ANCHOR_OPPONENT:
+			return (&this->_opponent->_position.x)[y];
+		case ANCHOR_STAGE_MIN:
+			return 0;
+		case ANCHOR_STAGE_MAX:
+			return 1000;
+		case ANCHOR_STAGE_CENTER:
+			return 500;
+		}
+		my_assert(false);
+	}
+
+	bool Character::_getProjectileDirection(const Character::ProjectileData &data)
+	{
+		switch (data.dir) {
+		case DIRECTION_FRONT:
+			return this->_direction;
+		case DIRECTION_BACK:
+			return !this->_direction;
+		case DIRECTION_LEFT:
+			return false;
+		case DIRECTION_RIGHT:
+			return true;
+		case DIRECTION_OP_FRONT:
+			return this->_opponent->_direction;
+		case DIRECTION_OP_BACK:
+			return !this->_opponent->_direction;
+		}
+		my_assert(false);
 	}
 }

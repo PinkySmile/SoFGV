@@ -112,8 +112,7 @@ namespace SpiralOfFate
 		case 1:
 			chr = new Stickman{
 				static_cast<unsigned>(palette << 16 | pos),
-				entry.folder + "/framedata.json",
-				entry.folder + "/subobjects.json",
+				entry.folder,
 				palettes,
 				std::move(input)
 			};
@@ -121,8 +120,7 @@ namespace SpiralOfFate
 		default:
 			chr = new Character{
 				static_cast<unsigned>(palette << 16 | pos),
-				entry.folder + "/framedata.json",
-				entry.folder + "/subobjects.json",
+				entry.folder,
 				palettes,
 				std::move(input)
 			};

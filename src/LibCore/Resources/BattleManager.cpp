@@ -661,7 +661,8 @@ namespace SpiralOfFate
 				auto subobjid = *(unsigned *)ptr;
 
 				ptr += sizeof(unsigned);
-				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubobject(subobjid, false).second;
+				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(subobjid,
+													      false).second;
 				break;
 			}
 			default:
@@ -982,7 +983,8 @@ namespace SpiralOfFate
 					game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::subobjectId differs: " + std::to_string(subobjid1) + " vs " + std::to_string(subobjid2));
 				ptr1 += sizeof(unsigned);
 				ptr2 += sizeof(unsigned);
-				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubobject(subobjid1, false).second;
+				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(
+					subobjid1, false).second;
 				break;
 			}
 			default:

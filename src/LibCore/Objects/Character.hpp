@@ -348,6 +348,28 @@ namespace SpiralOfFate
 			BLOCK_AFTER_HIT,
 			RANDOM_BLOCK = 8
 		};
+		enum ProjectileAnchor {
+			ANCHOR_OWNER,
+			ANCHOR_OPPONENT,
+			ANCHOR_STAGE_MIN,
+			ANCHOR_STAGE_MAX,
+			ANCHOR_STAGE_CENTER,
+		};
+		enum ProjectileDirection {
+			DIRECTION_FRONT,
+			DIRECTION_BACK,
+			DIRECTION_LEFT,
+			DIRECTION_RIGHT,
+			DIRECTION_OP_FRONT,
+			DIRECTION_OP_BACK,
+		};
+		struct ProjectileData {
+			unsigned action;
+			unsigned maxHits;
+			Vector2f offset;
+			Vector2<ProjectileAnchor> anchor{ANCHOR_OWNER, ANCHOR_OWNER};
+			ProjectileDirection dir;
+		};
 #pragma pack(push, 1)
 		struct LastInput {
 			unsigned nbFrames;
@@ -564,6 +586,7 @@ namespace SpiralOfFate
 		sf::Text _text2;
 		mutable FrameData _fakeFrameData;
 		Character *_opponent = nullptr;
+		std::map<unsigned, ProjectileData> _projectileData;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
 		unsigned _maxOdCooldown = 0;
@@ -621,14 +644,20 @@ namespace SpiralOfFate
 		virtual bool _consumeVoidMana(float cost);
 		virtual bool _consumeMatterMana(float cost);
 		virtual bool _consumeSpiritMana(float cost);
-		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubobject(unsigned id, bool needRegister = true);
+		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubObject(unsigned id, bool needRegister = true);
 
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);
 		static bool isOverdriveAction(unsigned action);
 		static bool isRomanCancelAction(unsigned action);
 		static bool isHitAction(unsigned int action);
+		static ProjectileAnchor anchorFromString(const std::string &str);
+		static ProjectileDirection directionFromString(const std::string &str);
 
+		bool _getProjectileDirection(const ProjectileData &data);
+		float _getAnchoredPos(const Character::ProjectileData &data, bool y);
+		Vector2f _calcProjectilePosition(const ProjectileData &data, float dir);
+		void _loadProjectileData(const std::string &path);
 		void _tickMove() override;
 		void _applyNewAnimFlags() override;
 		void _applyMoveAttributes() override;
@@ -688,7 +717,7 @@ namespace SpiralOfFate
 		bool startedAttack = false;
 
 		Character();
-		Character(unsigned index, const std::string &frameData, const std::string &suobjFrameData, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~Character() override;
 		void setOpponent(Character *opponent);
 		bool hits(const IObject &other) const override;

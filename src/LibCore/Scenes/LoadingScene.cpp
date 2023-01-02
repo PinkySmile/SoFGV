@@ -13,21 +13,22 @@ namespace SpiralOfFate
 		auto fctCopy = new std::function<IScene *(LoadingScene *)>(fct);
 
 		std::thread{[this, fctCopy]{
+#if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 			try {
+#endif
 				auto val = (*fctCopy)(this);
 
 				this->setStatus("Cleaning up...");
 				delete fctCopy;
 				this->_nextScene = val;
+#if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 			} catch (std::exception &e) {
 				this->_errored = true;
 				this->setStatus(e.what());
 				game->logger.error(e.what());
 				//TODO: What to here ?
-#ifdef _DEBUG
-				throw;
-#endif
 			}
+#endif
 		}}.detach();
 	}
 

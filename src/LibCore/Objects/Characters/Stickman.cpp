@@ -9,13 +9,12 @@ namespace SpiralOfFate
 {
 	Stickman::Stickman(
 		unsigned index,
-		const std::string &frameData,
-		const std::string &subobjFrameData,
+		const std::string &folder,
 		const std::pair<std::vector<SpiralOfFate::Color>,
 		std::vector<SpiralOfFate::Color>> &palette,
 		std::shared_ptr<IInput> input
 	) :
-		Character(index, frameData, subobjFrameData, palette, input)
+		Character(index, folder, palette, input)
 	{
 		this->_fakeFrameData.setSlave();
 		game->logger.debug("Stickman class created");
@@ -122,28 +121,6 @@ namespace SpiralOfFate
 		this->_oldAction = dat->_oldAction;
 		this->_buffTimer = dat->_buffTimer;
 		game->logger.verbose("Restored Stickman @" + std::to_string((uintptr_t)dat));
-	}
-
-	std::pair<unsigned int, std::shared_ptr<IObject>> Stickman::_spawnSubobject(unsigned int id, bool needRegister)
-	{
-		auto data = this->getCurrentFrameData();
-		auto pos = this->_position + Vector2f{
-			data->size.x * this->_dir / 2,
-			data->offset.y + data->size.y / 2.f
-		};
-
-		if (id == 128)
-			return game->battleMgr->registerObject<Projectile>(
-				needRegister,
-				this->_subObjectsData.at(id),
-				this->_team,
-				this->_direction,
-				pos,
-				this->_team,
-				id,
-				4
-			);
-		return Character::_spawnSubobject(id, needRegister);
 	}
 
 	void Stickman::onMatchEnd()
