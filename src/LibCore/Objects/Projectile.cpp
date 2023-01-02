@@ -215,13 +215,13 @@ namespace SpiralOfFate
 			this->_dead = true;
 			return;
 		}
+		this->_disabled = true;
 		if (this->_anim == Character::ANIMATION_BLOCK) {
 			this->_actionBlock = this->_animationData;
 			this->_animation = 0;
 			this->_applyNewAnimFlags();
 			return;
 		}
-		this->_disabled = true;
 		for (auto &move : this->_moves)
 			for (auto &block : move.second)
 				for (auto &frame : block) {

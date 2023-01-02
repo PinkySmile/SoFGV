@@ -1771,7 +1771,7 @@ void	saveCallback(std::unique_ptr<EditableObject> &object)
 	if (!object)
 		return;
 	if (loadedPath.empty())
-		loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+		loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}}).string();
 	if (loadedPath.empty())
 		return;
 
@@ -1802,7 +1802,7 @@ void	saveAsCallback(std::unique_ptr<EditableObject> &object)
 
 	if (path.empty())
 		return;
-	loadedPath = path;
+	loadedPath = path.string();
 
 	nlohmann::json j = nlohmann::json::array();
 
@@ -1879,15 +1879,15 @@ void	openFileCallback(std::unique_ptr<EditableObject> &object, tgui::MenuBar::Pt
 		return;
 	try {
 		object.reset();
-		object = std::make_unique<EditableObject>(path);
-		loadedPath = path;
+		object = std::make_unique<EditableObject>(path.string());
+		loadedPath = path.string();
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, true);
 		bar->setMenuEnabled({"Remove"}, true);
 		bar->setMenuEnabled({"Misc"}, true);
 	} catch (std::exception &e) {
 		SpiralOfFate::Utils::dispMsg("Error", e.what(), MB_ICONERROR);
-		loadedPath = path;
+		loadedPath = path.string();
 		refreshRightPanel(gui, object);
 		bar->setMenuEnabled({"New"}, false);
 		bar->setMenuEnabled({"Remove"}, false);
@@ -2428,7 +2428,7 @@ void	run()
 			window->loadWidgetsFromFile("assets/gui/quitConfirm.gui");
 			window->get<tgui::Button>("Yes")->connect("Clicked", [&object](std::weak_ptr<tgui::ChildWindow> self){
 				if (loadedPath.empty())
-					loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}});
+					loadedPath = SpiralOfFate::Utils::saveFileDialog("Save framedata", "assets", {{".*\\.json", "Frame data file"}}).string();
 				if (loadedPath.empty()) {
 					self.lock()->close();
 					return;
