@@ -8,6 +8,7 @@
 #include "Character.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
+#include "Projectile.hpp"
 #ifndef max
 #define max(x, y) (x > y ? x : y)
 #endif
@@ -3846,7 +3847,9 @@ namespace SpiralOfFate
 				pdat.maxHits,
 				pdat.loop,
 				pdat.endBlock,
-				pdat.disableOnHit
+				pdat.disableOnHit,
+				pdat.animationData,
+				pdat.anim
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
@@ -4419,7 +4422,6 @@ namespace SpiralOfFate
 
 	void Character::onMatchEnd()
 	{
-		return this->_forceStartMove(ACTION_WIN_MATCH2);
 		std::vector<unsigned> actions;
 
 		for (int i = 0; i < 4; i++)
@@ -4574,38 +4576,14 @@ namespace SpiralOfFate
 		if (dat1->_guardBar != dat2->_guardBar)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
-			char buffer[50 * 4 + 5];
+			char buffer[sizeof(dat1->_specialInputs) * 4 + 5];
 
-			sprintf(
-				buffer,
-				"%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%04x vs %08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%04x",
-				((unsigned *)dat1->_specialInputs)[0],
-				((unsigned *)dat1->_specialInputs)[1],
-				((unsigned *)dat1->_specialInputs)[2],
-				((unsigned *)dat1->_specialInputs)[3],
-				((unsigned *)dat1->_specialInputs)[4],
-				((unsigned *)dat1->_specialInputs)[5],
-				((unsigned *)dat1->_specialInputs)[6],
-				((unsigned *)dat1->_specialInputs)[7],
-				((unsigned *)dat1->_specialInputs)[8],
-				((unsigned *)dat1->_specialInputs)[9],
-				((unsigned *)dat1->_specialInputs)[10],
-				((unsigned *)dat1->_specialInputs)[11],
-				((unsigned short *)dat1->_specialInputs)[24],
-				((unsigned *)dat2->_specialInputs)[0],
-				((unsigned *)dat2->_specialInputs)[1],
-				((unsigned *)dat2->_specialInputs)[2],
-				((unsigned *)dat2->_specialInputs)[3],
-				((unsigned *)dat2->_specialInputs)[4],
-				((unsigned *)dat2->_specialInputs)[5],
-				((unsigned *)dat2->_specialInputs)[6],
-				((unsigned *)dat2->_specialInputs)[7],
-				((unsigned *)dat2->_specialInputs)[8],
-				((unsigned *)dat2->_specialInputs)[9],
-				((unsigned *)dat2->_specialInputs)[10],
-				((unsigned *)dat2->_specialInputs)[11],
-				((unsigned short *)dat2->_specialInputs)[24]
-			);
+			*buffer = 0;
+			for (unsigned char input : dat1->_specialInputs)
+				sprintf(buffer, "%s%02X", buffer, input);
+			strcat(buffer, " vs ");
+			for (unsigned char input : dat2->_specialInputs)
+				sprintf(buffer, "%s%02X", buffer, input);
 			game->logger.fatal(std::string(msgStart) + "Character::_specialInputs: " + buffer);
 		}
 		if (dat1->_limit[0] != dat2->_limit[0])
@@ -4661,6 +4639,17 @@ namespace SpiralOfFate
 		throw std::invalid_argument("Invalid dir '" + str + "'");
 	}
 
+	Character::ProjectileAnimation Character::animationFromString(const std::string &str)
+	{
+		if (str == "fade")
+			return ANIMATION_FADE;
+		if (str == "disappear")
+			return ANIMATION_DISAPPEAR;
+		if (str == "block")
+			return ANIMATION_BLOCK;
+		throw std::invalid_argument("Invalid animation '" + str + "'");
+	}
+
 	void Character::_loadProjectileData(const std::string &path)
 	{
 		std::ifstream stream{path};
@@ -4682,6 +4671,8 @@ namespace SpiralOfFate
 			pdat.anchor.x = Character::anchorFromString(i["spawn_offset"]["anchorX"]);
 			pdat.anchor.y = Character::anchorFromString(i["spawn_offset"]["anchorY"]);
 			pdat.dir = Character::directionFromString(i["dir"]);
+			pdat.animationData = i.contains("animation_data") ? i["animation_data"].get<int>() : 0;
+			pdat.anim = i.contains("disable_animation") ? Character::animationFromString(i["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR;
 			this->_projectileData[i["index"]] = pdat;
 		}
 	}

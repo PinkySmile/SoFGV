@@ -7,18 +7,42 @@
 
 namespace SpiralOfFate
 {
-	Projectile::Projectile(bool owner, unsigned int id, unsigned maxHit, bool loop, unsigned endBlock, bool disableOnHit) :
+	Projectile::Projectile(
+		bool owner,
+		unsigned id,
+		unsigned maxHit,
+		bool loop,
+		unsigned endBlock,
+		bool disableOnHit,
+		unsigned animationData,
+		Character::ProjectileAnimation anim
+	) :
 		_maxHit(maxHit),
 		_id(id),
 		_endBlock(endBlock),
 		_owner(owner),
 		_loop(loop),
-		_disableOnHit(disableOnHit)
+		_disableOnHit(disableOnHit),
+		_animationData(animationData),
+		_anim(anim)
 	{
 	}
 
-	Projectile::Projectile(const std::vector<std::vector<FrameData>> &frameData, unsigned team, bool direction, Vector2f pos, bool owner, unsigned id, unsigned maxHit, bool loop, unsigned endBlock, bool disableOnHit) :
-		Projectile(owner, id, maxHit, loop, endBlock, disableOnHit)
+	Projectile::Projectile(
+		const std::vector<std::vector<FrameData>> &frameData,
+		unsigned team,
+		bool direction,
+		Vector2f pos,
+		bool owner,
+		unsigned id,
+		unsigned maxHit,
+		bool loop,
+		unsigned endBlock,
+		bool disableOnHit,
+		unsigned animationData,
+		Character::ProjectileAnimation anim
+	) :
+		Projectile(owner, id, maxHit, loop, endBlock, disableOnHit, animationData, anim)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -95,6 +119,11 @@ namespace SpiralOfFate
 	{
 		if (this->_disableOnHit && (this->_owner ? game->battleMgr->getRightCharacter() : game->battleMgr->getLeftCharacter())->isHit())
 			this->_disableObject();
+		if (this->_disabled && this->_anim == Character::ANIMATION_FADE) {
+			this->_sprite.setColor({255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_animationCtr / this->_animationData)});
+			this->_animationCtr++;
+			this->_dead |= this->_animationCtr > this->_animationData;
+		}
 		Object::update();
 		this->_dead |=
 			this->_position.x < -300 ||
@@ -128,6 +157,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::copyToBuffer(data);
+		dat->animationCtr = this->_animationCtr;
 		dat->disabled = this->_disabled;
 		dat->maxHit = this->_maxHit;
 	}
@@ -137,17 +167,18 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_animationCtr = dat->animationCtr;
 		this->_disabled = dat->disabled;
 		this->_maxHit = dat->maxHit;
 	}
 
 	void Projectile::_onMoveEnd(const FrameData &lastData)
 	{
-		if (this->_endBlock >= this->_actionBlock) {
+		if (this->_actionBlock > this->_endBlock) {
 			this->_dead = true;
 			return;
 		}
-		if (this->_endBlock != this->_actionBlock) {
+		if (this->_actionBlock != this->_endBlock) {
 			this->_actionBlock++;
 			my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			return Object::_onMoveEnd(lastData);
@@ -167,6 +198,8 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		if (dat1->animationCtr != dat2->animationCtr)
+			game->logger.fatal(std::string(msgStart) + "Projectile::animationCtr: " + std::to_string(dat1->animationCtr) + " vs " + std::to_string(dat2->animationCtr));
 		if (dat1->disabled != dat2->disabled)
 			game->logger.fatal(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled) + " vs " + std::to_string(dat2->disabled));
 		if (dat1->maxHit != dat2->maxHit)
@@ -178,6 +211,16 @@ namespace SpiralOfFate
 	{
 		if (this->_disabled)
 			return;
+		if (this->_anim == Character::ANIMATION_DISAPPEAR) {
+			this->_dead = true;
+			return;
+		}
+		if (this->_anim == Character::ANIMATION_BLOCK) {
+			this->_actionBlock = this->_animationData;
+			this->_animation = 0;
+			this->_applyNewAnimFlags();
+			return;
+		}
 		this->_disabled = true;
 		for (auto &move : this->_moves)
 			for (auto &block : move.second)

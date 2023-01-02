@@ -10,7 +10,6 @@
 #include "Object.hpp"
 #include "Inputs/IInput.hpp"
 #include "Data/Color.hpp"
-#include "Projectile.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS
@@ -303,6 +302,11 @@ namespace SpiralOfFate
 
 	class Character : public Object {
 	public:
+		enum ProjectileAnimation {
+			ANIMATION_DISAPPEAR,
+			ANIMATION_FADE,
+			ANIMATION_BLOCK
+		};
 		struct ReplayData {
 			bool n : 1;
 			bool m : 1;
@@ -367,8 +371,10 @@ namespace SpiralOfFate
 			unsigned action;
 			unsigned maxHits;
 			unsigned endBlock;
+			unsigned animationData;
 			Vector2f offset;
 			Vector2<ProjectileAnchor> anchor{ANCHOR_OWNER, ANCHOR_OWNER};
+			ProjectileAnimation anim;
 			ProjectileDirection dir;
 			bool loop;
 			bool disableOnHit;
@@ -656,6 +662,7 @@ namespace SpiralOfFate
 		static bool isHitAction(unsigned int action);
 		static ProjectileAnchor anchorFromString(const std::string &str);
 		static ProjectileDirection directionFromString(const std::string &str);
+		static ProjectileAnimation animationFromString(const std::string &str);
 
 		bool _getProjectileDirection(const ProjectileData &data);
 		float _getAnchoredPos(const Character::ProjectileData &data, bool y);

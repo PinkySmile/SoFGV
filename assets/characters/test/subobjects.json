@@ -12,6 +12,8 @@
     "hits": 1,
     "loop": true,
     "disable_on_hit": true,
+    "disable_animation": "fade",
+    "animation_data": 60,
     "end_block": 0
   },
   {
@@ -26,7 +28,9 @@
     "dir": "front",
     "hits": 4,
     "loop": true,
-    "disable_on_hit": false,
+    "disable_on_hit": true,
+    "disable_animation": "fade",
+    "animation_data": 30,
     "end_block": 0
   },
   {

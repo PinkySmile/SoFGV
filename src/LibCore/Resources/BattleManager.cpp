@@ -6,6 +6,7 @@
 #include "BattleManager.hpp"
 #include "Logger.hpp"
 #include "Game.hpp"
+#include "Objects/Projectile.hpp"
 
 #define FIRST_TO 2
 #define INPUT_DISPLAY_SIZE 24

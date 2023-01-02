@@ -7,6 +7,7 @@
 
 
 #include "Object.hpp"
+#include "Character.hpp"
 
 namespace SpiralOfFate
 {
@@ -14,11 +15,13 @@ namespace SpiralOfFate
 	private:
 		struct Data {
 			unsigned maxHit;
+			unsigned animationCtr;
 			bool disabled;
 		};
 
 		// Game State
 		bool _disabled = false;
+		unsigned _animationCtr = 0;
 		unsigned _nbHit = 0;
 
 		// Non Game state
@@ -28,13 +31,24 @@ namespace SpiralOfFate
 		bool _owner;
 		bool _loop;
 		bool _disableOnHit;
+		unsigned _animationData;
+		Character::ProjectileAnimation _anim;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
 		void _disableObject();
 
 	public:
-		Projectile(bool owner, unsigned id, unsigned maxHit, bool loop, unsigned endBlock, bool disableOnHit);
+		Projectile(
+			bool owner,
+			unsigned id,
+			unsigned maxHit,
+			bool loop,
+			unsigned endBlock,
+			bool disableOnHit,
+			unsigned animationData,
+			Character::ProjectileAnimation anim
+		);
 		Projectile(
 			const std::vector<std::vector<FrameData>> &frameData,
 			unsigned team,
@@ -45,7 +59,9 @@ namespace SpiralOfFate
 			unsigned maxHit,
 			bool loop,
 			unsigned endBlock,
-			bool disableOnHit
+			bool disableOnHit,
+			unsigned animationData,
+			Character::ProjectileAnimation anim
 		);
 		bool isDead() const override;
 		void update() override;
