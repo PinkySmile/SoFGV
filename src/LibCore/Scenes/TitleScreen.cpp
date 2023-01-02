@@ -752,7 +752,7 @@ namespace SpiralOfFate
 		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
 
-	void TitleScreen::_loadReplay(const std::string &path)
+	void TitleScreen::_loadReplay(const std::filesystem::path &path)
 	{
 		std::vector<StageEntry> stages;
 		std::vector<CharacterEntry> entries;
@@ -775,8 +775,8 @@ namespace SpiralOfFate
 		RandomWrapper::SerializedWrapper random;
 
 		if (!stream)
-			throw std::invalid_argument("Cannot load " + path + ": " + strerror(errno));
-		game->logger.info("Loading replay " + path);
+			throw std::invalid_argument("Cannot load " + path.string() + ": " + strerror(errno));
+		game->logger.info("Loading replay " + path.string());
 		stream.read(reinterpret_cast<char *>(&magic), sizeof(magic));
 		game->logger.debug("Expected magic " + std::to_string(expectedMagic) + " vs Replay magic " + std::to_string(magic));
 		if (magic != expectedMagic)

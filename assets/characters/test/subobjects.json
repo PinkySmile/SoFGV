@@ -13,7 +13,7 @@
     "loop": true,
     "disable_on_hit": true,
     "disable_animation": "fade",
-    "animation_data": 60,
+    "animation_data": 30,
     "end_block": 0
   },
   {

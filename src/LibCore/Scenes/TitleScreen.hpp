@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <memory>
 #include <thread>
+#include <filesystem>
 #include "IScene.hpp"
 #include "Menu.hpp"
 #include "Inputs/KeyboardInput.hpp"
@@ -54,7 +55,7 @@ namespace SpiralOfFate
 		std::string _oldRemote;
 		std::function<void ()> onDestruct;
 
-		void _loadReplay(const std::string &path);
+		void _loadReplay(const std::filesystem::path &path);
 		void _fetchReplayList();
 		void _onInputsChosen();
 		void _host(bool spec);
