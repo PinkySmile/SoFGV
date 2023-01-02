@@ -2,10 +2,11 @@
 // Created by PinkySmile on 18/09/2021.
 //
 
+#include <filesystem>
 #include "EditableObject.hpp"
 
 EditableObject::EditableObject(const std::string &frameData) :
-	_folder(frameData.substr(0, frameData.find_last_of('/')))
+	_folder(frameData.substr(0, frameData.find_last_of(std::filesystem::path::preferred_separator)))
 {
 	this->_moves = SpiralOfFate::FrameData::loadFile(frameData, this->_folder);
 }
