@@ -6723,6 +6723,10 @@
                         "top": -143,
                         "width": 40
                     },
+                    "counter_hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
                     "damage": 400,
                     "duration": 2,
                     "guard_damage": 30,
@@ -7007,7 +7011,7 @@
                         "width": 57
                     },
                     "counter_hit_speed": {
-                        "x": 16,
+                        "x": 12,
                         "y": 0
                     },
                     "damage": 900,
@@ -7417,6 +7421,10 @@
                         "top": -73,
                         "width": 43
                     },
+                    "counter_hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
                     "damage": 900,
                     "defense_flag": 81920,
                     "duration": 2,
@@ -7612,6 +7620,10 @@
                         "left": -23,
                         "top": -98,
                         "width": 47
+                    },
+                    "counter_hit_speed": {
+                        "x": 3,
+                        "y": 0
                     },
                     "damage": 400,
                     "defense_flag": 65536,
@@ -9490,7 +9502,7 @@
                         "width": 42
                     },
                     "counter_hit_speed": {
-                        "x": 7,
+                        "x": 3,
                         "y": 0
                     },
                     "damage": 800,
@@ -9785,7 +9797,7 @@
                         "width": 45
                     },
                     "counter_hit_speed": {
-                        "x": 20,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 850,
@@ -9857,7 +9869,7 @@
                         "width": 45
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 10
                     },
                     "damage": 850,
@@ -9928,7 +9940,7 @@
                         "width": 45
                     },
                     "counter_hit_speed": {
-                        "x": 5,
+                        "x": 1,
                         "y": 20
                     },
                     "damage": 850,
@@ -10201,7 +10213,7 @@
                         "width": 54
                     },
                     "counter_hit_speed": {
-                        "x": 5,
+                        "x": 3,
                         "y": 20
                     },
                     "damage": 825,
@@ -10266,8 +10278,8 @@
                         "width": 54
                     },
                     "counter_hit_speed": {
-                        "x": 20,
-                        "y": 10
+                        "x": 4,
+                        "y": 13
                     },
                     "damage": 825,
                     "defense_flag": 16640,
@@ -10326,8 +10338,8 @@
                         "width": 54
                     },
                     "counter_hit_speed": {
-                        "x": 25,
-                        "y": 5
+                        "x": 7,
+                        "y": 8
                     },
                     "damage": 825,
                     "defense_flag": 540928,
@@ -10513,7 +10525,7 @@
                     },
                     "counter_hit_speed": {
                         "x": 0,
-                        "y": -20
+                        "y": -22
                     },
                     "damage": 900,
                     "defense_flag": 540928,
@@ -10773,7 +10785,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -10847,7 +10859,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -10921,7 +10933,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -10995,7 +11007,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -11069,7 +11081,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -11143,7 +11155,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 15,
+                        "x": 4,
                         "y": 0
                     },
                     "damage": 600,
@@ -12170,8 +12182,8 @@
                         "width": 38
                     },
                     "counter_hit_speed": {
-                        "x": 5,
-                        "y": 20
+                        "x": 2,
+                        "y": 22
                     },
                     "damage": 1200,
                     "defense_flag": 16384,
@@ -12437,7 +12449,7 @@
                     },
                     "counter_hit_speed": {
                         "x": -6,
-                        "y": 8
+                        "y": 0
                     },
                     "damage": 500,
                     "defense_flag": 81920,
@@ -12521,7 +12533,7 @@
                     },
                     "counter_hit_speed": {
                         "x": -6,
-                        "y": 8
+                        "y": 0
                     },
                     "damage": 600,
                     "defense_flag": 81920,
@@ -12759,7 +12771,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 2,
                         "y": 0
                     },
                     "damage": 700,
@@ -12836,7 +12848,7 @@
                         "width": 47
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 2,
                         "y": 0
                     },
                     "damage": 500,
@@ -13452,7 +13464,7 @@
                         "width": 56
                     },
                     "counter_hit_speed": {
-                        "x": 20,
+                        "x": 12,
                         "y": 20
                     },
                     "damage": 3500,
@@ -13599,7 +13611,7 @@
                     },
                     "counter_hit_speed": {
                         "x": 4,
-                        "y": 9
+                        "y": 12
                     },
                     "damage": 900,
                     "defense_flag": 16640,
@@ -13671,7 +13683,7 @@
                     },
                     "counter_hit_speed": {
                         "x": 4,
-                        "y": 12
+                        "y": 14
                     },
                     "damage": 900,
                     "defense_flag": 16640,
@@ -14182,8 +14194,8 @@
                         "width": 35
                     },
                     "counter_hit_speed": {
-                        "x": 2,
-                        "y": 30
+                        "x": 1,
+                        "y": -32
                     },
                     "damage": 950,
                     "defense_flag": 16640,
@@ -15044,6 +15056,10 @@
                         "top": -73,
                         "width": 45
                     },
+                    "counter_hit_speed": {
+                        "x": 1,
+                        "y": 0
+                    },
                     "damage": 750,
                     "defense_flag": 16384,
                     "duration": 5,
@@ -15110,6 +15126,10 @@
                         "left": -20,
                         "top": -73,
                         "width": 45
+                    },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 0
                     },
                     "damage": 750,
                     "defense_flag": 16384,
@@ -15660,6 +15680,10 @@
                         "top": -143,
                         "width": 42
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 5
+                    },
                     "damage": 300,
                     "defense_flag": 16640,
                     "duration": 3,
@@ -15668,7 +15692,7 @@
                         "y": -0.5
                     },
                     "guard_damage": 10,
-                    "hitSound": "assets/sfxs/se/009.wav",
+                    "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
                             "height": 64,
@@ -15711,7 +15735,7 @@
                         "x": 106,
                         "y": 188
                     },
-                    "sound": "assets/sfxs/se/remilia/000.wav",
+                    "sound": "assets/sfxs/se/tenshi/055.wav",
                     "speed": {
                         "x": -2,
                         "y": 0
@@ -15736,6 +15760,10 @@
                         "top": -144,
                         "width": 42
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 5
+                    },
                     "damage": 300,
                     "defense_flag": 256,
                     "duration": 3,
@@ -15744,7 +15772,7 @@
                         "y": -0.5
                     },
                     "guard_damage": 10,
-                    "hitSound": "assets/sfxs/se/009.wav",
+                    "hitSound": "assets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
                             "height": 64,
@@ -15807,6 +15835,10 @@
                         "top": -144,
                         "width": 42
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 5
+                    },
                     "damage": 300,
                     "defense_flag": 256,
                     "duration": 3,
@@ -15815,7 +15847,7 @@
                         "y": -0.5
                     },
                     "guard_damage": 10,
-                    "hitSound": "assets/sfxs/se/009.wav",
+                    "hitSound": "asassets/sfxs/se/010.wav",
                     "hit_boxes": [
                         {
                             "height": 64,
@@ -15879,7 +15911,7 @@
                         "width": 42
                     },
                     "defense_flag": 256,
-                    "duration": 6,
+                    "duration": 9,
                     "hit_opponent_hit_stop": 5,
                     "hit_player_hit_stop": 5,
                     "hit_stun": 18,
@@ -15924,7 +15956,7 @@
                         "width": 42
                     },
                     "defense_flag": 524544,
-                    "duration": 16,
+                    "duration": 14,
                     "hit_opponent_hit_stop": 5,
                     "hit_player_hit_stop": 5,
                     "hit_stun": 18,
@@ -16088,6 +16120,10 @@
                         "top": -143,
                         "width": 40
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 0
+                    },
                     "damage": 400,
                     "defense_flag": 20736,
                     "gravity": {
@@ -16160,6 +16196,10 @@
                         "top": -143,
                         "width": 40
                     },
+                    "counter_hit_speed": {
+                        "x": 3,
+                        "y": 0
+                    },
                     "damage": 400,
                     "defense_flag": 16640,
                     "duration": 2,
@@ -16230,6 +16270,10 @@
                         "left": -19,
                         "top": -143,
                         "width": 40
+                    },
+                    "counter_hit_speed": {
+                        "x": 3,
+                        "y": 0
                     },
                     "damage": 400,
                     "defense_flag": 16640,
@@ -16454,6 +16498,10 @@
                         "left": -20,
                         "top": -144,
                         "width": 45
+                    },
+                    "counter_hit_speed": {
+                        "x": 1,
+                        "y": 0
                     },
                     "damage": 300,
                     "defense_flag": 2113792,
@@ -16865,7 +16913,7 @@
                         "width": 34
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 1,
                         "y": 4
                     },
                     "damage": 300,
@@ -16960,7 +17008,7 @@
                         "width": 34
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 1,
                         "y": 4
                     },
                     "damage": 300,
@@ -17050,7 +17098,7 @@
                         "width": 34
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 1,
                         "y": 4
                     },
                     "damage": 300,
@@ -17140,7 +17188,7 @@
                         "width": 34
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 1,
                         "y": 4
                     },
                     "damage": 300,
@@ -17230,7 +17278,7 @@
                         "width": 34
                     },
                     "counter_hit_speed": {
-                        "x": 4,
+                        "x": 1,
                         "y": 4
                     },
                     "damage": 300,
@@ -18013,6 +18061,10 @@
                         "top": -73,
                         "width": 43
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 0
+                    },
                     "damage": 200,
                     "defense_flag": 2179072,
                     "duration": 3,
@@ -18089,6 +18141,10 @@
                         "top": -73,
                         "width": 43
                     },
+                    "counter_hit_speed": {
+                        "x": 0,
+                        "y": 8
+                    },
                     "damage": 200,
                     "defense_flag": 2179072,
                     "duration": 2,
@@ -18163,6 +18219,10 @@
                         "left": -22,
                         "top": -73,
                         "width": 43
+                    },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 18
                     },
                     "damage": 300,
                     "defense_flag": 2179072,
@@ -18733,7 +18793,7 @@
                     },
                     "counter_hit_speed": {
                         "x": 1,
-                        "y": 4
+                        "y": 10
                     },
                     "damage": 600,
                     "defense_flag": 256,
@@ -18899,7 +18959,7 @@
                     },
                     "counter_hit_speed": {
                         "x": 1,
-                        "y": 2
+                        "y": 0
                     },
                     "damage": 650,
                     "defense_flag": 540936,
@@ -18963,10 +19023,6 @@
                         "left": -19,
                         "top": -150,
                         "width": 42
-                    },
-                    "counter_hit_speed": {
-                        "x": 1,
-                        "y": 2
                     },
                     "defense_flag": 524544,
                     "duration": 20,
@@ -19538,6 +19594,10 @@
                         "top": -89,
                         "width": 62
                     },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 24
+                    },
                     "damage": 1100,
                     "defense_flag": 46268680,
                     "duration": 6,
@@ -19599,6 +19659,10 @@
                         "left": -15,
                         "top": -89,
                         "width": 62
+                    },
+                    "counter_hit_speed": {
+                        "x": 2,
+                        "y": 24
                     },
                     "damage": 1000,
                     "defense_flag": 46268680,
