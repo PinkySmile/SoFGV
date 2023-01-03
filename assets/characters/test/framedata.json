@@ -20072,7 +20072,6 @@
             "x": 50,
             "y": 188
           },
-          "sound": "assets/sfxs/se/045.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20090,7 +20089,41 @@
             "width": 36
           },
           "defense_flag": 32768,
-          "duration": 15,
+          "duration": 14,
+          "hurt_boxes": [
+            {
+              "height": 191,
+              "left": -24,
+              "top": -189,
+              "width": 52
+            }
+          ],
+          "offset": {
+            "x": 2,
+            "y": 0
+          },
+          "priority": 50,
+          "size": {
+            "x": 50,
+            "y": 188
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 94,
+            "left": 742,
+            "top": 349,
+            "width": 25
+          },
+          "void_limit": 10
+        },
+        {
+          "collision_box": {
+            "height": 135,
+            "left": -17,
+            "top": -136,
+            "width": 36
+          },
+          "defense_flag": 32768,
           "hurt_boxes": [
             {
               "height": 191,
@@ -20109,6 +20142,7 @@
             "x": 50,
             "y": 188
           },
+          "sound": "assets/sfxs/se/iku/017.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20180,7 +20214,7 @@
             "x": 50,
             "y": 188
           },
-          "sound": "assets/sfxs/se/045.wav",
+          "sound": "assets/sfxs/se/suwako/113.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20215,7 +20249,6 @@
             "x": 50,
             "y": 188
           },
-          "sound": "assets/sfxs/se/045.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20248,7 +20281,6 @@
             "x": 50,
             "y": 188
           },
-          "sound": "assets/sfxs/se/045.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,

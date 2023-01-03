@@ -4,6 +4,13 @@
 
 #include "Stickman.hpp"
 #include "Resources/Game.hpp"
+#include "Resources/PracticeBattleManager.hpp"
+
+#define DAMAGE_DIFF 0.5
+#define HITSTUN_DIFF 0.25
+#define MANA_COST_DIFF 0.25
+#define PRORATION_DIFF 0.95
+#define SPEED_DIFF 0.1
 
 namespace SpiralOfFate
 {
@@ -39,20 +46,10 @@ namespace SpiralOfFate
 	void Stickman::_forceStartMove(unsigned int action)
 	{
 		Character::_forceStartMove(action);
-		if (action == ACTION_5A && this->_buffTimer)
+		if (action == ACTION_5A && this->_buffTimer) {
 			this->_actionBlock = 1;
-	}
-
-	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
-	{
-		if (this->_action == ACTION_5A)
-			return this->_buffTimer != 0 || this->_guardCooldown == 0;
-		return Character::_canStartMove(action, data);
-	}
-
-	void Stickman::_applyNewAnimFlags()
-	{
-		Character::_applyNewAnimFlags();
+			this->_applyNewAnimFlags();
+		}
 	}
 
 	void Stickman::_applyMoveAttributes()
@@ -64,9 +61,7 @@ namespace SpiralOfFate
 			if (data->specialMarker == 1) {
 				this->_rand.reset();
 				this->_buff = this->_rand(game->battleRandom);
-				this->_buffTimer = timers[this->_buff].first;
-				this->_guardCooldown = timers[this->_buff].second;
-				this->_guardBar = timers[this->_buff].second;
+				this->_buffTimer = timers[this->_buff];
 			} else if (data->specialMarker == 2)
 				this->_buffTimer = 0;
 		}
@@ -74,11 +69,6 @@ namespace SpiralOfFate
 
 	void Stickman::_onMoveEnd(const FrameData &lastData)
 	{
-		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A && this->_actionBlock == 1) {
-			this->_animation = 0;
-			this->_applyNewAnimFlags();
-			return;
-		}
 		if (this->_action == ACTION_WIN_MATCH2 && this->_actionBlock == 1) {
 			this->_actionBlock++;
 			assert(this->_moves.at(this->_action).size() != this->_actionBlock);
@@ -90,7 +80,8 @@ namespace SpiralOfFate
 	void Stickman::update()
 	{
 		Character::update();
-		this->_buffTimer -= !!this->_buffTimer;
+		if (!dynamic_cast<PracticeBattleManager *>(&*game->battleMgr))
+			this->_buffTimer -= !!this->_buffTimer;
 	}
 
 	unsigned int Stickman::getBufferSize() const
@@ -156,12 +147,50 @@ namespace SpiralOfFate
 
 	void Stickman::_allyBuffEffect(FrameData &framedata) const
 	{
-
+		if (this->_buffTimer == 0)
+			return;
+		switch (this->_buff) {
+		case BUFFTYPE_GUARD_BAR_IGNORED:
+			framedata.guardDmg = 0;
+			return;
+		case BUFFTYPE_INSTA_CRUSH:
+			framedata.guardDmg = UINT32_MAX;
+			return;
+		case BUFFTYPE_PLUS_DAMAGE:
+			framedata.damage *= 1 + DAMAGE_DIFF;
+			return;
+		case BUFFTYPE_MINUS_DAMAGE:
+			framedata.damage *= 1 - DAMAGE_DIFF;
+			return;
+		case BUFFTYPE_PLUS_HITSTUN:
+			framedata.hitStun *= 1 + HITSTUN_DIFF;
+			framedata.untech *= 1 + HITSTUN_DIFF;
+			return;
+		case BUFFTYPE_MINUS_HITSTUN:
+			framedata.hitStun *= 1 - HITSTUN_DIFF;
+			framedata.untech *= 1 - HITSTUN_DIFF;
+			return;
+		case BUFFTYPE_PLUS_MANA_COST:
+			framedata.manaCost *= 1 + MANA_COST_DIFF;
+			return;
+		case BUFFTYPE_MINUS_MANA_COST:
+			framedata.manaCost *= 1 - MANA_COST_DIFF;
+			return;
+		case BUFFTYPE_PLUS_PRORATION:
+			framedata.prorate *= 0.95;
+			return;
+		case BUFFTYPE_PLUS_SPEED:
+			framedata.speed.x *= 1 + SPEED_DIFF;
+			return;
+		case BUFFTYPE_MINUS_SPEED:
+			framedata.speed.x *= 1 - SPEED_DIFF * 2;
+			return;
+		}
 	}
 
 	void Stickman::_enemyBuffEffect(FrameData &framedata) const
 	{
-
+		this->_allyBuffEffect(framedata);
 	}
 
 	size_t Stickman::printDifference(const char *msgStart, void *data1, void *data2) const
@@ -183,5 +212,23 @@ namespace SpiralOfFate
 		if (dat1->_buffTimer != dat2->_buffTimer)
 			game->logger.fatal(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer) + " vs " + std::to_string(dat2->_buffTimer));
 		return length + sizeof(Data);
+	}
+
+	void Stickman::render() const
+	{
+		Character::render();
+		if (this->showBoxes && this->_buffTimer) {
+			game->screen->displayElement(
+				{static_cast<int>(this->_position.x - this->_buffTimer / 2), -static_cast<int>(this->_position.y), static_cast<int>(this->_buffTimer), 10},
+				sf::Color::Green
+			);
+			game->screen->textSize(10);
+			game->screen->displayElement(
+				buffName[this->_buff],
+				{static_cast<float>(this->_position.x - 50), -static_cast<float>(this->_position.y)},
+				100, Screen::ALIGN_CENTER
+			);
+			game->screen->textSize(30);
+		}
 	}
 }

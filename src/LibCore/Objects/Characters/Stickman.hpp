@@ -13,18 +13,44 @@ namespace SpiralOfFate
 {
 	class Stickman : public Character {
 	private:
-		constexpr static const std::array<std::pair<int, int>, 11> timers = {
-			/*  0 */ std::pair<int, int>{120, 900}, //guard bar ignored
-			/*  1 */ std::pair<int, int>{120, 900}, //wb = crush
-			/*  2 */ std::pair<int, int>{300, 900}, //+ damage
-			/*  3 */ std::pair<int, int>{300, 900}, //- damage
-			/*  4 */ std::pair<int, int>{90,  900}, //+ hitstun
-			/*  5 */ std::pair<int, int>{90,  900}, //- hitstun
-			/*  6 */ std::pair<int, int>{240, 900}, //- mana cost
-			/*  7 */ std::pair<int, int>{240, 900}, //+ mana cost
-			/*  8 */ std::pair<int, int>{120, 900}, //+ proration
-			/*  9 */ std::pair<int, int>{360, 900}, //+ speed
-			/* 10 */ std::pair<int, int>{360, 900}, //- speed
+		enum BuffType {
+			BUFFTYPE_GUARD_BAR_IGNORED, //guard bar ignored
+			BUFFTYPE_INSTA_CRUSH,       //wb = crush
+			BUFFTYPE_PLUS_DAMAGE,       //+ damage
+			BUFFTYPE_MINUS_DAMAGE,      //- damage
+			BUFFTYPE_PLUS_HITSTUN,      //+ hitstun
+			BUFFTYPE_MINUS_HITSTUN,     //- hitstun
+			BUFFTYPE_MINUS_MANA_COST,   //- mana cost
+			BUFFTYPE_PLUS_MANA_COST,    //+ mana cost
+			BUFFTYPE_PLUS_PRORATION,    //+ proration
+			BUFFTYPE_PLUS_SPEED,        //+ speed
+			BUFFTYPE_MINUS_SPEED,       //- speed
+		};
+		constexpr static const std::array<const char *, 11> buffName = {
+			"GUARD_BAR_IGNORED",
+			"INSTA_CRUSH",
+			"PLUS_DAMAGE",
+			"MINUS_DAMAGE",
+			"PLUS_HITSTUN",
+			"MINUS_HITSTUN",
+			"MINUS_MANA_COST",
+			"PLUS_MANA_COST",
+			"PLUS_PRORATION",
+			"PLUS_SPEED",
+			"MINUS_SPEED"
+		};
+		constexpr static const std::array<int, 11> timers = {
+			/*  0 */ 120, //guard bar ignored
+			/*  1 */ 120, //wb = crush
+			/*  2 */ 300, //+ damage
+			/*  3 */ 300, //- damage
+			/*  4 */ 90,  //+ hitstun
+			/*  5 */ 90,  //- hitstun
+			/*  6 */ 240, //- mana cost
+			/*  7 */ 240, //+ mana cost
+			/*  8 */ 120, //+ proration
+			/*  9 */ 360, //+ speed
+			/* 10 */ 360, //- speed
 			/* 11 */ //{300, 900}, //+ gros
 		};
 
@@ -51,8 +77,6 @@ namespace SpiralOfFate
 	protected:
 		void _applyMoveAttributes() override;
 		void _onMoveEnd(const FrameData &lastData) override;
-		void _applyNewAnimFlags() override;
-		bool _canStartMove(unsigned int action, const FrameData &data) override;
 		void _forceStartMove(unsigned int action) override;
 		void _mutateHitFramedata(FrameData &framedata) const override;
 		void _allyBuffEffect(FrameData &framedata) const;
@@ -70,6 +94,7 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		bool matchEndUpdate() override;
 		void onMatchEnd() override;
+		void render() const override;
 	};
 }
 
