@@ -79,10 +79,12 @@ namespace SpiralOfFate
 		InGame::render();
 		char buffer[500];
 
-		sprintf(buffer, "Delay %u (%zi:%zi)", this->_leftDInput->getDelay(), this->_leftDInput->getBufferSize(), this->_rightDInput->getBufferSize());
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(20);
+		sprintf(buffer, "Rand %08llx|%llu", (unsigned long long)game->battleRandom.ser.seed, (unsigned long long)game->battleRandom.ser.invoke_count);
+		game->screen->displayElement(buffer, {-50, 25}, 145, Screen::ALIGN_LEFT);
+		sprintf(buffer, "Delay %u (%zi:%zi)", this->_leftDInput->getDelay(), this->_leftDInput->getBufferSize(), this->_rightDInput->getBufferSize());
 		game->screen->displayElement(buffer, {-50, 50}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Rollback %zu/%zu", this->_rMachine.getBufferSize(), this->_rMachine.getMaxBufferSize());
 		game->screen->displayElement(buffer, {-50, 75}, 145, Screen::ALIGN_LEFT);

@@ -13,7 +13,6 @@ namespace SpiralOfFate
 	MYDLL_API Game *game = nullptr;
 
 	Game::Game(const std::string &loggerPath) :
-		random(std::random_device()()),
 		logger(loggerPath)
 	{
 		my_assert(!game);

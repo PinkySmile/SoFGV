@@ -219,6 +219,7 @@ void	loadSettings()
 	SpiralOfFate::game->menu = loadMenuInputs(stream);
 }
 
+#ifdef __ANDROID__
 static void logEvent(sf::Event &event)
 {
 	switch (event.type) {
@@ -293,6 +294,7 @@ static void logEvent(sf::Event &event)
 		break;
 	}
 }
+#endif
 
 void	run()
 {
@@ -322,6 +324,8 @@ void	run()
 			MB_ICONWARNING,
 			nullptr
 		);
+	SpiralOfFate::game->battleRandom.seed(0);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
 	loadSettings();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");

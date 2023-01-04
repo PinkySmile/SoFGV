@@ -107,7 +107,7 @@ namespace SpiralOfFate
 
 	struct Game {
 		bool hosting = false;
-		std::mt19937 random;
+		std::random_device random;
 		RandomWrapper battleRandom;
 		Logger logger;
 		sf::Font font;

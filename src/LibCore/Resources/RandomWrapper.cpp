@@ -7,7 +7,7 @@
 
 namespace SpiralOfFate
 {
-	RandomWrapper::RandomWrapper(uint64_t _seed) :
+	RandomWrapper::RandomWrapper(uint32_t _seed) :
 		ser{_seed, 0},
 		rng(_seed)
 	{
@@ -47,7 +47,7 @@ namespace SpiralOfFate
 		return this->rng();
 	}
 
-	void RandomWrapper::seed(uint64_t _seed)
+	void RandomWrapper::seed(uint32_t _seed)
 	{
 		this->ser.seed = _seed;
 		this->ser.invoke_count = 0;

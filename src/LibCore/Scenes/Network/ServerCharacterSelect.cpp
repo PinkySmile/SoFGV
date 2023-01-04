@@ -27,10 +27,10 @@ namespace SpiralOfFate
 
 	void ServerCharacterSelect::consumeEvent(const sf::Event &event)
 	{
-		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Subtract) {
+		if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::B) {
 			if (game->connection->getCurrentDelay() > 0)
 				game->connection->updateDelay(game->connection->getCurrentDelay() - 1);
-		} else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Add) {
+		} else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::N) {
 			if (game->connection->getCurrentDelay() < 8)
 				game->connection->updateDelay(game->connection->getCurrentDelay() + 1);
 		}
@@ -72,7 +72,7 @@ namespace SpiralOfFate
 		}
 		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
 		reinterpret_cast<ServerConnection *>(&*game->connection)->startGame(
-			0 /* TODO: Generate a proper random seed */,
+			game->random(),
 			this->_leftPos,
 			this->_leftPalette,
 			this->_rightPos,
@@ -81,25 +81,5 @@ namespace SpiralOfFate
 			this->_platform
 		);
 		return nullptr;
-/*
-		auto lchr = this->_createCharacter(this->_leftPos,  this->_leftPalette,  this->_leftInput);
-		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
-		auto &lentry = this->_entries[this->_leftPos];
-		auto &rentry = this->_entries[this->_rightPos];
-		auto &licon = lentry.icon[this->_leftPalette];
-		auto &ricon = rentry.icon[this->_rightPalette];
-
-		return this->_sceneCreator(
-			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},
-			stage.platforms[this->_platform],
-			stage,
-			lchr,
-			rchr,
-			licon.textureHandle,
-			ricon.textureHandle,
-			lentry.entry,
-			rentry.entry
-		);
-		*/
 	}
 }
