@@ -228,7 +228,7 @@ namespace SpiralOfFate
 	void Stickman::render() const
 	{
 		Character::render();
-		if (this->showBoxes && this->_buffTimer) {
+		if (/*this->showBoxes && */this->_buffTimer) {
 			game->screen->displayElement(
 				{static_cast<int>(this->_position.x - this->_buffTimer / 2), -static_cast<int>(this->_position.y), static_cast<int>(this->_buffTimer), 10},
 				sf::Color::Green

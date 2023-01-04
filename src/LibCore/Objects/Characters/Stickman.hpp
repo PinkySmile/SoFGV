@@ -40,17 +40,17 @@ namespace SpiralOfFate
 			"MINUS_SPEED"
 		};
 		constexpr static const std::array<int, 11> timers = {
-			/*  0 */ 4 * 120, //guard bar ignored
-			/*  1 */ 4 * 120, //wb = crush
-			/*  2 */ 4 * 300, //+ damage
-			/*  3 */ 4 * 300, //- damage
-			/*  4 */ 4 * 90,  //+ hitstun
-			/*  5 */ 4 * 90,  //- hitstun
-			/*  6 */ 4 * 240, //- mana cost
-			/*  7 */ 4 * 240, //+ mana cost
-			/*  8 */ 4 * 120, //+ proration
-			/*  9 */ 4 * 360, //+ speed
-			/* 10 */ 4 * 360, //- speed
+			/*  0 */ 2 * 120, //guard bar ignored
+			/*  1 */ 2 * 120, //wb = crush
+			/*  2 */ 2 * 300, //+ damage
+			/*  3 */ 2 * 300, //- damage
+			/*  4 */ 2 * 90,  //+ hitstun
+			/*  5 */ 2 * 90,  //- hitstun
+			/*  6 */ 2 * 240, //- mana cost
+			/*  7 */ 2 * 240, //+ mana cost
+			/*  8 */ 2 * 120, //+ proration
+			/*  9 */ 2 * 360, //+ speed
+			/* 10 */ 2 * 360, //- speed
 			/* 11 */ //{300, 900}, //+ gros
 		};
 
