@@ -40,17 +40,17 @@ namespace SpiralOfFate
 			"MINUS_SPEED"
 		};
 		constexpr static const std::array<int, 11> timers = {
-			/*  0 */ 120, //guard bar ignored
-			/*  1 */ 120, //wb = crush
-			/*  2 */ 300, //+ damage
-			/*  3 */ 300, //- damage
-			/*  4 */ 90,  //+ hitstun
-			/*  5 */ 90,  //- hitstun
-			/*  6 */ 240, //- mana cost
-			/*  7 */ 240, //+ mana cost
-			/*  8 */ 120, //+ proration
-			/*  9 */ 360, //+ speed
-			/* 10 */ 360, //- speed
+			/*  0 */ 4 * 120, //guard bar ignored
+			/*  1 */ 4 * 120, //wb = crush
+			/*  2 */ 4 * 300, //+ damage
+			/*  3 */ 4 * 300, //- damage
+			/*  4 */ 4 * 90,  //+ hitstun
+			/*  5 */ 4 * 90,  //- hitstun
+			/*  6 */ 4 * 240, //- mana cost
+			/*  7 */ 4 * 240, //+ mana cost
+			/*  8 */ 4 * 120, //+ proration
+			/*  9 */ 4 * 360, //+ speed
+			/* 10 */ 4 * 360, //- speed
 			/* 11 */ //{300, 900}, //+ gros
 		};
 
@@ -81,6 +81,7 @@ namespace SpiralOfFate
 		void _mutateHitFramedata(FrameData &framedata) const override;
 		void _allyBuffEffect(FrameData &framedata) const;
 		void _enemyBuffEffect(FrameData &framedata) const;
+		bool _canStartMove(unsigned int action, const FrameData &data) override;
 
 	public:
 		Stickman() = default;

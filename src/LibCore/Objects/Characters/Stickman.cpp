@@ -62,9 +62,20 @@ namespace SpiralOfFate
 				this->_rand.reset();
 				this->_buff = this->_rand(game->battleRandom);
 				this->_buffTimer = timers[this->_buff];
-			} else if (data->specialMarker == 2)
+				this->_guardCooldown = 300;
+			} else if (data->specialMarker == 2) {
+				if (this->_buffTimer)
+					this->_guardCooldown += 300;
 				this->_buffTimer = 0;
+			}
 		}
+	}
+
+	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
+	{
+		if (action == ACTION_5A)
+			return (this->_guardCooldown == 0 || this->_buffTimer != 0) && this->_action != ACTION_5A;
+		return Character::_canStartMove(action, data);
 	}
 
 	void Stickman::_onMoveEnd(const FrameData &lastData)
@@ -160,21 +171,21 @@ namespace SpiralOfFate
 			framedata.damage *= 1 + DAMAGE_DIFF;
 			return;
 		case BUFFTYPE_MINUS_DAMAGE:
-			framedata.damage *= 1 - DAMAGE_DIFF;
+			framedata.damage /= 1 + DAMAGE_DIFF;
 			return;
 		case BUFFTYPE_PLUS_HITSTUN:
 			framedata.hitStun *= 1 + HITSTUN_DIFF;
 			framedata.untech *= 1 + HITSTUN_DIFF;
 			return;
 		case BUFFTYPE_MINUS_HITSTUN:
-			framedata.hitStun *= 1 - HITSTUN_DIFF;
-			framedata.untech *= 1 - HITSTUN_DIFF;
+			framedata.hitStun /= 1 + HITSTUN_DIFF;
+			framedata.untech /= 1 + HITSTUN_DIFF;
 			return;
 		case BUFFTYPE_PLUS_MANA_COST:
 			framedata.manaCost *= 1 + MANA_COST_DIFF;
 			return;
 		case BUFFTYPE_MINUS_MANA_COST:
-			framedata.manaCost *= 1 - MANA_COST_DIFF;
+			framedata.manaCost /= 1 + MANA_COST_DIFF;
 			return;
 		case BUFFTYPE_PLUS_PRORATION:
 			framedata.prorate *= 0.95;
@@ -183,7 +194,7 @@ namespace SpiralOfFate
 			framedata.speed.x *= 1 + SPEED_DIFF;
 			return;
 		case BUFFTYPE_MINUS_SPEED:
-			framedata.speed.x *= 1 - SPEED_DIFF * 2;
+			framedata.speed.x /= 1 + SPEED_DIFF * 2;
 			return;
 		}
 	}
@@ -222,6 +233,7 @@ namespace SpiralOfFate
 				{static_cast<int>(this->_position.x - this->_buffTimer / 2), -static_cast<int>(this->_position.y), static_cast<int>(this->_buffTimer), 10},
 				sf::Color::Green
 			);
+			game->screen->fillColor(sf::Color::Black);
 			game->screen->textSize(10);
 			game->screen->displayElement(
 				buffName[this->_buff],
