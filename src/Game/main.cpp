@@ -319,6 +319,10 @@ void	checkCompilationEnv()
 		);
 
 	std::uniform_int_distribution<unsigned> dist{0, 20};
+	std::uniform_int_distribution<unsigned> dist2{0, 20};
+	std::uniform_int_distribution<unsigned> dist3{0, 20};
+	std::uniform_int_distribution<unsigned> dist4{0, 20};
+	std::uniform_int_distribution<unsigned> dist5{0, 20};
 
 	SpiralOfFate::game->battleRandom.seed(0);
 	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
@@ -328,11 +332,11 @@ void	checkCompilationEnv()
 	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
 
 	SpiralOfFate::game->battleRandom.seed(0);
-	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 11UL); dist.reset();
-	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 12UL); dist.reset();
-	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 15UL); dist.reset();
-	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 17UL); dist.reset();
-	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 12UL);
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 11UL);
+	my_assert_eq(dist2(SpiralOfFate::game->battleRandom), 12UL);
+	my_assert_eq(dist3(SpiralOfFate::game->battleRandom), 15UL);
+	my_assert_eq(dist4(SpiralOfFate::game->battleRandom), 17UL);
+	my_assert_eq(dist5(SpiralOfFate::game->battleRandom), 12UL);
 }
 
 void	run()
