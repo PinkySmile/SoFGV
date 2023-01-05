@@ -296,15 +296,8 @@ static void logEvent(sf::Event &event)
 }
 #endif
 
-void	run()
+void	checkCompilationEnv()
 {
-	sf::Event event;
-	sf::Image icon;
-#ifdef _WIN32
-	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
-#else
-	std::string font = "assets/fonts/Retro Gaming.ttf";
-#endif
 	char magic[] = {0x04, 0x03, 0x02, 0x01};
 
 	// We perform an endianness check here and display a warning if it fails.
@@ -324,8 +317,35 @@ void	run()
 			MB_ICONWARNING,
 			nullptr
 		);
+
+	std::uniform_int_distribution<unsigned> dist{0, 20};
+
 	SpiralOfFate::game->battleRandom.seed(0);
 	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2546248239UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 3071714933UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 3626093760UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
+
+	SpiralOfFate::game->battleRandom.seed(0);
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 11UL); dist.reset();
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 12UL); dist.reset();
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 15UL); dist.reset();
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 17UL); dist.reset();
+	my_assert_eq(dist(SpiralOfFate::game->battleRandom), 12UL);
+}
+
+void	run()
+{
+	sf::Event event;
+	sf::Image icon;
+#ifdef _WIN32
+	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
+#else
+	std::string font = "assets/fonts/Retro Gaming.ttf";
+#endif
+
+	checkCompilationEnv();
 	loadSettings();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
