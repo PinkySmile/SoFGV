@@ -65,8 +65,6 @@ namespace SpiralOfFate
 
 		// Non Game State
 		mutable FrameData _fakeFrameData;
-		std::uniform_int_distribution<unsigned> _rand{0, timers.size() - 1};
-		std::uniform_int_distribution<unsigned> _dist{0, 99};
 
 		// Game State
 		unsigned char _buff = 0;

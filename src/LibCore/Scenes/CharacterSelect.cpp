@@ -147,14 +147,14 @@ namespace SpiralOfFate
 
 			if (This->_stage == -1) {
 				This->_platform = -1;
-				This->_stage = dist2(game->battleRandom);
+				This->_stage = dist2(game->random);
 			}
 
 			std::uniform_int_distribution<size_t> dist3{0, This->_stages[This->_stage].platforms.size() - 1};
 			auto &stage = This->_stages[This->_stage];
 
 			if (This->_platform == -1)
-				This->_platform = dist3(game->battleRandom);
+				This->_platform = dist3(game->random);
 			if (This->_leftPos < 0)
 				This->_leftPalette = 0;
 			if (This->_rightPos < 0)
@@ -286,7 +286,6 @@ namespace SpiralOfFate
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
-		game->battleRandom();
 		if (lInputs.horizontalAxis == -1) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			if (this->_leftPos == -1)
@@ -359,7 +358,6 @@ namespace SpiralOfFate
 		auto lInputs = this->_leftInput->getInputs();
 		auto rInputs = this->_rightInput->getInputs();
 
-		game->battleRandom();
 		if (this->_stage != -1) {
 			if (lInputs.horizontalAxis == -1 || rInputs.horizontalAxis == -1) {
 				game->soundMgr.play(BASICSOUND_MENU_MOVE);

@@ -50,20 +50,16 @@ namespace SpiralOfFate
 
 	void Cloud::_reload()
 	{
-		std::uniform_int_distribution<size_t> val{0, (this->_moves.size() * 32) - 32};
-		std::uniform_int_distribution<size_t> val2{0, 1};
-		std::uniform_real_distribution<float> val3{this->_minSpeed, this->_maxSpeed};
-		auto rand = val(game->battleRandom);
+		auto rand = random_distrib(game->battleRandom, 0, (this->_moves.size() * 32) - 31);
 
 		this->_action = rand / 32;
-		this->_direction = val2(game->battleRandom);
+		this->_direction = random_distrib(game->battleRandom, 0, 2);
 		this->_dir = this->_direction ? 1 : -1;
-		this->_speed.x = -val3(game->battleRandom);
+		this->_speed.x = -random_distrib(game->battleRandom, this->_minSpeed, this->_maxSpeed);
 	}
 
 	void Cloud::_refresh()
 	{
-		std::uniform_int_distribution<size_t> val1{this->_minY, this->_maxY};
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)};
 		auto scale = Vector2f{
@@ -83,6 +79,7 @@ namespace SpiralOfFate
 
 		this->_reload();
 		this->_position.x = 1200 - result.x + data.size.x;
-		this->_position.y = val1(game->battleRandom);
+		//TODO:
+		this->_position.y = random_distrib(game->battleRandom, this->_minY, this->_maxY);
 	}
 }

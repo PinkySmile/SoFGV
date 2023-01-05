@@ -59,8 +59,7 @@ namespace SpiralOfFate
 			auto data = this->getCurrentFrameData();
 
 			if (data->specialMarker == 1) {
-				this->_rand.reset();
-				this->_buff = this->_rand(game->battleRandom);
+				this->_buff = random_distrib(game->battleRandom, 0, timers.size());
 				this->_buffTimer = timers[this->_buff];
 				this->_guardCooldown = 300;
 			} else if (data->specialMarker == 2) {

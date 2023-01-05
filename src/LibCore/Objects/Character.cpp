@@ -9,11 +9,11 @@
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
 #include "Projectile.hpp"
-#ifndef max
-#define max(x, y) (x > y ? x : y)
+#ifndef maxi
+#define maxi(x, y) (x > y ? x : y)
 #endif
-#ifndef min
-#define min(x, y) (x < y ? x : y)
+#ifndef mini
+#define mini(x, y) (x < y ? x : y)
 #endif
 
 #define REFLECT_PERCENT 60
@@ -3586,17 +3586,17 @@ namespace SpiralOfFate
 		if (data.oFlag.ultimate) {
 			this->_supersUsed = 0;
 			this->_skillsUsed = 0;
-			this->_prorate = max(0.25, this->_prorate);
+			this->_prorate = maxi(0.25, this->_prorate);
 		}
 
 		auto myData = this->getCurrentFrameData();
 
 		if (this->_isGrounded() && myData->dFlag.crouch && this->_action != ACTION_GROUND_LOW_HIT)
 			this->_prorate = 1.15f;
-		this->_prorate = max(data.minProrate / 100, this->_prorate);
+		this->_prorate = maxi(data.minProrate / 100, this->_prorate);
 
-		auto superRate = this->_supersUsed >= 2 ? min(1.f, max(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
-		auto skillRate = this->_skillsUsed >= 2 ? min(1.f, max(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
+		auto superRate = this->_supersUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
+		auto skillRate = this->_skillsUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto counter = this->_counterHit == 1;
 		auto forcedCounter = false;
 		auto chr = dynamic_cast<Character *>(obj);
@@ -4043,7 +4043,7 @@ namespace SpiralOfFate
 	{
 		auto oData = other->getCurrentFrameData();
 
-		other->_hp = max(1, static_cast<int>(other->_hp - REFLECT_PERCENT * oData->damage / 100));
+		other->_hp = maxi(1, static_cast<int>(other->_hp - REFLECT_PERCENT * oData->damage / 100));
 		this->_forceCH = isStrongest;
 	}
 
@@ -4429,10 +4429,7 @@ namespace SpiralOfFate
 				actions.emplace_back(ACTION_WIN_MATCH1 + i);
 		if (actions.empty())
 			return;
-
-		std::uniform_int_distribution<size_t> distribution{0, actions.size() - 1};
-
-		this->_forceStartMove(actions[distribution(game->battleRandom)]);
+		this->_forceStartMove(actions[random_distrib(game->battleRandom, 0, actions.size())]);
 	}
 
 	bool Character::matchEndUpdate()

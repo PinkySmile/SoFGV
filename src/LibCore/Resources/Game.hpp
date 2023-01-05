@@ -76,6 +76,8 @@
 	" in " + FCT_NAME + ": " + msg                                 \
 )
 
+#define random_distrib(r, mi, ma) (((r)() - (r).min()) * ((ma) - (mi)) / ((r).max() - (r).min()) + (mi))
+
 namespace SpiralOfFate
 {
 	enum BasicSounds {

@@ -44,13 +44,13 @@ namespace SpiralOfFate
 
 		if (this->_stage == -1) {
 			this->_platform = -1;
-			this->_stage = dist2(game->battleRandom);
+			this->_stage = dist2(game->random);
 		}
 
 		std::uniform_int_distribution<size_t> dist3{0, this->_stages[this->_stage].platforms.size() - 1};
 
 		if (this->_platform == -1)
-			this->_platform = dist3(game->battleRandom);
+			this->_platform = dist3(game->random);
 		if (this->_leftPos < 0)
 			this->_leftPalette = 0;
 		if (this->_rightPos < 0)
