@@ -12763,7 +12763,7 @@
         {
           "block_opponent_hit_stop": 12,
           "block_player_hit_stop": 12,
-          "block_stun": 26,
+          "block_stun": 23,
           "collision_box": {
             "height": 95,
             "left": -23,
@@ -12840,7 +12840,7 @@
         {
           "block_opponent_hit_stop": 12,
           "block_player_hit_stop": 12,
-          "block_stun": 23,
+          "block_stun": 20,
           "collision_box": {
             "height": 95,
             "left": -23,
@@ -20196,7 +20196,7 @@
             "top": -136,
             "width": 36
           },
-          "defense_flag": 32768,
+          "defense_flag": 16384,
           "duration": 15,
           "hurt_boxes": [
             {
@@ -20230,7 +20230,7 @@
             "top": -136,
             "width": 36
           },
-          "defense_flag": 32768,
+          "defense_flag": 16384,
           "duration": 15,
           "hurt_boxes": [
             {
@@ -20264,6 +20264,7 @@
             "top": -136,
             "width": 36
           },
+          "defense_flag": 16384,
           "duration": 7,
           "hurt_boxes": [
             {
