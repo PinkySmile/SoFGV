@@ -144,6 +144,13 @@ namespace SpiralOfFate
 				{realPos.x + 4.5f, realPos.y + 4.5f},
 				{realPos.x - 4.5f, realPos.y + 4.5f},
 			}, sf::Color::Black);
+			if (dynamic_cast<const Character *>(this) == nullptr)
+				game->screen->displayElement({
+					static_cast<int>(this->_position.x - this->_hitStop),
+					static_cast<int>(10 - this->_position.y),
+					static_cast<int>(this->_hitStop * 2),
+					10
+				}, sf::Color::Cyan);
 		}
 	}
 

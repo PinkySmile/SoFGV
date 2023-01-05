@@ -532,9 +532,20 @@ namespace SpiralOfFate
 				}, sf::Color::White);
 			else
 				game->screen->displayElement(
-					{static_cast<int>(this->_position.x - this->_blockStun / 2), static_cast<int>(10 - this->_position.y), static_cast<int>(this->_blockStun), 10},
+					{
+						static_cast<int>(this->_position.x - this->_blockStun / 2),
+						static_cast<int>(10 - this->_position.y),
+						static_cast<int>(this->_blockStun),
+						10
+					},
 					this->_isGrounded() ? sf::Color::Red : sf::Color{0xFF, 0x80, 0x00}
 				);
+			game->screen->displayElement({
+				static_cast<int>(this->_position.x - this->_hitStop),
+				static_cast<int>(10 - this->_position.y + (this->_blockStun ? 15.f : 0.f)),
+				static_cast<int>(this->_hitStop * 2),
+				10
+			}, sf::Color::Cyan);
 		}
 	}
 
