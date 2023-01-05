@@ -76,7 +76,7 @@
 	" in " + FCT_NAME + ": " + msg                                 \
 )
 
-#define random_distrib(r, mi, ma) (((r)() - (r).min()) * ((ma) - (mi)) / ((r).max() - (r).min()) + (mi))
+#define random_distrib(r, mi, ma) ((((uint64_t)(r)() - (r).min()) * ((ma) - (mi))) / ((r).max() - (r).min()) + (mi))
 
 namespace SpiralOfFate
 {

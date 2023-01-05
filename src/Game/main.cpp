@@ -326,6 +326,13 @@ void	checkCompilationEnv()
 	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
 
 	SpiralOfFate::game->battleRandom.seed(0);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2546248239UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 3071714933UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 3626093760UL);
+	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
+
+	SpiralOfFate::game->battleRandom.seed(0);
 	my_assert_eq(SpiralOfFate::game->battleRandom.min(), 0UL);
 	my_assert_eq(SpiralOfFate::game->battleRandom.max(), 0xFFFFFFFFUL);
 	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 10UL);
