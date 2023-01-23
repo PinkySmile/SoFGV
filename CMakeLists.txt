@@ -171,7 +171,7 @@ add_library(
 	src/LibCore/Scenes/MenuItem.hpp
 	src/LibCore/Scenes/LoadingScene.cpp
 	src/LibCore/Scenes/LoadingScene.hpp
-)
+	src/LibCore/Inputs/VirtualController.cpp src/LibCore/Inputs/VirtualController.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	set_target_properties(SoFGVCore PROPERTIES SUFFIX ".dll")

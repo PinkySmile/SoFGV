@@ -6733,10 +6733,10 @@
           "hitSound": "assets/sfxs/se/001.wav",
           "hit_boxes": [
             {
-              "height": 31,
+              "height": 208,
               "left": -2,
-              "top": -107,
-              "width": 55
+              "top": -284,
+              "width": 237
             }
           ],
           "hit_opponent_hit_stop": 8,
