@@ -174,6 +174,7 @@ add_library(
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
+	enable_language(RC)
 	set_target_properties(SoFGVCore PROPERTIES SUFFIX ".dll")
 endif ()
 
