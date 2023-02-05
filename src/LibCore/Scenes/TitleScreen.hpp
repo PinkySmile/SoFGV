@@ -23,8 +23,8 @@ namespace SpiralOfFate
 		mutable Sprite _titleBg;
 		mutable Sprite _titleLogo;
 		mutable Sprite _titleSpiral;
+		mutable std::vector<Sprite> _inputs;
 		Menu _menuObject;
-		std::vector<sf::Texture> _inputs;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P2;
 		std::thread _thread;

@@ -106,17 +106,17 @@ namespace SpiralOfFate
 		this->_titleSpiral.setPosition({328, 139});
 		this->_netbellSound = game->soundMgr.load("assets/sfxs/se/057.wav");
 		this->_inputs.resize(INPUT_NUMBER);
-		this->_inputs[INPUT_LEFT].loadFromFile("assets/icons/inputs/4.png");
-		this->_inputs[INPUT_RIGHT].loadFromFile("assets/icons/inputs/6.png");
-		this->_inputs[INPUT_UP].loadFromFile("assets/icons/inputs/8.png");
-		this->_inputs[INPUT_DOWN].loadFromFile("assets/icons/inputs/2.png");
-		this->_inputs[INPUT_N].loadFromFile("assets/icons/inputs/neutral.png");
-		this->_inputs[INPUT_M].loadFromFile("assets/icons/inputs/matter.png");
-		this->_inputs[INPUT_S].loadFromFile("assets/icons/inputs/spirit.png");
-		this->_inputs[INPUT_V].loadFromFile("assets/icons/inputs/void.png");
-		this->_inputs[INPUT_A].loadFromFile("assets/icons/inputs/ascend.png");
-		this->_inputs[INPUT_D].loadFromFile("assets/icons/inputs/dash.png");
-		this->_inputs[INPUT_PAUSE].loadFromFile("assets/icons/inputs/pause.png");
+		this->_inputs[INPUT_LEFT].textureHandle = game->textureMgr.load("assets/icons/inputs/4.png");
+		this->_inputs[INPUT_RIGHT].textureHandle = game->textureMgr.load("assets/icons/inputs/6.png");
+		this->_inputs[INPUT_UP].textureHandle = game->textureMgr.load("assets/icons/inputs/8.png");
+		this->_inputs[INPUT_DOWN].textureHandle = game->textureMgr.load("assets/icons/inputs/2.png");
+		this->_inputs[INPUT_N].textureHandle = game->textureMgr.load("assets/icons/inputs/neutral.png");
+		this->_inputs[INPUT_M].textureHandle = game->textureMgr.load("assets/icons/inputs/matter.png");
+		this->_inputs[INPUT_S].textureHandle = game->textureMgr.load("assets/icons/inputs/spirit.png");
+		this->_inputs[INPUT_V].textureHandle = game->textureMgr.load("assets/icons/inputs/void.png");
+		this->_inputs[INPUT_A].textureHandle = game->textureMgr.load("assets/icons/inputs/ascend.png");
+		this->_inputs[INPUT_D].textureHandle = game->textureMgr.load("assets/icons/inputs/dash.png");
+		this->_inputs[INPUT_PAUSE].textureHandle = game->textureMgr.load("assets/icons/inputs/pause.png");
 		this->_menuObject.displayed = true;
 	}
 
@@ -129,6 +129,17 @@ namespace SpiralOfFate
 		game->textureMgr.remove(this->_titleBg.textureHandle);
 		game->textureMgr.remove(this->_titleLogo.textureHandle);
 		game->textureMgr.remove(this->_titleSpiral.textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_LEFT].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_RIGHT].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_UP].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_DOWN].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_N].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_M].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_S].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_V].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_A].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_D].textureHandle);
+		game->textureMgr.remove(this->_inputs[INPUT_PAUSE].textureHandle);
 		if (this->_thread.joinable())
 			this->_thread.join();
 	}
@@ -552,7 +563,8 @@ namespace SpiralOfFate
 			game->screen->displayElement((this->_changingInputs == 2 ? "P1 | " : "P2 | ") + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
 			game->screen->fillColor(sf::Color::White);
 			for (unsigned i = 0; i < this->_inputs.size(); i++) {
-				game->screen->displayElement(this->_inputs[i], {680, 135 + i * 68.f});
+				this->_inputs[i].setPosition({680, 135 + i * 68.f});
+				game->textureMgr.render(this->_inputs[i]);
 				if (this->_changeInput && this->_cursorInputs == i) {
 					game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
 					game->screen->displayElement("Press a key", {760, 146 + i * 68.f});
