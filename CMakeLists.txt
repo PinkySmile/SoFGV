@@ -90,88 +90,63 @@ add_library(
 	src/LibCore/Objects/FakeObject.cpp
 	src/LibCore/Objects/FakeObject.hpp
 	src/LibCore/Objects/IObject.hpp
-	src/LibCore/Resources/BattleManager.cpp
-	src/LibCore/Resources/BattleManager.hpp
-	src/LibCore/Resources/FrameData.cpp
-	src/LibCore/Resources/FrameData.hpp
+	src/LibCore/Resources/Battle/BattleManager.cpp
+	src/LibCore/Resources/Battle/BattleManager.hpp
+	src/LibCore/Resources/Assets/FrameData.cpp
+	src/LibCore/Resources/Assets/FrameData.hpp
 	src/LibCore/Resources/Game.cpp
 	src/LibCore/Resources/Game.hpp
-	src/LibCore/Resources/MoveListData.cpp
-	src/LibCore/Resources/MoveListData.hpp
+	src/LibCore/Resources/Assets/MoveListData.cpp
+	src/LibCore/Resources/Assets/MoveListData.hpp
 	src/LibCore/Resources/Screen.cpp
 	src/LibCore/Resources/Screen.hpp
-	src/LibCore/Resources/SoundManager.cpp
-	src/LibCore/Resources/SoundManager.hpp
-	src/LibCore/Resources/Sprite.hpp
-	src/LibCore/Resources/TextureManager.cpp
-	src/LibCore/Resources/TextureManager.hpp
-	src/LibCore/Scenes/CharacterSelect.cpp
-	src/LibCore/Scenes/CharacterSelect.hpp
-	src/LibCore/Scenes/IScene.hpp
-	src/LibCore/Scenes/InGame.cpp
-	src/LibCore/Scenes/InGame.hpp
-	src/LibCore/Scenes/TitleScreen.cpp
-	src/LibCore/Scenes/TitleScreen.hpp
-	src/LibCore/Resources/PracticeBattleManager.cpp
-	src/LibCore/Resources/PracticeBattleManager.hpp
-	src/LibCore/Resources/RandomWrapper.cpp
-	src/LibCore/Resources/RandomWrapper.hpp
-	src/LibCore/Scenes/PracticeInGame.cpp
-	src/LibCore/Scenes/PracticeInGame.hpp
+	src/LibCore/Resources/Assets/SoundManager.cpp
+	src/LibCore/Resources/Assets/SoundManager.hpp
+	src/LibCore/Resources/Assets/Sprite.hpp
+	src/LibCore/Resources/Assets/TextureManager.cpp
+	src/LibCore/Resources/Assets/TextureManager.hpp
+	src/LibCore/Resources/Battle/PracticeBattleManager.cpp
+	src/LibCore/Resources/Battle/PracticeBattleManager.hpp
+	src/LibCore/Resources/Battle/RandomWrapper.cpp
+	src/LibCore/Resources/Battle/RandomWrapper.hpp
 	src/LibCore/Objects/Characters/Stickman.cpp
 	src/LibCore/Objects/Characters/Stickman.hpp
 	src/LibCore/Utils.cpp
 	src/LibCore/Utils.hpp
+	src/LibCore/Resources/SceneManager.cpp
+	src/LibCore/Resources/SceneManager.hpp
 	src/LibCore/Inputs/ReplayInput.cpp
 	src/LibCore/Inputs/ReplayInput.hpp
 	src/LibCore/Resources/version.h
-	src/LibCore/Scenes/ReplayInGame.cpp
-	src/LibCore/Scenes/ReplayInGame.hpp
 	src/LibCore/Objects/StageObjects/StageObject.cpp
 	src/LibCore/Objects/StageObjects/StageObject.hpp
 	src/LibCore/Objects/StageObjects/Cloud.hpp
 	src/LibCore/Objects/StageObjects/Cloud.cpp
-	src/LibCore/Scenes/Network/SyncTestInGame.cpp
-	src/LibCore/Scenes/Network/SyncTestInGame.hpp
-	src/LibCore/Scenes/Network/RollbackMachine.cpp
-	src/LibCore/Scenes/Network/RollbackMachine.hpp
-	src/LibCore/Resources/Network/NetManager.cpp
-	src/LibCore/Resources/Network/NetManager.hpp
-	src/LibCore/Resources/Network/Packet.cpp
-	src/LibCore/Resources/Network/Packet.hpp
-	src/LibCore/Resources/Network/Connection.cpp
-	src/LibCore/Resources/Network/Connection.hpp
-	src/LibCore/Resources/Network/Exceptions.hpp
-	src/LibCore/Resources/Network/ServerConnection.cpp
-	src/LibCore/Resources/Network/ServerConnection.hpp
-	src/LibCore/Resources/Network/ClientConnection.cpp
-	src/LibCore/Resources/Network/ClientConnection.hpp
-	src/LibCore/Resources/Network/IConnection.hpp
-	src/LibCore/Scenes/Network/ClientCharacterSelect.cpp
-	src/LibCore/Scenes/Network/ClientCharacterSelect.hpp
-	src/LibCore/Scenes/Network/ServerCharacterSelect.cpp
-	src/LibCore/Scenes/Network/ServerCharacterSelect.hpp
-	src/LibCore/Scenes/Network/NetworkCharacterSelect.cpp
-	src/LibCore/Scenes/Network/NetworkCharacterSelect.hpp
-	src/LibCore/Scenes/Network/ClientInGame.cpp
-	src/LibCore/Scenes/Network/ClientInGame.hpp
-	src/LibCore/Scenes/Network/ServerInGame.cpp
-	src/LibCore/Scenes/Network/ServerInGame.hpp
-	src/LibCore/Scenes/Network/NetworkInGame.cpp
-	src/LibCore/Scenes/Network/NetworkInGame.hpp
+	#src/LibCore/Resources/Network/NetManager.cpp
+	#src/LibCore/Resources/Network/NetManager.hpp
+	#src/LibCore/Resources/Network/Packet.cpp
+	#src/LibCore/Resources/Network/Packet.hpp
+	#src/LibCore/Resources/Network/Connection.cpp
+	#src/LibCore/Resources/Network/Connection.hpp
+	#src/LibCore/Resources/Network/Exceptions.hpp
+	#src/LibCore/Resources/Network/ServerConnection.cpp
+	#src/LibCore/Resources/Network/ServerConnection.hpp
+	#src/LibCore/Resources/Network/ClientConnection.cpp
+	#src/LibCore/Resources/Network/ClientConnection.hpp
+	#src/LibCore/Resources/Network/IConnection.hpp
+	src/LibCore/Resources/IScene.hpp
+	src/LibCore/Resources/Network/RollbackMachine.cpp
+	src/LibCore/Resources/Network/RollbackMachine.hpp
 	src/LibCore/Inputs/RemoteInput.cpp
 	src/LibCore/Inputs/RemoteInput.hpp
 	src/LibCore/Inputs/NetworkInput.cpp
 	src/LibCore/Inputs/NetworkInput.hpp
 	src/LibCore/Inputs/DelayInput.cpp
 	src/LibCore/Inputs/DelayInput.hpp
-	src/LibCore/Scenes/Menu.cpp
-	src/LibCore/Scenes/Menu.hpp
-	src/LibCore/Scenes/MenuItem.cpp
-	src/LibCore/Scenes/MenuItem.hpp
-	src/LibCore/Scenes/LoadingScene.cpp
-	src/LibCore/Scenes/LoadingScene.hpp
-	src/LibCore/Inputs/VirtualController.cpp src/LibCore/Inputs/VirtualController.hpp)
+	src/LibCore/Inputs/VirtualController.cpp
+	src/LibCore/Inputs/VirtualController.hpp
+	src/LibCore/Resources/SceneArgument.hpp
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)
@@ -186,8 +161,8 @@ if (WIN32)
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
-		${TGUI_LIB}
 		${SFML_NETWORK_LIB}
+		${TGUI_LIB}
 		ws2_32
 	)
 else ()
@@ -197,11 +172,11 @@ else ()
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}
 		${SFML_WINDOW_LIB}
+		${SFML_NETWORK_LIB}
 		${TGUI_LIB}
 		pthread
 		png
 		xcb
-		${SFML_NETWORK_LIB}
 	)
 endif ()
 
@@ -210,7 +185,38 @@ add_executable(
 	SoFGV
 	${GICON}
 	src/Game/main.cpp
+	src/Game/Scenes/Menu.cpp
+	src/Game/Scenes/Menu.hpp
+	src/Game/Scenes/MenuItem.cpp
+	src/Game/Scenes/MenuItem.hpp
+	src/Game/Scenes/LoadingScene.cpp
+	src/Game/Scenes/LoadingScene.hpp
+	src/Game/Scenes/CharacterSelect.cpp
+	src/Game/Scenes/CharacterSelect.hpp
+	src/Game/Scenes/InGame.cpp
+	src/Game/Scenes/InGame.hpp
+	src/Game/Scenes/TitleScreen.cpp
+	src/Game/Scenes/TitleScreen.hpp
+	#src/Game/Scenes/PracticeInGame.cpp
+	#src/Game/Scenes/PracticeInGame.hpp
+	#src/Game/Scenes/ReplayInGame.cpp
+	#src/Game/Scenes/ReplayInGame.hpp
+	#src/Game/Scenes/Network/SyncTestInGame.cpp
+	#src/Game/Scenes/Network/SyncTestInGame.hpp
+	#src/Game/Scenes/Network/ClientCharacterSelect.cpp
+	#src/Game/Scenes/Network/ClientCharacterSelect.hpp
+	#src/Game/Scenes/Network/ServerCharacterSelect.cpp
+	#src/Game/Scenes/Network/ServerCharacterSelect.hpp
+	#src/Game/Scenes/Network/NetworkCharacterSelect.cpp
+	#src/Game/Scenes/Network/NetworkCharacterSelect.hpp
+	#src/Game/Scenes/Network/ClientInGame.cpp
+	#src/Game/Scenes/Network/ClientInGame.hpp
+	#src/Game/Scenes/Network/ServerInGame.cpp
+	#src/Game/Scenes/Network/ServerInGame.hpp
+	#src/Game/Scenes/Network/NetworkInGame.cpp
+	#src/Game/Scenes/Network/NetworkInGame.hpp
 	src/LibCore/LibCore.hpp
+	src/Game/Scenes/Scenes.hpp
 )
 target_link_libraries(SoFGV SoFGVCore)
 target_include_directories(SoFGV PRIVATE src/LibCore)
@@ -222,7 +228,8 @@ add_executable(
 	src/FrameDataEditor/dataEditor.cpp
 	src/FrameDataEditor/EditableObject.cpp
 	src/FrameDataEditor/EditableObject.hpp
-	src/LibCore/LibCore.hpp)
+	src/LibCore/LibCore.hpp
+)
 target_link_libraries(FrameDataEditor SoFGVCore)
 
 add_executable(PaletteExtractor src/PaletteExtractor/main.cpp)

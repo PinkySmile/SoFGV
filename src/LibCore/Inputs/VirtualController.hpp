@@ -7,7 +7,7 @@
 
 
 #include "RollbackInput.hpp"
-#include "Resources/Sprite.hpp"
+#include "Resources/Assets/Sprite.hpp"
 
 namespace SpiralOfFate
 {

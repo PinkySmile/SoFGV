@@ -48,13 +48,6 @@ namespace SpiralOfFate
 		}
 	}
 
-	Game::~Game()
-	{
-		this->logger.debug("~Game()>");
-		this->scene.reset();
-		this->logger.debug("~Game()<");
-	}
-
 	std::vector<std::filesystem::path> Game::getCharacters()
 	{
 		std::vector<std::filesystem::path> result;

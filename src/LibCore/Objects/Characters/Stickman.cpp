@@ -4,7 +4,7 @@
 
 #include "Stickman.hpp"
 #include "Resources/Game.hpp"
-#include "Resources/PracticeBattleManager.hpp"
+#include "Resources/Battle/PracticeBattleManager.hpp"
 
 #define DAMAGE_DIFF 0.5
 #define HITSTUN_DIFF 0.25

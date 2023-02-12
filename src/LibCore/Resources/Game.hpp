@@ -10,16 +10,16 @@
 #include <random>
 #include <filesystem>
 #include "Screen.hpp"
-#include "TextureManager.hpp"
-#include "BattleManager.hpp"
-#include "SoundManager.hpp"
+#include "Resources/Assets/TextureManager.hpp"
+#include "Resources/Battle/BattleManager.hpp"
+#include "Resources/Assets/SoundManager.hpp"
 #include "Resources/Network/Connection.hpp"
-#include "Scenes/IScene.hpp"
+#include "SceneManager.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
 #include "Inputs/RollbackInput.hpp"
 #include "Logger.hpp"
-#include "RandomWrapper.hpp"
+#include "Resources/Battle/RandomWrapper.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS
@@ -37,6 +37,12 @@
 #define FCT_NAME __FUNCSIG__
 #else
 #define FCT_NAME __func__
+#endif
+
+#ifdef _DEBUG
+#define checked_cast(s, t, a) auto s = dynamic_cast<t *>(a); my_assert(s)
+#else
+#define checked_cast(s, t, a) auto s = reinterpret_cast<t *>(a)
 #endif
 
 #define my_assert(_Expression)                                                                 \
@@ -122,13 +128,12 @@ namespace SpiralOfFate
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
-		std::shared_ptr<IScene> scene;
+		SceneManager scene;
 		std::mutex sceneMutex;
 		std::shared_ptr<class Connection> connection;
 		std::shared_ptr<IInput> activeNetInput;
 
 		Game(const std::string &loggerPath = "./latest.log");
-		~Game();
 		std::vector<std::filesystem::path> getCharacters();
 	};
 	extern MYDLL_API Game *game;

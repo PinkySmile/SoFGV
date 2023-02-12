@@ -7,7 +7,8 @@
 #include <direct.h>
 #endif
 #include <sys/stat.h>
-#include "../LibCore/LibCore.hpp"
+#include <LibCore.hpp>
+#include "Scenes/Scenes.hpp"
 
 #ifdef _WIN32
 std::wstring getLastError(int err = GetLastError())
@@ -22,15 +23,8 @@ std::wstring getLastError(int err = GetLastError())
 	str = s;
 	LocalFree(s);
 	return str;
-#else
-#define MessageBox(...) ((void)0)
-std::string getLastError(int err = errno)
-{
-	return strerror(err);
-#endif
 }
 
-#ifdef _WIN32
 LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 {
 	if (!ExPtr) {
@@ -79,38 +73,47 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	MessageBoxW(nullptr, buf, L"Fatal Error", MB_ICONERROR);
 	exit(ExPtr->ExceptionRecord->ExceptionCode);
 }
+#else
+#define MessageBox(...) ((void)0)
+
+std::string getLastError(int err = errno)
+{
+	return strerror(err);
+}
 #endif
 
-std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream)
+using namespace SpiralOfFate;
+
+std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadPlayerInputs(std::ifstream &stream)
 {
-	std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> keyboardMap{
-		{ SpiralOfFate::INPUT_LEFT,    sf::Keyboard::Left },
-		{ SpiralOfFate::INPUT_RIGHT,   sf::Keyboard::Right },
-		{ SpiralOfFate::INPUT_UP,      sf::Keyboard::Up },
-		{ SpiralOfFate::INPUT_DOWN,    sf::Keyboard::Down },
-		{ SpiralOfFate::INPUT_NEUTRAL, sf::Keyboard::W },
-		{ SpiralOfFate::INPUT_MATTER,  sf::Keyboard::X },
-		{ SpiralOfFate::INPUT_SPIRIT,  sf::Keyboard::C },
-		{ SpiralOfFate::INPUT_VOID,    sf::Keyboard::Q },
-		{ SpiralOfFate::INPUT_ASCEND,  sf::Keyboard::S },
-		{ SpiralOfFate::INPUT_DASH,    sf::Keyboard::LShift },
-		{ SpiralOfFate::INPUT_PAUSE,   sf::Keyboard::Tab }
+	std::map<InputEnum, sf::Keyboard::Key> keyboardMap{
+		{ INPUT_LEFT,    sf::Keyboard::Left },
+		{ INPUT_RIGHT,   sf::Keyboard::Right },
+		{ INPUT_UP,      sf::Keyboard::Up },
+		{ INPUT_DOWN,    sf::Keyboard::Down },
+		{ INPUT_NEUTRAL, sf::Keyboard::W },
+		{ INPUT_MATTER,  sf::Keyboard::X },
+		{ INPUT_SPIRIT,  sf::Keyboard::C },
+		{ INPUT_VOID,    sf::Keyboard::Q },
+		{ INPUT_ASCEND,  sf::Keyboard::S },
+		{ INPUT_DASH,    sf::Keyboard::LShift },
+		{ INPUT_PAUSE,   sf::Keyboard::Tab }
 	};
-	std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap{
-		{ SpiralOfFate::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
-		{ SpiralOfFate::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
-		{ SpiralOfFate::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
-		{ SpiralOfFate::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
-		{ SpiralOfFate::INPUT_NEUTRAL, {false, 0} },
-		{ SpiralOfFate::INPUT_MATTER,  {false, 2} },
-		{ SpiralOfFate::INPUT_SPIRIT,  {false, 1} },
-		{ SpiralOfFate::INPUT_VOID,    {false, 3} },
-		{ SpiralOfFate::INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
-		{ SpiralOfFate::INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
-		{ SpiralOfFate::INPUT_PAUSE,   {false, 7} }
+	std::map<InputEnum, std::pair<bool, int>> controllerMap{
+		{ INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
+		{ INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
+		{ INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
+		{ INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
+		{ INPUT_NEUTRAL, {false, 0} },
+		{ INPUT_MATTER,  {false, 2} },
+		{ INPUT_SPIRIT,  {false, 1} },
+		{ INPUT_VOID,    {false, 3} },
+		{ INPUT_ASCEND,  {true,  sf::Joystick::Z | (30 << 3)} },
+		{ INPUT_DASH,    {true,  sf::Joystick::Z | ((256 - 30) << 3)} },
+		{ INPUT_PAUSE,   {false, 7} }
 	};
-	std::map<SpiralOfFate::InputEnum, SpiralOfFate::ControllerKey *> realControllerMap;
-	std::map<sf::Keyboard::Key, SpiralOfFate::InputEnum> realKeyboardMap;
+	std::map<InputEnum, ControllerKey *> realControllerMap;
+	std::map<sf::Keyboard::Key, InputEnum> realKeyboardMap;
 
 	if (!stream.fail()) {
 		for (auto &pair : keyboardMap)
@@ -122,44 +125,44 @@ std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOf
 		realKeyboardMap[pair.second] = pair.first;
 	for (auto &pair : controllerMap) {
 		realControllerMap[pair.first] = pair.second.first ?
-			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerAxis(
+			static_cast<ControllerKey *>(new ControllerAxis(
 				0,
 				static_cast<sf::Joystick::Axis>(pair.second.second & 7),
 				(char)(pair.second.second >> 3)
 			)) :
-			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerButton(
+			static_cast<ControllerKey *>(new ControllerButton(
 				0,
 				pair.second.second
 			));
 	}
 	return {
-		std::make_shared<SpiralOfFate::KeyboardInput>(realKeyboardMap),
-		std::make_shared<SpiralOfFate::ControllerInput>(realControllerMap)
+		std::make_shared<KeyboardInput>(realKeyboardMap),
+		std::make_shared<ControllerInput>(realControllerMap)
 	};
 }
 
-std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadMenuInputs(std::ifstream &stream)
+std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadMenuInputs(std::ifstream &stream)
 {
-	std::map<SpiralOfFate::InputEnum, sf::Keyboard::Key> keyboardMap{
-		{ SpiralOfFate::INPUT_LEFT,    sf::Keyboard::Left },
-		{ SpiralOfFate::INPUT_RIGHT,   sf::Keyboard::Right },
-		{ SpiralOfFate::INPUT_UP,      sf::Keyboard::Up },
-		{ SpiralOfFate::INPUT_DOWN,    sf::Keyboard::Down },
-		{ SpiralOfFate::INPUT_NEUTRAL, sf::Keyboard::W },
-		{ SpiralOfFate::INPUT_SPIRIT,  sf::Keyboard::C },
-		{ SpiralOfFate::INPUT_PAUSE,   sf::Keyboard::Tab }
+	std::map<InputEnum, sf::Keyboard::Key> keyboardMap{
+		{ INPUT_LEFT,    sf::Keyboard::Left },
+		{ INPUT_RIGHT,   sf::Keyboard::Right },
+		{ INPUT_UP,      sf::Keyboard::Up },
+		{ INPUT_DOWN,    sf::Keyboard::Down },
+		{ INPUT_NEUTRAL, sf::Keyboard::W },
+		{ INPUT_SPIRIT,  sf::Keyboard::C },
+		{ INPUT_PAUSE,   sf::Keyboard::Tab }
 	};
-	std::map<SpiralOfFate::InputEnum, std::pair<bool, int>> controllerMap{
-		{ SpiralOfFate::INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
-		{ SpiralOfFate::INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
-		{ SpiralOfFate::INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
-		{ SpiralOfFate::INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
-		{ SpiralOfFate::INPUT_NEUTRAL, {false, 0} },
-		{ SpiralOfFate::INPUT_SPIRIT,  {false, 1} },
-		{ SpiralOfFate::INPUT_PAUSE,   {false, 7} }
+	std::map<InputEnum, std::pair<bool, int>> controllerMap{
+		{ INPUT_LEFT,    {true,  sf::Joystick::Axis::X | (256 - 30) << 3} },
+		{ INPUT_RIGHT,   {true,  sf::Joystick::Axis::X | 30 << 3} },
+		{ INPUT_UP,      {true,  sf::Joystick::Axis::Y | (256 - 30) << 3} },
+		{ INPUT_DOWN,    {true,  sf::Joystick::Axis::Y | 30 << 3} },
+		{ INPUT_NEUTRAL, {false, 0} },
+		{ INPUT_SPIRIT,  {false, 1} },
+		{ INPUT_PAUSE,   {false, 7} }
 	};
-	std::map<SpiralOfFate::InputEnum, SpiralOfFate::ControllerKey *> realControllerMap;
-	std::map<sf::Keyboard::Key, SpiralOfFate::InputEnum> realKeyboardMap;
+	std::map<InputEnum, ControllerKey *> realControllerMap;
+	std::map<sf::Keyboard::Key, InputEnum> realKeyboardMap;
 
 	if (!stream.fail()) {
 		for (auto &pair : keyboardMap)
@@ -171,19 +174,19 @@ std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOf
 		realKeyboardMap[pair.second] = pair.first;
 	for (auto &pair : controllerMap) {
 		realControllerMap[pair.first] = pair.second.first ?
-			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerAxis(
+			static_cast<ControllerKey *>(new ControllerAxis(
 				-1,
 				static_cast<sf::Joystick::Axis>(pair.second.second & 7),
 				(char)(pair.second.second >> 3)
 			)) :
-			static_cast<SpiralOfFate::ControllerKey *>(new SpiralOfFate::ControllerButton(
+			static_cast<ControllerKey *>(new ControllerButton(
 				-1,
 				pair.second.second
 			));
 	}
 	return {
-		std::make_shared<SpiralOfFate::KeyboardInput>(realKeyboardMap),
-		std::make_shared<SpiralOfFate::ControllerInput>(realControllerMap)
+		std::make_shared<KeyboardInput>(realKeyboardMap),
+		std::make_shared<ControllerInput>(realControllerMap)
 	};
 }
 
@@ -191,12 +194,12 @@ void	saveSettings()
 {
 	std::ofstream stream{"settings.dat", std::istream::binary};
 
-	SpiralOfFate::game->P1.first->save(stream);
-	SpiralOfFate::game->P1.second->save(stream);
-	SpiralOfFate::game->P2.first->save(stream);
-	SpiralOfFate::game->P2.second->save(stream);
-	SpiralOfFate::game->menu.first->save(stream);
-	SpiralOfFate::game->menu.second->save(stream);
+	game->P1.first->save(stream);
+	game->P1.second->save(stream);
+	game->P2.first->save(stream);
+	game->P2.second->save(stream);
+	game->menu.first->save(stream);
+	game->menu.second->save(stream);
 }
 
 void	loadSettings()
@@ -204,19 +207,19 @@ void	loadSettings()
 	std::ifstream stream{"settings.dat", std::istream::binary};
 
 	if (stream.fail() && errno != ENOENT)
-		SpiralOfFate::Utils::dispMsg("Cannot load settings", "Cannot open settings file: " + std::string(strerror(errno)), MB_ICONERROR);
+		Utils::dispMsg("Cannot load settings", "Cannot open settings file: " + std::string(strerror(errno)), MB_ICONERROR);
 
 	struct stat s;
 	auto result = stat("settings.dat", &s);
 
 	if (result == -1) {
 		if (errno != ENOENT)
-			SpiralOfFate::Utils::dispMsg("Cannot load settings", "Cannot stat file: " + std::string(strerror(errno)), MB_ICONERROR);
+			Utils::dispMsg("Cannot load settings", "Cannot stat file: " + std::string(strerror(errno)), MB_ICONERROR);
 	} else if (s.st_size != 348)
-		SpiralOfFate::Utils::dispMsg("Cannot load settings", "Old settings or corrupted settings detected.\nYou might need to set your settings again in the menu.", MB_ICONWARNING);
-	SpiralOfFate::game->P1 = loadPlayerInputs(stream);
-	SpiralOfFate::game->P2 = loadPlayerInputs(stream);
-	SpiralOfFate::game->menu = loadMenuInputs(stream);
+		Utils::dispMsg("Cannot load settings", "Old settings or corrupted settings detected.\nYou might need to set your settings again in the menu.", MB_ICONWARNING);
+	game->P1 = loadPlayerInputs(stream);
+	game->P2 = loadPlayerInputs(stream);
+	game->menu = loadMenuInputs(stream);
 }
 
 #ifdef __ANDROID__
@@ -224,73 +227,73 @@ static void logEvent(sf::Event &event)
 {
 	switch (event.type) {
 	case sf::Event::Closed:                 ///< The window requested to be closed (no data)
-		SpiralOfFate::game->logger.debug("Closed");
+		game->logger.debug("Closed");
 		break;
 	case sf::Event::Resized:                ///< The window was resized (data in event.size)
-		SpiralOfFate::game->logger.debug("Resized " + std::to_string(event.size.width) + "x" + std::to_string(event.size.height));
+		game->logger.debug("Resized " + std::to_string(event.size.width) + "x" + std::to_string(event.size.height));
 		break;
 	case sf::Event::LostFocus:              ///< The window lost the focus (no data)
-		SpiralOfFate::game->logger.debug("LostFocus");
+		game->logger.debug("LostFocus");
 		break;
 	case sf::Event::GainedFocus:            ///< The window gained the focus (no data)
-		SpiralOfFate::game->logger.debug("GainedFocus");
+		game->logger.debug("GainedFocus");
 		break;
 	case sf::Event::TextEntered:            ///< A character was entered (data in event.text)
-		SpiralOfFate::game->logger.debug("TextEntered " + std::to_string(event.text.unicode));
+		game->logger.debug("TextEntered " + std::to_string(event.text.unicode));
 		break;
 	case sf::Event::KeyPressed:             ///< A key was pressed (data in event.key)
-		SpiralOfFate::game->logger.debug("KeyPressed " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
+		game->logger.debug("KeyPressed " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
 		break;
 	case sf::Event::KeyReleased:            ///< A key was released (data in event.key)
-		SpiralOfFate::game->logger.debug("KeyReleased " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
+		game->logger.debug("KeyReleased " + std::to_string(event.key.code) + ":" + (event.key.alt ? '1' : '0') + (event.key.control ? '1' : '0') + (event.key.shift ? '1' : '0') + (event.key.system ? '1' : '0'));
 		break;
 	case sf::Event::MouseWheelMoved:        ///< The mouse wheel was scrolled (data in event.mouseWheel) (deprecated)
-		SpiralOfFate::game->logger.debug("MouseWheelMoved");
+		game->logger.debug("MouseWheelMoved");
 		break;
 	case sf::Event::MouseWheelScrolled:     ///< The mouse wheel was scrolled (data in event.mouseWheelScroll)
-		SpiralOfFate::game->logger.debug("MouseWheelScrolled");
+		game->logger.debug("MouseWheelScrolled");
 		break;
 	case sf::Event::MouseButtonPressed:     ///< A mouse button was pressed (data in event.mouseButton)
-		SpiralOfFate::game->logger.debug("MouseButtonPressed");
+		game->logger.debug("MouseButtonPressed");
 		break;
 	case sf::Event::MouseButtonReleased:    ///< A mouse button was released (data in event.mouseButton)
-		SpiralOfFate::game->logger.debug("MouseButtonReleased");
+		game->logger.debug("MouseButtonReleased");
 		break;
 	case sf::Event::MouseMoved:             ///< The mouse cursor moved (data in event.mouseMove)
-		SpiralOfFate::game->logger.debug("MouseMoved");
+		game->logger.debug("MouseMoved");
 		break;
 	case sf::Event::MouseEntered:           ///< The mouse cursor entered the area of the window (no data)
-		SpiralOfFate::game->logger.debug("MouseEntered");
+		game->logger.debug("MouseEntered");
 		break;
 	case sf::Event::MouseLeft:              ///< The mouse cursor left the area of the window (no data)
-		SpiralOfFate::game->logger.debug("MouseLeft");
+		game->logger.debug("MouseLeft");
 		break;
 	case sf::Event::JoystickButtonPressed:  ///< A joystick button was pressed (data in event.joystickButton)
-		SpiralOfFate::game->logger.debug("JoystickButtonPressed " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
+		game->logger.debug("JoystickButtonPressed " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
 		break;
 	case sf::Event::JoystickButtonReleased: ///< A joystick button was released (data in event.joystickButton)
-		SpiralOfFate::game->logger.debug("JoystickButtonReleased " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
+		game->logger.debug("JoystickButtonReleased " + std::to_string(event.joystickButton.joystickId) + ": " + std::to_string(event.joystickButton.button));
 		break;
 	case sf::Event::JoystickMoved:          ///< The joystick moved along an axis (data in event.joystickMove)
-		SpiralOfFate::game->logger.debug("JoystickMoved " + std::to_string(event.joystickMove.joystickId) + ": " + std::to_string(event.joystickMove.axis) + " " + std::to_string(event.joystickMove.position));
+		game->logger.debug("JoystickMoved " + std::to_string(event.joystickMove.joystickId) + ": " + std::to_string(event.joystickMove.axis) + " " + std::to_string(event.joystickMove.position));
 		break;
 	case sf::Event::JoystickConnected:      ///< A joystick was connected (data in event.joystickConnect)
-		SpiralOfFate::game->logger.debug("JoystickConnected " + std::to_string(event.joystickConnect.joystickId));
+		game->logger.debug("JoystickConnected " + std::to_string(event.joystickConnect.joystickId));
 		break;
 	case sf::Event::JoystickDisconnected:   ///< A joystick was disconnected (data in event.joystickConnect)
-		SpiralOfFate::game->logger.debug("JoystickDisconnected " + std::to_string(event.joystickConnect.joystickId));
+		game->logger.debug("JoystickDisconnected " + std::to_string(event.joystickConnect.joystickId));
 		break;
 	case sf::Event::TouchBegan:             ///< A touch event began (data in event.touch)
-		SpiralOfFate::game->logger.debug("TouchBegan " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		game->logger.debug("TouchBegan " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
 		break;
 	case sf::Event::TouchMoved:             ///< A touch moved (data in event.touch)
-		SpiralOfFate::game->logger.debug("TouchMoved " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		game->logger.debug("TouchMoved " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
 		break;
 	case sf::Event::TouchEnded:             ///< A touch event ended (data in event.touch)
-		SpiralOfFate::game->logger.debug("TouchEnded " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
+		game->logger.debug("TouchEnded " + std::to_string(event.touch.finger) + " " + std::to_string(event.touch.x) + "," + std::to_string(event.touch.y));
 		break;
 	case sf::Event::SensorChanged:          ///< A sensor value changed (data in event.sensor)
-		SpiralOfFate::game->logger.debug("SensorChanged");
+		game->logger.debug("SensorChanged");
 		break;
 	}
 }
@@ -308,7 +311,7 @@ void	checkCompilationEnv()
 	// We officially support only little endian but people can play if they have the same endianness.
 	// Regardless, the game should work in singleplayer.
 	if (*(unsigned *)magic != 0x01020304)
-		SpiralOfFate::Utils::dispMsg(
+		Utils::dispMsg(
 			"Warning",
 			"Your version of the game has not been compiled in " + std::string(*(unsigned *)magic == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
 			"You will not be able to play with players using a different endianness.\n" +
@@ -318,28 +321,47 @@ void	checkCompilationEnv()
 			nullptr
 		);
 
-	SpiralOfFate::game->battleRandom.seed(0);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2546248239UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 3071714933UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 3626093760UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
+	game->battleRandom.seed(0);
+	my_assert_eq(game->battleRandom(), 2357136044UL);
+	my_assert_eq(game->battleRandom(), 2546248239UL);
+	my_assert_eq(game->battleRandom(), 3071714933UL);
+	my_assert_eq(game->battleRandom(), 3626093760UL);
+	my_assert_eq(game->battleRandom(), 2588848963UL);
 
-	SpiralOfFate::game->battleRandom.seed(0);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2357136044UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2546248239UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 3071714933UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 3626093760UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom(), 2588848963UL);
+	game->battleRandom.seed(0);
+	my_assert_eq(game->battleRandom(), 2357136044UL);
+	my_assert_eq(game->battleRandom(), 2546248239UL);
+	my_assert_eq(game->battleRandom(), 3071714933UL);
+	my_assert_eq(game->battleRandom(), 3626093760UL);
+	my_assert_eq(game->battleRandom(), 2588848963UL);
 
-	SpiralOfFate::game->battleRandom.seed(0);
-	my_assert_eq(SpiralOfFate::game->battleRandom.min(), 0UL);
-	my_assert_eq(SpiralOfFate::game->battleRandom.max(), 0xFFFFFFFFUL);
-	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 10UL);
-	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 11UL);
-	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 14UL);
-	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 16UL);
-	my_assert_eq(random_distrib(SpiralOfFate::game->battleRandom, 0, 20), 12UL);
+	game->battleRandom.seed(0);
+	my_assert_eq(game->battleRandom.min(), 0UL);
+	my_assert_eq(game->battleRandom.max(), 0xFFFFFFFFUL);
+	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 10UL);
+	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 11UL);
+	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 14UL);
+	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 16UL);
+	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 12UL);
+}
+
+void	registerScenes()
+{
+	game->scene.registerScene("title_screen", TitleScreen::create, false);
+	game->scene.registerScene("loading", LoadingScene::create, false);
+
+	// Single player
+	game->scene.registerScene("char_select", CharacterSelect::create, true);
+	game->scene.registerScene("in_game", InGame::create, true);
+	//game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
+	//game->scene.registerScene("replay_in_game", ReplayInGame::create);
+	//game->scene.registerScene("sync_test_in_game", SyncTestInGame::create);
+
+	// Netplay
+	//game->scene.registerScene("client_char_select", ClientCharacterSelect::create);
+	//game->scene.registerScene("server_char_select", ServerCharacterSelect::create);
+	//game->scene.registerScene("client_in_game", ClientInGame::create);
+	//game->scene.registerScene("server_in_game", ServerInGame::create);
 }
 
 void	run()
@@ -354,37 +376,34 @@ void	run()
 
 	checkCompilationEnv();
 	loadSettings();
+	registerScenes();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
-	if (!SpiralOfFate::game->font.loadFromFile(font))
-		my_assert(SpiralOfFate::game->font.loadFromFile("assets/fonts/Retro Gaming.ttf"));
-	SpiralOfFate::game->screen = std::make_unique<SpiralOfFate::Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
+	if (!game->font.loadFromFile(font))
+		my_assert(game->font.loadFromFile("assets/fonts/Retro Gaming.ttf"));
+	game->screen = std::make_unique<Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
-		SpiralOfFate::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-	SpiralOfFate::game->screen->setFont(SpiralOfFate::game->font);
-	SpiralOfFate::game->scene = std::make_unique<SpiralOfFate::TitleScreen>(SpiralOfFate::game->P1, SpiralOfFate::game->P2);
-	while (SpiralOfFate::game->screen->isOpen()) {
-		SpiralOfFate::game->sceneMutex.lock();
-		if (SpiralOfFate::game->connection)
-			SpiralOfFate::game->connection->update();
+		game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	game->screen->setFont(game->font);
+	game->scene.switchScene("title_screen");
+	while (game->screen->isOpen()) {
+		game->sceneMutex.lock();
+		if (game->connection)
+			game->connection->update();
 
-		SpiralOfFate::IScene *newScene = SpiralOfFate::game->scene->update();
+		game->scene.update();
+		game->scene.render();
+		game->screen->display();
 
-		if (newScene)
-			SpiralOfFate::game->scene.reset(newScene);
-		SpiralOfFate::game->screen->clear(sf::Color::White);
-		SpiralOfFate::game->scene->render();
-		SpiralOfFate::game->screen->display();
-
-		while (SpiralOfFate::game->screen->pollEvent(event)) {
+		while (game->screen->pollEvent(event)) {
 #ifdef __ANDROID__
 			logEvent(event);
 #endif
 			if (event.type == sf::Event::Closed)
-				SpiralOfFate::game->screen->close();
-			SpiralOfFate::game->scene->consumeEvent(event);
+				game->screen->close();
+			game->scene.consumeEvent(event);
 		}
-		SpiralOfFate::game->sceneMutex.unlock();
+		game->sceneMutex.unlock();
 	}
 	saveSettings();
 }
@@ -400,25 +419,25 @@ int	main()
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	try {
 #endif
-		new SpiralOfFate::Game();
-		SpiralOfFate::game->logger.info("Starting game->");
+		new Game();
+		game->logger.info("Starting game->");
 		run();
-		SpiralOfFate::game->logger.info("Goodbye !");
+		game->logger.info("Goodbye !");
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	} catch (std::exception &e) {
-		if (SpiralOfFate::game) {
-			SpiralOfFate::game->logger.fatal(e.what());
-			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*SpiralOfFate::game->screen);
+		if (game) {
+			game->logger.fatal(e.what());
+			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*game->screen);
 		} else
-			SpiralOfFate::Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
+			Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
 		ret = EXIT_FAILURE;
 	}
 #endif
-	delete SpiralOfFate::game;
+	delete game;
 #ifdef __ANDROID__
 	// In android, it is possible to exit the app without killing the process.
 	// The main gets called again when the app is restarted so we need to make sure the global is set to null.
-	SpiralOfFate::game = nullptr;
+	game = nullptr;
 #endif
 	return ret;
 }

@@ -7,8 +7,8 @@
 
 
 #include "IObject.hpp"
-#include "Resources/Sprite.hpp"
-#include "Resources/FrameData.hpp"
+#include "Resources/Assets/Sprite.hpp"
+#include "Resources/Assets/FrameData.hpp"
 
 namespace SpiralOfFate
 {

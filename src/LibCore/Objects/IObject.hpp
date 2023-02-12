@@ -6,7 +6,7 @@
 #define SOFGV_IOBJECT_HPP
 
 
-#include "Resources/FrameData.hpp"
+#include "Resources/Assets/FrameData.hpp"
 
 namespace SpiralOfFate
 {
