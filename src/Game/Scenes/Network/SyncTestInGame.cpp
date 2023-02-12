@@ -9,11 +9,6 @@
 
 namespace SpiralOfFate
 {
-	InGame *createSyncTestInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
-	{
-		return new SyncTestInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson);
-	}
-
 	SyncTestInGame::SyncTestInGame(
 		const InGame::GameParams &params,
 		const std::vector<struct PlatformSkeleton> &platforms,
@@ -22,16 +17,13 @@ namespace SpiralOfFate
 		unsigned int licon, unsigned int ricon,
 		const nlohmann::json &lJson, const nlohmann::json &rJson
 	) :
-		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson),
+		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson, true, "char_select"),
 		_rollback(leftChr, rightChr)
 	{
 	}
 
-	IScene *SyncTestInGame::update()
+	void SyncTestInGame::update()
 	{
-		if (this->_nextScene)
-			return this->_nextScene;
-
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game->battleMgr->getRightCharacter()->getInput();
 
@@ -44,21 +36,20 @@ namespace SpiralOfFate
 
 			this->_rollback.debugRollback();
 			if (res == RollbackMachine::UPDATESTATUS_GAME_ENDED) {
-				if (this->_goBackToTitle)
-					this->_nextScene = new TitleScreen(game->P1, game->P2);
-				else
-					this->_nextScene = new CharacterSelect(
-						game->battleMgr->getLeftCharacter()->getInput(),
-						game->battleMgr->getRightCharacter()->getInput(),
-						game->battleMgr->getLeftCharacter()->index & 0xFFFF,
-						game->battleMgr->getRightCharacter()->index & 0xFFFF,
-						game->battleMgr->getLeftCharacter()->index >> 16,
-						game->battleMgr->getRightCharacter()->index >> 16,
-						//TODO: Save the stage and platform config properly
-						0, 0,
-						createSyncTestInGameSceneIScene
-					);
-				return this->_nextScene;
+				auto args = new CharacterSelect::Arguments();
+
+				args->leftInput = game->battleMgr->getLeftCharacter()->getInput();
+				args->rightInput = game->battleMgr->getRightCharacter()->getInput();
+				args->leftPos = game->battleMgr->getLeftCharacter()->index & 0xFFFF;
+				args->rightPos = game->battleMgr->getRightCharacter()->index & 0xFFFF;
+				args->leftPalette = game->battleMgr->getLeftCharacter()->index >> 16;
+				args->rightPalette = game->battleMgr->getRightCharacter()->index >> 16;
+				//TODO: Save the stage and platform config properly
+				args->stage = 0;
+				args->platformCfg = 0;
+				args->inGameName = game->scene.getCurrentScene().first;
+				game->scene.switchScene(this->_endScene, args);
+				return;
 			}
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;
@@ -66,12 +57,32 @@ namespace SpiralOfFate
 				this->_paused = 2;
 		} else
 			this->_pauseUpdate();
-		return this->_nextScene;
 	}
 
 	void SyncTestInGame::consumeEvent(const sf::Event &event)
 	{
 		this->_rollback.consumeEvent(event);
+	}
+
+	SyncTestInGame *SyncTestInGame::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, InGame::Arguments, args);
+
+		auto params = realArgs->characterSelectScene->createParams(args);
+
+		if (args->reportProgressA)
+			args->reportProgressA("Creating scene...");
+		return new SyncTestInGame(
+			params.params,
+			params.platforms,
+			params.stage,
+			params.leftChr,
+			params.rightChr,
+			params.licon,
+			params.ricon,
+			params.lJson,
+			params.rJson
+		);
 	}
 
 }

@@ -197,12 +197,12 @@ add_executable(
 	src/Game/Scenes/InGame.hpp
 	src/Game/Scenes/TitleScreen.cpp
 	src/Game/Scenes/TitleScreen.hpp
-	#src/Game/Scenes/PracticeInGame.cpp
-	#src/Game/Scenes/PracticeInGame.hpp
-	#src/Game/Scenes/ReplayInGame.cpp
-	#src/Game/Scenes/ReplayInGame.hpp
-	#src/Game/Scenes/Network/SyncTestInGame.cpp
-	#src/Game/Scenes/Network/SyncTestInGame.hpp
+	src/Game/Scenes/PracticeInGame.cpp
+	src/Game/Scenes/PracticeInGame.hpp
+	src/Game/Scenes/ReplayInGame.cpp
+	src/Game/Scenes/ReplayInGame.hpp
+	src/Game/Scenes/Network/SyncTestInGame.cpp
+	src/Game/Scenes/Network/SyncTestInGame.hpp
 	#src/Game/Scenes/Network/ClientCharacterSelect.cpp
 	#src/Game/Scenes/Network/ClientCharacterSelect.hpp
 	#src/Game/Scenes/Network/ServerCharacterSelect.cpp

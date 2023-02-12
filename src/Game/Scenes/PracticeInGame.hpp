@@ -64,11 +64,11 @@ namespace SpiralOfFate
 
 	public:
 		PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson);
-		IScene *update() override;
+		void update() override;
 		void render() const override;
-	};
 
-	InGame *createPracticeInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		static PracticeInGame *create(SceneArguments *);
+	};
 }
 
 

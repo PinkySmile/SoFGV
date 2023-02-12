@@ -28,12 +28,11 @@ namespace SpiralOfFate
 			const nlohmann::json &rJson
 		);
 
-		IScene *update() override;
-
+		void update() override;
 		void consumeEvent(const sf::Event &event) override;
-	};
 
-	InGame *createSyncTestInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson);
+		static SyncTestInGame *create(SceneArguments *);
+	};
 }
 
 

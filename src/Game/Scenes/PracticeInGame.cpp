@@ -12,14 +12,11 @@
 
 namespace SpiralOfFate
 {
-	InGame *createPracticeInGameSceneIScene(const InGame::GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson)
-	{
-		return new PracticeInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson);
-	}
-
 	PracticeInGame::PracticeInGame(const GameParams &params, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		InGame(params)
 	{
+		this->_replaySaved = true;
+		this->_endScene = "char_select";
 		this->_manager = new PracticeBattleManager(
 			BattleManager::StageParams{
 				stage.imagePath,
@@ -339,12 +336,11 @@ namespace SpiralOfFate
 		return false;
 	}
 
-	IScene *PracticeInGame::update()
+	void PracticeInGame::update()
 	{
-		auto result = InGame::update();
-
+		InGame::update();
 		if (this->_paused)
-			return result;
+			return;
 		if (!this->_replay) {
 			this->_manager->_leftHUDData.score = 0;
 			this->_manager->_rightHUDData.score = 0;
@@ -426,7 +422,6 @@ namespace SpiralOfFate
 				this->_manager->_rightCharacter->_guardBar = this->_manager->_rightCharacter->_maxGuardBar;
 			}
 		}
-		return result;
 	}
 
 	bool PracticeInGame::hasControl(const Character &chr)
@@ -477,5 +472,26 @@ namespace SpiralOfFate
 			this->_renderMoveList(relevent, L"P" + sf::String(std::to_string(this->_paused)) + L" | " + relevent->name + L"'s " + this->_moveListName);
 		} else if (this->_paused)
 			this->_renderPause();
+	}
+
+	PracticeInGame *PracticeInGame::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, InGame::Arguments, args);
+
+		auto params = realArgs->characterSelectScene->createParams(args);
+
+		if (args->reportProgressA)
+			args->reportProgressA("Creating scene...");
+		return new PracticeInGame(
+			params.params,
+			params.platforms,
+			params.stage,
+			params.leftChr,
+			params.rightChr,
+			params.licon,
+			params.ricon,
+			params.lJson,
+			params.rJson
+		);
 	}
 }

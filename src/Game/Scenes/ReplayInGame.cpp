@@ -14,14 +14,10 @@ namespace SpiralOfFate
 	ReplayInGame::ReplayInGame(const InGame::GameParams &params, unsigned frameCount, const std::vector<struct PlatformSkeleton> &platforms, const struct StageEntry &stage, Character *leftChr, Character *rightChr, unsigned licon, unsigned ricon, const nlohmann::json &lJson, const nlohmann::json &rJson) :
 		PracticeInGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson)
 	{
+		this->_endScene = "title_screen";
 		this->_replay = true;
 		this->_manager->replay = true;
 		this->_startTime = frameCount;
-	}
-
-	ReplayInGame::~ReplayInGame()
-	{
-		this->_goBackToTitle = true;
 	}
 
 	void ReplayInGame::consumeEvent(const sf::Event &event)
@@ -107,10 +103,8 @@ namespace SpiralOfFate
 			this->_practiceConfirm();
 	}
 
-	IScene *ReplayInGame::update()
+	void ReplayInGame::update()
 	{
-		if (this->_nextScene)
-			return this->_nextScene;
 		if (this->_moveList) {
 			game->P1.first->update();
 			game->P1.second->update();
@@ -125,7 +119,7 @@ namespace SpiralOfFate
 			for (size_t i = 2; i < sizeof(relevent) / sizeof(int); i++)
 				((int *)&relevent)[i] = std::max(((int *)&relevent)[i], ((int *)&other)[i]);
 			this->_moveListUpdate(relevent);
-			return this->_nextScene;
+			return;
 		}
 
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
@@ -139,11 +133,11 @@ namespace SpiralOfFate
 				!reinterpret_cast<ReplayInput *>(&*this->_manager->getRightCharacter()->getInput())->hasData()
 			)) {
 				this->_paused = 1;
-				return nullptr;
+				return;
 			}
 			if (!SpiralOfFate::game->battleMgr->update()) {
 				this->_paused = 1;
-				return nullptr;
+				return;
 			}
 			if (linput->getInputs().pause == 1)
 				this->_paused = 1;
@@ -151,7 +145,6 @@ namespace SpiralOfFate
 				this->_paused = 2;
 		} else
 			this->_pauseUpdate();
-		return nullptr;
 	}
 
 	void ReplayInGame::render() const
@@ -255,10 +248,7 @@ namespace SpiralOfFate
 			this->_practice = true;
 			return false;
 		case 4:
-			this->_nextScene = new TitleScreen(
-				game->P1,
-				game->P2
-			);
+			game->scene.switchScene("title_screen");
 			return false;
 		default:
 			return false;
@@ -282,5 +272,42 @@ namespace SpiralOfFate
 			break;
 		}
 		return false;
+	}
+
+	ReplayInGame *ReplayInGame::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, ReplayInGame::Arguments, args);
+
+		if (args->reportProgressW)
+			args->reportProgressW(L"Loading P1's character (" + realArgs->lentry.name + L")");
+
+		auto lChr = CharacterSelect::createCharacter(realArgs->lentry, realArgs->lpos, realArgs->lpalette, realArgs->linput);
+
+		if (args->reportProgressW)
+			args->reportProgressW(L"Loading P2's character (" + realArgs->rentry.name + L")");
+
+		auto rChr = CharacterSelect::createCharacter(realArgs->rentry, realArgs->rpos, realArgs->rpalette, realArgs->rinput);
+
+		if (args->reportProgressA)
+			args->reportProgressA("Creating scene...");
+		return new ReplayInGame(
+			realArgs->params,
+			realArgs->frameCount,
+			realArgs->platforms,
+			realArgs->stage,
+			lChr,
+			rChr,
+			realArgs->licon,
+			realArgs->ricon,
+			realArgs->lJson,
+			realArgs->rJson
+		);
+	}
+
+	ReplayInGame::Arguments::Arguments(CharacterEntry lentry, CharacterEntry rentry, StageEntry stage) :
+		lentry(lentry),
+		rentry(rentry),
+		stage(stage)
+	{
 	}
 }

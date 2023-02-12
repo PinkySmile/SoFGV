@@ -24,6 +24,7 @@
 #include "Utils.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Resources/version.h"
+#include "ReplayInGame.hpp"
 //#include "ReplayInGame.hpp"
 //#include "Network/SyncTestInGame.hpp"
 //#include "Resources/Network/ServerConnection.hpp"
@@ -839,17 +840,23 @@ namespace SpiralOfFate
 		P2inputs.insert(P2inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 
-		/*TODO: this->_nextScene = new ReplayInGame{
-			params,
-			frameCount,
-			stages[params.stage].platforms[params.platforms],
-			stages[params.stage],
-			CharacterSelect::createCharacter(entries[P1pos], P1pos, P1palette, std::make_shared<ReplayInput>(P1inputs)),
-			CharacterSelect::createCharacter(entries[P2pos], P2pos, P2palette, std::make_shared<ReplayInput>(P2inputs)),
-			0, 0, //TODO: Do this properly
-			entries[P1pos].entry,
-			entries[P2pos].entry
-		};*/
+		auto args = new ReplayInGame::Arguments(entries[P1pos], entries[P2pos], stages[params.stage]);
+
+		args->lpos = P1pos;
+		args->lpalette = P1palette;
+		args->linput = std::make_shared<ReplayInput>(P1inputs);
+		args->rpos = P2pos;
+		args->rpalette = P2palette;
+		args->rinput = std::make_shared<ReplayInput>(P2inputs);
+		args->params = params;
+		args->frameCount = frameCount;
+		args->platforms = stages[params.stage].platforms[params.platforms];
+		// TODO: Do this properly
+		args->licon = 0;
+		args->ricon = 0;
+		args->lJson = entries[P1pos].entry;
+		args->rJson = entries[P2pos].entry;
+		game->scene.switchScene("replay_in_game", args);
 	}
 
 	void TitleScreen::_fetchReplayList()

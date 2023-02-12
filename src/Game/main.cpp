@@ -353,9 +353,9 @@ void	registerScenes()
 	// Single player
 	game->scene.registerScene("char_select", CharacterSelect::create, true);
 	game->scene.registerScene("in_game", InGame::create, true);
-	//game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
-	//game->scene.registerScene("replay_in_game", ReplayInGame::create);
-	//game->scene.registerScene("sync_test_in_game", SyncTestInGame::create);
+	game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
+	game->scene.registerScene("replay_in_game", ReplayInGame::create, true);
+	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, true);
 
 	// Netplay
 	//game->scene.registerScene("client_char_select", ClientCharacterSelect::create);
