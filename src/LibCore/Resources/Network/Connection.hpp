@@ -14,6 +14,7 @@
 #include "Packet.hpp"
 #include "Inputs/InputEnum.hpp"
 #include "IConnection.hpp"
+#include "Resources/SceneArgument.hpp"
 
 enum MenuStates {
 	MENUSTATE_NOMENU,
@@ -28,6 +29,16 @@ namespace SpiralOfFate
 {
 	class Connection : public IConnection {
 	public:
+		struct GameStartParams {
+			unsigned seed;
+			unsigned p1chr;
+			unsigned p1pal;
+			unsigned p2chr;
+			unsigned p2pal;
+			unsigned stage;
+			unsigned platformConfig;
+		};
+
 		class Remote {
 		private:
 			struct Ping {
@@ -56,7 +67,10 @@ namespace SpiralOfFate
 		};
 
 	protected:
+		GameStartParams _startParams;
 		bool _terminated = true;
+		unsigned _currentMenu = 0;
+		unsigned _opCurrentMenu = 0;
 		unsigned _delay = 0;
 		unsigned _expectedDelay = 0;
 		unsigned _currentFrame = 0;
@@ -93,13 +107,26 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
+		struct InGameArguments : public SceneArguments {
+			Connection *connection;
+			GameStartParams startParams;
+			class IScene *currentScene;
+		};
+		struct CharSelectArguments : public SceneArguments {
+			Connection *connection;
+			GameStartParams startParams;
+			bool restore;
+		};
+
 		std::vector<std::string> blacklist;
 		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (unsigned newDelay)> onDelayUpdate;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
 
 		Connection();
-		~Connection();
+		~Connection() override;
+		void waitForOpponent();
+		void notifySwitchMenu();
 		void quitGame();
 		void updateDelay(unsigned int delay);
 		virtual bool send(const InputStruct &inputs);

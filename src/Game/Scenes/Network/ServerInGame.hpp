@@ -32,6 +32,8 @@ namespace SpiralOfFate
 		);
 
 		void consumeEvent(const sf::Event &event) override;
+
+		static ServerInGame *create(SceneArguments *args);
 	};
 }
 

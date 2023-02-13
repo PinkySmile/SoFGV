@@ -20,15 +20,12 @@
 #include "Logger.hpp"
 #include "Inputs/KeyboardInput.hpp"
 #include "Inputs/ControllerInput.hpp"
-#include "Inputs/RollbackInput.hpp"
 #include "Utils.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Resources/version.h"
 #include "ReplayInGame.hpp"
-//#include "ReplayInGame.hpp"
-//#include "Network/SyncTestInGame.hpp"
-//#include "Resources/Network/ServerConnection.hpp"
-//#include "Resources/Network/ClientConnection.hpp"
+#include "Resources/Network/ServerConnection.hpp"
+#include "Resources/Network/ClientConnection.hpp"
 
 #define THRESHOLD 50
 
@@ -217,7 +214,7 @@ namespace SpiralOfFate
 
 	void TitleScreen::_host(bool spec)
 	{
-		/*game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
+		game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
 
 		// TODO: Handle names
 		auto con = new ServerConnection("SpiralOfFate::ServerConnection");
@@ -242,12 +239,12 @@ namespace SpiralOfFate
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
 			con->onDisconnect = nullptr;
-		};*/
+		};
 	}
 
 	void TitleScreen::_connect()
 	{
-		/*game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
+		game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(this->_P1.first) : static_cast<std::shared_ptr<IInput>>(this->_P1.second);
 
 		// TODO: Handle names
 		auto con = new ClientConnection("SpiralOfFate::ClientConnection");
@@ -303,7 +300,7 @@ namespace SpiralOfFate
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
 			con->onDisconnect = nullptr;
-		};*/
+		};
 	}
 
 	void TitleScreen::_onInputsChosen()

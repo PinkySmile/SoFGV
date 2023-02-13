@@ -33,7 +33,10 @@ namespace SpiralOfFate
 			int stage, int platformCfg
 		);
 
-		IScene *update() override;
+		void flushInputs(unsigned delay);
+		std::shared_ptr<RemoteInput> getRemoteRealInput();
+		void update() override;
+		InGame::InitParams createParams(SceneArguments *args, Connection::GameStartParams params);
 		void render() const override;
 	};
 }

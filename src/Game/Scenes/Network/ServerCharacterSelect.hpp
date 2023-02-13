@@ -15,7 +15,7 @@ namespace SpiralOfFate
 {
 	class ServerCharacterSelect : public NetworkCharacterSelect {
 	protected:
-		LoadingScene *_launchGame() override;
+		void _launchGame() override;
 
 	public:
 		ServerCharacterSelect();
@@ -26,6 +26,8 @@ namespace SpiralOfFate
 		);
 
 		void consumeEvent(const sf::Event &event) override;
+
+		static ServerCharacterSelect *create(SceneArguments *);
 
 		friend class ServerConnection;
 	};

@@ -15,13 +15,16 @@ namespace SpiralOfFate
 
 	void SceneManager::update()
 	{
-		if (this->_scene)
-			this->_scene->update();
-		if (this->_loading)
+		if (this->_loading) {
+			if (this->_scene)
+				this->_scene->update();
 			return;
+		}
 		this->_oldScene.reset();
 		if (!this->_nextScene.name.empty() && this->_currentScene != this->_nextScene.name)
 			this->_applySwitchScene(false);
+		else if (this->_scene)
+			this->_scene->update();
 	}
 
 	void SceneManager::render() const

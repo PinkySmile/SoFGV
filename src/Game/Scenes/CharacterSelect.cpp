@@ -159,7 +159,6 @@ namespace SpiralOfFate
 
 		auto args = new InGame::Arguments();
 
-		// TODO: Allow calling scene to change that (we don't want to save replays for practice)
 		args->saveReplay = true;
 		args->endScene = game->scene.getCurrentScene().first;
 		args->characterSelectScene = this;

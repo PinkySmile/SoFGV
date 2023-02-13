@@ -36,4 +36,36 @@ namespace SpiralOfFate
 		}
 		NetworkInGame::consumeEvent(event);
 	}
+
+	ClientInGame *ClientInGame::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, ClientConnection::InGameArguments, args);
+		checked_cast(scene, NetworkCharacterSelect, realArgs->currentScene);
+
+		auto params = scene->createParams(args, realArgs->startParams);
+
+		game->battleRandom.seed(realArgs->startParams.seed);
+		scene->flushInputs(realArgs->connection->getCurrentDelay());
+		if (args->reportProgressA)
+			args->reportProgressA("Creating scene...");
+
+		auto result = new ClientInGame(
+			scene->getRemoteRealInput(),
+			params.params,
+			params.platforms,
+			params.stage,
+			params.leftChr,
+			params.rightChr,
+			params.licon,
+			params.ricon,
+			params.lJson,
+			params.rJson
+		);
+
+		realArgs->connection->notifySwitchMenu();
+		if (args->reportProgressA)
+			args->reportProgressA("Waiting for opponent to finish loading...");
+		realArgs->connection->waitForOpponent();
+		return result;
+	}
 }

@@ -37,7 +37,7 @@ namespace SpiralOfFate
 		CharacterSelect::consumeEvent(event);
 	}
 
-	LoadingScene *ServerCharacterSelect::_launchGame()
+	void ServerCharacterSelect::_launchGame()
 	{
 		std::uniform_int_distribution<size_t> dist{0, this->_entries.size() - 1};
 		std::uniform_int_distribution<size_t> dist2{0, this->_stages.size() - 1};
@@ -80,6 +80,28 @@ namespace SpiralOfFate
 			this->_stage,
 			this->_platform
 		);
-		return nullptr;
+	}
+
+	ServerCharacterSelect *ServerCharacterSelect::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, ServerConnection::CharSelectArguments, args);
+		if (args->reportProgressA)
+			args->reportProgressA("Loading assets...");
+
+		auto result = realArgs->restore ?
+			new ServerCharacterSelect(
+				realArgs->startParams.p1chr,
+				realArgs->startParams.p2chr,
+				realArgs->startParams.p1pal,
+				realArgs->startParams.p2pal,
+				realArgs->startParams.stage,
+				realArgs->startParams.platformConfig
+			) : new ServerCharacterSelect();
+
+		realArgs->connection->notifySwitchMenu();
+		if (args->reportProgressA)
+			args->reportProgressA("Waiting for opponent to finish loading...");
+		realArgs->connection->waitForOpponent();
+		return result;
 	}
 }

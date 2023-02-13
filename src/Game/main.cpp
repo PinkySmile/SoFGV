@@ -358,10 +358,10 @@ void	registerScenes()
 	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, true);
 
 	// Netplay
-	//game->scene.registerScene("client_char_select", ClientCharacterSelect::create);
-	//game->scene.registerScene("server_char_select", ServerCharacterSelect::create);
-	//game->scene.registerScene("client_in_game", ClientInGame::create);
-	//game->scene.registerScene("server_in_game", ServerInGame::create);
+	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, true);
+	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, true);
+	game->scene.registerScene("client_in_game", ClientInGame::create, true);
+	game->scene.registerScene("server_in_game", ServerInGame::create, true);
 }
 
 void	run()

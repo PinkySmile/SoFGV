@@ -682,7 +682,7 @@ namespace SpiralOfFate
 		}
 
 		if (!this->_isGrounded() != this->getCurrentFrameData()->dFlag.airborne && this->getCurrentFrameData()->dFlag.landCancel) {
-			if (this->_moves.at(this->_action).size() != this->_actionBlock + 1) {
+			if (this->_moves.at(this->_action).size() != this->_actionBlock + 1U) {
 				this->_actionBlock++;
 				this->_animation = 0;
 				this->_animationCtr = 0;
@@ -3458,7 +3458,6 @@ namespace SpiralOfFate
 	{
 		auto myData = this->getCurrentFrameData();
 		bool blkAction = isBlockingAction(this->_action);
-		bool pressed = this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT);
 		bool low = (
 			this->_input->isPressed(INPUT_DOWN) ||
 			(this->_forceBlock & 7) == LOW_BLOCK ||
@@ -4060,7 +4059,6 @@ namespace SpiralOfFate
 
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
 	{
-		auto data = this->getCurrentFrameData();
 		auto chr = dynamic_cast<Character *>(other);
 
 		if (chr) {
@@ -4151,7 +4149,7 @@ namespace SpiralOfFate
 		else
 			game->soundMgr.play(BASICSOUND_BLOCK);
 
-		memset(&this->_specialInputs, 0, sizeof(this->_specialInputs));
+		memset(&this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
 
 		if (data->dFlag.neutralBlock)
@@ -4585,13 +4583,18 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char buffer[sizeof(dat1->_specialInputs) * 4 + 5];
+			char number[3];
 
 			*buffer = 0;
-			for (unsigned char input : dat1->_specialInputs)
-				sprintf(buffer, "%s%02X", buffer, input);
+			for (unsigned char input : dat1->_specialInputs) {
+				sprintf(number, "%02X", input);
+				strcat(buffer, number);
+			}
 			strcat(buffer, " vs ");
-			for (unsigned char input : dat2->_specialInputs)
-				sprintf(buffer, "%s%02X", buffer, input);
+			for (unsigned char input : dat2->_specialInputs) {
+				sprintf(number, "%02X", input);
+				strcat(buffer, number);
+			}
 			game->logger.fatal(std::string(msgStart) + "Character::_specialInputs: " + buffer);
 		}
 		if (dat1->_limit[0] != dat2->_limit[0])
@@ -4687,7 +4690,6 @@ namespace SpiralOfFate
 
 	Vector2f Character::_calcProjectilePosition(const ProjectileData &pdat, float dir)
 	{
-		auto data = this->getCurrentFrameData();
 		Vector2f pos{
 			this->_getAnchoredPos(pdat, false),
 			this->_getAnchoredPos(pdat, true)

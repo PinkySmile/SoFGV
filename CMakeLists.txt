@@ -122,18 +122,18 @@ add_library(
 	src/LibCore/Objects/StageObjects/StageObject.hpp
 	src/LibCore/Objects/StageObjects/Cloud.hpp
 	src/LibCore/Objects/StageObjects/Cloud.cpp
-	#src/LibCore/Resources/Network/NetManager.cpp
-	#src/LibCore/Resources/Network/NetManager.hpp
-	#src/LibCore/Resources/Network/Packet.cpp
-	#src/LibCore/Resources/Network/Packet.hpp
-	#src/LibCore/Resources/Network/Connection.cpp
-	#src/LibCore/Resources/Network/Connection.hpp
-	#src/LibCore/Resources/Network/Exceptions.hpp
-	#src/LibCore/Resources/Network/ServerConnection.cpp
-	#src/LibCore/Resources/Network/ServerConnection.hpp
-	#src/LibCore/Resources/Network/ClientConnection.cpp
-	#src/LibCore/Resources/Network/ClientConnection.hpp
-	#src/LibCore/Resources/Network/IConnection.hpp
+	src/LibCore/Resources/Network/NetManager.cpp
+	src/LibCore/Resources/Network/NetManager.hpp
+	src/LibCore/Resources/Network/Packet.cpp
+	src/LibCore/Resources/Network/Packet.hpp
+	src/LibCore/Resources/Network/Connection.cpp
+	src/LibCore/Resources/Network/Connection.hpp
+	src/LibCore/Resources/Network/Exceptions.hpp
+	src/LibCore/Resources/Network/ServerConnection.cpp
+	src/LibCore/Resources/Network/ServerConnection.hpp
+	src/LibCore/Resources/Network/ClientConnection.cpp
+	src/LibCore/Resources/Network/ClientConnection.hpp
+	src/LibCore/Resources/Network/IConnection.hpp
 	src/LibCore/Resources/IScene.hpp
 	src/LibCore/Resources/Network/RollbackMachine.cpp
 	src/LibCore/Resources/Network/RollbackMachine.hpp
@@ -203,23 +203,23 @@ add_executable(
 	src/Game/Scenes/ReplayInGame.hpp
 	src/Game/Scenes/Network/SyncTestInGame.cpp
 	src/Game/Scenes/Network/SyncTestInGame.hpp
-	#src/Game/Scenes/Network/ClientCharacterSelect.cpp
-	#src/Game/Scenes/Network/ClientCharacterSelect.hpp
-	#src/Game/Scenes/Network/ServerCharacterSelect.cpp
-	#src/Game/Scenes/Network/ServerCharacterSelect.hpp
-	#src/Game/Scenes/Network/NetworkCharacterSelect.cpp
-	#src/Game/Scenes/Network/NetworkCharacterSelect.hpp
-	#src/Game/Scenes/Network/ClientInGame.cpp
-	#src/Game/Scenes/Network/ClientInGame.hpp
-	#src/Game/Scenes/Network/ServerInGame.cpp
-	#src/Game/Scenes/Network/ServerInGame.hpp
-	#src/Game/Scenes/Network/NetworkInGame.cpp
-	#src/Game/Scenes/Network/NetworkInGame.hpp
+	src/Game/Scenes/Network/ClientCharacterSelect.cpp
+	src/Game/Scenes/Network/ClientCharacterSelect.hpp
+	src/Game/Scenes/Network/ServerCharacterSelect.cpp
+	src/Game/Scenes/Network/ServerCharacterSelect.hpp
+	src/Game/Scenes/Network/NetworkCharacterSelect.cpp
+	src/Game/Scenes/Network/NetworkCharacterSelect.hpp
+	src/Game/Scenes/Network/ClientInGame.cpp
+	src/Game/Scenes/Network/ClientInGame.hpp
+	src/Game/Scenes/Network/ServerInGame.cpp
+	src/Game/Scenes/Network/ServerInGame.hpp
+	src/Game/Scenes/Network/NetworkInGame.cpp
+	src/Game/Scenes/Network/NetworkInGame.hpp
 	src/LibCore/LibCore.hpp
 	src/Game/Scenes/Scenes.hpp
 )
 target_link_libraries(SoFGV SoFGVCore)
-target_include_directories(SoFGV PRIVATE src/LibCore)
+target_include_directories(SoFGV PRIVATE src/LibCore src/Game)
 
 message("${FDICON}")
 add_executable(

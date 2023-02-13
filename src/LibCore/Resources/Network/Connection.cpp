@@ -472,6 +472,31 @@ namespace SpiralOfFate
 		this->_send(*this->_opponent, &op, sizeof(op));
 	}
 
+	void Connection::notifySwitchMenu()
+	{
+		if (this->_currentMenu > MENUSTATE_LOADING_OFFSET)
+			this->_currentMenu -= MENUSTATE_LOADING_OFFSET;
+
+		PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
+
+		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+	}
+
+	void Connection::waitForOpponent()
+	{
+		int i = 0;
+		PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
+
+		while (this->_opCurrentMenu != this->_currentMenu) {
+			if (i % 20 == 0) {
+				menuSwitch.opMenuId = this->_opCurrentMenu;
+				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+			}
+			i++;
+			std::this_thread::sleep_for(std::chrono::milliseconds(5));
+		}
+	}
+
 	void Connection::Remote::_pingLoop()
 	{
 		PacketPing ping(0);

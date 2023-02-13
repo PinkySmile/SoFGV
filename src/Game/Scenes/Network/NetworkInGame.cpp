@@ -21,7 +21,7 @@ namespace SpiralOfFate
 		const nlohmann::json &lJson,
 		const nlohmann::json &rJson
 	) :
-		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson),
+		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson, true, ""),
 		_leftDInput(reinterpret_cast<DelayInput *>(&*game->battleMgr->getLeftCharacter()->getInput())),
 		_rightDInput(reinterpret_cast<DelayInput *>(&*game->battleMgr->getRightCharacter()->getInput())),
 		_rMachine(leftChr, rightChr),
@@ -34,10 +34,8 @@ namespace SpiralOfFate
 	{
 	}
 
-	IScene *NetworkInGame::update()
+	void NetworkInGame::update()
 	{
-		if (this->_nextScene)
-			return this->_nextScene;
 		this->_input->refreshInputs();
 
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
@@ -49,7 +47,7 @@ namespace SpiralOfFate
 		auto status = this->_rMachine.update(true, true);
 
 		if (status == RollbackMachine::UPDATESTATUS_NO_INPUTS)
-			return nullptr;
+			return;
 #ifdef _DEBUG
 		this->_currentFrame++;
 		my_assert(this->_currentFrame <= game->connection->_currentFrame + game->connection->getCurrentDelay());
@@ -63,7 +61,7 @@ namespace SpiralOfFate
 			this->_pauseUpdate();
 		if (status == RollbackMachine::UPDATESTATUS_GAME_ENDED) {
 			this->_onGameEnd();
-			return this->_nextScene;
+			return;
 		}
 		if (!this->_paused) {
 			if (linput->getInputs().pause == 1)
@@ -71,7 +69,6 @@ namespace SpiralOfFate
 			else if (rinput->getInputs().pause == 1)
 				this->_paused = 2;
 		}
-		return this->_nextScene;
 	}
 
 	void NetworkInGame::render() const

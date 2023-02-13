@@ -6,23 +6,15 @@
 #define SOFGV_CLIENTCONNECTION_HPP
 
 
+#include "Resources/SceneArgument.hpp"
 #include "Connection.hpp"
 
 namespace SpiralOfFate
 {
 	class ClientConnection : public Connection {
 	protected:
-		unsigned _currentMenu = 0;
-		unsigned _opCurrentMenu = 0;
 		bool _playing = false;
 		std::map<unsigned, unsigned> _states;
-		unsigned int seed;
-		unsigned int p1chr;
-		unsigned int p1pal;
-		unsigned int p2chr;
-		unsigned int p2pal;
-		unsigned int stage;
-		unsigned int platformConfig;
 
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;

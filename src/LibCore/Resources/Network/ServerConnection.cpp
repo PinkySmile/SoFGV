@@ -5,8 +5,6 @@
 #include "ServerConnection.hpp"
 #include "Resources/version.h"
 #include "Resources/Game.hpp"
-#include "Scenes/Network/ServerCharacterSelect.hpp"
-#include "Scenes/Network/ServerInGame.hpp"
 
 namespace SpiralOfFate
 {
@@ -73,16 +71,12 @@ namespace SpiralOfFate
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			remote.connectPhase = 1 + packet.spectator;
 			game->connection->nextGame();
-			game->scene.reset(new LoadingScene([this](LoadingScene *me){
-				me->setStatus("Loading assets...");
-				auto result = new ServerCharacterSelect();
 
-				this->_currentMenu = MENUSTATE_CHARSELECT;
-				me->setStatus("Waiting for opponent to finish loading...");
-				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				return result;
-			}));
+			auto args = new CharSelectArguments();
+
+			args->restore = false;
+			args->connection = this;
+			game->scene.switchScene("server_char_select", args);
 		}
 	}
 
@@ -166,19 +160,17 @@ namespace SpiralOfFate
 			this->switchMenu(MENUSTATE_CHARSELECT);
 	}
 
-	LoadingScene *ServerConnection::getChrLoadingScreen()
+	void ServerConnection::switchToChrLoadingScreen()
 	{
-		game->connection->nextGame();
-		return new LoadingScene([this](LoadingScene *me){
-			me->setStatus("Loading assets...");
-			auto result = new ServerCharacterSelect(this->p1chr, this->p2chr, this->p1pal, this->p2pal, this->stage, this->platformConfig);
+		this->switchMenu(MENUSTATE_CHARSELECT, false);
+		this->nextGame();
 
-			this->_currentMenu = MENUSTATE_CHARSELECT;
-			me->setStatus("Waiting for opponent to finish loading...");
-			while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
-				std::this_thread::sleep_for(std::chrono::milliseconds(5));
-			return result;
-		});
+		auto args = new CharSelectArguments();
+
+		args->restore = true;
+		args->connection = this;
+		args->startParams = this->_startParams;
+		game->scene.switchScene("server_char_select", args);
 	}
 
 	void ServerConnection::switchMenu(unsigned int id, bool lock)
@@ -190,55 +182,20 @@ namespace SpiralOfFate
 		this->_states.clear();
 		if (id == MENUSTATE_CHARSELECT && lock) {
 			game->connection->nextGame();
-			game->scene.reset(new LoadingScene([this](LoadingScene *me) {
-				me->setStatus("Loading assets...");
-				auto result = new ServerCharacterSelect();
 
-				this->_currentMenu = MENUSTATE_CHARSELECT;
-				me->setStatus("Waiting for opponent to finish loading...");
-				while (this->_opCurrentMenu != MENUSTATE_CHARSELECT)
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				return result;
-			}));
+			auto args = new CharSelectArguments();
+
+			args->restore = false;
+			args->connection = this;
+			game->scene.switchScene("server_char_select", args);
 		} else if (id == MENUSTATE_INGAME) {
-			auto tmp = game->scene;
+			auto args = new InGameArguments();
 
 			game->connection->nextGame();
-			game->scene.reset(new LoadingScene([tmp, this](LoadingScene *me) {
-				auto *scene = reinterpret_cast<ServerCharacterSelect *>(&*tmp);
-				me->setStatus(L"Loading P1's character (" + scene->_entries[this->p1chr].name + L")");
-				auto lchr = scene->_createCharacter(this->p1chr, this->p1pal, scene->_leftInput);
-				me->setStatus(L"Loading P2's character (" + scene->_entries[this->p2chr].name + L")");
-				auto rchr = scene->_createCharacter(this->p2chr, this->p2pal, scene->_rightInput);
-				auto &lentry = scene->_entries[this->p1chr];
-				auto &rentry = scene->_entries[this->p2chr];
-				auto &licon = lentry.icon[this->p1pal];
-				auto &ricon = rentry.icon[this->p2pal];
-				auto &stageObj = scene->_stages[this->stage];
-
-				scene->_localInput->flush(game->connection->getCurrentDelay());
-				scene->_remoteInput->flush(game->connection->getCurrentDelay());
-				game->battleRandom.seed(this->seed);
-				me->setStatus("Creating scene...");
-				auto result = new ServerInGame(
-					scene->_remoteRealInput,
-					{static_cast<unsigned>(this->stage), 0, static_cast<unsigned>(this->platformConfig)},
-					stageObj.platforms[scene->_platform],
-					stageObj,
-					lchr,
-					rchr,
-					licon.textureHandle,
-					ricon.textureHandle,
-					lentry.entry,
-					rentry.entry
-				);
-
-				this->_currentMenu = MENUSTATE_INGAME;
-				me->setStatus("Waiting for opponent to finish loading...");
-				while (this->_opCurrentMenu != MENUSTATE_INGAME)
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				return result;
-			}));
+			args->startParams = this->_startParams;
+			args->connection = this;
+			args->currentScene = game->scene.getCurrentScene().second;
+			game->scene.switchScene("server_in_game", args);
 		}
 		this->_currentMenu = id + MENUSTATE_LOADING_OFFSET;
 
@@ -261,13 +218,13 @@ namespace SpiralOfFate
 	{
 		PacketGameStart gameStart{_seed, _p1chr, _p1pal, _p2chr, _p2pal, _stage, _platformConfig};
 
-		this->seed = _seed;
-		this->p1chr = _p1chr;
-		this->p1pal = _p1pal;
-		this->p2chr = _p2chr;
-		this->p2pal = _p2pal;
-		this->stage = _stage;
-		this->platformConfig = _platformConfig;
+		this->_startParams.seed = _seed;
+		this->_startParams.p1chr = _p1chr;
+		this->_startParams.p1pal = _p1pal;
+		this->_startParams.p2chr = _p2chr;
+		this->_startParams.p2pal = _p2pal;
+		this->_startParams.stage = _stage;
+		this->_startParams.platformConfig = _platformConfig;
 		this->_send(*this->_opponent, &gameStart, sizeof(gameStart));
 		this->switchMenu(MENUSTATE_INGAME, false);
 	}
@@ -294,7 +251,15 @@ namespace SpiralOfFate
 			menu -= MENUSTATE_LOADING_OFFSET;
 		if (this->_currentMenu != this->_opCurrentMenu) {
 			if (menu == MENUSTATE_INGAME && this->_opCurrentMenu != MENUSTATE_INGAME && this->_opCurrentMenu != MENUSTATE_LOADING_INGAME) {
-				PacketGameStart gameStart{this->seed, this->p1chr, this->p1pal, this->p2chr, this->p2pal, this->stage, this->platformConfig};
+				PacketGameStart gameStart{
+					this->_startParams.seed,
+					this->_startParams.p1chr,
+					this->_startParams.p1pal,
+					this->_startParams.p2chr,
+					this->_startParams.p2pal,
+					this->_startParams.stage,
+					this->_startParams.platformConfig
+				};
 
 				this->_send(*this->_opponent, &gameStart, sizeof(gameStart));
 			} else {

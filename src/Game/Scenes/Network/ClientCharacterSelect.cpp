@@ -26,9 +26,31 @@ namespace SpiralOfFate
 		this->_rightInput = std::shared_ptr<IInput>(this->_localInput);
 	}
 
-	LoadingScene *ClientCharacterSelect::_launchGame()
+	void ClientCharacterSelect::_launchGame()
 	{
 		game->soundMgr.play(BASICSOUND_GAME_LAUNCH);
-		return nullptr;
+	}
+
+	ClientCharacterSelect *ClientCharacterSelect::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, ClientConnection::CharSelectArguments, args);
+		if (args->reportProgressA)
+			args->reportProgressA("Loading assets...");
+
+		auto result = realArgs->restore ?
+			new ClientCharacterSelect(
+				realArgs->startParams.p1chr,
+				realArgs->startParams.p2chr,
+				realArgs->startParams.p1pal,
+				realArgs->startParams.p2pal,
+				realArgs->startParams.stage,
+				realArgs->startParams.platformConfig
+			) : new ClientCharacterSelect();
+
+		realArgs->connection->notifySwitchMenu();
+		if (args->reportProgressA)
+			args->reportProgressA("Waiting for opponent to finish loading...");
+		realArgs->connection->waitForOpponent();
+		return result;
 	}
 }

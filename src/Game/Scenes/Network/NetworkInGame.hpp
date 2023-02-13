@@ -40,7 +40,7 @@ namespace SpiralOfFate
 			const nlohmann::json &lJson,
 			const nlohmann::json &rJson
 		);
-		IScene *update() override;
+		void update() override;
 		void consumeEvent(const sf::Event &event) override;
 		void render() const override;
 	};

@@ -6,6 +6,7 @@
 #include "Resources/Game.hpp"
 #include "../CharacterSelect.hpp"
 #include "Resources/Network/ServerConnection.hpp"
+#include "NetworkCharacterSelect.hpp"
 
 namespace SpiralOfFate
 {
@@ -27,10 +28,8 @@ namespace SpiralOfFate
 
 	void ServerInGame::_onGameEnd()
 	{
-		auto conn = reinterpret_cast<ServerConnection *>(&*game->connection);
-
-		conn->switchMenu(MENUSTATE_CHARSELECT, false);
-		this->_nextScene = conn->getChrLoadingScreen();
+		checked_cast(conn, ServerConnection, &*game->connection);
+		conn->switchToChrLoadingScreen();
 	}
 
 	void ServerInGame::consumeEvent(const sf::Event &event)
@@ -40,5 +39,37 @@ namespace SpiralOfFate
 			return this->_onGameEnd();
 		}
 		NetworkInGame::consumeEvent(event);
+	}
+
+	ServerInGame *ServerInGame::create(SceneArguments *args)
+	{
+		checked_cast(realArgs, ServerConnection::InGameArguments, args);
+		checked_cast(scene, NetworkCharacterSelect, realArgs->currentScene);
+
+		auto params = scene->createParams(args, realArgs->startParams);
+
+		game->battleRandom.seed(realArgs->startParams.seed);
+		scene->flushInputs(realArgs->connection->getCurrentDelay());
+		if (args->reportProgressA)
+			args->reportProgressA("Creating scene...");
+
+		auto result = new ServerInGame(
+			scene->getRemoteRealInput(),
+			params.params,
+			params.platforms,
+			params.stage,
+			params.leftChr,
+			params.rightChr,
+			params.licon,
+			params.ricon,
+			params.lJson,
+			params.rJson
+		);
+
+		realArgs->connection->notifySwitchMenu();
+		if (args->reportProgressA)
+			args->reportProgressA("Waiting for opponent to finish loading...");
+		realArgs->connection->waitForOpponent();
+		return result;
 	}
 }

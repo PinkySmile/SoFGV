@@ -13,17 +13,8 @@ namespace SpiralOfFate
 {
 	class ServerConnection : public Connection {
 	protected:
-		unsigned _currentMenu = 0;
-		unsigned _opCurrentMenu = 0;
 		bool _playing = false;
 		std::map<unsigned, unsigned> _states;
-		unsigned int seed;
-		unsigned int p1chr;
-		unsigned int p1pal;
-		unsigned int p2chr;
-		unsigned int p2pal;
-		unsigned int stage;
-		unsigned int platformConfig;
 
 		void _checkOpponentState();
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
@@ -46,7 +37,7 @@ namespace SpiralOfFate
 		ServerConnection(const std::string &name);
 		~ServerConnection();
 
-		class LoadingScene *getChrLoadingScreen();
+		void switchToChrLoadingScreen();
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
 		void reportChecksum(unsigned checksum);
 		void switchMenu(unsigned id, bool lock = true);

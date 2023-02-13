@@ -6,6 +6,9 @@
 #define SOFGV_SCENEARGUMENT_HPP
 
 
+#include <functional>
+#include <string>
+
 namespace SpiralOfFate
 {
 	struct SceneArguments {

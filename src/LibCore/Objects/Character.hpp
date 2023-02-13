@@ -536,7 +536,8 @@ namespace SpiralOfFate
 			};
 		};
 #pragma pack(pop)
-		static_assert(sizeof(Data::_specialInputs) == sizeof(SpecialInputs::_value));
+		static_assert(sizeof(SpecialInputs::_value) == sizeof(Data::_specialInputs));
+		static_assert(sizeof(SpecialInputs::_value) == sizeof(SpecialInputs));
 
 		static std::function<bool (const LastInput &)> getInputN;
 		static std::function<bool (const LastInput &)> getInputM;

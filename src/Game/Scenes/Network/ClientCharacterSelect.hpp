@@ -15,7 +15,7 @@ namespace SpiralOfFate
 {
 	class ClientCharacterSelect : public NetworkCharacterSelect {
 	protected:
-		LoadingScene *_launchGame() override;
+		void _launchGame() override;
 
 	public:
 		ClientCharacterSelect();
@@ -24,6 +24,8 @@ namespace SpiralOfFate
 			int leftPalette, int rightPalette,
 			int stage, int platformCfg
 		);
+
+		static ClientCharacterSelect *create(SceneArguments *);
 
 		friend class ClientConnection;
 	};
