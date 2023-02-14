@@ -40,6 +40,7 @@ namespace SpiralOfFate
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/072.wav"), BASICSOUND_BEST_PARRY);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/061.wav"), BASICSOUND_GAME_LAUNCH);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/032.wav"), BASICSOUND_WORST_PARRY);
+			my_assert_eq(this->soundMgr.load("assets/sfxs/se/tenshi/052.wav"), BASICSOUND_INSTALL_START);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_WALL_BOUNCE);
 			my_assert_eq(this->soundMgr.load("assets/sfxs/se/022.wav"), BASICSOUND_GROUND_SLAM);
 		} catch (...) {

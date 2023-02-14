@@ -96,8 +96,7 @@ namespace SpiralOfFate
 		/* 104 */ ACTION_2N,
 		/* 105 */ ACTION_214N,
 		/* 106 */ ACTION_236N,
-		/* 107 */ ACTION_421N,
-		/* 107 */ ACTION_NEUTRAL_OVERDRIVE = ACTION_421N,
+		/* 107 */ ACTION_NEUTRAL_OVERDRIVE,
 		/* 108 */ ACTION_623N,
 		/* 109 */ ACTION_41236N,
 		/* 110 */ ACTION_63214N,
@@ -109,8 +108,7 @@ namespace SpiralOfFate
 		/* 116 */ ACTION_j2N,
 		/* 117 */ ACTION_j214N,
 		/* 118 */ ACTION_j236N,
-		/* 119 */ ACTION_j421N,
-		/* 119 */ ACTION_NEUTRAL_AIR_OVERDRIVE = ACTION_j421N,
+		/* 119 */ ACTION_NEUTRAL_AIR_OVERDRIVE,
 		/* 120 */ ACTION_j623N,
 		/* 121 */ ACTION_j41236N,
 		/* 122 */ ACTION_j63214N,
@@ -124,6 +122,8 @@ namespace SpiralOfFate
 		/* 130 */ ACTION_c64N,
 		/* 131 */ ACTION_NEUTRAL_ROMAN_CANCEL,
 		/* 132 */ ACTION_NEUTRAL_AIR_ROMAN_CANCEL,
+		/* 133 */ ACTION_421N,
+		/* 134 */ ACTION_j421N,
 
 		/* 150 */ ACTION_5M = 150,
 		/* 151 */ ACTION_6M,
@@ -132,8 +132,7 @@ namespace SpiralOfFate
 		/* 154 */ ACTION_2M,
 		/* 155 */ ACTION_214M,
 		/* 156 */ ACTION_236M,
-		/* 157 */ ACTION_421M,
-		/* 157 */ ACTION_MATTER_OVERDRIVE = ACTION_421M,
+		/* 157 */ ACTION_MATTER_OVERDRIVE,
 		/* 158 */ ACTION_623M,
 		/* 159 */ ACTION_41236M,
 		/* 160 */ ACTION_63214M,
@@ -145,8 +144,7 @@ namespace SpiralOfFate
 		/* 166 */ ACTION_j2M,
 		/* 167 */ ACTION_j214M,
 		/* 168 */ ACTION_j236M,
-		/* 169 */ ACTION_j421M,
-		/* 169 */ ACTION_MATTER_AIR_OVERDRIVE = ACTION_j421M,
+		/* 169 */ ACTION_MATTER_AIR_OVERDRIVE,
 		/* 170 */ ACTION_j623M,
 		/* 171 */ ACTION_j41236M,
 		/* 172 */ ACTION_j63214M,
@@ -160,6 +158,8 @@ namespace SpiralOfFate
 		/* 180 */ ACTION_c64M,
 		/* 181 */ ACTION_MATTER_ROMAN_CANCEL,
 		/* 182 */ ACTION_MATTER_AIR_ROMAN_CANCEL,
+		/* 183 */ ACTION_421M,
+		/* 184 */ ACTION_j421M,
 
 		/* 200 */ ACTION_5S = 200,
 		/* 201 */ ACTION_6S,
@@ -168,8 +168,7 @@ namespace SpiralOfFate
 		/* 204 */ ACTION_2S,
 		/* 205 */ ACTION_214S,
 		/* 206 */ ACTION_236S,
-		/* 207 */ ACTION_421S,
-		/* 207 */ ACTION_SPIRIT_OVERDRIVE = ACTION_421S,
+		/* 207 */ ACTION_SPIRIT_OVERDRIVE,
 		/* 208 */ ACTION_623S,
 		/* 209 */ ACTION_41236S,
 		/* 210 */ ACTION_63214S,
@@ -181,8 +180,7 @@ namespace SpiralOfFate
 		/* 216 */ ACTION_j2S,
 		/* 217 */ ACTION_j214S,
 		/* 218 */ ACTION_j236S,
-		/* 219 */ ACTION_j421S,
-		/* 219 */ ACTION_SPIRIT_AIR_OVERDRIVE = ACTION_j421S,
+		/* 219 */ ACTION_SPIRIT_AIR_OVERDRIVE,
 		/* 220 */ ACTION_j623S,
 		/* 221 */ ACTION_j41236S,
 		/* 222 */ ACTION_j63214S,
@@ -196,6 +194,8 @@ namespace SpiralOfFate
 		/* 230 */ ACTION_c64S,
 		/* 231 */ ACTION_SPIRIT_ROMAN_CANCEL,
 		/* 232 */ ACTION_SPIRIT_AIR_ROMAN_CANCEL,
+		/* 233 */ ACTION_421S,
+		/* 234 */ ACTION_j421S,
 
 		/* 250 */ ACTION_5V = 250,
 		/* 251 */ ACTION_6V,
@@ -204,8 +204,7 @@ namespace SpiralOfFate
 		/* 254 */ ACTION_2V,
 		/* 255 */ ACTION_214V,
 		/* 256 */ ACTION_236V,
-		/* 257 */ ACTION_421V,
-		/* 257 */ ACTION_VOID_OVERDRIVE = ACTION_421V,
+		/* 257 */ ACTION_VOID_OVERDRIVE,
 		/* 258 */ ACTION_623V,
 		/* 259 */ ACTION_41236V,
 		/* 260 */ ACTION_63214V,
@@ -217,8 +216,7 @@ namespace SpiralOfFate
 		/* 266 */ ACTION_j2V,
 		/* 267 */ ACTION_j214V,
 		/* 268 */ ACTION_j236V,
-		/* 269 */ ACTION_j421V,
-		/* 269 */ ACTION_VOID_AIR_OVERDRIVE = ACTION_j421V,
+		/* 269 */ ACTION_VOID_AIR_OVERDRIVE,
 		/* 270 */ ACTION_j623V,
 		/* 271 */ ACTION_j41236V,
 		/* 272 */ ACTION_j63214V,
@@ -232,6 +230,8 @@ namespace SpiralOfFate
 		/* 280 */ ACTION_c64V,
 		/* 281 */ ACTION_VOID_ROMAN_CANCEL,
 		/* 282 */ ACTION_VOID_AIR_ROMAN_CANCEL,
+		/* 283 */ ACTION_421V,
+		/* 284 */ ACTION_j421V,
 
 		/* 300 */ ACTION_5A = 300,
 		/* 301 */ ACTION_6A,
@@ -413,6 +413,9 @@ namespace SpiralOfFate
 			unsigned _matterEffectTimer;
 			unsigned _spiritEffectTimer;
 			unsigned _voidEffectTimer;
+			unsigned _matterInstallTimer;
+			unsigned _spiritInstallTimer;
+			unsigned _voidInstallTimer;
 			unsigned char _hitStop;
 			float _regen;
 			float _voidMana;
@@ -432,10 +435,10 @@ namespace SpiralOfFate
 			bool _justGotCorner;
 			char _normalTreeFlag;
 			bool _armorUsed;
-			unsigned char _specialInputs[50];
+			unsigned char _specialInputs[52];
 		};
 		union SpecialInputs {
-			unsigned char _value[50] = {0};
+			unsigned char _value[52] = {0};
 			struct {
 				unsigned char _22: 4;
 				unsigned char _44: 4;
@@ -443,10 +446,10 @@ namespace SpiralOfFate
 				unsigned char _27: 4;
 				unsigned char _28: 4;
 				unsigned char _29: 4;
-				char _421n: 6;
-				char _421m: 6;
-				char _421s: 6;
-				char _421v: 6;
+				char _an: 6;
+				char _am: 6;
+				char _as: 6;
+				char _av: 6;
 				unsigned char _c28n: 4;
 				unsigned char _c28m: 4;
 				unsigned char _c28s: 4;
@@ -483,6 +486,10 @@ namespace SpiralOfFate
 				unsigned char _623v: 4;
 				unsigned char _623d: 4;
 				unsigned char _623a: 4;
+				unsigned char _421n: 4;
+				unsigned char _421m: 4;
+				unsigned char _421s: 4;
+				unsigned char _421v: 4;
 				unsigned char _421d: 4;
 				unsigned char _421a: 4;
 				unsigned char _624n: 4;
@@ -570,6 +577,9 @@ namespace SpiralOfFate
 		unsigned _matterEffectTimer = 0;
 		unsigned _spiritEffectTimer = 0;
 		unsigned _voidEffectTimer = 0;
+		unsigned _matterInstallTimer = 0;
+		unsigned _spiritInstallTimer = 0;
+		unsigned _voidInstallTimer = 0;
 		float _prorate = 1;
 		float _regen = 0;
 		float _voidMana = 0;
@@ -688,6 +698,7 @@ namespace SpiralOfFate
 		bool _check27Input();
 		bool _check28Input();
 		bool _check29Input();
+		void _checkAllAXMacro(bool tickBuffer);
 		void _checkAllHJInput(bool tickBuffer);
 		void _checkAllDashInput(bool tickBuffer);
 		void _checkAllc28Input(bool tickBuffer);

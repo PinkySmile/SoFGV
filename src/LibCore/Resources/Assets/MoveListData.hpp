@@ -48,7 +48,7 @@ namespace SpiralOfFate
 		SPRITE_PLUS,
 		SPRITE_CHARGE,
 		SPRITE_ALSO_AIR,
-		SPRITE_OR
+		SPRITE_TOGETHER
 	};
 
 	struct MoveData {

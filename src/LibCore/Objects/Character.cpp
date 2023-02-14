@@ -16,6 +16,8 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define INSTALL_COOLDOWN 600
+#define INSTALL_DURATION 30
 #define REFLECT_PERCENT 60
 #define COMBINATION_LENIENCY 4
 #define MAX_FRAME_IN_BUFFER 60
@@ -442,9 +444,21 @@ namespace SpiralOfFate
 	{
 		auto data = Object::getCurrentFrameData();
 
-		if (!this->_grabInvul && !this->_wrongMana && !this->_neutralEffectTimer)
+		if (
+			!this->_grabInvul &&
+			!this->_wrongMana &&
+			!this->_neutralEffectTimer &&
+			!this->_matterInstallTimer &&
+			!this->_spiritInstallTimer &&
+			!this->_voidInstallTimer
+		)
 			return data;
 		this->_fakeFrameData = *data;
+		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
+			this->_fakeFrameData.oFlag.voidElement = this->_voidInstallTimer;
+			this->_fakeFrameData.oFlag.matterElement = this->_matterInstallTimer;
+			this->_fakeFrameData.oFlag.spiritElement = this->_spiritInstallTimer;
+		}
 		this->_fakeFrameData.dFlag.grabInvulnerable |= this->_grabInvul;
 		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
 		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
@@ -560,6 +574,12 @@ namespace SpiralOfFate
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
+		if (this->_matterInstallTimer)
+			this->_matterInstallTimer--;
+		if (this->_spiritInstallTimer)
+			this->_spiritInstallTimer--;
+		if (this->_voidInstallTimer)
+			this->_voidInstallTimer--;
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
 		if (this->_spiritEffectTimer) {
@@ -743,17 +763,17 @@ namespace SpiralOfFate
 		}
 		if (!this->_blockStun)
 			this->_processInput(input);
-		else if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_LOW_HIT || this->_action == ACTION_GROUND_HIGH_HIT) {
+		else if (isHitAction(this->_action)) {
 			if (this->_isGrounded())
-				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
-				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
-				(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
-				(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_OVERDRIVE));
+				(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(this->_specialInputs._am > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
+				(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._am > 0 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
 		this->_applyMoveAttributes();
@@ -840,6 +860,22 @@ namespace SpiralOfFate
 				input.verticalAxis = 0;
 				input.d = 0;
 			}
+		}
+		if (!this->_odCooldown && (
+			this->_specialInputs._av > 0 ||
+			this->_specialInputs._as > 0 ||
+			this->_specialInputs._am > 0
+		)) {
+			this->_voidInstallTimer   = (this->_specialInputs._av > 0) * INSTALL_DURATION;
+			this->_spiritInstallTimer = (this->_specialInputs._as > 0) * INSTALL_DURATION;
+			this->_matterInstallTimer = (this->_specialInputs._am > 0) * INSTALL_DURATION;
+			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_inputBuffer.a = 0;
+			this->_odCooldown = INSTALL_COOLDOWN;
+			this->_barMaxOdCooldown = INSTALL_COOLDOWN;
+			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 		if (
 			(airborne && this->_executeAirborneMoves(input)) ||
@@ -958,18 +994,18 @@ namespace SpiralOfFate
 			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
 			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
 
-		        (this->_specialInputs._623n     && this->_startMove(ACTION_j623N)) ||
-		        (this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623v     && this->_startMove(ACTION_j623V)) ||
-		        (this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623s     && this->_startMove(ACTION_j623S)) ||
-		        (this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_AIR_ROMAN_CANCEL)) ||
-		        (this->_specialInputs._623m     && this->_startMove(ACTION_j623M)) ||
-		        (this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_AIR_ROMAN_CANCEL)) ||
-			(this->_specialInputs._623d     && this->_startMove(ACTION_j623D)) ||
-			(this->_specialInputs._421d     && this->_startMove(ACTION_j421D)) ||
-			(this->_specialInputs._623a     && this->_startMove(ACTION_j623A)) ||
-			(this->_specialInputs._421a     && this->_startMove(ACTION_j421A)) ||
+		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
+		        (this->_specialInputs._421n && this->_startMove(ACTION_j421N)) ||
+		        (this->_specialInputs._623v && this->_startMove(ACTION_j623V)) ||
+		        (this->_specialInputs._421v && this->_startMove(ACTION_j421V)) ||
+		        (this->_specialInputs._623s && this->_startMove(ACTION_j623S)) ||
+		        (this->_specialInputs._421s && this->_startMove(ACTION_j421S)) ||
+		        (this->_specialInputs._623m && this->_startMove(ACTION_j623M)) ||
+		        (this->_specialInputs._421m && this->_startMove(ACTION_j421M)) ||
+			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
+			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
+			(this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
+			(this->_specialInputs._421a && this->_startMove(ACTION_j421A)) ||
 
 		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
 		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
@@ -983,6 +1019,8 @@ namespace SpiralOfFate
 			(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
 			(this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
 			(this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
+
+		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
 
 		        this->_executeAirParry(input) ||
 
@@ -1061,13 +1099,13 @@ namespace SpiralOfFate
 			(this->_specialInputs._c64a && this->_startMove(ACTION_c64A)) ||
 
 			(this->_specialInputs._623n     && this->_startMove(ACTION_623N)) ||
-			(this->_specialInputs._421n > 0 && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421n > 0 && this->_startMove(ACTION_421N)) ||
 			(this->_specialInputs._623v     && this->_startMove(ACTION_623V)) ||
-			(this->_specialInputs._421v > 0 && this->_startMove(ACTION_VOID_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421v > 0 && this->_startMove(ACTION_421V)) ||
 			(this->_specialInputs._623s     && this->_startMove(ACTION_623S)) ||
-			(this->_specialInputs._421s > 0 && this->_startMove(ACTION_SPIRIT_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421s > 0 && this->_startMove(ACTION_421S)) ||
 			(this->_specialInputs._623m     && this->_startMove(ACTION_623M)) ||
-			(this->_specialInputs._421m > 0 && this->_startMove(ACTION_MATTER_ROMAN_CANCEL)) ||
+			(this->_specialInputs._421m > 0 && this->_startMove(ACTION_421M)) ||
 			(this->_specialInputs._623d     && this->_startMove(ACTION_623D)) ||
 			(this->_specialInputs._421d     && this->_startMove(ACTION_421D)) ||
 			(this->_specialInputs._623a     && this->_startMove(ACTION_623A)) ||
@@ -1086,6 +1124,7 @@ namespace SpiralOfFate
 			(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
 			(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
 
+			(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
 			this->_executeGroundParry(input) ||
 
 			(input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
@@ -1417,10 +1456,10 @@ namespace SpiralOfFate
 		if (isParryAction(action)) {
 			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 60;
 
-			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._an = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game->soundMgr.play(BASICSOUND_PARRY);
 			this->_guardRegenCd = 120;
 			if (this->_guardBar > loss)
@@ -1524,10 +1563,15 @@ namespace SpiralOfFate
 			}
 		} else if (action >= ACTION_5N) {
 			this->_hasJumped = true;
-			this->_specialInputs._421n = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421m = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421s = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._421v = -SPECIAL_INPUT_BUFFER_PERSIST;
+			// We add some anti buffer to RC and installs for the shared keys
+			if ((action >= ACTION_5N && action < ACTION_5M) || (action >= ACTION_5A && action < ACTION_214D))
+				this->_specialInputs._an = -SPECIAL_INPUT_BUFFER_PERSIST;
+			else if ((action >= ACTION_5M && action < ACTION_5S) || (action >= ACTION_5A && action < ACTION_214D))
+				this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
+			else if ((action >= ACTION_5S && action < ACTION_5V) || (action >= ACTION_5A && action < ACTION_214D))
+				this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
+			else if ((action >= ACTION_5V && action < ACTION_5A) || (action >= ACTION_5A && action < ACTION_214D))
+				this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 		}
 		if (
 			action != ACTION_AIR_HIT &&
@@ -1818,6 +1862,31 @@ namespace SpiralOfFate
 		Object::_checkPlatforms(oldPos);
 	}
 
+	void Character::_checkAllAXMacro(bool tickBuffer)
+	{
+		auto input = this->_input->getInputs();
+
+		if (this->_specialInputs._an)
+			this->_specialInputs._an -= std::copysign(tickBuffer, this->_specialInputs._an);
+		if (this->_specialInputs._am)
+			this->_specialInputs._am -= std::copysign(tickBuffer, this->_specialInputs._am);
+		if (this->_specialInputs._as)
+			this->_specialInputs._as -= std::copysign(tickBuffer, this->_specialInputs._as);
+		if (this->_specialInputs._av)
+			this->_specialInputs._av -= std::copysign(tickBuffer, this->_specialInputs._av);
+
+		if (input.a && input.a < COMBINATION_LENIENCY) {
+			if (this->_specialInputs._an >= 0 && input.n && input.n < COMBINATION_LENIENCY)
+				this->_specialInputs._an = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._am >= 0 && input.m && input.m < COMBINATION_LENIENCY)
+				this->_specialInputs._am = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._as >= 0 && input.s && input.s < COMBINATION_LENIENCY)
+				this->_specialInputs._as = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._av >= 0 && input.v && input.v < COMBINATION_LENIENCY)
+				this->_specialInputs._av = SPECIAL_INPUT_BUFFER_PERSIST;
+		}
+	}
+
 	void Character::_checkAllc28Input(bool tickBuffer)
 	{
 		if (this->_specialInputs._c28n)
@@ -2018,35 +2087,25 @@ namespace SpiralOfFate
 
 	void Character::_checkAll421Input(bool tickBuffer)
 	{
-		auto input = this->_input->getInputs();
-
 		if (this->_specialInputs._421n)
-			this->_specialInputs._421n -= std::copysign(tickBuffer, this->_specialInputs._421n);
+			this->_specialInputs._421n -= tickBuffer;
 		else
 			this->_specialInputs._421n = this->_check421Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (this->_specialInputs._421n >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.n && input.n < COMBINATION_LENIENCY)
-			this->_specialInputs._421n = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421m)
-			this->_specialInputs._421m -= std::copysign(tickBuffer, this->_specialInputs._421m);
+			this->_specialInputs._421m -= tickBuffer;
 		else
 			this->_specialInputs._421m = this->_check421Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (this->_specialInputs._421m >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.m && input.m < COMBINATION_LENIENCY)
-			this->_specialInputs._421m = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421s)
-			this->_specialInputs._421s -= std::copysign(tickBuffer, this->_specialInputs._421s);
+			this->_specialInputs._421s -= tickBuffer;
 		else
 			this->_specialInputs._421s = this->_check421Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (this->_specialInputs._421s >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.s && input.s < COMBINATION_LENIENCY)
-			this->_specialInputs._421s = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421v)
-			this->_specialInputs._421v -= std::copysign(tickBuffer, this->_specialInputs._421v);
+			this->_specialInputs._421v -= tickBuffer;
 		else
 			this->_specialInputs._421v = this->_check421Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-		if (this->_specialInputs._421v >= 0 && input.a && input.a < COMBINATION_LENIENCY && input.v && input.v < COMBINATION_LENIENCY)
-			this->_specialInputs._421v = SPECIAL_INPUT_BUFFER_PERSIST;
 
 		if (this->_specialInputs._421d)
 			this->_specialInputs._421d -= tickBuffer;
@@ -2382,6 +2441,7 @@ namespace SpiralOfFate
 			memset(&this->_specialInputs._value[3], 0, sizeof(this->_specialInputs._value) - 3);
 			return;
 		}
+		this->_checkAllAXMacro(tickBuffer);
 		this->_checkAllc28Input(tickBuffer);
 		this->_checkAllc46Input(tickBuffer);
 		this->_checkAllc64Input(tickBuffer);
@@ -3909,6 +3969,9 @@ namespace SpiralOfFate
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
 		dat->_voidEffectTimer = this->_voidEffectTimer;
+		dat->_matterInstallTimer = this->_matterInstallTimer;
+		dat->_spiritInstallTimer = this->_spiritInstallTimer;
+		dat->_voidInstallTimer = this->_voidInstallTimer;
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_supersUsed = this->_supersUsed;
@@ -3967,6 +4030,9 @@ namespace SpiralOfFate
 		this->_matterEffectTimer = dat->_matterEffectTimer;
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
 		this->_voidEffectTimer = dat->_voidEffectTimer;
+		this->_matterInstallTimer = dat->_matterInstallTimer;
+		this->_spiritInstallTimer = dat->_spiritInstallTimer;
+		this->_voidInstallTimer = dat->_voidInstallTimer;
 		this->_wrongMana = dat->_wrongMana;
 		this->_hitStop = dat->_hitStop;
 		this->_jumpCanceled = dat->_jumpCanceled;

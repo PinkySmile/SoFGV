@@ -40,7 +40,7 @@ namespace SpiralOfFate
 		"+",
 		"charge",
 		"(also in the air)",
-		"or"
+		"together"
 	};
 
 	InGame::InGame(const GameParams &params) :
