@@ -669,7 +669,7 @@ namespace SpiralOfFate
 			this->_moves.at(this->_action).size() > 2 &&
 			this->_actionBlock == 1 && (
 			!this->_input->isPressed(
-				(this->_direction ? this->_action == ACTION_BACKWARD_DASH : this->_action == ACTION_FORWARD_DASH) ?
+				this->_action == (this->_direction ? ACTION_BACKWARD_DASH : ACTION_FORWARD_DASH) ?
 				INPUT_LEFT :
 				INPUT_RIGHT
 			) || !this->_isGrounded()
@@ -1367,8 +1367,9 @@ namespace SpiralOfFate
 	bool Character::_isBlocking() const
 	{
 		auto *data = this->getCurrentFrameData();
+		auto dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 
-		if (this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
+		if (this->_input->isPressed(dir == 1 ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
 			return true;
 		if ((this->_forceBlock & 7) && ((this->_forceBlock & RANDOM_BLOCK) == 0 || game->random() % 8 != 0) && data->dFlag.canBlock)
 			return true;
@@ -3513,16 +3514,16 @@ namespace SpiralOfFate
 		if ((this->_forceBlock & 7) == ALL_WRONG_BLOCK)
 			low = height & 2;
 
+		auto dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 		bool wrongBlock =
 			((height & 1) && !myData->dFlag.lowBlock && (!low || (!blkAction && !myData->dFlag.canBlock))) ||
 			((height & 2) && !myData->dFlag.highBlock && (low || (!blkAction && !myData->dFlag.canBlock)));
 
-		if (
+		if ((
 			(
-				(
-					(this->_forceBlock & 7) || this->_input->isPressed(this->_direction ? INPUT_LEFT : INPUT_RIGHT)
-				) && myData->dFlag.canBlock
-			) || blkAction
+				(this->_forceBlock & 7) ||
+				this->_input->isPressed(dir == 1 ? INPUT_LEFT : INPUT_RIGHT)
+			) && myData->dFlag.canBlock) || blkAction
 		) {
 			if (wrongBlock) {
 				if (this->_guardCooldown)
