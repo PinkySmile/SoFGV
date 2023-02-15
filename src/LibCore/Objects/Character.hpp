@@ -689,6 +689,8 @@ namespace SpiralOfFate
 		bool _isOnPlatform() const override;
 		InputStruct _updateInputs(bool tickBuffer = true);
 
+		void _renderInstallEffect(Sprite &sprite) const;
+		void _renderEffect(const Vector2f &result, Sprite &sprite) const;
 		void _removeSubobjects();
 		void _checkSpecialInputs(bool tickBuffer);
 		void _clearLastInputs();

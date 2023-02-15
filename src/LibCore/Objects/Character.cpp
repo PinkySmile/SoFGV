@@ -16,7 +16,7 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
-#define INSTALL_COOLDOWN 600
+#define INSTALL_COST 300
 #define INSTALL_DURATION 30
 #define REFLECT_PERCENT 60
 #define COMBINATION_LENIENCY 4
@@ -466,6 +466,40 @@ namespace SpiralOfFate
 		return &this->_fakeFrameData;
 	}
 
+	void Character::_renderEffect(const Vector2f &result, Sprite &sprite) const
+	{
+		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
+		auto &data = *this->getCurrentFrameData();
+
+		sprite.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+		sprite.setOrigin({20, size.y / 2.f});
+		sprite.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
+		sprite.setPosition(result);
+		game->textureMgr.render(sprite);
+	}
+
+	void Character::_renderInstallEffect(Sprite &sprite) const
+	{
+		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
+		auto &data = *this->getCurrentFrameData();
+		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
+
+		game->textureMgr.setTexture(sprite);
+		for (auto &box : this->_getModifiedHitBoxes()) {
+			sf::VertexArray arr{sf::Quads, 4};
+
+			for (int i = 0; i < 4; i++) {
+				arr[i].texCoords = {
+					static_cast<int>(40 * (this->_effectTimer / 4) % size.x) + 40 * (i == 1 || i == 2) * 1.f,
+					40 * (i >= 2) * 1.f,
+				};
+				arr[i].color = sf::Color::White;
+				arr[i].position = (&box.pt1)[i];
+			}
+			game->screen->draw(arr, sprite.getTexture());
+		}
+	}
+
 	void Character::render() const
 	{
 		if (this->_neutralEffectTimer)
@@ -498,39 +532,20 @@ namespace SpiralOfFate
 
 		Object::_render(result, scale);
 		this->_effectTimer++;
-		if (this->_neutralEffectTimer) {
-			auto size = game->textureMgr.getTextureSize(this->_neutralEffect.textureHandle);
-
-			this->_neutralEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
-			this->_neutralEffect.setOrigin({20, size.y / 2.f});
-			this->_neutralEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
-			this->_neutralEffect.setPosition(result);
-			game->textureMgr.render(this->_neutralEffect);
-		} else if (this->_spiritEffectTimer) {
-			auto size = game->textureMgr.getTextureSize(this->_spiritEffect.textureHandle);
-
-			this->_spiritEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
-			this->_spiritEffect.setOrigin({20, size.y / 2.f});
-			this->_spiritEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
-			this->_spiritEffect.setPosition(result);
-			game->textureMgr.render(this->_spiritEffect);
-		} else if (this->_matterEffectTimer) {
-			auto size = game->textureMgr.getTextureSize(this->_matterEffect.textureHandle);
-
-			this->_matterEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
-			this->_matterEffect.setOrigin({20, size.y / 2.f});
-			this->_matterEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
-			this->_matterEffect.setPosition(result);
-			game->textureMgr.render(this->_matterEffect);
-		} else if (this->_voidEffectTimer) {
-			auto size = game->textureMgr.getTextureSize(this->_voidEffect.textureHandle);
-
-			this->_voidEffect.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
-			this->_voidEffect.setOrigin({20, size.y / 2.f});
-			this->_voidEffect.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
-			this->_voidEffect.setPosition(result);
-			game->textureMgr.render(this->_voidEffect);
-		}
+		if (this->_neutralEffectTimer)
+			this->_renderEffect(result, this->_neutralEffect);
+		else if (this->_spiritEffectTimer)
+			this->_renderEffect(result, this->_spiritEffect);
+		else if (this->_matterEffectTimer)
+			this->_renderEffect(result, this->_matterEffect);
+		else if (this->_voidEffectTimer)
+			this->_renderEffect(result, this->_voidEffect);
+		if (this->_spiritInstallTimer)
+			this->_renderInstallEffect(this->_spiritEffect);
+		else if (this->_matterInstallTimer)
+			this->_renderInstallEffect(this->_matterEffect);
+		else if (this->_voidInstallTimer)
+			this->_renderInstallEffect(this->_voidEffect);
 
 		if (this->showAttributes) {
 			game->screen->draw(this->_text);
@@ -861,21 +876,31 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if (!this->_odCooldown && (
-			this->_specialInputs._av > 0 ||
-			this->_specialInputs._as > 0 ||
-			this->_specialInputs._am > 0
-		)) {
-			this->_voidInstallTimer   = (this->_specialInputs._av > 0) * INSTALL_DURATION;
-			this->_spiritInstallTimer = (this->_specialInputs._as > 0) * INSTALL_DURATION;
-			this->_matterInstallTimer = (this->_specialInputs._am > 0) * INSTALL_DURATION;
+		if (this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) {
+			bool installed = false;
+
+			this->_voidInstallTimer = 0;
+			this->_spiritInstallTimer = 0;
+			this->_matterInstallTimer = 0;
+			if (this->_specialInputs._av > 0 && this->_voidMana >= INSTALL_COST) {
+				installed = true;
+				this->_voidMana -= INSTALL_COST;
+				this->_voidInstallTimer = INSTALL_DURATION;
+			} else if (this->_specialInputs._as > 0 && this->_spiritMana >= INSTALL_COST) {
+				installed = true;
+				this->_spiritMana -= INSTALL_COST;
+				this->_spiritInstallTimer = INSTALL_DURATION;
+			} else if (this->_specialInputs._am > 0 && this->_matterMana >= INSTALL_COST) {
+				installed = true;
+				this->_matterMana -= INSTALL_COST;
+				this->_matterInstallTimer = INSTALL_DURATION;
+			}
 			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_inputBuffer.a = 0;
-			this->_odCooldown = INSTALL_COOLDOWN;
-			this->_barMaxOdCooldown = INSTALL_COOLDOWN;
-			game->soundMgr.play(BASICSOUND_INSTALL_START);
+			if (installed)
+				game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 		if (
 			(airborne && this->_executeAirborneMoves(input)) ||
