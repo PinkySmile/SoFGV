@@ -481,8 +481,6 @@ namespace SpiralOfFate
 	void Character::_renderInstallEffect(Sprite &sprite) const
 	{
 		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
-		auto &data = *this->getCurrentFrameData();
-		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 
 		game->textureMgr.setTexture(sprite);
 		for (auto &box : this->_getModifiedHitBoxes()) {

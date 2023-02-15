@@ -50,6 +50,7 @@ namespace SpiralOfFate
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_PUNCH, size};
 
+		(void)packet;
 		this->_send(remote, &error, sizeof(error));
 	}
 
@@ -241,6 +242,7 @@ namespace SpiralOfFate
 	{
 		PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY, size};
 
+		(void)packet;
 		this->_send(remote, &error, sizeof(error));
 	}
 }

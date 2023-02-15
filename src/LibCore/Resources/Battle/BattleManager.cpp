@@ -1049,6 +1049,13 @@ namespace SpiralOfFate
 		output.draw(txt);
 	}
 
+	BattleManager::HUDData::HUDData(BattleManager &mgr, Character &base, bool side) :
+		mgr(mgr),
+		base(base),
+		side(side)
+	{
+	}
+
 	void BattleManager::HUDData::renderMeterBar(sf::RenderTarget &output, Vector2i pos, float bar, sf::Color minColor, sf::Color maxColor) const
 	{
 		sf::VertexArray buffer{sf::TriangleStrip, 4};

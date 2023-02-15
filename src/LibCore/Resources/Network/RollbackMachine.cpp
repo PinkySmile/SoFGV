@@ -70,6 +70,8 @@ namespace SpiralOfFate
 	RollbackMachine::UpdateStatus RollbackMachine::update(bool useP1Inputs, bool useP2Inputs)
 	{
 		//TODO: Use useP1Inputs, useP2Inputs and check the fake pause
+		(void)useP1Inputs;
+		(void)useP2Inputs;
 #if MAX_ROLLBACK == 0
 		if (!this->_realInputLeft->hasInputs() || !this->_realInputRight->hasInputs()) {
 #else

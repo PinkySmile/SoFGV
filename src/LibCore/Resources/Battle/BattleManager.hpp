@@ -50,6 +50,7 @@ namespace SpiralOfFate
 			bool counter = false;
 			unsigned char score = 0;
 
+			HUDData(BattleManager &mgr, Character &base, bool side);
 			void renderMeterBar(sf::RenderTarget &output, Vector2i pos, float bar, sf::Color minColor, sf::Color maxColor) const;
 			void render(sf::RenderTarget &output) const;
 			void renderNoReverse(sf::RenderTarget &output) const;
