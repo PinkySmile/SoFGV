@@ -20,16 +20,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Logger.hpp"
 #include "Resources/Battle/RandomWrapper.hpp"
-
-#ifdef _MSC_VER
-#ifdef MYDLL_EXPORTS
-#define MYDLL_API __declspec(dllexport)
-#else
-#define MYDLL_API __declspec(dllimport)
-#endif
-#else
-#define MYDLL_API
-#endif
+#include "MSVCMacros.hpp"
 
 #ifdef __GNUC__
 #define FCT_NAME __PRETTY_FUNCTION__

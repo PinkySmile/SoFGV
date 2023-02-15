@@ -7209,6 +7209,7 @@
             "width": 38
           },
           "defense_flag": 24576,
+          "duration": 5,
           "hurt_boxes": [
             {
               "height": 199,
@@ -7244,9 +7245,9 @@
           "duration": 6,
           "hurt_boxes": [
             {
-              "height": 45,
+              "height": 83,
               "left": -40,
-              "top": -36,
+              "top": -74,
               "width": 79
             }
           ],
@@ -7302,10 +7303,10 @@
           "hit_stun": 35,
           "hurt_boxes": [
             {
-              "height": 44,
-              "left": -35,
-              "top": -35,
-              "width": 67
+              "height": 81,
+              "left": -39,
+              "top": -75,
+              "width": 79
             }
           ],
           "mana_gain": 20,
@@ -15694,6 +15695,12 @@
               "left": -20,
               "top": -188,
               "width": 52
+            },
+            {
+              "height": 63,
+              "left": 24,
+              "top": -137,
+              "width": 36
             }
           ],
           "offset": {
@@ -15835,7 +15842,7 @@
               "height": 43,
               "left": 17,
               "top": -130,
-              "width": 64
+              "width": 95
             },
             {
               "height": 190,
@@ -15910,7 +15917,7 @@
               "height": 43,
               "left": 17,
               "top": -130,
-              "width": 76
+              "width": 123
             },
             {
               "height": 190,
@@ -15953,7 +15960,7 @@
             "width": 42
           },
           "defense_flag": 256,
-          "duration": 9,
+          "duration": 10,
           "hit_opponent_hit_stop": 5,
           "hit_player_hit_stop": 5,
           "hit_stun": 18,

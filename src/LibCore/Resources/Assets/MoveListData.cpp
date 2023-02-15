@@ -7,7 +7,7 @@
 
 namespace SpiralOfFate
 {
-	const std::vector<unsigned> defaultCommandOrder = {
+	MYDLL_API const std::vector<unsigned> defaultCommandOrder = {
 		ACTION_c28N,
 		ACTION_c46N,
 		ACTION_c64N,
@@ -143,7 +143,7 @@ namespace SpiralOfFate
 		ACTION_c64A,
 	};
 
-	const std::vector<unsigned> defaultMoveOrder = {
+	MYDLL_API const std::vector<unsigned> defaultMoveOrder = {
 		ACTION_5N,
 		ACTION_2N,
 		ACTION_j5N,
@@ -338,7 +338,7 @@ namespace SpiralOfFate
 		ACTION_GROUND_HIGH_VOID_PARRY,
 	};
 
-	const std::map<unsigned, MoveData> defaultMoveData = {
+	MYDLL_API const std::map<unsigned, MoveData> defaultMoveData = {
 		{ ACTION_5N, {
 			"5N",
 			"ACTION_5N",
@@ -1256,7 +1256,7 @@ namespace SpiralOfFate
 		}},
 	};
 
-	const std::array<std::string, NB_SPRITES> spritesPaths{
+	MYDLL_API const std::array<std::string, NB_SPRITES> spritesPaths{
 		"assets/icons/inputs/1.png",      //SPRITE_1
 		"assets/icons/inputs/2.png",      //SPRITE_2
 		"assets/icons/inputs/3.png",      //SPRITE_3
