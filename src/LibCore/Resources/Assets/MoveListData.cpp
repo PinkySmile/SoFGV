@@ -1255,7 +1255,7 @@ namespace SpiralOfFate
 			{SPRITE_H6, SPRITE_CHARGE, SPRITE_4, SPRITE_A}
 		}},
 	};
-gi
+
 	MYDLL_API const std::array<std::string, NB_SPRITES> spritesPaths{
 		"assets/icons/inputs/1.png",      //SPRITE_1
 		"assets/icons/inputs/2.png",      //SPRITE_2
