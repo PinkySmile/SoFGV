@@ -1590,13 +1590,13 @@ namespace SpiralOfFate
 			this->_hasJumped = true;
 			// We add some anti buffer to RC and installs for the shared keys
 			if ((action >= ACTION_5N && action < ACTION_5M) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._an = -SPECIAL_INPUT_BUFFER_PERSIST;
+				this->_specialInputs._an = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5M && action < ACTION_5S) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
+				this->_specialInputs._am = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5S && action < ACTION_5V) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
+				this->_specialInputs._as = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5V && action < ACTION_5A) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
+				this->_specialInputs._av = -COMBINATION_LENIENCY;
 		}
 		if (
 			action != ACTION_AIR_HIT &&

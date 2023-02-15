@@ -73,7 +73,7 @@ namespace SpiralOfFate
 	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
 	{
 		if (action == ACTION_5A)
-			return (this->_guardCooldown == 0 || this->_buffTimer != 0) && this->_action != ACTION_5A;
+			return (this->_guardCooldown == 0 || this->_buffTimer != 0) && this->_action < ACTION_WALK_BACKWARD;
 		return Character::_canStartMove(action, data);
 	}
 
