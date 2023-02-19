@@ -39,3 +39,5 @@ cmake-build-*
 
 # Placeholder files
 assets/sfxs/se
+
+src/WikiGenerator/generated
