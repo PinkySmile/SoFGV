@@ -7748,7 +7748,7 @@
               "width": 56
             }
           ],
-          "offense_flag": 7168,
+          "offense_flag": 6144,
           "offset": {
             "x": 24,
             "y": -2
@@ -8269,7 +8269,7 @@
               "height": 103,
               "left": 7,
               "top": -117,
-              "width": 42
+              "width": 53
             }
           ],
           "hurt_boxes": [
@@ -8396,10 +8396,10 @@
           "duration": 6,
           "hit_boxes": [
             {
-              "height": 46,
-              "left": 23,
+              "height": 117,
+              "left": 3,
               "top": -121,
-              "width": 55
+              "width": 75
             }
           ],
           "hit_opponent_hit_stop": 2,
@@ -8462,10 +8462,10 @@
           "duration": 6,
           "hit_boxes": [
             {
-              "height": 46,
-              "left": 23,
+              "height": 120,
+              "left": 8,
               "top": -121,
-              "width": 55
+              "width": 70
             }
           ],
           "hit_opponent_hit_stop": 2,
@@ -11544,9 +11544,9 @@
           "hit_boxes": [
             {
               "height": 192,
-              "left": 7,
+              "left": -35,
               "top": -190,
-              "width": 38
+              "width": 92
             }
           ],
           "hit_stun": 60,
@@ -11670,10 +11670,10 @@
           "duration": 6,
           "hit_boxes": [
             {
-              "height": 198,
-              "left": 0,
-              "top": -187,
-              "width": 55
+              "height": 199,
+              "left": -53,
+              "top": -188,
+              "width": 120
             }
           ],
           "hit_opponent_hit_stop": 2,
@@ -11739,10 +11739,10 @@
           "duration": 6,
           "hit_boxes": [
             {
-              "height": 194,
-              "left": 7,
-              "top": -190,
-              "width": 55
+              "height": 197,
+              "left": -56,
+              "top": -193,
+              "width": 127
             }
           ],
           "hit_opponent_hit_stop": 2,
