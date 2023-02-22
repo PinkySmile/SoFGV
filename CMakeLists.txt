@@ -11,7 +11,13 @@ include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src/LibCore 
 
 
 message("SFML include dir is ${SFML_INCLUDE_DIRS}")
+message("SFML graphics library is ${SFML_GRAPHICS_LIBRARY}")
+message("SFML audio library is ${SFML_AUDIO_LIBRARY}")
+message("SFML system library is ${SFML_SYSTEM_LIBRARY}")
+message("SFML window library is ${SFML_WINDOW_LIBRARY}")
+message("SFML network library is ${SFML_NETWORK_LIBRARY}")
 message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
+message("TGUI library is ${TGUI_LIBRARIES}")
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 if (CMAKE_BUILD_TYPE STREQUAL Debug)

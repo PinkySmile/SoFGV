@@ -21,6 +21,7 @@ IF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
         FIND_LIBRARY(TGUI_LIBRARIES
                 NAMES
                 tgui
+                NO_DEFAULT_PATH
                 PATHS
                 ${TGUI_DIR}/lib/              # TGUI root directory (if provided)
                 ${TGUI_DIR}                   # TGUI root directory (if provided)
@@ -34,6 +35,7 @@ IF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
         FIND_PATH(TGUI_INCLUDE_DIRS
                 NAMES
                 TGUI/TGUI.hpp
+                NO_DEFAULT_PATH
                 PATHS
                 ${TGUI_DIR}/include/             # TGUI root directory (if provided)
                 ${TGUI_DIR}                      # TGUI root directory (if provided)
