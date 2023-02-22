@@ -56,12 +56,12 @@
                 <span class="spirit">{{ stats["spirit_mana_max"] }}</span>,
                 <span class="matter">{{ stats["matter_mana_max"] }}</span>
             </td>
-            <td>{{ stats["mana_regen"] }}</td>
+            <td>{{ stats["mana_regen"] }}% / frame</td>
             <td>{{ stats["jump_count"] }}</td>
             <td>{{ stats["air_dash_count"] }}</td>
-            <td>{{ stats["guard_bar"] }}</td>
-            <td>{{ stats["guard_break_cooldown"] }}</td>
-            <td>{{ stats["overdrive_cooldown"] }}</td>
+            <td>{{ stats["guard_bar"] }} units</td>
+            <td>{{ stats["guard_break_cooldown"] / 60 }}s</td>
+            <td>{{ stats["overdrive_cooldown"]/60 }}s</td>
             <td>{{ stats["ground_drag"] }}</td>
             <td>{{ stats["air_drag"] }}</td>
             <td>{{ stats["gravity"] }}</td>
