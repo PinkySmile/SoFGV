@@ -38,6 +38,8 @@
 #define QUIT_BUTTON      6
 #define SYNC_TEST_BUTTON 7
 
+extern std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream);
+
 namespace SpiralOfFate
 {
 	static const unsigned inputs[]{
@@ -344,6 +346,41 @@ namespace SpiralOfFate
 
 	bool TitleScreen::_onKeyPressed(sf::Event::KeyEvent ev)
 	{
+		if (ev.code == sf::Keyboard::F2 && this->_changingInputs > 1) {
+			auto path = Utils::saveFileDialog("Save inputs", "./profiles", {{".*\\.in", "Input files"}});
+
+			if (path.empty())
+				return false;
+
+			std::ofstream stream{path};
+
+			if (!stream)
+				Utils::dispMsg("Saving error", strerror(errno), MB_ICONERROR, &*game->screen);
+
+			auto &pair = (this->_changingInputs == 2 ? game->P1 : game->P2);
+
+			pair.first->save(stream);
+			pair.second->save(stream);
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			return false;
+		}
+		if (ev.code == sf::Keyboard::F3 && this->_changingInputs > 1) {
+			auto path = Utils::openFileDialog("Load inputs", "./profiles", {{".*\\.in", "Input files"}});
+
+			if (path.empty())
+				return false;
+
+			std::ifstream stream{path};
+
+			if (!stream)
+				Utils::dispMsg("Loading error", strerror(errno), MB_ICONERROR, &*game->screen);
+
+			auto &pair = (this->_changingInputs == 2 ? game->P1 : game->P2);
+
+			pair = loadPlayerInputs(stream);
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			return false;
+		}
 		if (this->_changeInput && this->_changingInputs) {
 			if (sf::Keyboard::Escape == ev.code) {
 				game->soundMgr.play(BASICSOUND_MENU_CANCEL);
