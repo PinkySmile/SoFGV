@@ -71,6 +71,7 @@ static const char *oFlags[] = {
 	"matterMana",
 	"turnAround",
 	"forceTurnAround",
+	"nextBlockOnHit"
 };
 
 static const char *dFlags[] = {
@@ -1306,6 +1307,9 @@ namespace SpiralOfFate
 
 			auto inputs = this->_getInputs();
 
+			if (this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100)
+				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
+
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
 				break;
@@ -1385,10 +1389,10 @@ namespace SpiralOfFate
 	{
 		Object::hit(other, data);
 		this->_speed.x += data->pushBack * -this->_dir;
-		if (data->oFlag.grab) {
+		if (data->oFlag.nextBlockOnHit) {
 			this->_actionBlock++;
+			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
-			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Grab action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			Object::_onMoveEnd(*data);
 		}
 	}
@@ -3739,12 +3743,6 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
-		if (data.oFlag.ultimate && chr->_actionBlock == 0) {
-			chr->_actionBlock++;
-			my_assert2(chr->_actionBlock != chr->_moves.at(chr->_action).size(), "Action " + actionToString(chr->_action) + " is missing block 1");
-			chr->_animation = 0;
-			chr->_applyNewAnimFlags();
-		}
 		if ((myData->dFlag.counterHit || counter) && (data.oFlag.canCounterHit || forcedCounter) && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;

@@ -90,6 +90,7 @@ namespace SpiralOfFate
 			bool matterMana : 1;
 			bool turnAround : 1;
 			bool forceTurnAround : 1;
+			bool nextBlockOnHit : 1;
 		};
 	};
 

@@ -8286,7 +8286,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 16385,
+          "offense_flag": 268451841,
           "offset": {
             "x": 29,
             "y": 0
@@ -8872,7 +8872,7 @@
             }
           ],
           "min_prorate": 75.0,
-          "offense_flag": 147512,
+          "offense_flag": 268582968,
           "offset": {
             "x": -3,
             "y": -24
@@ -11564,7 +11564,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 16385,
+          "offense_flag": 268451841,
           "offset": {
             "x": 29,
             "y": 0
