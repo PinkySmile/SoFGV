@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spiral of Fate: Grand Vision | {{ stats['name'] }}</title>
+    <style>
+        table {
+            border: solid black 1px;
+        }
+        td {
+            padding: 4px;
+            border: solid black 1px;
+            text-align: center;
+        }
+        th {
+            padding: 4px;
+            border: solid black 1px;
+            text-align: center;
+        }
+        .void {
+            color: #C80074;
+        }
+        .matter {
+            color: #BB5E00;
+        }
+        .spirit {
+            color: #33CCCC;
+        }
+        .true_neutral {
+            color: #ADADAD;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ stats['name'] }}</h1>
+    <hr>
+    <h2>Basic information</h2>
+    <table>
+        <tr>
+            <th>Health</th>
+            <th>Mana Max</th>
+            <th>Mana Regeneration</th>
+            <th>Jump Counts</th>
+            <th>Airdashes Count</th>
+            <th>Guard Bar</th>
+            <th>Guard Break Cooldown</th>
+            <th>Burst Cooldown</th>
+            <th>Ground Drag</th>
+            <th>Air Drag</th>
+            <th>Gravity</th>
+        </tr>
+        <tr>
+            <td>{{ stats["hp"] }}</td>
+            <td>
+                <span class="void">{{ stats["void_mana_max"] }}</span>,
+                <span class="spirit">{{ stats["spirit_mana_max"] }}</span>,
+                <span class="matter">{{ stats["matter_mana_max"] }}</span>
+            </td>
+            <td>{{ stats["mana_regen"] }}</td>
+            <td>{{ stats["jump_count"] }}</td>
+            <td>{{ stats["air_dash_count"] }}</td>
+            <td>{{ stats["guard_bar"] }}</td>
+            <td>{{ stats["guard_break_cooldown"] }}</td>
+            <td>{{ stats["overdrive_cooldown"] }}</td>
+            <td>{{ stats["ground_drag"] }}</td>
+            <td>{{ stats["air_drag"] }}</td>
+            <td>{{ stats["gravity"] }}</td>
+        </tr>
+    </table>
+    <h2>Palettes</h2>
+    <img src="palettes.png">
+    <hr>
+    <h2>Move list</h2>
+    {% for data in moves %}
+    <h3>{% if data["action"] in names %}{{ names[data["action"]] }}{% else %}Action {{ data["action"] }}{% endif %}</h3>
+    <table>
+        <tr>
+        {% if data["damage"]|length > 0 %}
+            <th>Hits</th>
+            <th>Damage</th>
+            <th>Prorate</th>
+            <th>Limit</th>
+            <th>Type</th>
+            <th>Guard</th>
+            <th>Chip Damage</th>
+            <th>Startup</th>
+            <th>Active</th>
+        {% endif %}
+            <th>Total</th>
+        {% if data["damage"]|length > 0 %}
+            <th>Advantage</th>
+        {% endif %}
+        </tr>
+        <tr>
+        {% if data["damage"]|length > 0 %}
+            <td>{{ data["damage"]|length }}</td>
+            <td>{{ data["damage"]|join(", ") }}</td>
+            <td>{{ data["prorate"]|join("%, ") }}%</td>
+            <td>{{ data["limit"]|join(", ") }}</td>
+            <td>{{ data["type"]|join(", ") }}</td>
+            <td>{{ data["guard"]|join(", ") }}</td>
+            <td>{{ data["chip_damage"]|join(", ") }}</td>
+            <td>{{ data["startup"]|join(", ") }}</td>
+            <td>{{ data["active"]|join(", ") }}</td>
+        {% endif %}
+            <td>{{ data["total"] }}</td>
+        {% if data["damage"]|length > 0 %}
+            <td>
+            {% if data["advantage"] %}
+                Min
+                {% if data["advantage"][0][0] is not none %}
+                    {{ data["advantage"][0][0] }}
+                {% else %}
+                    -
+                {% endif %}/
+                {% if data["advantage"][0][1] is not none %}
+                    {{ data["advantage"][0][1] }}
+                {% else %}
+                    -
+                {% endif %},
+                Max
+                {% if data["advantage"][1][0] is not none %}
+                    {{ data["advantage"][1][0] }}
+                {% else %}
+                    -
+                {% endif %}/
+                {% if data["advantage"][1][1] is not none %}
+                    {{ data["advantage"][1][1] }}
+                {% else %}
+                    -
+                {% endif %}
+            {% else %}
+                -
+            {% endif %}
+            </td>
+        {% endif %}
+        </tr>
+    </table>
+    <hr>
+    {% endfor %}
+</body>
+</html>
