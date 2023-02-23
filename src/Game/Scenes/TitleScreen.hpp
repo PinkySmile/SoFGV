@@ -26,8 +26,6 @@ namespace SpiralOfFate
 		mutable Sprite _titleSpiral;
 		mutable std::vector<Sprite> _inputs;
 		Menu _menuObject;
-		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P1;
-		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> _P2;
 		std::thread _thread;
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		std::pair<unsigned, unsigned> _spec;
@@ -80,10 +78,7 @@ namespace SpiralOfFate
 		void _specUpdate(std::pair<unsigned, unsigned> spec);
 
 	public:
-		TitleScreen(
-			std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1,
-			std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2
-		);
+		TitleScreen();
 		~TitleScreen();
 		void render() const override;
 		void update() override;
