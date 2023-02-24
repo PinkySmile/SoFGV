@@ -104,9 +104,9 @@ namespace SpiralOfFate
 
 		if (PracticeBattleManager::_canMashNextFrame(op))
 			state.gapTimer++;
-		else if (!state.blk && blk) {
+		else if (!state.blk2 && blk) {
 			if (state.gapTimer < 20 && state.gapTimer)
-				state.gaps.push_front({0, static_cast<int>(state.gapTimer)});
+				state.gaps.push_front({0, static_cast<int>(state.gapTimer) - 1});
 			state.gapTimer = 0;
 		}
 
@@ -127,6 +127,7 @@ namespace SpiralOfFate
 			state.faTimer = 0;
 		state.atk = atk;
 		state.blk = blk;
+		state.blk2 = blk && op._blockStun != 1;
 		state.hasBlocked |= blk;
 	}
 

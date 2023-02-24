@@ -26,6 +26,7 @@ namespace SpiralOfFate
 			unsigned faTimer = 0;
 			bool atk = false;
 			bool blk = false;
+			bool blk2 = false;
 			bool hasBlocked = false;
 		};
 
