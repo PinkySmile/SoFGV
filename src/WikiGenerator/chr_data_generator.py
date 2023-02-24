@@ -256,6 +256,7 @@ def calc_frame_advantage(block, data):
 		if 'hit_boxes' in anim:
 			frame = anim
 			total = anim.get("duration", 1)
+			has_hit = True
 
 	stun = frame.get("block_stun", 0)
 	stop = frame.get("block_opponent_hit_stop", 0) - frame.get("block_player_hit_stop", 0)
@@ -495,6 +496,7 @@ def get_data_for_move(mid, move, objs_datas):
 					print(f"Warning: Move {mid}, block 0, anim {anim} has different data for hit frames")
 					print(current)
 					print(old)
+				current = old
 				old = None
 		anim += 1
 		current_frame += frame.get("duration", 1)
