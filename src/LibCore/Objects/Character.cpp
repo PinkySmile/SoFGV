@@ -3793,7 +3793,12 @@ namespace SpiralOfFate
 		if (chr) {
 			auto it = chr->_usedMoves.find(chr->_action);
 
-			if (it != chr->_usedMoves.end())
+			if (chr->_action >= ACTION_5N && chr->_action < ACTION_5A && (
+				chr->_action % 50 == ACTION_5N % 50 ||
+				chr->_action % 50 == ACTION_2N % 50 ||
+				chr->_action % 50 == ACTION_j5N % 50
+			));
+			else if (it != chr->_usedMoves.end())
 				nb = it->second;
 		}
 		this->_blockStun = stun;
