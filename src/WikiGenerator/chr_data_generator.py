@@ -5,6 +5,8 @@ import json
 import math
 from PIL import Image, ImageDraw
 
+JSON_INDENT = 2
+
 
 class DefensiveFlag:
 	invulnerable      = 1 << 0
@@ -214,7 +216,7 @@ def generate_frames_images(path, datas, metadata, start=None):
 					), fill="#FFFF0020", outline="#FFFF00")
 					img = Image.alpha_composite(img, tmp)
 				img_draw = ImageDraw.Draw(img)
-				metadata[f"{action}_{blockId}_{i}"] = (-borders[0], -borders[1] + size[1])
+				metadata[f"{action}_{blockId}_{i}"] = (-borders[0], -borders[1] + size[1], frame.get("duration", 1))
 				img_draw.rectangle((
 					-borders[0] - 1,
 					-borders[1] + size[1] - 1,
@@ -335,9 +337,9 @@ def get_data_for_move(mid, move, objs_datas):
 		oflags = frame.get('offense_flag', 0)
 		dflags = frame.get('defense_flag', 0)
 
-		if (oflags & OffensiveFlag.nextBlockOnHit) or (oflags & DefensiveFlag.landCancel):
+		if (oflags & OffensiveFlag.nextBlockOnHit) or (dflags & DefensiveFlag.landCancel):
 			has_follow_up = True
-			lc = bool(oflags & DefensiveFlag.landCancel)
+			lc = bool(dflags & DefensiveFlag.landCancel)
 		if (oflags & OffensiveFlag.resetHits) and current is not None:
 			current['active'] = active_frames
 			for i, k in current.items():
@@ -404,9 +406,20 @@ def get_data_for_move(mid, move, objs_datas):
 			if dflags & DefensiveFlag.voidArmor:
 				data["voidArmor"].append(anim)
 		# Object info
-		if 'hit_boxes' in frame:
+		if frame.get("marker", 0) or frame.get("subobject", 0) and not current:
+			current = {
+				# Lock
+				'lock': bool(oflags & OffensiveFlag.resetSpeed),
+				# Restand
+				'restand': bool(oflags & OffensiveFlag.restand),
+				# Startup
+				'startup': real_current_frame,
+				# Startup animation
+				'startup_anim': current_frame
+			}
+		elif 'hit_boxes' in frame:
 			active_frames += frame.get("duration", 1)
-			if current is not None:
+			if current is not None and 'damage' in current:
 				old = current
 			current = {
 				# Lock
@@ -415,6 +428,8 @@ def get_data_for_move(mid, move, objs_datas):
 				'restand': bool(oflags & OffensiveFlag.restand),
 				# Startup
 				'startup': real_current_frame,
+				# Startup animation
+				'startup_anim': current_frame,
 				# Damage
 				'damage': frame.get("damage", 0),
 				# Chip damage
@@ -492,6 +507,7 @@ def get_data_for_move(mid, move, objs_datas):
 					current['guard']['A'] = False
 			if old:
 				current['startup'] = old['startup']
+				current['startup_anim'] = old['startup_anim']
 				if old != current:
 					print(f"Warning: Move {mid}, block 0, anim {anim} has different data for hit frames")
 					print(current)
@@ -530,6 +546,7 @@ def get_data_for_move(mid, move, objs_datas):
 	data['advantage'] = calc_frame_advantage(move[0], data)
 	# Total duration
 	data["total"] = current_frame
+	data["total_real"] = real_current_frame
 	return data
 
 
@@ -617,7 +634,7 @@ def gen_data(path):
 		mkdir(f"generated/{chr_stats['name']}/{action}")
 		img.save(f"generated/{chr_stats['name']}/{action}/{blockId}_{i}.png")
 	with open(f"generated/{chr_stats['name']}/meta.json", "w") as fd:
-		json.dump(meta, fd)
+		json.dump(meta, fd, indent=JSON_INDENT)
 
 	mkdir(f"generated/{chr_stats['name']}/subobjects")
 	print("Generating subobject images")
@@ -626,21 +643,21 @@ def gen_data(path):
 		mkdir(f"generated/{chr_stats['name']}/subobjects/{action}")
 		img.save(f"generated/{chr_stats['name']}/subobjects/{action}/{blockId}_{i}.png")
 	with open(f"generated/{chr_stats['name']}/subobjects/meta.json", "w") as fd:
-		json.dump(meta, fd)
+		json.dump(meta, fd, indent=JSON_INDENT)
 
 	print("Generating framedata")
 	del chr_stats['palettes']
 	with open(f"generated/{chr_stats['name']}/stats.json", "w") as fd:
-		json.dump(chr_stats, fd)
+		json.dump(chr_stats, fd, indent=JSON_INDENT)
 	current_data = generate_data(datas, objs_datas, objs)
 	with open(f"generated/{chr_stats['name']}/data.json", "w") as fd:
-		json.dump(current_data, fd)
+		json.dump(current_data, fd, indent=JSON_INDENT)
 
 	if has_old_data:
 		with open("data_old.json") as fd:
 			diff = generate_diff(current_data, json.load(fd))
 		with open(f"generated/{chr_stats['name']}/data_diff.json", "w") as fd:
-			json.dump(diff, fd)
+			json.dump(diff, fd, indent=JSON_INDENT)
 		os.unlink("data_old.json")
 	return current_data, chr_stats, meta
 

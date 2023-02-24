@@ -85,6 +85,8 @@
             <th>Chip Damage</th>
             <th>Startup</th>
             <th>Active</th>
+        {% elif data["startup"]|length %}
+            <th>Startup</th>
         {% endif %}
             <th>Total</th>
         {% if data["damage"]|length > 0 %}
@@ -102,8 +104,10 @@
             <td>{{ data["chip_damage"]|join(", ") }}</td>
             <td>{{ data["startup"]|join(", ") }}</td>
             <td>{{ data["active"]|join(", ") }}</td>
+        {% elif data["startup"]|length %}
+            <td>{{ data["startup"][0] }}</td>
         {% endif %}
-            <td>{{ data["total"] }}</td>
+            <td>{{ data["total_real"] }}{% if data["total_real"] != data["total"] %} (Counting flash: {{ data["total"] }}){% endif %}</td>
         {% if data["damage"]|length > 0 %}
             <td>
             {% if data["advantage"] %}
