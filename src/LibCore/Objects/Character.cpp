@@ -71,7 +71,8 @@ static const char *oFlags[] = {
 	"matterMana",
 	"turnAround",
 	"forceTurnAround",
-	"nextBlockOnHit"
+	"nextBlockOnHit",
+	"nextBlockOnBlock"
 };
 
 static const char *dFlags[] = {

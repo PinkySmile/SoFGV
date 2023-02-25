@@ -8874,7 +8874,7 @@
             }
           ],
           "min_prorate": 75.0,
-          "offense_flag": 268566584,
+          "offense_flag": 805437496,
           "offset": {
             "x": -3,
             "y": -24
@@ -9100,7 +9100,6 @@
         {
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9142,7 +9141,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9173,6 +9171,7 @@
             "x": 178,
             "y": 328
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9190,7 +9189,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9221,6 +9219,7 @@
             "x": 132,
             "y": 328
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9238,7 +9237,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9269,6 +9267,7 @@
             "x": 122,
             "y": 340
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 170,
@@ -9286,7 +9285,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9317,6 +9315,7 @@
             "x": 178,
             "y": 328
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9334,7 +9333,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9365,6 +9363,7 @@
             "x": 132,
             "y": 328
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9382,7 +9381,6 @@
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
-          "hitSound": "assets/sfxs/se/marisa/002.wav",
           "hit_boxes": [
             {
               "height": 351,
@@ -9419,6 +9417,7 @@
             "x": 122,
             "y": 340
           },
+          "sound": "assets/sfxs/se/marisa/002.wav",
           "spirit_limit": 100,
           "sprite": "sheet.png",
           "texture_bounds": {
