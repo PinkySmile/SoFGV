@@ -1387,9 +1387,16 @@ namespace SpiralOfFate
 
 	void Character::hit(IObject &other, const FrameData *data)
 	{
+		auto o = dynamic_cast<Object *>(&other);
+		auto chr = dynamic_cast<Character *>(&other);
+		auto isHit = isHitAction(o->_action);
+
 		Object::hit(other, data);
 		this->_speed.x += data->pushBack * -this->_dir;
-		if (data->oFlag.nextBlockOnHit) {
+		if (
+			(data->oFlag.nextBlockOnHit && (!chr || isHit)) ||
+			(data->oFlag.nextBlockOnBlock && chr && !isHit)
+		) {
 			this->_actionBlock++;
 			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
@@ -4250,11 +4257,13 @@ namespace SpiralOfFate
 		memset(&this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
 		memset(&this->_inputBuffer, 0, sizeof(this->_inputBuffer));
 
-		if (data->dFlag.neutralBlock)
-			this->_forceStartMove(this->_getReversalAction());
-		else if (isStrongest)
+		if (isStrongest)
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING);
-		else {
+		else if (data->dFlag.neutralBlock) {
+			this->_hitStop = 20;
+			other->_hitStop = 20;
+			this->_forceStartMove(this->_getReversalAction());
+		} else {
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
 			this->_blockStun = oData->blockStun * (3 + isWeakest) / 3;
 		}

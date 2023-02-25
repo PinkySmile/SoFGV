@@ -399,7 +399,7 @@ ScrollablePanel.Panel1 {
             CheckBox.ResetHit {
                 Position = (170, 590);
                 Size = (20, 20);
-                Text = "Opposite Push";
+                Text = "New Hit";
                 TextSize = 13;
                 renderer = &6;
             }
@@ -407,7 +407,7 @@ ScrollablePanel.Panel1 {
             CheckBox.ResetSpeed {
                 Position = (10, 620);
                 Size = (20, 20);
-                Text = "Reset Speed";
+                Text = "Opposite Push";
                 TextSize = 13;
                 renderer = &6;
             }
