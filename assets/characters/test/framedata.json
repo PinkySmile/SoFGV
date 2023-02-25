@@ -18782,7 +18782,7 @@
         {
           "block_opponent_hit_stop": 13,
           "block_player_hit_stop": 13,
-          "block_stun": 18,
+          "block_stun": 19,
           "chip_damage": 500,
           "collision_box": {
             "height": 151,
@@ -19492,7 +19492,7 @@
         {
           "block_opponent_hit_stop": 13,
           "block_player_hit_stop": 13,
-          "block_stun": 15,
+          "block_stun": 12,
           "collision_box": {
             "height": 158,
             "left": -15,
