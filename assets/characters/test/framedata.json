@@ -7062,8 +7062,8 @@
           "hit_boxes": [
             {
               "height": 27,
-              "left": -5,
-              "top": -100,
+              "left": -4,
+              "top": -104,
               "width": 49
             }
           ],
@@ -7089,8 +7089,8 @@
             },
             {
               "height": 27,
-              "left": -8,
-              "top": -99,
+              "left": -4,
+              "top": -104,
               "width": 51
             }
           ],
@@ -7878,7 +7878,7 @@
         {
           "block_opponent_hit_stop": 10,
           "block_player_hit_stop": 10,
-          "block_stun": 31,
+          "block_stun": 28,
           "chip_damage": 200,
           "collision_box": {
             "height": 136,
@@ -7897,10 +7897,10 @@
           "hitSound": "assets/sfxs/se/008.wav",
           "hit_boxes": [
             {
-              "height": 87,
+              "height": 75,
               "left": -9,
-              "top": -99,
-              "width": 85
+              "top": -87,
+              "width": 75
             }
           ],
           "hit_opponent_hit_stop": 10,
@@ -8286,7 +8286,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 268451841,
+          "offense_flag": 327172097,
           "offset": {
             "x": 29,
             "y": 0
@@ -8404,7 +8404,7 @@
           ],
           "hit_opponent_hit_stop": 2,
           "hit_player_hit_stop": 2,
-          "offense_flag": 24576,
+          "offense_flag": 58744832,
           "offset": {
             "x": 26,
             "y": 0
@@ -8475,7 +8475,7 @@
             "y": 9
           },
           "neutral_limit": 100,
-          "offense_flag": 8192,
+          "offense_flag": 58728448,
           "offset": {
             "x": 26,
             "y": 0
@@ -8499,7 +8499,7 @@
     ]
   },
   {
-    "action": 109,
+    "action": 110,
     "framedata": [
       [
         {
@@ -11564,7 +11564,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 268451841,
+          "offense_flag": 327172097,
           "offset": {
             "x": 29,
             "y": 0
@@ -11680,7 +11680,7 @@
           "hit_player_hit_stop": 2,
           "hit_stun": 60,
           "min_prorate": 100.0,
-          "offense_flag": 24576,
+          "offense_flag": 58744832,
           "offset": {
             "x": 26,
             "y": 0
@@ -11754,7 +11754,7 @@
           },
           "hit_stun": 60,
           "neutral_limit": 100,
-          "offense_flag": 8192,
+          "offense_flag": 58728448,
           "offset": {
             "x": 26,
             "y": 0
@@ -13114,16 +13114,16 @@
             "y": 16
           },
           "damage": 1400,
-          "defense_flag": 19520,
+          "defense_flag": 17472,
           "duration": 2,
           "guard_damage": 120,
           "hitSound": "assets/sfxs/se/tenshi/002.wav",
           "hit_boxes": [
             {
-              "height": 55,
+              "height": 33,
               "left": 19,
               "top": -126,
-              "width": 131
+              "width": 140
             }
           ],
           "hit_opponent_hit_stop": 16,
@@ -15663,7 +15663,7 @@
               "height": 63,
               "left": 24,
               "top": -137,
-              "width": 36
+              "width": 66
             }
           ],
           "offset": {
@@ -15701,7 +15701,7 @@
               "height": 63,
               "left": 24,
               "top": -137,
-              "width": 36
+              "width": 66
             }
           ],
           "offset": {
@@ -15787,7 +15787,7 @@
           },
           "sound": "assets/sfxs/se/tenshi/055.wav",
           "speed": {
-            "x": -2,
+            "x": -1,
             "y": 0
           },
           "spirit_limit": 5,
@@ -15918,7 +15918,7 @@
               "height": 43,
               "left": 17,
               "top": -130,
-              "width": 123
+              "width": 117
             },
             {
               "height": 190,
@@ -16754,18 +16754,18 @@
               "height": 63,
               "left": -10,
               "top": -164,
-              "width": 58
+              "width": 73
             },
             {
-              "height": 38,
+              "height": 41,
               "left": 38,
-              "top": -118,
-              "width": 52
+              "top": -121,
+              "width": 57
             },
             {
-              "height": 39,
+              "height": 48,
               "left": 78,
-              "top": -86,
+              "top": -95,
               "width": 41
             }
           ],
