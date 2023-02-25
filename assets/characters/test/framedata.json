@@ -8842,7 +8842,7 @@
           "block_opponent_hit_stop": 12,
           "block_player_hit_stop": 12,
           "block_stun": 12,
-          "chip_damage": 200,
+          "chip_damage": 800,
           "collision_box": {
             "height": 136,
             "left": -19,
@@ -9098,9 +9098,47 @@
       ],
       [
         {
+          "defense_flag": 2105345,
+          "duration": 5,
+          "hitSound": "assets/sfxs/se/marisa/002.wav",
+          "hit_boxes": [
+            {
+              "height": 351,
+              "left": -74,
+              "top": -325,
+              "width": 145
+            }
+          ],
+          "hurt_boxes": [
+            {
+              "height": 204,
+              "left": -32,
+              "top": -200,
+              "width": 62
+            }
+          ],
+          "offense_flag": 131072,
+          "offset": {
+            "x": 0,
+            "y": -24
+          },
+          "size": {
+            "x": 122,
+            "y": 340
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 170,
+            "left": 841,
+            "top": 287,
+            "width": 61
+          }
+        },
+        {
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9124,7 +9162,7 @@
               "width": 62
             }
           ],
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": -14,
             "y": -24
@@ -9148,6 +9186,7 @@
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9171,7 +9210,7 @@
               "width": 62
             }
           ],
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": -2,
             "y": -24
@@ -9195,6 +9234,7 @@
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9218,7 +9258,7 @@
               "width": 62
             }
           ],
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": 0,
             "y": -24
@@ -9242,6 +9282,7 @@
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9265,7 +9306,7 @@
               "width": 62
             }
           ],
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": -14,
             "y": -24
@@ -9289,6 +9330,7 @@
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9312,7 +9354,7 @@
               "width": 62
             }
           ],
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": -2,
             "y": -24
@@ -9336,6 +9378,7 @@
           "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
+          "chip_damage": 100,
           "damage": 900,
           "defense_flag": 2105345,
           "duration": 5,
@@ -9365,7 +9408,7 @@
           ],
           "matter_limit": 100,
           "neutral_limit": 100,
-          "offense_flag": 139324,
+          "offense_flag": 139320,
           "offset": {
             "x": 0,
             "y": -24
