@@ -8291,7 +8291,7 @@
             "x": 29,
             "y": 0
           },
-          "prorate": 75.0,
+          "prorate": 50.0,
           "size": {
             "x": 94,
             "y": 180
@@ -8392,7 +8392,7 @@
             "top": -136,
             "width": 40
           },
-          "damage": 800,
+          "damage": 1200,
           "duration": 6,
           "hit_boxes": [
             {
@@ -8458,7 +8458,7 @@
             "top": -136,
             "width": 40
           },
-          "damage": 800,
+          "damage": 1200,
           "duration": 6,
           "hit_boxes": [
             {
