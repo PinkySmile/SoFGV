@@ -76,7 +76,7 @@ namespace SpiralOfFate
 			bool cancelable : 1;
 			bool jab : 1;
 			bool resetHits : 1;
-			bool resetSpeed : 1;
+			bool opposingPush : 1;
 			bool restand : 1;
 			bool super : 1;
 			bool ultimate : 1;

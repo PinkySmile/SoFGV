@@ -431,7 +431,6 @@ namespace SpiralOfFate
 			bool _inputDisabled;
 			bool _hasJumped;
 			bool _restand;
-			bool _speedReset;
 			bool _justGotCorner;
 			char _normalTreeFlag;
 			bool _armorUsed;
@@ -586,7 +585,6 @@ namespace SpiralOfFate
 		float _spiritMana = 0;
 		float _matterMana = 0;
 		SpecialInputs _specialInputs;
-		bool _speedReset = false;
 		bool _counter = false;
 		bool _wrongMana = false;
 		bool _ultimateUsed = false;
@@ -617,6 +615,7 @@ namespace SpiralOfFate
 		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		bool _hasHitDuringFrame = false;
 		mutable unsigned _effectTimer = 0;
 		mutable Sprite _neutralEffect;
 		mutable Sprite _matterEffect;

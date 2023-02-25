@@ -579,6 +579,7 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
+		this->_hasHitDuringFrame = false;
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->updateInputs();
@@ -694,7 +695,6 @@ namespace SpiralOfFate
 							this->_forceStartMove(ACTION_FALLING);
 					}
 				}
-				this->_speedReset = false;
 			}
 		}
 
@@ -3665,7 +3665,10 @@ namespace SpiralOfFate
 				this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
 			this->_blockStun = data.blockStun;
 		}
-		this->_speed.x += data.pushBlock * -this->_dir;
+		if (data.oFlag.opposingPush)
+			this->_speed.x += data.pushBlock * std::copysign(1, this->_position.x - other->_position.x);
+		else
+			this->_speed.x += data.pushBlock * -this->_dir;
 		if (data.chipDamage < this->_hp)
 			this->_hp -= data.chipDamage;
 		else
@@ -3743,6 +3746,13 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
+		if (!this->_hasHitDuringFrame) {
+			this->_hasHitDuringFrame = true;
+			if (chr)
+				chr->_hasHitDuringFrame = true;
+			obj->_hitStop = 0;
+			this->_hitStop = 0;
+		}
 		if ((myData->dFlag.counterHit || counter) && (data.oFlag.canCounterHit || forcedCounter) && this->_counterHit != 2 && !myData->dFlag.superarmor) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
@@ -3754,15 +3764,15 @@ namespace SpiralOfFate
 				this->_restand = data.oFlag.restand;
 				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
 					this->_actionBlock = 3;
-				else if (this->_speed.y < 0 && !data.oFlag.resetSpeed)
+				else if (this->_speed.y < 0)
 					this->_actionBlock = 1;
 				stun = data.untech;
 			}
 			this->_counter = true;
 			damage *= forcedCounter ? 2 : 1.5;
 			stun *= forcedCounter ? 2 : 1.5;
-			this->_hitStop += data.hitPlayerHitStop * 1.5;
-			obj->_hitStop += data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
+			obj->_hitStop += data.hitPlayerHitStop * 1.5;
+			this->_hitStop += data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
@@ -3776,14 +3786,14 @@ namespace SpiralOfFate
 					this->_restand = data.oFlag.restand;
 					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
 						this->_actionBlock = 3;
-					else if (this->_speed.y < 0 && !data.oFlag.resetSpeed)
+					else if (this->_speed.y < 0)
 						this->_actionBlock = 1;
 					stun = data.untech;
 				}
 			} else
 				stun = 0;
-			this->_hitStop += data.hitPlayerHitStop;
-			obj->_hitStop += data.hitOpponentHitStop;
+			obj->_hitStop += data.hitPlayerHitStop;
+			this->_hitStop += data.hitOpponentHitStop;
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 
@@ -3809,7 +3819,6 @@ namespace SpiralOfFate
 		this->_limit[1] += data.voidLimit * (nb + 1);
 		this->_limit[2] += data.matterLimit * (nb + 1);
 		this->_limit[3] += data.spiritLimit * (nb + 1);
-		this->_speedReset = data.oFlag.resetSpeed;
 		if (this->_hp > damage)
 			this->_hp -= damage;
 		else
@@ -3915,8 +3924,6 @@ namespace SpiralOfFate
 		}
 		this->_hadUltimate = data->oFlag.ultimate;
 		this->_ultimateUsed |= data->oFlag.ultimate;
-		if (this->_speedReset)
-			this->_speed = {0, 0};
 		if (data->oFlag.voidMana)
 			this->_consumeVoidMana(data->manaCost);
 		if (data->oFlag.spiritMana)
@@ -4009,7 +4016,6 @@ namespace SpiralOfFate
 		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
 		dat->_inputBuffer = this->_inputBuffer;
-		dat->_speedReset = this->_speedReset;
 		dat->_guardRegenCd = this->_guardRegenCd;
 		dat->_odCooldown = this->_odCooldown;
 		dat->_counter = this->_counter;
@@ -4069,7 +4075,6 @@ namespace SpiralOfFate
 		this->_ultimateUsed = dat->_ultimateUsed;
 		this->_normalTreeFlag = dat->_normalTreeFlag;
 		this->_inputBuffer = dat->_inputBuffer;
-		this->_speedReset = dat->_speedReset;
 		this->_guardRegenCd = dat->_guardRegenCd;
 		this->_odCooldown = dat->_odCooldown;
 		this->_counter = dat->_counter;
@@ -4632,8 +4637,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::d: " + std::to_string(dat1->_inputBuffer.d) + " vs " + std::to_string(dat2->_inputBuffer.d));
 		if (dat1->_inputBuffer.pause != dat2->_inputBuffer.pause)
 			game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::pause: " + std::to_string(dat1->_inputBuffer.pause) + " vs " + std::to_string(dat2->_inputBuffer.pause));
-		if (dat1->_speedReset != dat2->_speedReset)
-			game->logger.fatal(std::string(msgStart) + "Character::_speedReset: " + std::to_string(dat1->_speedReset) + " vs " + std::to_string(dat2->_speedReset));
 		if (dat1->_guardRegenCd != dat2->_guardRegenCd)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardRegenCd: " + std::to_string(dat1->_guardRegenCd) + " vs " + std::to_string(dat2->_guardRegenCd));
 		if (dat1->_odCooldown != dat2->_odCooldown)

@@ -1200,7 +1200,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.oFlag.resetSpeed = b;
+		data.oFlag.opposingPush = b;
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
@@ -1372,7 +1372,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		cancelable->setChecked(data.oFlag.cancelable);
 		jab->setChecked(data.oFlag.jab);
 		resetHit->setChecked(data.oFlag.resetHits);
-		resetSpeed->setChecked(data.oFlag.resetSpeed);
+		resetSpeed->setChecked(data.oFlag.opposingPush);
 		restand->setChecked(data.oFlag.restand);
 		super->setChecked(data.oFlag.super);
 		ultimate->setChecked(data.oFlag.ultimate);
