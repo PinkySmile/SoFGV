@@ -467,8 +467,6 @@ def get_data_for_move(mid, move, objs_datas):
 				if current['type'] & OffensiveFlag.spiritElement:
 					types.append("S")
 				current['type'] = types
-			if current['guard_dmg'] == 0:
-				print(f"Warning: Move {mid}, block 0, anim {anim} doesn't have any guard damage")
 			# Guard type
 			if oflags & OffensiveFlag.unblockable:
 				current['guard'] = {
@@ -489,6 +487,8 @@ def get_data_for_move(mid, move, objs_datas):
 					"Auto": False
 				}
 			else:
+				if current['guard_dmg'] == 0:
+					print(f"Warning: Move {mid}, block 0, anim {anim} doesn't have any guard damage")
 				current['guard'] = {
 					"A": True,
 					"L": True,
