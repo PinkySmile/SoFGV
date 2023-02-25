@@ -13,10 +13,10 @@
           "hitSound": "assets/sfxs/se/011.wav",
           "hit_boxes": [
             {
-              "height": 59,
-              "left": 4,
-              "top": -30,
-              "width": 52
+              "height": 44,
+              "left": 8,
+              "top": -22,
+              "width": 43
             }
           ],
           "hit_opponent_hit_stop": 4,
@@ -31,7 +31,7 @@
               "height": 59,
               "left": 4,
               "top": -30,
-              "width": 51
+              "width": 56
             }
           ],
           "offense_flag": 16,
