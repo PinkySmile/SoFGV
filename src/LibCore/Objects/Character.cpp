@@ -931,7 +931,7 @@ namespace SpiralOfFate
 			!!input.d != this->_lastInputs.front().d ||
 			!!input.a != this->_lastInputs.front().a ||
 			std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis) != this->_lastInputs.front().h ||
-			std::copysign(!!input.verticalAxis,   this->_dir * input.verticalAxis)   != this->_lastInputs.front().v
+			std::copysign(!!input.verticalAxis,   input.verticalAxis)                != this->_lastInputs.front().v
 		)
 			this->_lastInputs.push_front({
 				0,
@@ -942,7 +942,7 @@ namespace SpiralOfFate
 				!!input.d,
 				!!input.a,
 				static_cast<char>(std::copysign(!!input.horizontalAxis, this->_dir * input.horizontalAxis)),
-				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis))
+				static_cast<char>(std::copysign(!!input.verticalAxis,   input.verticalAxis)),
 			});
 		this->_lastInputs.front().nbFrames++;
 		if (this->_lastInputs.front().nbFrames > MAX_FRAME_IN_BUFFER)
@@ -1414,8 +1414,8 @@ namespace SpiralOfFate
 		data = *dat;
 		this->_mutateHitFramedata(data);
 		if (myData->dFlag.invulnerableArmor) {
-			this->_hitStop = data.hitPlayerHitStop;
-			obj->_hitStop = data.hitOpponentHitStop * 2;
+			this->_hitStop += data.hitPlayerHitStop;
+			obj->_hitStop += data.hitOpponentHitStop * 2;
 			return;
 		}
 		this->_restand = false;
@@ -3592,8 +3592,8 @@ namespace SpiralOfFate
 			}
 			this->_guardRegenCd = 120;
 		}
-		this->_hitStop = data.blockPlayerHitStop;
-		other->_hitStop = data.blockOpponentHitStop;
+		this->_hitStop += data.blockPlayerHitStop;
+		other->_hitStop += data.blockOpponentHitStop;
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3761,8 +3761,8 @@ namespace SpiralOfFate
 			this->_counter = true;
 			damage *= forcedCounter ? 2 : 1.5;
 			stun *= forcedCounter ? 2 : 1.5;
-			this->_hitStop = data.hitPlayerHitStop * 1.5;
-			obj->_hitStop = data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
+			this->_hitStop += data.hitPlayerHitStop * 1.5;
+			obj->_hitStop += data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
@@ -3782,8 +3782,8 @@ namespace SpiralOfFate
 				}
 			} else
 				stun = 0;
-			this->_hitStop = data.hitPlayerHitStop;
-			obj->_hitStop = data.hitOpponentHitStop;
+			this->_hitStop += data.hitPlayerHitStop;
+			obj->_hitStop += data.hitOpponentHitStop;
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 
