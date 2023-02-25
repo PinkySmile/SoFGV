@@ -510,8 +510,9 @@ def get_data_for_move(mid, move, objs_datas):
 				current['startup_anim'] = old['startup_anim']
 				if old != current:
 					print(f"Warning: Move {mid}, block 0, anim {anim} has different data for hit frames")
-					print(current)
-					print(old)
+					for i in current.keys():
+						if current[i] != old[i]:
+							print(f"\t{i}: Old {old[i]} VS new {current[i]}")
 				current = old
 				old = None
 		anim += 1
