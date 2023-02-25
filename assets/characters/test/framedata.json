@@ -7268,7 +7268,7 @@
           }
         },
         {
-          "block_opponent_hit_stop": 10,
+          "block_opponent_hit_stop": 14,
           "block_player_hit_stop": 14,
           "block_stun": 12,
           "collision_box": {
@@ -7294,7 +7294,7 @@
               "width": 53
             }
           ],
-          "hit_opponent_hit_stop": 10,
+          "hit_opponent_hit_stop": 14,
           "hit_player_hit_stop": 14,
           "hit_speed": {
             "x": 4,
