@@ -8286,7 +8286,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 327172097,
+          "offense_flag": 268451897,
           "offset": {
             "x": 29,
             "y": 0
@@ -8404,7 +8404,7 @@
           ],
           "hit_opponent_hit_stop": 2,
           "hit_player_hit_stop": 2,
-          "offense_flag": 58744832,
+          "offense_flag": 24632,
           "offset": {
             "x": 26,
             "y": 0
@@ -8475,7 +8475,7 @@
             "y": 9
           },
           "neutral_limit": 100,
-          "offense_flag": 58728448,
+          "offense_flag": 8248,
           "offset": {
             "x": 26,
             "y": 0
@@ -11610,7 +11610,7 @@
               "width": 72
             }
           ],
-          "offense_flag": 327172097,
+          "offense_flag": 268451897,
           "offset": {
             "x": 29,
             "y": 0
@@ -11726,7 +11726,7 @@
           "hit_player_hit_stop": 2,
           "hit_stun": 60,
           "min_prorate": 100.0,
-          "offense_flag": 58744832,
+          "offense_flag": 24632,
           "offset": {
             "x": 26,
             "y": 0
@@ -11800,7 +11800,7 @@
           },
           "hit_stun": 60,
           "neutral_limit": 100,
-          "offense_flag": 58728448,
+          "offense_flag": 8248,
           "offset": {
             "x": 26,
             "y": 0
