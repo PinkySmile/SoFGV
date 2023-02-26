@@ -90,15 +90,16 @@ namespace SpiralOfFate
 			for (unsigned y = 0; y < realSize.y; y++) {
 				auto &color = pixels[x + y * realSize.x];
 
-				if (color.a < 150)
-					continue;
-
 				auto it = std::find_if(palette.first.begin(), palette.first.end(), [color](Color &a){
 					return a.r == color.r && a.g == color.g && a.b == color.b;
 				});
 
-				if (it != palette.first.end())
+				if (it != palette.first.end()) {
+					auto a = color.a;
+
 					color = palette.second[it - palette.first.begin()];
+					color.a = a;
+				}
 			}
 
 		unsigned index = this->load(pixels, realSize);

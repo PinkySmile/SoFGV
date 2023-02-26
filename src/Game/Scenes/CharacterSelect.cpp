@@ -9,6 +9,7 @@
 #include "Resources/Game.hpp"
 #include "Objects/Characters/Stickman.hpp"
 #include "Utils.hpp"
+#include "Objects/Characters/VictoriaStar.hpp"
 
 namespace SpiralOfFate
 {
@@ -36,6 +37,10 @@ namespace SpiralOfFate
 			game->logger.debug("Loading character from " + file.string());
 			my_assert2(!s.fail(), file.string() + ": " + strerror(errno));
 			s >> json;
+#ifndef _DEBUG
+			if (json.contains("hidden") && json["hidden"])
+				continue;
+#endif
 			this->_entries.emplace_back(json, entry.string());
 		}
 		std::sort(this->_entries.begin(), this->_entries.end(), [](CharacterEntry &a, CharacterEntry &b){
@@ -129,6 +134,14 @@ namespace SpiralOfFate
 			palettes.second = entry.palettes[palette];
 		}
 		switch (entry._class) {
+		case 2:
+			chr = new VictoriaStar{
+				static_cast<unsigned>(palette << 16 | pos),
+				entry.folder,
+				palettes,
+				std::move(input)
+			};
+			break;
 		case 1:
 			chr = new Stickman{
 				static_cast<unsigned>(palette << 16 | pos),
@@ -540,7 +553,8 @@ namespace SpiralOfFate
 		this->pos = json["pos"];
 		this->name = Utils::utf8ToUtf16(json["name"].get<std::string>());
 		//FIXME: Temporary hack
-		this->_class = this->name == L"Stickman";
+		if (json.contains("class"))
+			this->_class = json["class"];
 		this->folder = folder;
 		this->data = FrameData::loadFile(folder + "/charSelect.json", folder);
 		if (this->palettes.empty())

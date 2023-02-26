@@ -21,7 +21,7 @@ namespace SpiralOfFate
 		std::vector<SpiralOfFate::Color>> &palette,
 		std::shared_ptr<IInput> input
 	) :
-		Character(index, folder, palette, input)
+		Character(index, folder, palette, std::move(input))
 	{
 		this->_fakeFrameData.setSlave();
 		game->logger.debug("Stickman class created");

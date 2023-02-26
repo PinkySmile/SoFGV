@@ -152,7 +152,10 @@ add_library(
 	src/LibCore/Inputs/VirtualController.cpp
 	src/LibCore/Inputs/VirtualController.hpp
 	src/LibCore/Resources/SceneArgument.hpp
-        src/LibCore/Resources/MSVCMacros.hpp)
+        src/LibCore/Resources/MSVCMacros.hpp
+	src/LibCore/Objects/Characters/VictoriaStar.cpp
+	src/LibCore/Objects/Characters/VictoriaStar.hpp
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)

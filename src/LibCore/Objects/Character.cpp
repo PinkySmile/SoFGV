@@ -16,6 +16,7 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define PARRY_COST 100
 #define INSTALL_COST 300
 #define INSTALL_DURATION 30
 #define REFLECT_PERCENT 60
@@ -1489,7 +1490,7 @@ namespace SpiralOfFate
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 600 && this->getAttackTier(action) < 700;
 		game->logger.info("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
-			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * 60;
+			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * PARRY_COST;
 
 			this->_specialInputs._an = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
@@ -1564,7 +1565,10 @@ namespace SpiralOfFate
 
 			if (isRomanCancelAction(action))
 				currentCd /= 2;
-			if (action == ACTION_NEUTRAL_OVERDRIVE || action == ACTION_NEUTRAL_ROMAN_CANCEL) {
+			if (
+				action == ACTION_NEUTRAL_OVERDRIVE ||
+				action == ACTION_NEUTRAL_AIR_OVERDRIVE
+			) {
 				currentCd *= 3;
 				currentCd /= 4;
 			}
@@ -4235,7 +4239,7 @@ namespace SpiralOfFate
 			this->_parryMatterEffect(other, isStrongest);
 
 		if (!isWeakest && (!data->dFlag.neutralBlock || isStrongest)) {
-			unsigned loss = (data->dFlag.neutralBlock + 1) * 60;
+			unsigned loss = (data->dFlag.neutralBlock + 1) * PARRY_COST;
 
 			if (this->_guardCooldown) {
 				this->_guardCooldown = 0;
