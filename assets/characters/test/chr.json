@@ -1,4 +1,5 @@
 {
+  "class": 1,
   "hp":20000,
   "void_mana_max":2000,
   "spirit_mana_max":2000,
@@ -77,5 +78,5 @@
     ]
   ],
   "name":"Stickman",
-  "pos":0
+  "pos":-1
 }
