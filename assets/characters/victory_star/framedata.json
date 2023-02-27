@@ -5975,7 +5975,7 @@
             "width": 38
           },
           "defense_flag": 2105344,
-          "duration": 5,
+          "duration": 10,
           "hurt_boxes": [
             {
               "height": 190,

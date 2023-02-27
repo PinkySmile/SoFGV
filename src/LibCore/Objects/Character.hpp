@@ -395,6 +395,7 @@ namespace SpiralOfFate
 			InputStruct _inputBuffer;
 			unsigned _limit[4];
 			unsigned _subObjects[128];
+			int _timeSinceIdle;
 			unsigned _grabInvul;
 			unsigned _supersUsed;
 			unsigned _skillsUsed;
@@ -559,6 +560,7 @@ namespace SpiralOfFate
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit{0, 0, 0, 0};
 		InputStruct _inputBuffer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		int _timeSinceIdle = 0;
 		unsigned _supersUsed = 0;
 		unsigned _skillsUsed = 0;
 		unsigned _barMaxOdCooldown = 0;

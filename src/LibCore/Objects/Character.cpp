@@ -16,6 +16,11 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define IDLE_ANIM_FIRST 600
+#define IDLE_ANIM_CHANCE 50
+#define IDLE_ANIM_CD_MIN 300
+#define IDLE_ANIM_CD_MAX 600
+
 #define PARRY_COST 100
 #define INSTALL_COST 300
 #define INSTALL_DURATION 30
@@ -587,6 +592,21 @@ namespace SpiralOfFate
 			this->updateInputs();
 			return;
 		}
+		if (this->_action == ACTION_IDLE) {
+			if (this->_actionBlock == 0) {
+				this->_timeSinceIdle++;
+				if (this->_timeSinceIdle >= IDLE_ANIM_FIRST) {
+					this->_timeSinceIdle = IDLE_ANIM_FIRST - random_distrib(game->battleRandom, IDLE_ANIM_CD_MIN, IDLE_ANIM_CD_MAX);
+					if (this->_moves[0].size() != 1 && random_distrib(game->battleRandom, 0, 99) > IDLE_ANIM_CHANCE) {
+						this->_actionBlock = random_distrib(game->battleRandom, 1, this->_moves[0].size() - 1);
+						this->_animation = 0;
+						this->_animationCtr = 0;
+						this->_applyNewAnimFlags();
+					}
+				}
+			}
+		} else
+			this->_timeSinceIdle = 0;
 
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
@@ -1384,6 +1404,8 @@ namespace SpiralOfFate
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_NEUTRAL_HIGH_JUMP || this->_action == ACTION_FORWARD_HIGH_JUMP || this->_action == ACTION_BACKWARD_HIGH_JUMP)
 			return this->_forceStartMove(idleAction);
+		if (this->_action == ACTION_IDLE)
+			this->_actionBlock = 0;
 		Object::_onMoveEnd(lastData);
 	}
 
@@ -3362,7 +3384,8 @@ namespace SpiralOfFate
 			"SupersUsed %u\n"
 			"SkillsUsed %u\n"
 			"NormalFlag: %x\n"
-			"JumpCancel: %s",
+			"JumpCancel: %s\n"
+			"Time since idle: %i",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -3405,7 +3428,8 @@ namespace SpiralOfFate
 			this->_supersUsed,
 			this->_skillsUsed,
 			this->_normalTreeFlag,
-			this->_jumpCanceled ? "true" : "false"
+			this->_jumpCanceled ? "true" : "false",
+			this->_timeSinceIdle
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
@@ -4014,6 +4038,7 @@ namespace SpiralOfFate
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
 		dat->_voidEffectTimer = this->_voidEffectTimer;
+		dat->_timeSinceIdle = this->_timeSinceIdle;
 		dat->_matterInstallTimer = this->_matterInstallTimer;
 		dat->_spiritInstallTimer = this->_spiritInstallTimer;
 		dat->_voidInstallTimer = this->_voidInstallTimer;
@@ -4074,6 +4099,7 @@ namespace SpiralOfFate
 		this->_matterEffectTimer = dat->_matterEffectTimer;
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
 		this->_voidEffectTimer = dat->_voidEffectTimer;
+		this->_timeSinceIdle = dat->_timeSinceIdle;
 		this->_matterInstallTimer = dat->_matterInstallTimer;
 		this->_spiritInstallTimer = dat->_spiritInstallTimer;
 		this->_voidInstallTimer = dat->_voidInstallTimer;
