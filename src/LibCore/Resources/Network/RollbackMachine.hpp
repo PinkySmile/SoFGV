@@ -12,7 +12,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
-#define MAX_ROLLBACK 0
+#define MAX_ROLLBACK 8
 
 namespace SpiralOfFate
 {
@@ -34,6 +34,7 @@ namespace SpiralOfFate
 			void *data = nullptr;
 
 			RollbackData();
+			RollbackData(RollbackData &);
 			RollbackData(IInput &left, IInput &right, RollbackData *old);
 			~RollbackData();
 		};
@@ -44,7 +45,8 @@ namespace SpiralOfFate
 		std::shared_ptr<RollbackInput> inputLeft = std::make_shared<RollbackInput>();
 		std::shared_ptr<RollbackInput> inputRight = std::make_shared<RollbackInput>();
 
-		void _manageRollback(std::list<RollbackData>::iterator it);
+		bool _simulateFrame(const RollbackData &data);
+		bool _checkPredictedInputs();
 		static int _computeCheckSum(short *data, size_t size);
 
 	public:
