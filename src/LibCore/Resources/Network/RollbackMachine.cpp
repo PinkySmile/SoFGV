@@ -171,11 +171,11 @@ namespace SpiralOfFate
 			// Here, at least one input is predicted, let's see if we were wrong
 			bool different = false;
 
-			input.left.predicted = false;
-			input.right.predicted = false;
 			if (input.left.predicted) {
 				InputData data{*this->_realInputLeft, old ? &old->left : nullptr};
 
+				if (data.predicted)
+					return true;
 				if (data.keyStates != input.left.keyStates) {
 					input.left.keyStates = data.keyStates;
 					different = true;
@@ -184,11 +184,15 @@ namespace SpiralOfFate
 			if (input.right.predicted) {
 				InputData data{*this->_realInputRight, old ? &old->right : nullptr};
 
+				if (data.predicted)
+					return true;
 				if (data.keyStates != input.right.keyStates) {
 					input.right.keyStates = data.keyStates;
 					different = true;
 				}
 			}
+			input.left.predicted = false;
+			input.right.predicted = false;
 			if (different)
 				break;
 			it++;

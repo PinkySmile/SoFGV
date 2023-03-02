@@ -159,7 +159,7 @@ namespace SpiralOfFate
 		Object::copyToBuffer(data);
 		dat->animationCtr = this->_animationCtr;
 		dat->disabled = this->_disabled;
-		dat->maxHit = this->_maxHit;
+		dat->nbHit = this->_nbHit;
 	}
 
 	void Projectile::restoreFromBuffer(void *data)
@@ -169,7 +169,7 @@ namespace SpiralOfFate
 		Object::restoreFromBuffer(data);
 		this->_animationCtr = dat->animationCtr;
 		this->_disabled = dat->disabled;
-		this->_maxHit = dat->maxHit;
+		this->_nbHit = dat->nbHit;
 	}
 
 	void Projectile::_onMoveEnd(const FrameData &lastData)
@@ -202,8 +202,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Projectile::animationCtr: " + std::to_string(dat1->animationCtr) + " vs " + std::to_string(dat2->animationCtr));
 		if (dat1->disabled != dat2->disabled)
 			game->logger.fatal(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled) + " vs " + std::to_string(dat2->disabled));
-		if (dat1->maxHit != dat2->maxHit)
-			game->logger.fatal(std::string(msgStart) + "Projectile::maxHit: " + std::to_string(dat1->maxHit) + " vs " + std::to_string(dat2->maxHit));
+		if (dat1->nbHit != dat2->nbHit)
+			game->logger.fatal(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit) + " vs " + std::to_string(dat2->nbHit));
 		return length + sizeof(Data);
 	}
 

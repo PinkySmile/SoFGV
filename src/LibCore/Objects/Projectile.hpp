@@ -14,7 +14,7 @@ namespace SpiralOfFate
 	class Projectile : public Object {
 	private:
 		struct Data {
-			unsigned maxHit;
+			unsigned nbHit;
 			unsigned animationCtr;
 			bool disabled;
 		};
