@@ -204,11 +204,13 @@ namespace SpiralOfFate
 	{
 		auto pack = reinterpret_cast<Packet *>(packet);
 		//TODO: To net endianness
-		//if (pack->opcode != OPCODE_GAME_FRAME) {
-			auto str = pack->toString();
+		auto str = pack->toString();
+		auto logStr = "[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str;
 
-			game->logger.debug("[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str);
-		//}
+		if (pack->opcode != OPCODE_GAME_FRAME)
+			game->logger.debug(logStr);
+		else
+			game->logger.verbose(logStr);
 		my_assert(realSize <= RECV_BUFFER_SIZE);
 		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}

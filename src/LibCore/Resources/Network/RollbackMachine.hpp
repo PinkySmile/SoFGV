@@ -12,7 +12,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
-#define MAX_ROLLBACK 8
+#define MAX_ROLLBACK 0
 
 namespace SpiralOfFate
 {
@@ -24,7 +24,7 @@ namespace SpiralOfFate
 			std::array<int, INPUT_NUMBER - 1> keyDuration;
 
 			InputData() = default;
-			InputData(IInput &input, InputData *old);
+			InputData(IInput &input, const InputData *old);
 		};
 
 		struct RollbackData {

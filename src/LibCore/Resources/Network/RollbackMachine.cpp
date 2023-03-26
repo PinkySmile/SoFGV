@@ -37,7 +37,7 @@ namespace SpiralOfFate
 		memcpy(this->data, other.data, this->dataSize);
 	}
 
-	RollbackMachine::InputData::InputData(IInput &input, InputData *old)
+	RollbackMachine::InputData::InputData(IInput &input, const InputData *old)
 	{
 		this->keyDuration.fill(0);
 #if MAX_ROLLBACK != 0
@@ -154,117 +154,81 @@ namespace SpiralOfFate
 
 	bool RollbackMachine::_checkPredictedInputs()
 	{
-		RollbackData *old;
-		size_t oldSize = this->_savedData.size();
 		auto it = this->_savedData.begin();
+		auto result = 0;
+		bool different;
+		RollbackData *old = nullptr;
 
-		while (it != this->_savedData.end()) {
+		while (true) {
 			auto &input = *it;
 
-			old = &input;
 			// If neither inputs are predicted, no need to do anything
-			if (!input.left.predicted && !input.right.predicted) {
-				it++;
-				continue;
-			}
+			if (!input.left.predicted && !input.right.predicted)
+				goto endLoop;
 
 			// Here, at least one input is predicted, let's see if we were wrong
-			bool different = false;
+			different = false;
 
 			if (input.left.predicted) {
-				InputData data{*this->_realInputLeft, old ? &old->left : nullptr};
+				InputData data{*this->_realInputLeft, nullptr};
 
 				if (data.predicted)
 					return true;
+				input.left.predicted = false;
 				if (data.keyStates != input.left.keyStates) {
 					input.left.keyStates = data.keyStates;
 					different = true;
 				}
 			}
 			if (input.right.predicted) {
-				InputData data{*this->_realInputRight, old ? &old->right : nullptr};
+				InputData data{*this->_realInputRight, nullptr};
 
 				if (data.predicted)
 					return true;
+				input.right.predicted = false;
 				if (data.keyStates != input.right.keyStates) {
 					input.right.keyStates = data.keyStates;
 					different = true;
 				}
 			}
-			input.left.predicted = false;
-			input.right.predicted = false;
 			if (different)
 				break;
+			// We weren't! Good job!
+		endLoop:
+			old = &*it;
 			it++;
+			// All inputs have been processed, bail out
+			if (it == this->_savedData.end())
+				return true;
 		}
-		// All inputs have been processed, bail out
-		if (it == this->_savedData.end())
-			return true;
 
 		game->battleMgr->restoreFromBuffer(it->data);
-		this->_simulateFrame(*it);
-		it++;
-		this->_savedData.erase(it, this->_savedData.end());
-		while (oldSize != this->_savedData.size()) {
-			this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,&this->_savedData.back());
-			if (!this->_simulateFrame(this->_savedData.back()))
+		while (it != this->_savedData.end()) {
+			if (it->left.predicted) {
+				//TODO: Need old actually
+				InputData data{*this->_realInputLeft, old ? &old->left : nullptr};
+
+				it->left.predicted = data.predicted;
+				it->left.keyStates = data.keyStates;
+			}
+			if (it->right.predicted) {
+				//TODO: Need old actually
+				InputData data{*this->_realInputRight, old ? &old->right : nullptr};
+
+				it->right.predicted = data.predicted;
+				it->right.keyStates = data.keyStates;
+			}
+			result++;
+			if (!this->_simulateFrame(*it)) {
+				game->logger.debug("Rolled back " + std::to_string(result) + " frames (hit the end prematurely)");
 				return false;
+			}
+			old = &*it;
+			it++;
 		}
+		game->logger.debug("Rolled back " + std::to_string(result) + " frames");
 		return true;
 	}
-
-	/*
-	void RollbackMachine::_manageRollback(std::list<RollbackData>::iterator it)
-	{
-		auto old = it;
-
-		if (it != this->_savedData.begin())
-		    --old;
-#ifdef _DEBUG
-		size_t total = 0;
-		auto newit = it;
-
-		while (newit != this->_savedData.end()) {
-			newit++;
-			total++;
-		}
-		if (total)
-			game->logger.verbose("Rolling back " + std::to_string(total) + " frames");
-#endif
-		while (it != this->_savedData.end()) {
-			auto left  = it->left.predicted  ? InputData(*this->_realInputLeft,  it == this->_savedData.begin() ? nullptr : &old->left)  : it->left;
-			auto right = it->right.predicted ? InputData(*this->_realInputRight, it == this->_savedData.begin() ? nullptr : &old->right) : it->right;
-
-			this->inputLeft->_keyStates = left.keyStates;
-			this->inputRight->_keyStates = right.keyStates;
-			this->inputLeft->_keyDuration = left.keyDuration;
-			this->inputRight->_keyDuration = right.keyDuration;
-			if (!it->data) {
-				it->dataSize = game->battleMgr->getBufferSize();
-				it->data = malloc(it->dataSize);
-				game->battleMgr->copyToBuffer(it->data);
-				game->battleMgr->update();
-			} else if (left.keyStates != it->left.keyStates || right.keyStates != it->right.keyStates) {
-				if (it->data) {
-					game->battleMgr->restoreFromBuffer(it->data);
-
-					auto i = it;
-
-					++i;
-					while (i != this->_savedData.end()) {
-						free(i->data);
-						i->data = nullptr;
-						++i;
-					}
-				}
-				game->battleMgr->update();
-			}
-			it->left = left;
-			it->right = right;
-			++it;
-			++old;
-		}
-	}*/
 
 	/*
 	 * Simple checksum function from wikipedia:
