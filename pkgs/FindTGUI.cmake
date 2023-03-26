@@ -7,7 +7,10 @@
 #
 
 IF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
-        IF (MSVC)      # Visual Studio
+        IF (BUILD_STATIC)
+                SET(CMAKE_FIND_LIBRARY_PREFIXES ";lib")
+                SET(CMAKE_FIND_LIBRARY_SUFFIXES "-s.a")
+        ELSEIF (MSVC)      # Visual Studio
                 SET(CMAKE_FIND_LIBRARY_PREFIXES ";lib")
                 SET(CMAKE_FIND_LIBRARY_SUFFIXES ".lib;.dll.lib;.dll.a;.a")
         ELSEIF (MINGW) # Windows
@@ -16,7 +19,7 @@ IF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
         ELSE (MSVC)    # Linux
                 SET(CMAKE_FIND_LIBRARY_PREFIXES "lib")
                 SET(CMAKE_FIND_LIBRARY_SUFFIXES ".so;.dylib;.a")
-        ENDIF(MSVC)
+        ENDIF (BUILD_STATIC)
 
         FIND_LIBRARY(TGUI_LIBRARIES
                 NAMES
