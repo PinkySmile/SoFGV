@@ -226,9 +226,9 @@ namespace SpiralOfFate
 		if (!mData || !oData || this->_hasHit)
 			return false;
 
-		auto asAObject = dynamic_cast<const Object *>(&other);
+		auto otherObj = dynamic_cast<const Object *>(&other);
 
-		if (!asAObject || asAObject->_team == this->_team)
+		if (!otherObj || otherObj->_team == this->_team)
 			return false;
 
 		if (oData->dFlag.invulnerable && !mData->oFlag.grab && !mData->dFlag.projectile)
@@ -248,8 +248,27 @@ namespace SpiralOfFate
 		if (oData->dFlag.neutralInvul && (mData->oFlag.matterElement == mData->oFlag.voidElement && mData->oFlag.voidElement == mData->oFlag.spiritElement))
 			return false;
 
-		for (auto &hurtBox : asAObject->_getModifiedHurtBoxes())
-			for (auto &hitBox : this->_getModifiedHitBoxes())
+		auto hurtBoxes = otherObj->_getModifiedHurtBoxes();
+		auto hitBoxes = this->_getModifiedHitBoxes();
+
+		// TODO: Check if there is perf benefit in doing this
+		if (otherObj->_rotation == 0 && this->_rotation == 0) {
+			for (auto &hurtBox : hurtBoxes)
+				for (auto &hitBox : hitBoxes) {
+					if (hitBox.pt3.x < hurtBox.pt1.x)
+						continue;
+					if (hurtBox.pt3.x < hitBox.pt1.x)
+						continue;
+					if (hitBox.pt3.y < hurtBox.pt1.y)
+						continue;
+					if (hurtBox.pt3.y < hitBox.pt1.y)
+						continue;
+					return true;
+				}
+			return false;
+		}
+		for (auto &hurtBox : hurtBoxes)
+			for (auto &hitBox : hitBoxes)
 				if (hurtBox.intersect(hitBox) || hurtBox.isIn(hitBox) || hitBox.isIn(hurtBox))
 					return true;
 		return false;

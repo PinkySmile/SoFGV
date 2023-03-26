@@ -95,6 +95,14 @@ namespace SpiralOfFate
 			my_assert2(data["gravity"]["y"].is_number(), "Invalid json");
 			this->gravity = Vector2f(data["gravity"]["x"], data["gravity"]["y"]);
 		}
+		if (data.contains("snap")) {
+			my_assert2(data["snap"].is_object(), "Invalid json");
+			my_assert2(data["snap"].contains("x"), "Invalid json");
+			my_assert2(data["snap"].contains("y"), "Invalid json");
+			my_assert2(data["snap"]["x"].is_number(), "Invalid json");
+			my_assert2(data["snap"]["y"].is_number(), "Invalid json");
+			this->snap = Vector2f(data["snap"]["x"], data["snap"]["y"]);
+		}
 		if (data.contains("texture_bounds")) {
 			my_assert2(data["texture_bounds"].is_object(), "Invalid json");
 			my_assert2(data["texture_bounds"].contains("left"), "Invalid json");
@@ -389,6 +397,7 @@ namespace SpiralOfFate
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
+		this->snap = other.snap;
 		if (!this->_slave) {
 			game->textureMgr.addRef(this->textureHandle);
 			game->soundMgr.addRef(this->soundHandle);
@@ -454,6 +463,7 @@ namespace SpiralOfFate
 		this->speed = other.speed;
 		this->counterHitSpeed = other.counterHitSpeed;
 		this->gravity = other.gravity;
+		this->snap = other.snap;
 		if (!this->_slave) {
 			game->textureMgr.addRef(this->textureHandle);
 			game->soundMgr.addRef(this->soundHandle);
@@ -524,6 +534,11 @@ namespace SpiralOfFate
 			result["gravity"] = {
 				{"x", this->gravity->x},
 				{"y", this->gravity->y}
+			};
+		if (this->snap)
+			result["snap"] = {
+				{"x", this->snap->x},
+				{"y", this->snap->y}
 			};
 		if (this->size != game->textureMgr.getTextureSize(this->textureHandle))
 			result["size"] = {

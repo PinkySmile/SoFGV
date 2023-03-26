@@ -1510,7 +1510,7 @@ namespace SpiralOfFate
 		);
 		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700 && this->getAttackTier(action) < 800;
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 600 && this->getAttackTier(action) < 700;
-		game->logger.info("Starting action " + actionToString(action));
+		game->logger.debug("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
 			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * PARRY_COST;
 
@@ -3740,6 +3740,9 @@ namespace SpiralOfFate
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 		auto stun = data.hitStun;
 
+		if (data.snap) {
+			this->_position = obj->_position + Vector2f{data.snap->x * obj->_dir, data.snap->y};
+		}
 		this->_forceCH = false;
 		if (chr) {
 			forcedCounter = chr->_forceCH;

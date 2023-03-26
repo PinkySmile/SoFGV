@@ -21,6 +21,16 @@ Renderer.2 {
 
 Renderer.3 {
     textcolor = rgb(190, 190, 190);
+    textcolorhover = rgb(250, 250, 250);
+    texture = "assets/gui/themes/Black.png" Part( 0, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturedisabled = None;
+    texturedown = "assets/gui/themes/Black.png" Part(90, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturefocused = "assets/gui/themes/Black.png" Part(135, 64, 45, 50) Middle(10, 0, 25, 50);
+    texturehover = "assets/gui/themes/Black.png" Part(45, 64, 45, 50) Middle(10, 0, 25, 50);
+}
+
+Renderer.4 {
+    textcolor = rgb(190, 190, 190);
     texturebackground = None;
 
     scrollbar {
@@ -35,7 +45,7 @@ Renderer.3 {
     }
 }
 
-Renderer.4 {
+Renderer.5 {
     caretcolor = rgb(110, 110, 255);
     defaulttextcolor = rgb(120, 120, 120);
     padding = (6, 4, 6, 4);
@@ -46,16 +56,6 @@ Renderer.4 {
     texturedisabled = None;
     texturefocused = "assets/gui/themes/Black.png" Part(120, 114, 60, 40) Middle(15, 0, 30, 40);
     texturehover = "assets/gui/themes/Black.png" Part(60, 114, 60, 40) Middle(15, 0, 30, 40);
-}
-
-Renderer.5 {
-    textcolor = rgb(190, 190, 190);
-    textcolorhover = rgb(250, 250, 250);
-    texture = "assets/gui/themes/Black.png" Part( 0, 64, 45, 50) Middle(10, 0, 25, 50);
-    texturedisabled = None;
-    texturedown = "assets/gui/themes/Black.png" Part(90, 64, 45, 50) Middle(10, 0, 25, 50);
-    texturefocused = "assets/gui/themes/Black.png" Part(135, 64, 45, 50) Middle(10, 0, 25, 50);
-    texturehover = "assets/gui/themes/Black.png" Part(45, 64, 45, 50) Middle(10, 0, 25, 50);
 }
 
 Renderer.6 {
@@ -156,7 +156,7 @@ ScrollablePanel.Panel1 {
         Size = (43.2, 18);
         Text = Action;
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     SpinButton.Block {
@@ -176,7 +176,7 @@ ScrollablePanel.Panel1 {
         Size = (48.2, 18);
         Text = "Block 0";
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     Label.Label2 {
@@ -186,7 +186,7 @@ ScrollablePanel.Panel1 {
         Size = (56.2, 18);
         Text = "Frame 0";
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     EditBox.Action {
@@ -216,21 +216,21 @@ ScrollablePanel.Panel1 {
         Size = (19.2, 18);
         Text = x0;
         TextSize = 13;
-        renderer = &3;
+        renderer = &4;
     }
 
     Button.Play {
         Position = (240, 50);
         Text = Play;
         TextSize = 13;
-        renderer = &5;
+        renderer = &3;
     }
 
     Button.Step {
         Position = (300, 50);
         Text = Step;
         TextSize = 13;
-        renderer = &5;
+        renderer = &3;
     }
 
     Panel.AnimPanel {
@@ -278,7 +278,7 @@ ScrollablePanel.Panel1 {
                 Size = (38.2, 18);
                 Text = Value;
                 TextSize = 13;
-                renderer = &3;
+                renderer = &4;
             }
 
             EditBox.oFlags {
@@ -467,7 +467,7 @@ ScrollablePanel.Panel1 {
                 Size = (38.2, 18);
                 Text = Value;
                 TextSize = 13;
-                renderer = &3;
+                renderer = &4;
             }
 
             CheckBox.Invulnerable {
@@ -887,7 +887,7 @@ ScrollablePanel.Panel1 {
             Size = (40.2, 18);
             Text = Sprite;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Sprite {
@@ -914,7 +914,7 @@ ScrollablePanel.Panel1 {
             Size = (43.2, 18);
             Text = Offset;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label5 {
@@ -924,7 +924,7 @@ ScrollablePanel.Panel1 {
             Size = (29.2, 18);
             Text = Size;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Size {
@@ -952,7 +952,7 @@ ScrollablePanel.Panel1 {
             Size = (50.2, 18);
             Text = Bounds;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label7 {
@@ -962,7 +962,7 @@ ScrollablePanel.Panel1 {
             Size = (57.2, 18);
             Text = Rotation;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Slider.Rotation {
@@ -993,7 +993,7 @@ ScrollablePanel.Panel1 {
             Size = (58.2, 18);
             Text = Duration;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label9 {
@@ -1003,7 +1003,7 @@ ScrollablePanel.Panel1 {
             Size = (46.2, 18);
             Text = Marker;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Marker {
@@ -1029,7 +1029,7 @@ ScrollablePanel.Panel1 {
             Size = (68.2, 18);
             Text = "Block stun";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.BlockStun {
@@ -1048,7 +1048,7 @@ ScrollablePanel.Panel1 {
             Size = (52.2, 18);
             Text = "Hit stun";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitStun {
@@ -1076,7 +1076,7 @@ ScrollablePanel.Panel1 {
             Size = (50.2, 18);
             Text = Prorate;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label12 {
@@ -1086,7 +1086,7 @@ ScrollablePanel.Panel1 {
             Size = (68.2, 18);
             Text = "Push back";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.PushBack {
@@ -1105,7 +1105,7 @@ ScrollablePanel.Panel1 {
             Size = (71.2, 18);
             Text = "Push block";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.PushBlock {
@@ -1124,7 +1124,7 @@ ScrollablePanel.Panel1 {
             Size = (70.2, 18);
             Text = "Spirit Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SpiritLimit {
@@ -1152,7 +1152,7 @@ ScrollablePanel.Panel1 {
             Size = (65.2, 18);
             Text = "Void Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.MatterLimit {
@@ -1171,7 +1171,7 @@ ScrollablePanel.Panel1 {
             Size = (79.2, 18);
             Text = "Matter Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SubObj {
@@ -1190,7 +1190,7 @@ ScrollablePanel.Panel1 {
             Size = (66.2, 18);
             Text = Subobject;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.BOHitStop {
@@ -1209,7 +1209,7 @@ ScrollablePanel.Panel1 {
             Size = (75.2, 18);
             Text = "B OHit Stop";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitSpeed {
@@ -1228,7 +1228,7 @@ ScrollablePanel.Panel1 {
             Size = (83.2, 18);
             Text = "Collision box";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label23 {
@@ -1238,7 +1238,7 @@ ScrollablePanel.Panel1 {
             Size = (64.2, 18);
             Text = "Hit Speed";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label24 {
@@ -1248,7 +1248,7 @@ ScrollablePanel.Panel1 {
             Size = (70.2, 18);
             Text = "Mana Cost";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.ManaCost {
@@ -1285,7 +1285,7 @@ ScrollablePanel.Panel1 {
             Size = (70.2, 18);
             Text = "Mana Gain";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label26 {
@@ -1295,7 +1295,7 @@ ScrollablePanel.Panel1 {
             Size = (65.2, 18);
             Text = "CH Speed";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label27 {
@@ -1305,7 +1305,7 @@ ScrollablePanel.Panel1 {
             Size = (43.2, 18);
             Text = Speed;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label28 {
@@ -1315,7 +1315,7 @@ ScrollablePanel.Panel1 {
             Size = (58.2, 18);
             Text = Damage;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Damage {
@@ -1343,13 +1343,13 @@ ScrollablePanel.Panel1 {
             Size = (84.2, 18);
             Text = "Neutral Limit";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.Gravity {
             InputValidator = "\\(?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\.?[0-9]*\\)?";
             Position = (90, 250);
-            Size = (220, 22);
+            Size = (80, 22);
             TextSize = 13;
             renderer = &8;
         }
@@ -1361,7 +1361,7 @@ ScrollablePanel.Panel1 {
             Size = (50.2, 18);
             Text = Gravity;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.SFX {
@@ -1379,7 +1379,7 @@ ScrollablePanel.Panel1 {
             Size = (43.2, 18);
             Text = Sound;
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label31 {
@@ -1389,7 +1389,7 @@ ScrollablePanel.Panel1 {
             Size = (64.2, 18);
             Text = "Hit Sound";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.HitSFX {
@@ -1415,7 +1415,7 @@ ScrollablePanel.Panel1 {
             Size = (95.2, 18);
             Text = "Cancel Priority";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         Label.Label33 {
@@ -1425,7 +1425,7 @@ ScrollablePanel.Panel1 {
             Size = (64.2, 18);
             Text = "Chip dmg";
             TextSize = 13;
-            renderer = &3;
+            renderer = &4;
         }
 
         EditBox.ChipDmg {
@@ -1493,7 +1493,7 @@ ScrollablePanel.Panel1 {
             Size = (50, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.Untech {
@@ -1502,7 +1502,7 @@ ScrollablePanel.Panel1 {
             Size = (50, 22);
             Text = 0;
             TextSize = 13;
-            renderer = &4;
+            renderer = &5;
         }
 
         EditBox.MinRate {
@@ -1607,6 +1607,51 @@ ScrollablePanel.Panel1 {
             TextSize = 13;
             renderer = &2;
         }
+
+        Label.Label40 {
+            AutoSize = true;
+            Position = (190, 252);
+            ScrollbarPolicy = Never;
+            Size = (35.2, 18);
+            Text = Snap;
+            TextSize = 13;
+
+            Renderer {
+                textcolor = rgb(190, 190, 190);
+                texturebackground = None;
+
+                scrollbar {
+                    texturearrowdown = "assets/gui/themes/Black.png" Part(163, 174, 20, 20) Middle(0, 1, 20, 19);
+                    texturearrowdownhover = "assets/gui/themes/Black.png" Part(183, 174, 20, 20) Middle(0, 1, 20, 19);
+                    texturearrowup = "assets/gui/themes/Black.png" Part(163, 154, 20, 20) Middle(0, 0, 20, 19);
+                    texturearrowuphover = "assets/gui/themes/Black.png" Part(183, 154, 20, 20) Middle(0, 0, 20, 19);
+                    texturethumb = "assets/gui/themes/Black.png" Part(143, 154, 20, 20);
+                    texturethumbhover = "assets/gui/themes/Black.png" Part(143, 174, 20, 20);
+                    texturetrack = "assets/gui/themes/Black.png" Part(123, 154, 20, 20);
+                    texturetrackhover = "assets/gui/themes/Black.png" Part(123, 174, 20, 20);
+                }
+            }
+        }
+
+        EditBox.Snap {
+            InputValidator = "\\(?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\.?[0-9]*\\)?";
+            Position = (230, 250);
+            Size = (80, 22);
+            TextSize = 13;
+
+            Renderer {
+                caretcolor = rgb(110, 110, 255);
+                defaulttextcolor = rgb(120, 120, 120);
+                padding = (6, 4, 6, 4);
+                selectedtextbackgroundcolor = rgb( 10, 110, 255);
+                selectedtextcolor = White;
+                textcolor = rgb(190, 190, 190);
+                texture = "assets/gui/themes/Black.png" Part(0, 114, 60, 40) Middle(15, 0, 30, 40);
+                texturedisabled = None;
+                texturefocused = "assets/gui/themes/Black.png" Part(120, 114, 60, 40) Middle(15, 0, 30, 40);
+                texturehover = "assets/gui/themes/Black.png" Part(60, 114, 60, 40) Middle(15, 0, 30, 40);
+            }
+        }
     }
 
     SpinButton.Speed {
@@ -1623,7 +1668,7 @@ ScrollablePanel.Panel1 {
         Position = (20, 60);
         Size = (200, 22);
         TextSize = 10;
-        renderer = &5;
+        renderer = &3;
     }
 
     SpinButton.Frame {

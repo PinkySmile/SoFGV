@@ -8673,6 +8673,10 @@
             "x": 94,
             "y": 180
           },
+          "snap": {
+            "x": 20.0,
+            "y": 0.0
+          },
           "sound": "assets/sfxs/se/029.wav",
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12078,6 +12082,10 @@
           "size": {
             "x": 94,
             "y": 180
+          },
+          "snap": {
+            "x": 20.0,
+            "y": 0.0
           },
           "sound": "assets/sfxs/se/029.wav",
           "sprite": "sheet.png",

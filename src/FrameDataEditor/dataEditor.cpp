@@ -191,6 +191,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto manaCost = panel->get<tgui::EditBox>("ManaCost");
 	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
 	auto gravity = panel->get<tgui::EditBox>("Gravity");
+	auto snap = panel->get<tgui::EditBox>("Snap");
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto sound = panel->get<tgui::EditBox>("SFX");
 	auto hitSound = panel->get<tgui::EditBox>("HitSFX");
@@ -277,6 +278,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newCHitSpeed = "(" + std::to_string(data.counterHitSpeed.x) + "," + std::to_string(data.counterHitSpeed.y) + ")";
 	auto newHitSpeed = "(" + std::to_string(data.hitSpeed.x) + "," + std::to_string(data.hitSpeed.y) + ")";
 	auto newGravity = data.gravity ? "(" + std::to_string(data.gravity->x) + "," + std::to_string(data.gravity->y) + ")" : "";
+	auto newSnap = data.snap ? "(" + std::to_string(data.snap->x) + "," + std::to_string(data.snap->y) + ")" : "";
 
 	counterHitSpeed->setText(newCHitSpeed);
 	hitSpeed->setText(newHitSpeed);
@@ -285,6 +287,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	bounds->setText(newBounds);
 	size->setText(newSize);
 	gravity->setText(newGravity);
+	snap->setText(newSnap);
 	rotation->setValue(data.rotation * 180 / M_PI);
 	collisionBox->setChecked(data.collisionBox != nullptr);
 	selectBox(nullptr, nullptr);
@@ -371,6 +374,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto hitSpeed = panel->get<tgui::EditBox>("HitSpeed");
 	auto neutralLimit = panel->get<tgui::EditBox>("NLimit");
 	auto gravity = panel->get<tgui::EditBox>("Gravity");
+	auto snap = panel->get<tgui::EditBox>("Snap");
 	auto speed = panel->get<tgui::EditBox>("MoveSpeed");
 	auto counterHitSpeed = panel->get<tgui::EditBox>("CHSpeed");
 	auto oFlags = panel->get<tgui::EditBox>("oFlags");
@@ -755,6 +759,41 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 			);
 		} catch (...) {
 			data.gravity.reset();
+			return;
+		}
+	});
+	snap->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		if (t.size() <= 2) {
+			data.snap.reset();
+			return;
+		}
+		if (t.front() != '(' || t.back() != ')') {
+			data.snap.reset();
+			return;
+		}
+
+		auto pos = t.find(',');
+
+		if (pos == std::string::npos) {
+			data.snap.reset();
+			return;
+		}
+
+		auto x = t.substr(1, pos - 1);
+		auto y = t.substr(pos + 1, t.size() - pos - 2);
+
+		try {
+			data.snap = SpiralOfFate::Vector2f(
+				std::stof(x),
+				std::stof(y)
+			);
+		} catch (...) {
+			data.snap.reset();
 			return;
 		}
 	});
