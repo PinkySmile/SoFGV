@@ -147,7 +147,11 @@ namespace SpiralOfFate
 		game->textureMgr.render(this->_titleSpiral);
 		game->textureMgr.render(this->_titleLogo);
 		this->_menuObject.render();
-		if (this->_connecting)
+		if (!this->_errorMsg.empty()) {
+			game->screen->fillColor(sf::Color::White);
+			game->screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
+			game->screen->displayElement(this->_errorMsg, {540, 300}, 600, Screen::ALIGN_CENTER);
+		} else if (this->_connecting)
 			this->_showConnectMessage();
 		else if (game->connection)
 			this->_showHostMessage();
@@ -169,14 +173,31 @@ namespace SpiralOfFate
 
 		auto inputs = (!this->_latestJoystickId ? game->menu.first->getInputs() : game->menu.second->getInputs());
 
-		if (inputs.verticalAxis == -1 || (inputs.verticalAxis < -36 && inputs.verticalAxis % 6 == 0))
-			this->_onGoDown();
-		else if (inputs.verticalAxis == 1 || (inputs.verticalAxis > 36 && inputs.verticalAxis % 6 == 0))
-			this->_onGoUp();
-		if (inputs.horizontalAxis == -1 || (inputs.horizontalAxis < -36 && inputs.horizontalAxis % 6 == 0))
-			this->_onGoLeft();
-		else if (inputs.horizontalAxis == 1 || (inputs.horizontalAxis > 36 && inputs.horizontalAxis % 6 == 0))
-			this->_onGoRight();
+		if (game->connection && game->connection->isTerminated()) {
+			if (this->_connecting) {
+				this->_errorMsg = "Failed to connect";
+				this->_connecting = false;
+			}
+			game->connection.reset();
+		}
+		if (!this->_errorMsg.empty())  {
+			if (this->_errorTimer == 0)
+				game->soundMgr.play(BASICSOUND_MENU_CANCEL);
+			this->_errorTimer++;
+			if (this->_errorTimer > 180) {
+				this->_errorTimer = 0;
+				this->_errorMsg.clear();
+			}
+		} else {
+			if (inputs.verticalAxis == -1 || (inputs.verticalAxis < -36 && inputs.verticalAxis % 6 == 0))
+				this->_onGoDown();
+			else if (inputs.verticalAxis == 1 || (inputs.verticalAxis > 36 && inputs.verticalAxis % 6 == 0))
+				this->_onGoUp();
+			if (inputs.horizontalAxis == -1 || (inputs.horizontalAxis < -36 && inputs.horizontalAxis % 6 == 0))
+				this->_onGoLeft();
+			else if (inputs.horizontalAxis == 1 || (inputs.horizontalAxis > 36 && inputs.horizontalAxis % 6 == 0))
+				this->_onGoRight();
+		}
 		if (inputs.s == 1)
 			this->_onCancel();
 		if (inputs.n == 1)
@@ -901,8 +922,12 @@ namespace SpiralOfFate
 #endif
 	}
 
-	TitleScreen *TitleScreen::create(SceneArguments *)
+	TitleScreen *TitleScreen::create(SceneArguments *args)
 	{
-		return new TitleScreen();
+		auto result = new TitleScreen();
+
+		if (args)
+			result->_errorMsg = reinterpret_cast<Connection::TitleScreenArguments *>(args)->errorMessage;
+		return result;
 	}
 }

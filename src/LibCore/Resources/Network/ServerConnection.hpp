@@ -30,6 +30,8 @@ namespace SpiralOfFate
 		void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size) override;
 
+		void _handlePacket(Remote &remote, PacketError &packet, size_t size) override;
+
 	public:
 		bool spectatorEnabled = true;
 		std::function<void (Remote &remote, PacketInitRequest &packet)> onConnection;

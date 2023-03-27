@@ -44,7 +44,7 @@ namespace SpiralOfFate
 
 			if (this->_quit) {
 				game->connection->quitGame();
-				game->connection.reset();
+				game->connection->terminate();
 				return game->scene.switchScene("title_screen");
 			}
 			if (this->_selectingStage)

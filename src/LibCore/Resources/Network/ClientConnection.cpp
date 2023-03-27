@@ -20,7 +20,7 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
-		if (remote.connectPhase != 0) {
+		if (remote.connectPhase == 3) {
 			PacketInitRequest request{this->_names.second.c_str(), VERSION_STR, false};
 
 			this->_send(remote, &request, sizeof(request));
@@ -68,7 +68,7 @@ namespace SpiralOfFate
 		}
 
 		if (this->_currentMenu != MENUSTATE_LOADING_CHARSELECT && this->_currentMenu != MENUSTATE_CHARSELECT) {
-			remote.connectPhase = 1;
+			remote.connectPhase = CONNECTION_STATE_PLAYER;
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
@@ -221,19 +221,39 @@ namespace SpiralOfFate
 		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
 	}
 
+	void ClientConnection::update()
+	{
+		if (this->_terminated)
+			return;
+
+		Connection::update();
+		if (this->_remotes.empty())
+			return this->terminate();
+		if (this->_remotes.size() != 1)
+			return;
+
+		auto &op = this->_remotes.back();
+
+		if (op.connectPhase != CONNECTION_STATE_CONNECTING)
+			return;
+
+		PacketHello hello{REAL_VERSION_STR, op.ip.toInteger(), op.port};
+
+		this->_send(this->_remotes.back(), &hello, sizeof(hello));
+	}
+
 	void ClientConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
-
-		PacketHello hello{REAL_VERSION_STR, ip.toInteger(), port};
-
 		this->_remotes.emplace_back(*this, ip, port);
-		this->_remotes.back().connectPhase = 3;
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
+
+		auto &op = this->_remotes.back();
+
+		op.connectPhase = CONNECTION_STATE_CONNECTING;
+		op.onDisconnect = [this](Remote &This){
+			this->onDisconnect(This);
+			this->_terminated = false;
+		};
 		this->_states.clear();
 		this->_terminated = false;
 	}

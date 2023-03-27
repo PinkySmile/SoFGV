@@ -48,9 +48,11 @@ namespace SpiralOfFate
 		std::vector<std::pair<bool, std::string>> _replays;
 		unsigned char _changingInputs = 0;
 		unsigned char _cursorInputs = 0;
+		unsigned char _errorTimer = 0;
 		bool _connected = false;
 		std::string _remote;
 		std::string _oldRemote;
+		std::string _errorMsg;
 		std::function<void ()> onDestruct;
 
 		void _loadReplay(const std::filesystem::path &path);

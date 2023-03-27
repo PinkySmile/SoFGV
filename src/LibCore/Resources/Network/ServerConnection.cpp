@@ -69,7 +69,7 @@ namespace SpiralOfFate
 				return;
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
-			remote.connectPhase = 1 + packet.spectator;
+			remote.connectPhase = packet.spectator ? CONNECTION_STATE_SPECTATOR : CONNECTION_STATE_PLAYER;
 			game->connection->nextGame();
 
 			auto args = new CharSelectArguments();
@@ -126,6 +126,23 @@ namespace SpiralOfFate
 
 			this->_send(remote, &error, sizeof(error));
 		}
+	}
+
+	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketError &packet, size_t size)
+	{
+		if (
+			remote.connectPhase == 1 &&
+			packet.code == ERROR_UNEXPECTED_OPCODE &&
+			packet.offendingPacket == OPCODE_MENU_SWITCH &&
+			packet.offendingPacketSize == sizeof(PacketMenuSwitch)
+		) {
+			// In this case, the init success packet has probably been dropped, so we send it again
+			PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
+
+			this->_send(remote, &result, sizeof(result));
+			return;
+		}
+		Connection::_handlePacket(remote, packet, size);
 	}
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketState &, size_t size)
@@ -231,6 +248,8 @@ namespace SpiralOfFate
 
 	void ServerConnection::update()
 	{
+		if (this->_terminated)
+			return;
 		this->_checkOpponentState();
 		Connection::update();
 	}

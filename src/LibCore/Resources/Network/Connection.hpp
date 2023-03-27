@@ -29,6 +29,14 @@ namespace SpiralOfFate
 {
 	class Connection : public IConnection {
 	public:
+		enum ConnectionState {
+			CONNECTION_STATE_DISCONNECTED = -1,
+			CONNECTION_STATE_NOT_INITIALIZED,
+			CONNECTION_STATE_PLAYER,
+			CONNECTION_STATE_SPECTATOR,
+			CONNECTION_STATE_CONNECTING
+		};
+
 		struct GameStartParams {
 			unsigned seed;
 			unsigned p1chr;
@@ -53,14 +61,16 @@ namespace SpiralOfFate
 		public:
 			sf::IpAddress ip;
 			unsigned short port;
-			volatile int connectPhase = 0;
+			volatile ConnectionState connectPhase = CONNECTION_STATE_NOT_INITIALIZED;
 			std::list<Ping> pingsSent;
 			unsigned pingTimeLast = 0;
 			unsigned pingTimePeak = 0;
 			unsigned pingTimeSum = 0;
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
-			std::thread pingThread;//{&Remote::_pingLoop, this}
+			sf::Clock timeSinceLastPacket;
+			std::thread pingThread;//{&Remote::_pingLoop, this};
+			std::function<void (Remote &remote)> onDisconnect;
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) : base(base), ip(ip), port(port) {};
 			~Remote();
@@ -82,6 +92,7 @@ namespace SpiralOfFate
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
 		sf::UdpSocket _socket;
 		std::list<Remote> _remotes;
+		std::mutex _terminationMutex;
 		std::pair<std::string, std::string> _names;
 
 		void _send(Remote &remote, void *packet, uint32_t size);
@@ -107,6 +118,9 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
+		struct TitleScreenArguments : public SceneArguments {
+			std::string errorMessage;
+		};
 		struct InGameArguments : public SceneArguments {
 			Connection *connection;
 			GameStartParams startParams;

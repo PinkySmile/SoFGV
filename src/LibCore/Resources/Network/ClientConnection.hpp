@@ -37,6 +37,8 @@ namespace SpiralOfFate
 
 		void reportChecksum(unsigned checksum);
 		void connect(sf::IpAddress ip, unsigned short port);
+
+		void update() override;
 	};
 }
 

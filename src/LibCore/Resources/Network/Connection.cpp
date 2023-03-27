@@ -84,6 +84,7 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
+		remote.timeSinceLastPacket.restart();
 		//if (packet.opcode != OPCODE_GAME_FRAME)
 			game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
 		switch (packet.opcode) {
@@ -160,13 +161,24 @@ namespace SpiralOfFate
 		while (true) {
 			size_t realSize = 0;
 			sf::IpAddress ip = sf::IpAddress::Any;
+			// TODO: Allow to change the port
 			unsigned short port = 10800;
 			auto res = this->_socket.receive(packet, RECV_BUFFER_SIZE, realSize, ip, port);
 
 			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
-				if (iter->connectPhase >= 0) {
+				auto t = iter->timeSinceLastPacket.getElapsedTime().asSeconds();
+
+				if (t < 10 && iter->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 					iter++;
 					continue;
+				}
+				if (this->_opponent == &*iter) {
+					auto args = new TitleScreenArguments();
+
+					args->errorMessage = "Connection lost.";
+					game->scene.switchScene("title_screen", args);
+					this->terminate();
+					return;
 				}
 				if (this->onDisconnect)
 					this->onDisconnect(*iter);
@@ -405,9 +417,17 @@ namespace SpiralOfFate
 	void Connection::_handlePacket(Remote &remote, PacketQuit &packet, size_t size)
 	{
 		// We disconnect them even if the packet was malformed.
-		// It is supposed to be only the opcode and if they want to quit,
-		// who am I to make them stay.
-		remote.connectPhase = -1;
+		// It is supposed to be only the opcode but if they want to quit,
+		// who am I to disagree.
+		if (this->_opponent == &remote) {
+			auto args = new TitleScreenArguments();
+
+			args->errorMessage = "Your opponent left.";
+			game->scene.switchScene("title_screen", args);
+			this->terminate();
+			return;
+		}
+		remote.connectPhase = CONNECTION_STATE_DISCONNECTED;
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_QUIT, size};
 
@@ -433,12 +453,19 @@ namespace SpiralOfFate
 
 	void Connection::terminate()
 	{
+		PacketQuit quit;
+
+		this->_terminationMutex.lock();
+		this->_terminated = true;
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
+		for (auto &remote : this->_remotes)
+			this->_send(remote, &quit, sizeof(quit));
 		this->_remotes.clear();
 		this->_opponent = nullptr;
+		this->_terminationMutex.unlock();
 	}
 
 	const std::pair<std::string, std::string> &Connection::getNames() const
@@ -448,7 +475,7 @@ namespace SpiralOfFate
 
 	bool Connection::isTerminated() const
 	{
-		return this->_remotes.empty();
+		return this->_terminated;
 	}
 
 	void Connection::reportChecksum(unsigned int)
@@ -476,12 +503,16 @@ namespace SpiralOfFate
 
 	void Connection::notifySwitchMenu()
 	{
+		this->_terminationMutex.lock();
+		if (this->_terminated)
+			return this->_terminationMutex.unlock();
 		if (this->_currentMenu > MENUSTATE_LOADING_OFFSET)
 			this->_currentMenu -= MENUSTATE_LOADING_OFFSET;
 
 		PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+		this->_terminationMutex.unlock();
 	}
 
 	void Connection::waitForOpponent()
@@ -492,7 +523,11 @@ namespace SpiralOfFate
 		while (this->_opCurrentMenu != this->_currentMenu) {
 			if (i % 20 == 0) {
 				menuSwitch.opMenuId = this->_opCurrentMenu;
+				this->_terminationMutex.lock();
+				if (this->_terminated)
+					return this->_terminationMutex.unlock();
 				this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
+				this->_terminationMutex.unlock();
 			}
 			i++;
 			std::this_thread::sleep_for(std::chrono::milliseconds(5));
@@ -503,21 +538,28 @@ namespace SpiralOfFate
 	{
 		PacketPing ping(0);
 
-		while (this->connectPhase >= 0) {
+		while (this->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 			this->base._send(*this, &ping, sizeof(ping));
-			for (int i = 0; i < 100 && this->connectPhase >= 0; i++)
+			for (int i = 0; i < 100 && this->connectPhase != CONNECTION_STATE_DISCONNECTED; i++) {
+				if (this->timeSinceLastPacket.getElapsedTime().asSeconds() >= 10) {
+					this->connectPhase = CONNECTION_STATE_DISCONNECTED;
+					return;
+				}
 				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			}
 			ping.seqId++;
 		}
 	}
 
 	Connection::Remote::~Remote()
 	{
-		if (this->connectPhase >= 0) {
+		if (this->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 			PacketQuit quit;
 
 			this->base._send(*this, &quit, sizeof(quit));
-			this->connectPhase = -1;
+			this->connectPhase = CONNECTION_STATE_DISCONNECTED;
 		}
+		if (this->pingThread.joinable())
+			this->pingThread.join();
 	}
 }
