@@ -3740,9 +3740,8 @@ namespace SpiralOfFate
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 		auto stun = data.hitStun;
 
-		if (data.snap) {
+		if (data.snap)
 			this->_position = obj->_position + Vector2f{data.snap->x * obj->_dir, data.snap->y};
-		}
 		this->_forceCH = false;
 		if (chr) {
 			forcedCounter = chr->_forceCH;

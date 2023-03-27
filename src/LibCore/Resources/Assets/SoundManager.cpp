@@ -2,6 +2,7 @@
 // Created by PinkySmile on 18/09/2021.
 //
 
+#include <sys/stat.h>
 #include "SoundManager.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
@@ -16,6 +17,17 @@ namespace SpiralOfFate
 			this->_allocatedSounds[file].second++;
 			game->logger.verbose("Returning already loaded file " + file);
 			return this->_allocatedSounds[file].first;
+		}
+
+		struct stat s;
+
+		if (stat(file.c_str(), &s) < 0) {
+			game->logger.error(file + ": " + strerror(errno));
+			return 0;
+		}
+		if ((s.st_mode & S_IFMT) == S_IFDIR) {
+			game->logger.error(file + ": Is a directory");
+			return 0;
 		}
 
 		unsigned index;
