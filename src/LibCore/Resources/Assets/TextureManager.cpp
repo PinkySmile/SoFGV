@@ -86,6 +86,10 @@ namespace SpiralOfFate
 
 		auto pixels = TextureManager::loadPixels(file, realSize);
 
+		if (!pixels) {
+			game->logger.debug("Loading failed");
+			return 0;
+		}
 		for (unsigned x = 0; x < realSize.x; x++)
 			for (unsigned y = 0; y < realSize.y; y++) {
 				auto &color = pixels[x + y * realSize.x];
