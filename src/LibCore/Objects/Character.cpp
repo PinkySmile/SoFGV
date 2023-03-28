@@ -3614,9 +3614,13 @@ namespace SpiralOfFate
 					data.oFlag.voidElement != data.oFlag.matterElement
 				) || data.oFlag.spiritElement)
 			) {
-				auto tier = getAttackTier(other->_action);
+				int tier = 0;
 				auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
+				if (data.priority)
+					tier = *data.priority;
+				else if (chr)
+					tier = chr->getAttackTier(chr->_action);
 				if (tier < 0)
 					tier = 100;
 				else
@@ -3767,9 +3771,13 @@ namespace SpiralOfFate
 				data.oFlag.voidElement != data.oFlag.matterElement
 			) || data.oFlag.spiritElement)
 		) {
-			auto tier = getAttackTier(obj->_action);
+			int tier = 0;
 			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
+			if (data.priority)
+				tier = *data.priority;
+			else if (chr)
+				tier = chr->getAttackTier(chr->_action);
 			if (tier < 0)
 				tier = 100;
 			else
