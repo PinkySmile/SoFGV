@@ -1,2 +1,38 @@
 [
+	{
+		"index": 128,
+		"action": 0,
+		"spawn_offset": {
+			"anchorX": "opponent",
+			"anchorY": "opponent",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "front",
+		"hits": 1,
+		"loop": true,
+		"disable_on_hit": false,
+		"animation_data": 30,
+		"end_block": 1,
+		"shadow": "void",
+		"hp": 1000
+	},
+	{
+		"index": 129,
+		"action": 0,
+		"spawn_offset": {
+			"anchorX": "owner",
+			"anchorY": "owner",
+			"x": 201,
+			"y": 210
+		},
+		"dir": "front",
+		"hits": 1,
+		"loop": true,
+		"disable_on_hit": false,
+		"animation_data": 30,
+		"end_block": 1,
+		"shadow": "matter",
+		"hp": 1000
+	}
 ]

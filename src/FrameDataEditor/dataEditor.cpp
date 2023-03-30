@@ -2393,7 +2393,7 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 void	run()
 {
 	SpiralOfFate::game->screen = std::make_unique<SpiralOfFate::Screen>("Frame data editor");
-	SpiralOfFate::game->screen->setFramerateLimit(15);
+	SpiralOfFate::game->screen->setFramerateLimit(60);
 
 	std::unique_ptr<EditableObject> object;
 	tgui::Gui gui{*SpiralOfFate::game->screen};

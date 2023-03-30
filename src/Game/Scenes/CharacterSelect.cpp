@@ -7,9 +7,9 @@
 #include "CharacterSelect.hpp"
 #include "InGame.hpp"
 #include "Resources/Game.hpp"
-#include "Objects/Characters/Stickman.hpp"
+#include "Objects/Characters/Stickman/Stickman.hpp"
 #include "Utils.hpp"
-#include "Objects/Characters/VictoriaStar.hpp"
+#include "Objects/Characters/VictoriaStar/VictoriaStar.hpp"
 
 namespace SpiralOfFate
 {

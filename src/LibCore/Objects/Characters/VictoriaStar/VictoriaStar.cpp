@@ -4,6 +4,7 @@
 
 #include "VictoriaStar.hpp"
 #include "Resources/Game.hpp"
+#include "Objects/Characters/VictoriaStar/Shadow.hpp"
 
 #define ACTION_SCREEN_TELEPORT 368
 
@@ -54,5 +55,45 @@ namespace SpiralOfFate
 
 		//this->_buffTimer = dat->_buffTimer;
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
+	}
+
+	std::pair<unsigned int, std::shared_ptr<IObject>> VictoriaStar::_spawnSubObject(unsigned int id, bool needRegister)
+	{
+		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+
+		auto &pdat = this->_projectileData[id];
+		bool dir = this->_getProjectileDirection(pdat);
+
+		if (!pdat.json.contains("shadow"))
+			return Character::_spawnSubObject(id, needRegister);
+		try {
+			std::string shadow = pdat.json["shadow"];
+
+			if (shadow == "matter")
+				return game->battleMgr->registerObject<Shadow>(
+					needRegister,
+					this->_subObjectsData.at(pdat.action),
+					pdat.json["hp"],
+					dir,
+					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
+					this->_team,
+					id,
+					pdat.json
+				);
+			if (shadow == "void")
+				return game->battleMgr->registerObject<Shadow>(
+					needRegister,
+					this->_subObjectsData.at(pdat.action),
+					pdat.json["hp"],
+					dir,
+					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
+					this->_team,
+					id,
+					pdat.json
+				);
+			throw std::invalid_argument("Invalid shadow type " + shadow);
+		} catch (std::out_of_range &e) {
+			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
+		}
 	}
 }

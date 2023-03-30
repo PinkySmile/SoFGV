@@ -6,7 +6,7 @@
 #define SOFGV_VICTORIASTAR_HPP
 
 
-#include "../Character.hpp"
+#include "Objects/Character.hpp"
 
 namespace SpiralOfFate
 {
@@ -26,6 +26,9 @@ namespace SpiralOfFate
 
 	protected:
 		bool _startMove(unsigned int action) override;
+
+		std::pair<unsigned int, std::shared_ptr<IObject>>
+		_spawnSubObject(unsigned int id, bool needRegister) override;
 	};
 }
 

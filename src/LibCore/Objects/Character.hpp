@@ -302,11 +302,6 @@ namespace SpiralOfFate
 
 	class Character : public Object {
 	public:
-		enum ProjectileAnimation {
-			ANIMATION_DISAPPEAR,
-			ANIMATION_FADE,
-			ANIMATION_BLOCK
-		};
 		struct ReplayData {
 			bool n : 1;
 			bool m : 1;
@@ -352,14 +347,14 @@ namespace SpiralOfFate
 			BLOCK_AFTER_HIT,
 			RANDOM_BLOCK = 8
 		};
-		enum ProjectileAnchor {
+		enum SubObjectAnchor {
 			ANCHOR_OWNER,
 			ANCHOR_OPPONENT,
 			ANCHOR_STAGE_MIN,
 			ANCHOR_STAGE_MAX,
 			ANCHOR_STAGE_CENTER,
 		};
-		enum ProjectileDirection {
+		enum SubObjectDirection {
 			DIRECTION_FRONT,
 			DIRECTION_BACK,
 			DIRECTION_LEFT,
@@ -367,17 +362,12 @@ namespace SpiralOfFate
 			DIRECTION_OP_FRONT,
 			DIRECTION_OP_BACK,
 		};
-		struct ProjectileData {
+		struct SubObjectData {
 			unsigned action;
-			unsigned maxHits;
-			unsigned endBlock;
-			unsigned animationData;
 			Vector2f offset;
-			Vector2<ProjectileAnchor> anchor{ANCHOR_OWNER, ANCHOR_OWNER};
-			ProjectileAnimation anim;
-			ProjectileDirection dir;
-			bool loop;
-			bool disableOnHit;
+			Vector2<SubObjectAnchor> anchor{ANCHOR_OWNER, ANCHOR_OWNER};
+			SubObjectDirection dir;
+			nlohmann::json json;
 		};
 #pragma pack(push, 1)
 		struct LastInput {
@@ -606,7 +596,7 @@ namespace SpiralOfFate
 		sf::Text _text2;
 		mutable FrameData _fakeFrameData;
 		Character *_opponent = nullptr;
-		std::map<unsigned, ProjectileData> _projectileData;
+		std::map<unsigned, SubObjectData> _projectileData;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
 		std::shared_ptr<IInput> _input;
 		unsigned _maxOdCooldown = 0;
@@ -672,13 +662,12 @@ namespace SpiralOfFate
 		static bool isOverdriveAction(unsigned action);
 		static bool isRomanCancelAction(unsigned action);
 		static bool isHitAction(unsigned int action);
-		static ProjectileAnchor anchorFromString(const std::string &str);
-		static ProjectileDirection directionFromString(const std::string &str);
-		static ProjectileAnimation animationFromString(const std::string &str);
+		static SubObjectAnchor anchorFromString(const std::string &str);
+		static SubObjectDirection directionFromString(const std::string &str);
 
-		bool _getProjectileDirection(const ProjectileData &data);
-		float _getAnchoredPos(const Character::ProjectileData &data, bool y);
-		Vector2f _calcProjectilePosition(const ProjectileData &data, float dir);
+		bool _getProjectileDirection(const SubObjectData &data);
+		float _getAnchoredPos(const Character::SubObjectData &data, bool y);
+		Vector2f _calcProjectilePosition(const SubObjectData &data, float dir);
 		void _loadProjectileData(const std::string &path);
 		void _tickMove() override;
 		void _applyNewAnimFlags() override;

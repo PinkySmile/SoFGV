@@ -91,8 +91,8 @@ add_library(
 	src/LibCore/Objects/Object.hpp
 	src/LibCore/Objects/Platform.cpp
 	src/LibCore/Objects/Platform.hpp
-	src/LibCore/Objects/Projectile.cpp
-	src/LibCore/Objects/Projectile.hpp
+	src/LibCore/Objects/Characters/Projectile.cpp
+	src/LibCore/Objects/Characters/Projectile.hpp
 	src/LibCore/Objects/FakeObject.cpp
 	src/LibCore/Objects/FakeObject.hpp
 	src/LibCore/Objects/IObject.hpp
@@ -115,8 +115,8 @@ add_library(
 	src/LibCore/Resources/Battle/PracticeBattleManager.hpp
 	src/LibCore/Resources/Battle/RandomWrapper.cpp
 	src/LibCore/Resources/Battle/RandomWrapper.hpp
-	src/LibCore/Objects/Characters/Stickman.cpp
-	src/LibCore/Objects/Characters/Stickman.hpp
+	src/LibCore/Objects/Characters/Stickman/Stickman.cpp
+	src/LibCore/Objects/Characters/Stickman/Stickman.hpp
 	src/LibCore/Utils.cpp
 	src/LibCore/Utils.hpp
 	src/LibCore/Resources/SceneManager.cpp
@@ -153,8 +153,12 @@ add_library(
 	src/LibCore/Inputs/VirtualController.hpp
 	src/LibCore/Resources/SceneArgument.hpp
         src/LibCore/Resources/MSVCMacros.hpp
-	src/LibCore/Objects/Characters/VictoriaStar.cpp
-	src/LibCore/Objects/Characters/VictoriaStar.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadow.hpp
+	src/LibCore/Objects/Characters/SubObject.hpp
+	src/LibCore/Objects/Characters/SubObject.cpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)

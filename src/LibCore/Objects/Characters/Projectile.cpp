@@ -10,21 +10,15 @@ namespace SpiralOfFate
 	Projectile::Projectile(
 		bool owner,
 		unsigned id,
-		unsigned maxHit,
-		bool loop,
-		unsigned endBlock,
-		bool disableOnHit,
-		unsigned animationData,
-		Character::ProjectileAnimation anim
+		const nlohmann::json &json
 	) :
-		_maxHit(maxHit),
-		_id(id),
-		_endBlock(endBlock),
-		_owner(owner),
-		_loop(loop),
-		_disableOnHit(disableOnHit),
-		_animationData(animationData),
-		_anim(anim)
+		SubObject(id, owner),
+		_maxHit(json["hits"]),
+		_endBlock(json["end_block"]),
+		_loop(json["loop"]),
+		_disableOnHit(json["disable_on_hit"]),
+		_animationData(json.contains("animation_data") ? json["animation_data"].get<int>() : 0),
+		_anim(json.contains("disable_animation") ? animationFromString(json["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR)
 	{
 	}
 
@@ -35,14 +29,9 @@ namespace SpiralOfFate
 		Vector2f pos,
 		bool owner,
 		unsigned id,
-		unsigned maxHit,
-		bool loop,
-		unsigned endBlock,
-		bool disableOnHit,
-		unsigned animationData,
-		Character::ProjectileAnimation anim
+		const nlohmann::json &json
 	) :
-		Projectile(owner, id, maxHit, loop, endBlock, disableOnHit, animationData, anim)
+		Projectile(owner, id, json)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -117,9 +106,9 @@ namespace SpiralOfFate
 
 	void Projectile::update()
 	{
-		if (this->_disableOnHit && (this->_owner ? game->battleMgr->getRightCharacter() : game->battleMgr->getLeftCharacter())->isHit())
+		if (this->_disableOnHit && (this->getOwner() ? game->battleMgr->getRightCharacter() : game->battleMgr->getLeftCharacter())->isHit())
 			this->_disableObject();
-		if (this->_disabled && this->_anim == Character::ANIMATION_FADE) {
+		if (this->_disabled && this->_anim == ANIMATION_FADE) {
 			this->_sprite.setColor({255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_animationCtr / this->_animationData)});
 			this->_animationCtr++;
 			this->_dead |= this->_animationCtr > this->_animationData;
@@ -130,21 +119,6 @@ namespace SpiralOfFate
 			this->_position.x > 1300 ||
 			this->_position.y < -300 ||
 			this->_position.y > 1300;
-	}
-
-	unsigned int Projectile::getClassId() const
-	{
-		return 2;
-	}
-
-	bool Projectile::getOwner() const
-	{
-		return this->_owner;
-	}
-
-	unsigned int Projectile::getId() const
-	{
-		return this->_id;
 	}
 
 	unsigned int Projectile::getBufferSize() const
@@ -211,12 +185,12 @@ namespace SpiralOfFate
 	{
 		if (this->_disabled)
 			return;
-		if (this->_anim == Character::ANIMATION_DISAPPEAR) {
+		if (this->_anim == ANIMATION_DISAPPEAR) {
 			this->_dead = true;
 			return;
 		}
 		this->_disabled = true;
-		if (this->_anim == Character::ANIMATION_BLOCK) {
+		if (this->_anim == ANIMATION_BLOCK) {
 			this->_actionBlock = this->_animationData;
 			this->_animation = 0;
 			this->_applyNewAnimFlags();
@@ -228,5 +202,16 @@ namespace SpiralOfFate
 					frame.hitBoxes.clear();
 					frame.hurtBoxes.clear();
 				}
+	}
+
+	Projectile::ProjectileAnimation Projectile::animationFromString(const std::string &str)
+	{
+		if (str == "fade")
+			return ANIMATION_FADE;
+		if (str == "disappear")
+			return ANIMATION_DISAPPEAR;
+		if (str == "block")
+			return ANIMATION_BLOCK;
+		throw std::invalid_argument("Invalid animation '" + str + "'");
 	}
 }

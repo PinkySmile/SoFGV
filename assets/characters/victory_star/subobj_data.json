@@ -4,7 +4,136 @@
     "framedata": [
       [
         {
-          "sprite": ""
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 38,
+              "left": -19,
+              "top": -129,
+              "width": 35
+            }
+          ],
+          "offset": {
+            "x": -2,
+            "y": 89
+          },
+          "size": {
+            "x": 40,
+            "y": 40
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 20,
+            "left": 904,
+            "top": 143,
+            "width": 20
+          }
+        },
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 93,
+              "left": -29,
+              "top": -153,
+              "width": 53
+            }
+          ],
+          "offset": {
+            "x": -2,
+            "y": 44
+          },
+          "size": {
+            "x": 80,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 60,
+            "left": 929,
+            "top": 132,
+            "width": 40
+          }
+        },
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -47,
+              "top": -154,
+              "width": 80
+            }
+          ],
+          "offset": {
+            "x": -9,
+            "y": 23
+          },
+          "size": {
+            "x": 120,
+            "y": 140
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 70,
+            "left": 917,
+            "top": 198,
+            "width": 60
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 162,
+              "left": -65,
+              "top": -175,
+              "width": 122
+            }
+          ],
+          "offset": {
+            "x": -4,
+            "y": 1
+          },
+          "size": {
+            "x": 140,
+            "y": 180
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 90,
+            "left": 829,
+            "top": 19,
+            "width": 70
+          }
+        },
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 162,
+              "left": -65,
+              "top": -175,
+              "width": 122
+            }
+          ],
+          "offset": {
+            "x": -3,
+            "y": -8
+          },
+          "size": {
+            "x": 140,
+            "y": 200
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 100,
+            "left": 905,
+            "top": 19,
+            "width": 70
+          }
         }
       ]
     ]

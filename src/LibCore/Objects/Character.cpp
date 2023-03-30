@@ -8,7 +8,7 @@
 #include "Character.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
-#include "Projectile.hpp"
+#include "Objects/Characters/Projectile.hpp"
 #ifndef maxi
 #define maxi(x, y) (x > y ? x : y)
 #endif
@@ -432,9 +432,7 @@ namespace SpiralOfFate
 		this->_text2.setOutlineThickness(2);
 		this->_text2.setCharacterSize(10);
 		this->_limit.fill(0);
-		//TODO
 		this->_moves = FrameData::loadFile(folder + "/framedata.json", folder, palette);
-		//TODO
 		this->_subObjectsData = FrameData::loadFile(folder + "/subobj_data.json", folder, palette);
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 		this->_loadProjectileData(folder + "/subobjects.json");
@@ -1705,54 +1703,8 @@ namespace SpiralOfFate
 		} catch (...) {
 			return -1;
 		}
-		if (data->priority) {
-			switch (action) {
-			case ACTION_6S:
-			case ACTION_8S:
-			case ACTION_3S:
-			case ACTION_j6S:
-			case ACTION_j8S:
-			case ACTION_j3S:
-			case ACTION_j2S:
-				if ((this->_normalTreeFlag >> 2 & 3) == 3)
-					return *data->priority + ((this->_normalTreeFlag & 3) == 0) * 200;
-				if ((this->_normalTreeFlag & 3) == 3)
-					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 2)
-					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
-				return *data->priority;
-			case ACTION_6M:
-			case ACTION_8M:
-			case ACTION_3M:
-			case ACTION_j6M:
-			case ACTION_j8M:
-			case ACTION_j3M:
-			case ACTION_j2M:
-				if ((this->_normalTreeFlag >> 2 & 3) == 3)
-					return *data->priority + ((this->_normalTreeFlag & 3) == 1) * 200;
-				if ((this->_normalTreeFlag & 3) == 1)
-					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 3)
-					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
-				return *data->priority;
-			case ACTION_6V:
-			case ACTION_8V:
-			case ACTION_3V:
-			case ACTION_j6V:
-			case ACTION_j8V:
-			case ACTION_j3V:
-			case ACTION_j2V:
-				if ((this->_normalTreeFlag >> 2 & 3) == 3)
-					return *data->priority + ((this->_normalTreeFlag & 3) == 2) * 200;
-				if ((this->_normalTreeFlag & 3) == 2)
-					return *data->priority + ((this->_normalTreeFlag >> 2 & 3) - 1) * 100;
-				if ((this->_normalTreeFlag & 3) == 1)
-					return *data->priority + (this->_normalTreeFlag >> 2 & 3) * 100;
-				return *data->priority;
-			default:
-				return *data->priority;
-			}
-		}
+		if (data->priority)
+			return *data->priority;
 
 		if (data->oFlag.ultimate)
 			return 800;
@@ -3988,18 +3940,13 @@ namespace SpiralOfFate
 		try {
 			return game->battleMgr->registerObject<Projectile>(
 				needRegister,
-				this->_subObjectsData.at(id),
+				this->_subObjectsData.at(pdat.action),
 				this->_team,
 				dir,
 				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
 				id,
-				pdat.maxHits,
-				pdat.loop,
-				pdat.endBlock,
-				pdat.disableOnHit,
-				pdat.animationData,
-				pdat.anim
+				pdat.json
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
@@ -4764,7 +4711,7 @@ namespace SpiralOfFate
 		return length + sizeof(Data) + sizeof(LastInput) * dat1->_nbLastInputs + sizeof(ReplayData) * dat1->_nbReplayInputs;
 	}
 
-	Character::ProjectileAnchor Character::anchorFromString(const std::string &str)
+	Character::SubObjectAnchor Character::anchorFromString(const std::string &str)
 	{
 		if (str == "owner")
 			return ANCHOR_OWNER;
@@ -4779,7 +4726,7 @@ namespace SpiralOfFate
 		throw std::invalid_argument("Invalid anchor '" + str + "'");
 	}
 
-	Character::ProjectileDirection Character::directionFromString(const std::string &str)
+	Character::SubObjectDirection Character::directionFromString(const std::string &str)
 	{
 		if (str == "front")
 			return DIRECTION_FRONT;
@@ -4796,17 +4743,6 @@ namespace SpiralOfFate
 		throw std::invalid_argument("Invalid dir '" + str + "'");
 	}
 
-	Character::ProjectileAnimation Character::animationFromString(const std::string &str)
-	{
-		if (str == "fade")
-			return ANIMATION_FADE;
-		if (str == "disappear")
-			return ANIMATION_DISAPPEAR;
-		if (str == "block")
-			return ANIMATION_BLOCK;
-		throw std::invalid_argument("Invalid animation '" + str + "'");
-	}
-
 	void Character::_loadProjectileData(const std::string &path)
 	{
 		std::ifstream stream{path};
@@ -4816,25 +4752,20 @@ namespace SpiralOfFate
 			throw std::invalid_argument(path + ": " + strerror(errno));
 		stream >> j;
 		for (auto &i : j)  {
-			ProjectileData pdat;
+			SubObjectData pdat;
 
+			pdat.json = i;
 			pdat.action = i["action"];
-			pdat.maxHits = i["hits"];
-			pdat.loop = i["loop"];
-			pdat.endBlock = i["end_block"];
-			pdat.disableOnHit = i["disable_on_hit"];
 			pdat.offset.x = i["spawn_offset"]["x"];
 			pdat.offset.y = i["spawn_offset"]["y"];
 			pdat.anchor.x = Character::anchorFromString(i["spawn_offset"]["anchorX"]);
 			pdat.anchor.y = Character::anchorFromString(i["spawn_offset"]["anchorY"]);
 			pdat.dir = Character::directionFromString(i["dir"]);
-			pdat.animationData = i.contains("animation_data") ? i["animation_data"].get<int>() : 0;
-			pdat.anim = i.contains("disable_animation") ? Character::animationFromString(i["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR;
 			this->_projectileData[i["index"]] = pdat;
 		}
 	}
 
-	Vector2f Character::_calcProjectilePosition(const ProjectileData &pdat, float dir)
+	Vector2f Character::_calcProjectilePosition(const SubObjectData &pdat, float dir)
 	{
 		Vector2f pos{
 			this->_getAnchoredPos(pdat, false),
@@ -4846,7 +4777,7 @@ namespace SpiralOfFate
 		return pos;
 	}
 
-	float Character::_getAnchoredPos(const Character::ProjectileData &data, bool y)
+	float Character::_getAnchoredPos(const Character::SubObjectData &data, bool y)
 	{
 		switch ((&data.anchor.x)[y]) {
 		case ANCHOR_OWNER:
@@ -4863,7 +4794,7 @@ namespace SpiralOfFate
 		my_assert(false);
 	}
 
-	bool Character::_getProjectileDirection(const Character::ProjectileData &data)
+	bool Character::_getProjectileDirection(const Character::SubObjectData &data)
 	{
 		switch (data.dir) {
 		case DIRECTION_FRONT:

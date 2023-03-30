@@ -4517,6 +4517,7 @@
             "y": 160
           },
           "sprite": "sheet_tmp.png",
+          "subobject": 130,
           "texture_bounds": {
             "height": 80,
             "left": 310,
@@ -5949,6 +5950,7 @@
             "y": 168
           },
           "sprite": "sheet_tmp.png",
+          "subobject": 129,
           "texture_bounds": {
             "height": 84,
             "left": 0,
@@ -6764,6 +6766,7 @@
             "y": 168
           },
           "sprite": "sheet_tmp.png",
+          "subobject": 129,
           "texture_bounds": {
             "height": 84,
             "left": 0,

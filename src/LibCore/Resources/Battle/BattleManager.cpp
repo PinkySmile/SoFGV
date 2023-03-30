@@ -6,7 +6,7 @@
 #include "BattleManager.hpp"
 #include "Logger.hpp"
 #include "Resources/Game.hpp"
-#include "Objects/Projectile.hpp"
+#include "Objects/Characters/SubObject.hpp"
 
 #define FIRST_TO 2
 #define INPUT_DISPLAY_SIZE 24
@@ -591,9 +591,9 @@ namespace SpiralOfFate
 			*(unsigned char *)ptr = object.second->getClassId();
 			ptr += sizeof(unsigned char);
 			if (object.second->getClassId() == 2) {
-				my_assert(dynamic_cast<Projectile *>(&*object.second));
+				my_assert(dynamic_cast<SubObject *>(&*object.second));
 
-				auto obj = reinterpret_cast<Projectile *>(&*object.second);
+				auto obj = reinterpret_cast<SubObject *>(&*object.second);
 
 				*(bool *)ptr = obj->getOwner();
 				ptr += sizeof(bool);
@@ -607,10 +607,7 @@ namespace SpiralOfFate
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
 		}
-		//TODO: Also save the stage objects.
-		//      Not mandatory now since no character make use of them.
-		//      Even if none does, it would be better to have the stage
-		//      objects behave normally on rollback rounds.
+		//TODO: Also save the stage objects. The clouds call the random number generator so it's a must
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)
@@ -662,8 +659,7 @@ namespace SpiralOfFate
 				auto subobjid = *(unsigned *)ptr;
 
 				ptr += sizeof(unsigned);
-				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(subobjid,
-													      false).second;
+				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(subobjid,false).second;
 				break;
 			}
 			default:

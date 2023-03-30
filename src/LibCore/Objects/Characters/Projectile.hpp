@@ -6,13 +6,19 @@
 #define SOFGV_PROJECTILE_HPP
 
 
-#include "Object.hpp"
-#include "Character.hpp"
+#include "Objects/Character.hpp"
+#include "SubObject.hpp"
 
 namespace SpiralOfFate
 {
-	class Projectile : public Object {
+	class Projectile : public SubObject {
 	private:
+		enum ProjectileAnimation {
+			ANIMATION_DISAPPEAR,
+			ANIMATION_FADE,
+			ANIMATION_BLOCK
+		};
+
 		struct Data {
 			unsigned nbHit;
 			unsigned animationCtr;
@@ -26,13 +32,11 @@ namespace SpiralOfFate
 
 		// Non Game state
 		unsigned _maxHit;
-		unsigned _id;
 		unsigned _endBlock;
-		bool _owner;
 		bool _loop;
 		bool _disableOnHit;
 		unsigned _animationData;
-		Character::ProjectileAnimation _anim;
+		ProjectileAnimation _anim;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
@@ -42,12 +46,7 @@ namespace SpiralOfFate
 		Projectile(
 			bool owner,
 			unsigned id,
-			unsigned maxHit,
-			bool loop,
-			unsigned endBlock,
-			bool disableOnHit,
-			unsigned animationData,
-			Character::ProjectileAnimation anim
+			const nlohmann::json &json
 		);
 		Projectile(
 			const std::vector<std::vector<FrameData>> &frameData,
@@ -56,18 +55,10 @@ namespace SpiralOfFate
 			Vector2f pos,
 			bool owner,
 			unsigned id,
-			unsigned maxHit,
-			bool loop,
-			unsigned endBlock,
-			bool disableOnHit,
-			unsigned animationData,
-			Character::ProjectileAnimation anim
+			const nlohmann::json &json
 		);
 		bool isDead() const override;
 		void update() override;
-		unsigned int getClassId() const override;
-		bool getOwner() const;
-		unsigned int getId() const;
 		void hit(IObject &other, const FrameData *data) override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
@@ -75,6 +66,8 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		void getHit(IObject &other, const FrameData *data) override;
 		bool hits(const IObject &other) const override;
+
+		static ProjectileAnimation animationFromString(const std::string &str);
 	};
 }
 
