@@ -13,8 +13,18 @@ namespace SpiralOfFate
 	class VictoriaStar : public Character {
 	private:
 		struct Data {
-
+			bool _hitShadow;
 		};
+
+		bool _hitShadow = false;
+
+	protected:
+		bool _startMove(unsigned int action) override;
+		std::pair<unsigned int, std::shared_ptr<IObject>>_spawnSubObject(unsigned int id, bool needRegister) override;
+
+		bool _canCancel(unsigned int action) override;
+
+		void _forceStartMove(unsigned int action) override;
 
 	public:
 		VictoriaStar() = default;
@@ -23,12 +33,9 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-
-	protected:
-		bool _startMove(unsigned int action) override;
-
-		std::pair<unsigned int, std::shared_ptr<IObject>>
-		_spawnSubObject(unsigned int id, bool needRegister) override;
+		void getHit(IObject &other, const FrameData *data) override;
+		bool hits(const IObject &other) const override;
+		void hit(IObject &other, const FrameData *data) override;
 	};
 }
 

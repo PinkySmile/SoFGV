@@ -199,22 +199,12 @@ namespace SpiralOfFate
 
 	void Object::hit(IObject &other, const FrameData *)
 	{
-		char buffer[52];
-		auto obj = dynamic_cast<Object *>(&other);
-
-		if (obj && obj->_team == this->_team)
-			return;
-		sprintf(buffer, "0x%08llX has hit 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		game->logger.debug(buffer);
 		this->_hasHit = true;
 	}
 
 	void Object::getHit(IObject &other, const FrameData *data)
 	{
-		char buffer[54];
-
-		sprintf(buffer, "0x%08llX is hit by 0x%08llX", (unsigned long long)this, (unsigned long long)&other);
-		game->logger.debug(buffer);
+		this->_hitStop = data->hitOpponentHitStop;
 		game->soundMgr.play(data->hitSoundHandle);
 	}
 
@@ -226,7 +216,7 @@ namespace SpiralOfFate
 		if (!mData || !oData || this->_hasHit)
 			return false;
 
-		auto otherObj = dynamic_cast<const Object *>(&other);
+		auto otherObj = reinterpret_cast<const Object *>(&other);
 
 		if (!otherObj || otherObj->_team == this->_team)
 			return false;
@@ -636,5 +626,10 @@ namespace SpiralOfFate
 		if (dat1->_dir != dat2->_dir)
 			game->logger.fatal(std::string(msgStart) + "Object::_dir: " + std::to_string(dat1->_dir) + " vs " + std::to_string(dat2->_dir));
 		return sizeof(Data);
+	}
+
+	unsigned Object::getTeam() const
+	{
+		return this->_team;
 	}
 }

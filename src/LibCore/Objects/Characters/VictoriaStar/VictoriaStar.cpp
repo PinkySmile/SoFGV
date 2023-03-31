@@ -77,8 +77,7 @@ namespace SpiralOfFate
 					dir,
 					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 					this->_team,
-					id,
-					pdat.json
+					id
 				);
 			if (shadow == "void")
 				return game->battleMgr->registerObject<Shadow>(
@@ -88,12 +87,70 @@ namespace SpiralOfFate
 					dir,
 					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 					this->_team,
-					id,
-					pdat.json
+					id
 				);
 			throw std::invalid_argument("Invalid shadow type " + shadow);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
 		}
+	}
+
+	void VictoriaStar::getHit(IObject &other, const FrameData *data)
+	{
+		auto old = this->_hasHit;
+
+		if (reinterpret_cast<VictoriaStar *>(&other)->_team == 4)
+			this->_hasHit = false;
+		Character::getHit(other, data);
+		this->_hasHit = old;
+	}
+
+	bool VictoriaStar::hits(const IObject &other) const
+	{
+		auto old = this->_hasHit;
+		auto t = const_cast<VictoriaStar *>(this);
+		auto shadow = dynamic_cast<const Shadow *>(&other);
+
+		if (shadow && shadow->getOwner() == this->_team)
+			t->_hasHit = false;
+
+		auto result = Character::hits(other);
+
+		t->_hasHit = old;
+		return result;
+	}
+
+	void VictoriaStar::hit(IObject &other, const FrameData *data)
+	{
+		auto shadow = dynamic_cast<const Shadow *>(&other);
+
+		if (!shadow || shadow->getOwner() != this->_team)
+			return Character::hit(other, data);
+		this->_speed.x += data->pushBack * -this->_dir;
+		if (!this->_hasHit && this->getCurrentFrameData()->oFlag.nextBlockOnHit) {
+			this->_actionBlock++;
+			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			this->_animationCtr = 0;
+			Object::_onMoveEnd(*data);
+		}
+		this->_hitShadow = true;
+	}
+
+	void VictoriaStar::_forceStartMove(unsigned int action)
+	{
+		this->_hitShadow = false;
+		Character::_forceStartMove(action);
+	}
+
+	bool VictoriaStar::_canCancel(unsigned int action)
+	{
+		auto old = this->_hasHit;
+
+		this->_hasHit |= this->_hitShadow;
+
+		auto result = Character::_canCancel(action);
+
+		this->_hasHit = old;
+		return result;
 	}
 }

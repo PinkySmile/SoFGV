@@ -9,7 +9,18 @@
 
 namespace SpiralOfFate
 {
-	class Shadow : public Projectile {
+	class Shadow : public SubObject {
+	protected:
+		enum AnimationBlock {
+			ANIMBLOCK_SPAWNING,
+			ANIMBLOCK_IDLE,
+			ANIMBLOCK_DYING,
+			ANIMBLOCK_ACTIVATED,
+			ANIMBLOCK_ATTACKING,
+		};
+
+		void _onMoveEnd(const FrameData &lastData) override;
+
 	public:
 		Shadow(
 			const std::vector<std::vector<FrameData>> &frameData,
@@ -17,9 +28,10 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
-			unsigned id,
-			const nlohmann::json &json
+			unsigned id
 		);
+
+		void getHit(IObject &other, const FrameData *data) override;
 	};
 }
 

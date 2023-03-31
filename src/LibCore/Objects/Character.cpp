@@ -396,7 +396,7 @@ namespace SpiralOfFate
 		//{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
 	};
 
-	static std::string actionToString(int action)
+	std::string Character::actionToString(int action)
 	{
 		auto name = actionNames.find(static_cast<SpiralOfFate::CharacterActions>(action));
 
@@ -590,8 +590,6 @@ namespace SpiralOfFate
 			this->updateInputs();
 			return;
 		}
-		this->_hasHit |= this->_hasJustHit;
-		this->_hasJustHit = false;
 		if (this->_action == ACTION_IDLE) {
 			if (this->_actionBlock == 0) {
 				this->_timeSinceIdle++;
@@ -1411,24 +1409,22 @@ namespace SpiralOfFate
 
 	void Character::hit(IObject &other, const FrameData *data)
 	{
-		auto o = dynamic_cast<Object *>(&other);
 		auto chr = dynamic_cast<Character *>(&other);
-		auto isHit = isHitAction(o->_action);
-		auto obj = dynamic_cast<Object *>(&other);
+		auto obj = reinterpret_cast<Object *>(&other);
+		auto isHit = isHitAction(obj->_action);
+		auto realData = this->getCurrentFrameData();
 
-		if (obj && obj->_team == this->_team)
-			return;
 		this->_speed.x += data->pushBack * -this->_dir;
-		if (!this->_hasJustHit && !this->_hasHit && (
-			(data->oFlag.nextBlockOnHit && (!chr || isHit)) ||
-			(data->oFlag.nextBlockOnBlock && chr && !isHit)
+		if (!this->_hasHit && (
+			(realData->oFlag.nextBlockOnHit && (!chr || isHit)) ||
+			(realData->oFlag.nextBlockOnBlock && chr && !isHit)
 		)) {
 			this->_actionBlock++;
 			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
 			Object::_onMoveEnd(*data);
 		}
-		this->_hasJustHit = true;
+		Object::hit(other, data);
 	}
 
 	void Character::getHit(IObject &other, const FrameData *dat)
@@ -1523,13 +1519,12 @@ namespace SpiralOfFate
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game->soundMgr.play(BASICSOUND_PARRY);
 			this->_guardRegenCd = 120;
-			if (this->_guardBar > loss)
-				this->_guardBar -= loss;
-			else {
+			if (this->_guardBar <= loss) {
 				this->_guardBar = this->_maxGuardBar;
 				this->_guardCooldown = this->_maxGuardCooldown;
 				game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-			}
+			} else
+				this->_guardBar -= loss;
 		}
 
 		switch (action) {
@@ -3232,8 +3227,6 @@ namespace SpiralOfFate
 		auto otherChr = dynamic_cast<const Character *>(&other);
 		auto otherObj = dynamic_cast<const Object *>(&other);
 
-		if (this->_hasJustHit && otherObj && otherObj->_hitStop)
-			return false;
 		if (otherChr) {
 			for (auto limit : otherChr->_limit)
 				if (limit >= 100)
@@ -4039,7 +4032,6 @@ namespace SpiralOfFate
 		dat->_matterMana = this->_matterMana;
 		dat->_guardCooldown = this->_guardCooldown;
 		dat->_guardBar = this->_guardBar;
-		dat->_hasJustHit = this->_hasJustHit;
 		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
 		dat->_nbLastInputs = this->_lastInputs.size();
 		for (i = 0; i < this->_limit.size(); i++)
@@ -4100,7 +4092,6 @@ namespace SpiralOfFate
 		this->_matterMana = dat->_matterMana;
 		this->_guardCooldown = dat->_guardCooldown;
 		this->_guardBar = dat->_guardBar;
-		this->_hasJustHit = dat->_hasJustHit;
 		memcpy(this->_specialInputs._value, dat->_specialInputs, sizeof(dat->_specialInputs));
 		this->_lastInputs.clear();
 		for (size_t i = 0; i < dat->_nbLastInputs; i++)
@@ -4684,8 +4675,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat1->_guardCooldown) + " vs " + std::to_string(dat2->_guardCooldown));
 		if (dat1->_guardBar != dat2->_guardBar)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
-		if (dat1->_hasJustHit != dat2->_hasJustHit)
-			game->logger.fatal(std::string(msgStart) + "Character::_hasJustHit: " + std::to_string(dat1->_hasJustHit) + " vs " + std::to_string(dat2->_hasJustHit));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char buffer[sizeof(dat1->_specialInputs) * 4 + 5];
 			char number[3];

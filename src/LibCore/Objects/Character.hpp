@@ -425,7 +425,6 @@ namespace SpiralOfFate
 			bool _justGotCorner;
 			char _normalTreeFlag;
 			bool _armorUsed;
-			bool _hasJustHit;
 			unsigned char _specialInputs[52];
 		};
 		union SpecialInputs {
@@ -590,7 +589,6 @@ namespace SpiralOfFate
 		bool _hadUltimate = false;
 		bool _armorUsed = false;
 		bool _forceCH = false;
-		bool _hasJustHit = false;
 		char _normalTreeFlag = 0;
 
 		// Non Game State
@@ -774,6 +772,8 @@ namespace SpiralOfFate
 		const std::vector<ReplayData> &getReplayData() const;
 		const FrameData *getCurrentFrameData() const override;
 		bool isHit() const;
+
+		static std::string actionToString(int action);
 
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
