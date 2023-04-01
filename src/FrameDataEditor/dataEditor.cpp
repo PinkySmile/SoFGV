@@ -2387,6 +2387,22 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 			else
 				removeBoxCallback(boxes, object, panel);
 		}
+		if (event.code == sf::Keyboard::C) {
+			if (event.control)
+				sf::Clipboard::setString(object->_moves[object->_action][object->_actionBlock][object->_animation].toJson().dump());
+		}
+		if (event.code == sf::Keyboard::V) {
+			if (event.control) {
+				try {
+					object->_moves[object->_action][object->_actionBlock][object->_animation] = SpiralOfFate::FrameData(
+						nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
+						object->_folder
+					);
+				} catch (std::exception &e) {
+					SpiralOfFate::game->logger.info("Clipboard contains invalid data: " + std::string(e.what()));
+				}
+			}
+		}
 	}
 }
 
