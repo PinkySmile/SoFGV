@@ -201,6 +201,8 @@ namespace SpiralOfFate
 			if (it == this->_savedData.end())
 				return true;
 		}
+		if (it == this->_savedData.end())
+			return true;
 
 		game->battleMgr->restoreFromBuffer(it->data);
 		while (it != this->_savedData.end()) {
