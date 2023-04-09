@@ -29,6 +29,14 @@ SpiralOfFate::Vector2i lastMouse;
 SpiralOfFate::Box *selectedBox;
 std::array<tgui::Button::Ptr, 8> resizeButtons;
 
+std::string floatToString(float f)
+{
+	char buffer[50];
+
+	sprintf(buffer, "%.2f", f);
+	return buffer;
+}
+
 void	arrangeButtons(EditableObject *object)
 {
 	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
@@ -265,8 +273,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	spiritLimit->setText(std::to_string(data.spiritLimit));
 	voidLimit->setText(std::to_string(data.voidLimit));
 	matterLimit->setText(std::to_string(data.matterLimit));
-	minProrate->setText(std::to_string(data.minProrate));
-	prorate->setText(std::to_string(data.prorate));
+	minProrate->setText(floatToString(data.minProrate));
+	prorate->setText(floatToString(data.prorate));
 	manaGain->setText(std::to_string(data.manaGain));
 	manaCost->setText(std::to_string(data.manaCost));
 	neutralLimit->setText(std::to_string(data.neutralLimit));
@@ -277,8 +285,8 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newSpeed = "(" + std::to_string(data.speed.x) + "," + std::to_string(data.speed.y) + ")";
 	auto newCHitSpeed = "(" + std::to_string(data.counterHitSpeed.x) + "," + std::to_string(data.counterHitSpeed.y) + ")";
 	auto newHitSpeed = "(" + std::to_string(data.hitSpeed.x) + "," + std::to_string(data.hitSpeed.y) + ")";
-	auto newGravity = data.gravity ? "(" + std::to_string(data.gravity->x) + "," + std::to_string(data.gravity->y) + ")" : "";
-	auto newSnap = data.snap ? "(" + std::to_string(data.snap->x) + "," + std::to_string(data.snap->y) + ")" : "";
+	auto newGravity = data.gravity ? "(" + floatToString(data.gravity->x) + "," + floatToString(data.gravity->y) + ")" : "";
+	auto newSnap = data.snap ? "(" + floatToString(data.snap->x) + "," + floatToString(data.snap->y) + ")" : "";
 
 	counterHitSpeed->setText(newCHitSpeed);
 	hitSpeed->setText(newHitSpeed);
