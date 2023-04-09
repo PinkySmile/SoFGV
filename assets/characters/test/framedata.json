@@ -14202,7 +14202,7 @@
             }
           ],
           "mana_gain": 30,
-          "matter_limit": 20,
+          "matter_limit": 10,
           "offense_flag": 33819296,
           "offset": {
             "x": 30,
@@ -14274,7 +14274,7 @@
             }
           ],
           "mana_gain": 30,
-          "matter_limit": 20,
+          "matter_limit": 10,
           "offense_flag": 33819296,
           "offset": {
             "x": 42,
@@ -17910,7 +17910,7 @@
             "width": 39
           },
           "damage": 500,
-          "defense_flag": 524296,
+          "defense_flag": 8,
           "duration": 2,
           "guard_damage": 10,
           "hitSound": "assets/sfxs/se/006.wav",
