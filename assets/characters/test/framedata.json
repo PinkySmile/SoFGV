@@ -7691,7 +7691,7 @@
             "x": 9,
             "y": -1
           },
-          "prorate": 87.0,
+          "prorate": 85.0,
           "push_back": 5,
           "push_block": 6,
           "size": {
@@ -10387,7 +10387,7 @@
             "x": 11,
             "y": 0
           },
-          "prorate": 88.0,
+          "prorate": 85.0,
           "push_back": 2,
           "push_block": 6,
           "size": {
@@ -10793,7 +10793,7 @@
             "x": -20,
             "y": 0
           },
-          "prorate": 86.0,
+          "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
           "size": {
@@ -10855,7 +10855,7 @@
           "mana_gain": 20,
           "neutral_limit": 10,
           "offense_flag": 58722944,
-          "prorate": 86.0,
+          "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
           "size": {
@@ -10920,7 +10920,7 @@
             "x": 20,
             "y": 0
           },
-          "prorate": 86.0,
+          "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
           "size": {
@@ -12651,7 +12651,6 @@
             "x": 9,
             "y": -1
           },
-          "prorate": 90.0,
           "size": {
             "x": 60,
             "y": 192
@@ -12972,7 +12971,7 @@
             "x": 6,
             "y": 1
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_back": 2,
           "size": {
             "x": 100,
@@ -13058,7 +13057,7 @@
             "x": 50,
             "y": 1
           },
-          "prorate": 93.0,
+          "prorate": 90.0,
           "push_back": 1,
           "push_block": -3,
           "size": {
@@ -13136,7 +13135,7 @@
             "x": 50,
             "y": -1
           },
-          "prorate": 93.0,
+          "prorate": 90.0,
           "push_back": 1,
           "push_block": -3,
           "size": {
@@ -14281,7 +14280,7 @@
             "x": 42,
             "y": 0
           },
-          "prorate": 82.0,
+          "prorate": 80.0,
           "push_back": 2,
           "push_block": 3,
           "size": {
@@ -15992,7 +15991,7 @@
             "x": 33,
             "y": 0
           },
-          "prorate": 94.0,
+          "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
           "size": {
@@ -16072,7 +16071,7 @@
             "x": 50,
             "y": 0
           },
-          "prorate": 94.0,
+          "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
           "size": {
@@ -16147,7 +16146,7 @@
             "x": 64,
             "y": 0
           },
-          "prorate": 94.0,
+          "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
           "size": {
@@ -16430,7 +16429,7 @@
             "x": 15,
             "y": 0
           },
-          "prorate": 84.0,
+          "prorate": 80.0,
           "push_back": 4,
           "push_block": 7,
           "size": {
@@ -16507,7 +16506,7 @@
             "x": 15,
             "y": 0
           },
-          "prorate": 84.0,
+          "prorate": 80.0,
           "push_back": 4,
           "push_block": 7,
           "size": {
@@ -16807,7 +16806,7 @@
             "x": 8,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 90.0,
           "push_block": 8,
           "size": {
             "x": 96,
@@ -16886,7 +16885,7 @@
             "x": 25,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 90.0,
           "push_back": 6,
           "push_block": 8,
           "size": {
@@ -16989,7 +16988,7 @@
             "x": 43,
             "y": 0
           },
-          "prorate": 93.0,
+          "prorate": 90.0,
           "push_back": 6,
           "push_block": 8,
           "size": {
@@ -17278,7 +17277,7 @@
             "x": 1,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_block": 1,
           "rotation": 47.32000713004886,
           "size": {
@@ -17373,7 +17372,7 @@
             "x": 1,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_block": 1,
           "rotation": 49.560003185338225,
           "size": {
@@ -17463,7 +17462,7 @@
             "x": 1,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_block": 1,
           "rotation": 40.59999710757542,
           "size": {
@@ -17553,7 +17552,7 @@
             "x": 1,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_block": 1,
           "rotation": 43.96000090455629,
           "size": {
@@ -17643,7 +17642,7 @@
             "x": 1,
             "y": 0
           },
-          "prorate": 95.0,
+          "prorate": 92.0,
           "push_block": 1,
           "rotation": 49.560003185338225,
           "size": {
@@ -18119,7 +18118,7 @@
             "x": 11,
             "y": -2
           },
-          "prorate": 95.0,
+          "prorate": 93.0,
           "push_block": 1,
           "size": {
             "x": 86,
@@ -18199,7 +18198,7 @@
             "x": 12,
             "y": -2
           },
-          "prorate": 92.0,
+          "prorate": 90.0,
           "size": {
             "x": 88,
             "y": 130
@@ -18278,7 +18277,7 @@
             "x": 12,
             "y": -2
           },
-          "prorate": 90.0,
+          "prorate": 87.0,
           "push_back": 1,
           "push_block": 1,
           "size": {
@@ -18697,7 +18696,7 @@
             "x": 49,
             "y": 0
           },
-          "prorate": 115.0,
+          "prorate": 110.0,
           "push_back": 2,
           "push_block": 12,
           "size": {
@@ -19399,7 +19398,7 @@
             "x": 55,
             "y": 0
           },
-          "prorate": 115.0,
+          "prorate": 110.0,
           "push_back": 2,
           "push_block": 12,
           "size": {
