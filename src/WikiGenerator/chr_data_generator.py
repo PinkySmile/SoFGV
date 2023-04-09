@@ -1,6 +1,5 @@
 import os
 import sys
-import pdb
 import json
 import math
 from PIL import Image, ImageDraw
@@ -102,8 +101,8 @@ def rename(src, dest):
 
 def generate_palettes_image(path, idle, palettes):
 	frame = idle[0][0]
-	tex = frame["texture_bounds"]
 	start = Image.open(path + "/" + frame['sprite']).convert("RGBA")
+	tex = frame.get("texture_bounds", {"height": start.size[1], "left": 0, "width": start.size[0], "top": 0})
 	base = start.crop((
 		tex["left"],
 		tex["top"],
@@ -137,14 +136,20 @@ def generate_frames_images(path, datas, metadata, start=None):
 		for block in move:
 			for frame in block:
 				if not frame['sprite'] in sprites:
-					sprites[frame['sprite']] = Image.open(path + "/" + frame['sprite']).convert("RGBA")
+					try:
+						sprites[frame['sprite']] = Image.open(path + "/" + frame['sprite']).convert("RGBA")
+					except Exception as e:
+						sprites[frame['sprite']] = Image.new("RGB", (0, 0))
+						print("Cannot load " + path + "/" + frame['sprite'])
+						print(e)
 	print("Generating images")
 	for action, move in datas.items():
 		for blockId, block in enumerate(move):
 			for i, frame in enumerate(block):
 				img = sprites[frame['sprite']].copy()
-				tex = frame["texture_bounds"]
-				size = (frame['size']['x'], frame['size']['y'])
+				tex = frame.get("texture_bounds", {"height": img.size[1], "left": 0, "width": img.size[0], "top": 0})
+				size = frame.get('size', {'x': tex['width'], 'y': tex['height']})
+				size = (size['x'], size['y'])
 				offset = frame.get('offset', {"x": 0, "y": 0})
 				borders = [
 					offset['x'] + int(math.floor(-size[0]) / 2),
@@ -415,7 +420,7 @@ def get_data_for_move(mid, move, objs_datas):
 				# Startup
 				'startup': real_current_frame,
 				# Startup animation
-				'startup_anim': current_frame
+				'startup_anim': [anim, real_current_frame]
 			}
 		elif 'hit_boxes' in frame:
 			active_frames += frame.get("duration", 1)
@@ -429,7 +434,7 @@ def get_data_for_move(mid, move, objs_datas):
 				# Startup
 				'startup': real_current_frame,
 				# Startup animation
-				'startup_anim': current_frame,
+				'startup_anim': [anim, real_current_frame],
 				# Damage
 				'damage': frame.get("damage", 0),
 				# Chip damage
@@ -506,8 +511,11 @@ def get_data_for_move(mid, move, objs_datas):
 				if oflags & OffensiveFlag.airUnblockable:
 					current['guard']['A'] = False
 			if old:
+				if 'startup_anim' not in data:
+					data['startup_anim'] = []
+				data['startup_anim'].append(old['startup_anim'])
 				current['startup'] = old['startup']
-				current['startup_anim'] = old['startup_anim']
+				old['startup_anim'] = current['startup_anim']
 				if old != current:
 					print(f"Warning: Move {mid}, block 0, anim {anim} has different data for hit frames")
 					for i in current.keys():

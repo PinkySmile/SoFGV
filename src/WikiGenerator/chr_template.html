@@ -5,16 +5,16 @@
     <title>Spiral of Fate: Grand Vision | {{ stats['name'] }}</title>
     <style>
         table {
-            border: solid black 1px;
+            border: solid 1px;
         }
         td {
             padding: 4px;
-            border: solid black 1px;
+            border: solid 1px;
             text-align: center;
         }
         th {
             padding: 4px;
-            border: solid black 1px;
+            border: solid 1px;
             text-align: center;
         }
         .void {
@@ -26,7 +26,7 @@
         .spirit {
             color: #33CCCC;
         }
-        .true_neutral {
+        .true-neutral {
             color: #ADADAD;
         }
     </style>
@@ -68,7 +68,7 @@
         </tr>
     </table>
     <h2>Palettes</h2>
-    <img src="palettes.png">
+    <div><img class="frame-data" src="palettes.png"></div>
     <hr>
     <h2>Move list</h2>
     {% for data in moves %}
@@ -76,6 +76,7 @@
     <table>
         <tr>
         {% if data["damage"]|length > 0 %}
+            <th></th>
             <th>Hits</th>
             <th>Damage</th>
             <th>Prorate</th>
@@ -86,6 +87,7 @@
             <th>Startup</th>
             <th>Active</th>
         {% elif data["startup"]|length %}
+            <th></th>
             <th>Startup</th>
         {% endif %}
             <th>Total</th>
@@ -94,7 +96,12 @@
         {% endif %}
         </tr>
         <tr>
-        {% if data["damage"]|length > 0 %}
+        {% if data["damage"]|length %}
+            <td>
+                {% for anim in data['startup_anim'] %}
+                <div><img class="frame-data" src="{{ data['action'] }}/0_{{ anim[0] }}.png" alt="Frame {{ anim[1] }}"></div>
+                {% endfor %}
+            </td>
             <td>{{ data["damage"]|length }}</td>
             <td>{{ data["damage"]|join(", ") }}</td>
             <td>{{ data["prorate"]|join("%, ") }}%</td>
@@ -105,6 +112,11 @@
             <td>{{ data["startup"]|join(", ") }}</td>
             <td>{{ data["active"]|join(", ") }}</td>
         {% elif data["startup"]|length %}
+            <td>
+                {% for anim in data['startup_anim'] %}
+                <div><img class="frame-data" src="{{ data['action'] }}/0_{{ anim[0] }}.png" alt="Frame {{ anim[1] }}"></div>
+                {% endfor %}
+            </td>
             <td>{{ data["startup"][0] }}</td>
         {% endif %}
             <td>{{ data["total_real"] }}{% if data["total_real"] != data["total"] %} (Counting flash: {{ data["total"] }}){% endif %}</td>
