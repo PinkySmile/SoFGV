@@ -1423,8 +1423,10 @@ namespace SpiralOfFate
 			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
 			Object::_onMoveEnd(*data);
-		}
-		Object::hit(other, data);
+			Object::hit(other, data);
+			this->_applyNewAnimFlags();
+		} else
+			Object::hit(other, data);
 	}
 
 	void Character::getHit(IObject &other, const FrameData *dat)
