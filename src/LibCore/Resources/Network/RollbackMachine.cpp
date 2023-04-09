@@ -93,15 +93,22 @@ namespace SpiralOfFate
 			return UPDATESTATUS_NO_INPUTS;
 		}
 
+#if MAX_ROLLBACK == 0
+		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,this->_savedData.empty() ? nullptr : &this->_savedData.back());
+
+		bool result = this->_simulateFrame(this->_savedData.back());
+
+		this->_savedData.pop_back();
+#else
 		bool result = this->_checkPredictedInputs();
 
 		if (result) {
 			this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,this->_savedData.empty() ? nullptr : &this->_savedData.back());
 			result = this->_simulateFrame(this->_savedData.back());
 		}
-
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted)
 			this->_savedData.pop_front();
+#endif
 		return result ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}
 
