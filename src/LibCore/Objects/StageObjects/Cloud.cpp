@@ -85,4 +85,9 @@ namespace SpiralOfFate
 		//TODO:
 		this->_position.y = random_distrib(game->battleRandom, this->_minY, this->_maxY);
 	}
+
+	int Cloud::getLayer() const
+	{
+		return -500;
+	}
 }

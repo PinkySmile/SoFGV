@@ -772,13 +772,13 @@ namespace SpiralOfFate
 		const std::vector<ReplayData> &getReplayData() const;
 		const FrameData *getCurrentFrameData() const override;
 		bool isHit() const;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+		int getLayer() const override;
 
 		static std::string actionToString(int action);
 
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
-
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

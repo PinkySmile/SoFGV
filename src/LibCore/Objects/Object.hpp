@@ -112,6 +112,7 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		unsigned int getClassId() const override;
 		unsigned getTeam() const;
+		int getLayer() const override;
 
 		friend class PracticeBattleManager;
 		friend class BattleManager;

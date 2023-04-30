@@ -26,4 +26,9 @@ namespace SpiralOfFate
 	{
 		return this->_id;
 	}
+
+	int SubObject::getLayer() const
+	{
+		return 1;
+	}
 }

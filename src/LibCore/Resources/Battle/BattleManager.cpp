@@ -165,14 +165,35 @@ namespace SpiralOfFate
 
 	void BattleManager::render()
 	{
-		float total = 0;
-
 		while (this->_fpsTimes.size() >= 15)
 			this->_fpsTimes.pop_front();
 		this->_fpsTimes.push_back(this->_fpsClock.restart().asMilliseconds());
-		game->textureMgr.render(this->_stage);
+
+		std::map<int, std::vector<IObject *>> objectLayers;
+		float total = 0;
+
 		for (auto &object : this->_stageObjects)
-			object->render();
+			objectLayers[object->getLayer()].push_back(&*object);
+		for (auto &object : this->_platforms)
+			objectLayers[object->getLayer()].push_back(&*object);
+		for (auto &object : this->_objects)
+			objectLayers[object.second->getLayer()].push_back(&*object.second);
+
+		auto it = objectLayers.begin();
+
+		// <= -1000, behind stage
+		while (it != objectLayers.end() && it->first <= -1000) {
+			for (auto obj : it->second)
+				obj->render();
+			it++;
+		}
+		game->textureMgr.render(this->_stage);
+		// <= -500, behind HUD
+		while (it != objectLayers.end() && it->first <= -500) {
+			for (auto obj : it->second)
+				obj->render();
+			it++;
+		}
 
 		sf::Sprite sprite;
 
@@ -228,15 +249,36 @@ namespace SpiralOfFate
 			game->screen->borderColor(0, sf::Color::Transparent);
 		}
 
-		for (auto &platform : this->_platforms)
-			platform->render();
-		if (this->_leftFirst)
+		// < 0, behind characters
+		while (it != objectLayers.end() && it->first < 0) {
+			for (auto obj : it->second)
+				obj->render();
+			it++;
+		}
+		if (this->_leftFirst) {
 			this->_leftCharacter->render();
+			// == 0, On top of background character
+			if (it != objectLayers.end() && it->first == 0) {
+				for (auto obj : it->second)
+					obj->render();
+				it++;
+			}
+		}
 		this->_rightCharacter->render();
-		if (!this->_leftFirst)
+		if (!this->_leftFirst) {
+			// == 0, On top of background character
+			if (it != objectLayers.end() && it->first == 0) {
+				for (auto obj: it->second)
+					obj->render();
+				it++;
+			}
 			this->_leftCharacter->render();
-		for (auto &object : this->_objects)
-			object.second->render();
+		}
+		while (it != objectLayers.end()) {
+			for (auto obj : it->second)
+				obj->render();
+			it++;
+		}
 		if (this->_roundEndTimer < 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
 			this->_renderRoundEndAnimation();
 		else if (this->_leftHUDData.score == FIRST_TO || this->_rightHUDData.score == FIRST_TO)

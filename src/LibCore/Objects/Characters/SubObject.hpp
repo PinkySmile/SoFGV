@@ -20,6 +20,8 @@ namespace SpiralOfFate
 		bool getOwner() const;
 		unsigned int getId() const;
 		unsigned int getClassId() const override;
+
+		int getLayer() const override;
 	};
 }
 

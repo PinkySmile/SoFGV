@@ -4820,4 +4820,9 @@ namespace SpiralOfFate
 	{
 		return isHitAction(this->_action);
 	}
+
+	int Character::getLayer() const
+	{
+		return 0;
+	}
 }

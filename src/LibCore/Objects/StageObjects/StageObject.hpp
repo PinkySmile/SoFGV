@@ -14,6 +14,7 @@ namespace SpiralOfFate
 	class StageObject : public Object {
 	public:
 		StageObject(nlohmann::json &json);
+		int getLayer() const override;
 	};
 }
 

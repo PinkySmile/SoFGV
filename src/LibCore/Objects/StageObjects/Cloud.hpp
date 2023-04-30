@@ -22,6 +22,7 @@ namespace SpiralOfFate
 	public:
 		Cloud(nlohmann::json &json);
 		void update() override;
+		int getLayer() const override;
 	};
 }
 

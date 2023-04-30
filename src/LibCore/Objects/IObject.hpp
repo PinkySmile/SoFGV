@@ -33,6 +33,7 @@ namespace SpiralOfFate
 		virtual void restoreFromBuffer(void *data) = 0;
 		virtual size_t printDifference(const char *msgStart, void *, void *) const = 0;
 		virtual unsigned getClassId() const = 0;
+		virtual int getLayer() const = 0;
 	};
 }
 

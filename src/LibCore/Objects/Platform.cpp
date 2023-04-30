@@ -139,4 +139,9 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Platform::_deathTimer: " + std::to_string(dat1->_deathTimer) + " vs " + std::to_string(dat2->_deathTimer));
 		return length + sizeof(Data);
 	}
+
+	int Platform::getLayer() const
+	{
+		return -1;
+	}
 }

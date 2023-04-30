@@ -16,3 +16,8 @@ SpiralOfFate::StageObject::StageObject(nlohmann::json &json)
 	this->_direction = json["dir"];
 	this->_dir = this->_direction ? 1 : -1;
 }
+
+int SpiralOfFate::StageObject::getLayer() const
+{
+	return -750;
+}

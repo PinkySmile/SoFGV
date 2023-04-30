@@ -159,7 +159,7 @@ add_library(
 	src/LibCore/Objects/Characters/VictoriaStar/Shadow.hpp
 	src/LibCore/Objects/Characters/SubObject.hpp
 	src/LibCore/Objects/Characters/SubObject.cpp
-)
+	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.cpp src/LibCore/Objects/Characters/VictoriaStar/Butterfly.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)

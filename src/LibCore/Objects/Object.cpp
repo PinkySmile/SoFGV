@@ -632,4 +632,9 @@ namespace SpiralOfFate
 	{
 		return this->_team;
 	}
+
+	int Object::getLayer() const
+	{
+		return 0;
+	}
 }
