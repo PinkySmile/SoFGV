@@ -127,3 +127,8 @@ size_t EditableObject::printDifference(const char *msgStart, void *pVoid, void *
 {
 	return 0;
 }
+
+int EditableObject::getLayer() const
+{
+	return 0;
+}

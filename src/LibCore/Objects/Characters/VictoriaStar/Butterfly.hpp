@@ -10,8 +10,43 @@
 
 namespace SpiralOfFate
 {
-	class Butterfly : public SubObject {
+	class Character;
+	class VictoriaStar;
 
+	class Butterfly : public SubObject {
+	protected:
+		struct Data {
+			float _counter;
+			Vector2f _target;
+			Vector2f _base;
+			unsigned char _ctr;
+			unsigned char _alpha;
+		};
+
+		// Game state
+		float _counter = 0;
+		Vector2f _target;
+		Vector2f _base;
+		unsigned char _ctr = 1;
+
+		// Non-game state
+		VictoriaStar *_owner;
+		Character *_opponent;
+		Butterfly *_copy;
+		unsigned char _alpha = 255;
+		bool _disabled = false;
+		mutable FrameData _fakeFrameData;
+
+	public:
+		Butterfly(VictoriaStar *owner, Character *opponent, bool isLeft, Butterfly *copy, const std::vector<std::vector<FrameData>> &frameData, unsigned id);
+		int getLayer() const override;
+		void update() override;
+		float getAngle() const;
+		const FrameData *getCurrentFrameData() const override;
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 	};
 }
 

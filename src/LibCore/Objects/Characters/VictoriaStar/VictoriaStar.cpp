@@ -7,6 +7,10 @@
 #include "Objects/Characters/VictoriaStar/Shadow.hpp"
 
 #define ACTION_SCREEN_TELEPORT 368
+#define ACTION_HAPPY_BUTTERFLY 4
+#define ACTION_WEIRD_BUTTERFLY 5
+#define WEIRD_BUTTERFLIES_START_ID (1000 + NB_BUTTERFLIES)
+#define BUTTERFLIES_END_ID (1000 + NB_BUTTERFLIES * 2)
 
 namespace SpiralOfFate
 {
@@ -19,6 +23,9 @@ namespace SpiralOfFate
 		Character(index, folder, palette, std::move(input))
 	{
 		game->logger.debug("VictoriaStar class created");
+		// Butterflies actions
+		my_assert(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
+		my_assert(this->_subObjectsData.find(ACTION_WEIRD_BUTTERFLY) != this->_subObjectsData.end());
 	}
 
 	bool VictoriaStar::_startMove(unsigned int action)
@@ -44,7 +51,7 @@ namespace SpiralOfFate
 
 		Character::copyToBuffer(data);
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		//dat->_buffTimer = this->_buffTimer;
+		dat->_hitShadow = this->_hitShadow;
 	}
 
 	void VictoriaStar::restoreFromBuffer(void *data)
@@ -53,24 +60,35 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
-		//this->_buffTimer = dat->_buffTimer;
+		this->_hitShadow = dat->_hitShadow;
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
-	std::pair<unsigned int, std::shared_ptr<IObject>> VictoriaStar::_spawnSubObject(unsigned int id, bool needRegister)
+	std::pair<unsigned int, std::shared_ptr<IObject>> VictoriaStar::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
+		// Butterflies
+		if (BUTTERFLIES_START_ID <= id && id < BUTTERFLIES_END_ID)
+			return manager.registerObject<Butterfly>(
+				needRegister,
+				this,
+				this->_opponent,
+				this->_team,
+				id < WEIRD_BUTTERFLIES_START_ID ? nullptr : this->_happyBufferFlies[id - WEIRD_BUTTERFLIES_START_ID].second,
+				this->_subObjectsData.at(id < WEIRD_BUTTERFLIES_START_ID ? ACTION_HAPPY_BUTTERFLY : ACTION_WEIRD_BUTTERFLY),
+				id
+			);
 		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
 		auto &pdat = this->_projectileData[id];
 		bool dir = this->_getProjectileDirection(pdat);
 
 		if (!pdat.json.contains("shadow"))
-			return Character::_spawnSubObject(id, needRegister);
+			return Character::_spawnSubObject(manager, id, needRegister);
 		try {
 			std::string shadow = pdat.json["shadow"];
 
 			if (shadow == "matter")
-				return game->battleMgr->registerObject<Shadow>(
+				return manager.registerObject<Shadow>(
 					needRegister,
 					this->_subObjectsData.at(pdat.action),
 					pdat.json["hp"],
@@ -80,7 +98,7 @@ namespace SpiralOfFate
 					id
 				);
 			if (shadow == "void")
-				return game->battleMgr->registerObject<Shadow>(
+				return manager.registerObject<Shadow>(
 					needRegister,
 					this->_subObjectsData.at(pdat.action),
 					pdat.json["hp"],
@@ -152,5 +170,33 @@ namespace SpiralOfFate
 
 		this->_hasHit = old;
 		return result;
+	}
+
+	void VictoriaStar::resolveSubObjects(const BattleManager &manager)
+	{
+		for (auto &butterfly : this->_happyBufferFlies)
+			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
+		for (auto &butterfly : this->_weirdBufferFlies)
+			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
+		Character::resolveSubObjects(manager);
+	}
+
+	void VictoriaStar::init(BattleManager &manager, const Character::InitData &data)
+	{
+		Character::init(manager, data);
+		for (int i = 0; i < this->_happyBufferFlies.size(); i++) {
+			auto result = this->_spawnSubObject(manager, 1000 + i, true);
+
+			this->_happyBufferFlies[i] = {
+				result.first,
+				reinterpret_cast<Butterfly *>(&*result.second)
+			};
+
+			result = this->_spawnSubObject(manager, 1000 + this->_happyBufferFlies.size() + i,true);
+			this->_weirdBufferFlies[i] = {
+				result.first,
+				reinterpret_cast<Butterfly *>(&*result.second)
+			};
+		}
 	}
 }

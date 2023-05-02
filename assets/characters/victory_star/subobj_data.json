@@ -217,7 +217,7 @@
     "framedata": [
       [
         {
-          "duration": 12,
+          "duration": 6,
           "offset": {
             "x": -1,
             "y": -27
@@ -252,15 +252,10 @@
             "width": 24
           }
         }
-      ]
-    ]
-  },
-  {
-    "action": 5,
-    "framedata": [
+      ],
       [
         {
-          "duration": 12,
+          "duration": 6,
           "offset": {
             "x": -1,
             "y": -27
@@ -284,26 +279,26 @@
             "y": -26
           },
           "size": {
-            "x": 68,
+            "x": 72,
             "y": 68
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 34,
-            "left": 99,
+            "left": 98,
             "top": 83,
-            "width": 34
+            "width": 36
           }
         }
       ]
     ]
   },
   {
-    "action": 6,
+    "action": 5,
     "framedata": [
       [
         {
-          "duration": 12,
+          "duration": 6,
           "offset": {
             "x": -1,
             "y": -27
@@ -333,20 +328,15 @@
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 34,
-            "left": 40,
+            "left": 39,
             "top": 116,
             "width": 24
           }
         }
-      ]
-    ]
-  },
-  {
-    "action": 7,
-    "framedata": [
+      ],
       [
         {
-          "duration": 12,
+          "duration": 6,
           "offset": {
             "x": -1,
             "y": -27
@@ -358,7 +348,7 @@
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 34,
-            "left": 65,
+            "left": 64,
             "top": 116,
             "width": 34
           }
@@ -366,7 +356,7 @@
         {
           "duration": 6,
           "offset": {
-            "x": -1,
+            "x": 2,
             "y": -26
           },
           "size": {
@@ -376,8 +366,8 @@
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 34,
-            "left": 96,
-            "top": 119,
+            "left": 97,
+            "top": 118,
             "width": 36
           }
         }

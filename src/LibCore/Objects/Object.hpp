@@ -113,6 +113,7 @@ namespace SpiralOfFate
 		unsigned int getClassId() const override;
 		unsigned getTeam() const;
 		int getLayer() const override;
+		bool getDirection() const;
 
 		friend class PracticeBattleManager;
 		friend class BattleManager;

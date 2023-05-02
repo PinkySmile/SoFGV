@@ -6,7 +6,11 @@
 #define SOFGV_VICTORIASTAR_HPP
 
 
+#include "Butterfly.hpp"
 #include "Objects/Character.hpp"
+
+#define NB_BUTTERFLIES 8
+#define BUTTERFLIES_START_ID 1000
 
 namespace SpiralOfFate
 {
@@ -17,13 +21,14 @@ namespace SpiralOfFate
 		};
 
 		bool _hitShadow = false;
+		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
+		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 
 	protected:
 		bool _startMove(unsigned int action) override;
-		std::pair<unsigned int, std::shared_ptr<IObject>>_spawnSubObject(unsigned int id, bool needRegister) override;
-
+		std::pair<unsigned int, std::shared_ptr<IObject>>
+		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
 		bool _canCancel(unsigned int action) override;
-
 		void _forceStartMove(unsigned int action) override;
 
 	public:
@@ -36,6 +41,10 @@ namespace SpiralOfFate
 		void getHit(IObject &other, const FrameData *data) override;
 		bool hits(const IObject &other) const override;
 		void hit(IObject &other, const FrameData *data) override;
+		void init(BattleManager &manager, const InitData &data) override;
+		void resolveSubObjects(const BattleManager &manager) override;
+
+		friend class Butterfly;
 	};
 }
 

@@ -41,6 +41,7 @@ public:
 	void restoreFromBuffer(void *data) override;
 	unsigned int getClassId() const override;
 	size_t printDifference(const char *msgStart, void *, void *) const override;
+	int getLayer() const override;
 };
 
 

@@ -655,7 +655,8 @@ namespace SpiralOfFate
 		virtual bool _consumeVoidMana(float cost);
 		virtual bool _consumeMatterMana(float cost);
 		virtual bool _consumeSpiritMana(float cost);
-		virtual std::pair<unsigned, std::shared_ptr<IObject>> _spawnSubObject(unsigned id, bool needRegister = true);
+		virtual std::pair<unsigned int, std::shared_ptr<IObject>>
+		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);
@@ -725,6 +726,23 @@ namespace SpiralOfFate
 		bool _check63146974Input(const std::function<bool (const LastInput &)> &atkInput);
 
 	public:
+		struct InitData {
+			bool side;
+			unsigned short maxHp;
+			unsigned char maxJumps;
+			unsigned char maxAirDash;
+			unsigned maxMMana;
+			unsigned maxVMana;
+			unsigned maxSMana;
+			float manaRegen;
+			unsigned maxGuardBar;
+			unsigned maxGuardCooldown;
+			unsigned odCd;
+			float groundDrag;
+			Vector2f airDrag;
+			Vector2f gravity;
+		};
+
 		unsigned index;
 		std::wstring name;
 		bool showAttributes = false;
@@ -740,22 +758,6 @@ namespace SpiralOfFate
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();
-		void init(
-			bool side,
-			unsigned short maxHp,
-			unsigned char maxJumps,
-			unsigned char maxAirDash,
-			unsigned maxMMana,
-			unsigned maxVMana,
-			unsigned maxSMana,
-			float manaRegen,
-			unsigned maxGuardBar,
-			unsigned maxGuardCooldown,
-			unsigned odCd,
-			float groundDrag,
-			Vector2f airDrag,
-			Vector2f gravity
-		);
 		void consumeEvent(const sf::Event &event);
 		void postUpdate();
 		std::shared_ptr<IInput> &getInput();
@@ -767,7 +769,6 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-		void resolveSubObjects(const BattleManager &manager);
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
 		const FrameData *getCurrentFrameData() const override;
@@ -777,6 +778,8 @@ namespace SpiralOfFate
 
 		static std::string actionToString(int action);
 
+		virtual void init(BattleManager &manager, const InitData &data);
+		virtual void resolveSubObjects(const BattleManager &manager);
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
 

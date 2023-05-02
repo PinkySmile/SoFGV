@@ -637,4 +637,9 @@ namespace SpiralOfFate
 	{
 		return 0;
 	}
+
+	bool Object::getDirection() const
+	{
+		return this->_direction;
+	}
 }

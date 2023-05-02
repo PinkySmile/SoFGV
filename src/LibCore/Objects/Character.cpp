@@ -827,47 +827,31 @@ namespace SpiralOfFate
 		}
 	}
 
-	void Character::init(
-		bool side,
-		unsigned short maxHp,
-		unsigned char maxJumps,
-		unsigned char maxAirDash,
-		unsigned maxMMana,
-		unsigned maxVMana,
-		unsigned maxSMana,
-		float manaRegen,
-		unsigned maxGuardBar,
-		unsigned maxGuardCooldown,
-		unsigned odCd,
-		float groundDrag,
-		Vector2f airDrag,
-		Vector2f gravity
-	)
+	void Character::init(BattleManager &, const InitData &data)
 	{
-		this->_dir = side ? 1 : -1;
-		this->_direction = side;
-		this->_team = !side;
-		this->_baseHp = this->_hp = maxHp;
-		this->_maxJumps = maxJumps;
-		this->_maxAirDashes = maxAirDash;
-		this->_baseGravity = this->_gravity = gravity;
-		this->_voidManaMax   = maxVMana;
-		this->_spiritManaMax = maxSMana;
-		this->_matterManaMax = maxMMana;
-		this->_voidMana   = maxVMana / 2.f;
-		this->_spiritMana = maxSMana / 2.f;
-		this->_matterMana = maxMMana / 2.f;
-		this->_regen = manaRegen;
-		this->_maxGuardCooldown = maxGuardCooldown;
-		this->_guardBar = this->_maxGuardBar = maxGuardBar;
-		this->_maxOdCooldown = odCd;
-		this->_groundDrag = groundDrag;
-		this->_airDrag = airDrag;
-		if (side) {
+		this->_dir = data.side ? 1 : -1;
+		this->_direction = data.side;
+		this->_team = !data.side;
+		this->_baseHp = this->_hp = data.maxHp;
+		this->_maxJumps = data.maxJumps;
+		this->_maxAirDashes = data.maxAirDash;
+		this->_baseGravity = this->_gravity = data.gravity;
+		this->_voidManaMax   = data.maxVMana;
+		this->_spiritManaMax = data.maxSMana;
+		this->_matterManaMax = data.maxMMana;
+		this->_voidMana   = data.maxVMana / 2.f;
+		this->_spiritMana = data.maxSMana / 2.f;
+		this->_matterMana = data.maxMMana / 2.f;
+		this->_regen = data.manaRegen;
+		this->_maxGuardCooldown = data.maxGuardCooldown;
+		this->_guardBar = this->_maxGuardBar = data.maxGuardBar;
+		this->_maxOdCooldown = data.odCd;
+		this->_groundDrag = data.groundDrag;
+		this->_airDrag = data.airDrag;
+		if (data.side)
 			this->_position = {200, 0};
-		} else {
+		else
 			this->_position = {800, 0};
-		}
 	}
 
 	void Character::consumeEvent(const sf::Event &event)
@@ -3227,7 +3211,7 @@ namespace SpiralOfFate
 	bool Character::hits(const IObject &other) const
 	{
 		auto otherChr = dynamic_cast<const Character *>(&other);
-		auto otherObj = dynamic_cast<const Object *>(&other);
+		//auto otherObj = dynamic_cast<const Object *>(&other);
 
 		if (otherChr) {
 			for (auto limit : otherChr->_limit)
@@ -3933,7 +3917,7 @@ namespace SpiralOfFate
 			this->_consumeMatterMana(data->manaCost);
 	}
 
-	std::pair<unsigned, std::shared_ptr<IObject>> Character::_spawnSubObject(unsigned id, bool needRegister)
+	std::pair<unsigned int, std::shared_ptr<IObject>> Character::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
 		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
@@ -3941,7 +3925,7 @@ namespace SpiralOfFate
 		bool dir = this->_getProjectileDirection(pdat);
 
 		try {
-			return game->battleMgr->registerObject<Projectile>(
+			return manager.registerObject<Projectile>(
 				needRegister,
 				this->_subObjectsData.at(pdat.action),
 				this->_team,
@@ -4409,7 +4393,7 @@ namespace SpiralOfFate
 			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
 				this->_subobjects[data->subObjectSpawn - 1].second->kill();
 
-			auto obj = this->_spawnSubObject(data->subObjectSpawn - 1);
+			auto obj = this->_spawnSubObject(*game->battleMgr, data->subObjectSpawn - 1, true);
 
 			if (data->subObjectSpawn > 128)
 				return;

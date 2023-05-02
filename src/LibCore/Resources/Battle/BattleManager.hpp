@@ -148,7 +148,7 @@ namespace SpiralOfFate
 		struct CharacterParams {
 			Character *character;
 			unsigned icon;
-			unsigned hp;
+			unsigned short hp;
 			Vector2f gravity;
 			unsigned char maxJumps;
 			unsigned char maxAirDash;
@@ -197,6 +197,7 @@ namespace SpiralOfFate
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
 		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;
+		bool isLeftFirst() const;
 	};
 }
 

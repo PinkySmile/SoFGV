@@ -48,7 +48,7 @@ namespace SpiralOfFate
 
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
-		this->_leftCharacter->init(
+		this->_leftCharacter->init(*this, {
 			true,
 			leftCharacter.hp,
 			leftCharacter.maxJumps,
@@ -63,8 +63,8 @@ namespace SpiralOfFate
 			leftCharacter.groundDrag,
 			leftCharacter.airDrag,
 			leftCharacter.gravity
-		);
-		this->_rightCharacter->init(
+		});
+		this->_rightCharacter->init(*this, {
 			false,
 			rightCharacter.hp,
 			rightCharacter.maxJumps,
@@ -79,7 +79,7 @@ namespace SpiralOfFate
 			rightCharacter.groundDrag,
 			rightCharacter.airDrag,
 			rightCharacter.gravity
-		);
+		});
 		this->_leftCharacter->setAttacksDisabled(true);
 		this->_rightCharacter->setAttacksDisabled(true);
 		this->_roundSprites.resize(5 + FIRST_TO * 2 - 1);
@@ -249,16 +249,16 @@ namespace SpiralOfFate
 			game->screen->borderColor(0, sf::Color::Transparent);
 		}
 
-		// < 0, behind characters
-		while (it != objectLayers.end() && it->first < 0) {
+		// < -50, behind characters
+		while (it != objectLayers.end() && it->first < -50) {
 			for (auto obj : it->second)
 				obj->render();
 			it++;
 		}
 		if (this->_leftFirst) {
 			this->_leftCharacter->render();
-			// == 0, On top of background character
-			if (it != objectLayers.end() && it->first == 0) {
+			// <= 0, On top of background character
+			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj : it->second)
 					obj->render();
 				it++;
@@ -266,8 +266,8 @@ namespace SpiralOfFate
 		}
 		this->_rightCharacter->render();
 		if (!this->_leftFirst) {
-			// == 0, On top of background character
-			if (it != objectLayers.end() && it->first == 0) {
+			// <= 50, On top of background character
+			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj: it->second)
 					obj->render();
 				it++;
@@ -584,6 +584,11 @@ namespace SpiralOfFate
 		this->_rightHUDData.update();
 	}
 
+	bool BattleManager::isLeftFirst() const
+	{
+		return this->_leftFirst;
+	}
+
 	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
 	{
 		for (auto &object : this->_objects)
@@ -701,7 +706,7 @@ namespace SpiralOfFate
 				auto subobjid = *(unsigned *)ptr;
 
 				ptr += sizeof(unsigned);
-				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(subobjid,false).second;
+				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(*this, subobjid, false).second;
 				break;
 			}
 			default:
@@ -1022,8 +1027,7 @@ namespace SpiralOfFate
 					game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::subobjectId differs: " + std::to_string(subobjid1) + " vs " + std::to_string(subobjid2));
 				ptr1 += sizeof(unsigned);
 				ptr2 += sizeof(unsigned);
-				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(
-					subobjid1, false).second;
+				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(*this,subobjid1, false).second;
 				break;
 			}
 			default:

@@ -146,12 +146,23 @@ namespace SpiralOfFate
 
 		double magnitude() const noexcept
 		{
-			return (std::sqrt(this->x * this->x + this->y * this->y));
+			return std::sqrt(this->x * this->x + this->y * this->y);
+		}
+
+		template<typename T2>
+		double distance2(const Vector2<T2> &o) const noexcept
+		{
+			return (*this - o).magnitude2();
+		}
+
+		double magnitude2() const noexcept
+		{
+			return this->x * this->x + this->y * this->y;
 		}
 
 		double angle(const Vector2<T> &o) const noexcept
 		{
-			return (std::atan2(o.y - this->y, o.x - this->x));
+			return std::atan2(o.y - this->y, o.x - this->x);
 		}
 
 		Vector2<float> normal(const Vector2<T> &p2)

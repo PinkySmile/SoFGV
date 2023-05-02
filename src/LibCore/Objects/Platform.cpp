@@ -142,6 +142,6 @@ namespace SpiralOfFate
 
 	int Platform::getLayer() const
 	{
-		return -1;
+		return -51;
 	}
 }
