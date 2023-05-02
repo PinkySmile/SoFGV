@@ -8,6 +8,7 @@
 #include "VictoriaStar.hpp"
 
 #define MAX_ALPHA 225
+#define ALPHA_STEP 20
 #define MAX_CTR 10
 
 namespace SpiralOfFate
@@ -21,6 +22,7 @@ namespace SpiralOfFate
 		this->_moves[0] = frameData;
 		this->_fakeFrameData.setSlave();
 		this->_position = this->_owner->_position;
+		this->_position.y += 160;
 	}
 
 	const FrameData *Butterfly::getCurrentFrameData() const
@@ -41,15 +43,16 @@ namespace SpiralOfFate
 	void Butterfly::update()
 	{
 		if (this->_copy) {
-			if (this->_copy->_disabled)
-				return this->_sprite.setColor(sf::Color::Transparent);
 			this->_position = this->_copy->_position;
 			this->_animation = this->_copy->_animation;
 			this->_actionBlock = this->_copy->_actionBlock;
 			this->_direction = this->_copy->_direction;
 			this->_dir = this->_copy->_dir;
 			this->_rotation = this->_copy->_rotation;
-			this->_sprite.setColor(sf::Color{255, 255, 255, static_cast<sf::Uint8>(MAX_ALPHA - this->_copy->_alpha)});
+			this->_sprite.setColor(sf::Color{
+				255, 255, 255,
+				static_cast<sf::Uint8>(this->_copy->_maxAlpha * (1 - this->_copy->_alpha))
+			});
 			return;
 		}
 
@@ -67,11 +70,7 @@ namespace SpiralOfFate
 		int div = NB_BUTTERFLIES / (nb + !nb);
 		auto wasDisabled = this->_disabled;
 
-		if (div > 0 && id % div != 0) {
-			this->_disabled = true;
-			return this->_sprite.setColor(sf::Color::Transparent);
-		}
-		this->_disabled = false;
+		this->_disabled = div > 0 && id % div != 0;
 		if (distance >= 500 * 500) {
 			this->_actionBlock = (M_PI_4 <= angle && angle < 3 * M_PI_4) || (5 * M_PI_4 <= angle && angle < 7 * M_PI_4);
 			this->_rotation = (3 * M_PI_4 <= angle && angle < 5 * M_PI_4) * M_PI;
@@ -84,7 +83,7 @@ namespace SpiralOfFate
 				Object::update();
 			if (random_distrib(game->battleRandom, 0, 16) == 0)
 				Object::update();
-			this->_alpha = MAX_ALPHA;
+			this->_alpha = 1.f;
 			if (wasDisabled)
 				this->_position = this->_target;
 			else
@@ -106,9 +105,9 @@ namespace SpiralOfFate
 			if (random_distrib(game->battleRandom, 0, 10 - 200 * 200 * 10) / diff == 0)
 				Object::update();
 			if (distance >= 400 * 400)
-				this->_alpha = MAX_ALPHA;
+				this->_alpha = 1.f;
 			else
-				this->_alpha = MAX_ALPHA * diff / (400 * 400 - 300 * 300);
+				this->_alpha = diff / (400 * 400 - 300 * 300);
 			if (wasDisabled)
 				this->_position = this->_target;
 			else
@@ -139,7 +138,17 @@ namespace SpiralOfFate
 			}
 			this->_position = this->_base + (this->_target - this->_base) * this->_ctr / (float)MAX_CTR;
 		}
-		this->_sprite.setColor(sf::Color{255, 255, 255, this->_alpha});
+
+		auto maxAlpha = (1 - this->_disabled) * MAX_ALPHA;
+
+		if (std::abs(this->_maxAlpha - maxAlpha) > ALPHA_STEP)
+			this->_maxAlpha += std::copysign(ALPHA_STEP, maxAlpha - this->_maxAlpha);
+		else
+			this->_maxAlpha = maxAlpha;
+		this->_sprite.setColor(sf::Color{
+			255, 255, 255,
+			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
+		});
 		this->_direction = this->_dir == 1;
 	}
 
@@ -153,19 +162,23 @@ namespace SpiralOfFate
 
 	unsigned int Butterfly::getBufferSize() const
 	{
-		return Object::getBufferSize() + (this->_copy ? 0 : sizeof(Data));
+		return Object::getBufferSize() + (this->_copy ? sizeof(WeirdData) : sizeof(HappyData));
 	}
 
 	void Butterfly::copyToBuffer(void *data) const
 	{
 		Object::copyToBuffer(data);
-		if (this->_copy)
-			return;
+		if (this->_copy) {
+			auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
 
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+			return;
+		}
+
+		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
 		dat->_counter = this->_counter;
 		dat->_target = this->_target;
+		dat->_maxAlpha = this->_maxAlpha;
 		dat->_base = this->_base;
 		dat->_ctr = this->_ctr;
 	}
@@ -173,11 +186,15 @@ namespace SpiralOfFate
 	void Butterfly::restoreFromBuffer(void *data)
 	{
 		Object::restoreFromBuffer(data);
-		if (this->_copy)
+		if (this->_copy) {
+			auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
+
 			return;
+		}
 
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		this->_maxAlpha = dat->_maxAlpha;
 		this->_counter = dat->_counter;
 		this->_target = dat->_target;
 		this->_base = dat->_base;
@@ -190,11 +207,15 @@ namespace SpiralOfFate
 
 		if (length == 0)
 			return 0;
-		if (this->_copy)
-			return length;
+		if (this->_copy) {
+			auto dat1 = reinterpret_cast<WeirdData *>((uintptr_t)data1 + length);
+			auto dat2 = reinterpret_cast<WeirdData *>((uintptr_t)data2 + length);
 
-		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
-		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
+			return length + sizeof(WeirdData);
+		}
+
+		auto dat1 = reinterpret_cast<HappyData *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<HappyData *>((uintptr_t)data2 + length);
 
 		if (dat1->_counter != dat2->_counter)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_counter: " + std::to_string(dat1->_counter) + " vs " + std::to_string(dat2->_counter));
@@ -208,6 +229,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_base.y: " + std::to_string(dat1->_base.y) + " vs " + std::to_string(dat2->_base.y));
 		if (dat1->_ctr != dat2->_ctr)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_ctr: " + std::to_string(dat1->_ctr) + " vs " + std::to_string(dat2->_ctr));
-		return length + sizeof(Data);
+		if (dat1->_maxAlpha != dat2->_maxAlpha)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_maxAlpha: " + std::to_string(dat1->_maxAlpha) + " vs " + std::to_string(dat2->_maxAlpha));
+		return length + sizeof(HappyData);
 	}
 }

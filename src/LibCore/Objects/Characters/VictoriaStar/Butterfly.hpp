@@ -15,25 +15,30 @@ namespace SpiralOfFate
 
 	class Butterfly : public SubObject {
 	protected:
-		struct Data {
+#pragma pack(push, 1)
+		struct HappyData {
 			float _counter;
 			Vector2f _target;
 			Vector2f _base;
 			unsigned char _ctr;
-			unsigned char _alpha;
+			unsigned char _maxAlpha;
 		};
+		struct WeirdData {
+		};
+#pragma pack(pop)
 
 		// Game state
 		float _counter = 0;
 		Vector2f _target;
 		Vector2f _base;
 		unsigned char _ctr = 1;
+		unsigned char _maxAlpha = 255;
 
 		// Non-game state
 		VictoriaStar *_owner;
 		Character *_opponent;
 		Butterfly *_copy;
-		unsigned char _alpha = 255;
+		float _alpha = 1.f;
 		bool _disabled = false;
 		mutable FrameData _fakeFrameData;
 

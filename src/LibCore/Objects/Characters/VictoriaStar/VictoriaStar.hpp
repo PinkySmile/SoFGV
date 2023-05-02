@@ -16,9 +16,11 @@ namespace SpiralOfFate
 {
 	class VictoriaStar : public Character {
 	private:
+#pragma pack(push, 1)
 		struct Data {
 			bool _hitShadow;
 		};
+#pragma pack(pop)
 
 		bool _hitShadow = false;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
