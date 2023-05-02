@@ -68,9 +68,12 @@ namespace SpiralOfFate
 		int nb = (1000 * 1000 - 50 * 50) / (distance - 50 * 50);
 		auto id = (this->getId() - BUTTERFLIES_START_ID) % NB_BUTTERFLIES;
 		int div = NB_BUTTERFLIES / (nb + !nb);
-		auto wasDisabled = this->_disabled;
 
 		this->_disabled = div > 0 && id % div != 0;
+		if (this->_owner->_action >= ACTION_5N) {
+			this->_disabled = true;
+			this->_maxAlpha = 0;
+		}
 		if (distance >= 500 * 500) {
 			this->_actionBlock = (M_PI_4 <= angle && angle < 3 * M_PI_4) || (5 * M_PI_4 <= angle && angle < 7 * M_PI_4);
 			this->_rotation = (3 * M_PI_4 <= angle && angle < 5 * M_PI_4) * M_PI;
@@ -84,10 +87,7 @@ namespace SpiralOfFate
 			if (random_distrib(game->battleRandom, 0, 16) == 0)
 				Object::update();
 			this->_alpha = 1.f;
-			if (wasDisabled)
-				this->_position = this->_target;
-			else
-				this->_position += (this->_target - this->_position) / 4;
+			this->_position += (this->_target - this->_position) / 4;
 			this->_ctr = MAX_CTR;
 		} else if (distance >= 300 * 300) {
 			auto diff = distance - 300 * 300;
@@ -108,10 +108,7 @@ namespace SpiralOfFate
 				this->_alpha = 1.f;
 			else
 				this->_alpha = diff / (400 * 400 - 300 * 300);
-			if (wasDisabled)
-				this->_position = this->_target;
-			else
-				this->_position += (this->_target - this->_position) / 4;
+			this->_position += (this->_target - this->_position) / 4;
 			this->_ctr = MAX_CTR;
 		} else {
 			auto diff = this->_target - this->_position;
