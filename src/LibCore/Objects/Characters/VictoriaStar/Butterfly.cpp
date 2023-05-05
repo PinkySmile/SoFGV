@@ -242,7 +242,7 @@ namespace SpiralOfFate
 		return length + sizeof(HappyData);
 	}
 
-	void Butterfly::defensiveFormation()
+	void Butterfly::defensiveFormation(const Object &target)
 	{
 		if (this->_copy) {
 			this->_position = this->_copy->_position;
@@ -256,9 +256,9 @@ namespace SpiralOfFate
 		}
 
 		auto owDat = this->_owner->getCurrentFrameData();
-		auto opDat = this->_opponent->getCurrentFrameData();
+		auto opDat = target.getCurrentFrameData();
 		auto owCenter = this->_owner->_position + Vector2f{0, owDat->size.y / 2.f};
-		auto opCenter = reinterpret_cast<VictoriaStar *>(this->_opponent)->_position + Vector2f{0, opDat->size.y / 2.f};
+		auto opCenter = reinterpret_cast<const VictoriaStar *>(&target)->_position + Vector2f{0, opDat->size.y / 2.f};
 		auto dir = opCenter - owCenter;
 		auto normalized = dir.normalized();
 		Vector2f normalPt = {normalized.x * 60, normalized.y * 80};

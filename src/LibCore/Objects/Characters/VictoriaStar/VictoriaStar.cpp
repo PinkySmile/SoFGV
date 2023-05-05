@@ -154,13 +154,20 @@ namespace SpiralOfFate
 		this->_hitShadow = true;
 	}
 
+	void VictoriaStar::_blockMove(Object *other, const FrameData &data)
+	{
+		this->_target = other;
+		Character::_blockMove(other, data);
+		this->_target = nullptr;
+	}
+
 	void VictoriaStar::_forceStartMove(unsigned int action)
 	{
-		if (isBlockingAction(action)) {
+		if (isBlockingAction(action) && this->_target) {
 			for (auto &butterfly: this->_happyBufferFlies)
-				butterfly.second->defensiveFormation();
+				butterfly.second->defensiveFormation(*this->_target);
 			for (auto &butterfly : this->_weirdBufferFlies)
-				butterfly.second->defensiveFormation();
+				butterfly.second->defensiveFormation(*this->_target);
 		}
 		this->_hitShadow = false;
 		Character::_forceStartMove(action);

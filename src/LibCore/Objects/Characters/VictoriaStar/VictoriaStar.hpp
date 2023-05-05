@@ -22,6 +22,7 @@ namespace SpiralOfFate
 		};
 #pragma pack(pop)
 
+		const Object *_target = nullptr;
 		bool _hitShadow = false;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
@@ -32,6 +33,7 @@ namespace SpiralOfFate
 		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
+		void _blockMove(Object *other, const FrameData &data) override;
 
 	public:
 		VictoriaStar() = default;

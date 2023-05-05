@@ -52,7 +52,7 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-		void defensiveFormation();
+		void defensiveFormation(const Object &target);
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 	};
 }
