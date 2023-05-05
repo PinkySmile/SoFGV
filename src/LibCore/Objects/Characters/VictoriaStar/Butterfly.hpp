@@ -31,8 +31,9 @@ namespace SpiralOfFate
 		float _counter = 0;
 		Vector2f _target;
 		Vector2f _base;
+		unsigned char _defenseCtr = 0;
 		unsigned char _ctr = 1;
-		unsigned char _maxAlpha = 255;
+		unsigned char _maxAlpha = 0;
 
 		// Non-game state
 		VictoriaStar *_owner;
@@ -51,6 +52,7 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
+		void defensiveFormation();
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 	};
 }

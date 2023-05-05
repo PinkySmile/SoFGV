@@ -37,6 +37,8 @@ namespace SpiralOfFate
 
 	int Butterfly::getLayer() const
 	{
+		if (this->_defenseCtr)
+			return 50;
 		return (this->getOwner() ^ !game->battleMgr->isLeftFirst()) * 100 - 50 - std::sin(this->getAngle()) * NB_BUTTERFLIES / 2;
 	}
 
@@ -55,6 +57,10 @@ namespace SpiralOfFate
 			});
 			return;
 		}
+		if (this->_defenseCtr) {
+			this->_defenseCtr--;
+			return;
+		}
 
 		auto distance = this->_owner->_position.distance2(reinterpret_cast<VictoriaStar *>(this->_opponent)->_position);
 
@@ -69,6 +75,10 @@ namespace SpiralOfFate
 		auto id = (this->getId() - BUTTERFLIES_START_ID) % NB_BUTTERFLIES;
 		int div = NB_BUTTERFLIES / (nb + !nb);
 
+		if (VictoriaStar::isHitAction(this->_owner->_action)) {
+			this->_disabled = false;
+			goto notHappy;
+		}
 		this->_disabled = div > 0 && id % div != 0;
 		if (this->_owner->_action >= ACTION_5N) {
 			this->_disabled = true;
@@ -111,6 +121,7 @@ namespace SpiralOfFate
 			this->_position += (this->_target - this->_position) / 4;
 			this->_ctr = MAX_CTR;
 		} else {
+		notHappy:
 			auto diff = this->_target - this->_position;
 
 			this->_alpha = 0;
@@ -123,7 +134,7 @@ namespace SpiralOfFate
 				this->_rotation = (diff.y < 0) * M_PI;
 				this->_dir = 1;
 			}
-			if (random_distrib(game->battleRandom, 0, 1) == 0)
+			if (random_distrib(game->battleRandom, 0, 16) != 0)
 				this->_ctr++;
 			if (this->_ctr >= MAX_CTR) {
 				float xRand = random_distrib(game->battleRandom, 0, 100);
@@ -166,7 +177,7 @@ namespace SpiralOfFate
 	{
 		Object::copyToBuffer(data);
 		if (this->_copy) {
-			auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
+			//auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
 
 			return;
 		}
@@ -184,7 +195,7 @@ namespace SpiralOfFate
 	{
 		Object::restoreFromBuffer(data);
 		if (this->_copy) {
-			auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
+			//auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
 
 			return;
 		}
@@ -205,8 +216,8 @@ namespace SpiralOfFate
 		if (length == 0)
 			return 0;
 		if (this->_copy) {
-			auto dat1 = reinterpret_cast<WeirdData *>((uintptr_t)data1 + length);
-			auto dat2 = reinterpret_cast<WeirdData *>((uintptr_t)data2 + length);
+			//auto dat1 = reinterpret_cast<WeirdData *>((uintptr_t)data1 + length);
+			//auto dat2 = reinterpret_cast<WeirdData *>((uintptr_t)data2 + length);
 
 			return length + sizeof(WeirdData);
 		}
@@ -229,5 +240,41 @@ namespace SpiralOfFate
 		if (dat1->_maxAlpha != dat2->_maxAlpha)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_maxAlpha: " + std::to_string(dat1->_maxAlpha) + " vs " + std::to_string(dat2->_maxAlpha));
 		return length + sizeof(HappyData);
+	}
+
+	void Butterfly::defensiveFormation()
+	{
+		if (this->_copy) {
+			this->_position = this->_copy->_position;
+			this->_disabled = false;
+			this->_maxAlpha = MAX_ALPHA;
+			this->_sprite.setColor(sf::Color{
+				255, 255, 255,
+				static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
+			});
+			return;
+		}
+
+		auto owDat = this->_owner->getCurrentFrameData();
+		auto opDat = this->_opponent->getCurrentFrameData();
+		auto owCenter = this->_owner->_position + Vector2f{0, owDat->size.y / 2.f};
+		auto opCenter = reinterpret_cast<VictoriaStar *>(this->_opponent)->_position + Vector2f{0, opDat->size.y / 2.f};
+		auto dir = opCenter - owCenter;
+		auto normalized = dir.normalized();
+		Vector2f normalPt = {normalized.x * 60, normalized.y * 80};
+		auto normal = dir.normal(normalPt).normalized();
+		auto id = (this->getId() - BUTTERFLIES_START_ID) % NB_BUTTERFLIES;
+
+		normal *= (int)(id - NB_BUTTERFLIES / 2) * 10;
+		this->_position = owCenter + normal + normalPt;
+		this->_disabled = false;
+		this->_maxAlpha = MAX_ALPHA;
+		this->_base = this->_position;
+		this->_ctr = 0;
+		this->_sprite.setColor(sf::Color{
+			255, 255, 255,
+			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
+		});
+		this->_defenseCtr = 15;
 	}
 }

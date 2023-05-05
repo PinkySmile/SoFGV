@@ -156,6 +156,12 @@ namespace SpiralOfFate
 
 	void VictoriaStar::_forceStartMove(unsigned int action)
 	{
+		if (isBlockingAction(action)) {
+			for (auto &butterfly: this->_happyBufferFlies)
+				butterfly.second->defensiveFormation();
+			for (auto &butterfly : this->_weirdBufferFlies)
+				butterfly.second->defensiveFormation();
+		}
 		this->_hitShadow = false;
 		Character::_forceStartMove(action);
 	}
