@@ -159,7 +159,17 @@ add_library(
 	src/LibCore/Objects/Characters/VictoriaStar/Shadow.hpp
 	src/LibCore/Objects/Characters/SubObject.hpp
 	src/LibCore/Objects/Characters/SubObject.cpp
-	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.cpp src/LibCore/Objects/Characters/VictoriaStar/Butterfly.hpp)
+	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/MatterShadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/MatterShadow.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/SpiritShadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/SpiritShadow.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)

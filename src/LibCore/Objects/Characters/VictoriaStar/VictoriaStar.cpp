@@ -5,6 +5,10 @@
 #include "VictoriaStar.hpp"
 #include "Resources/Game.hpp"
 #include "Objects/Characters/VictoriaStar/Shadow.hpp"
+#include "Objects/Characters/VictoriaStar/Shadows/NeutralShadow.hpp"
+#include "Objects/Characters/VictoriaStar/Shadows/MatterShadow.hpp"
+#include "Objects/Characters/VictoriaStar/Shadows/SpiritShadow.hpp"
+#include "Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp"
 
 #define ACTION_SCREEN_TELEPORT 368
 #define ACTION_SHADOW 0
@@ -80,6 +84,21 @@ namespace SpiralOfFate
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
+	static std::map<std::string, Shadow *(*)(
+		const std::vector<std::vector<FrameData>> &frameData,
+		unsigned int hp,
+		bool direction,
+		Vector2f pos,
+		bool owner,
+		unsigned int id,
+		bool tint
+	)> shadowConstructors{
+		{"neutral", NeutralShadow::create },
+		{"matter", MatterShadow::create },
+		{"spirit", SpiritShadow::create },
+		{"void", VoidShadow::create },
+	};
+
 	std::pair<unsigned int, std::shared_ptr<IObject>> VictoriaStar::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
 		// Butterflies
@@ -100,32 +119,22 @@ namespace SpiralOfFate
 
 		if (!pdat.json.contains("shadow"))
 			return Character::_spawnSubObject(manager, id, needRegister);
-		try {
-			sf::Color tint = sf::Color::White;
-			unsigned action = pdat.json["action"];
 
-			if (action > 1)
-				throw std::out_of_range("");
-			if (pdat.json.contains("tint")) {
-				tint = sf::Color{
-					pdat.json["tint"]["r"],
-					pdat.json["tint"]["g"],
-					pdat.json["tint"]["b"]
-				};
-			}
-			return manager.registerObject<Shadow>(
-				needRegister,
-				action ? this->_subObjectsData.at(ACTION_SHADOW) : this->_shadowActions,
+		try {
+			unsigned tint = pdat.json["tint"];
+			auto obj = std::shared_ptr<Shadow>(shadowConstructors.at(pdat.json["shadow"])(
+				tint ? this->_shadowActions : this->_subObjectsData.at(ACTION_SHADOW),
 				pdat.json["hp"],
 				dir,
 				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
 				id,
-				tint,
-				pdat.json["activate"]
-			);
+				tint
+			));
+
+			return {needRegister ? manager.registerObject(obj) : 0, obj};
 		} catch (std::out_of_range &e) {
-			throw std::invalid_argument("Cannot find action id " + std::to_string(pdat.action));
+			throw std::invalid_argument("Invalid shadow type '" + pdat.json["shadow"].get<std::string>() + "'");
 		}
 	}
 

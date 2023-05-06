@@ -30,8 +30,7 @@ namespace SpiralOfFate
 
 	protected:
 		bool _startMove(unsigned int action) override;
-		std::pair<unsigned int, std::shared_ptr<IObject>>
-		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
+		std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
 		void _blockMove(Object *other, const FrameData &data) override;

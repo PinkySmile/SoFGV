@@ -14,8 +14,8 @@
 		"disable_on_hit": false,
 		"animation_data": 30,
 		"end_block": 1,
-		"shadow": "Void (6V/5V, spawn on opponent, not tinted, using victoria's sprites)",
-		"activate": 3,
+		"shadow": "void",
+		"tint": false,
 		"hp": 1000
 	},
 	{
@@ -33,9 +33,8 @@
 		"disable_on_hit": false,
 		"animation_data": 30,
 		"end_block": 1,
-		"shadow": "Matter (6M)",
-		"tint": {"r": 187, "g": 84, "b": 0},
-		"activate": 4,
+		"shadow": "matter",
+		"tint": true,
 		"hp": 1000
 	}
 ]
