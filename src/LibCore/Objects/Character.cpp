@@ -731,6 +731,8 @@ namespace SpiralOfFate
 			auto data = this->getCurrentFrameData();
 
 			this->_actionBlock++;
+			this->_animation = 0;
+			this->_animationCtr = 0;
 			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block 2");
 			Object::_onMoveEnd(*data);
 		}
