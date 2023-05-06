@@ -2437,6 +2437,7 @@ void	run()
 
 	bool dragging = false;
 	auto panel = gui.get<tgui::Panel>("Panel1");
+	auto animpanel = gui.get<tgui::Panel>("AnimPanel");
 	auto progress = panel->get<tgui::Slider>("Progress");
 	sf::View view;
 	sf::View guiView{
@@ -2474,8 +2475,27 @@ void	run()
 				quitRequest = true;
 				continue;
 			}
-			if (event.type == sf::Event::KeyPressed)
+			if (event.type == sf::Event::KeyPressed) {
+				if (
+					!event.key.control ||
+					event.key.code == sf::Keyboard::C ||
+					event.key.code == sf::Keyboard::V
+				) {
+					if (panel->get<tgui::EditBox>("Action")->isFocused())
+						goto loopEnd;
+					for (auto &widget: animpanel->getWidgets()) {
+						auto box = widget->cast<tgui::EditBox>();
+
+						if (!box)
+							continue;
+						if (box->isFocused())
+							goto loopEnd;
+					}
+				}
 				handleKeyPress(event.key, object, gui);
+				loopEnd:
+				continue;
+			}
 			if (event.type == sf::Event::Resized) {
 				guiView.setSize(event.size.width, event.size.height);
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
