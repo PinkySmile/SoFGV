@@ -21,6 +21,7 @@ namespace SpiralOfFate
 		std::vector<unsigned> _freedIndexes;
 		std::map<unsigned, sf::Texture> _textures;
 		std::map<std::string, std::pair<unsigned, unsigned>> _allocatedTextures;
+		std::map<std::string, std::string> _overrideList;
 
 		void _reload(const std::string &path, unsigned id);
 	public:
@@ -33,6 +34,8 @@ namespace SpiralOfFate
 		void setTexture(Sprite &sprite) const;
 		void render(Sprite &sprite) const;
 		void reloadEverything();
+		void addOverride(const std::string &base, const std::string &newVal);
+		void removeOverride(const std::string &base);
 
 		static Color *loadPixels(const std::string &file, Vector2u &size);
 	};

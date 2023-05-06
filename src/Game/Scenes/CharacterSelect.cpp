@@ -119,12 +119,12 @@ namespace SpiralOfFate
 			this->_quit = true;
 	}
 
-	Character *CharacterSelect::_createCharacter(int pos, int palette, std::shared_ptr<IInput> input)
+	Character *CharacterSelect::_createCharacter(int pos, int posOp, int palette, std::shared_ptr<IInput> input)
 	{
-		return createCharacter(this->_entries[pos], pos, palette, std::move(input));
+		return createCharacter(this->_entries[pos], this->_entries[posOp], pos, palette, std::move(input));
 	}
 
-	Character *CharacterSelect::createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input)
+	Character *CharacterSelect::createCharacter(const CharacterEntry &entry, const CharacterEntry &entryOp, int pos, int palette, std::shared_ptr<IInput> input)
 	{
 		Character *chr;
 		std::pair<std::vector<Color>, std::vector<Color>> palettes;
@@ -139,7 +139,8 @@ namespace SpiralOfFate
 				static_cast<unsigned>(palette << 16 | pos),
 				entry.folder,
 				palettes,
-				std::move(input)
+				std::move(input),
+				std::filesystem::path(entryOp.folder).filename().string()
 			};
 			break;
 		case 1:
@@ -467,12 +468,12 @@ namespace SpiralOfFate
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P1's character (" + this->_entries[this->_leftPos].name + L")");
 
-		auto lchr = this->_createCharacter(this->_leftPos, this->_leftPalette, this->_leftInput);
+		auto lchr = this->_createCharacter(this->_leftPos, this->_rightPos, this->_leftPalette, this->_leftInput);
 
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P2's character (" + this->_entries[this->_rightPos].name + L")");
 
-		auto rchr = this->_createCharacter(this->_rightPos, this->_rightPalette, this->_rightInput);
+		auto rchr = this->_createCharacter(this->_rightPos, this->_leftPos, this->_rightPalette, this->_rightInput);
 
 		return {
 			{static_cast<unsigned>(this->_stage), 0, static_cast<unsigned>(this->_platform)},

@@ -76,12 +76,12 @@ namespace SpiralOfFate
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P1's character (" + this->_entries[params.p1chr].name + L")");
 
-		auto lchr = this->_createCharacter(params.p1chr, params.p1pal, this->_leftInput);
+		auto lchr = this->_createCharacter(params.p1chr, params.p2chr, params.p1pal, this->_leftInput);
 
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P2's character (" + this->_entries[params.p2chr].name + L")");
 
-		auto rchr = this->_createCharacter(params.p2chr, params.p2pal, this->_rightInput);
+		auto rchr = this->_createCharacter(params.p2chr, params.p1chr, params.p2pal, this->_rightInput);
 		auto &stage = this->_stages[params.stage];
 
 		return {

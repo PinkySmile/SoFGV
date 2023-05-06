@@ -281,12 +281,12 @@ namespace SpiralOfFate
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P1's character (" + realArgs->lentry.name + L")");
 
-		auto lChr = CharacterSelect::createCharacter(realArgs->lentry, realArgs->lpos, realArgs->lpalette, realArgs->linput);
+		auto lChr = CharacterSelect::createCharacter(realArgs->lentry, realArgs->rentry, realArgs->lpos, realArgs->lpalette, realArgs->linput);
 
 		if (args->reportProgressW)
 			args->reportProgressW(L"Loading P2's character (" + realArgs->rentry.name + L")");
 
-		auto rChr = CharacterSelect::createCharacter(realArgs->rentry, realArgs->rpos, realArgs->rpalette, realArgs->rinput);
+		auto rChr = CharacterSelect::createCharacter(realArgs->rentry, realArgs->lentry, realArgs->rpos, realArgs->rpalette, realArgs->rinput);
 
 		if (args->reportProgressA)
 			args->reportProgressA("Creating scene...");

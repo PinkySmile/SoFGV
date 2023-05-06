@@ -8,13 +8,17 @@
 
 namespace SpiralOfFate
 {
-	unsigned TextureManager::load(std::string file, Vector2u *size, bool repeated)
+	unsigned TextureManager::load(std::string path, Vector2u *size, bool repeated)
 	{
-		for (auto pos = file.find('\\'); pos != std::string::npos; pos = file.find('\\'))
-			file[pos] = '/';
+		for (auto pos = path.find('\\'); pos != std::string::npos; pos = path.find('\\'))
+			path[pos] = '/';
+
+		auto oit = this->_overrideList.find(path);
+		auto file = oit == this->_overrideList.end() ? path : oit->second;
+
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
-			game->logger.verbose("Returning already loaded file " + file);
+			game->logger.verbose("Returning already loaded file " + path);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
 			return this->_allocatedTextures[file].first;
@@ -31,7 +35,7 @@ namespace SpiralOfFate
 			this->_freedIndexes.pop_back();
 		}
 
-		game->logger.debug("Loading file " + file);
+		game->logger.debug("Loading file " + file + " (" + path + ")");
 		if (!this->_textures[index].loadFromFile(file)) {
 			this->_freedIndexes.push_back(index);
 			return 0;
@@ -55,15 +59,18 @@ namespace SpiralOfFate
 		return buffer;
 	}
 
-	unsigned TextureManager::load(const std::string &file, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size)
+	unsigned TextureManager::load(const std::string &path, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size)
 	{
-		std::string allocName = file;
-		bool ok = false;
-		Vector2u realSize;
-
 		my_assert_eq(palette.first.size(), palette.second.size());
 		if (palette.first.empty())
-			return this->load(file, size);
+			return this->load(path, size);
+
+		bool ok = false;
+		Vector2u realSize;
+		std::string allocName = path;
+		auto oit = this->_overrideList.find(path);
+		auto file = oit == this->_overrideList.end() ? path : oit->second;
+
 		for (auto pos = allocName.find('\\'); pos != std::string::npos; pos = allocName.find('\\'))
 			allocName[pos] = '/';
 		allocName += ":";
@@ -76,7 +83,7 @@ namespace SpiralOfFate
 		}
 		if (this->_allocatedTextures[allocName].second != 0) {
 			this->_allocatedTextures[allocName].second++;
-			game->logger.debug("Returning already loaded paletted file " + allocName);
+			game->logger.verbose("Returning already loaded paletted file " + allocName);
 			if (size)
 				*size = this->_textures[this->_allocatedTextures[allocName].first].getSize();
 			return this->_allocatedTextures[allocName].first;
@@ -224,8 +231,11 @@ namespace SpiralOfFate
 		Vector2u realSize;
 		std::string p = path;
 		size_t pos = p.find(':');
+		auto elem = p.substr(0, pos);
 		sf::Image image;
-		Color *pixels = TextureManager::loadPixels(p.substr(0, pos), realSize);
+		auto oit = this->_overrideList.find(elem);
+		auto real = oit == this->_overrideList.end() ? elem : oit->second;
+		Color *pixels = TextureManager::loadPixels(real, realSize);
 		std::vector<Color> pal1;
 		std::vector<Color> pal2;
 
@@ -264,5 +274,19 @@ namespace SpiralOfFate
 		image.create(realSize.x, realSize.y, reinterpret_cast<const sf::Uint8 *>(pixels));
 		this->_textures[id].loadFromImage(image);
 		delete[] pixels;
+	}
+
+	void TextureManager::addOverride(const std::string &base, const std::string &newVal)
+	{
+		this->_overrideList[base] = newVal;
+	}
+
+	void TextureManager::removeOverride(const std::string &base)
+	{
+		auto it = this->_overrideList.find(base);
+
+		if (it == this->_overrideList.end())
+			return;
+		this->_overrideList.erase(it);
 	}
 }

@@ -327,7 +327,7 @@ namespace SpiralOfFate
 				this->soundHandle = game->soundMgr.load(this->soundPath);
 		}
 		if (!this->hitSoundPath.empty()){
-			if (this->hitSoundPath[0] != 'a') {
+			if (this->hitSoundPath[0] >= '0' && this->hitSoundPath[0] <= '9') {
 				this->hitSoundHandle = std::stoul(this->hitSoundPath);
 				game->soundMgr.addRef(this->hitSoundHandle);
 			} else
@@ -470,12 +470,8 @@ namespace SpiralOfFate
 			game->soundMgr.addRef(this->hitSoundHandle);
 			delete this->collisionBox;
 			this->collisionBox = nullptr;
-			if (other.collisionBox) {
-				this->collisionBox = new Box{
-					other.collisionBox->pos,
-					other.collisionBox->size
-				};
-			}
+			if (other.collisionBox)
+				this->collisionBox = new Box{*other.collisionBox};
 		} else
 			this->collisionBox = other.collisionBox;
 		return *this;
@@ -627,12 +623,20 @@ namespace SpiralOfFate
 
 	void FrameData::setSlave(bool slave)
 	{
-		if (!slave && this->_slave) {
+		if (slave == this->_slave)
+			return;
+		if (slave) {
 			game->textureMgr.remove(this->textureHandle);
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 			delete this->collisionBox;
 			this->collisionBox = nullptr;
+		} else {
+			game->textureMgr.addRef(this->textureHandle);
+			game->soundMgr.addRef(this->soundHandle);
+			game->soundMgr.addRef(this->hitSoundHandle);
+			if (this->collisionBox)
+				this->collisionBox = new Box{*this->collisionBox};
 		}
 		this->_slave = slave;
 	}

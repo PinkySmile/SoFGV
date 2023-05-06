@@ -233,7 +233,7 @@
             "y": 212
           },
           "speed": {
-            "x": 5,
+            "x": 3,
             "y": 0
           },
           "sprite": "sheet.png",
@@ -274,7 +274,7 @@
             "y": 212
           },
           "speed": {
-            "x": -5,
+            "x": -4,
             "y": 0
           },
           "sprite": "sheet.png",
@@ -403,7 +403,39 @@
           },
           "sound": "13",
           "speed": {
-            "x": -5,
+            "x": -12,
+            "y": 0
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 0,
+            "top": 106,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "duration": 5,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "speed": {
+            "x": -1,
             "y": 0
           },
           "sprite": "sheet.png",
@@ -439,7 +471,7 @@
             "y": 212
           },
           "speed": {
-            "x": -11,
+            "x": -6,
             "y": 0
           },
           "sprite": "sheet.png",
@@ -459,7 +491,7 @@
             "top": -168,
             "width": 38
           },
-          "defense_flag": 2101760,
+          "defense_flag": 4608,
           "duration": 9,
           "hurt_boxes": [
             {
@@ -473,10 +505,6 @@
           "size": {
             "x": 120,
             "y": 212
-          },
-          "speed": {
-            "x": -7,
-            "y": 0
           },
           "sprite": "sheet.png",
           "texture_bounds": {

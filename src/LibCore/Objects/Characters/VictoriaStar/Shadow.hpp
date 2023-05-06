@@ -20,6 +20,9 @@ namespace SpiralOfFate
 		};
 
 		void _onMoveEnd(const FrameData &lastData) override;
+		virtual void _die();
+
+		unsigned _activateBlock;
 
 	public:
 		Shadow(
@@ -28,7 +31,9 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
-			unsigned id
+			unsigned id,
+			const sf::Color &tint,
+			unsigned activateBlock
 		);
 
 		void getHit(IObject &other, const FrameData *data) override;

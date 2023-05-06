@@ -7,6 +7,7 @@
 #include "Objects/Characters/VictoriaStar/Shadow.hpp"
 
 #define ACTION_SCREEN_TELEPORT 368
+#define ACTION_SHADOW 0
 #define ACTION_HAPPY_BUTTERFLY 4
 #define ACTION_WEIRD_BUTTERFLY 5
 #define WEIRD_BUTTERFLIES_START_ID (1000 + NB_BUTTERFLIES)
@@ -18,14 +19,29 @@ namespace SpiralOfFate
 		unsigned int index,
 		const std::string &folder,
 		const std::pair<std::vector<Color>, std::vector<Color>> &palette,
-		std::shared_ptr<IInput> input
+		std::shared_ptr<IInput> input,
+		const std::string &opName
 	) :
 		Character(index, folder, palette, std::move(input))
 	{
+		auto spriteName = "shadow_" + opName + ".png";
+		auto opHandle = game->textureMgr.load(folder + "/" + spriteName);
+
 		game->logger.debug("VictoriaStar class created");
 		// Butterflies actions
 		my_assert(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
 		my_assert(this->_subObjectsData.find(ACTION_WEIRD_BUTTERFLY) != this->_subObjectsData.end());
+		// Shadow action
+		my_assert(this->_subObjectsData.find(ACTION_SHADOW) != this->_subObjectsData.end());
+		this->_shadowActions = this->_subObjectsData.at(ACTION_SHADOW);
+		for (auto &block : this->_shadowActions)
+			for (auto &frame : block) {
+				frame.setSlave();
+				frame.spritePath = spriteName;
+				frame.textureHandle = opHandle;
+				frame.setSlave(false);
+			}
+		game->textureMgr.remove(opHandle);
 	}
 
 	bool VictoriaStar::_startMove(unsigned int action)
@@ -85,31 +101,31 @@ namespace SpiralOfFate
 		if (!pdat.json.contains("shadow"))
 			return Character::_spawnSubObject(manager, id, needRegister);
 		try {
-			std::string shadow = pdat.json["shadow"];
+			sf::Color tint = sf::Color::White;
+			unsigned action = pdat.json["action"];
 
-			if (shadow == "matter")
-				return manager.registerObject<Shadow>(
-					needRegister,
-					this->_subObjectsData.at(pdat.action),
-					pdat.json["hp"],
-					dir,
-					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
-					this->_team,
-					id
-				);
-			if (shadow == "void")
-				return manager.registerObject<Shadow>(
-					needRegister,
-					this->_subObjectsData.at(pdat.action),
-					pdat.json["hp"],
-					dir,
-					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
-					this->_team,
-					id
-				);
-			throw std::invalid_argument("Invalid shadow type " + shadow);
+			if (action > 1)
+				throw std::out_of_range("");
+			if (pdat.json.contains("tint")) {
+				tint = sf::Color{
+					pdat.json["tint"]["r"],
+					pdat.json["tint"]["g"],
+					pdat.json["tint"]["b"]
+				};
+			}
+			return manager.registerObject<Shadow>(
+				needRegister,
+				action ? this->_subObjectsData.at(ACTION_SHADOW) : this->_shadowActions,
+				pdat.json["hp"],
+				dir,
+				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
+				this->_team,
+				id,
+				tint,
+				pdat.json["activate"]
+			);
 		} catch (std::out_of_range &e) {
-			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
+			throw std::invalid_argument("Cannot find action id " + std::to_string(pdat.action));
 		}
 	}
 

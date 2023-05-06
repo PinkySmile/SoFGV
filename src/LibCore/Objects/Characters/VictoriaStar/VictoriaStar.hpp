@@ -24,6 +24,7 @@ namespace SpiralOfFate
 
 		const Object *_target = nullptr;
 		bool _hitShadow = false;
+		std::vector<std::vector<FrameData>> _shadowActions;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 
@@ -37,7 +38,13 @@ namespace SpiralOfFate
 
 	public:
 		VictoriaStar() = default;
-		VictoriaStar(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
+		VictoriaStar(
+			unsigned index,
+			const std::string &folder,
+			const std::pair<std::vector<Color>, std::vector<Color>> &palette,
+			std::shared_ptr<IInput> input,
+			const std::string &opName
+		);
 		unsigned int getClassId() const override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;

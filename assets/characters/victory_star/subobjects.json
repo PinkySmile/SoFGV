@@ -1,7 +1,7 @@
 [
 	{
 		"index": 128,
-		"action": 0,
+		"action": 1,
 		"spawn_offset": {
 			"anchorX": "opponent",
 			"anchorY": "opponent",
@@ -14,7 +14,8 @@
 		"disable_on_hit": false,
 		"animation_data": 30,
 		"end_block": 1,
-		"shadow": "void",
+		"shadow": "Void (6V/5V, spawn on opponent, not tinted, using victoria's sprites)",
+		"activate": 3,
 		"hp": 1000
 	},
 	{
@@ -32,7 +33,9 @@
 		"disable_on_hit": false,
 		"animation_data": 30,
 		"end_block": 1,
-		"shadow": "matter",
+		"shadow": "Matter (6M)",
+		"tint": {"r": 187, "g": 84, "b": 0},
+		"activate": 4,
 		"hp": 1000
 	}
 ]

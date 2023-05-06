@@ -82,7 +82,7 @@ namespace SpiralOfFate
 		int _platform = 0;
 		bool _selectingStage = false;
 
-		Character *_createCharacter(int pos, int palette, std::shared_ptr<IInput> input);
+		Character *_createCharacter(int pos, int posOp, int palette, std::shared_ptr<IInput> input);
 		virtual void _launchGame();
 		void _selectCharacterRender() const;
 		void _selectStageRender() const;
@@ -105,7 +105,8 @@ namespace SpiralOfFate
 			~Arguments() override = default;
 		};
 
-		static Character *createCharacter(const CharacterEntry &entry, int pos, int palette, std::shared_ptr<IInput> input);
+		static Character *createCharacter(const CharacterEntry &entry, const CharacterEntry &entryOp, int pos, int palette, std::shared_ptr<IInput> input);
+
 		CharacterSelect(const Arguments &);
 		CharacterSelect(
 			std::shared_ptr<IInput> leftInput,
