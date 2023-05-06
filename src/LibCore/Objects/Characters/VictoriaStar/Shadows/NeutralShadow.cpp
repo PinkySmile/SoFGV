@@ -15,7 +15,7 @@ namespace SpiralOfFate
 		unsigned int id,
 		bool tint
 	) :
-		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0xA6, 0xA6, 0xA6} : sf::Color::White, 3)
+		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0xA6, 0xA6, 0xA6} : sf::Color::White, ANIMBLOCK_NORMAL_ACTIVATED)
 	{
 	}
 

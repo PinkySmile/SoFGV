@@ -15,14 +15,25 @@ namespace SpiralOfFate
 			ANIMBLOCK_SPAWNING,
 			ANIMBLOCK_IDLE,
 			ANIMBLOCK_DYING,
-			ANIMBLOCK_ACTIVATED,
-			ANIMBLOCK_ATTACKING,
+			ANIMBLOCK_RESURRECT,
+			ANIMBLOCK_NORMAL_ACTIVATED,
+			ANIMBLOCK_NORMAL_ATTACKING,
+			ANIMBLOCK_MATTER_ACTIVATED,
+			ANIMBLOCK_MATTER_ATTACKING,
+			ANIMBLOCK_SPIRIT_ACTIVATED,
+			ANIMBLOCK_SPIRIT_ATTACKING,
+			ANIMBLOCK_VOID_ACTIVATED,
+			ANIMBLOCK_VOID_ATTACKING,
 		};
 
 		void _onMoveEnd(const FrameData &lastData) override;
 		virtual void _die();
 
+		// Non game state
 		unsigned _activateBlock;
+
+		// Game state
+		unsigned invincibleTime;
 
 	public:
 		Shadow(
@@ -36,6 +47,8 @@ namespace SpiralOfFate
 			unsigned activateBlock
 		);
 
+		virtual void activate();
+		void setInvincible(unsigned time);
 		void getHit(IObject &other, const FrameData *data) override;
 	};
 }

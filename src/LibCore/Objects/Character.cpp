@@ -1495,6 +1495,11 @@ namespace SpiralOfFate
 			action == ACTION_FORWARD_AIR_JUMP ||
 			action == ACTION_BACKWARD_AIR_JUMP
 		);
+		// FIXME: This actually doesn't count supers at all! Should we use data->oFlag.super instead!?
+		//        It's probably better this way anyway because it restricts Ascends that would be able
+		//        to cancel skills to create some too stupid combos.
+		//        Same goes for the check for skills under though we have no skill indicator other than the action ID.
+		//        What should we consider a skill anyway?
 		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700 && this->getAttackTier(action) < 800;
 		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 600 && this->getAttackTier(action) < 700;
 		game->logger.debug("Starting action " + actionToString(action));
@@ -1515,6 +1520,14 @@ namespace SpiralOfFate
 				this->_guardBar -= loss;
 		}
 
+		// Bits magic to allow the semi cyclic cancel tree (S -> M -> V -> S -> ...) to work
+		// The 3 bit combinations are as follows:
+		//    When starting with S: S 0111 -> M 1001 -> V 1110
+		//    When starting with M: M 0101 -> V 1010 -> S 1111
+		//    When starting with V: V 0110 -> S 1011 -> M 1101
+		// This works by using bits 0-1 to store which type was used last (0 is none, 1 is M, 2 is V and 3 is S)
+		// and bits 2-3 to store how many cancels have occurred (0 to 3)
+		// The cancel function then adds some cancel priority based on these.
 		switch (action) {
 		case ACTION_6S:
 		case ACTION_8S:

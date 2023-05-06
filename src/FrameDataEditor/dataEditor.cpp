@@ -2001,17 +2001,17 @@ void	newEndFrameCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object
 
 void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr panel)
 {
-    auto &action = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+	auto &action = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 	object->_actionBlock = object->_moves.at(object->_action).size();
-    object->_animation = 0;
+	object->_animation = 0;
 	object->_moves.at(object->_action).emplace_back();
 	object->_moves.at(object->_action).back().emplace_back(action);
 	refreshRightPanel(gui, object, false);
 
 	auto block = panel->get<tgui::SpinButton>("Block");
 
-    block->setMaximum(object->_actionBlock + 1);
+	block->setMaximum(object->_actionBlock);
 	block->setValue(object->_moves.at(object->_action).size() - 1);
 }
 

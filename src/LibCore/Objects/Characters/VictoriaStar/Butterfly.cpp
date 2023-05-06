@@ -7,7 +7,7 @@
 #include "Resources/Game.hpp"
 #include "VictoriaStar.hpp"
 
-#define MAX_ALPHA 225
+#define MAX_ALPHA 175
 #define ALPHA_STEP 20
 #define MAX_CTR 10
 

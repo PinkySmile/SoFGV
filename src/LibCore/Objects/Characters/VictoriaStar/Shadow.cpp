@@ -34,6 +34,9 @@ namespace SpiralOfFate
 		if (this->_actionBlock == ANIMBLOCK_SPAWNING) {
 			this->_actionBlock = ANIMBLOCK_IDLE;
 			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Shadow " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+		} else if (this->_actionBlock == ANIMBLOCK_RESURRECT) {
+			this->_actionBlock = this->_activateBlock;
+			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Shadow " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 		} else if (this->_actionBlock != ANIMBLOCK_IDLE)
 			this->_dead = true;
 		return Object::_onMoveEnd(lastData);
@@ -64,5 +67,18 @@ namespace SpiralOfFate
 		this->_hp = 0;
 		this->_actionBlock = ANIMBLOCK_DYING;
 		my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Shadow " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+	}
+
+	void Shadow::activate()
+	{
+		if (this->_actionBlock == ANIMBLOCK_DYING) {
+			this->_animationCtr = this->getCurrentFrameData()->duration - this->_animationCtr - 1;
+			this->_animation = this->_moves.at(this->_action)[this->_actionBlock].size() - this->_animation - 1;
+			this->_actionBlock = ANIMBLOCK_RESURRECT;
+		} else {
+			this->_animationCtr = 0;
+			this->_animation = 0;
+			this->_actionBlock = this->_activateBlock;
+		}
 	}
 }

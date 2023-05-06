@@ -173,6 +173,80 @@
             "width": 128
           }
         }
+      ],
+      [
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 128,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 256,
+            "top": 128,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 128,
+            "width": 128
+          }
+        }
       ]
     ]
   },
