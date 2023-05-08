@@ -27,6 +27,7 @@ namespace SpiralOfFate
 		this->_moves[0] = frameData;
 		this->_hp = this->_baseHp = hp;
 		this->_sprite.setColor(tint);
+		this->_fakeData.setSlave();
 	}
 
 	void Shadow::_onMoveEnd(const FrameData &lastData)
@@ -80,5 +81,67 @@ namespace SpiralOfFate
 			this->_animation = 0;
 			this->_actionBlock = this->_activateBlock;
 		}
+	}
+
+	unsigned int Shadow::getBufferSize() const
+	{
+		return Object::getBufferSize() + sizeof(Data);
+	}
+
+	void Shadow::copyToBuffer(void *data) const
+	{
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+
+		Object::copyToBuffer(data);
+		game->logger.verbose("Saving Shadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		dat->_invincibleTime = this->_invincibleTime;
+	}
+
+	void Shadow::restoreFromBuffer(void *data)
+	{
+		Object::restoreFromBuffer(data);
+
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
+
+		this->_invincibleTime = dat->_invincibleTime;
+		game->logger.verbose("Restored Shadow @" + std::to_string((uintptr_t)dat));
+	}
+
+	size_t Shadow::printDifference(const char *msgStart, void *data1, void *data2) const
+	{
+		auto length = Object::printDifference(msgStart, data1, data2);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
+
+		if (dat1->_invincibleTime != dat2->_invincibleTime)
+			game->logger.fatal(std::string(msgStart) + "Shadow::_invincibleTime: " + std::to_string(dat1->_invincibleTime) + " vs " + std::to_string(dat2->_invincibleTime));
+		return length + sizeof(Data);
+	}
+
+	void Shadow::update()
+	{
+		Object::update();
+		if (this->_invincibleTime)
+			this->_invincibleTime--;
+	}
+
+	void Shadow::setInvincible(unsigned int time)
+	{
+		this->_invincibleTime = time;
+	}
+
+	const FrameData *Shadow::getCurrentFrameData() const
+	{
+		auto dat = Object::getCurrentFrameData();
+
+		if (!this->_invincibleTime)
+			return dat;
+		this->_fakeData = *dat;
+
+		return &this->_fakeData;
 	}
 }

@@ -8159,6 +8159,198 @@
     ]
   },
   {
+    "action": 300,
+    "framedata": [
+      [
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2113536,
+          "duration": 10,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2097152,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "marker": 1,
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sound": "assets/sfxs/se/suwako/051.wav",
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2097152,
+          "duration": 24,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "priority": 650,
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "action": 312,
+    "framedata": [
+      [
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2113792,
+          "duration": 10,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2097408,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "marker": 1,
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sound": "assets/sfxs/se/suwako/051.wav",
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 2097408,
+          "duration": 24,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "priority": 650,
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 424,
+            "width": 60
+          }
+        }
+      ]
+    ]
+  },
+  {
     "action": 368,
     "framedata": [
       [

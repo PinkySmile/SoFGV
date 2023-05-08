@@ -11,6 +11,12 @@ namespace SpiralOfFate
 {
 	class Shadow : public SubObject {
 	protected:
+#pragma pack(push, 1)
+		struct Data {
+			unsigned char _invincibleTime;
+		};
+#pragma pack(pop)
+
 		enum AnimationBlock {
 			ANIMBLOCK_SPAWNING,
 			ANIMBLOCK_IDLE,
@@ -31,9 +37,10 @@ namespace SpiralOfFate
 
 		// Non game state
 		unsigned _activateBlock;
+		mutable FrameData _fakeData;
 
 		// Game state
-		unsigned invincibleTime;
+		unsigned _invincibleTime = 0;
 
 	public:
 		Shadow(
@@ -47,6 +54,12 @@ namespace SpiralOfFate
 			unsigned activateBlock
 		);
 
+		void update() override;
+		const FrameData *getCurrentFrameData() const override;
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		virtual void activate();
 		void setInvincible(unsigned time);
 		void getHit(IObject &other, const FrameData *data) override;
