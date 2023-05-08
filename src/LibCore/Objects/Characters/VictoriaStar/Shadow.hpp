@@ -5,7 +5,8 @@
 #ifndef SOFGV_SHADOW_HPP
 #define SOFGV_SHADOW_HPP
 
-#include "Objects/Characters/Projectile.hpp"
+
+#include "Objects/Characters/SubObject.hpp"
 
 namespace SpiralOfFate
 {
@@ -65,5 +66,6 @@ namespace SpiralOfFate
 		void getHit(IObject &other, const FrameData *data) override;
 	};
 }
+
 
 #endif //SOFGV_SHADOW_HPP

@@ -710,12 +710,9 @@ namespace SpiralOfFate::Utils
 			lightness->setText(std::to_string(color.l));
 		};
 
-		for (auto &id : window->getWidgetNames())
-			if (id.substring(0, strlen("Button")) == "Button") {
-				auto button = window->get<tgui::Button>(id);
-
-				button->connect("Clicked", buttonCallBack, button);
-			}
+		for (auto &widget : window->getWidgets())
+			if (widget->getWidgetName().substring(0, strlen("Button")) == "Button")
+				widget->connect("Clicked", buttonCallBack, widget->cast<tgui::Button>());
 		light->connect("ValueChanged", sliderCallback);
 		edit->onReturnKeyPress.connect( [cross, hue, saturation, light, lightness, satHuePic, edit, updateTexture]{
 			std::string text = edit->getText();

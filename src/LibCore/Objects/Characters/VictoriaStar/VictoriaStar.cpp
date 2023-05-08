@@ -237,7 +237,7 @@ namespace SpiralOfFate
 	void VictoriaStar::init(BattleManager &manager, const Character::InitData &data)
 	{
 		Character::init(manager, data);
-		for (int i = 0; i < this->_happyBufferFlies.size(); i++) {
+		for (unsigned i = 0; i < this->_happyBufferFlies.size(); i++) {
 			auto result = this->_spawnSubObject(manager, 1000 + i, true);
 
 			this->_happyBufferFlies[i] = {
@@ -251,5 +251,10 @@ namespace SpiralOfFate
 				reinterpret_cast<Butterfly *>(&*result.second)
 			};
 		}
+	}
+
+	void VictoriaStar::update()
+	{
+		Character::update();
 	}
 }

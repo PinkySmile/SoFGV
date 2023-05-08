@@ -54,6 +54,7 @@ namespace SpiralOfFate
 		void init(BattleManager &manager, const InitData &data) override;
 		void resolveSubObjects(const BattleManager &manager) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+		void update() override;
 
 		friend class Butterfly;
 	};
