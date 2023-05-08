@@ -560,6 +560,7 @@ namespace SpiralOfFate
 		my_assert(!lchr->isDead());
 		my_assert(!rchr->isDead());
 
+		// Not using std::remove_if because it doesn't work with MSVC for some reasons
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i].second->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);

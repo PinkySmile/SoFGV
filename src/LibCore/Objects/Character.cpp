@@ -667,12 +667,6 @@ namespace SpiralOfFate
 				this->_guardCooldown += this->_maxGuardCooldown / 300;
 		}
 
-		for (auto &obj : this->_subobjects)
-			if (obj.second && obj.second->isDead()) {
-				obj.first = 0;
-				obj.second.reset();
-			}
-
 		this->_tickMove();
 		if (!this->_ultimateUsed) {
 			this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
@@ -3448,6 +3442,12 @@ namespace SpiralOfFate
 			}
 		this->_text2.setString(buffer);
 		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -550});
+
+		for (auto &obj : this->_subobjects)
+			if (obj.second && obj.second->isDead()) {
+				obj.first = 0;
+				obj.second.reset();
+			}
 	}
 
 	unsigned char Character::_checkHitPos(const Object *other) const
@@ -4041,7 +4041,7 @@ namespace SpiralOfFate
 		for (auto it = this->_lastInputs.begin(); it != this->_lastInputs.end(); it++, i++)
 			((LastInput *)&dat[1])[i] = *it;
 		for (i = 0; i < this->_subobjects.size(); i++) {
-			if (this->_subobjects[i].first && this->_subobjects[i].second && !this->_subobjects[i].second->isDead())
+			if (this->_subobjects[i].first && this->_subobjects[i].second)
 				dat->_subObjects[i] = this->_subobjects[i].first;
 			else
 				dat->_subObjects[i] = 0;

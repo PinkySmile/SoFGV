@@ -72,6 +72,8 @@ namespace SpiralOfFate
 
 	void Shadow::activate()
 	{
+		if (this->_actionBlock >= ANIMBLOCK_NORMAL_ACTIVATED)
+			return;
 		if (this->_actionBlock == ANIMBLOCK_DYING) {
 			this->_animationCtr = this->getCurrentFrameData()->duration - this->_animationCtr - 1;
 			this->_animation = this->_moves.at(this->_action)[this->_actionBlock].size() - this->_animation - 1;
@@ -95,6 +97,8 @@ namespace SpiralOfFate
 		Object::copyToBuffer(data);
 		game->logger.verbose("Saving Shadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_invincibleTime = this->_invincibleTime;
+		dat->_boxSize = this->_boxSize;
+		dat->_loopInfo = this->_loopInfo;
 	}
 
 	void Shadow::restoreFromBuffer(void *data)
@@ -104,6 +108,8 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_invincibleTime = dat->_invincibleTime;
+		this->_boxSize = dat->_boxSize;
+		this->_loopInfo = dat->_loopInfo;
 		game->logger.verbose("Restored Shadow @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -119,6 +125,10 @@ namespace SpiralOfFate
 
 		if (dat1->_invincibleTime != dat2->_invincibleTime)
 			game->logger.fatal(std::string(msgStart) + "Shadow::_invincibleTime: " + std::to_string(dat1->_invincibleTime) + " vs " + std::to_string(dat2->_invincibleTime));
+		if (dat1->_boxSize != dat2->_boxSize)
+			game->logger.fatal(std::string(msgStart) + "Shadow::_boxSize: " + std::to_string(dat1->_boxSize) + " vs " + std::to_string(dat2->_boxSize));
+		if (dat1->_loopInfo != dat2->_loopInfo)
+			game->logger.fatal(std::string(msgStart) + "Shadow::_loopInfo: {" + std::to_string(dat1->_loopInfo.first) + "," + std::to_string(dat1->_loopInfo.second) + "} vs {" + std::to_string(dat2->_loopInfo.first) + "," + std::to_string(dat2->_loopInfo.second) + "}");
 		return length + sizeof(Data);
 	}
 
@@ -136,12 +146,37 @@ namespace SpiralOfFate
 
 	const FrameData *Shadow::getCurrentFrameData() const
 	{
-		auto dat = Object::getCurrentFrameData();
-
-		if (!this->_invincibleTime)
-			return dat;
-		this->_fakeData = *dat;
-
+		this->_fakeData = *Object::getCurrentFrameData();
+		if (this->_invincibleTime) {
+			this->_fakeData.dFlag.invulnerable = true;
+			this->_fakeData.dFlag.grabInvulnerable = true;
+			this->_fakeData.dFlag.projectileInvul = true;
+		}
+		for (auto &box : this->_fakeData.hitBoxes) {
+			box.pos.x -= this->_boxSize / 2;
+			box.pos.y -= this->_boxSize / 2;
+			box.size.x += this->_boxSize;
+			box.size.y += this->_boxSize;
+		}
 		return &this->_fakeData;
+	}
+
+	void Shadow::_applyNewAnimFlags()
+	{
+		Object::_applyNewAnimFlags();
+
+		auto data = this->getCurrentFrameData();
+
+		if (data->specialMarker == 0)
+			return;
+		if (data->specialMarker == 1) {
+			this->_loopInfo.first = this->_animation;
+			return;
+		}
+		if (this->_loopInfo.second == 0)
+			this->_loopInfo.second = data->specialMarker;
+		if (--this->_loopInfo.second == 0)
+			return;
+		this->_animation = this->_loopInfo.first;
 	}
 }

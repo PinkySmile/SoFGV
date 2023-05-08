@@ -15,6 +15,8 @@ namespace SpiralOfFate
 #pragma pack(push, 1)
 		struct Data {
 			unsigned char _invincibleTime;
+			unsigned _boxSize;
+			std::pair<unsigned char, unsigned char> _loopInfo;
 		};
 #pragma pack(pop)
 
@@ -24,7 +26,6 @@ namespace SpiralOfFate
 			ANIMBLOCK_DYING,
 			ANIMBLOCK_RESURRECT,
 			ANIMBLOCK_NORMAL_ACTIVATED,
-			ANIMBLOCK_NORMAL_ATTACKING,
 			ANIMBLOCK_MATTER_ACTIVATED,
 			ANIMBLOCK_MATTER_ATTACKING,
 			ANIMBLOCK_SPIRIT_ACTIVATED,
@@ -42,6 +43,10 @@ namespace SpiralOfFate
 
 		// Game state
 		unsigned _invincibleTime = 0;
+		unsigned _boxSize = 0;
+		std::pair<unsigned char, unsigned char> _loopInfo = {0, 0};
+
+		void _applyNewAnimFlags() override;
 
 	public:
 		Shadow(
@@ -62,6 +67,8 @@ namespace SpiralOfFate
 		void restoreFromBuffer(void *data) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		virtual void activate();
+
+	public:
 		void setInvincible(unsigned time);
 		void getHit(IObject &other, const FrameData *data) override;
 	};

@@ -14,6 +14,8 @@
 
 namespace SpiralOfFate
 {
+	class Shadow;
+
 	class VictoriaStar : public Character {
 	private:
 #pragma pack(push, 1)
@@ -25,6 +27,7 @@ namespace SpiralOfFate
 		const Object *_target = nullptr;
 		bool _hitShadow = false;
 		std::vector<std::vector<FrameData>> _shadowActions;
+		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 
@@ -34,6 +37,8 @@ namespace SpiralOfFate
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
 		void _blockMove(Object *other, const FrameData &data) override;
+
+		void _applyMoveAttributes() override;
 
 	public:
 		VictoriaStar() = default;
@@ -54,7 +59,7 @@ namespace SpiralOfFate
 		void init(BattleManager &manager, const InitData &data) override;
 		void resolveSubObjects(const BattleManager &manager) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
-		void update() override;
+		void postUpdate() override;
 
 		friend class Butterfly;
 	};

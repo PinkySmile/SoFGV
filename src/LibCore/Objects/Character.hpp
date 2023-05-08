@@ -759,7 +759,7 @@ namespace SpiralOfFate
 		void update() override;
 		InputStruct updateInputs();
 		void consumeEvent(const sf::Event &event);
-		void postUpdate();
+		virtual void postUpdate();
 		std::shared_ptr<IInput> &getInput();
 		const std::shared_ptr<IInput> &getInput() const;
 		const std::map<unsigned, std::vector<std::vector<FrameData>>> &getFrameData();

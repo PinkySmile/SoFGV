@@ -89,10 +89,9 @@ namespace SpiralOfFate
 	void NeutralShadow::update()
 	{
 		Shadow::update();
-		if (this->_actionBlock == ANIMBLOCK_IDLE)
-			this->_idleCounter += this->_idleCounter < 120;
-		else
-			this->_idleCounter = 0;
+		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
+		if (this->_loopInfo.first)
+			this->_boxSize += 8;
 		if (this->_idleCounter < 120)
 			return;
 
@@ -120,6 +119,7 @@ namespace SpiralOfFate
 
 		color.a = 255;
 		this->_sprite.setColor(color);
+		this->_idleCounter = 0;
 		Shadow::activate();
 	}
 }

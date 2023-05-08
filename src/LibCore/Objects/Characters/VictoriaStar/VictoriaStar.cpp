@@ -99,6 +99,15 @@ namespace SpiralOfFate
 		return length + sizeof(Data);
 	}
 
+	void VictoriaStar::postUpdate()
+	{
+		Character::postUpdate();
+		// Not using std::remove_if because it doesn't work with MSVC for some reasons
+		for (unsigned i = 0; i < this->_shadows.size(); i++)
+			if (this->_shadows[i].second->isDead())
+				this->_shadows.erase(this->_shadows.begin() + i--);
+	}
+
 	static std::map<std::string, Shadow *(*)(
 		const std::vector<std::vector<FrameData>> &frameData,
 		unsigned int hp,
@@ -147,7 +156,13 @@ namespace SpiralOfFate
 				tint
 			));
 
-			return {needRegister ? manager.registerObject(obj) : 0, obj};
+			if (!needRegister)
+				return {0, obj};
+
+			auto objectId = manager.registerObject(obj);
+
+			this->_shadows.emplace_back(objectId, obj);
+			return {objectId, obj};
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Invalid shadow type '" + pdat.json["shadow"].get<std::string>() + "'");
 		}
@@ -231,6 +246,11 @@ namespace SpiralOfFate
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
 		for (auto &butterfly : this->_weirdBufferFlies)
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
+		for (auto &shadow : this->_shadows) {
+			auto obj = manager.getObjectFromId(shadow.first);
+
+			shadow.second = std::shared_ptr<Shadow>(obj, reinterpret_cast<Shadow *>(&*obj));
+		}
 		Character::resolveSubObjects(manager);
 	}
 
@@ -253,8 +273,11 @@ namespace SpiralOfFate
 		}
 	}
 
-	void VictoriaStar::update()
+	void VictoriaStar::_applyMoveAttributes()
 	{
-		Character::update();
+		Character::_applyMoveAttributes();
+		if (this->_action == ACTION_5A && this->getCurrentFrameData()->specialMarker)
+			for (auto &shadow : this->_shadows)
+				shadow.second->activate();
 	}
 }

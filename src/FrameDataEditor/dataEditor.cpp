@@ -2017,22 +2017,28 @@ void	newAnimBlockCallback(tgui::Gui &gui, std::unique_ptr<EditableObject> &objec
 
 void	newHurtBoxCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
-	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.push_back({{-10, -10}, {20, 20}});
+	auto &frame = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+	auto &arr = frame.hurtBoxes;
 
-	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
+	arr.push_back({{-10, -10}, {20, 20}});
 
-	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
-	selectBox(boxes->get<tgui::Button>("HurtBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
+	auto &box = arr.back();
+
+	refreshBoxes(boxes, frame, object);
+	selectBox(boxes->get<tgui::Button>("HurtBox" + std::to_string(arr.size() - 1)), &box);
 }
 
 void	newHitBoxCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
 {
-	object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hitBoxes.push_back({{-10, -10}, {20, 20}});
+	auto &frame = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+	auto &arr = frame.hitBoxes;
 
-	auto &box = object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.back();
+	arr.push_back({{-10, -10}, {20, 20}});
 
-	refreshBoxes(boxes, object->_moves.at(object->_action)[object->_actionBlock][object->_animation], object);
-	selectBox(boxes->get<tgui::Button>("HitBox" + std::to_string(object->_moves.at(object->_action)[object->_actionBlock][object->_animation].hurtBoxes.size() - 1)), &box);
+	auto &box = arr.back();
+
+	refreshBoxes(boxes, frame, object);
+	selectBox(boxes->get<tgui::Button>("HitBox" + std::to_string(arr.size() - 1)), &box);
 }
 
 void	removeFrameCallback(std::unique_ptr<EditableObject> &object, tgui::Panel::Ptr boxes)
