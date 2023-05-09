@@ -196,6 +196,7 @@ namespace SpiralOfFate
 		unsigned getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
+		const std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> &getObjects() const;
 		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;
 		bool isLeftFirst() const;
 	};

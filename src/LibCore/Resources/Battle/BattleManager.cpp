@@ -1056,6 +1056,11 @@ namespace SpiralOfFate
 		return this->_currentFrame;
 	}
 
+	const std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> &BattleManager::getObjects() const
+	{
+		return this->_objects;
+	}
+
 	static float getTextSize(const std::string &str, const sf::Text &txt)
 	{
 		float size = 0;

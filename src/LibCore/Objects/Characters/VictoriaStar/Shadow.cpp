@@ -141,6 +141,7 @@ namespace SpiralOfFate
 		Object::update();
 		if (this->_invincibleTime)
 			this->_invincibleTime--;
+		this->_boxSize += this->getCurrentFrameData()->manaGain;
 	}
 
 	void Shadow::setInvincible(unsigned int time)
@@ -182,5 +183,10 @@ namespace SpiralOfFate
 		if (--this->_loopInfo.second == 0)
 			return;
 		this->_animation = this->_loopInfo.first;
+	}
+
+	int Shadow::getLayer() const
+	{
+		return -100;
 	}
 }

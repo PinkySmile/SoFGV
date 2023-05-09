@@ -33,7 +33,7 @@
 		"disable_on_hit": false,
 		"animation_data": 30,
 		"end_block": 1,
-		"shadow": "neutral",
+		"shadow": "spirit",
 		"tint": true,
 		"hp": 1000
 	}

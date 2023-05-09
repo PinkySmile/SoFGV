@@ -115,43 +115,60 @@ namespace SpiralOfFate
 		game->textureMgr.render(this->_sprite);
 
 		realPos.y *= -1;
-		if (this->showBoxes) {
-			for (auto &hurtBox : this->_getModifiedHurtBoxes())
-				this->_drawBox(hurtBox, sf::Color::Green);
-			for (auto &hitBox : this->_getModifiedHitBoxes())
-				this->_drawBox(hitBox, sf::Color::Red);
+		if (!this->showBoxes)
+			return;
 
-			if (data.collisionBox) {
-				auto box = this->_applyModifiers(*data.collisionBox);
+		for (auto &hurtBox : this->_getModifiedHurtBoxes())
+			this->_drawBox(hurtBox, sf::Color::Green);
+		for (auto &hitBox : this->_getModifiedHitBoxes())
+			this->_drawBox(hitBox, sf::Color::Red);
 
-				this->_drawBox({
-					realPos + box.pos,
-					realPos + Vector2f{
-						static_cast<float>(box.pos.x),
-						static_cast<float>(box.pos.y) + box.size.y
-					},
-					realPos + box.pos + box.size,
-					realPos + Vector2f{
-						static_cast<float>(box.pos.x) + box.size.x,
-						static_cast<float>(box.pos.y)
-					}
-				}, sf::Color::Yellow);
-			}
+		if (data.collisionBox) {
+			auto box = this->_applyModifiers(*data.collisionBox);
 
 			this->_drawBox({
-				{realPos.x - 4.5f, realPos.y - 4.5f},
-				{realPos.x + 4.5f, realPos.y - 4.5f},
-				{realPos.x + 4.5f, realPos.y + 4.5f},
-				{realPos.x - 4.5f, realPos.y + 4.5f},
-			}, sf::Color::Black);
-			if (dynamic_cast<const Character *>(this) == nullptr)
-				game->screen->displayElement({
-					static_cast<int>(this->_position.x - this->_hitStop),
-					static_cast<int>(10 - this->_position.y),
-					static_cast<int>(this->_hitStop * 2),
-					10
-				}, sf::Color::Cyan);
+				realPos + box.pos,
+				realPos + Vector2f{
+					static_cast<float>(box.pos.x),
+					static_cast<float>(box.pos.y) + box.size.y
+				},
+				realPos + box.pos + box.size,
+				realPos + Vector2f{
+					static_cast<float>(box.pos.x) + box.size.x,
+					static_cast<float>(box.pos.y)
+				}
+			}, sf::Color::Yellow);
 		}
+
+		this->_drawBox({
+			{realPos.x - 4.5f, realPos.y - 4.5f},
+			{realPos.x + 4.5f, realPos.y - 4.5f},
+			{realPos.x + 4.5f, realPos.y + 4.5f},
+			{realPos.x - 4.5f, realPos.y + 4.5f},
+		}, sf::Color::Black);
+		if (dynamic_cast<const Character *>(this) == nullptr)
+			game->screen->displayElement({
+				static_cast<int>(this->_position.x - this->_hitStop),
+				static_cast<int>(10 - this->_position.y),
+				static_cast<int>(this->_hitStop * 2),
+				10
+			}, sf::Color::Cyan);
+
+		if (data.hurtBoxes.empty())
+			return;
+
+		auto opPos = this->_position;
+		sf::RectangleShape rect;
+
+		opPos.y += data.size.y / 2.f + data.offset.y;
+		opPos.y *= -1;
+		opPos -= Vector2i{1, 1};
+		rect.setFillColor(sf::Color::Black);
+		rect.setOutlineColor(sf::Color::White);
+		rect.setOutlineThickness(1);
+		rect.setSize({3, 3});
+		rect.setPosition(opPos);
+		game->screen->draw(rect);
 	}
 
 	void Object::render() const
