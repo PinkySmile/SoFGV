@@ -292,14 +292,14 @@
           "hit_opponent_hit_stop": 15,
           "hit_player_hit_stop": 15,
           "hit_speed": {
-            "x": 7,
+            "x": 13,
             "y": 0
           },
           "hit_stun": 30,
           "marker": 1,
           "neutral_limit": 20,
           "prorate": 90.0,
-          "push_block": 5,
+          "push_block": 10,
           "size": {
             "x": 256,
             "y": 256
@@ -329,13 +329,13 @@
           "hit_opponent_hit_stop": 15,
           "hit_player_hit_stop": 15,
           "hit_speed": {
-            "x": 7,
+            "x": 13,
             "y": 0
           },
           "hit_stun": 30,
           "neutral_limit": 20,
           "prorate": 90.0,
-          "push_block": 5,
+          "push_block": 10,
           "size": {
             "x": 256,
             "y": 256
@@ -350,7 +350,7 @@
         },
         {
           "duration": 8,
-          "marker": 20,
+          "marker": 10,
           "size": {
             "x": 256,
             "y": 256
@@ -365,7 +365,6 @@
         },
         {
           "duration": 8,
-          "marker": 20,
           "size": {
             "x": 256,
             "y": 256
@@ -380,7 +379,6 @@
         },
         {
           "duration": 8,
-          "marker": 20,
           "size": {
             "x": 256,
             "y": 256

@@ -224,6 +224,9 @@ namespace SpiralOfFate
 			for (auto &butterfly : this->_weirdBufferFlies)
 				butterfly.second->defensiveFormation(*this->_target);
 		}
+		if (action == ACTION_FORWARD_DASH)
+			for (auto &shadow : this->_shadows)
+				shadow.second->setInvincible(40);
 		this->_hitShadow = false;
 		Character::_forceStartMove(action);
 	}
@@ -276,7 +279,7 @@ namespace SpiralOfFate
 	void VictoriaStar::_applyMoveAttributes()
 	{
 		Character::_applyMoveAttributes();
-		if (this->_action == ACTION_5A && this->getCurrentFrameData()->specialMarker)
+		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && this->getCurrentFrameData()->specialMarker)
 			for (auto &shadow : this->_shadows)
 				shadow.second->activate();
 	}

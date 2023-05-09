@@ -67,8 +67,6 @@ namespace SpiralOfFate
 		void restoreFromBuffer(void *data) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		virtual void activate();
-
-	public:
 		void setInvincible(unsigned time);
 		void getHit(IObject &other, const FrameData *data) override;
 	};

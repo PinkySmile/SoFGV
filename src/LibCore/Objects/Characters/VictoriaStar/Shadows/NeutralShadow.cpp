@@ -88,10 +88,14 @@ namespace SpiralOfFate
 
 	void NeutralShadow::update()
 	{
+		if (this->_hitStop) {
+			this->_hitStop--;
+			return;
+		}
 		Shadow::update();
 		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
 		if (this->_loopInfo.first)
-			this->_boxSize += 8;
+			this->_boxSize += 16;
 		if (this->_idleCounter < 120)
 			return;
 

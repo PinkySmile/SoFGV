@@ -134,6 +134,10 @@ namespace SpiralOfFate
 
 	void Shadow::update()
 	{
+		if (this->_hitStop) {
+			this->_hitStop--;
+			return;
+		}
 		Object::update();
 		if (this->_invincibleTime)
 			this->_invincibleTime--;
