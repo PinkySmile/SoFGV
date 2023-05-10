@@ -11,6 +11,9 @@
 namespace SpiralOfFate
 {
 	class VoidShadow : public Shadow {
+	protected:
+		void _onMoveEnd(const FrameData &lastData) override;
+
 	public:
 		VoidShadow(
 			const std::vector<std::vector<FrameData>> &frameData,

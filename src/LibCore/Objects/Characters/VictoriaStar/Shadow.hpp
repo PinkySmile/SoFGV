@@ -16,6 +16,7 @@ namespace SpiralOfFate
 		struct Data {
 			unsigned char _invincibleTime;
 			unsigned _boxSize;
+			unsigned char _idleCounter;
 			std::pair<unsigned char, unsigned char> _loopInfo;
 		};
 #pragma pack(pop)
@@ -27,10 +28,8 @@ namespace SpiralOfFate
 			ANIMBLOCK_RESURRECT,
 			ANIMBLOCK_NORMAL_ACTIVATED,
 			ANIMBLOCK_SPIRIT_ACTIVATED,
-			ANIMBLOCK_MATTER_ACTIVATED,
-			ANIMBLOCK_MATTER_ATTACKING,
 			ANIMBLOCK_VOID_ACTIVATED,
-			ANIMBLOCK_VOID_ATTACKING,
+			ANIMBLOCK_MATTER_ACTIVATED,
 		};
 
 		void _onMoveEnd(const FrameData &lastData) override;
@@ -43,6 +42,7 @@ namespace SpiralOfFate
 		// Game state
 		unsigned _invincibleTime = 0;
 		unsigned _boxSize = 0;
+		unsigned char _idleCounter = 0;
 		std::pair<unsigned char, unsigned char> _loopInfo = {0, 0};
 
 		void _applyNewAnimFlags() override;

@@ -30,47 +30,9 @@ namespace SpiralOfFate
 		bool owner,
 		unsigned int id,
 		bool tint
-	){
+	)
+	{
 		return new SpiritShadow(frameData, hp, direction, pos, owner, id, tint);
-	}
-
-	unsigned int SpiritShadow::getBufferSize() const
-	{
-		return Shadow::getBufferSize() + sizeof(Data);
-	}
-
-	void SpiritShadow::copyToBuffer(void *data) const
-	{
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Shadow::getBufferSize());
-
-		Shadow::copyToBuffer(data);
-		game->logger.verbose("Saving SpiritShadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		dat->_idleCounter = this->_idleCounter;
-	}
-
-	void SpiritShadow::restoreFromBuffer(void *data)
-	{
-		Shadow::restoreFromBuffer(data);
-
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Shadow::getBufferSize());
-
-		this->_idleCounter = dat->_idleCounter;
-		game->logger.verbose("Restored SpiritShadow @" + std::to_string((uintptr_t)dat));
-	}
-
-	size_t SpiritShadow::printDifference(const char *msgStart, void *data1, void *data2) const
-	{
-		auto length = Shadow::printDifference(msgStart, data1, data2);
-
-		if (length == 0)
-			return 0;
-
-		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
-		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
-
-		if (dat1->_idleCounter != dat2->_idleCounter)
-			game->logger.fatal(std::string(msgStart) + "SpiritShadow::_idleCounter: " + std::to_string(dat1->_idleCounter) + " vs " + std::to_string(dat2->_idleCounter));
-		return length + sizeof(Data);
 	}
 
 	void SpiritShadow::update()
@@ -80,7 +42,6 @@ namespace SpiralOfFate
 			return;
 		}
 		Shadow::update();
-		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
 		if (this->_idleCounter < 120 || this->_actionBlock != ANIMBLOCK_IDLE)
 			return;
 

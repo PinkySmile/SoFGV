@@ -399,6 +399,14 @@
       [
         {
           "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -413,6 +421,14 @@
         },
         {
           "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -427,6 +443,14 @@
         },
         {
           "duration": 10,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -445,7 +469,7 @@
           "block_stun": 10,
           "counter_hit_speed": {
             "x": 6,
-            "y": -30
+            "y": -45
           },
           "damage": 800,
           "duration": 2,
@@ -458,11 +482,11 @@
               "width": 20
             }
           ],
-          "hit_opponent_hit_stop": 15,
+          "hit_opponent_hit_stop": 35,
           "hit_player_hit_stop": 15,
           "hit_speed": {
             "x": 4,
-            "y": -20
+            "y": -30
           },
           "hit_stun": 30,
           "mana_gain": 10,
@@ -488,7 +512,7 @@
           "block_stun": 10,
           "counter_hit_speed": {
             "x": 6,
-            "y": -30
+            "y": -45
           },
           "damage": 800,
           "duration": 2,
@@ -501,11 +525,11 @@
               "width": 20
             }
           ],
-          "hit_opponent_hit_stop": 15,
+          "hit_opponent_hit_stop": 35,
           "hit_player_hit_stop": 15,
           "hit_speed": {
             "x": 4,
-            "y": -20
+            "y": -30
           },
           "hit_stun": 30,
           "mana_gain": 10,
@@ -564,6 +588,357 @@
             "height": 128,
             "left": 896,
             "top": 384,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 5,
+          "block_player_hit_stop": 5,
+          "block_stun": 4,
+          "damage": 600,
+          "duration": 2,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 5,
+          "hit_player_hit_stop": 5,
+          "hit_speed": {
+            "x": 8,
+            "y": 0
+          },
+          "hit_stun": 10,
+          "mana_gain": 16,
+          "marker": 1,
+          "prorate": 90.0,
+          "push_block": 4,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "damage": 600,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 15,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 13,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "neutral_limit": 20,
+          "prorate": 90.0,
+          "push_block": 10,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 640,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "marker": 7,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 640,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 640,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 640,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 4,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "duration": 4,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "duration": 6,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 15,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 13,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "marker": 1,
+          "neutral_limit": 20,
+          "prorate": 90.0,
+          "push_block": 10,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 15,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 13,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "neutral_limit": 20,
+          "prorate": 90.0,
+          "push_block": 10,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "marker": 10,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "size": {
+            "x": 256,
+            "y": 256
+          },
+          "sprite": "shadow_victory_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 896,
             "width": 128
           }
         }

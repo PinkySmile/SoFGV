@@ -27,7 +27,19 @@ namespace SpiralOfFate
 		bool owner,
 		unsigned int id,
 		bool tint
-	){
+	)
+	{
 		return new VoidShadow(frameData, hp, direction, pos, owner, id, tint);
+	}
+
+	void VoidShadow::_onMoveEnd(const FrameData &lastData)
+	{
+		if (this->_actionBlock == this->_activateBlock) {
+			this->_actionBlock = ANIMBLOCK_IDLE;
+			this->_idleCounter = 0;
+			this->_boxSize = 0;
+			return Object::_onMoveEnd(lastData);
+		}
+		Shadow::_onMoveEnd(lastData);
 	}
 }
