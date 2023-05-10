@@ -173,21 +173,20 @@ namespace SpiralOfFate
 
 	void Shadow::_applyNewAnimFlags()
 	{
-		Object::_applyNewAnimFlags();
-
 		auto data = this->getCurrentFrameData();
 
 		if (data->specialMarker == 0)
-			return;
+			return Object::_applyNewAnimFlags();
 		if (data->specialMarker == 1) {
 			this->_loopInfo.first = this->_animation;
-			return;
+			return Object::_applyNewAnimFlags();
 		}
 		if (this->_loopInfo.second == 0)
 			this->_loopInfo.second = data->specialMarker;
 		if (--this->_loopInfo.second == 0)
-			return;
+			return Object::_applyNewAnimFlags();
 		this->_animation = this->_loopInfo.first;
+		Object::_applyNewAnimFlags();
 	}
 
 	int Shadow::getLayer() const

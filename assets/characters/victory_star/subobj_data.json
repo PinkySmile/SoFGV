@@ -695,15 +695,16 @@
             "left": 896,
             "top": 512,
             "width": 128
-          }
+          },
+          "void_limit": 10
         },
         {
-          "block_opponent_hit_stop": 15,
-          "block_player_hit_stop": 15,
-          "block_stun": 10,
+          "block_opponent_hit_stop": 5,
+          "block_player_hit_stop": 5,
+          "block_stun": 4,
           "damage": 600,
           "duration": 2,
-          "guard_damage": 50,
+          "guard_damage": 20,
           "hit_boxes": [
             {
               "height": 20,
@@ -712,17 +713,17 @@
               "width": 20
             }
           ],
-          "hit_opponent_hit_stop": 15,
-          "hit_player_hit_stop": 15,
+          "hit_opponent_hit_stop": 5,
+          "hit_player_hit_stop": 5,
           "hit_speed": {
-            "x": 13,
+            "x": 8,
             "y": 0
           },
-          "hit_stun": 30,
+          "hit_stun": 10,
           "mana_gain": 16,
-          "neutral_limit": 20,
+          "marker": 1,
           "prorate": 90.0,
-          "push_block": 10,
+          "push_block": 4,
           "size": {
             "x": 256,
             "y": 256
@@ -733,7 +734,8 @@
             "left": 512,
             "top": 640,
             "width": 128
-          }
+          },
+          "void_limit": 10
         },
         {
           "duration": 8,
@@ -781,7 +783,15 @@
       ],
       [
         {
-          "duration": 4,
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -795,7 +805,15 @@
           }
         },
         {
-          "duration": 4,
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -809,7 +827,15 @@
           }
         },
         {
-          "duration": 6,
+          "duration": 12,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
           "size": {
             "x": 256,
             "y": 256
@@ -823,10 +849,11 @@
           }
         },
         {
-          "block_opponent_hit_stop": 15,
-          "block_player_hit_stop": 15,
+          "block_opponent_hit_stop": 20,
+          "block_player_hit_stop": 20,
           "block_stun": 10,
-          "damage": 800,
+          "chip_damage": 150,
+          "damage": 850,
           "duration": 2,
           "guard_damage": 50,
           "hit_boxes": [
@@ -837,16 +864,17 @@
               "width": 20
             }
           ],
-          "hit_opponent_hit_stop": 15,
-          "hit_player_hit_stop": 15,
+          "hit_opponent_hit_stop": 20,
+          "hit_player_hit_stop": 20,
           "hit_speed": {
-            "x": 13,
-            "y": 0
+            "x": 0,
+            "y": 4
           },
           "hit_stun": 30,
           "mana_gain": 16,
           "marker": 1,
-          "neutral_limit": 20,
+          "matter_limit": 10,
+          "offense_flag": 8192,
           "prorate": 90.0,
           "push_block": 10,
           "size": {
@@ -862,10 +890,11 @@
           }
         },
         {
-          "block_opponent_hit_stop": 15,
-          "block_player_hit_stop": 15,
+          "block_opponent_hit_stop": 20,
+          "block_player_hit_stop": 20,
           "block_stun": 10,
-          "damage": 800,
+          "chip_damage": 150,
+          "damage": 850,
           "duration": 2,
           "guard_damage": 50,
           "hit_boxes": [
@@ -876,15 +905,15 @@
               "width": 20
             }
           ],
-          "hit_opponent_hit_stop": 15,
-          "hit_player_hit_stop": 15,
+          "hit_opponent_hit_stop": 20,
+          "hit_player_hit_stop": 20,
           "hit_speed": {
-            "x": 13,
-            "y": 0
+            "x": 0,
+            "y": 4
           },
           "hit_stun": 30,
           "mana_gain": 16,
-          "neutral_limit": 20,
+          "matter_limit": 10,
           "prorate": 90.0,
           "push_block": 10,
           "size": {
