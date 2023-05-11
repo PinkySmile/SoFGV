@@ -62,6 +62,7 @@ namespace SpiralOfFate
 		void postUpdate() override;
 
 		friend class Butterfly;
+		friend class VoidShadow;
 	};
 }
 
