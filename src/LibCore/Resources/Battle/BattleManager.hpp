@@ -34,6 +34,7 @@ namespace SpiralOfFate
 		struct HUDData {
 			BattleManager &mgr;
 			Character &base;
+			Sprite &icon;
 			bool side;
 			mutable sf::RenderTexture target;
 			unsigned comboCtr = 0;
@@ -50,7 +51,7 @@ namespace SpiralOfFate
 			bool counter = false;
 			unsigned char score = 0;
 
-			HUDData(BattleManager &mgr, Character &base, bool side);
+			HUDData(BattleManager &mgr, Character &base, Sprite &icon, bool side);
 			void renderMeterBar(sf::RenderTarget &output, Vector2i pos, float bar, sf::Color minColor, sf::Color maxColor) const;
 			void render(sf::RenderTarget &output) const;
 			void renderNoReverse(sf::RenderTarget &output) const;
@@ -107,6 +108,8 @@ namespace SpiralOfFate
 		sf::RenderTexture _rightHUD;
 		Sprite _leftIcon;
 		Sprite _rightIcon;
+		Sprite _leftHUDIcon;
+		Sprite _rightHUDIcon;
 		Sprite _oosBubble;
 		Sprite _oosBubbleMask;
 		Sprite _battleUi[BATTLEUI_NB_SPRITES];
