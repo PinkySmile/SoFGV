@@ -1308,7 +1308,7 @@ namespace SpiralOfFate
 			this->target.clear(sf::Color::Transparent);
 			this->target.draw(this->mgr._oosBubbleMask, sf::BlendNone);
 			this->target.draw(side ? this->mgr._rightIcon : this->mgr._leftIcon, sf::BlendMode{
-				sf::BlendMode::SrcColor,
+				sf::BlendMode::DstColor,
 				sf::BlendMode::Zero,
 				sf::BlendMode::Add,
 				sf::BlendMode::Zero,
