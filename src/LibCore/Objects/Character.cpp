@@ -460,15 +460,15 @@ namespace SpiralOfFate
 		)
 			return data;
 		this->_fakeFrameData = *data;
+		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
 			this->_fakeFrameData.oFlag.voidElement = this->_voidInstallTimer;
 			this->_fakeFrameData.oFlag.matterElement = this->_matterInstallTimer;
 			this->_fakeFrameData.oFlag.spiritElement = this->_spiritInstallTimer;
 		}
 		this->_fakeFrameData.dFlag.grabInvulnerable |= this->_grabInvul;
-		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
 	}
 
