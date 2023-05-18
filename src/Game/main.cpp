@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
+#include "Inputs/VirtualController.hpp"
 
 #ifdef _WIN32
 std::wstring getLastError(int err = GetLastError())
@@ -83,6 +84,8 @@ std::string getLastError(int err = errno)
 #endif
 
 using namespace SpiralOfFate;
+
+VirtualController *virtualController;
 
 std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadPlayerInputs(std::ifstream &stream)
 {
@@ -377,6 +380,7 @@ void	run()
 	checkCompilationEnv();
 	loadSettings();
 	registerScenes();
+	virtualController = new VirtualController();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	if (!game->font.loadFromFile(font))
@@ -393,6 +397,7 @@ void	run()
 
 		game->scene.update();
 		game->scene.render();
+		virtualController->render();
 		game->screen->display();
 
 		while (game->screen->pollEvent(event)) {
@@ -402,6 +407,7 @@ void	run()
 			if (event.type == sf::Event::Closed)
 				game->screen->close();
 			game->scene.consumeEvent(event);
+			virtualController->consumeEvent(event);
 		}
 		game->sceneMutex.unlock();
 	}
