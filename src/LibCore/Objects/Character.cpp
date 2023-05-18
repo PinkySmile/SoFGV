@@ -875,7 +875,11 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if (this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) {
+		if (
+			(this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) &&
+			!isHitAction(this->_action) &&
+			!isBlockingAction(this->_action)
+		) {
 			bool installed = false;
 
 			this->_voidInstallTimer = 0;
