@@ -4199,7 +4199,7 @@ namespace SpiralOfFate
 		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
 			// Neutral attack
-			isStrongest = data->dFlag.neutralBlock || !oData->oFlag.spiritElement;
+			isStrongest = (data->dFlag.neutralBlock && oData->oFlag.spiritElement) || (!data->dFlag.neutralBlock && !oData->oFlag.spiritElement);
 			isWeakest = false;
 		} else if (oData->oFlag.spiritElement) {
 			// Spirit attack
