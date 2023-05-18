@@ -46,6 +46,40 @@ namespace SpiralOfFate
 				frame.setSlave(false);
 			}
 		game->textureMgr.remove(opHandle);
+		this->_hudBack.textureHandle = game->textureMgr.load(folder + "/hud.png");
+		this->_hudFull.textureHandle = this->_hudBack.textureHandle;
+		this->_hudPart.textureHandle = this->_hudBack.textureHandle;
+		game->textureMgr.setTexture(this->_hudBack);
+		game->textureMgr.setTexture(this->_hudFull);
+		game->textureMgr.setTexture(this->_hudPart);
+
+		auto size = game->textureMgr.getTextureSize(this->_hudBack.textureHandle);
+
+		this->_hudBack.setScale(0.25, 0.25);
+		this->_hudFull.setScale(0.25, 0.25);
+		this->_hudPart.setScale(0.25, 0.25);
+		this->_hudBack.setTextureRect({
+			0, 0,
+			static_cast<int>(size.x) / 2,
+			static_cast<int>(size.y) / 2
+		});
+		this->_hudFull.setTextureRect({
+			static_cast<int>(size.x) / 2,
+			0,
+			static_cast<int>(size.x) / 2,
+			static_cast<int>(size.y) / 2
+		});
+		this->_hudPart.setTextureRect({
+			0,
+			static_cast<int>(size.y) / 2,
+			static_cast<int>(size.x) / 2,
+			static_cast<int>(size.y) / 2
+		});
+	}
+
+	VictoriaStar::~VictoriaStar()
+	{
+		game->textureMgr.addRef(this->_hudBack.textureHandle);
 	}
 
 	bool VictoriaStar::_startMove(unsigned int action)
@@ -72,6 +106,7 @@ namespace SpiralOfFate
 		Character::copyToBuffer(data);
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hitShadow = this->_hitShadow;
+		dat->_stacks = this->_stacks;
 	}
 
 	void VictoriaStar::restoreFromBuffer(void *data)
@@ -81,6 +116,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
 		this->_hitShadow = dat->_hitShadow;
+		this->_stacks = dat->_stacks;
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -96,6 +132,8 @@ namespace SpiralOfFate
 
 		if (dat1->_hitShadow != dat2->_hitShadow)
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow) + " vs " + std::to_string(dat2->_hitShadow));
+		if (dat1->_stacks != dat2->_stacks)
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_stacks: " + std::to_string(dat1->_stacks) + " vs " + std::to_string(dat2->_stacks));
 		return length + sizeof(Data);
 	}
 
@@ -104,8 +142,11 @@ namespace SpiralOfFate
 		Character::postUpdate();
 		// Not using std::remove_if because it doesn't work with MSVC for some reasons
 		for (unsigned i = 0; i < this->_shadows.size(); i++)
-			if (this->_shadows[i].second->isDead())
+			if (this->_shadows[i].second->isDead()) {
+				if (this->_stacks < MAX_STACKS * SHADOW_PER_STACK)
+				this->_stacks += this->_shadows[i].second->wasOwnerKilled();
 				this->_shadows.erase(this->_shadows.begin() + i--);
+			}
 	}
 
 	static std::map<std::string, Shadow *(*)(
@@ -176,6 +217,13 @@ namespace SpiralOfFate
 			this->_hasHit = false;
 		Character::getHit(other, data);
 		this->_hasHit = old;
+	}
+
+	bool VictoriaStar::_canStartMove(unsigned int action, const FrameData &data)
+	{
+		if ((action == ACTION_5A || action == ACTION_j5A) && this->_stacks < SHADOW_PER_STACK)
+			return false;
+		return Character::_canStartMove(action, data);
 	}
 
 	bool VictoriaStar::hits(const IObject &other) const
@@ -279,8 +327,37 @@ namespace SpiralOfFate
 	void VictoriaStar::_applyMoveAttributes()
 	{
 		Character::_applyMoveAttributes();
-		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && this->getCurrentFrameData()->specialMarker)
-			for (auto &shadow : this->_shadows)
+		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && this->getCurrentFrameData()->specialMarker) {
+			for (auto &shadow: this->_shadows)
 				shadow.second->activate();
+			this->_stacks -= SHADOW_PER_STACK;
+		}
+	}
+
+	void VictoriaStar::drawSpecialHUD(sf::RenderTarget &texture)
+	{
+		for (unsigned i = 0; i < MAX_STACKS; i++) {
+			if (this->_stacks >= (i + 1) * SHADOW_PER_STACK) {
+				this->_hudFull.setPosition(20 + 10 * i, 600);
+				texture.draw(this->_hudFull);
+				continue;
+			}
+			this->_hudBack.setPosition(20 + 10 * i, 600);
+			texture.draw(this->_hudBack);
+			if (this->_stacks <= i * SHADOW_PER_STACK)
+				continue;
+
+			auto size = game->textureMgr.getTextureSize(this->_hudPart.textureHandle);
+
+			this->_hudPart.setTextureRect({
+				0,
+				static_cast<int>(size.y) / 2,
+				static_cast<int>((size.x / 2) * (this->_stacks - i * SHADOW_PER_STACK)) / SHADOW_PER_STACK,
+				static_cast<int>(size.y)
+			});
+			this->_hudPart.setPosition(20 + 10 * i, 600);
+			texture.draw(this->_hudPart);
+		}
+		Character::drawSpecialHUD(texture);
 	}
 }

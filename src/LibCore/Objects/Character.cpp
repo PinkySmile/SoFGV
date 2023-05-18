@@ -551,10 +551,6 @@ namespace SpiralOfFate
 		else if (this->_voidInstallTimer)
 			this->_renderInstallEffect(this->_voidEffect);
 
-		if (this->showAttributes) {
-			game->screen->draw(this->_text);
-			game->screen->draw(this->_text2);
-		}
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
 				game->screen->displayElement({
@@ -3384,7 +3380,7 @@ namespace SpiralOfFate
 			this->_timeSinceIdle
 		);
 		this->_text.setString(buffer);
-		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
+		this->_text.setPosition({static_cast<float>(this->_team * 850) + 50, 50});
 
 		sprintf(
 			buffer,
@@ -3445,7 +3441,7 @@ namespace SpiralOfFate
 				strcat(buffer, "\n");
 			}
 		this->_text2.setString(buffer);
-		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -550});
+		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 200) , 50});
 
 		for (auto &obj : this->_subobjects)
 			if (obj.second && obj.second->isDead()) {
@@ -4827,5 +4823,17 @@ namespace SpiralOfFate
 	int Character::getLayer() const
 	{
 		return 0;
+	}
+
+	void Character::drawSpecialHUD(sf::RenderTarget &)
+	{
+	}
+
+	void Character::drawSpecialHUDNoReverse(sf::RenderTarget &texture)
+	{
+		if (this->showAttributes) {
+			texture.draw(this->_text);
+			texture.draw(this->_text2);
+		}
 	}
 }

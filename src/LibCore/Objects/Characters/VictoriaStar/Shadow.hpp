@@ -14,8 +14,9 @@ namespace SpiralOfFate
 	protected:
 #pragma pack(push, 1)
 		struct Data {
-			unsigned char _invincibleTime;
 			unsigned _boxSize;
+			bool _ownerKilled;
+			unsigned char _invincibleTime;
 			unsigned char _idleCounter;
 			std::pair<unsigned char, unsigned char> _loopInfo;
 		};
@@ -40,6 +41,7 @@ namespace SpiralOfFate
 		mutable FrameData _fakeData;
 
 		// Game state
+		bool _ownerKilled = false;
 		unsigned _invincibleTime = 0;
 		unsigned _boxSize = 0;
 		unsigned char _idleCounter = 0;
@@ -59,14 +61,17 @@ namespace SpiralOfFate
 			unsigned activateBlock
 		);
 
+		bool wasOwnerKilled() const;
+		void setInvincible(unsigned time);
+
+		virtual void activate();
+
 		void update() override;
 		const FrameData *getCurrentFrameData() const override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
-		virtual void activate();
-		void setInvincible(unsigned time);
 		void getHit(IObject &other, const FrameData *data) override;
 		int getLayer() const override;
 	};

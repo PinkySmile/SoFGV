@@ -1283,6 +1283,7 @@ namespace SpiralOfFate
 		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
 		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
 		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
+		this->base.drawSpecialHUD(output);
 	}
 
 	void BattleManager::HUDData::renderNoReverse(sf::RenderTarget &output) const
@@ -1345,6 +1346,7 @@ namespace SpiralOfFate
 			sprite.setPosition(pos);
 			output.draw(sprite);
 		}
+		this->base.drawSpecialHUDNoReverse(output);
 	}
 
 	void BattleManager::HUDData::update()

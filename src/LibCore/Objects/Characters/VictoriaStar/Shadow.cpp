@@ -50,8 +50,10 @@ namespace SpiralOfFate
 			&other == &*game->battleMgr->getLeftCharacter(),
 			&other == &*game->battleMgr->getRightCharacter()
 		};
+		auto byOwner = isP[this->getOwner()];
 
-		if (dmg >= this->_hp || isP[this->getOwner()])
+		this->_ownerKilled |= byOwner;
+		if (dmg >= this->_hp || byOwner)
 			this->_die();
 		else
 			this->_hp -= dmg;
@@ -74,6 +76,7 @@ namespace SpiralOfFate
 	{
 		if (this->_actionBlock >= ANIMBLOCK_NORMAL_ACTIVATED)
 			return;
+		this->_ownerKilled = false;
 		if (this->_actionBlock == ANIMBLOCK_DYING) {
 			this->_animationCtr = this->getCurrentFrameData()->duration - this->_animationCtr - 1;
 			this->_animation = this->_moves.at(this->_action)[this->_actionBlock].size() - this->_animation - 1;
@@ -192,5 +195,10 @@ namespace SpiralOfFate
 	int Shadow::getLayer() const
 	{
 		return -100;
+	}
+
+	bool Shadow::wasOwnerKilled() const
+	{
+		return this->_ownerKilled;
 	}
 }
