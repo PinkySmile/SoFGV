@@ -11,6 +11,10 @@
 
 #define NB_BUTTERFLIES 8
 #define BUTTERFLIES_START_ID 1000
+#define SHADOW_PER_STACK 3
+#define MAX_STACKS 15
+#define START_STACKS (5 * SHADOW_PER_STACK)
+#define RC_COST 3
 
 namespace SpiralOfFate
 {
@@ -21,11 +25,19 @@ namespace SpiralOfFate
 #pragma pack(push, 1)
 		struct Data {
 			bool _hitShadow;
+			unsigned _stacks;
 		};
 #pragma pack(pop)
 
-		const Object *_target = nullptr;
+		// Game state
 		bool _hitShadow = false;
+		unsigned _stacks = START_STACKS;
+
+		// Non-game state
+		const Object *_target = nullptr;
+		Sprite _hudBack;
+		Sprite _hudFull;
+		Sprite _hudPart;
 		std::vector<std::vector<FrameData>> _shadowActions;
 		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
@@ -37,8 +49,8 @@ namespace SpiralOfFate
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
 		void _blockMove(Object *other, const FrameData &data) override;
-
 		void _applyMoveAttributes() override;
+		bool _canStartMove(unsigned int action, const FrameData &data) override;
 
 	public:
 		VictoriaStar() = default;
@@ -49,6 +61,8 @@ namespace SpiralOfFate
 			std::shared_ptr<IInput> input,
 			const std::string &opName
 		);
+		~VictoriaStar() override;
+
 		unsigned int getClassId() const override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
@@ -60,8 +74,10 @@ namespace SpiralOfFate
 		void resolveSubObjects(const BattleManager &manager) override;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		void postUpdate() override;
+		void drawSpecialHUD(sf::RenderTarget &texture) override;
 
 		friend class Butterfly;
+		friend class VoidShadow;
 	};
 }
 

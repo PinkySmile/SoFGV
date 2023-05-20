@@ -29,7 +29,8 @@ namespace SpiralOfFate
 		bool owner,
 		unsigned int id,
 		bool tint
-	){
+	)
+	{
 		return new NeutralShadow(frameData, hp, direction, pos, owner, id, tint);
 	}
 
@@ -47,45 +48,6 @@ namespace SpiralOfFate
 		return &this->_fakeDat;
 	}
 
-	unsigned int NeutralShadow::getBufferSize() const
-	{
-		return Shadow::getBufferSize() + sizeof(Data);
-	}
-
-	void NeutralShadow::copyToBuffer(void *data) const
-	{
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Shadow::getBufferSize());
-
-		Shadow::copyToBuffer(data);
-		game->logger.verbose("Saving NeutralShadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		dat->_idleCounter = this->_idleCounter;
-	}
-
-	void NeutralShadow::restoreFromBuffer(void *data)
-	{
-		Shadow::restoreFromBuffer(data);
-
-		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Shadow::getBufferSize());
-
-		this->_idleCounter = dat->_idleCounter;
-		game->logger.verbose("Restored NeutralShadow @" + std::to_string((uintptr_t)dat));
-	}
-
-	size_t NeutralShadow::printDifference(const char *msgStart, void *data1, void *data2) const
-	{
-		auto length = Shadow::printDifference(msgStart, data1, data2);
-
-		if (length == 0)
-			return 0;
-
-		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
-		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
-
-		if (dat1->_idleCounter != dat2->_idleCounter)
-			game->logger.fatal(std::string(msgStart) + "NeutralShadow::_idleCounter: " + std::to_string(dat1->_idleCounter) + " vs " + std::to_string(dat2->_idleCounter));
-		return length + sizeof(Data);
-	}
-
 	void NeutralShadow::update()
 	{
 		if (this->_hitStop) {
@@ -93,7 +55,6 @@ namespace SpiralOfFate
 			return;
 		}
 		Shadow::update();
-		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
 		if (this->_idleCounter < 120)
 			return;
 

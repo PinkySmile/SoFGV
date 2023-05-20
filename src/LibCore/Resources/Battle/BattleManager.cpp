@@ -31,8 +31,8 @@ namespace SpiralOfFate
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
 		_leftCharacter(leftCharacter.character),
 		_rightCharacter(rightCharacter.character),
-		_leftHUDData{*this, *this->_leftCharacter, false},
-		_rightHUDData{*this, *this->_rightCharacter, true}
+		_leftHUDData{*this, *this->_leftCharacter, this->_leftHUDIcon, false},
+		_rightHUDData{*this, *this->_rightCharacter, this->_rightHUDIcon, true}
 	{
 		for (unsigned i = 0; i < spritesPaths.size(); i++)
 			this->_moveSprites[i] = game->textureMgr.load(spritesPaths[i]);
@@ -91,16 +91,20 @@ namespace SpiralOfFate
 		this->_roundSprites[4].loadFromFile("assets/icons/rounds/id.png");
 		for (int i = 1; i < FIRST_TO * 2; i++)
 			this->_roundSprites[4 + i].loadFromFile("assets/icons/rounds/round" + std::to_string(i) + ".png");
+		game->textureMgr.addRef(leftCharacter.icon);
+		game->textureMgr.addRef(rightCharacter.icon);
 		this->_leftIcon.textureHandle = leftCharacter.icon;
-		game->textureMgr.addRef(this->_leftIcon.textureHandle);
 		this->_rightIcon.textureHandle = rightCharacter.icon;
-		game->textureMgr.addRef(this->_rightIcon.textureHandle);
+		this->_leftHUDIcon.textureHandle = leftCharacter.icon;
+		this->_rightHUDIcon.textureHandle = rightCharacter.icon;
 		this->_oosBubble.textureHandle = game->textureMgr.load("assets/effects/oosBubble.png");
 		this->_oosBubbleMask.textureHandle = game->textureMgr.load("assets/effects/oosBubbleMask.png");
 		game->textureMgr.setTexture(this->_oosBubbleMask);
 		game->textureMgr.setTexture(this->_oosBubble);
 		game->textureMgr.setTexture(this->_leftIcon);
 		game->textureMgr.setTexture(this->_rightIcon);
+		game->textureMgr.setTexture(this->_leftHUDIcon);
+		game->textureMgr.setTexture(this->_rightHUDIcon);
 		this->_font.loadFromFile("assets/battleui/AERO_03.ttf");
 
 		auto texSize1 = game->textureMgr.getTextureSize(this->_leftIcon.textureHandle).to<float>();
@@ -108,6 +112,8 @@ namespace SpiralOfFate
 		auto texSize = game->textureMgr.getTextureSize(this->_oosBubble.textureHandle);
 		auto s1 = texSize.x / texSize1.x;
 		auto s2 = texSize.x / texSize2.x;
+		auto s3 = 65 / texSize1.x;
+		auto s4 = 65 / texSize2.x;
 
 		texSize1.x = 0;
 		texSize1.y = texSize.y - texSize1.y * s1;
@@ -118,6 +124,11 @@ namespace SpiralOfFate
 		texSize2.y = texSize.y - texSize2.y * s2;
 		this->_rightIcon.setScale({s2, s2});
 		this->_rightIcon.setPosition(texSize2);
+
+		this->_leftHUDIcon.setScale({s3, s3});
+		this->_leftHUDIcon.setPosition({0, 0});
+		this->_rightHUDIcon.setScale({s4, s4});
+		this->_rightHUDIcon.setPosition({0, 0});
 
 		for (int i = 0; i < BATTLEUI_NB_SPRITES; i++) {
 			this->_battleUi[i].textureHandle = game->textureMgr.load(battleHudSprite[i], nullptr, true);
@@ -1089,9 +1100,10 @@ namespace SpiralOfFate
 		output.draw(txt);
 	}
 
-	BattleManager::HUDData::HUDData(BattleManager &mgr, Character &base, bool side) :
+	BattleManager::HUDData::HUDData(BattleManager &mgr, Character &base, Sprite &icon, bool side) :
 		mgr(mgr),
 		base(base),
+		icon(icon),
 		side(side)
 	{
 	}
@@ -1258,10 +1270,12 @@ namespace SpiralOfFate
 
 		this->mgr._battleUi[BATTLEUI_MANA_BAR].setPosition(20, 611);
 		output.draw(this->mgr._battleUi[BATTLEUI_MANA_BAR], sf::BlendNone);
+		output.draw(this->icon);
 
 		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
 		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
 		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
+		this->base.drawSpecialHUD(output);
 	}
 
 	void BattleManager::HUDData::renderNoReverse(sf::RenderTarget &output) const
@@ -1300,7 +1314,7 @@ namespace SpiralOfFate
 			this->target.clear(sf::Color::Transparent);
 			this->target.draw(this->mgr._oosBubbleMask, sf::BlendNone);
 			this->target.draw(side ? this->mgr._rightIcon : this->mgr._leftIcon, sf::BlendMode{
-				sf::BlendMode::SrcColor,
+				sf::BlendMode::DstColor,
 				sf::BlendMode::Zero,
 				sf::BlendMode::Add,
 				sf::BlendMode::Zero,
@@ -1324,6 +1338,7 @@ namespace SpiralOfFate
 			sprite.setPosition(pos);
 			output.draw(sprite);
 		}
+		this->base.drawSpecialHUDNoReverse(output);
 	}
 
 	void BattleManager::HUDData::update()

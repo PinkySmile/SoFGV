@@ -27,7 +27,17 @@ namespace SpiralOfFate
 		bool owner,
 		unsigned int id,
 		bool tint
-	){
+	)
+	{
 		return new MatterShadow(frameData, hp, direction, pos, owner, id, tint);
+	}
+
+	void MatterShadow::getHit(IObject &other, const FrameData *data)
+	{
+		Shadow::getHit(other, data);
+		if (this->_hp == 0)
+			return;
+		this->_invincibleTime = 60;
+		this->activate();
 	}
 }

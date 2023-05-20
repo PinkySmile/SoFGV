@@ -460,15 +460,15 @@ namespace SpiralOfFate
 		)
 			return data;
 		this->_fakeFrameData = *data;
+		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
 			this->_fakeFrameData.oFlag.voidElement = this->_voidInstallTimer;
 			this->_fakeFrameData.oFlag.matterElement = this->_matterInstallTimer;
 			this->_fakeFrameData.oFlag.spiritElement = this->_spiritInstallTimer;
 		}
 		this->_fakeFrameData.dFlag.grabInvulnerable |= this->_grabInvul;
-		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
 		return &this->_fakeFrameData;
 	}
 
@@ -551,10 +551,6 @@ namespace SpiralOfFate
 		else if (this->_voidInstallTimer)
 			this->_renderInstallEffect(this->_voidEffect);
 
-		if (this->showAttributes) {
-			game->screen->draw(this->_text);
-			game->screen->draw(this->_text2);
-		}
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
 				game->screen->displayElement({
@@ -875,7 +871,11 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if (this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) {
+		if (
+			(this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) &&
+			!isHitAction(this->_action) &&
+			!isBlockingAction(this->_action)
+		) {
 			bool installed = false;
 
 			this->_voidInstallTimer = 0;
@@ -3380,7 +3380,7 @@ namespace SpiralOfFate
 			this->_timeSinceIdle
 		);
 		this->_text.setString(buffer);
-		this->_text.setPosition({static_cast<float>(this->_team * 850), -550});
+		this->_text.setPosition({static_cast<float>(this->_team * 850) + 50, 50});
 
 		sprintf(
 			buffer,
@@ -3441,7 +3441,7 @@ namespace SpiralOfFate
 				strcat(buffer, "\n");
 			}
 		this->_text2.setString(buffer);
-		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 150) , -550});
+		this->_text2.setPosition({static_cast<float>(this->_team * 500 + 200) , 50});
 
 		for (auto &obj : this->_subobjects)
 			if (obj.second && obj.second->isDead()) {
@@ -4199,7 +4199,7 @@ namespace SpiralOfFate
 		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
 			// Neutral attack
-			isStrongest = data->dFlag.neutralBlock || !oData->oFlag.spiritElement;
+			isStrongest = (data->dFlag.neutralBlock && oData->oFlag.spiritElement) || (!data->dFlag.neutralBlock && !oData->oFlag.spiritElement);
 			isWeakest = false;
 		} else if (oData->oFlag.spiritElement) {
 			// Spirit attack
@@ -4823,5 +4823,17 @@ namespace SpiralOfFate
 	int Character::getLayer() const
 	{
 		return 0;
+	}
+
+	void Character::drawSpecialHUD(sf::RenderTarget &)
+	{
+	}
+
+	void Character::drawSpecialHUDNoReverse(sf::RenderTarget &texture)
+	{
+		if (this->showAttributes) {
+			texture.draw(this->_text);
+			texture.draw(this->_text2);
+		}
 	}
 }

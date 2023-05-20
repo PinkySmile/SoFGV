@@ -11,6 +11,17 @@
 namespace SpiralOfFate
 {
 	class VoidShadow : public Shadow {
+	protected:
+#pragma pack(push, 1)
+		struct Data {
+			bool _attacking;
+		};
+#pragma pack(pop)
+
+		bool _attacking = false;
+
+		void _onMoveEnd(const FrameData &lastData) override;
+
 	public:
 		VoidShadow(
 			const std::vector<std::vector<FrameData>> &frameData,
@@ -21,6 +32,12 @@ namespace SpiralOfFate
 			unsigned id,
 			bool tint
 		);
+
+		void update() override;
+		unsigned int getBufferSize() const override;
+		void copyToBuffer(void *data) const override;
+		void restoreFromBuffer(void *data) override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 
 		static Shadow *create(
 			const std::vector<std::vector<FrameData>> &frameData,

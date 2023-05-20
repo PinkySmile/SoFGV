@@ -31,6 +31,8 @@ namespace SpiralOfFate
 			unsigned int id,
 			bool tint
 		);
+
+		void getHit(IObject &other, const FrameData *data) override;
 	};
 }
 

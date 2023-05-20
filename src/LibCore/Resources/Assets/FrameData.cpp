@@ -64,9 +64,9 @@ namespace SpiralOfFate
 			my_assert2(data["sound"].is_string(), "Invalid json");
 			this->soundPath = data["sound"];
 		}
-		if (data.contains("hitSound")) {
-			my_assert2(data["hitSound"].is_string(), "Invalid json");
-			this->hitSoundPath = data["hitSound"];
+		if (data.contains("hit_sound")) {
+			my_assert2(data["hit_sound"].is_string(), "Invalid json");
+			this->hitSoundPath = data["hit_sound"];
 		}
 
 		if (data.contains("offset")) {
@@ -515,7 +515,7 @@ namespace SpiralOfFate
 		if (!this->soundPath.empty())
 			result["sound"] = this->soundPath;
 		if (!this->hitSoundPath.empty())
-			result["hitSound"] = this->hitSoundPath;
+			result["hit_sound"] = this->hitSoundPath;
 		if (this->offset.x || this->offset.y)
 			result["offset"] = {
 				{"x", this->offset.x},

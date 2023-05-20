@@ -1,5 +1,5 @@
 //
-// Created by andgel on 21/01/23
+// Created by PinkySmile on 21/01/23
 //
 
 #ifndef SOFGV_VIRTUALCONTROLLER_HPP
@@ -8,13 +8,20 @@
 
 #include "RollbackInput.hpp"
 #include "Resources/Assets/Sprite.hpp"
+#include "Data/Vector.hpp"
 
 namespace SpiralOfFate
 {
 	class VirtualController : public RollbackInput {
 	private:
-		Sprite _stickBack;
 		Sprite _stickTop;
+		Sprite _stickBack;
+		sf::RenderTexture _canvas;
+		std::array<int, INPUT_NUMBER - 3> _indexes;
+
+		void _onPress(const Vector2f &location, int index);
+		void _onDrag(const Vector2f &location, int index);
+		void _onRelease(const Vector2f &location, int index);
 
 	public:
 		enum SceneState {

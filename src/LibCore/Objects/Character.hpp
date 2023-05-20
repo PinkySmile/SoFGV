@@ -778,6 +778,8 @@ namespace SpiralOfFate
 
 		static std::string actionToString(int action);
 
+		virtual void drawSpecialHUD(sf::RenderTarget &texture);
+		virtual void drawSpecialHUDNoReverse(sf::RenderTarget &texture);
 		virtual void init(BattleManager &manager, const InitData &data);
 		virtual void resolveSubObjects(const BattleManager &manager);
 		virtual void onMatchEnd();

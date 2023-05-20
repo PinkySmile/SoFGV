@@ -10782,7 +10782,7 @@
           },
           "damage": 500,
           "duration": 2,
-          "hitSound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.wav",
           "hit_boxes": [
             {
               "height": 40,
@@ -11021,7 +11021,7 @@
           "damage": 750,
           "defense_flag": 2113536,
           "duration": 3,
-          "hitSound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.wav",
           "hit_boxes": [
             {
               "height": 41,
@@ -11250,7 +11250,7 @@
           "damage": 750,
           "defense_flag": 2113536,
           "duration": 4,
-          "hitSound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.wav",
           "hit_boxes": [
             {
               "height": 41,
@@ -11612,7 +11612,7 @@
           },
           "defense_flag": 4,
           "guard_damage": 10000,
-          "hitSound": "assets/sfxs/se/remilia/064.wav",
+          "hit_sound": "assets/sfxs/se/remilia/064.wav",
           "hit_boxes": [
             {
               "height": 181,
@@ -11880,7 +11880,7 @@
           },
           "damage": 4800,
           "duration": 2,
-          "hitSound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.wav",
           "hit_boxes": [
             {
               "height": 254,
