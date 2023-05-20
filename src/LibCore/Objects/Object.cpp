@@ -227,10 +227,7 @@ namespace SpiralOfFate
 
 	bool Object::hits(const IObject &other) const
 	{
-		auto *oData = other.getCurrentFrameData();
-		auto *mData = this->getCurrentFrameData();
-
-		if (!mData || !oData || this->_hasHit)
+		if (this->_hasHit)
 			return false;
 
 		auto otherObj = reinterpret_cast<const Object *>(&other);
@@ -238,6 +235,11 @@ namespace SpiralOfFate
 		if (!otherObj || otherObj->_team == this->_team)
 			return false;
 
+		auto *oData = other.getCurrentFrameData();
+		auto *mData = this->getCurrentFrameData();
+
+		if (mData->hitBoxes.empty() || oData->hurtBoxes.empty())
+			return false;
 		if (oData->dFlag.invulnerable && !mData->oFlag.grab && !mData->dFlag.projectile)
 			return false;
 		if (oData->dFlag.projectileInvul && mData->dFlag.projectile)

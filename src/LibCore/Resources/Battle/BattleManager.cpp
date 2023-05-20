@@ -289,15 +289,7 @@ namespace SpiralOfFate
 
 	unsigned BattleManager::registerObject(const std::shared_ptr<IObject> &object)
 	{
-		do {
-			this->_lastObjectId++;
-			for (auto &pair : this->_objects)
-				if (pair.first == this->_lastObjectId)
-					continue;
-			if (this->_lastObjectId)
-				break;
-		} while (true);
-		this->_objects.emplace_back(this->_lastObjectId, object);
+		this->_objects.emplace_back(++this->_lastObjectId, object);
 		return this->_lastObjectId;
 	}
 
