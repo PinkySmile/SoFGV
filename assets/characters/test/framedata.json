@@ -13521,7 +13521,7 @@
             "top": -139,
             "width": 38
           },
-          "defense_flag": 27712,
+          "defense_flag": 27680,
           "hurt_boxes": [
             {
               "height": 166,
@@ -13568,7 +13568,7 @@
             "top": -139,
             "width": 38
           },
-          "defense_flag": 27712,
+          "defense_flag": 27680,
           "duration": 15,
           "hurt_boxes": [
             {
@@ -13624,7 +13624,7 @@
             "y": 16
           },
           "damage": 1400,
-          "defense_flag": 17472,
+          "defense_flag": 17440,
           "duration": 2,
           "guard_damage": 120,
           "hit_boxes": [

@@ -3609,19 +3609,19 @@ namespace SpiralOfFate
 			else
 				return this->_getHitByMove(other, data);
 		} else if (data.oFlag.matterElement) {
-			if (myData->dFlag.voidBlock)
-				game->soundMgr.play(BASICSOUND_BLOCK);
-			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
-				return this->_getHitByMove(other, data);
-		} else if (data.oFlag.voidElement) {
-			if (myData->dFlag.spiritBlock)
-				game->soundMgr.play(BASICSOUND_BLOCK);
-			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock || myData->dFlag.matterBlock)
-				return this->_getHitByMove(other, data);
-		} else if (data.oFlag.spiritElement) {
 			if (myData->dFlag.matterBlock)
 				game->soundMgr.play(BASICSOUND_BLOCK);
-			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
+			else if (myData->dFlag.voidBlock || myData->dFlag.neutralBlock || myData->dFlag.spiritBlock)
+				return this->_getHitByMove(other, data);
+		} else if (data.oFlag.voidElement) {
+			if (myData->dFlag.voidBlock)
+				game->soundMgr.play(BASICSOUND_BLOCK);
+			else if (myData->dFlag.spiritBlock || myData->dFlag.neutralBlock || myData->dFlag.matterBlock)
+				return this->_getHitByMove(other, data);
+		} else if (data.oFlag.spiritElement) {
+			if (myData->dFlag.spiritBlock)
+				game->soundMgr.play(BASICSOUND_BLOCK);
+			else if (myData->dFlag.matterBlock || myData->dFlag.neutralBlock || myData->dFlag.voidBlock)
 				return this->_getHitByMove(other, data);
 		} else
 			game->soundMgr.play(BASICSOUND_BLOCK);
