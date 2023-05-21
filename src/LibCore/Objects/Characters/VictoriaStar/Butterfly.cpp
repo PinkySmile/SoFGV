@@ -20,19 +20,8 @@ namespace SpiralOfFate
 		_copy(copy)
 	{
 		this->_moves[0] = frameData;
-		this->_fakeFrameData.setSlave();
 		this->_position = this->_owner->_position;
 		this->_position.y += 160;
-	}
-
-	const FrameData *Butterfly::getCurrentFrameData() const
-	{
-		auto angle = this->getAngle();
-		auto scale = 1.5 - std::sin(angle) * 0.5;
-
-		this->_fakeFrameData = *Object::getCurrentFrameData();
-		this->_fakeFrameData.size = this->_fakeFrameData.textureBounds.size * scale;
-		return &this->_fakeFrameData;
 	}
 
 	int Butterfly::getLayer() const
@@ -93,9 +82,9 @@ namespace SpiralOfFate
 				std::sin(angle) * 30 + 160,
 			};
 			if (random_distrib(game->battleRandom, 0, 16) != 0)
-				Object::update();
+				this->_tickMove();
 			if (random_distrib(game->battleRandom, 0, 16) == 0)
-				Object::update();
+				this->_tickMove();
 			this->_alpha = 1.f;
 			this->_position += (this->_target - this->_position) / 4;
 			this->_ctr = MAX_CTR;
@@ -111,9 +100,9 @@ namespace SpiralOfFate
 			this->_actionBlock = (M_PI_4 <= angle && angle < 3 * M_PI_4) || (5 * M_PI_4 <= angle && angle < 7 * M_PI_4);
 			this->_rotation = (3 * M_PI_4 <= angle && angle < 5 * M_PI_4) * M_PI;
 			this->_dir = std::copysign(1, -std::sin(angle));
-			Object::update();
+			this->_tickMove();
 			if (random_distrib(game->battleRandom, 0, 10 - 200 * 200 * 10) / diff == 0)
-				Object::update();
+				this->_tickMove();
 			if (distance >= 400 * 400)
 				this->_alpha = 1.f;
 			else
@@ -158,6 +147,7 @@ namespace SpiralOfFate
 			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
 		});
 		this->_direction = this->_dir == 1;
+		this->_computeFrameDataCache();
 	}
 
 	float Butterfly::getAngle() const
@@ -276,5 +266,14 @@ namespace SpiralOfFate
 			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
 		});
 		this->_defenseCtr = 15;
+	}
+
+	void Butterfly::_computeFrameDataCache()
+	{
+		auto angle = this->getAngle();
+		auto scale = 1.5 - std::sin(angle) * 0.5;
+
+		Object::_computeFrameDataCache();
+		this->_fdCache.size = this->_fdCache.textureBounds.size * scale;
 	}
 }

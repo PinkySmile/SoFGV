@@ -92,8 +92,11 @@ namespace SpiralOfFate
 			bool forceTurnAround : 1;
 			bool nextBlockOnHit : 1;
 			bool nextBlockOnBlock : 1;
+			bool hardKnockDown : 1;
 		};
 	};
+	static_assert(sizeof(DefensiveFlags) == sizeof(unsigned), "Too many defensive flags");
+	static_assert(sizeof(OffensiveFlags) == sizeof(unsigned), "Too many offensive flags");
 
 	class FrameData {
 	private:

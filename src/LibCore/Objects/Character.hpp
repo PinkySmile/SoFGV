@@ -425,6 +425,7 @@ namespace SpiralOfFate
 			bool _justGotCorner;
 			char _normalTreeFlag;
 			bool _armorUsed;
+			bool _hardKD;
 			unsigned char _specialInputs[52];
 		};
 		union SpecialInputs {
@@ -589,12 +590,12 @@ namespace SpiralOfFate
 		bool _hadUltimate = false;
 		bool _armorUsed = false;
 		bool _forceCH = false;
+		bool _hardKD = false;
 		char _normalTreeFlag = 0;
 
 		// Non Game State
 		sf::Text _text;
 		sf::Text _text2;
-		mutable FrameData _fakeFrameData;
 		Character *_opponent = nullptr;
 		std::map<unsigned, SubObjectData> _projectileData;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
@@ -679,6 +680,7 @@ namespace SpiralOfFate
 		void _checkPlatforms(Vector2f oldPos) override;
 		bool _isOnPlatform() const override;
 		InputStruct _updateInputs(bool tickBuffer = true);
+		void _computeFrameDataCache() override;
 
 		void _renderInstallEffect(Sprite &sprite) const;
 		void _renderEffect(const Vector2f &result, Sprite &sprite) const;
@@ -771,10 +773,10 @@ namespace SpiralOfFate
 		void restoreFromBuffer(void *data) override;
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
-		const FrameData *getCurrentFrameData() const override;
 		bool isHit() const;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		int getLayer() const override;
+		std::array<unsigned, 4> getLimit() const;
 
 		static std::string actionToString(int action);
 

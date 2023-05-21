@@ -44,6 +44,13 @@ namespace SpiralOfFate
 	{
 		if (this->_disabled)
 			return false;
+
+		auto otherChr = dynamic_cast<const Character *>(&other);
+
+		if (otherChr)
+			for (auto limit : otherChr->getLimit())
+				if (limit >= 100)
+					return false;
 		return Object::hits(other);
 	}
 
@@ -193,7 +200,7 @@ namespace SpiralOfFate
 		if (this->_anim == ANIMATION_BLOCK) {
 			this->_actionBlock = this->_animationData;
 			this->_animation = 0;
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 			return;
 		}
 		for (auto &move : this->_moves)

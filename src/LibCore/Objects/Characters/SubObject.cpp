@@ -3,6 +3,7 @@
 //
 
 #include "SubObject.hpp"
+#include "Objects/Character.hpp"
 
 namespace SpiralOfFate
 {
@@ -30,5 +31,16 @@ namespace SpiralOfFate
 	int SubObject::getLayer() const
 	{
 		return 50;
+	}
+
+	bool SubObject::hits(const IObject &other) const
+	{
+		auto otherChr = dynamic_cast<const Character *>(&other);
+
+		if (otherChr)
+			for (auto limit : otherChr->getLimit())
+				if (limit >= 100)
+					return false;
+		return Object::hits(other);
 	}
 }

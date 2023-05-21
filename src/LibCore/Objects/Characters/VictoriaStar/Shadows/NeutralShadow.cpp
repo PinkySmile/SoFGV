@@ -18,7 +18,6 @@ namespace SpiralOfFate
 	) :
 		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0xA6, 0xA6, 0xA6} : sf::Color::White, ANIMBLOCK_NORMAL_ACTIVATED)
 	{
-		this->_fakeDat.setSlave();
 	}
 
 	Shadow *NeutralShadow::create(
@@ -34,24 +33,11 @@ namespace SpiralOfFate
 		return new NeutralShadow(frameData, hp, direction, pos, owner, id, tint);
 	}
 
-	const FrameData *NeutralShadow::getCurrentFrameData() const
-	{
-		auto dat = Shadow::getCurrentFrameData();
-
-		if (this->_actionBlock != ANIMBLOCK_IDLE)
-			return dat;
-		this->_fakeDat = *dat;
-		for (auto &box : this->_fakeDat.hurtBoxes) {
-			box.pos -= Vector2i{20, 20};
-			box.size += Vector2i{40, 40};
-		}
-		return &this->_fakeDat;
-	}
-
 	void NeutralShadow::update()
 	{
 		if (this->_hitStop) {
 			this->_hitStop--;
+			this->_computeFrameDataCache();
 			return;
 		}
 		Shadow::update();
@@ -84,5 +70,16 @@ namespace SpiralOfFate
 		this->_sprite.setColor(color);
 		this->_idleCounter = 0;
 		Shadow::activate();
+	}
+
+	void NeutralShadow::_computeFrameDataCache()
+	{
+		Shadow::_computeFrameDataCache();
+		if (this->_actionBlock != ANIMBLOCK_IDLE)
+			return;
+		for (auto &box : this->_fdCache.hurtBoxes) {
+			box.pos -= Vector2i{20, 20};
+			box.size += Vector2i{40, 40};
+		}
 	}
 }
