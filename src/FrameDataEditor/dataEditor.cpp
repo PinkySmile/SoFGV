@@ -420,6 +420,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto forceTurnAround = panel->get<tgui::CheckBox>("fturn");
 	auto nboh = panel->get<tgui::CheckBox>("NBOH");
 	auto nbob = panel->get<tgui::CheckBox>("NBOB");
+	auto hardKD = panel->get<tgui::CheckBox>("HardKD");
 
 	auto invulnerable = panel->get<tgui::CheckBox>("Invulnerable");
 	auto invulnerableArmor = panel->get<tgui::CheckBox>("InvulnerableArmor");
@@ -1418,7 +1419,18 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [&object, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
+	hardKD->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.hardKnockDown = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	oFlags->connect("TextChanged", [&object, hardKD, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
@@ -1459,6 +1471,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		forceTurnAround->setChecked(data.oFlag.forceTurnAround);
 		nboh->setChecked(data.oFlag.nextBlockOnHit);
 		nbob->setChecked(data.oFlag.nextBlockOnBlock);
+		hardKD->setChecked(data.oFlag.hardKnockDown);
 		if (!g)
 			*c = false;
 	});

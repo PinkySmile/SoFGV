@@ -78,7 +78,8 @@ static const char *oFlags[] = {
 	"turnAround",
 	"forceTurnAround",
 	"nextBlockOnHit",
-	"nextBlockOnBlock"
+	"nextBlockOnBlock",
+	"hardKnockDown"
 };
 
 static const char *dFlags[] = {
@@ -1278,7 +1279,7 @@ namespace SpiralOfFate
 
 			auto inputs = this->_getInputs();
 
-			if (this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100)
+			if (this->_hardKD)
 				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
 
 			switch (this->_dummyGroundTech) {
@@ -1619,6 +1620,7 @@ namespace SpiralOfFate
 			this->_limit.fill(0);
 			this->_opponent->_usedMoves.clear();
 			this->_counter = false;
+			this->_hardKD = false;
 		}
 		Object::_forceStartMove(action);
 	}
@@ -3790,6 +3792,7 @@ namespace SpiralOfFate
 		this->_limit[1] += data.voidLimit * (nb + 1);
 		this->_limit[2] += data.matterLimit * (nb + 1);
 		this->_limit[3] += data.spiritLimit * (nb + 1);
+		this->_hardKD = data.oFlag.hardKnockDown;
 		if (this->_hp > damage)
 			this->_hp -= damage;
 		else
@@ -3964,6 +3967,7 @@ namespace SpiralOfFate
 		Object::copyToBuffer(data);
 		//TODO: Save _usedMoves
 		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
+		dat->_hardKD = this->_hardKD;
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
@@ -4025,6 +4029,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		Object::restoreFromBuffer(data);
+		this->_hardKD = dat->_hardKD;
 		this->_neutralEffectTimer = dat->_neutralEffectTimer;
 		this->_matterEffectTimer = dat->_matterEffectTimer;
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
@@ -4566,6 +4571,8 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		if (dat1->_hardKD != dat2->_hardKD)
+			game->logger.fatal(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat1->_hardKD) + " vs " + std::to_string(dat2->_hardKD));
 		if (dat1->_neutralEffectTimer != dat2->_neutralEffectTimer)
 			game->logger.fatal(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat1->_neutralEffectTimer) + " vs " + std::to_string(dat2->_neutralEffectTimer));
 		if (dat1->_matterEffectTimer != dat2->_matterEffectTimer)

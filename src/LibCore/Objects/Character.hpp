@@ -425,6 +425,7 @@ namespace SpiralOfFate
 			bool _justGotCorner;
 			char _normalTreeFlag;
 			bool _armorUsed;
+			bool _hardKD;
 			unsigned char _specialInputs[52];
 		};
 		union SpecialInputs {
@@ -589,6 +590,7 @@ namespace SpiralOfFate
 		bool _hadUltimate = false;
 		bool _armorUsed = false;
 		bool _forceCH = false;
+		bool _hardKD = false;
 		char _normalTreeFlag = 0;
 
 		// Non Game State
