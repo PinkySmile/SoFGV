@@ -64,7 +64,6 @@ namespace SpiralOfFate
 #pragma pack(pop)
 
 		// Non Game State
-		mutable FrameData _fakeFrameData;
 
 		// Game State
 		unsigned char _buff = 0;
@@ -80,11 +79,11 @@ namespace SpiralOfFate
 		void _allyBuffEffect(FrameData &framedata) const;
 		void _enemyBuffEffect(FrameData &framedata) const;
 		bool _canStartMove(unsigned int action, const FrameData &data) override;
+		void _computeFrameDataCache() override;
 
 	public:
 		Stickman() = default;
 		Stickman(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
-		const FrameData *getCurrentFrameData() const override;
 		unsigned int getClassId() const override;
 		void update() override;
 		unsigned int getBufferSize() const override;

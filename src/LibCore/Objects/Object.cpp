@@ -101,6 +101,11 @@ namespace SpiralOfFate
 		return maxPt1.x < maxPt2.x && maxPt1.y < maxPt2.y && minPt1.x > minPt2.x && minPt1.y > minPt2.y;
 	}
 
+	Object::Object()
+	{
+		this->_fdCache.setSlave();
+	}
+
 	void Object::_render(Vector2f spritePos, Vector2f scale) const
 	{
 		auto &data = *this->getCurrentFrameData();
@@ -196,9 +201,12 @@ namespace SpiralOfFate
 	{
 		if (this->_hitStop) {
 			this->_hitStop--;
+			this->_computeFrameDataCache();
 			return;
 		}
 		this->_tickMove();
+		this->_computeFrameDataCache();
+		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 	}
 
@@ -285,11 +293,7 @@ namespace SpiralOfFate
 
 	const FrameData *Object::getCurrentFrameData() const
 	{
-		try {
-			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-		} catch (std::out_of_range &) {
-			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
-		}
+		return &this->_fdCache;
 	}
 
 	Box Object::_applyModifiers(Box box) const
@@ -305,6 +309,10 @@ namespace SpiralOfFate
 
 	void Object::_applyNewAnimFlags()
 	{
+		if (!this->_newAnim)
+			return;
+		this->_newAnim = false;
+
 		auto data = this->getCurrentFrameData();
 
 		if (!data)
@@ -350,13 +358,13 @@ namespace SpiralOfFate
 		this->_animation = 0;
 		this->_hasHit = false;
 		this->_rotation = 0;
-		this->_applyNewAnimFlags();
+		this->_newAnim = true;
 	}
 
 	void Object::_onMoveEnd(const FrameData &)
 	{
 		this->_animation = 0;
-		this->_applyNewAnimFlags();
+		this->_newAnim = true;
 	}
 
 	bool Object::_isGrounded() const
@@ -462,7 +470,7 @@ namespace SpiralOfFate
 
 	void Object::_tickMove()
 	{
-		auto data = this->getCurrentFrameData();
+		auto data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 
 		this->_animationCtr++;
 		while (this->_animationCtr >= data->duration) {
@@ -472,7 +480,7 @@ namespace SpiralOfFate
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 		}
 	}
 
@@ -660,5 +668,14 @@ namespace SpiralOfFate
 	bool Object::getDirection() const
 	{
 		return this->_direction;
+	}
+
+	void Object::_computeFrameDataCache()
+	{
+		try {
+			this->_fdCache = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		} catch (std::out_of_range &) {
+			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+		}
 	}
 }

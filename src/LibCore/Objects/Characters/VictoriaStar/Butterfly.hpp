@@ -41,14 +41,14 @@ namespace SpiralOfFate
 		Butterfly *_copy;
 		float _alpha = 1.f;
 		bool _disabled = false;
-		mutable FrameData _fakeFrameData;
+
+		void _computeFrameDataCache() override;
 
 	public:
 		Butterfly(VictoriaStar *owner, Character *opponent, bool isLeft, Butterfly *copy, const std::vector<std::vector<FrameData>> &frameData, unsigned id);
 		int getLayer() const override;
 		void update() override;
 		float getAngle() const;
-		const FrameData *getCurrentFrameData() const override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;

@@ -18,7 +18,6 @@ namespace SpiralOfFate
 #pragma pack(pop)
 
 		// Non-game state
-		mutable FrameData _fakeDat;
 
 		// Game state
 
@@ -34,7 +33,6 @@ namespace SpiralOfFate
 		);
 
 		void update() override;
-		const FrameData *getCurrentFrameData() const override;
 		void getHit(IObject &other, const FrameData *data) override;
 		void activate() override;
 
@@ -47,6 +45,9 @@ namespace SpiralOfFate
 			unsigned int id,
 			bool tint
 		);
+
+	protected:
+		void _computeFrameDataCache() override;
 	};
 }
 

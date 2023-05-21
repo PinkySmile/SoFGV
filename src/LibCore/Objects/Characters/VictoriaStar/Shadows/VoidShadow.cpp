@@ -49,6 +49,7 @@ namespace SpiralOfFate
 	{
 		if (this->_hitStop) {
 			this->_hitStop--;
+			this->_computeFrameDataCache();
 			return;
 		}
 		Shadow::update();

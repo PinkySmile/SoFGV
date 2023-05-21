@@ -27,7 +27,6 @@ namespace SpiralOfFate
 		this->_moves[0] = frameData;
 		this->_hp = this->_baseHp = hp;
 		this->_sprite.setColor(tint);
-		this->_fakeData.setSlave();
 	}
 
 	void Shadow::_onMoveEnd(const FrameData &lastData)
@@ -143,13 +142,17 @@ namespace SpiralOfFate
 	{
 		if (this->_hitStop) {
 			this->_hitStop--;
+			this->_computeFrameDataCache();
 			return;
 		}
 		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
-		Object::update();
+		this->_tickMove();
 		if (this->_invincibleTime)
 			this->_invincibleTime--;
 		this->_boxSize += this->getCurrentFrameData()->manaGain;
+		this->_computeFrameDataCache();
+		this->_applyNewAnimFlags();
+		this->_applyMoveAttributes();
 	}
 
 	void Shadow::setInvincible(unsigned int time)
@@ -157,25 +160,11 @@ namespace SpiralOfFate
 		this->_invincibleTime = time;
 	}
 
-	const FrameData *Shadow::getCurrentFrameData() const
-	{
-		this->_fakeData = *Object::getCurrentFrameData();
-		if (this->_invincibleTime) {
-			this->_fakeData.dFlag.invulnerable = true;
-			this->_fakeData.dFlag.grabInvulnerable = true;
-			this->_fakeData.dFlag.projectileInvul = true;
-		}
-		for (auto &box : this->_fakeData.hitBoxes) {
-			box.pos.x -= this->_boxSize / 2;
-			box.pos.y -= this->_boxSize / 2;
-			box.size.x += this->_boxSize;
-			box.size.y += this->_boxSize;
-		}
-		return &this->_fakeData;
-	}
-
 	void Shadow::_applyNewAnimFlags()
 	{
+		if (!this->_newAnim)
+			return;
+
 		auto data = this->getCurrentFrameData();
 
 		if (data->specialMarker == 0)
@@ -189,6 +178,7 @@ namespace SpiralOfFate
 		if (--this->_loopInfo.second == 0)
 			return Object::_applyNewAnimFlags();
 		this->_animation = this->_loopInfo.first;
+		this->_computeFrameDataCache();
 		Object::_applyNewAnimFlags();
 	}
 
@@ -200,5 +190,21 @@ namespace SpiralOfFate
 	bool Shadow::wasOwnerKilled() const
 	{
 		return this->_ownerKilled;
+	}
+
+	void Shadow::_computeFrameDataCache()
+	{
+		Object::_computeFrameDataCache();
+		if (this->_invincibleTime) {
+			this->_fdCache.dFlag.invulnerable = true;
+			this->_fdCache.dFlag.grabInvulnerable = true;
+			this->_fdCache.dFlag.projectileInvul = true;
+		}
+		for (auto &box : this->_fdCache.hitBoxes) {
+			box.pos.x -= this->_boxSize / 2;
+			box.pos.y -= this->_boxSize / 2;
+			box.size.x += this->_boxSize;
+			box.size.y += this->_boxSize;
+		}
 	}
 }

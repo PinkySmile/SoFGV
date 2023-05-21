@@ -409,7 +409,6 @@ namespace SpiralOfFate
 		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
 		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
-		this->_fakeFrameData.setSlave();
 	}
 
 	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
@@ -420,7 +419,6 @@ namespace SpiralOfFate
 		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
 		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
-		this->_fakeFrameData.setSlave();
 		this->_text.setFont(game->font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
@@ -444,32 +442,6 @@ namespace SpiralOfFate
 		game->textureMgr.remove(this->_matterEffect.textureHandle);
 		game->textureMgr.remove(this->_spiritEffect.textureHandle);
 		game->textureMgr.remove(this->_voidEffect.textureHandle);
-	}
-
-	const FrameData *Character::getCurrentFrameData() const
-	{
-		auto data = Object::getCurrentFrameData();
-
-		if (
-			!this->_grabInvul &&
-			!this->_wrongMana &&
-			!this->_neutralEffectTimer &&
-			!this->_matterInstallTimer &&
-			!this->_spiritInstallTimer &&
-			!this->_voidInstallTimer
-		)
-			return data;
-		this->_fakeFrameData = *data;
-		this->_fakeFrameData.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fakeFrameData.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
-		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
-			this->_fakeFrameData.oFlag.voidElement = this->_voidInstallTimer;
-			this->_fakeFrameData.oFlag.matterElement = this->_matterInstallTimer;
-			this->_fakeFrameData.oFlag.spiritElement = this->_spiritInstallTimer;
-		}
-		this->_fakeFrameData.dFlag.grabInvulnerable |= this->_grabInvul;
-		return &this->_fakeFrameData;
 	}
 
 	void Character::_renderEffect(const Vector2f &result, Sprite &sprite) const
@@ -584,6 +556,7 @@ namespace SpiralOfFate
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->updateInputs();
+			this->_computeFrameDataCache();
 			return;
 		}
 		if (this->_action == ACTION_IDLE) {
@@ -595,7 +568,7 @@ namespace SpiralOfFate
 						this->_actionBlock = random_distrib(game->battleRandom, 1, this->_moves[0].size() - 1);
 						this->_animation = 0;
 						this->_animationCtr = 0;
-						this->_applyNewAnimFlags();
+						this->_newAnim = true;
 					}
 				}
 			}
@@ -732,7 +705,7 @@ namespace SpiralOfFate
 				this->_actionBlock++;
 				this->_animation = 0;
 				this->_animationCtr = 0;
-				this->_applyNewAnimFlags();
+				this->_newAnim = true;
 			} else
 				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		}
@@ -802,6 +775,8 @@ namespace SpiralOfFate
 				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 
+		this->_computeFrameDataCache();
+		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
@@ -1283,7 +1258,7 @@ namespace SpiralOfFate
 			this->_actionBlock++;
 			this->_animation = 0;
 			this->_animationCtr = 0;
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 			return;
 		}
 
@@ -1404,7 +1379,7 @@ namespace SpiralOfFate
 			this->_animationCtr = 0;
 			Object::_onMoveEnd(*data);
 			Object::hit(other, data);
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 		} else
 			Object::hit(other, data);
 	}
@@ -4392,6 +4367,9 @@ namespace SpiralOfFate
 
 	void Character::_applyNewAnimFlags()
 	{
+		if (!this->_newAnim)
+			return;
+
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyNewAnimFlags();
@@ -4563,7 +4541,7 @@ namespace SpiralOfFate
 				this->_actionBlock++;
 				this->_animation = 0;
 				this->_animationCtr = 0;
-				this->_applyNewAnimFlags();
+				this->_newAnim = true;
 				return;
 			}
 		}
@@ -4576,7 +4554,7 @@ namespace SpiralOfFate
 			this->_actionBlock++;
 			this->_animation = 0;
 			this->_animationCtr = 0;
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 			return;
 		}
 		Object::_tickMove();
@@ -4835,5 +4813,19 @@ namespace SpiralOfFate
 			texture.draw(this->_text);
 			texture.draw(this->_text2);
 		}
+	}
+
+	void Character::_computeFrameDataCache()
+	{
+		Object::_computeFrameDataCache();
+		this->_fdCache.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fdCache.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fdCache.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
+			this->_fdCache.oFlag.voidElement = this->_voidInstallTimer;
+			this->_fdCache.oFlag.matterElement = this->_matterInstallTimer;
+			this->_fdCache.oFlag.spiritElement = this->_spiritInstallTimer;
+		}
+		this->_fdCache.dFlag.grabInvulnerable |= this->_grabInvul;
 	}
 }

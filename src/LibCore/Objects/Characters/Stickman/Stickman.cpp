@@ -23,7 +23,6 @@ namespace SpiralOfFate
 	) :
 		Character(index, folder, palette, std::move(input))
 	{
-		this->_fakeFrameData.setSlave();
 		game->logger.debug("Stickman class created");
 	}
 
@@ -32,23 +31,12 @@ namespace SpiralOfFate
 		return 3;
 	}
 
-	const FrameData *Stickman::getCurrentFrameData() const
-	{
-		auto data = Character::getCurrentFrameData();
-
-		if (!this->_buffTimer)
-			return data;
-		this->_fakeFrameData = *data;
-		this->_allyBuffEffect(this->_fakeFrameData);
-		return &this->_fakeFrameData;
-	}
-
 	void Stickman::_forceStartMove(unsigned int action)
 	{
 		Character::_forceStartMove(action);
 		if (action == ACTION_5A && this->_buffTimer) {
 			this->_actionBlock = 1;
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 		}
 	}
 
@@ -241,5 +229,13 @@ namespace SpiralOfFate
 			);
 			game->screen->textSize(30);
 		}
+	}
+
+	void Stickman::_computeFrameDataCache()
+	{
+		Character::_computeFrameDataCache();
+		if (!this->_buffTimer)
+			return;
+		this->_allyBuffEffect(this->_fdCache);
 	}
 }

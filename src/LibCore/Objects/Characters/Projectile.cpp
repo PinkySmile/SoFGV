@@ -193,7 +193,7 @@ namespace SpiralOfFate
 		if (this->_anim == ANIMATION_BLOCK) {
 			this->_actionBlock = this->_animationData;
 			this->_animation = 0;
-			this->_applyNewAnimFlags();
+			this->_newAnim = true;
 			return;
 		}
 		for (auto &move : this->_moves)

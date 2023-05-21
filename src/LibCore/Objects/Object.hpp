@@ -73,6 +73,8 @@ namespace SpiralOfFate
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
 		unsigned short _baseHp = 0;
+		FrameData _fdCache;
+		bool _newAnim = false;
 
 		void _drawBox(const Rectangle &box, const sf::Color &color) const;
 		std::vector<Rectangle> _getModifiedBoxes(const FrameData &data, const std::vector<Box> &) const;
@@ -91,9 +93,10 @@ namespace SpiralOfFate
 		virtual void _tickMove();
 		virtual void _applyMoveAttributes();
 		virtual void _render(Vector2f spritePos, Vector2f scale) const;
+		virtual void _computeFrameDataCache();
 
 	public:
-		Object() = default;
+		Object();
 		~Object() override = default;
 		void render() const override;
 		void update() override;
@@ -104,7 +107,7 @@ namespace SpiralOfFate
 		void getHit(IObject &other, const FrameData *data) override;
 		void collide(IObject &other) override;
 		bool collides(const IObject &other) const override;
-		const FrameData *getCurrentFrameData() const override;
+		const FrameData *getCurrentFrameData() const final;
 		void kill() override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;

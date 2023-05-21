@@ -38,7 +38,6 @@ namespace SpiralOfFate
 
 		// Non game state
 		unsigned _activateBlock;
-		mutable FrameData _fakeData;
 
 		// Game state
 		bool _ownerKilled = false;
@@ -48,6 +47,7 @@ namespace SpiralOfFate
 		std::pair<unsigned char, unsigned char> _loopInfo = {0, 0};
 
 		void _applyNewAnimFlags() override;
+		void _computeFrameDataCache() override;
 
 	public:
 		Shadow(
@@ -67,7 +67,6 @@ namespace SpiralOfFate
 		virtual void activate();
 
 		void update() override;
-		const FrameData *getCurrentFrameData() const override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
