@@ -17,6 +17,9 @@ namespace SpiralOfFate
 
 	public:
 		SubObject(unsigned id, bool owner);
+
+		bool hits(const IObject &other) const override;
+
 		bool getOwner() const;
 		unsigned int getId() const;
 		unsigned int getClassId() const override;

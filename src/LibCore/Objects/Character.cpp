@@ -4828,4 +4828,9 @@ namespace SpiralOfFate
 		}
 		this->_fdCache.dFlag.grabInvulnerable |= this->_grabInvul;
 	}
+
+	std::array<unsigned, 4> Character::getLimit() const
+	{
+		return this->_limit;
+	}
 }

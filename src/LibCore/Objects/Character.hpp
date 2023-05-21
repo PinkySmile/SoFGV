@@ -774,6 +774,7 @@ namespace SpiralOfFate
 		bool isHit() const;
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
 		int getLayer() const override;
+		std::array<unsigned, 4> getLimit() const;
 
 		static std::string actionToString(int action);
 

@@ -44,6 +44,13 @@ namespace SpiralOfFate
 	{
 		if (this->_disabled)
 			return false;
+
+		auto otherChr = dynamic_cast<const Character *>(&other);
+
+		if (otherChr)
+			for (auto limit : otherChr->getLimit())
+				if (limit >= 100)
+					return false;
 		return Object::hits(other);
 	}
 
