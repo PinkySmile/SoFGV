@@ -1818,7 +1818,7 @@
             "width": 38
           },
           "defense_flag": 1072,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -1883,7 +1883,7 @@
             "width": 38
           },
           "defense_flag": 1120,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -1948,7 +1948,7 @@
             "width": 38
           },
           "defense_flag": 1104,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -2119,7 +2119,7 @@
             "width": 38
           },
           "defense_flag": 67616,
-          "duration": 6,
+          "duration": 4,
           "hurt_boxes": [
             {
               "height": 126,
@@ -2148,7 +2148,7 @@
             "width": 38
           },
           "defense_flag": 67632,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 126,
@@ -2213,7 +2213,7 @@
             "width": 38
           },
           "defense_flag": 67680,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 126,
@@ -2278,7 +2278,7 @@
             "width": 38
           },
           "defense_flag": 67664,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 126,
@@ -2479,7 +2479,7 @@
             "width": 38
           },
           "defense_flag": 3376,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -2544,7 +2544,7 @@
             "width": 38
           },
           "defense_flag": 3424,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -2609,7 +2609,7 @@
             "width": 38
           },
           "defense_flag": 3408,
-          "duration": 6,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -4185,7 +4185,7 @@
             "width": 38
           },
           "defense_flag": 1152,
-          "duration": 10,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 190,
@@ -4237,8 +4237,8 @@
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 106,
-            "left": 420,
-            "top": 318,
+            "left": 780,
+            "top": 212,
             "width": 60
           }
         },
@@ -4250,7 +4250,7 @@
             "width": 38
           },
           "defense_flag": 67712,
-          "duration": 10,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 156,
@@ -4315,7 +4315,7 @@
             "width": 38
           },
           "defense_flag": 3456,
-          "duration": 10,
+          "duration": 25,
           "hurt_boxes": [
             {
               "height": 156,

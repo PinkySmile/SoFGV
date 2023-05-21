@@ -9,11 +9,6 @@
 			"y": 0
 		},
 		"dir": "front",
-		"hits": 1,
-		"loop": true,
-		"disable_on_hit": false,
-		"animation_data": 30,
-		"end_block": 1,
 		"shadow": "void",
 		"tint": false,
 		"hp": 1000
@@ -28,11 +23,6 @@
 			"y": 210
 		},
 		"dir": "front",
-		"hits": 1,
-		"loop": true,
-		"disable_on_hit": false,
-		"animation_data": 30,
-		"end_block": 1,
 		"shadow": "matter",
 		"tint": true,
 		"hp": 1000
