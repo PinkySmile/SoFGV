@@ -4128,9 +4128,9 @@ namespace SpiralOfFate
 		auto chr = dynamic_cast<Character *>(other);
 
 		if (chr) {
-			chr->_voidMana   -= 50 + isStrongest * 50;
-			chr->_spiritMana -= 50 + isStrongest * 50;
-			chr->_matterMana -= 50 + isStrongest * 50;
+			chr->_voidMana   -= chr->_voidManaMax   * (10 + isStrongest * 10) / 100;
+			chr->_spiritMana -= chr->_spiritManaMax * (10 + isStrongest * 10) / 100;
+			chr->_matterMana -= chr->_matterManaMax * (10 + isStrongest * 10) / 100;
 			if (
 				chr->_voidMana < 0 ||
 				chr->_spiritMana < 0 ||
