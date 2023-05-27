@@ -7,25 +7,9 @@
 
 namespace SpiralOfFate
 {
-	RollbackMachine::RollbackData::RollbackData()
+	RollbackMachine::RollbackData::RollbackData(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old)
 	{
-		this->dataSize = game->battleMgr->getBufferSize();
-		this->data = malloc(this->dataSize);
-		game->battleMgr->copyToBuffer(this->data);
-	}
-
-	RollbackMachine::RollbackData::RollbackData(IInput &left, IInput &right, RollbackData *old) :
-		left(left, old ? &old->left : nullptr),
-		right(right, old ? &old->right : nullptr)
-	{
-		this->dataSize = game->battleMgr->getBufferSize();
-		this->data = malloc(this->dataSize);
-		game->battleMgr->copyToBuffer(this->data);
-	}
-
-	RollbackMachine::RollbackData::~RollbackData()
-	{
-		free(this->data);
+		this->regenInputs(inputs, old);
 	}
 
 	RollbackMachine::RollbackData::RollbackData(RollbackMachine::RollbackData &other) :
@@ -37,19 +21,28 @@ namespace SpiralOfFate
 		memcpy(this->data, other.data, this->dataSize);
 	}
 
-	RollbackMachine::InputData::InputData(IInput &input, const InputData *old)
+	RollbackMachine::RollbackData::~RollbackData()
 	{
-		this->keyDuration.fill(0);
-#if MAX_ROLLBACK != 0
-		if (old) {
-			this->keyDuration = old->keyDuration;
-			for (size_t i = 0; i < old->keyStates.size(); i++)
-				if (old->keyStates[i])
-					this->keyDuration[i]++;
-				else
-					this->keyDuration[i] = 0;
-		}
-#endif
+		free(this->data);
+	}
+
+	void RollbackMachine::RollbackData::regenInputs(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old)
+	{
+		this->left.regenInputs(*inputs.first, old.first);
+		this->right.regenInputs(*inputs.second, old.second);
+	}
+
+	void RollbackMachine::RollbackData::save(RollbackInput &l, RollbackInput &r)
+	{
+		this->left.save(l);
+		this->right.save(r);
+		this->dataSize = game->battleMgr->getBufferSize();
+		this->data = malloc(this->dataSize);
+		game->battleMgr->copyToBuffer(this->data);
+	}
+
+	void RollbackMachine::InputData::regenInputs(IInput &input, std::bitset<INPUT_NUMBER - 1> *old)
+	{
 		if (input.hasInputs()) {
 			input.update();
 			for (int i = 0; i < INPUT_NUMBER - 1; ++i)
@@ -57,15 +50,19 @@ namespace SpiralOfFate
 			this->predicted = false;
 		} else {
 #if MAX_ROLLBACK == 0
-			throw AssertionFailedException("input.hasInput", "");
+			(void)old;
+			throw AssertionFailedException("input.hasInput()", "");
 #else
-			if (old)
-				this->keyStates = old->keyStates;
-			else
-				this->keyStates.reset();
+			my_assert(old);
+			this->keyStates = *old;
 			this->predicted = true;
 #endif
 		}
+	}
+
+	void RollbackMachine::InputData::save(RollbackInput &input)
+	{
+		this->keyDuration = input._keyDuration;
 	}
 
 	RollbackMachine::RollbackMachine(Character *left, Character *right) :
@@ -94,9 +91,12 @@ namespace SpiralOfFate
 		}
 
 #if MAX_ROLLBACK == 0
-		this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,this->_savedData.empty() ? nullptr : &this->_savedData.back());
+		this->_savedData.emplace_back(
+			std::pair<IInput *, IInput *>{&*this->_realInputLeft, &*this->_realInputRight},
+			std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *>{&this->inputLeft->_keyStates, &this->inputRight->_keyStates}
+		);
 
-		bool result = this->_simulateFrame(this->_savedData.back());
+		bool result = this->_simulateFrame(this->_savedData.back(), false);
 
 		this->_savedData.pop_back();
 #else
@@ -104,7 +104,7 @@ namespace SpiralOfFate
 
 		if (result) {
 			this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,this->_savedData.empty() ? nullptr : &this->_savedData.back());
-			result = this->_simulateFrame(this->_savedData.back());
+			result = this->_simulateFrame(this->_savedData.back(), true);
 		}
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted)
 			this->_savedData.pop_front();
@@ -163,7 +163,7 @@ namespace SpiralOfFate
 	{
 		auto it = this->_savedData.begin();
 		auto result = 0;
-		bool different;
+		bool different = false;
 		RollbackData *old = nullptr;
 
 		while (true) {
@@ -174,29 +174,23 @@ namespace SpiralOfFate
 				goto endLoop;
 
 			// Here, at least one input is predicted, let's see if we were wrong
-			different = false;
-
 			if (input.left.predicted) {
-				InputData data{*this->_realInputLeft, nullptr};
-
-				if (data.predicted)
+				if (!this->_realInputLeft->hasInputs())
 					return true;
-				input.left.predicted = false;
-				if (data.keyStates != input.left.keyStates) {
-					input.left.keyStates = data.keyStates;
-					different = true;
-				}
+
+				auto o = input.left.keyStates;
+
+				input.left.regenInputs(*this->_realInputLeft, nullptr);
+				different = o != input.left.keyStates;
 			}
 			if (input.right.predicted) {
-				InputData data{*this->_realInputRight, nullptr};
-
-				if (data.predicted)
+				if (!this->_realInputRight->hasInputs())
 					return true;
-				input.right.predicted = false;
-				if (data.keyStates != input.right.keyStates) {
-					input.right.keyStates = data.keyStates;
-					different = true;
-				}
+
+				auto o = input.left.keyStates;
+
+				input.right.regenInputs(*this->_realInputRight, nullptr);
+				different |= o != input.right.keyStates;
 			}
 			if (different)
 				break;
@@ -211,27 +205,22 @@ namespace SpiralOfFate
 		if (it == this->_savedData.end())
 			return true;
 
+		bool save = false;
+
 		game->battleMgr->restoreFromBuffer(it->data);
+		this->inputLeft->_keyDuration = it->left.keyDuration;
+		this->inputRight->_keyDuration = it->right.keyDuration;
 		while (it != this->_savedData.end()) {
-			if (it->left.predicted) {
-				//TODO: Need old actually
-				InputData data{*this->_realInputLeft, old ? &old->left : nullptr};
-
-				it->left.predicted = data.predicted;
-				it->left.keyStates = data.keyStates;
-			}
-			if (it->right.predicted) {
-				//TODO: Need old actually
-				InputData data{*this->_realInputRight, old ? &old->right : nullptr};
-
-				it->right.predicted = data.predicted;
-				it->right.keyStates = data.keyStates;
-			}
+			if (it->left.predicted)
+				it->left.regenInputs(*this->_realInputLeft, old ? &old->left.keyStates : nullptr);
+			if (it->right.predicted)
+				it->right.regenInputs(*this->_realInputRight, old ? &old->right.keyStates : nullptr);
 			result++;
-			if (!this->_simulateFrame(*it)) {
+			if (!this->_simulateFrame(*it, save)) {
 				game->logger.debug("Rolled back " + std::to_string(result) + " frames (hit the end prematurely)");
 				return false;
 			}
+			save = true;
 			old = &*it;
 			it++;
 		}
@@ -280,27 +269,12 @@ namespace SpiralOfFate
 		return MAX_ROLLBACK;
 	}
 
-	bool RollbackMachine::_simulateFrame(const RollbackData &data)
+	bool RollbackMachine::_simulateFrame(RollbackData &data, bool saveState)
 	{
-#if MAX_ROLLBACK == 0
-		for (size_t i = 0; i < this->inputLeft->_keyStates.size(); i++)
-			if (this->inputLeft->_keyStates[i])
-				this->inputLeft->_keyDuration[i]++;
-			else
-				this->inputLeft->_keyDuration[i] = 0;
-		for (size_t i = 0; i < this->inputRight->_keyStates.size(); i++)
-			if (this->inputRight->_keyStates[i])
-				this->inputRight->_keyDuration[i]++;
-			else
-				this->inputRight->_keyDuration[i] = 0;
+		if (saveState)
+			data.save(*this->inputLeft, *this->inputRight);
 		this->inputLeft->_keyStates = data.left.keyStates;
 		this->inputRight->_keyStates = data.right.keyStates;
-#else
-		this->inputLeft->_keyStates = data.left.keyStates;
-		this->inputLeft->_keyDuration = data.left.keyDuration;
-		this->inputRight->_keyStates = data.right.keyStates;
-		this->inputRight->_keyDuration = data.right.keyDuration;
-#endif
 		return game->battleMgr->update();
 	}
 }

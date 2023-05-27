@@ -34,9 +34,14 @@ namespace SpiralOfFate
 	{
 	}
 
+	bool step = false;
+
 	void NetworkInGame::update()
 	{
 		this->_input->refreshInputs();
+		//if (!step)
+		//	return;
+		step = false;
 
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();
 		auto rinput = game->battleMgr->getRightCharacter()->getInput();
@@ -104,6 +109,8 @@ namespace SpiralOfFate
 		InGame::consumeEvent(event);
 #ifdef _DEBUG
 		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::F11)
+				step = true;
 			if (event.key.code == sf::Keyboard::F2)
 				this->_leftChr->showAttributes = this->_rightChr->showAttributes = !this->_rightChr->showAttributes;
 			if (event.key.code == sf::Keyboard::F3)
