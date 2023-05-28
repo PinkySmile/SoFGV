@@ -542,13 +542,14 @@ namespace SpiralOfFate
 
 	unsigned int Object::getBufferSize() const
 	{
-		return sizeof(Data);
+		return sizeof(Data) + this->_fdCache.getBufferSize();
 	}
 
 	void Object::copyToBuffer(void *data) const
 	{
-		auto dat = reinterpret_cast<Data *>(data);
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
 
+		this->_fdCache.copyToBuffer(data);
 		game->logger.verbose("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_position = this->_position;
 		dat->_speed = this->_speed;
@@ -566,11 +567,14 @@ namespace SpiralOfFate
 		dat->_direction = this->_direction;
 		dat->_cornerPriority = this->_cornerPriority;
 		dat->_dir = this->_dir;
+		dat->_newAnim = this->_newAnim;
 	}
 
 	void Object::restoreFromBuffer(void *data)
 	{
-		auto dat = reinterpret_cast<Data *>(data);
+		this->_fdCache.restoreFromBuffer(data);
+
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
 
 		this->_position = dat->_position;
 		this->_speed = dat->_speed;
@@ -588,6 +592,7 @@ namespace SpiralOfFate
 		this->_direction = dat->_direction;
 		this->_cornerPriority = dat->_cornerPriority;
 		this->_dir = dat->_dir;
+		this->_newAnim = dat->_newAnim;
 		game->logger.verbose("Restored Object @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -617,8 +622,13 @@ namespace SpiralOfFate
 
 	size_t Object::printDifference(const char *msgStart, void *data1, void *data2) const
 	{
-		auto dat1 = reinterpret_cast<Data *>(data1);
-		auto dat2 = reinterpret_cast<Data *>(data2);
+		auto length = FrameData::printDifference(msgStart, data1, data2);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
+		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
 		if (dat1->_position != dat2->_position)
 			game->logger.fatal(std::string(msgStart) + "Object::_position: (" + std::to_string(dat1->_position.x) + ", " + std::to_string(dat1->_position.y) + ") vs (" + std::to_string(dat2->_position.x) + ", " + std::to_string(dat2->_position.y) + ")");
@@ -652,7 +662,9 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Object::_cornerPriority: " + std::to_string(dat1->_cornerPriority) + " vs " + std::to_string(dat2->_cornerPriority));
 		if (dat1->_dir != dat2->_dir)
 			game->logger.fatal(std::string(msgStart) + "Object::_dir: " + std::to_string(dat1->_dir) + " vs " + std::to_string(dat2->_dir));
-		return sizeof(Data);
+		if (dat1->_newAnim != dat2->_newAnim)
+			game->logger.fatal(std::string(msgStart) + "Object::_newAnim: " + std::to_string(dat1->_newAnim) + " vs " + std::to_string(dat2->_newAnim));
+		return sizeof(Data) + length;
 	}
 
 	unsigned Object::getTeam() const

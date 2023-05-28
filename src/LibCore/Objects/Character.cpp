@@ -4026,9 +4026,10 @@ namespace SpiralOfFate
 
 	void Character::restoreFromBuffer(void *data)
 	{
+		Object::restoreFromBuffer(data);
+
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
-		Object::restoreFromBuffer(data);
 		this->_hardKD = dat->_hardKD;
 		this->_neutralEffectTimer = dat->_neutralEffectTimer;
 		this->_matterEffectTimer = dat->_matterEffectTimer;
@@ -4682,14 +4683,13 @@ namespace SpiralOfFate
 		if (dat1->_limit[3] != dat2->_limit[3])
 			game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
 
-		if (dat1->_nbLastInputs != dat2->_nbLastInputs) {
-			game->logger.fatal(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat1->_nbLastInputs) + " vs " + std::to_string(dat2->_nbLastInputs));
-			return 0;
-		}
-		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs) {
+		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs)
 			game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat1->_nbReplayInputs) + " vs " + std::to_string(dat2->_nbReplayInputs));
+		if (dat1->_nbLastInputs != dat2->_nbLastInputs)
+			game->logger.fatal(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat1->_nbLastInputs) + " vs " + std::to_string(dat2->_nbLastInputs));
+
+		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs || dat1->_nbLastInputs != dat2->_nbLastInputs)
 			return 0;
-		}
 
 		return length + sizeof(Data) + sizeof(LastInput) * dat1->_nbLastInputs + sizeof(ReplayData) * dat1->_nbReplayInputs;
 	}

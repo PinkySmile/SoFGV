@@ -145,9 +145,10 @@ namespace SpiralOfFate
 
 	void Projectile::restoreFromBuffer(void *data)
 	{
+		Object::restoreFromBuffer(data);
+
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
-		Object::restoreFromBuffer(data);
 		this->_animationCtr = dat->animationCtr;
 		this->_disabled = dat->disabled;
 		this->_nbHit = dat->nbHit;

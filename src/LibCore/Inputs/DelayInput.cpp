@@ -30,6 +30,8 @@ namespace SpiralOfFate
 		this->_keyStates[INPUT_A] = input.a != 0;
 		this->_keyStates[INPUT_D] = input.d != 0;
 		RollbackInput::update();
+		if (this->_delayBuffer.empty())
+			this->fillBuffer();
 	}
 
 	void DelayInput::setDelay(unsigned int delay)

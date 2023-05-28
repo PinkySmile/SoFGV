@@ -43,6 +43,7 @@ namespace SpiralOfFate
 			bool _dead;
 			bool _hasHit;
 			bool _direction;
+			bool _newAnim;
 			char _cornerPriority;
 		};
 #pragma pack(pop)
@@ -64,6 +65,7 @@ namespace SpiralOfFate
 		bool _direction = false;
 		char _cornerPriority = 0;
 		float _dir = -1;
+		FrameData _fdCache;
 
 		// Non Game State
 		mutable Sprite _sprite;
@@ -73,7 +75,6 @@ namespace SpiralOfFate
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
 		unsigned short _baseHp = 0;
-		FrameData _fdCache;
 		bool _newAnim = false;
 
 		void _drawBox(const Rectangle &box, const sf::Color &color) const;

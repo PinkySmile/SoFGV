@@ -12,7 +12,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
-#define MAX_ROLLBACK 0
+#define MAX_ROLLBACK 8
 
 namespace SpiralOfFate
 {
@@ -63,7 +63,7 @@ namespace SpiralOfFate
 
 		RollbackMachine(Character *left, Character *right);
 		UpdateStatus update(bool useP1Inputs, bool useP2Inputs);
-		void debugRollback();
+		UpdateStatus syncTestUpdate(bool useP1Inputs, bool useP2Inputs);
 		void consumeEvent(const sf::Event &event);
 		size_t getBufferSize() const;
 		size_t getMaxBufferSize() const;

@@ -37,6 +37,7 @@ namespace SpiralOfFate
 		this->left.save(l);
 		this->right.save(r);
 		this->dataSize = game->battleMgr->getBufferSize();
+		free(this->data);
 		this->data = malloc(this->dataSize);
 		game->battleMgr->copyToBuffer(this->data);
 	}
@@ -103,7 +104,10 @@ namespace SpiralOfFate
 		bool result = this->_checkPredictedInputs();
 
 		if (result) {
-			this->_savedData.emplace_back(*this->_realInputLeft, *this->_realInputRight,this->_savedData.empty() ? nullptr : &this->_savedData.back());
+			this->_savedData.emplace_back(
+				std::pair<IInput *, IInput *>{&*this->_realInputLeft, &*this->_realInputRight},
+				std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *>{&this->inputLeft->_keyStates, &this->inputRight->_keyStates}
+			);
 			result = this->_simulateFrame(this->_savedData.back(), true);
 		}
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted)
@@ -112,51 +116,74 @@ namespace SpiralOfFate
 		return result ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}
 
-	void RollbackMachine::debugRollback()
+	RollbackMachine::UpdateStatus RollbackMachine::syncTestUpdate(bool useP1Inputs, bool useP2Inputs)
 	{
-		if (this->_savedData.end() == this->_savedData.begin())
-			return;
+		unsigned int dataSizeBefore = game->battleMgr->getBufferSize();
+		unsigned int dataSizeAfter;
+		unsigned int dataSizeAfter2;
+		void *dataBefore = malloc(dataSizeBefore);
+		void *dataAfter;
+		void *dataAfter2;
+		int checksum1;
+		int checksum2;
+		auto lDur = this->inputLeft->_keyDuration;
+		auto rDur = this->inputRight->_keyDuration;
 
-		auto it = std::prev(this->_savedData.end());
-		unsigned int dataSize = game->battleMgr->getBufferSize();
-		void *data = malloc(dataSize);
-		unsigned int dataSize2;
-		void *data2;
-		int oldChecksum;
-		int newChecksum;
+		game->battleMgr->copyToBuffer(dataBefore);
+		this->_realInputLeft->update();
+		for (int i = 0; i < INPUT_NUMBER - 1; ++i)
+			this->inputLeft->_keyStates[i] = this->_realInputLeft->isPressed(static_cast<InputEnum>(i));
+		this->_realInputRight->update();
+		for (int i = 0; i < INPUT_NUMBER - 1; ++i)
+			this->inputRight->_keyStates[i] = this->_realInputRight->isPressed(static_cast<InputEnum>(i));
 
-		game->battleMgr->copyToBuffer(data);
-		oldChecksum = _computeCheckSum((short *)data, dataSize / sizeof(short));
+		auto result1 = game->battleMgr->update();
+		auto lDur2 = this->inputLeft->_keyDuration;
+		auto rDur2 = this->inputRight->_keyDuration;
 
-		game->battleMgr->restoreFromBuffer(it->data);
-		this->inputLeft->_keyStates = it->left.keyStates;
-		this->inputRight->_keyStates = it->right.keyStates;
-		this->inputLeft->_keyDuration = it->left.keyDuration;
-		this->inputRight->_keyDuration = it->right.keyDuration;
-		game->battleMgr->update();
+		dataSizeAfter = game->battleMgr->getBufferSize();
+		dataAfter = malloc(dataSizeAfter);
+		memset(dataAfter, 0xDC, dataSizeAfter);
+		game->battleMgr->copyToBuffer(dataAfter);
+		checksum1 = _computeCheckSum((short *)dataAfter, dataSizeAfter / sizeof(short));
 
-		dataSize2 = game->battleMgr->getBufferSize();
-		data2 = malloc(dataSize);
-		game->battleMgr->copyToBuffer(data2);
-		newChecksum = _computeCheckSum((short *)data2, dataSize2 / sizeof(short));
+		game->battleMgr->restoreFromBuffer(dataBefore);
+		this->inputLeft->_keyDuration = lDur;
+		this->inputRight->_keyDuration = rDur;
 
-		if (oldChecksum != newChecksum) {
+		auto result2 = game->battleMgr->update();
+
+		dataSizeAfter2 = game->battleMgr->getBufferSize();
+		dataAfter2 = malloc(dataSizeAfter2);
+		memset(dataAfter2, 0xDC, dataSizeAfter2);
+		game->battleMgr->copyToBuffer(dataAfter2);
+		checksum2 = _computeCheckSum((short *)dataAfter2, dataSizeAfter2 / sizeof(short));
+
+		if (checksum1 != checksum2) {
 			game->logger.fatal("RollbackMachine::debugRollback: Checksum mismatch");
-			game->logger.fatal("Old checksum: " + std::to_string(oldChecksum) + " vs new checksum: " + std::to_string(newChecksum));
-			if (dataSize != dataSize2)
-				game->logger.fatal("Old data size: " + std::to_string(dataSize) + " vs new data size: " + std::to_string(dataSize2));
+			game->logger.fatal("Old checksum: " + std::to_string(checksum1) + " vs new checksum: " + std::to_string(checksum2));
+			if (dataSizeAfter != dataSizeAfter2)
+				game->logger.fatal("Old data size: " + std::to_string(dataSizeAfter) + " vs new data size: " + std::to_string(dataSizeAfter2));
 			else
-				for (size_t i = 0; i < dataSize; i++)
-					if (((char *)data)[i] != ((char *)data2)[i])
-						game->logger.fatal("Old data at index " + std::to_string(i) + ": " + std::to_string(((char *)data)[i]) + " vs new data at index " + std::to_string(i) + ": " + std::to_string(((char *)data2)[i]));
-			game->battleMgr->logDifference(data, data2);
+				for (size_t i = 0; i < dataSizeAfter; i++)
+					if (((char *)dataAfter)[i] != ((char *)dataAfter2)[i])
+						game->logger.fatal("Old data at index " + std::to_string(i) + ": " + std::to_string(((char *)dataAfter)[i]) + " vs new data at index " + std::to_string(i) + ": " + std::to_string(((char *)dataAfter2)[i]));
+			game->battleMgr->logDifference(dataAfter, dataAfter2);
+			free(dataBefore);
+			free(dataAfter);
+			free(dataAfter2);
 			throw AssertionFailedException(
-				"oldChecksum == newChecksum",
-				std::to_string(oldChecksum) + " != " + std::to_string(newChecksum)
+				"checksum1 == checksum2",
+				std::to_string(checksum1) + " != " + std::to_string(checksum2)
 			);
 		}
-		free(data);
-		free(data2);
+		my_assert(result1 == result2);
+		my_assert(lDur2 == this->inputLeft->_keyDuration);
+		my_assert(rDur2 == this->inputRight->_keyDuration);
+		free(dataBefore);
+		free(dataAfter);
+		free(dataAfter2);
+		return result1 ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}
 
 	bool RollbackMachine::_checkPredictedInputs()
@@ -187,7 +214,7 @@ namespace SpiralOfFate
 				if (!this->_realInputRight->hasInputs())
 					return true;
 
-				auto o = input.left.keyStates;
+				auto o = input.right.keyStates;
 
 				input.right.regenInputs(*this->_realInputRight, nullptr);
 				different |= o != input.right.keyStates;
@@ -196,7 +223,6 @@ namespace SpiralOfFate
 				break;
 			// We weren't! Good job!
 		endLoop:
-			old = &*it;
 			it++;
 			// All inputs have been processed, bail out
 			if (it == this->_savedData.end())

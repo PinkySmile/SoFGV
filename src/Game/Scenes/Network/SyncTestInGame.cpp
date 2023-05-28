@@ -18,7 +18,9 @@ namespace SpiralOfFate
 		const nlohmann::json &lJson, const nlohmann::json &rJson
 	) :
 		InGame(params, platforms, stage, leftChr, rightChr, licon, ricon, lJson, rJson, true, "char_select"),
-		_rollback(leftChr, rightChr)
+		_rollback(leftChr, rightChr),
+		_leftChr(leftChr),
+		_rightChr(rightChr)
 	{
 	}
 
@@ -31,10 +33,10 @@ namespace SpiralOfFate
 			linput->update();
 			rinput->update();
 			this->_moveListUpdate((this->_paused == 1 ? linput : rinput)->getInputs());
-		} else if (!this->_paused) {
-			auto res = this->_rollback.update(true, true);
+		} else if (!this->_paused || this->_step) {
+			auto res = this->_rollback.syncTestUpdate(true, true);
 
-			this->_rollback.debugRollback();
+			this->_step = false;
 			if (res == RollbackMachine::UPDATESTATUS_GAME_ENDED) {
 				auto args = new CharacterSelect::Arguments();
 
@@ -61,7 +63,28 @@ namespace SpiralOfFate
 
 	void SyncTestInGame::consumeEvent(const sf::Event &event)
 	{
+		if (event.type == sf::Event::KeyPressed) {
+			if (event.key.code == sf::Keyboard::F11)
+				this->_paused = !this->_paused;
+			if (event.key.code == sf::Keyboard::F10)
+				this->_step = true;
+			if (event.key.code == sf::Keyboard::F2)
+				this->_leftChr->showAttributes = this->_rightChr->showAttributes = !this->_rightChr->showAttributes;
+			if (event.key.code == sf::Keyboard::F3)
+				this->_leftChr->showBoxes = this->_rightChr->showBoxes = !this->_rightChr->showBoxes;
+			if (event.key.code == sf::Keyboard::F4)
+				this->_displayInputs = !this->_displayInputs;
+		}
 		this->_rollback.consumeEvent(event);
+	}
+
+	void SyncTestInGame::render() const
+	{
+		InGame::render();
+		if (this->_displayInputs) {
+			game->battleMgr->renderLeftInputs();
+			game->battleMgr->renderRightInputs();
+		}
 	}
 
 	SyncTestInGame *SyncTestInGame::create(SceneArguments *args)
