@@ -170,8 +170,7 @@ namespace SpiralOfFate
 			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
 				auto t = iter->timeSinceLastPacket.getElapsedTime().asSeconds();
 
-				//TODO:
-				if (/*t < 10 &&*/ iter->connectPhase != CONNECTION_STATE_DISCONNECTED) {
+				if (t < 10 && iter->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 					iter++;
 					continue;
 				}
