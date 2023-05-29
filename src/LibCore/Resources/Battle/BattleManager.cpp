@@ -176,7 +176,7 @@ namespace SpiralOfFate
 
 	void BattleManager::render()
 	{
-		while (this->_fpsTimes.size() >= 15)
+		while (this->_fpsTimes.size() >= 60)
 			this->_fpsTimes.pop_front();
 		this->_fpsTimes.push_back(this->_fpsClock.restart().asMilliseconds());
 
@@ -732,7 +732,7 @@ namespace SpiralOfFate
 
 	bool BattleManager::_updateLoop()
 	{
-		while (this->_tpsTimes.size() >= 15)
+		while (this->_tpsTimes.size() >= 60)
 			this->_tpsTimes.pop_front();
 		this->_tpsTimes.push_back(this->_tpsClock.restart().asMilliseconds());
 

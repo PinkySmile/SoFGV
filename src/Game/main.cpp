@@ -371,6 +371,8 @@ void	run()
 {
 	sf::Event event;
 	sf::Image icon;
+	double timer = 0;
+	sf::Clock clock;
 #ifdef _WIN32
 	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
 #else
@@ -390,12 +392,17 @@ void	run()
 		game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	game->screen->setFont(game->font);
 	game->scene.switchScene("title_screen");
+	clock.restart();
 	while (game->screen->isOpen()) {
 		game->sceneMutex.lock();
 		if (game->connection)
 			game->connection->update();
 
-		game->scene.update();
+		timer += clock.restart().asSeconds();
+		while (timer >= 1. / 60.) {
+			game->scene.update();
+			timer -= 1. / 60.;
+		}
 		game->scene.render();
 		virtualController->render();
 		game->screen->display();
