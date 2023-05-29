@@ -14,6 +14,10 @@ namespace SpiralOfFate
 	class SyncTestInGame : public InGame {
 	private:
 		RollbackMachine _rollback;
+		bool _step = false;
+		bool _displayInputs = false;
+		Character *_leftChr;
+		Character *_rightChr;
 
 	public:
 		SyncTestInGame(
@@ -32,6 +36,8 @@ namespace SpiralOfFate
 		void consumeEvent(const sf::Event &event) override;
 
 		static SyncTestInGame *create(SceneArguments *);
+
+		void render() const override;
 	};
 }
 

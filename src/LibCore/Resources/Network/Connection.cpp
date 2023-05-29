@@ -85,8 +85,10 @@ namespace SpiralOfFate
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
 		remote.timeSinceLastPacket.restart();
-		//if (packet.opcode != OPCODE_GAME_FRAME)
+		if (packet.opcode != OPCODE_GAME_FRAME)
 			game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
+		else
+			game->logger.verbose("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
 		switch (packet.opcode) {
 		case OPCODE_HELLO:
 			this->_handlePacket(remote, packet.hello, size);
@@ -203,6 +205,7 @@ namespace SpiralOfFate
 			}
 
 			try {
+				// TODO: Handle split/merged packet(s)
 				this->_handlePacket(*it, *packet, realSize);
 			} catch (ErrorPacketException &e) {
 				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Peer responded with " + e.getPacket().toString());

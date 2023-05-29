@@ -107,9 +107,10 @@ namespace SpiralOfFate
 
 	void Platform::restoreFromBuffer(void *data)
 	{
+		Object::restoreFromBuffer(data);
+
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
-		Object::restoreFromBuffer(data);
 		this->_width = dat->_width;
 		this->_cooldown = dat->_cooldown;
 		this->_deathTimer = dat->_deathTimer;

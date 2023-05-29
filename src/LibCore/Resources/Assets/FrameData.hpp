@@ -102,6 +102,57 @@ namespace SpiralOfFate
 	private:
 		bool _slave = false;
 
+#pragma pack(push, 1)
+		struct Data {
+			unsigned textureHandle;
+			unsigned soundHandle;
+			unsigned hitSoundHandle;
+			unsigned blockStun;
+			unsigned hitStun;
+			unsigned untech;
+			unsigned guardDmg;
+			unsigned duration;
+			unsigned specialMarker;
+			unsigned neutralLimit;
+			unsigned voidLimit;
+			unsigned spiritLimit;
+			unsigned matterLimit;
+			unsigned manaGain;
+			unsigned manaCost;
+			unsigned hitPlayerHitStop;
+			unsigned hitOpponentHitStop;
+			unsigned blockPlayerHitStop;
+			unsigned blockOpponentHitStop;
+			unsigned damage;
+			unsigned chipDamage;
+			unsigned priority;
+			unsigned hurtBoxesCount;
+			unsigned hitBoxesCount;
+			DefensiveFlags dFlag;
+			OffensiveFlags oFlag;
+			int pushBack;
+			int pushBlock;
+			int subObjectSpawn;
+			float prorate;
+			float minProrate;
+			float rotation;
+			Vector2u size;
+			Vector2i offset;
+			Vector2i speed;
+			Vector2i hitSpeed;
+			Vector2i counterHitSpeed;
+			Vector2f gravity;
+			Vector2f snap;
+			Box textureBounds;
+			Box collisionBox;
+			bool hasCollisionBox;
+			bool hasPriority;
+			bool hasGravity;
+			bool hasSnap;
+			Box boxes[0];
+		};
+#pragma pack(pop)
+
 	public:
 		std::string spritePath;
 		std::string soundPath;
@@ -157,6 +208,12 @@ namespace SpiralOfFate
 		void reloadSound();
 		void setSlave(bool slave = true);
 		nlohmann::json toJson() const;
+
+		unsigned int getBufferSize() const;
+		void copyToBuffer(void *data) const;
+		void restoreFromBuffer(void *data);
+		static size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1);
+
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 	};

@@ -12,31 +12,36 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Objects/Character.hpp"
 
-#define MAX_ROLLBACK 0
+#define MAX_ROLLBACK 8
 
 namespace SpiralOfFate
 {
 	class RollbackMachine {
 	private:
 		struct InputData {
-			bool predicted;
+			bool predicted = false;
 			std::bitset<INPUT_NUMBER - 1> keyStates;
 			std::array<int, INPUT_NUMBER - 1> keyDuration;
 
 			InputData() = default;
-			InputData(IInput &input, const InputData *old);
+
+			void regenInputs(IInput &input, std::bitset<INPUT_NUMBER - 1> *old);
+			void save(RollbackInput &input);
 		};
 
 		struct RollbackData {
 			InputData left;
 			InputData right;
-			size_t dataSize;
+			size_t dataSize = 0;
 			void *data = nullptr;
 
-			RollbackData();
+			RollbackData() = default;
+			RollbackData(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old);
 			RollbackData(RollbackData &);
-			RollbackData(IInput &left, IInput &right, RollbackData *old);
 			~RollbackData();
+
+			void regenInputs(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old);
+			void save(RollbackInput &left, RollbackInput &right);
 		};
 
 		std::list<RollbackData> _savedData;
@@ -45,7 +50,7 @@ namespace SpiralOfFate
 		std::shared_ptr<RollbackInput> inputLeft = std::make_shared<RollbackInput>();
 		std::shared_ptr<RollbackInput> inputRight = std::make_shared<RollbackInput>();
 
-		bool _simulateFrame(const RollbackData &data);
+		bool _simulateFrame(RollbackData &data, bool saveState);
 		bool _checkPredictedInputs();
 		static int _computeCheckSum(short *data, size_t size);
 
@@ -58,7 +63,7 @@ namespace SpiralOfFate
 
 		RollbackMachine(Character *left, Character *right);
 		UpdateStatus update(bool useP1Inputs, bool useP2Inputs);
-		void debugRollback();
+		UpdateStatus syncTestUpdate(bool useP1Inputs, bool useP2Inputs);
 		void consumeEvent(const sf::Event &event);
 		size_t getBufferSize() const;
 		size_t getMaxBufferSize() const;
