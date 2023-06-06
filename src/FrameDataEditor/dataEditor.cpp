@@ -9,6 +9,8 @@
 #include <crtdbg.h>
 #endif
 
+#define LEFT_POS "100"
+
 auto c = std::make_shared<bool>(false);
 float updateTimer = 0;
 float timer = 0;
@@ -59,7 +61,7 @@ void	arrangeButtons(EditableObject *object)
 			pos.y = box.pos.y + box.size.y;
 		else
 			pos.y = box.pos.y - resizeButton->getSize().x / 2 + box.size.y / 2;
-		resizeButton->setPosition("boxes.w / 2 + " + std::to_string(pos.x), "boxes.h / 2 + " + std::to_string(pos.y + 300));
+		resizeButton->setPosition(LEFT_POS" + " + std::to_string(pos.x), "boxes.h / 2 + " + std::to_string(pos.y + 300));
 	}
 }
 
@@ -111,7 +113,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 	renderer->setBorders(1);
 	button->setSize(data.size.x, data.size.y);
 	button->setPosition(
-		"&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)),
+		LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)),
 		"&.h / 2 + " + std::to_string(-data.size.y - data.offset.y + 300)
 	);
 	button->connect("MousePressed", [&object](std::weak_ptr<tgui::Button> self){
@@ -135,7 +137,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 		renderer->setBorderColorFocused({0x00, 0xFF, 0x00});
 		renderer->setBorders(1);
 		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
+		button->setPosition(LEFT_POS" + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), &box);
 			canDrag = true;
@@ -159,7 +161,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 		renderer->setBorderColorFocused({0xFF, 0x00, 0x00});
 		renderer->setBorders(1);
 		button->setSize(box.size.x, box.size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
+		button->setPosition(LEFT_POS" + " + std::to_string(box.pos.x), "&.h / 2 + " + std::to_string(box.pos.y + 300));
 		button->connect("MousePressed", [&box](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), &box);
 			canDrag = true;
@@ -182,7 +184,7 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 		renderer->setBorderColorFocused({0xFF, 0xFF, 0x00});
 		renderer->setBorders(1);
 		button->setSize(data.collisionBox->size.x, data.collisionBox->size.y);
-		button->setPosition("&.w / 2 + " + std::to_string(data.collisionBox->pos.x), "&.h / 2 + " + std::to_string(data.collisionBox->pos.y + 300));
+		button->setPosition(LEFT_POS" + " + std::to_string(data.collisionBox->pos.x), "&.h / 2 + " + std::to_string(data.collisionBox->pos.y + 300));
 		button->connect("MousePressed", [&data](std::weak_ptr<tgui::Button> self){
 			selectBox(self.lock(), data.collisionBox);
 			canDrag = true;
@@ -2445,9 +2447,9 @@ void	run()
 	sf::Texture stage;
 	sf::Sprite sprite;
 
-	stage.loadFromFile("assets/stages/14687.png");
+	stage.loadFromFile("assets/stages/editor.png");
 	sprite.setTexture(stage, true);
-	sprite.setPosition({stage.getSize().x * 1.f / -2.f, stage.getSize().y * 1.f / -1.4f});
+	sprite.setPosition({-50, -600});
 	sprite.setScale(1, 1);
 	if (icon.loadFromFile("assets/editorIcon.png"))
 		SpiralOfFate::game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -2468,7 +2470,7 @@ void	run()
 	};
 
 	placeGuiHooks(gui, object);
-	view.setCenter(panel->getSize().x / 2, -300);
+	view.setCenter(SpiralOfFate::game->screen->getSize().x / 2 - 100, -300);
 	view.setSize(SpiralOfFate::game->screen->getSize().x, SpiralOfFate::game->screen->getSize().y);
 	SpiralOfFate::game->screen->setView(view);
 	gui.setView(guiView);
@@ -2520,7 +2522,7 @@ void	run()
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
 				gui.setView(guiView);
 
-				view.setCenter(panel->getSize().x / 2, -300);
+				view.setCenter(SpiralOfFate::game->screen->getSize().x / 2 - 100, -300);
 				view.setSize(event.size.width, event.size.height);
 				SpiralOfFate::game->screen->setView(view);
 				continue;

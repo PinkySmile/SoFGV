@@ -41,7 +41,7 @@ void EditableObject::render() const
 	rect.setOutlineThickness(2);
 	rect.setOutlineColor(sf::Color::White);
 	rect.setFillColor(sf::Color::Black);
-	rect.setPosition(this->_position - SpiralOfFate::Vector2f{4, 4});
+	rect.setPosition(SpiralOfFate::Vector2f{-4, -4});
 	rect.setSize({9, 9});
 	SpiralOfFate::game->screen->draw(rect);
 }
