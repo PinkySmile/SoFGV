@@ -29,89 +29,56 @@ IF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY
         FIND_LIBRARY(SFML_GRAPHICS_LIBRARY
                 NAMES
                 sfml-graphics
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_LIBRARY(SFML_AUDIO_LIBRARY
                 NAMES
                 sfml-audio
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_LIBRARY(SFML_NETWORK_LIBRARY
                 NAMES
                 sfml-network
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_LIBRARY(SFML_SYSTEM_LIBRARY
                 NAMES
                 sfml-system
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_LIBRARY(SFML_WINDOW_LIBRARY
                 NAMES
                 sfml-window
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/lib/              # SFML root directory (if provided)
                 ${SFML_DIR}                   # SFML root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_PATH(SFML_INCLUDE_DIRS
                 NAMES
                 SFML/Graphics.hpp
-                NO_DEFAULT_PATH
                 PATHS
                 ${SFML_DIR}/include/             # SFML root directory (if provided)
                 ${SFML_DIR}                      # SFML root directory (if provided)
-                /usr/include/                    # Default Fedora28 system include path
-                /usr/local/include/              # Default Fedora28 local include path
-                ${CMAKE_MODULE_PATH}/include/    # Expected to contain the path to this file for Windows10
         )
 ENDIF (NOT SFML_INCLUDE_DIRS OR NOT SFML_GRAPHICS_LIBRARY OR NOT SFML_AUDIO_LIBRARY OR NOT SFML_NETWORK_LIBRARY OR NOT SFML_SYSTEM_LIBRARY OR NOT SFML_WINDOW_LIBRARY)
 
 IF (SFML_INCLUDE_DIRS AND SFML_GRAPHICS_LIBRARY AND SFML_AUDIO_LIBRARY AND SFML_NETWORK_LIBRARY AND SFML_SYSTEM_LIBRARY AND SFML_WINDOW_LIBRARY)
         SET(SFML_FOUND TRUE)
 ELSE ()
+	MESSAGE(WARNING "${SFML_DIR} ${SFML_INCLUDE_DIRS} ${SFML_GRAPHICS_LIBRARY} ${SFML_AUDIO_LIBRARY} ${SFML_NETWORK_LIBRARY} ${SFML_SYSTEM_LIBRARY} ${SFML_WINDOW_LIBRARY}")
         SET(SFML_FOUND FALSE)
 ENDIF ()
 

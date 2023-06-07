@@ -583,6 +583,7 @@ def generate_wiki_page(path, no_regen=False):
     html = generate_page(data, chr_stats, meta)
     with open(f"generated/{chr_stats['name']}/index.html", "w") as fd:
         fd.write(html)
+    return chr_stats
 
 
 if __name__ == '__main__':

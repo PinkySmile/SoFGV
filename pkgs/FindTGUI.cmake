@@ -24,27 +24,17 @@ IF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
         FIND_LIBRARY(TGUI_LIBRARIES
                 NAMES
                 tgui
-                NO_DEFAULT_PATH
                 PATHS
                 ${TGUI_DIR}/lib/              # TGUI root directory (if provided)
                 ${TGUI_DIR}                   # TGUI root directory (if provided)
-                /usr/lib64/                   # Default Fedora28 library path
-                /usr/lib/                     # Some more Linux library path
-                /usr/lib/x86_64-linux-gnu/    # Some more Linux library path
-                /usr/local/lib/               # Some more Linux library path
-                /usr/local/lib64/             # Some more Linux library path
         )
 
         FIND_PATH(TGUI_INCLUDE_DIRS
                 NAMES
                 TGUI/TGUI.hpp
-                NO_DEFAULT_PATH
                 PATHS
                 ${TGUI_DIR}/include/             # TGUI root directory (if provided)
                 ${TGUI_DIR}                      # TGUI root directory (if provided)
-                /usr/include/                    # Default Fedora28 system include path
-                /usr/local/include/              # Default Fedora28 local include path
-                ${CMAKE_MODULE_PATH}/include/    # Expected to contain the path to this file for Windows10
         )
 ENDIF (NOT TGUI_INCLUDE_DIRS OR NOT TGUI_LIBRARIES)
 
