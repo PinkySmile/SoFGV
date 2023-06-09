@@ -110,8 +110,17 @@ namespace SpiralOfFate
 			);
 			result = this->_simulateFrame(this->_savedData.back(), true);
 		}
-		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted)
+		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted) {
+			auto &dat = this->_savedData.front();
+			auto frameId = BattleManager::getFrame(dat.data);
+
+			if (!game->connection || frameId % 60 != 0) {
+				this->_savedData.pop_front();
+				continue;
+			}
+			game->connection->reportChecksum(_computeCheckSum((short *)dat.data, dat.dataSize / sizeof(short)), frameId);
 			this->_savedData.pop_front();
+		}
 #endif
 		return result ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}

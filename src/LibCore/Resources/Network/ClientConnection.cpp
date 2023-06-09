@@ -149,20 +149,6 @@ namespace SpiralOfFate
 		}
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
-	{
-		auto it = this->_states.find(packet.frameId);
-
-		if (it == this->_states.end())
-			return;
-
-		if (it->second != packet.stateChecksum) {
-			PacketError error{ERROR_DESYNC_DETECTED, OPCODE_SYNC_TEST, size};
-
-			this->_send(remote, &error, sizeof(error));
-		}
-	}
-
 	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketState &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_STATE, size};
@@ -211,14 +197,6 @@ namespace SpiralOfFate
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		game->connection->nextGame();
 		game->scene.switchScene("client_in_game", args);
-	}
-
-	void ClientConnection::reportChecksum(unsigned int checksum)
-	{
-		PacketSyncTest syncTest{checksum, this->_sendBuffer.back().first};
-
-		this->_states[this->_sendBuffer.back().first] = checksum;
-		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
 	}
 
 	void ClientConnection::update()

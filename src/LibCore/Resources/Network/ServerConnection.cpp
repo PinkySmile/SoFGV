@@ -114,20 +114,6 @@ namespace SpiralOfFate
 		this->_opCurrentMenu = packet.menuId;
 	}
 
-	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
-	{
-		auto it = this->_states.find(packet.frameId);
-
-		if (it == this->_states.end())
-			return;
-
-		if (it->second != packet.stateChecksum) {
-			PacketError error{ERROR_DESYNC_DETECTED, OPCODE_SYNC_TEST, size};
-
-			this->_send(remote, &error, sizeof(error));
-		}
-	}
-
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketError &packet, size_t size)
 	{
 		if (
@@ -221,14 +207,6 @@ namespace SpiralOfFate
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
 		this->_send(*this->_opponent, &menuSwitch, sizeof(menuSwitch));
-	}
-
-	void ServerConnection::reportChecksum(unsigned int checksum)
-	{
-		PacketSyncTest syncTest{checksum, this->_sendBuffer.back().first};
-
-		this->_states[this->_sendBuffer.back().first] = checksum;
-		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
 	}
 
 	void ServerConnection::startGame(unsigned int _seed, unsigned int _p1chr, unsigned int _p1pal, unsigned int _p2chr, unsigned int _p2pal, unsigned int _stage, unsigned int _platformConfig)

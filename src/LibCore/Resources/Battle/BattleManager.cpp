@@ -1064,6 +1064,11 @@ namespace SpiralOfFate
 		return this->_objects;
 	}
 
+	unsigned BattleManager::getFrame(void *data)
+	{
+		return reinterpret_cast<Data *>(data)->_currentFrame;
+	}
+
 	static float getTextSize(const std::string &str, const sf::Text &txt)
 	{
 		float size = 0;

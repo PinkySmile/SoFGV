@@ -36,6 +36,8 @@ namespace SpiralOfFate
 		OPCODE_REPLAY,
 		OPCODE_QUIT,
 		OPCODE_GAME_QUIT,
+		OPCODE_DESYNC_DETECTED,
+		OPCODE_TIME_SYNC,
 		OPCODE_COUNT
 	};
 
@@ -49,7 +51,6 @@ namespace SpiralOfFate
 		ERROR_GAME_ALREADY_STARTED,
 		ERROR_SPECTATORS_DISABLED,
 		ERROR_BLACKLISTED,
-		ERROR_DESYNC_DETECTED,
 		ERROR_COUNT
 	};
 
@@ -62,8 +63,7 @@ namespace SpiralOfFate
 		"Game not started",
 		"Game already started",
 		"Spectators disabled",
-		"Blacklisted",
-		"Desync detected"
+		"Blacklisted"
 	};
 	constexpr std::array<const char *, OPCODE_COUNT> opcodeStrings{
 		"Hello",
@@ -83,7 +83,9 @@ namespace SpiralOfFate
 		"State",
 		"Replay",
 		"Quit",
-		"Game quit"
+		"Game quit",
+		"Desync detected",
+		"Time sync"
 	};
 
 #pragma pack(push, 1)
@@ -328,6 +330,28 @@ namespace SpiralOfFate
 		std::string toString() const;
 	};
 
+	struct PacketDesyncDetected {
+	private:
+		Opcode opcode;
+
+	public:
+		uint32_t computedChecksum;
+		uint32_t receivedChecksum;
+		uint32_t frameId;
+
+		PacketDesyncDetected(uint32_t myChecksum, uint32_t yourChecksum, uint32_t frameId);
+		std::string toString() const;
+	};
+
+	struct PacketTimeSync {
+	private:
+		Opcode opcode;
+
+	public:
+		PacketTimeSync();
+		std::string toString() const;
+	};
+
 	union Packet {
 		Opcode opcode;
 		PacketHello hello;
@@ -348,6 +372,8 @@ namespace SpiralOfFate
 		PacketQuit quit;
 		PacketGameStart gameStart;
 		PacketGameQuit gameQuit;
+		PacketDesyncDetected desyncDetected;
+		PacketTimeSync timeSync;
 
 		std::string toString() const;
 	};

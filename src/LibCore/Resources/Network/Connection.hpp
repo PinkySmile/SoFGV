@@ -87,6 +87,7 @@ namespace SpiralOfFate
 		unsigned _nextExpectedFrame = 0;
 		unsigned _lastOpRecvFrame = 0;
 		unsigned _gameId = 0;
+		std::map<unsigned, unsigned> _states;
 		Remote *_opponent = nullptr;
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
@@ -115,6 +116,8 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, PacketQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketDesyncDetected &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketTimeSync &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
@@ -133,6 +136,7 @@ namespace SpiralOfFate
 		};
 
 		std::vector<std::string> blacklist;
+		std::function<void (Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum)> onDesync;
 		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (unsigned newDelay)> onDelayUpdate;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
@@ -151,7 +155,7 @@ namespace SpiralOfFate
 		void nextGame();
 		virtual void update();
 		const std::pair<std::string, std::string> &getNames() const;
-		virtual void reportChecksum(unsigned checksum);
+		void reportChecksum(unsigned checksum, unsigned frameId);
 
 #ifdef _DEBUG
 		friend class NetworkInGame;

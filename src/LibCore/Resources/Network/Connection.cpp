@@ -144,6 +144,12 @@ namespace SpiralOfFate
 		case OPCODE_GAME_QUIT:
 			this->_handlePacket(remote, packet.gameQuit, size);
 			break;
+		case OPCODE_DESYNC_DETECTED:
+			this->_handlePacket(remote, packet.desyncDetected, size);
+			break;
+		case OPCODE_TIME_SYNC:
+			this->_handlePacket(remote, packet.timeSync, size);
+			break;
 		default:
 			PacketError error{ERROR_INVALID_OPCODE, packet.opcode, size};
 
@@ -393,12 +399,20 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void Connection::_handlePacket(Remote &remote, PacketSyncTest &, size_t size)
+	void Connection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
 	{
-		//Implemented in children classes
-		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_SYNC_TEST, size};
+		auto it = this->_states.find(packet.frameId);
 
-		this->_send(remote, &error, sizeof(error));
+		if (it == this->_states.end())
+			return;
+
+		if (it->second != packet.stateChecksum) {
+			PacketDesyncDetected desync{it->second, packet.stateChecksum, it->first};
+
+			this->_send(remote, &desync, sizeof(desync));
+			if (this->onDesync)
+				this->onDesync(remote, desync.frameId, desync.computedChecksum, desync.receivedChecksum);
+		}
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketState &, size_t size)
@@ -454,6 +468,19 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
+	void Connection::_handlePacket(Connection::Remote &remote, PacketDesyncDetected &packet, size_t size)
+	{
+		if (this->onDesync)
+			this->onDesync(remote, packet.frameId, packet.receivedChecksum, packet.computedChecksum);
+	}
+
+	void Connection::_handlePacket(Connection::Remote &remote, PacketTimeSync &packet, size_t size)
+	{
+		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_GAME_QUIT, size};
+
+		this->_send(remote, &error, sizeof(error));
+	}
+
 	void Connection::terminate()
 	{
 		PacketQuit quit;
@@ -481,8 +508,12 @@ namespace SpiralOfFate
 		return this->_terminated;
 	}
 
-	void Connection::reportChecksum(unsigned int)
+	void Connection::reportChecksum(unsigned int checksum, unsigned int frameId)
 	{
+		PacketSyncTest syncTest{checksum, frameId};
+
+		this->_states[frameId] = checksum;
+		this->_send(*this->_opponent, &syncTest, sizeof(syncTest));
 	}
 
 	void Connection::nextGame()

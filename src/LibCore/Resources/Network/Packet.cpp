@@ -317,6 +317,38 @@ namespace SpiralOfFate
 		return "Packet GAME_QUIT";
 	}
 
+	PacketDesyncDetected::PacketDesyncDetected(uint32_t myChecksum, uint32_t yourChecksum, uint32_t frameId) :
+		opcode(OPCODE_DESYNC_DETECTED),
+		computedChecksum(myChecksum),
+		receivedChecksum(yourChecksum),
+		frameId(frameId)
+	{
+	}
+
+	std::string PacketDesyncDetected::toString() const
+	{
+		char buffer1[9];
+		char buffer2[9];
+
+		sprintf(buffer1, "%x", this->computedChecksum);
+		sprintf(buffer2, "%x", this->receivedChecksum);
+		return "Packet DESYNC_DETECTED:"
+			" computedChecksum " + std::string(buffer1) +
+			" receivedChecksum " + buffer2 +
+			" frameId " + std::to_string(this->frameId);
+	}
+
+	PacketTimeSync::PacketTimeSync() :
+		opcode(OPCODE_TIME_SYNC)
+	{
+
+	}
+
+	std::string PacketTimeSync::toString() const
+	{
+		return "Packet TIME_SYNC";
+	}
+
 	std::string Packet::toString() const
 	{
 		switch (opcode) {
@@ -354,8 +386,12 @@ namespace SpiralOfFate
 			return this->quit.toString();
 		case OPCODE_GAME_START:
 			return this->gameStart.toString();
-			case OPCODE_GAME_QUIT:
+		case OPCODE_GAME_QUIT:
 			return this->gameQuit.toString();
+		case OPCODE_DESYNC_DETECTED:
+			return this->desyncDetected.toString();
+		case OPCODE_TIME_SYNC:
+			return this->timeSync.toString();
 		default:
 			return "Packet UNKNOWN";
 		}

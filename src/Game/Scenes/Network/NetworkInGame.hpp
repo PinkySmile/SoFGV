@@ -6,6 +6,7 @@
 #define SOFGV_NETWORKINGAME_HPP
 
 
+#include <mutex>
 #include "Resources/Network/RollbackMachine.hpp"
 #include "Inputs/DelayInput.hpp"
 #include "Inputs/RemoteInput.hpp"
@@ -19,6 +20,9 @@ namespace SpiralOfFate
 		DelayInput *_rightDInput;
 		RollbackMachine _rMachine;
 		std::shared_ptr<RemoteInput> _input;
+		char *_error = nullptr;
+		sf::Clock _errorClock;
+		mutable std::mutex _errorMutex;
 #ifdef _DEBUG
 		unsigned _currentFrame = 0;
 		bool _displayInputs = false;
@@ -43,6 +47,8 @@ namespace SpiralOfFate
 		void update() override;
 		void consumeEvent(const sf::Event &event) override;
 		void render() const override;
+
+		~NetworkInGame() override;
 	};
 }
 

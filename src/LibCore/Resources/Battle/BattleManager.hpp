@@ -81,13 +81,13 @@ namespace SpiralOfFate
 		};
 
 		struct Data {
-			uint64_t random;
 			unsigned _currentFrame;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
-			int _roundStartTimer;
 			unsigned _roundEndTimer;
 			unsigned _nbObjects;
+			int _roundStartTimer;
+			uint64_t random;
 			HUDDataPacked _leftHUDData;
 			HUDDataPacked _rightHUDData;
 			bool _ended;
@@ -202,6 +202,8 @@ namespace SpiralOfFate
 		const std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> &getObjects() const;
 		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;
 		bool isLeftFirst() const;
+
+		static unsigned getFrame(void *data);
 	};
 }
 

@@ -3,38 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Spiral of Fate: Grand Vision | Index</title>
-    <style>
-        table {
-            border: solid 1px;
-        }
-        td {
-            padding: 4px;
-            border: solid 1px;
-            text-align: center;
-        }
-        th {
-            padding: 4px;
-            border: solid 1px;
-            text-align: center;
-        }
-        .void {
-            color: #C80074;
-        }
-        .matter {
-            color: #BB5E00;
-        }
-        .spirit {
-            color: #33CCCC;
-        }
-        .true-neutral {
-            color: #ADADAD;
-        }
-    </style>
 </head>
 <body>
     <h1>{{ Index }}</h1>
     {% for stats in chrs %}
-    <a href="generated/{{ stats['name'] }}/index.html">{{ stats['name'] }}</a>
+    <div>
+        <a href="generated/{{ stats['name'] }}/index.html">{{ stats['name'] }}</a>
+    </div>
     {% endfor %}
 </body>
 </html>

@@ -5,7 +5,7 @@
 #ifndef SOFGV_VERSION_H
 #define SOFGV_VERSION_H
 
-#define REAL_VERSION_STR "alpha 0.1.6"
+#define REAL_VERSION_STR "alpha 0.1.7"
 #ifdef _DEBUG
 #define VERSION_STR REAL_VERSION_STR" DEBUG"
 #else
