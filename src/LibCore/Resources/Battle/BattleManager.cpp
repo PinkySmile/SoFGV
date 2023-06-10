@@ -178,7 +178,7 @@ namespace SpiralOfFate
 	{
 		while (this->_fpsTimes.size() >= 60)
 			this->_fpsTimes.pop_front();
-		this->_fpsTimes.push_back(this->_fpsClock.restart().asMilliseconds());
+		this->_fpsTimes.push_back(this->_fpsClock.restart().asMicroseconds());
 
 		std::map<int, std::vector<IObject *>> objectLayers;
 		float total = 0;
@@ -237,7 +237,7 @@ namespace SpiralOfFate
 		if (!this->_tpsTimes.empty()) {
 			char buffer[12];
 
-			sprintf(buffer, "%.2f TPS", 1000.f / (total / this->_tpsTimes.size()));
+			sprintf(buffer, "%.2f TPS", 1000000.f / (total / this->_tpsTimes.size()));
 			game->screen->borderColor(2, sf::Color::Black);
 			game->screen->fillColor(sf::Color::White);
 			game->screen->textSize(20);
@@ -251,7 +251,7 @@ namespace SpiralOfFate
 		if (!this->_fpsTimes.empty()) {
 			char buffer[12];
 
-			sprintf(buffer, "%.2f FPS", 1000.f / (total / this->_fpsTimes.size()));
+			sprintf(buffer, "%.2f FPS", 1000000.f / (total / this->_fpsTimes.size()));
 			game->screen->borderColor(2, sf::Color::Black);
 			game->screen->fillColor(sf::Color::White);
 			game->screen->textSize(20);
@@ -734,7 +734,7 @@ namespace SpiralOfFate
 	{
 		while (this->_tpsTimes.size() >= 60)
 			this->_tpsTimes.pop_front();
-		this->_tpsTimes.push_back(this->_tpsClock.restart().asMilliseconds());
+		this->_tpsTimes.push_back(this->_tpsClock.restart().asMicroseconds());
 
 		if (
 			this->_roundEndTimer > 120 ||
