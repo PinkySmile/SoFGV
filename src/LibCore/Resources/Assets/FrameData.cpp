@@ -651,6 +651,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		unsigned i = 0;
 
+		memset(dat, 0, sizeof(*dat));
 		game->logger.verbose("Saving FrameData (Data size: " + std::to_string(this->getBufferSize()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->textureHandle = this->textureHandle;
 		dat->soundHandle = this->soundHandle;
@@ -881,7 +882,7 @@ namespace SpiralOfFate
 		while (i < dat1->hurtBoxesCount) {
 			if (dat1->boxes[i].pos != dat2->boxes[i].pos)
 				game->logger.fatal(std::string(msgStart) + "FrameData::hurtBoxes[" + std::to_string(i) + "]::pos: (" + std::to_string(dat1->boxes[i].pos.x) + ", " + std::to_string(dat1->boxes[i].pos.y) + ") vs (" + std::to_string(dat2->boxes[i].pos.x) + ", " + std::to_string(dat2->boxes[i].pos.y) + ")");
-			if (dat1->collisionBox.size != dat2->collisionBox.size)
+			if (dat1->boxes[i].size != dat2->boxes[i].size)
 				game->logger.fatal(std::string(msgStart) + "FrameData::hurtBoxes[" + std::to_string(i) + "]::size: (" + std::to_string(dat1->boxes[i].size.x) + ", " + std::to_string(dat1->boxes[i].size.y) + ") vs (" + std::to_string(dat2->boxes[i].size.x) + ", " + std::to_string(dat2->boxes[i].size.y) + ")");
 			i++;
 		}

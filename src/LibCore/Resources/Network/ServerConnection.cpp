@@ -178,6 +178,7 @@ namespace SpiralOfFate
 
 	void ServerConnection::switchMenu(unsigned int id, bool lock)
 	{
+		this->_sendSyncBuffer.clear();
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
 		this->_nextExpectedFrame = 0;

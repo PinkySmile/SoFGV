@@ -233,11 +233,16 @@ namespace SpiralOfFate
 		auto str = pack->toString();
 		auto logStr = "[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str;
 
+		try {
+			my_assert(realSize <= RECV_BUFFER_SIZE);
+		} catch (...) {
+			game->logger.fatal(logStr);
+			throw;
+		}
 		if (pack->opcode != OPCODE_GAME_FRAME && pack->opcode != OPCODE_TIME_SYNC)
 			game->logger.debug(logStr);
 		else
 			game->logger.verbose(logStr);
-		my_assert(realSize <= RECV_BUFFER_SIZE);
 		this->_socket.send(packet, realSize, remote.ip, remote.port);
 	}
 
@@ -511,6 +516,7 @@ namespace SpiralOfFate
 		this->_terminationMutex.lock();
 		this->_terminated = true;
 		this->_sendBuffer.clear();
+		this->_sendSyncBuffer.clear();
 		this->_currentFrame = 0;
 		this->_nextExpectedFrame = 0;
 		for (auto &remote : this->_remotes)
@@ -543,6 +549,7 @@ namespace SpiralOfFate
 		this->_gameId++;
 		this->_buffer.clear();
 		this->_sendBuffer.clear();
+		this->_sendSyncBuffer.clear();
 		this->_currentFrame = 0;
 		this->_nextExpectedFrame = 0;
 		this->_nextExpectedDiffFrame = 0;

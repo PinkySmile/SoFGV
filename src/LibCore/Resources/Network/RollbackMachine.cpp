@@ -254,7 +254,7 @@ namespace SpiralOfFate
 
 		dataSizeAfter = game->battleMgr->getBufferSize();
 		dataAfter = malloc(dataSizeAfter);
-		memset(dataAfter, 0xDC, dataSizeAfter);
+		memset(dataAfter, 0xCD, dataSizeAfter);
 		game->battleMgr->copyToBuffer(dataAfter);
 		checksum1 = _computeCheckSum((short *)dataAfter, dataSizeAfter / sizeof(short));
 
