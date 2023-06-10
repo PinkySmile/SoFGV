@@ -159,12 +159,17 @@ namespace SpiralOfFate
 			packet->inputs[i] = input.second;
 			i++;
 		}
-		return std::shared_ptr<PacketGameFrame>(packet, free);
+		return {packet, free};
 	}
 
 	std::string PacketGameFrame::toString() const
 	{
 		return "Packet GAMEFRAME: " + std::to_string(this->nbInputs) + " inputs in game " + std::to_string(this->gameId) + " from frame " + std::to_string(this->frameId) + " expecting " + std::to_string(this->lastRecvFrameId);
+	}
+
+	size_t PacketGameFrame::getSize()
+	{
+		return this->nbInputs * sizeof(*this->inputs) + sizeof(*this);
 	}
 
 	PacketInitRequest::PacketInitRequest(const char *name, const char *version, bool spectator) :
@@ -317,7 +322,7 @@ namespace SpiralOfFate
 		return "Packet GAME_QUIT";
 	}
 
-	PacketDesyncDetected::PacketDesyncDetected(uint32_t myChecksum, uint32_t yourChecksum, uint32_t frameId) :
+	PacketDesyncDetected::PacketDesyncDetected(unsigned myChecksum, unsigned yourChecksum, unsigned frameId) :
 		opcode(OPCODE_DESYNC_DETECTED),
 		computedChecksum(myChecksum),
 		receivedChecksum(yourChecksum),
@@ -333,20 +338,50 @@ namespace SpiralOfFate
 		sprintf(buffer1, "%x", this->computedChecksum);
 		sprintf(buffer2, "%x", this->receivedChecksum);
 		return "Packet DESYNC_DETECTED:"
-			" computedChecksum " + std::string(buffer1) +
-			" receivedChecksum " + buffer2 +
-			" frameId " + std::to_string(this->frameId);
+			" frameId " + std::to_string(this->frameId) +
+			" computedChecksum " + buffer1 +
+			" receivedChecksum " + buffer2;
 	}
 
 	PacketTimeSync::PacketTimeSync() :
 		opcode(OPCODE_TIME_SYNC)
 	{
-
 	}
 
 	std::string PacketTimeSync::toString() const
 	{
-		return "Packet TIME_SYNC";
+		std::string result = "Packet TIME_SYNC: " + std::to_string(this->nbDiff) + " diffs from frame " + std::to_string(this->frameId) + " expecting " + std::to_string(this->lastRecvFrameId);
+
+		result.reserve(result.size() + 4 + this->nbDiff * 12);
+		for (unsigned i = 0; i < this->nbDiff; i++) {
+			result += " [";
+			result += std::to_string(i);
+			result += "] ";
+			result += std::to_string(this->timeDiff[i]);
+		}
+		return result;
+	}
+
+	std::shared_ptr<PacketTimeSync> PacketTimeSync::create(std::list<std::pair<unsigned int, long long int>> &diffs, unsigned int lastRecvFrameId)
+	{
+		void *buffer = malloc(diffs.size() * sizeof(*PacketTimeSync::timeDiff) + sizeof(PacketTimeSync));
+		auto *packet = new(buffer) PacketTimeSync();
+		size_t i = 0;
+
+		my_assert(!diffs.empty());
+		packet->lastRecvFrameId = lastRecvFrameId;
+		packet->frameId = diffs.front().first;
+		packet->nbDiff = diffs.size();
+		for (auto &input : diffs) {
+			packet->timeDiff[i] = input.second;
+			i++;
+		}
+		return {packet, free};
+	}
+
+	size_t PacketTimeSync::getSize()
+	{
+		return this->nbDiff * sizeof(*this->timeDiff) + sizeof(*this);
 	}
 
 	std::string Packet::toString() const

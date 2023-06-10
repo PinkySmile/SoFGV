@@ -30,6 +30,7 @@ namespace SpiralOfFate
 		};
 
 		struct RollbackData {
+			sf::Clock clock;
 			InputData left;
 			InputData right;
 			size_t dataSize = 0;
@@ -44,7 +45,16 @@ namespace SpiralOfFate
 			void save(RollbackInput &left, RollbackInput &right);
 		};
 
+		long long _frameTimer = 0;
+		long long _totalDiffTimes = 0;
+		long long _totalOpDiffTimes = 0;
+		std::list<long long> _diffTimes;
+		std::list<long long> _opDiffTimes;
+		std::list<long long> _diffTimesAverage;
+		std::list<long long> _opDiffTimesAverage;
+		std::pair<long long, long long> _lastAvgTimes{0, 0};
 		std::list<RollbackData> _savedData;
+		std::list<sf::Clock> _advanceInputs;
 		std::shared_ptr<IInput> _realInputLeft;
 		std::shared_ptr<IInput> _realInputRight;
 		std::shared_ptr<RollbackInput> inputLeft = std::make_shared<RollbackInput>();
@@ -52,6 +62,7 @@ namespace SpiralOfFate
 
 		bool _simulateFrame(RollbackData &data, bool saveState);
 		bool _checkPredictedInputs();
+		void _onInputReceived(unsigned frame);
 		static int _computeCheckSum(short *data, size_t size);
 
 	public:
@@ -62,9 +73,12 @@ namespace SpiralOfFate
 		};
 
 		RollbackMachine(Character *left, Character *right);
+		~RollbackMachine();
 		UpdateStatus update(bool useP1Inputs, bool useP2Inputs);
 		UpdateStatus syncTestUpdate(bool useP1Inputs, bool useP2Inputs);
 		void consumeEvent(const sf::Event &event);
+		std::pair<long long int, long long int> getLastTimes() const;
+		const std::pair<long long int, long long int> &getLastAvgTimes() const;
 		size_t getBufferSize() const;
 		size_t getMaxBufferSize() const;
 	};

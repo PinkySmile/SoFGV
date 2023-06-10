@@ -113,16 +113,25 @@ namespace SpiralOfFate
 	{
 		InGame::render();
 		char buffer[500];
+		auto times = this->_rMachine.getLastTimes();
+		auto avgTimes = this->_rMachine.getLastAvgTimes();
 
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(20);
+
 		sprintf(buffer, "Rand %08llx|%llu", (unsigned long long)game->battleRandom.ser.seed, (unsigned long long)game->battleRandom.ser.invoke_count);
 		game->screen->displayElement(buffer, {-50, 25}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Delay %u (%zi:%zi)", this->_leftDInput->getDelay(), this->_leftDInput->getBufferSize(), this->_rightDInput->getBufferSize());
 		game->screen->displayElement(buffer, {-50, 50}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Rollback %zu/%zu", this->_rMachine.getBufferSize(), this->_rMachine.getMaxBufferSize());
 		game->screen->displayElement(buffer, {-50, 75}, 145, Screen::ALIGN_LEFT);
+
+		sprintf(buffer, "Net delay %2.fms|%2.fms", times.second / 1000.f, times.first / 1000.f);
+		game->screen->displayElement(buffer, {900, 25}, 145, Screen::ALIGN_RIGHT);
+		sprintf(buffer, "Avg net delay %2.fms|%2.fms", avgTimes.second / 1000.f, avgTimes.first / 1000.f);
+		game->screen->displayElement(buffer, {900, 0}, 145, Screen::ALIGN_RIGHT);
+
 		game->screen->textSize(15);
 		game->screen->displayElement(game->connection->getNames().first, {-50, -592}, 340, Screen::ALIGN_CENTER);
 		game->screen->displayElement(game->connection->getNames().second, {710, -592}, 340, Screen::ALIGN_CENTER);

@@ -76,7 +76,12 @@ namespace SpiralOfFate
 		if (!this->_sendBuffer.empty()) {
 			auto packet = PacketGameFrame::create(this->_sendBuffer, this->_nextExpectedFrame, this->_gameId);
 
-			this->_send(*this->_opponent, &*packet, packet->nbInputs * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
+			this->_send(*this->_opponent, &*packet, packet->getSize());
+		}
+		if (!this->_sendSyncBuffer.empty()) {
+			auto packet = PacketTimeSync::create(this->_sendSyncBuffer, this->_nextExpectedDiffFrame);
+
+			this->_send(*this->_opponent, &*packet, packet->getSize());
 		}
 		this->_buffer.clear();
 		return b;
@@ -85,7 +90,7 @@ namespace SpiralOfFate
 	void Connection::_handlePacket(Remote &remote, Packet &packet, size_t size)
 	{
 		remote.timeSinceLastPacket.restart();
-		if (packet.opcode != OPCODE_GAME_FRAME)
+		if (packet.opcode != OPCODE_GAME_FRAME && packet.opcode != OPCODE_TIME_SYNC)
 			game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
 		else
 			game->logger.verbose("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
@@ -228,7 +233,7 @@ namespace SpiralOfFate
 		auto str = pack->toString();
 		auto logStr = "[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str;
 
-		if (pack->opcode != OPCODE_GAME_FRAME)
+		if (pack->opcode != OPCODE_GAME_FRAME && pack->opcode != OPCODE_TIME_SYNC)
 			game->logger.debug(logStr);
 		else
 			game->logger.verbose(logStr);
@@ -328,7 +333,7 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
-		if (size < sizeof(packet) || size != packet.nbInputs * sizeof(*packet.inputs) + sizeof(packet)) {
+		if (size < sizeof(packet) || size != packet.getSize()) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_GAME_FRAME, size};
 
 			return this->_send(remote, &error, sizeof(error));
@@ -342,19 +347,13 @@ namespace SpiralOfFate
 					return;
 				this->_nextExpectedFrame++;
 				this->_buffer.push_back(packet.inputs[i]);
+				if (!this->onInputReceived)
+					continue;
+				this->onInputReceived(remote, packet.frameId + i);
 			}
 		}
-		this->_lastOpRecvFrame = packet.lastRecvFrameId;
-		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < this->_lastOpRecvFrame)
+		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < packet.lastRecvFrameId)
 			this->_sendBuffer.pop_front();
-		/*
-		for (size_t i = 0; i < packet.nbInputs; i++)
-			if (this->_lastReceivedFrame <= packet.frameId + i)
-				this->_buffer.push_back(packet.inputs[i]);
-		this->_lastReceivedFrame = packet.frameId + packet.nbInputs;
-		while (!this->_sendBuffer.empty() && this->_sendBuffer.front().first < packet.frameId)
-			this->_sendBuffer.pop_front();
-		 */
 	}
 
 	void Connection::_handlePacket(Remote &remote, PacketInitRequest &, size_t size)
@@ -470,15 +469,39 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Connection::Remote &remote, PacketDesyncDetected &packet, size_t size)
 	{
-		if (this->onDesync)
-			this->onDesync(remote, packet.frameId, packet.receivedChecksum, packet.computedChecksum);
+		if (size != sizeof(packet)) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_DESYNC_DETECTED, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (!this->onDesync)
+			return;
+		this->onDesync(remote, packet.frameId, packet.receivedChecksum, packet.computedChecksum);
 	}
 
 	void Connection::_handlePacket(Connection::Remote &remote, PacketTimeSync &packet, size_t size)
 	{
-		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_GAME_QUIT, size};
+		if (remote.connectPhase != 1) {
+			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_TIME_SYNC, size};
 
-		this->_send(remote, &error, sizeof(error));
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (size < sizeof(packet) || size != packet.getSize()) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_TIME_SYNC, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+
+		for (size_t i = 0; i < packet.nbDiff; i++) {
+			if (this->_nextExpectedDiffFrame == packet.frameId + i) {
+				this->_nextExpectedDiffFrame++;
+				if (!this->onTimeSync)
+					continue;
+				this->onTimeSync(remote, packet.frameId + i, packet.timeDiff[i]);
+			}
+		}
+		while (!this->_sendSyncBuffer.empty() && this->_sendSyncBuffer.front().first < packet.lastRecvFrameId)
+			this->_sendSyncBuffer.pop_front();
 	}
 
 	void Connection::terminate()
@@ -489,7 +512,6 @@ namespace SpiralOfFate
 		this->_terminated = true;
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
-		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
 		for (auto &remote : this->_remotes)
 			this->_send(remote, &quit, sizeof(quit));
@@ -522,8 +544,8 @@ namespace SpiralOfFate
 		this->_buffer.clear();
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
-		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
+		this->_nextExpectedDiffFrame = 0;
 		for (auto input : this->_registeredInputs)
 			input->flush();
 	}
@@ -568,19 +590,19 @@ namespace SpiralOfFate
 		}
 	}
 
+	void Connection::timeSync(long long int time, unsigned frame)
+	{
+		this->_sendSyncBuffer.emplace_back(frame, time);
+	}
+
 	void Connection::Remote::_pingLoop()
 	{
 		PacketPing ping(0);
 
 		while (this->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 			this->base._send(*this, &ping, sizeof(ping));
-			for (int i = 0; i < 100 && this->connectPhase != CONNECTION_STATE_DISCONNECTED; i++) {
-				if (this->timeSinceLastPacket.getElapsedTime().asSeconds() >= 10) {
-					this->connectPhase = CONNECTION_STATE_DISCONNECTED;
-					return;
-				}
+			for (int i = 0; i < 20 && this->connectPhase != CONNECTION_STATE_DISCONNECTED; i++)
 				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			}
 			ping.seqId++;
 		}
 	}

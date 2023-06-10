@@ -5,6 +5,9 @@
 #include "RollbackMachine.hpp"
 #include "Resources/Game.hpp"
 
+#define DIFF_TIME_NB_AVG 15
+#define MAX_SETBACK 1000LL
+
 namespace SpiralOfFate
 {
 	RollbackMachine::RollbackData::RollbackData(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old)
@@ -13,6 +16,7 @@ namespace SpiralOfFate
 	}
 
 	RollbackMachine::RollbackData::RollbackData(RollbackMachine::RollbackData &other) :
+		clock(other.clock),
 		left(other.left),
 		right(other.right),
 		dataSize(other.dataSize)
@@ -72,13 +76,72 @@ namespace SpiralOfFate
 	{
 		left->_input = this->inputLeft;
 		right->_input = this->inputRight;
+		if (!game->connection)
+			return;
+		game->connection->onInputReceived = [this](Connection::Remote &remote, unsigned frameId) {
+			this->_onInputReceived(frameId);
+		};
+		game->connection->onTimeSync = [this](Connection::Remote &remote, unsigned frameId, long long diff) {
+			this->_opDiffTimes.push_back(diff);
+			this->_totalOpDiffTimes += diff;
+			this->_opDiffTimesAverage.push_back(this->_totalOpDiffTimes / this->_opDiffTimes.size());
+			if (this->_opDiffTimes.size() > DIFF_TIME_NB_AVG) {
+				this->_totalOpDiffTimes -= this->_opDiffTimes.front();
+				this->_opDiffTimes.pop_front();
+			}
+		};
+	}
+
+	RollbackMachine::~RollbackMachine()
+	{
+		if (!game->connection)
+			return;
+		game->connection->onInputReceived = nullptr;
+		game->connection->onTimeSync = nullptr;
+	}
+
+	void RollbackMachine::_onInputReceived(unsigned int frame)
+	{
+		if (this->_savedData.empty()) {
+			this->_advanceInputs.emplace_back();
+			return;
+		}
+
+		auto lowFrame = BattleManager::getFrame(this->_savedData.front().data);
+		auto highFrame = BattleManager::getFrame(this->_savedData.back().data);
+
+		if (frame < lowFrame)
+			return game->logger.error(std::to_string(frame) + " < " + std::to_string(lowFrame));
+		if (frame > highFrame) {
+			this->_advanceInputs.emplace_back();
+			return;
+		}
+
+		auto it = this->_savedData.begin();
+
+		while (frame != BattleManager::getFrame(it->data))
+			it++;
+
+		auto time = it->clock.getElapsedTime().asMicroseconds();
+
+		this->_diffTimes.push_back(time);
+		this->_totalDiffTimes += time;
+		this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
+		if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
+			this->_totalDiffTimes -= this->_diffTimes.front();
+			this->_diffTimes.pop_front();
+		}
+		game->connection->timeSync(time, frame);
 	}
 
 	RollbackMachine::UpdateStatus RollbackMachine::update(bool useP1Inputs, bool useP2Inputs)
 	{
+		bool hasInitTimer = false;
+
 		//TODO: Use useP1Inputs, useP2Inputs and check the fake pause
 		(void)useP1Inputs;
 		(void)useP2Inputs;
+	loopStart:
 #if MAX_ROLLBACK == 0
 		if (!this->_realInputLeft->hasInputs() || !this->_realInputRight->hasInputs()) {
 #else
@@ -90,6 +153,27 @@ namespace SpiralOfFate
 			game->logger.verbose("Skipping 1 frame!");
 			return UPDATESTATUS_NO_INPUTS;
 		}
+		if (!hasInitTimer)
+			this->_frameTimer += 1000000 / 60;
+		hasInitTimer = true;
+
+		long long timeResultOp = 0;
+		long long timeResult = 0;
+		unsigned nbs = 0;
+
+		while (!this->_opDiffTimesAverage.empty() && !this->_diffTimesAverage.empty()) {
+			timeResultOp += this->_opDiffTimesAverage.front();
+			timeResult += this->_diffTimesAverage.front();
+			this->_opDiffTimesAverage.pop_front();
+			this->_diffTimesAverage.pop_front();
+			nbs++;
+		}
+		if (nbs)
+			this->_lastAvgTimes = {timeResultOp / nbs, timeResult / nbs};
+		if (this->_lastAvgTimes.first > this->_lastAvgTimes.second)
+			this->_frameTimer += std::min(this->_lastAvgTimes.first - this->_lastAvgTimes.second, MAX_SETBACK);
+		if (this->_frameTimer < 1000000 / 60)
+			return UPDATESTATUS_NO_INPUTS;
 
 #if MAX_ROLLBACK == 0
 		this->_savedData.emplace_back(
@@ -109,6 +193,21 @@ namespace SpiralOfFate
 				std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *>{&this->inputLeft->_keyStates, &this->inputRight->_keyStates}
 			);
 			result = this->_simulateFrame(this->_savedData.back(), true);
+			if (!this->_advanceInputs.empty()) {
+				auto time = this->_advanceInputs.front().getElapsedTime().asMicroseconds();
+
+				my_assert(!this->_savedData.back().left.predicted);
+				my_assert(!this->_savedData.back().right.predicted);
+				this->_advanceInputs.pop_front();
+				this->_diffTimes.push_back(time);
+				this->_totalDiffTimes += time;
+				this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
+				if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
+					this->_totalDiffTimes -= this->_diffTimes.front();
+					this->_diffTimes.pop_front();
+				}
+				game->connection->timeSync(time, BattleManager::getFrame(this->_savedData.back().data));
+			}
 		}
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted) {
 			auto &dat = this->_savedData.front();
@@ -122,6 +221,9 @@ namespace SpiralOfFate
 			this->_savedData.pop_front();
 		}
 #endif
+		this->_frameTimer -= 1000000 / 60;
+		if (this->_frameTimer >= 1000000 / 60)
+			goto loopStart;
 		return result ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}
 
@@ -311,5 +413,21 @@ namespace SpiralOfFate
 		this->inputLeft->_keyStates = data.left.keyStates;
 		this->inputRight->_keyStates = data.right.keyStates;
 		return game->battleMgr->update();
+	}
+
+	const std::pair<long long int, long long int> &RollbackMachine::getLastAvgTimes() const
+	{
+		return this->_lastAvgTimes;
+	}
+
+	std::pair<long long int, long long int> RollbackMachine::getLastTimes() const
+	{
+		std::pair<long long int, long long int> times{0, 0};
+
+		if (!this->_opDiffTimes.empty())
+			times.first = this->_opDiffTimes.front();
+		if (!this->_diffTimes.empty())
+			times.second = this->_diffTimes.front();
+		return times;
 	}
 }

@@ -209,6 +209,7 @@ namespace SpiralOfFate
 		PacketInput inputs[];
 
 		static std::shared_ptr<PacketGameFrame> create(std::list<std::pair<unsigned, PacketInput>> &inputs, uint32_t lastRecvFrameId, uint32_t gameId);
+		size_t getSize();
 		std::string toString() const;
 	};
 
@@ -339,7 +340,7 @@ namespace SpiralOfFate
 		uint32_t receivedChecksum;
 		uint32_t frameId;
 
-		PacketDesyncDetected(uint32_t myChecksum, uint32_t yourChecksum, uint32_t frameId);
+		PacketDesyncDetected(unsigned myChecksum, unsigned yourChecksum, unsigned frameId);
 		std::string toString() const;
 	};
 
@@ -347,8 +348,16 @@ namespace SpiralOfFate
 	private:
 		Opcode opcode;
 
-	public:
 		PacketTimeSync();
+
+	public:
+		uint32_t frameId;
+		uint32_t lastRecvFrameId;
+		uint32_t nbDiff;
+		int64_t timeDiff[];
+
+		static std::shared_ptr<PacketTimeSync> create(std::list<std::pair<unsigned, long long>> &diffs, unsigned lastRecvFrameId);
+		size_t getSize();
 		std::string toString() const;
 	};
 

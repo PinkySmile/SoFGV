@@ -69,7 +69,7 @@ namespace SpiralOfFate
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
 			sf::Clock timeSinceLastPacket;
-			std::thread pingThread;//{&Remote::_pingLoop, this};
+			std::thread pingThread{&Remote::_pingLoop, this};
 			std::function<void (Remote &remote)> onDisconnect;
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) : base(base), ip(ip), port(port) {};
@@ -85,12 +85,13 @@ namespace SpiralOfFate
 		unsigned _expectedDelay = 0;
 		unsigned _currentFrame = 0;
 		unsigned _nextExpectedFrame = 0;
-		unsigned _lastOpRecvFrame = 0;
+		unsigned _nextExpectedDiffFrame = 0;
 		unsigned _gameId = 0;
 		std::map<unsigned, unsigned> _states;
 		Remote *_opponent = nullptr;
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
+		std::list<std::pair<unsigned, long long>> _sendSyncBuffer;
 		sf::UdpSocket _socket;
 		std::list<Remote> _remotes;
 		std::mutex _terminationMutex;
@@ -136,10 +137,12 @@ namespace SpiralOfFate
 		};
 
 		std::vector<std::string> blacklist;
-		std::function<void (Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum)> onDesync;
 		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (unsigned newDelay)> onDelayUpdate;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
+		std::function<void (Remote &remote, unsigned frameId)> onInputReceived;
+		std::function<void (Remote &remote, unsigned frameId, long long timeDiff)> onTimeSync;
+		std::function<void (Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum)> onDesync;
 
 		Connection();
 		~Connection() override;
@@ -153,6 +156,7 @@ namespace SpiralOfFate
 		void terminate();
 		bool isTerminated() const;
 		void nextGame();
+		void timeSync(long long time, unsigned frame);
 		virtual void update();
 		const std::pair<std::string, std::string> &getNames() const;
 		void reportChecksum(unsigned checksum, unsigned frameId);

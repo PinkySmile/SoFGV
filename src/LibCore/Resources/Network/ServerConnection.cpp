@@ -180,8 +180,8 @@ namespace SpiralOfFate
 	{
 		this->_sendBuffer.clear();
 		this->_currentFrame = 0;
-		this->_lastOpRecvFrame = 0;
 		this->_nextExpectedFrame = 0;
+		this->_nextExpectedDiffFrame = 0;
 		this->_states.clear();
 		if (id == MENUSTATE_CHARSELECT && lock) {
 			game->connection->nextGame();
