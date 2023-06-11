@@ -21,13 +21,13 @@ namespace SpiralOfFate
 		right(other.right),
 		dataSize(other.dataSize)
 	{
-		this->data = malloc(this->dataSize);
+		this->data = new char[this->dataSize];
 		memcpy(this->data, other.data, this->dataSize);
 	}
 
 	RollbackMachine::RollbackData::~RollbackData()
 	{
-		free(this->data);
+		delete[] this->data;
 	}
 
 	void RollbackMachine::RollbackData::regenInputs(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old)
@@ -41,8 +41,8 @@ namespace SpiralOfFate
 		this->left.save(l);
 		this->right.save(r);
 		this->dataSize = game->battleMgr->getBufferSize();
-		free(this->data);
-		this->data = malloc(this->dataSize);
+		delete[] this->data;
+		this->data = new char[this->dataSize];
 		game->battleMgr->copyToBuffer(this->data);
 	}
 
@@ -78,10 +78,10 @@ namespace SpiralOfFate
 		right->_input = this->inputRight;
 		if (!game->connection)
 			return;
-		game->connection->onInputReceived = [this](Connection::Remote &remote, unsigned frameId) {
+		game->connection->onInputReceived = [this](Connection::Remote &, unsigned frameId) {
 			this->_onInputReceived(frameId);
 		};
-		game->connection->onTimeSync = [this](Connection::Remote &remote, unsigned frameId, long long diff) {
+		game->connection->onTimeSync = [this](Connection::Remote &, unsigned, long long diff) {
 			this->_opDiffTimes.push_back(diff);
 			this->_totalOpDiffTimes += diff;
 			this->_opDiffTimesAverage.push_back(this->_totalOpDiffTimes / this->_opDiffTimes.size());
@@ -188,16 +188,10 @@ namespace SpiralOfFate
 		bool result = this->_checkPredictedInputs();
 
 		if (result) {
-			this->_savedData.emplace_back(
-				std::pair<IInput *, IInput *>{&*this->_realInputLeft, &*this->_realInputRight},
-				std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *>{&this->inputLeft->_keyStates, &this->inputRight->_keyStates}
-			);
-			result = this->_simulateFrame(this->_savedData.back(), true);
 			if (!this->_advanceInputs.empty()) {
 				auto time = this->_advanceInputs.front().getElapsedTime().asMicroseconds();
 
-				my_assert(!this->_savedData.back().left.predicted);
-				my_assert(!this->_savedData.back().right.predicted);
+				my_assert(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
 				this->_advanceInputs.pop_front();
 				this->_diffTimes.push_back(time);
 				this->_totalDiffTimes += time;
@@ -206,8 +200,13 @@ namespace SpiralOfFate
 					this->_totalDiffTimes -= this->_diffTimes.front();
 					this->_diffTimes.pop_front();
 				}
-				game->connection->timeSync(time, BattleManager::getFrame(this->_savedData.back().data));
+				game->connection->timeSync(time, this->_savedData.empty() ? 0 : BattleManager::getFrame(this->_savedData.back().data) + 1);
 			}
+			this->_savedData.emplace_back(
+				std::pair<IInput *, IInput *>{&*this->_realInputLeft, &*this->_realInputRight},
+				std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *>{&this->inputLeft->_keyStates, &this->inputRight->_keyStates}
+			);
+			result = this->_simulateFrame(this->_savedData.back(), true);
 		}
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted) {
 			auto &dat = this->_savedData.front();
@@ -229,12 +228,16 @@ namespace SpiralOfFate
 
 	RollbackMachine::UpdateStatus RollbackMachine::syncTestUpdate(bool useP1Inputs, bool useP2Inputs)
 	{
+		//TODO: Use useP1Inputs, useP2Inputs and check the fake pause
+		(void)useP1Inputs;
+		(void)useP2Inputs;
+
 		unsigned int dataSizeBefore = game->battleMgr->getBufferSize();
 		unsigned int dataSizeAfter;
 		unsigned int dataSizeAfter2;
-		void *dataBefore = malloc(dataSizeBefore);
-		void *dataAfter;
-		void *dataAfter2;
+		char *dataBefore = new char[dataSizeBefore];
+		char *dataAfter;
+		char *dataAfter2;
 		int checksum1;
 		int checksum2;
 		auto lDur = this->inputLeft->_keyDuration;
@@ -253,7 +256,7 @@ namespace SpiralOfFate
 		auto rDur2 = this->inputRight->_keyDuration;
 
 		dataSizeAfter = game->battleMgr->getBufferSize();
-		dataAfter = malloc(dataSizeAfter);
+		dataAfter = new char[dataSizeAfter];
 		memset(dataAfter, 0xCD, dataSizeAfter);
 		game->battleMgr->copyToBuffer(dataAfter);
 		checksum1 = _computeCheckSum((short *)dataAfter, dataSizeAfter / sizeof(short));
@@ -265,7 +268,7 @@ namespace SpiralOfFate
 		auto result2 = game->battleMgr->update();
 
 		dataSizeAfter2 = game->battleMgr->getBufferSize();
-		dataAfter2 = malloc(dataSizeAfter2);
+		dataAfter2 = new char[dataSizeAfter2];
 		memset(dataAfter2, 0xDC, dataSizeAfter2);
 		game->battleMgr->copyToBuffer(dataAfter2);
 		checksum2 = _computeCheckSum((short *)dataAfter2, dataSizeAfter2 / sizeof(short));
@@ -280,9 +283,9 @@ namespace SpiralOfFate
 					if (((char *)dataAfter)[i] != ((char *)dataAfter2)[i])
 						game->logger.fatal("Old data at index " + std::to_string(i) + ": " + std::to_string(((char *)dataAfter)[i]) + " vs new data at index " + std::to_string(i) + ": " + std::to_string(((char *)dataAfter2)[i]));
 			game->battleMgr->logDifference(dataAfter, dataAfter2);
-			free(dataBefore);
-			free(dataAfter);
-			free(dataAfter2);
+			delete[] dataBefore;
+			delete[] dataAfter;
+			delete[] dataAfter2;
 			throw AssertionFailedException(
 				"checksum1 == checksum2",
 				std::to_string(checksum1) + " != " + std::to_string(checksum2)
@@ -291,14 +294,17 @@ namespace SpiralOfFate
 		my_assert(result1 == result2);
 		my_assert(lDur2 == this->inputLeft->_keyDuration);
 		my_assert(rDur2 == this->inputRight->_keyDuration);
-		free(dataBefore);
-		free(dataAfter);
-		free(dataAfter2);
+		delete[] dataBefore;
+		delete[] dataAfter;
+		delete[] dataAfter2;
 		return result1 ? UPDATESTATUS_OK : UPDATESTATUS_GAME_ENDED;
 	}
 
 	bool RollbackMachine::_checkPredictedInputs()
 	{
+		if (this->_savedData.empty())
+			return true;
+
 		auto it = this->_savedData.begin();
 		auto result = 0;
 		bool different = false;

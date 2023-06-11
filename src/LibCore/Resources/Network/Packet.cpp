@@ -13,6 +13,11 @@
 
 namespace SpiralOfFate
 {
+	void deleteArray(void *a) noexcept
+	{
+		delete[] (char *)a;
+	}
+
 	unsigned PacketHello::computeMagic(const char *version)
 	{
 		unsigned magic = magicStart;
@@ -146,7 +151,7 @@ namespace SpiralOfFate
 
 	std::shared_ptr<PacketGameFrame> PacketGameFrame::create(std::list<std::pair<unsigned, PacketInput>> &inputs, uint32_t lastRecvFrameId, uint32_t gameId)
 	{
-		void *buffer = malloc(inputs.size() * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame));
+		char *buffer = new char[inputs.size() * sizeof(*PacketGameFrame::inputs) + sizeof(PacketGameFrame)];
 		auto *packet = new(buffer) PacketGameFrame();
 		size_t i = 0;
 
@@ -159,7 +164,8 @@ namespace SpiralOfFate
 			packet->inputs[i] = input.second;
 			i++;
 		}
-		return {packet, free};
+		my_assert(i == inputs.size() && i == packet->nbInputs);
+		return {packet, deleteArray};
 	}
 
 	std::string PacketGameFrame::toString() const
@@ -271,11 +277,11 @@ namespace SpiralOfFate
 
 	std::shared_ptr<PacketState> PacketState::create(void *data, size_t size)
 	{
-		void *buffer = malloc(size + 1);
+		void *buffer = new char[size + 1];
 		auto *packet = new(buffer) PacketState();
 
 		//TODO: Compress the data
-		return std::shared_ptr<PacketState>(packet, free);
+		return {packet, deleteArray};
 	}
 
 	std::string PacketState::toString() const
@@ -290,11 +296,11 @@ namespace SpiralOfFate
 
 	std::shared_ptr<PacketReplay> PacketReplay::create(void *data, size_t size)
 	{
-		void *buffer = malloc(size + 5);
+		void *buffer = new char[size + 5];
 		auto *packet = new(buffer) PacketReplay();
 
 		//TODO: Compress the data
-		return std::shared_ptr<PacketReplay>(packet, free);
+		return {packet, deleteArray};
 	}
 
 	std::string PacketReplay::toString() const
@@ -364,7 +370,7 @@ namespace SpiralOfFate
 
 	std::shared_ptr<PacketTimeSync> PacketTimeSync::create(std::list<std::pair<unsigned int, long long int>> &diffs, unsigned int lastRecvFrameId)
 	{
-		void *buffer = malloc(diffs.size() * sizeof(*PacketTimeSync::timeDiff) + sizeof(PacketTimeSync));
+		void *buffer = new char[diffs.size() * sizeof(*PacketTimeSync::timeDiff) + sizeof(PacketTimeSync)];
 		auto *packet = new(buffer) PacketTimeSync();
 		size_t i = 0;
 
@@ -376,7 +382,7 @@ namespace SpiralOfFate
 			packet->timeDiff[i] = input.second;
 			i++;
 		}
-		return {packet, free};
+		return {packet, deleteArray};
 	}
 
 	size_t PacketTimeSync::getSize()

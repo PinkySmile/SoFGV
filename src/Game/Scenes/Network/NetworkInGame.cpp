@@ -32,8 +32,8 @@ namespace SpiralOfFate
 		_rightChr(rightChr)
 #endif
 	{
-		game->connection->onDesync = [this](Connection::Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum){
-			auto error = (char *)malloc(400);
+		game->connection->onDesync = [this](Connection::Remote &, unsigned frameId, unsigned cpuSum, unsigned recvSum){
+			auto error = new char[400];
 
 			sprintf(error, "Invalid checksum on frame %d\n%08X computed but received %08X", frameId, cpuSum, recvSum);
 			*strchr(error, '\n') = 0;
@@ -44,7 +44,7 @@ namespace SpiralOfFate
 			this->_error = error;
 			this->_errorMutex.unlock();
 			this->_errorClock.restart();
-			free(old);
+			delete[] old;
 		};
 	}
 
@@ -73,7 +73,7 @@ namespace SpiralOfFate
 
 			this->_error = nullptr;
 			this->_errorMutex.unlock();
-			free(old);
+			delete[] old;
 		}
 
 		auto linput = game->battleMgr->getLeftCharacter()->getInput();

@@ -7,6 +7,7 @@
 
 
 #include <list>
+#include <deque>
 #include <memory>
 #include <optional>
 #include "Inputs/RollbackInput.hpp"
@@ -34,7 +35,7 @@ namespace SpiralOfFate
 			InputData left;
 			InputData right;
 			size_t dataSize = 0;
-			void *data = nullptr;
+			char *data = nullptr;
 
 			RollbackData() = default;
 			RollbackData(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old);
@@ -48,10 +49,10 @@ namespace SpiralOfFate
 		long long _frameTimer = 0;
 		long long _totalDiffTimes = 0;
 		long long _totalOpDiffTimes = 0;
-		std::list<long long> _diffTimes;
-		std::list<long long> _opDiffTimes;
-		std::list<long long> _diffTimesAverage;
-		std::list<long long> _opDiffTimesAverage;
+		std::deque<long long> _diffTimes;
+		std::deque<long long> _opDiffTimes;
+		std::deque<long long> _diffTimesAverage;
+		std::deque<long long> _opDiffTimesAverage;
 		std::pair<long long, long long> _lastAvgTimes{0, 0};
 		std::list<RollbackData> _savedData;
 		std::list<sf::Clock> _advanceInputs;

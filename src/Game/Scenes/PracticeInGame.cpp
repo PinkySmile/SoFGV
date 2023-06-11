@@ -277,17 +277,17 @@ namespace SpiralOfFate
 		switch (this->_practiceCursor) {
 		case 0:
 			this->_manager->_rightCharacter->_dummyGroundTech = static_cast<Character::GroundTech>(this->_manager->_rightCharacter->_dummyGroundTech + 1);
-			if (this->_manager->_rightCharacter->_dummyGroundTech == Character::GROUNDTECH_RANDOM + 1)
+			if ((int)this->_manager->_rightCharacter->_dummyGroundTech == Character::GROUNDTECH_RANDOM + 1)
 				this->_manager->_rightCharacter->_dummyGroundTech = Character::GROUNDTECH_NONE;
 			break;
 		case 1:
 			this->_manager->_rightCharacter->_dummyAirTech = static_cast<Character::AirTech>(this->_manager->_rightCharacter->_dummyAirTech + 1);
-			if (this->_manager->_rightCharacter->_dummyAirTech == Character::AIRTECH_RANDOM + 1)
+			if ((int)this->_manager->_rightCharacter->_dummyAirTech == Character::AIRTECH_RANDOM + 1)
 				this->_manager->_rightCharacter->_dummyAirTech = Character::AIRTECH_NONE;
 			break;
 		case 2:
 			this->_manager->_rightCharacter->_dummyState = static_cast<Character::DummyState>(this->_manager->_rightCharacter->_dummyState + 1);
-			if (this->_manager->_rightCharacter->_dummyState == Character::DUMMYSTATE_CROUCH + 1)
+			if ((int)this->_manager->_rightCharacter->_dummyState == Character::DUMMYSTATE_CROUCH + 1)
 				this->_manager->_rightCharacter->_dummyState = Character::DUMMYSTATE_STANDING;
 			break;
 		case 3:

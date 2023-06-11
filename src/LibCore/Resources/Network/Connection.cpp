@@ -405,6 +405,12 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Connection::Remote &remote, PacketSyncTest &packet, size_t size)
 	{
+		if (size != sizeof(packet)) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_ERROR, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+
 		auto it = this->_states.find(packet.frameId);
 
 		if (it == this->_states.end())
@@ -624,5 +630,14 @@ namespace SpiralOfFate
 		}
 		if (this->pingThread.joinable())
 			this->pingThread.join();
+	}
+
+	Connection::Remote::Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) :
+		base(base),
+		ip(ip),
+		port(port)/*,
+		pingThread{&Remote::_pingLoop, this}*/
+	{
+
 	}
 }

@@ -651,7 +651,6 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		unsigned i = 0;
 
-		memset(dat, 0, sizeof(*dat));
 		game->logger.verbose("Saving FrameData (Data size: " + std::to_string(this->getBufferSize()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->textureHandle = this->textureHandle;
 		dat->soundHandle = this->soundHandle;
@@ -694,12 +693,20 @@ namespace SpiralOfFate
 		dat->hasSnap = this->snap.has_value();
 		if (this->collisionBox)
 			dat->collisionBox = *this->collisionBox;
+		else
+			dat->collisionBox = {{0, 0}, {0, 0}};
 		if (this->gravity)
 			dat->gravity = *this->gravity;
+		else
+			dat->gravity = {0, 0};
 		if (this->snap)
 			dat->snap = *this->snap;
+		else
+			dat->snap = {0, 0};
 		if (this->priority)
 			dat->priority = *this->priority;
+		else
+			dat->priority = 0;
 		dat->hurtBoxesCount = this->hurtBoxes.size();
 		dat->hitBoxesCount = this->hitBoxes.size();
 		for (auto &box : this->hurtBoxes)

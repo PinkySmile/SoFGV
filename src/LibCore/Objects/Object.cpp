@@ -222,12 +222,12 @@ namespace SpiralOfFate
 		return this->_dead;
 	}
 
-	void Object::hit(IObject &other, const FrameData *)
+	void Object::hit(IObject &, const FrameData *)
 	{
 		this->_hasHit = true;
 	}
 
-	void Object::getHit(IObject &other, const FrameData *data)
+	void Object::getHit(IObject &, const FrameData *data)
 	{
 		this->_hitStop = data->hitOpponentHitStop;
 		game->soundMgr.play(data->hitSoundHandle);

@@ -69,10 +69,10 @@ namespace SpiralOfFate
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
 			sf::Clock timeSinceLastPacket;
-			std::thread pingThread{&Remote::_pingLoop, this};
+			std::thread pingThread;
 			std::function<void (Remote &remote)> onDisconnect;
 
-			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) : base(base), ip(ip), port(port) {};
+			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port);
 			~Remote();
 		};
 
@@ -152,7 +152,7 @@ namespace SpiralOfFate
 		void updateDelay(unsigned int delay);
 		virtual bool send(const InputStruct &inputs);
 		unsigned int getCurrentDelay();
-		std::list<PacketInput> receive();
+		std::list<PacketInput> receive() override;
 		void terminate();
 		bool isTerminated() const;
 		void nextGame();
