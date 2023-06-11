@@ -115,6 +115,10 @@ namespace SpiralOfFate
 		char buffer[500];
 		auto times = this->_rMachine.getLastTimes();
 		auto avgTimes = this->_rMachine.getLastAvgTimes();
+		float myTime = times.second / 1000.f;
+		float opTime = times.first / 1000.f;
+		float myAvgTime = avgTimes.second / 1000.f;
+		float opAvgTime = avgTimes.first / 1000.f;
 
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor(sf::Color::White);
@@ -127,9 +131,9 @@ namespace SpiralOfFate
 		sprintf(buffer, "Rollback %zu/%zu", this->_rMachine.getBufferSize(), this->_rMachine.getMaxBufferSize());
 		game->screen->displayElement(buffer, {-50, 75}, 145, Screen::ALIGN_LEFT);
 
-		sprintf(buffer, "Net delay %2.fms|%2.fms", times.second / 1000.f, times.first / 1000.f);
+		sprintf(buffer, "Net delay %.2fms|%.2fms", myTime, opTime);
 		game->screen->displayElement(buffer, {900, 25}, 145, Screen::ALIGN_RIGHT);
-		sprintf(buffer, "Avg net delay %2.fms|%2.fms", avgTimes.second / 1000.f, avgTimes.first / 1000.f);
+		sprintf(buffer, "Avg net delay %.2fms|%.2fms", myAvgTime, opAvgTime);
 		game->screen->displayElement(buffer, {900, 0}, 145, Screen::ALIGN_RIGHT);
 
 		game->screen->textSize(15);

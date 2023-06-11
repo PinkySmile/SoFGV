@@ -5,7 +5,7 @@
 #include "RollbackMachine.hpp"
 #include "Resources/Game.hpp"
 
-#define DIFF_TIME_NB_AVG 15
+#define DIFF_TIME_NB_AVG 1
 #define MAX_SETBACK 1000LL
 
 namespace SpiralOfFate
@@ -90,6 +90,8 @@ namespace SpiralOfFate
 				this->_opDiffTimes.pop_front();
 			}
 		};
+		for (unsigned m = game->connection->getCurrentDelay(), i = 0; i < m; i++)
+			game->connection->timeSync(0, i);
 	}
 
 	RollbackMachine::~RollbackMachine()
@@ -106,6 +108,7 @@ namespace SpiralOfFate
 			this->_advanceInputs.emplace_back();
 			return;
 		}
+		frame += game->connection->getCurrentDelay();
 
 		auto lowFrame = BattleManager::getFrame(this->_savedData.front().data);
 		auto highFrame = BattleManager::getFrame(this->_savedData.back().data);
@@ -126,7 +129,7 @@ namespace SpiralOfFate
 
 		this->_diffTimes.push_back(time);
 		this->_totalDiffTimes += time;
-		this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
+		this->_diffTimesAverage.push_back(this->_totalDiffTimes / (long long)this->_diffTimes.size());
 		if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
 			this->_totalDiffTimes -= this->_diffTimes.front();
 			this->_diffTimes.pop_front();
@@ -159,7 +162,7 @@ namespace SpiralOfFate
 
 		long long timeResultOp = 0;
 		long long timeResult = 0;
-		unsigned nbs = 0;
+		long long nbs = 0;
 
 		while (!this->_opDiffTimesAverage.empty() && !this->_diffTimesAverage.empty()) {
 			timeResultOp += this->_opDiffTimesAverage.front();
@@ -168,10 +171,10 @@ namespace SpiralOfFate
 			this->_diffTimesAverage.pop_front();
 			nbs++;
 		}
-		if (nbs)
+		if (nbs) {
 			this->_lastAvgTimes = {timeResultOp / nbs, timeResult / nbs};
-		if (this->_lastAvgTimes.first > this->_lastAvgTimes.second)
-			this->_frameTimer += std::min(this->_lastAvgTimes.first - this->_lastAvgTimes.second, MAX_SETBACK);
+		}
+		this->_frameTimer += std::min(std::max((this->_lastAvgTimes.first - this->_lastAvgTimes.second) / 4, -MAX_SETBACK), MAX_SETBACK);
 		if (this->_frameTimer < 1000000 / 60)
 			return UPDATESTATUS_NO_INPUTS;
 
@@ -189,18 +192,22 @@ namespace SpiralOfFate
 
 		if (result) {
 			if (!this->_advanceInputs.empty()) {
-				auto time = this->_advanceInputs.front().getElapsedTime().asMicroseconds();
+				auto frame = (this->_savedData.empty() ? 0 : BattleManager::getFrame(this->_savedData.back().data) + 1);
 
-				my_assert(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
-				this->_advanceInputs.pop_front();
-				this->_diffTimes.push_back(time);
-				this->_totalDiffTimes += time;
-				this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
-				if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
-					this->_totalDiffTimes -= this->_diffTimes.front();
-					this->_diffTimes.pop_front();
+				if (frame >= game->connection->getCurrentDelay()) {
+					auto time = this->_advanceInputs.front().getElapsedTime().asMicroseconds();
+
+					my_assert(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
+					this->_advanceInputs.pop_front();
+					this->_diffTimes.push_back(time);
+					this->_totalDiffTimes += time;
+					this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
+					if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
+						this->_totalDiffTimes -= this->_diffTimes.front();
+						this->_diffTimes.pop_front();
+					}
+					game->connection->timeSync(-time, frame);
 				}
-				game->connection->timeSync(time, this->_savedData.empty() ? 0 : BattleManager::getFrame(this->_savedData.back().data) + 1);
 			}
 			this->_savedData.emplace_back(
 				std::pair<IInput *, IInput *>{&*this->_realInputLeft, &*this->_realInputRight},

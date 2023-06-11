@@ -120,9 +120,9 @@ namespace SpiralOfFate
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
+		std::shared_ptr<class Connection> connection;
 		SceneManager scene;
 		std::mutex sceneMutex;
-		std::shared_ptr<class Connection> connection;
 		std::shared_ptr<IInput> activeNetInput;
 
 		Game(const std::string &loggerPath = "./latest.log");

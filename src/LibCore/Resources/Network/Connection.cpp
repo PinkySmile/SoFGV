@@ -605,6 +605,7 @@ namespace SpiralOfFate
 
 	void Connection::timeSync(long long int time, unsigned frame)
 	{
+		game->logger.verbose("Adding timesync data for frame " + std::to_string(frame));
 		this->_sendSyncBuffer.emplace_back(frame, time);
 	}
 
