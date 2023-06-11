@@ -182,7 +182,7 @@ add_library(
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/SpiritShadow.hpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.cpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp
-)
+	src/LibCore/Objects/Characters/VictoriaStar/Flower.cpp src/LibCore/Objects/Characters/VictoriaStar/Flower.hpp)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)

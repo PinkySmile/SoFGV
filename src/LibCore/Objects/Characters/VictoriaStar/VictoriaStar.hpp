@@ -8,6 +8,7 @@
 
 #include "Butterfly.hpp"
 #include "Objects/Character.hpp"
+#include "Flower.hpp"
 
 #define NB_BUTTERFLIES 8
 #define BUTTERFLIES_START_ID 1000
@@ -26,6 +27,9 @@ namespace SpiralOfFate
 		struct Data {
 			bool _hitShadow;
 			unsigned _stacks;
+			unsigned _flower;
+			unsigned _nbShadows;
+			unsigned _objects[0];
 		};
 #pragma pack(pop)
 
@@ -40,6 +44,7 @@ namespace SpiralOfFate
 		Sprite _hudPart;
 		std::vector<std::vector<FrameData>> _shadowActions;
 		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
+		std::optional<std::pair<unsigned, std::shared_ptr<Flower>>> _flower;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 
@@ -51,6 +56,8 @@ namespace SpiralOfFate
 		void _blockMove(Object *other, const FrameData &data) override;
 		void _applyMoveAttributes() override;
 		bool _canStartMove(unsigned int action, const FrameData &data) override;
+
+		void _tickMove() override;
 
 	public:
 		VictoriaStar() = default;
@@ -76,6 +83,7 @@ namespace SpiralOfFate
 		void postUpdate() override;
 		void drawSpecialHUD(sf::RenderTarget &texture) override;
 
+		friend class Flower;
 		friend class Butterfly;
 		friend class VoidShadow;
 	};

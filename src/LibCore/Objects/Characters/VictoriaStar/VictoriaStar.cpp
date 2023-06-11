@@ -12,10 +12,12 @@
 
 #define ACTION_SCREEN_TELEPORT 368
 #define ACTION_SHADOW 0
+#define ACTION_FLOWER 1
 #define ACTION_HAPPY_BUTTERFLY 4
 #define ACTION_WEIRD_BUTTERFLY 5
 #define WEIRD_BUTTERFLIES_START_ID (1000 + NB_BUTTERFLIES)
 #define BUTTERFLIES_END_ID (1000 + NB_BUTTERFLIES * 2)
+#define FLOWER_ID BUTTERFLIES_END_ID
 
 namespace SpiralOfFate
 {
@@ -89,6 +91,21 @@ namespace SpiralOfFate
 		return Object::_startMove(action);
 	}
 
+	void VictoriaStar::_tickMove()
+	{
+		Character::_tickMove();
+		if ((this->_action == ACTION_CROUCHING || this->_action == ACTION_CROUCH) && !this->_flower) {
+			auto result = this->_spawnSubObject(*game->battleMgr, FLOWER_ID, true);
+
+			this->_flower = {
+				result.first,
+				std::shared_ptr<Flower>(result.second, reinterpret_cast<Flower *>(&*result.second))
+			};
+		}
+		if (this->_flower && this->_flower->second->isDead())
+			this->_flower.reset();
+	}
+
 	unsigned int VictoriaStar::getClassId() const
 	{
 		return 4;
@@ -96,17 +113,22 @@ namespace SpiralOfFate
 
 	unsigned int VictoriaStar::getBufferSize() const
 	{
-		return Character::getBufferSize() + sizeof(Data);
+		return Character::getBufferSize() + sizeof(Data) + sizeof(unsigned) * this->_shadows.size();
 	}
 
 	void VictoriaStar::copyToBuffer(void *data) const
 	{
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
+		unsigned i = 0;
 
 		Character::copyToBuffer(data);
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hitShadow = this->_hitShadow;
 		dat->_stacks = this->_stacks;
+		dat->_flower = this->_flower ? this->_flower->first : 0;
+		dat->_nbShadows = this->_shadows.size();
+		for (auto &shadow : this->_shadows)
+			dat->_objects[i++] = shadow.first;
 	}
 
 	void VictoriaStar::restoreFromBuffer(void *data)
@@ -114,9 +136,18 @@ namespace SpiralOfFate
 		Character::restoreFromBuffer(data);
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
+		unsigned i = 0;
 
 		this->_hitShadow = dat->_hitShadow;
 		this->_stacks = dat->_stacks;
+		this->_shadows.clear();
+		if (dat->_flower == 0)
+			this->_flower.reset();
+		else
+			this->_flower = {dat->_flower, nullptr};
+		this->_shadows.reserve(dat->_nbShadows);
+		for (; i < dat->_nbShadows; i++)
+			this->_shadows.emplace_back(dat->_objects[i], nullptr);
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -134,7 +165,16 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow) + " vs " + std::to_string(dat2->_hitShadow));
 		if (dat1->_stacks != dat2->_stacks)
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_stacks: " + std::to_string(dat1->_stacks) + " vs " + std::to_string(dat2->_stacks));
-		return length + sizeof(Data);
+		if (dat1->_nbShadows != dat2->_nbShadows)
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_nbShadows: " + std::to_string(dat1->_nbShadows) + " vs " + std::to_string(dat2->_nbShadows));
+		if (dat1->_flower != dat2->_flower)
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_flower: " + std::to_string(dat1->_flower) + " vs " + std::to_string(dat2->_flower));
+		if (dat1->_nbShadows != dat2->_nbShadows)
+			return 0;
+		for (unsigned i = 0; i < dat1->_nbShadows; i++)
+			if (dat1->_objects[i] != dat2->_objects[i])
+				game->logger.fatal(std::string(msgStart) + "VictoriaStar::shadows[" + std::to_string(i) + "]: " + std::to_string(dat1->_objects[i]) + " vs " + std::to_string(dat2->_objects[i]));
+		return length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows;
 	}
 
 	void VictoriaStar::postUpdate()
@@ -144,7 +184,7 @@ namespace SpiralOfFate
 		for (unsigned i = 0; i < this->_shadows.size(); i++)
 			if (this->_shadows[i].second->isDead()) {
 				if (this->_stacks < MAX_STACKS * SHADOW_PER_STACK)
-				this->_stacks += this->_shadows[i].second->wasOwnerKilled();
+					this->_stacks += this->_shadows[i].second->wasOwnerKilled();
 				this->_shadows.erase(this->_shadows.begin() + i--);
 			}
 	}
@@ -175,6 +215,16 @@ namespace SpiralOfFate
 				this->_team,
 				id < WEIRD_BUTTERFLIES_START_ID ? nullptr : this->_happyBufferFlies[id - WEIRD_BUTTERFLIES_START_ID].second,
 				this->_subObjectsData.at(id < WEIRD_BUTTERFLIES_START_ID ? ACTION_HAPPY_BUTTERFLY : ACTION_WEIRD_BUTTERFLY),
+				id
+			);
+		if (id == FLOWER_ID)
+			return manager.registerObject<Flower>(
+				needRegister,
+				this,
+				this->_subObjectsData.at(ACTION_FLOWER),
+				this->_direction,
+				this->_position + Vector2f{30 * this->_dir, 0},
+				this->_team,
 				id
 			);
 		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
@@ -301,6 +351,11 @@ namespace SpiralOfFate
 			auto obj = manager.getObjectFromId(shadow.first);
 
 			shadow.second = std::shared_ptr<Shadow>(obj, reinterpret_cast<Shadow *>(&*obj));
+		}
+		if (this->_flower) {
+			auto obj = manager.getObjectFromId(this->_flower->first);
+
+			this->_flower->second = std::shared_ptr<Flower>(obj, reinterpret_cast<Flower *>(&*obj));
 		}
 		Character::resolveSubObjects(manager);
 	}

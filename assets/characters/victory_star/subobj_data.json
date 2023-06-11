@@ -975,6 +975,271 @@
     ]
   },
   {
+    "action": 1,
+    "framedata": [
+      [
+        {
+          "duration": 2,
+          "size": {
+            "x": 14,
+            "y": 30
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 15,
+            "left": 145,
+            "top": 98,
+            "width": 7
+          }
+        },
+        {
+          "duration": 2,
+          "size": {
+            "x": 14,
+            "y": 30
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 15,
+            "left": 152,
+            "top": 98,
+            "width": 7
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 6,
+            "y": 0
+          },
+          "size": {
+            "x": 22,
+            "y": 36
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 18,
+            "left": 163,
+            "top": 96,
+            "width": 11
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 22,
+            "y": 44
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 22,
+            "left": 179,
+            "top": 93,
+            "width": 11
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 28,
+            "y": 50
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 25,
+            "left": 191,
+            "top": 91,
+            "width": 14
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 38,
+            "y": 64
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 32,
+            "left": 212,
+            "top": 89,
+            "width": 19
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 14,
+            "y": 0
+          },
+          "size": {
+            "x": 40,
+            "y": 82
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 41,
+            "left": 239,
+            "top": 89,
+            "width": 20
+          }
+        }
+      ],
+      [
+        {
+          "duration": 9999,
+          "offset": {
+            "x": 16,
+            "y": 0
+          },
+          "size": {
+            "x": 42,
+            "y": 86
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 43,
+            "left": 263,
+            "top": 87,
+            "width": 21
+          }
+        }
+      ],
+      [
+        {
+          "duration": 2,
+          "offset": {
+            "x": 14,
+            "y": 0
+          },
+          "size": {
+            "x": 40,
+            "y": 82
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 41,
+            "left": 239,
+            "top": 89,
+            "width": 20
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 38,
+            "y": 64
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 32,
+            "left": 212,
+            "top": 89,
+            "width": 19
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 28,
+            "y": 50
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 25,
+            "left": 191,
+            "top": 91,
+            "width": 14
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 8,
+            "y": 0
+          },
+          "size": {
+            "x": 22,
+            "y": 44
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 22,
+            "left": 179,
+            "top": 93,
+            "width": 11
+          }
+        },
+        {
+          "duration": 2,
+          "offset": {
+            "x": 6,
+            "y": 0
+          },
+          "size": {
+            "x": 22,
+            "y": 36
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 18,
+            "left": 163,
+            "top": 96,
+            "width": 11
+          }
+        },
+        {
+          "duration": 2,
+          "size": {
+            "x": 14,
+            "y": 30
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 15,
+            "left": 152,
+            "top": 98,
+            "width": 7
+          }
+        },
+        {
+          "duration": 2,
+          "size": {
+            "x": 14,
+            "y": 30
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 15,
+            "left": 145,
+            "top": 98,
+            "width": 7
+          }
+        }
+      ]
+    ]
+  },
+  {
     "action": 4,
     "framedata": [
       [

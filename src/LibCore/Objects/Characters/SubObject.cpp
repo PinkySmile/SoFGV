@@ -30,7 +30,7 @@ namespace SpiralOfFate
 
 	int SubObject::getLayer() const
 	{
-		return 50;
+		return 100;
 	}
 
 	bool SubObject::hits(const IObject &other) const
