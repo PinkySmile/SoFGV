@@ -56,6 +56,12 @@ namespace SpiralOfFate
 
 	void Projectile::hit(IObject &other, const FrameData *data)
 	{
+		if (data->dFlag.canBlock) {
+			auto owner = (!this->getOwner() ? game->battleMgr->getLeftCharacter() : game->battleMgr->getRightCharacter());
+
+			owner->hit(other, data);
+			reinterpret_cast<Projectile *>(owner)->_hitStop = this->_hitStop;
+		}
 		Object::hit(other, data);
 
 		auto proj = dynamic_cast<Projectile *>(&other);
