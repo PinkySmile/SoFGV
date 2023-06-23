@@ -2,10 +2,11 @@
 // Created by PinkySmile on 15/08/2022.
 //
 
+#include <iostream>
 #include "RollbackMachine.hpp"
 #include "Resources/Game.hpp"
 
-#define DIFF_TIME_NB_AVG 1
+#define DIFF_TIME_NB_AVG 10
 #define MAX_SETBACK 1000LL
 
 namespace SpiralOfFate
@@ -82,13 +83,12 @@ namespace SpiralOfFate
 			this->_onInputReceived(frameId);
 		};
 		game->connection->onTimeSync = [this](Connection::Remote &, unsigned, long long diff) {
-			this->_opDiffTimes.push_back(diff);
-			this->_totalOpDiffTimes += diff;
-			this->_opDiffTimesAverage.push_back(this->_totalOpDiffTimes / this->_opDiffTimes.size());
-			if (this->_opDiffTimes.size() > DIFF_TIME_NB_AVG) {
-				this->_totalOpDiffTimes -= this->_opDiffTimes.front();
+			if (this->_opDiffTimes.size() >= DIFF_TIME_NB_AVG)
 				this->_opDiffTimes.pop_front();
-			}
+			this->_opDiffTimes.push_back(diff);
+			this->_totalOpAvgDiffTimes += diff;
+			this->_totalOpAvgDiffTimes /= (long long)this->_opDiffTimes.size();
+			this->_opDiffTimesAverage.push_back(this->_totalOpAvgDiffTimes);
 		};
 		for (unsigned m = game->connection->getCurrentDelay(), i = 0; i < m; i++)
 			game->connection->timeSync(0, i);
@@ -128,12 +128,11 @@ namespace SpiralOfFate
 		auto time = it->clock.getElapsedTime().asMicroseconds();
 
 		this->_diffTimes.push_back(time);
-		this->_totalDiffTimes += time;
-		this->_diffTimesAverage.push_back(this->_totalDiffTimes / (long long)this->_diffTimes.size());
-		if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
-			this->_totalDiffTimes -= this->_diffTimes.front();
+		this->_totalAvgDiffTimes += time;
+		this->_totalAvgDiffTimes /= (long long)this->_diffTimes.size();
+		this->_diffTimesAverage.push_back(this->_totalAvgDiffTimes);
+		if (this->_diffTimes.size() >= DIFF_TIME_NB_AVG)
 			this->_diffTimes.pop_front();
-		}
 		game->connection->timeSync(time, frame);
 	}
 
@@ -171,9 +170,8 @@ namespace SpiralOfFate
 			this->_diffTimesAverage.pop_front();
 			nbs++;
 		}
-		if (nbs) {
+		if (nbs)
 			this->_lastAvgTimes = {timeResultOp / nbs, timeResult / nbs};
-		}
 		this->_frameTimer += std::min(std::max((this->_lastAvgTimes.first - this->_lastAvgTimes.second) / 4, -MAX_SETBACK), MAX_SETBACK);
 		if (this->_frameTimer < 1000000 / 60)
 			return UPDATESTATUS_NO_INPUTS;
@@ -200,12 +198,11 @@ namespace SpiralOfFate
 					my_assert(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
 					this->_advanceInputs.pop_front();
 					this->_diffTimes.push_back(time);
-					this->_totalDiffTimes += time;
-					this->_diffTimesAverage.push_back(this->_totalDiffTimes / this->_diffTimes.size());
-					if (this->_diffTimes.size() > DIFF_TIME_NB_AVG) {
-						this->_totalDiffTimes -= this->_diffTimes.front();
+					this->_totalAvgDiffTimes += time;
+					this->_totalAvgDiffTimes /= (long long)this->_diffTimes.size();
+					this->_diffTimesAverage.push_back(this->_totalAvgDiffTimes);
+					if (this->_diffTimes.size() >= DIFF_TIME_NB_AVG)
 						this->_diffTimes.pop_front();
-					}
 					game->connection->timeSync(-time, frame);
 				}
 			}
@@ -411,7 +408,9 @@ namespace SpiralOfFate
 
 	size_t RollbackMachine::getBufferSize() const
 	{
-		return this->_savedData.size();
+		if (this->_savedData.empty())
+			return 0;
+		return this->_savedData.size() - (!this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted);
 	}
 
 	size_t RollbackMachine::getMaxBufferSize() const

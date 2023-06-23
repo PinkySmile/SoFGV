@@ -393,6 +393,7 @@ void	run()
 	game->screen->setFont(game->font);
 	game->scene.switchScene("title_screen");
 	clock.restart();
+	game->screen->setFramerateLimit(60);
 	while (game->screen->isOpen()) {
 		game->sceneMutex.lock();
 		if (game->connection)

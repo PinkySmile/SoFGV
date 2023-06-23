@@ -22,7 +22,6 @@ namespace SpiralOfFate
 	{
 		this->setPosition(sf::Vector2i(0, 0));
 		game->logger.info("Opening game window \"" + title + "\"");
-		this->setFramerateLimit(60);
 	}
 
 	Screen::Screen(const Screen &other) :
@@ -30,7 +29,6 @@ namespace SpiralOfFate
 	{
 		game->logger.info("Opening game window \"" + other.getTitle() + "\"");
 		this->_title = other.getTitle();
-		this->setFramerateLimit(60);
 		this->setSize(other.getSize());
 		this->setPosition(other.getPosition());
 	}

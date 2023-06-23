@@ -47,8 +47,8 @@ namespace SpiralOfFate
 		};
 
 		long long _frameTimer = 0;
-		long long _totalDiffTimes = 0;
-		long long _totalOpDiffTimes = 0;
+		long long _totalAvgDiffTimes = 0;
+		long long _totalOpAvgDiffTimes = 0;
 		std::deque<long long> _diffTimes;
 		std::deque<long long> _opDiffTimes;
 		std::deque<long long> _diffTimesAverage;
