@@ -39,7 +39,7 @@ namespace SpiralOfFate
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
 		unsigned int getBufferSize() const override;
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
 		int getLayer() const override;
 	};
 }

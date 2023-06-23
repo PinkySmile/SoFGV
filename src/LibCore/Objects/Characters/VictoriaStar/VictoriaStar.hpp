@@ -79,7 +79,7 @@ namespace SpiralOfFate
 		void hit(IObject &other, const FrameData *data) override;
 		void init(BattleManager &manager, const InitData &data) override;
 		void resolveSubObjects(const BattleManager &manager) override;
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
 		void postUpdate() override;
 		void drawSpecialHUD(sf::RenderTarget &texture) override;
 

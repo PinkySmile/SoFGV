@@ -40,7 +40,7 @@ public:
 	void copyToBuffer(void *data) const override;
 	void restoreFromBuffer(void *data) override;
 	unsigned int getClassId() const override;
-	size_t printDifference(const char *msgStart, void *, void *) const override;
+	size_t printDifference(const char *msgStart, void *, void *, unsigned) const override;
 	int getLayer() const override;
 };
 

@@ -123,7 +123,7 @@ unsigned int EditableObject::getClassId() const
 	return 0;
 }
 
-size_t EditableObject::printDifference(const char *, void *, void *) const
+size_t EditableObject::printDifference(const char *, void *, void *, unsigned) const
 {
 	return 0;
 }

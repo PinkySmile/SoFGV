@@ -170,9 +170,9 @@ namespace SpiralOfFate
 		this->_dead = true;
 	}
 
-	size_t Projectile::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Projectile::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Object::printDifference(msgStart, data1, data2);
+		auto length = Object::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -180,6 +180,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("Projectile @" + std::to_string(startOffset + length));
 		if (dat1->animationCtr != dat2->animationCtr)
 			game->logger.fatal(std::string(msgStart) + "Projectile::animationCtr: " + std::to_string(dat1->animationCtr) + " vs " + std::to_string(dat2->animationCtr));
 		if (dat1->disabled != dat2->disabled)

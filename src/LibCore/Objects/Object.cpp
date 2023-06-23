@@ -620,9 +620,9 @@ namespace SpiralOfFate
 		);
 	}
 
-	size_t Object::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Object::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = FrameData::printDifference(msgStart, data1, data2);
+		auto length = FrameData::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -630,6 +630,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("Object @" + std::to_string(startOffset + length));
 		if (dat1->_position != dat2->_position)
 			game->logger.fatal(std::string(msgStart) + "Object::_position: (" + std::to_string(dat1->_position.x) + ", " + std::to_string(dat1->_position.y) + ") vs (" + std::to_string(dat2->_position.x) + ", " + std::to_string(dat2->_position.y) + ")");
 		if (dat1->_speed != dat2->_speed)

@@ -117,9 +117,9 @@ namespace SpiralOfFate
 		game->logger.verbose("Restored Shadow @" + std::to_string((uintptr_t)dat));
 	}
 
-	size_t Shadow::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Shadow::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Object::printDifference(msgStart, data1, data2);
+		auto length = Object::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -127,6 +127,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("Shadow @" + std::to_string(startOffset + length));
 		if (dat1->_invincibleTime != dat2->_invincibleTime)
 			game->logger.fatal(std::string(msgStart) + "Shadow::_invincibleTime: " + std::to_string(dat1->_invincibleTime) + " vs " + std::to_string(dat2->_invincibleTime));
 		if (dat1->_boxSize != dat2->_boxSize)

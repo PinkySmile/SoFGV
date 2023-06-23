@@ -3956,7 +3956,11 @@ namespace SpiralOfFate
 
 	unsigned int Character::getBufferSize() const
 	{
-		return Object::getBufferSize() + sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size() + this->_replayData.size() * sizeof(ReplayData);
+		return Object::getBufferSize() +
+			sizeof(Data) +
+			sizeof(LastInput) * this->_lastInputs.size() +
+			sizeof(ReplayData) * this->_replayData.size() +
+			sizeof(unsigned) * 2 * this->_usedMoves.size();
 	}
 
 	void Character::copyToBuffer(void *data) const
@@ -4009,6 +4013,7 @@ namespace SpiralOfFate
 		dat->_guardCooldown = this->_guardCooldown;
 		dat->_guardBar = this->_guardBar;
 		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
+		dat->_nbUsedMoves = this->_usedMoves.size();
 		dat->_nbLastInputs = this->_lastInputs.size();
 		for (i = 0; i < this->_limit.size(); i++)
 			dat->_limit[i] = this->_limit[i];
@@ -4022,6 +4027,14 @@ namespace SpiralOfFate
 				dat->_subObjects[i] = 0;
 		}
 		memcpy(&((LastInput *)&dat[1])[dat->_nbLastInputs], this->_replayData.data(), this->_replayData.size() * sizeof(ReplayData));
+
+		auto p = (unsigned *)(((ptrdiff_t)&((LastInput *)&dat[1])[dat->_nbLastInputs]) + this->_replayData.size() * sizeof(ReplayData));
+
+		for (auto &t : this->_usedMoves) {
+			p[0] = t.first;
+			p[1] = t.second;
+			p += 2;
+		}
 	}
 
 	void Character::restoreFromBuffer(void *data)
@@ -4088,6 +4101,18 @@ namespace SpiralOfFate
 					(LastInput *)&dat[1]
 				)[dat->_nbLastInputs])
 			)[i]);
+
+		auto p = (unsigned *)&(
+			(ReplayData *)(&(
+				(LastInput *)&dat[1]
+			)[dat->_nbLastInputs])
+		)[dat->_nbReplayInputs];
+
+		this->_usedMoves.clear();
+		for (size_t i = 0; i < dat->_nbUsedMoves; i++) {
+			this->_usedMoves[p[0]] = p[1];
+			p += 2;
+		}
 		game->logger.verbose("Restored Character @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -4562,9 +4587,9 @@ namespace SpiralOfFate
 		Object::_tickMove();
 	}
 
-	size_t Character::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Character::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Object::printDifference(msgStart, data1, data2);
+		auto length = Object::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -4572,6 +4597,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("Character @" + std::to_string(startOffset + length));
 		if (dat1->_hardKD != dat2->_hardKD)
 			game->logger.fatal(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat1->_hardKD) + " vs " + std::to_string(dat2->_hardKD));
 		if (dat1->_neutralEffectTimer != dat2->_neutralEffectTimer)
@@ -4687,11 +4713,17 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat1->_nbReplayInputs) + " vs " + std::to_string(dat2->_nbReplayInputs));
 		if (dat1->_nbLastInputs != dat2->_nbLastInputs)
 			game->logger.fatal(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat1->_nbLastInputs) + " vs " + std::to_string(dat2->_nbLastInputs));
+		if (dat1->_nbUsedMoves != dat2->_nbUsedMoves)
+			game->logger.fatal(std::string(msgStart) + "Character::_nbUsedMoves: " + std::to_string(dat1->_nbUsedMoves) + " vs " + std::to_string(dat2->_nbUsedMoves));
 
-		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs || dat1->_nbLastInputs != dat2->_nbLastInputs)
+		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs || dat1->_nbLastInputs != dat2->_nbLastInputs || dat1->_nbUsedMoves != dat2->_nbUsedMoves)
 			return 0;
 
-		return length + sizeof(Data) + sizeof(LastInput) * dat1->_nbLastInputs + sizeof(ReplayData) * dat1->_nbReplayInputs;
+		return length +
+			sizeof(Data) +
+			sizeof(LastInput) * dat1->_nbLastInputs +
+			sizeof(ReplayData) * dat1->_nbReplayInputs +
+			sizeof(unsigned) * 2 * dat1->_nbUsedMoves;
 	}
 
 	Character::SubObjectAnchor Character::anchorFromString(const std::string &str)

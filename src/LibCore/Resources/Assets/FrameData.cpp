@@ -782,12 +782,13 @@ namespace SpiralOfFate
 		game->logger.verbose("Restored FrameData @" + std::to_string((uintptr_t)dat));
 	}
 
-	size_t FrameData::printDifference(const char *msgStart, void *data1, void *data2)
+	size_t FrameData::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset)
 	{
 		auto dat1 = reinterpret_cast<Data *>(data1);
 		auto dat2 = reinterpret_cast<Data *>(data2);
 		unsigned i = 0;
 
+		game->logger.info("FrameData @" + std::to_string(startOffset));
 		if (dat1->textureHandle != dat2->textureHandle)
 			game->logger.fatal(std::string(msgStart) + "FrameData::textureHandle: " + std::to_string(dat1->textureHandle) + " vs " + std::to_string(dat2->textureHandle));
 		if (dat1->soundHandle != dat2->soundHandle)

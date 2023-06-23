@@ -972,14 +972,14 @@ namespace SpiralOfFate
 		if (dat1->_nbObjects != dat2->_nbObjects)
 			game->logger.fatal("BattleManager::nbObjects differs: " + std::to_string(dat1->_nbObjects) + " vs " + std::to_string(dat2->_nbObjects));
 
-		auto length = this->_leftCharacter->printDifference("Player1: ", (void *)ptr1, (void *)ptr2);
+		auto length = this->_leftCharacter->printDifference("Player1: ", (void *)ptr1, (void *)ptr2, sizeof(Data));
 
 		if (!length)
 			return;
 		ptr1 += length;
 		ptr2 += length;
 
-		length = this->_rightCharacter->printDifference("Player2: ", (void *)ptr1, (void *)ptr2);
+		length = this->_rightCharacter->printDifference("Player2: ", (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
 		if (!length)
 			return;
 		ptr1 += length;
@@ -1039,14 +1039,14 @@ namespace SpiralOfFate
 				return;
 			}
 
-			length = obj->printDifference(("BattleManager::object[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2);
+			length = obj->printDifference(("BattleManager::object[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
 			if (length == 0)
 				return;
 			ptr1 += length;
 			ptr2 += length;
 		}
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
-			length = this->_platforms[i]->printDifference(("BattleManager::platform[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2);
+			length = this->_platforms[i]->printDifference(("BattleManager::platform[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
 			if (length == 0)
 				return;
 			ptr1 += length;

@@ -199,12 +199,13 @@ namespace SpiralOfFate
 		this->_ctr = dat->_ctr;
 	}
 
-	size_t Butterfly::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Butterfly::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Object::printDifference(msgStart, data1, data2);
+		auto length = Object::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
+		game->logger.info("Butterfly @" + std::to_string(startOffset + length));
 		if (this->_copy) {
 			//auto dat1 = reinterpret_cast<WeirdData *>((uintptr_t)data1 + length);
 			//auto dat2 = reinterpret_cast<WeirdData *>((uintptr_t)data2 + length);

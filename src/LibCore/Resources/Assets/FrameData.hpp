@@ -212,7 +212,7 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
-		static size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1);
+		static size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset);
 
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});

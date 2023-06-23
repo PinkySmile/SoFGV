@@ -191,9 +191,9 @@ namespace SpiralOfFate
 		this->_allyBuffEffect(framedata);
 	}
 
-	size_t Stickman::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t Stickman::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Character::printDifference(msgStart, data1, data2);
+		auto length = Character::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -201,6 +201,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("Stickman @" + std::to_string(startOffset + length));
 		if (dat1->_buff != dat2->_buff)
 			game->logger.fatal(std::string(msgStart) + "Stickman::_buff: " + std::to_string(dat1->_buff) + " vs " + std::to_string(dat2->_buff));
 		if (dat1->_time != dat2->_time)

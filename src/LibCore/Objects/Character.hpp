@@ -400,6 +400,7 @@ namespace SpiralOfFate
 			unsigned _guardRegenCd;
 			unsigned _nbLastInputs;
 			unsigned _nbReplayInputs;
+			unsigned _nbUsedMoves;
 			unsigned _neutralEffectTimer;
 			unsigned _matterEffectTimer;
 			unsigned _spiritEffectTimer;
@@ -774,7 +775,7 @@ namespace SpiralOfFate
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
 		bool isHit() const;
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1) const override;
+		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
 		int getLayer() const override;
 		std::array<unsigned, 4> getLimit() const;
 

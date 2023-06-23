@@ -109,9 +109,9 @@ namespace SpiralOfFate
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
-	size_t VoidShadow::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t VoidShadow::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Shadow::printDifference(msgStart, data1, data2);
+		auto length = Shadow::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -119,6 +119,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("VoidShadow @" + std::to_string(startOffset + length));
 		if (dat1->_attacking != dat2->_attacking)
 			game->logger.fatal(std::string(msgStart) + "VoidShadow::_attacking: " + std::to_string(dat1->_attacking) + " vs " + std::to_string(dat2->_attacking));
 		return length + sizeof(Data);

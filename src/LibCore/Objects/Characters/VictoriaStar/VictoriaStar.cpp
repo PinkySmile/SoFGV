@@ -151,9 +151,9 @@ namespace SpiralOfFate
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
-	size_t VictoriaStar::printDifference(const char *msgStart, void *data1, void *data2) const
+	size_t VictoriaStar::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
-		auto length = Character::printDifference(msgStart, data1, data2);
+		auto length = Character::printDifference(msgStart, data1, data2, startOffset);
 
 		if (length == 0)
 			return 0;
@@ -161,6 +161,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
+		game->logger.info("VictoriaStar @" + std::to_string(startOffset + length));
 		if (dat1->_hitShadow != dat2->_hitShadow)
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow) + " vs " + std::to_string(dat2->_hitShadow));
 		if (dat1->_stacks != dat2->_stacks)
