@@ -1115,7 +1115,7 @@ namespace SpiralOfFate
 			(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
 			(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
 			(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
-			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
+			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||0
 			(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
 			(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
 			(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
@@ -4732,6 +4732,10 @@ namespace SpiralOfFate
 			return ANCHOR_OWNER;
 		if (str == "opponent")
 			return ANCHOR_OPPONENT;
+		if (str == "border_front")
+			return ANCHOR_BORDER_FRONT;
+		if (str == "border_back")
+			return ANCHOR_BORDER_BACK;
 		if (str == "stage_min")
 			return ANCHOR_STAGE_MIN;
 		if (str == "stage_max")
@@ -4799,6 +4803,10 @@ namespace SpiralOfFate
 			return (&this->_position.x)[y];
 		case ANCHOR_OPPONENT:
 			return (&this->_opponent->_position.x)[y];
+		case ANCHOR_BORDER_FRONT:
+			return this->_direction * 1000;
+		case ANCHOR_BORDER_BACK:
+			return !this->_direction * 1000;
 		case ANCHOR_STAGE_MIN:
 			return 0;
 		case ANCHOR_STAGE_MAX:

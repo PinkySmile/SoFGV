@@ -171,9 +171,9 @@ namespace SpiralOfFate
 			my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			return Object::_onMoveEnd(lastData);
 		}
-		if (this->_loop)
-			return Object::_onMoveEnd(lastData);
-		this->_dead = true;
+		if (!this->_loop)
+			this->_dead = true;
+		Object::_onMoveEnd(lastData);
 	}
 
 	size_t Projectile::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const

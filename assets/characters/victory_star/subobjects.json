@@ -1,20 +1,5 @@
 [
 	{
-		"index": 200,
-		"action": 1,
-		"flower": true,
-		"spawn_offset": {
-			"anchorX": "opponent",
-			"anchorY": "opponent",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "front",
-		"shadow": "void",
-		"tint": false,
-		"hp": 1000
-	},
-	{
 		"index": 128,
 		"action": 1,
 		"spawn_offset": {
@@ -41,5 +26,55 @@
 		"shadow": "matter",
 		"tint": true,
 		"hp": 1000
+	},
+	{
+		"index": 2,
+		"action": 2,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 200
+		},
+		"dir": "back",
+		"hits": 4000,
+		"end_block": 0,
+		"loop": false,
+		"disable_on_hit": true,
+		"disable_animation": "fade",
+		"animation_data": 20,
+		"hp": 1000
+	},
+	{
+		"index": 3,
+		"action": 3,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 292
+		},
+		"dir": "back",
+		"hits": 4000,
+		"end_block": 0,
+		"loop": false,
+		"disable_on_hit": true,
+		"disable_animation": "fade",
+		"animation_data": 20,
+		"hp": 1000
+	},
+	{
+		"index": 130,
+		"action": 2,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "matter",
+		"tint": true,
+		"hp": 1200
 	}
 ]
