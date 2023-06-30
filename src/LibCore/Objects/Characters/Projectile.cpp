@@ -63,6 +63,8 @@ namespace SpiralOfFate
 			reinterpret_cast<Projectile *>(owner)->_hitStop = this->_hitStop;
 		}
 		Object::hit(other, data);
+		if (reinterpret_cast<Object *>(&other)->getTeam() == this->getTeam())
+			return;
 
 		auto proj = dynamic_cast<Projectile *>(&other);
 

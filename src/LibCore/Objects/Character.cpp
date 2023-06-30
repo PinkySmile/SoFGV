@@ -1115,7 +1115,7 @@ namespace SpiralOfFate
 			(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
 			(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
 			(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
-			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||0
+			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
 			(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
 			(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
 			(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
@@ -4156,9 +4156,15 @@ namespace SpiralOfFate
 
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
 	{
+		auto sObj = dynamic_cast<SubObject *>(other);
 		auto chr = dynamic_cast<Character *>(other);
 
-		if (chr) {
+		if (sObj && sObj->getCurrentFrameData()->dFlag.projectile) {
+			other->_team = this->_team;
+			other->_speed.x *= -1;
+			other->_dir *= -1;
+			other->_direction = !other->_direction;
+		} else if (chr) {
 			chr->_voidMana   -= chr->_voidManaMax   * (10 + isStrongest * 10) / 100;
 			chr->_spiritMana -= chr->_spiritManaMax * (10 + isStrongest * 10) / 100;
 			chr->_matterMana -= chr->_matterManaMax * (10 + isStrongest * 10) / 100;
@@ -4168,11 +4174,6 @@ namespace SpiralOfFate
 				chr->_matterMana < 0
 			)
 				chr->_manaCrush();
-		} else {
-			other->_team = this->_team;
-			other->_speed.x *= -1;
-			other->_dir *= -1;
-			other->_direction = !other->_direction;
 		}
 	}
 
