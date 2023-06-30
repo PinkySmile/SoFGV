@@ -2239,14 +2239,14 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 
 			diff.y *= -1;
 			data.offset += diff;
-			boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
+			boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
 			gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 			arrangeButtons(&*object);
 		} else {
 			SpiralOfFate::Vector2i diff{mouseX, mouseY};
 
 			selectedBox->pos += diff - lastMouse;
-			boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
+			boxButton->setPosition(LEFT_POS" + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
 			arrangeButtons(&*object);
 		}
 		lastMouse = {mouseX, mouseY};
@@ -2359,13 +2359,13 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	if (spriteSelected) {
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
-		boxButton->setPosition("&.w / 2 + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
+		boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
 		boxButton->setSize(data.size.x, data.size.y);
 		gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 		gui.get<tgui::EditBox>("Size")->setText("(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")");
 		arrangeButtons(&*object);
 	} else {
-		boxButton->setPosition("&.w / 2 + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
+		boxButton->setPosition(LEFT_POS" + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
 		boxButton->setSize(selectedBox->size.x, selectedBox->size.y);
 		arrangeButtons(&*object);
 	}
