@@ -476,7 +476,6 @@ namespace SpiralOfFate
 		while (this->_animationCtr >= data->duration) {
 			this->_animationCtr = 0;
 			this->_animation++;
-			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];

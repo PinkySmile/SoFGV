@@ -1271,7 +1271,7 @@
           "hit_stun": 32,
           "mana_gain": 100,
           "matter_limit": 20,
-          "offense_flag": 1107298466,
+          "offense_flag": 1107296418,
           "offset": {
             "x": 22,
             "y": 0
@@ -1318,7 +1318,7 @@
           "hit_stun": 32,
           "mana_gain": 100,
           "matter_limit": 20,
-          "offense_flag": 1107298466,
+          "offense_flag": 1107296418,
           "offset": {
             "x": 36,
             "y": -16
@@ -1346,6 +1346,7 @@
             "y": -5
           },
           "damage": 1500,
+          "defense_flag": 512,
           "duration": 10,
           "hit_boxes": [
             {
@@ -1364,7 +1365,7 @@
           "hit_stun": 32,
           "mana_gain": 100,
           "matter_limit": 20,
-          "offense_flag": 1107298466,
+          "offense_flag": 1107296418,
           "offset": {
             "x": 46,
             "y": -29
@@ -1391,6 +1392,7 @@
             "y": -5
           },
           "damage": 1500,
+          "defense_flag": 512,
           "duration": 10,
           "hit_boxes": [
             {
@@ -1409,7 +1411,7 @@
           "hit_stun": 32,
           "mana_gain": 100,
           "matter_limit": 20,
-          "offense_flag": 1107298466,
+          "offense_flag": 1107296418,
           "offset": {
             "x": 42,
             "y": -29
@@ -1434,6 +1436,7 @@
             "y": -20
           },
           "damage": 1200,
+          "defense_flag": 512,
           "duration": 10,
           "gravity": {
             "x": 0.0,
@@ -1453,7 +1456,7 @@
           },
           "hit_stun": 32,
           "mana_gain": 100,
-          "offense_flag": 1107306658,
+          "offense_flag": 1107304610,
           "offset": {
             "x": 44,
             "y": -60
@@ -1480,6 +1483,7 @@
             "y": -20
           },
           "damage": 1200,
+          "defense_flag": 512,
           "duration": 18,
           "gravity": {
             "x": 0.0,
@@ -1499,7 +1503,7 @@
           },
           "hit_stun": 32,
           "mana_gain": 100,
-          "offense_flag": 1107298466,
+          "offense_flag": 1107296418,
           "offset": {
             "x": 44,
             "y": -60
