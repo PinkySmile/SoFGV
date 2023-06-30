@@ -12429,7 +12429,6 @@
             "x": 148,
             "y": 206
           },
-          "sound": "17",
           "spirit_limit": 100,
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12581,7 +12580,6 @@
             "x": 148,
             "y": 206
           },
-          "sound": "17",
           "spirit_limit": 100,
           "sprite": "sheet.png",
           "texture_bounds": {
