@@ -3649,16 +3649,18 @@ namespace SpiralOfFate
 		}
 
 		auto myData = this->getCurrentFrameData();
+		auto chr = dynamic_cast<Character *>(obj);
 
 		if (this->_isGrounded() && myData->dFlag.crouch && this->_action != ACTION_GROUND_LOW_HIT)
 			this->_prorate = 1.15f;
 		this->_prorate = maxi(data.minProrate / 100, this->_prorate);
+		if (chr && chr->_wrongMana)
+			this->_prorate *= 0.8;
 
 		auto superRate = this->_supersUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
 		auto skillRate = this->_skillsUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto counter = this->_counterHit == 1;
 		auto forcedCounter = false;
-		auto chr = dynamic_cast<Character *>(obj);
 		float damage = data.damage * this->_prorate * skillRate * superRate;
 		auto stun = data.hitStun;
 
