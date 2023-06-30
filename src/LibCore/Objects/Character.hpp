@@ -120,8 +120,8 @@ namespace SpiralOfFate
 		/* 128 */ ACTION_c28N,
 		/* 129 */ ACTION_c46N,
 		/* 130 */ ACTION_c64N,
-		/* 131 */ ACTION_NEUTRAL_ROMAN_CANCEL,
-		/* 132 */ ACTION_NEUTRAL_AIR_ROMAN_CANCEL,
+		/* 131 */ ACTION_ROMAN_CANCEL,
+		/* 132 */ ACTION_AIR_ROMAN_CANCEL,
 		/* 133 */ ACTION_421N,
 		/* 134 */ ACTION_j421N,
 
@@ -156,8 +156,8 @@ namespace SpiralOfFate
 		/* 178 */ ACTION_c28M,
 		/* 179 */ ACTION_c46M,
 		/* 180 */ ACTION_c64M,
-		/* 181 */ ACTION_MATTER_ROMAN_CANCEL,
-		/* 182 */ ACTION_MATTER_AIR_ROMAN_CANCEL,
+		/* 181 */ ACTION_181,
+		/* 182 */ ACTION_182,
 		/* 183 */ ACTION_421M,
 		/* 184 */ ACTION_j421M,
 
@@ -192,8 +192,8 @@ namespace SpiralOfFate
 		/* 228 */ ACTION_c28S,
 		/* 229 */ ACTION_c46S,
 		/* 230 */ ACTION_c64S,
-		/* 231 */ ACTION_SPIRIT_ROMAN_CANCEL,
-		/* 232 */ ACTION_SPIRIT_AIR_ROMAN_CANCEL,
+		/* 231 */ ACTION_231,
+		/* 232 */ ACTION_232,
 		/* 233 */ ACTION_421S,
 		/* 234 */ ACTION_j421S,
 
@@ -228,8 +228,8 @@ namespace SpiralOfFate
 		/* 278 */ ACTION_c28V,
 		/* 279 */ ACTION_c46V,
 		/* 280 */ ACTION_c64V,
-		/* 281 */ ACTION_VOID_ROMAN_CANCEL,
-		/* 282 */ ACTION_VOID_AIR_ROMAN_CANCEL,
+		/* 281 */ ACTION_281,
+		/* 282 */ ACTION_282,
 		/* 283 */ ACTION_421V,
 		/* 284 */ ACTION_j421V,
 

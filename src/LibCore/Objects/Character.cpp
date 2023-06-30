@@ -355,46 +355,40 @@ namespace SpiralOfFate
 		{ ACTION_t8D,                            "t8d" },
 		{ ACTION_t2D,                            "t2d" },
 
-		{ ACTION_NEUTRAL_OVERDRIVE,              "Neutral overdrive" },
-		{ ACTION_MATTER_OVERDRIVE,               "Matter overdrive" },
-		{ ACTION_SPIRIT_OVERDRIVE,               "Spirit overdrive" },
-		{ ACTION_VOID_OVERDRIVE,                 "Void overdrive" },
-		{ ACTION_NEUTRAL_AIR_OVERDRIVE,          "Neutral air overdrive" },
-		{ ACTION_MATTER_AIR_OVERDRIVE,           "Matter air overdrive" },
-		{ ACTION_SPIRIT_AIR_OVERDRIVE,           "Spirit air overdrive" },
-		{ ACTION_VOID_AIR_OVERDRIVE,             "Void air overdrive" },
-		{ ACTION_NEUTRAL_ROMAN_CANCEL,           "Neutral roman cancel" },
-		{ ACTION_MATTER_ROMAN_CANCEL,            "Matter roman cancel" },
-		{ ACTION_SPIRIT_ROMAN_CANCEL,            "Spirit roman cancel" },
-		{ ACTION_VOID_ROMAN_CANCEL,              "Void roman cancel" },
-		{ ACTION_NEUTRAL_AIR_ROMAN_CANCEL,       "Neutral air roman cancel" },
-		{ ACTION_MATTER_AIR_ROMAN_CANCEL,        "Matter air roman cancel" },
-		{ ACTION_SPIRIT_AIR_ROMAN_CANCEL,        "Spirit air roman cancel" },
-		{ ACTION_VOID_AIR_ROMAN_CANCEL,          "Void air roman cancel" },
-		{ ACTION_GROUND_HIGH_REVERSAL,           "Ground high reversal" },
-		{ ACTION_GROUND_LOW_REVERSAL,            "Ground low reversal" },
-		{ ACTION_AIR_REVERSAL,                   "Air reversal" },
+		{ ACTION_NEUTRAL_OVERDRIVE,     "Neutral overdrive" },
+		{ ACTION_MATTER_OVERDRIVE,      "Matter overdrive" },
+		{ ACTION_SPIRIT_OVERDRIVE,      "Spirit overdrive" },
+		{ ACTION_VOID_OVERDRIVE,        "Void overdrive" },
+		{ ACTION_NEUTRAL_AIR_OVERDRIVE, "Neutral air overdrive" },
+		{ ACTION_MATTER_AIR_OVERDRIVE,  "Matter air overdrive" },
+		{ ACTION_SPIRIT_AIR_OVERDRIVE,  "Spirit air overdrive" },
+		{ ACTION_VOID_AIR_OVERDRIVE,    "Void air overdrive" },
+		{ ACTION_ROMAN_CANCEL,          "Roman cancel" },
+		{ ACTION_AIR_ROMAN_CANCEL,      "Air roman cancel" },
+		{ ACTION_GROUND_HIGH_REVERSAL,  "Ground high reversal" },
+		{ ACTION_GROUND_LOW_REVERSAL,   "Ground low reversal" },
+		{ ACTION_AIR_REVERSAL,          "Air reversal" },
 
-		{ ACTION_WIN_MATCH1,                     "Win match1" },
-		{ ACTION_WIN_MATCH2,                     "Win match2" },
-		{ ACTION_WIN_MATCH3,                     "Win match3" },
-		{ ACTION_WIN_MATCH4,                     "Win match4" },
-		{ ACTION_GAME_START1,                    "Game start1" },
-		{ ACTION_GAME_START2,                    "Game start2" },
-		{ ACTION_GAME_START3,                    "Game start3" },
-		{ ACTION_GAME_START4,                    "Game start4" },
-		//{ ACTION_WIN_ROUND1,                     "Win round1" },
-		//{ ACTION_WIN_ROUND2,                     "Win round2" },
-		//{ ACTION_WIN_ROUND3,                     "Win round3" },
-		//{ ACTION_WIN_ROUND4,                     "Win round4" },
-		//{ ACTION_LOOSE_MATCH1,                   "Loose match1" },
-		//{ ACTION_LOOSE_MATCH2,                   "Loose match2" },
-		//{ ACTION_LOOSE_MATCH3,                   "Loose match3" },
-		//{ ACTION_LOOSE_MATCH4,                   "Loose match4" },
-		//{ ACTION_LOOSE_ROUND1,                   "Loose round1" },
-		//{ ACTION_LOOSE_ROUND2,                   "Loose round2" },
-		//{ ACTION_LOOSE_ROUND3,                   "Loose round3" },
-		//{ ACTION_LOOSE_ROUND4,                   "Loose round4" },
+		{ ACTION_WIN_MATCH1,            "Win match1" },
+		{ ACTION_WIN_MATCH2,            "Win match2" },
+		{ ACTION_WIN_MATCH3,            "Win match3" },
+		{ ACTION_WIN_MATCH4,            "Win match4" },
+		{ ACTION_GAME_START1,           "Game start1" },
+		{ ACTION_GAME_START2,           "Game start2" },
+		{ ACTION_GAME_START3,           "Game start3" },
+		{ ACTION_GAME_START4,           "Game start4" },
+		//{ ACTION_WIN_ROUND1,          "Win round1" },
+		//{ ACTION_WIN_ROUND2,          "Win round2" },
+		//{ ACTION_WIN_ROUND3,          "Win round3" },
+		//{ ACTION_WIN_ROUND4,          "Win round4" },
+		//{ ACTION_LOOSE_MATCH1,        "Loose match1" },
+		//{ ACTION_LOOSE_MATCH2,        "Loose match2" },
+		//{ ACTION_LOOSE_MATCH3,        "Loose match3" },
+		//{ ACTION_LOOSE_MATCH4,        "Loose match4" },
+		//{ ACTION_LOOSE_ROUND1,        "Loose round1" },
+		//{ ACTION_LOOSE_ROUND2,        "Loose round2" },
+		//{ ACTION_LOOSE_ROUND3,        "Loose round3" },
+		//{ ACTION_LOOSE_ROUND4,        "Loose round4" },
 	};
 
 	std::string Character::actionToString(int action)
@@ -847,7 +841,7 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N) {
+		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action)) {
 			bool installed = false;
 
 			this->_voidInstallTimer = 0;
@@ -1006,19 +1000,19 @@ namespace SpiralOfFate
 		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
 		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
 		        (this->_specialInputs._236v && this->_startMove(ACTION_j236V)) ||
-		        (this->_specialInputs._214v && this->_startMove(ACTION_j214V)) ||
-		        (this->_specialInputs._236s && this->_startMove(ACTION_j236S)) ||
-		        (this->_specialInputs._214s && this->_startMove(ACTION_j214S)) ||
-		        (this->_specialInputs._236m && this->_startMove(ACTION_j236M)) ||
-		        (this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
-			(this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
-			(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
-			(this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
-			(this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
+				(this->_specialInputs._214v && this->_startMove(ACTION_j214V)) ||
+				(this->_specialInputs._236s && this->_startMove(ACTION_j236S)) ||
+				(this->_specialInputs._214s && this->_startMove(ACTION_j214S)) ||
+				(this->_specialInputs._236m && this->_startMove(ACTION_j236M)) ||
+				(this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
+				(this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
+				(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
+				(this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
+				(this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
 
-		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_AIR_ROMAN_CANCEL)) ||
+				(this->_specialInputs._an > 0 && this->_startMove(ACTION_AIR_ROMAN_CANCEL)) ||
 
-		        this->_executeAirParry(input) ||
+				this->_executeAirParry(input) ||
 
 		        (input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
 		        (input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
@@ -1110,18 +1104,18 @@ namespace SpiralOfFate
 			(this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
 			(this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
 			(this->_specialInputs._236v && this->_startMove(ACTION_236V)) ||
-			(this->_specialInputs._214v && this->_startMove(ACTION_214V)) ||
-			(this->_specialInputs._236s && this->_startMove(ACTION_236S)) ||
-			(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
-			(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
-			(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
-			(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
-			(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
-			(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
-			(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
+				(this->_specialInputs._214v && this->_startMove(ACTION_214V)) ||
+				(this->_specialInputs._236s && this->_startMove(ACTION_236S)) ||
+				(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
+				(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
+				(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
+				(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
+				(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
+				(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
+				(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
 
-			(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_ROMAN_CANCEL)) ||
-			this->_executeGroundParry(input) ||
+				(this->_specialInputs._an > 0 && this->_startMove(ACTION_ROMAN_CANCEL)) ||
+				this->_executeGroundParry(input) ||
 
 			(input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
 			(input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
@@ -1550,15 +1544,11 @@ namespace SpiralOfFate
 		if (isOverdriveAction(action) || isRomanCancelAction(action)) {
 			auto currentCd = this->_maxOdCooldown;
 
-			if (isRomanCancelAction(action))
-				currentCd /= 2;
 			if (
-				action == ACTION_NEUTRAL_OVERDRIVE ||
-				action == ACTION_NEUTRAL_AIR_OVERDRIVE
-			) {
-				currentCd *= 3;
-				currentCd /= 4;
-			}
+				action != ACTION_NEUTRAL_OVERDRIVE &&
+				action != ACTION_NEUTRAL_AIR_OVERDRIVE
+			)
+				currentCd /= 2;
 			this->_blockStun = 0;
 			this->_odCooldown = this->_barMaxOdCooldown = currentCd;
 		} else if (
@@ -3203,47 +3193,48 @@ namespace SpiralOfFate
 			auto odata = otherChr->getCurrentFrameData();
 			auto mdata = this->getCurrentFrameData();
 
-			if (
-				(odata->oFlag.spiritElement && odata->oFlag.matterElement && odata->oFlag.voidElement) &&
-				(this->_action == ACTION_NEUTRAL_OVERDRIVE                || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
-			)
+			if (isRomanCancelAction(otherChr->_action) && (this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE))
+				return false;
+			if (isRomanCancelAction(this->_action) && (otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE))
 				return Object::hits(other);
+
+			if (this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				return Object::hits(other);
+			if (otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				return false;
+
 			if (
-				(otherChr->_action == ACTION_SPIRIT_ROMAN_CANCEL || otherChr->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || odata->oFlag.spiritElement) &&
-				(this->_action == ACTION_VOID_OVERDRIVE          || this->_action == ACTION_VOID_AIR_OVERDRIVE          || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(odata->oFlag.voidElement || odata->oFlag.spiritElement) &&
+				(this->_action == ACTION_VOID_OVERDRIVE || this->_action == ACTION_VOID_AIR_OVERDRIVE)
 			)
 				return false;
 			if (
-				(otherChr->_action == ACTION_MATTER_ROMAN_CANCEL || otherChr->_action == ACTION_MATTER_AIR_ROMAN_CANCEL || odata->oFlag.matterElement) &&
-				(this->_action == ACTION_SPIRIT_OVERDRIVE        || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE        || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(odata->oFlag.spiritElement || odata->oFlag.matterElement) &&
+				(this->_action == ACTION_SPIRIT_OVERDRIVE || this->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
 			)
 				return false;
 			if (
-				(otherChr->_action == ACTION_VOID_ROMAN_CANCEL || otherChr->_action == ACTION_VOID_AIR_ROMAN_CANCEL || odata->oFlag.voidElement) &&
-				(this->_action == ACTION_MATTER_OVERDRIVE      || this->_action == ACTION_MATTER_AIR_OVERDRIVE      || this->_action == ACTION_NEUTRAL_OVERDRIVE || this->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(odata->oFlag.matterElement || odata->oFlag.voidElement) &&
+				(this->_action == ACTION_MATTER_OVERDRIVE || this->_action == ACTION_MATTER_AIR_OVERDRIVE)
 			)
 				return false;
 
 			if (
-				(mdata->oFlag.spiritElement && mdata->oFlag.matterElement && mdata->oFlag.voidElement) &&
-				(otherChr->_action == ACTION_NEUTRAL_OVERDRIVE            || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
-			)
-				return false;
-			if (
-				(this->_action == ACTION_SPIRIT_ROMAN_CANCEL || this->_action == ACTION_SPIRIT_AIR_ROMAN_CANCEL || mdata->oFlag.spiritElement) &&
-				(otherChr->_action == ACTION_VOID_OVERDRIVE  || otherChr->_action == ACTION_VOID_AIR_OVERDRIVE  || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(mdata->oFlag.voidElement || mdata->oFlag.spiritElement) &&
+				(otherChr->_action == ACTION_VOID_OVERDRIVE  || otherChr->_action == ACTION_VOID_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
 			if (
-				(this->_action == ACTION_MATTER_ROMAN_CANCEL  || this->_action == ACTION_MATTER_AIR_ROMAN_CANCEL  || mdata->oFlag.matterElement) &&
-				(otherChr->_action == ACTION_SPIRIT_OVERDRIVE || otherChr->_action == ACTION_SPIRIT_AIR_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(mdata->oFlag.spiritElement || mdata->oFlag.matterElement) &&
+				(otherChr->_action == ACTION_SPIRIT_OVERDRIVE || otherChr->_action == ACTION_SPIRIT_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
 			if (
-				(this->_action == ACTION_VOID_ROMAN_CANCEL    || this->_action == ACTION_VOID_AIR_ROMAN_CANCEL    || mdata->oFlag.voidElement) &&
-				(otherChr->_action == ACTION_MATTER_OVERDRIVE || otherChr->_action == ACTION_MATTER_AIR_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_OVERDRIVE || otherChr->_action == ACTION_NEUTRAL_AIR_OVERDRIVE)
+				(mdata->oFlag.matterElement || mdata->oFlag.voidElement) &&
+				(otherChr->_action == ACTION_MATTER_OVERDRIVE || otherChr->_action == ACTION_MATTER_AIR_OVERDRIVE)
 			)
 				return Object::hits(other);
+
 			if (isOverdriveAction(otherChr->_action))
 				return false;
 		}
@@ -4352,14 +4343,8 @@ namespace SpiralOfFate
 	bool Character::isRomanCancelAction(unsigned int action)
 	{
 		switch (action) {
-		case ACTION_NEUTRAL_ROMAN_CANCEL:
-		case ACTION_VOID_ROMAN_CANCEL:
-		case ACTION_SPIRIT_ROMAN_CANCEL:
-		case ACTION_MATTER_ROMAN_CANCEL:
-		case ACTION_NEUTRAL_AIR_ROMAN_CANCEL:
-		case ACTION_VOID_AIR_ROMAN_CANCEL:
-		case ACTION_SPIRIT_AIR_ROMAN_CANCEL:
-		case ACTION_MATTER_AIR_ROMAN_CANCEL:
+		case ACTION_ROMAN_CANCEL:
+		case ACTION_AIR_ROMAN_CANCEL:
 			return true;
 		default:
 			return false;
