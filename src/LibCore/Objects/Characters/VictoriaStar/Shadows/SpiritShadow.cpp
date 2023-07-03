@@ -15,10 +15,11 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	) :
-		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0x33, 0xCC, 0xCC} : sf::Color::White, ANIMBLOCK_SPIRIT_ACTIVATED)
+		Shadow(frameData, hp, direction, pos, owner, ownerObj, id, tint ? sf::Color{0x33, 0xCC, 0xCC} : sf::Color::White, ANIMBLOCK_SPIRIT_ACTIVATED)
 	{
 	}
 
@@ -28,11 +29,12 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	)
 	{
-		return new SpiritShadow(frameData, hp, direction, pos, owner, id, tint);
+		return new SpiritShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
 	void SpiritShadow::update()

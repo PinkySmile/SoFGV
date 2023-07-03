@@ -476,7 +476,6 @@ namespace SpiralOfFate
 		while (this->_animationCtr >= data->duration) {
 			this->_animationCtr = 0;
 			this->_animation++;
-			this->_hasHit &= this->_animation < this->_moves.at(this->_action)[this->_actionBlock].size();
 			if (this->_animation == this->_moves.at(this->_action)[this->_actionBlock].size())
 				this->_onMoveEnd(this->_moves.at(this->_action)[this->_actionBlock].back());
 			data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
@@ -488,7 +487,7 @@ namespace SpiralOfFate
 	{
 		std::vector<Rectangle> result;
 		Vector2f center{
-			data.offset.x * (this->_direction ? -1.f : 1.f),
+			data.offset.x * this->_dir,
 			data.size.y / -2.f - data.offset.y
 		};
 
@@ -549,6 +548,7 @@ namespace SpiralOfFate
 	{
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
 
+		//TODO: The cache shouldn't need to be saved. There definitely is something wrong here...
 		this->_fdCache.copyToBuffer(data);
 		game->logger.verbose("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_position = this->_position;
@@ -572,6 +572,7 @@ namespace SpiralOfFate
 
 	void Object::restoreFromBuffer(void *data)
 	{
+		//TODO: The cache shouldn't need to be saved. There definitely is something wrong here...
 		this->_fdCache.restoreFromBuffer(data);
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
@@ -685,6 +686,7 @@ namespace SpiralOfFate
 
 	void Object::_computeFrameDataCache()
 	{
+		this->_actionCache = this->_action;
 		try {
 			this->_fdCache = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {

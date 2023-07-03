@@ -14,16 +14,21 @@ namespace SpiralOfFate
 	private:
 		unsigned _id;
 		bool _owner;
+		class Character *_ownerObj;
 
 	public:
-		SubObject(unsigned id, bool owner);
+		SubObject(unsigned id, bool owner, class Character *ownerObj);
 
 		bool hits(const IObject &other) const override;
 
 		bool getOwner() const;
+		class Character *getOwnerObj() const;
 		unsigned int getId() const;
 		unsigned int getClassId() const override;
 		int getLayer() const override;
+
+	protected:
+		void _tickMove() override;
 	};
 }
 

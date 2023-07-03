@@ -56,6 +56,7 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
+			class Character *ownerObj,
 			unsigned id,
 			const sf::Color &tint,
 			unsigned activateBlock

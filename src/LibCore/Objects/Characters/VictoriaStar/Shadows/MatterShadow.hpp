@@ -18,6 +18,7 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
+			class Character *ownerObj,
 			unsigned id,
 			bool tint
 		);
@@ -28,6 +29,7 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
+			class Character *ownerObj,
 			unsigned int id,
 			bool tint
 		);

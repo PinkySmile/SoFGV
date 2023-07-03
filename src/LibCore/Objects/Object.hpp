@@ -54,6 +54,7 @@ namespace SpiralOfFate
 		Vector2f _gravity = {0, 0};
 		float _rotation = 0;
 		unsigned _team = 0;
+		unsigned short _actionCache = 0;
 		unsigned short _action = 0;
 		unsigned short _actionBlock = 0;
 		unsigned short _animation = 0;

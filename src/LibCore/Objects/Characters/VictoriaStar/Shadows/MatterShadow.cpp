@@ -12,10 +12,11 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	) :
-		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0xBB, 0x5E, 0x00} : sf::Color::White, ANIMBLOCK_MATTER_ACTIVATED)
+		Shadow(frameData, hp, direction, pos, owner, ownerObj, id, tint ? sf::Color{0xBB, 0x5E, 0x00} : sf::Color::White, ANIMBLOCK_MATTER_ACTIVATED)
 	{
 	}
 
@@ -25,11 +26,12 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	)
 	{
-		return new MatterShadow(frameData, hp, direction, pos, owner, id, tint);
+		return new MatterShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
 	void MatterShadow::getHit(IObject &other, const FrameData *data)

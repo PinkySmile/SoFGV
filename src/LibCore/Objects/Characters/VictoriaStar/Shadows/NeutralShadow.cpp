@@ -13,10 +13,11 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	) :
-		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0xA6, 0xA6, 0xA6} : sf::Color::White, ANIMBLOCK_NORMAL_ACTIVATED)
+		Shadow(frameData, hp, direction, pos, owner, ownerObj, id, tint ? sf::Color{0xA6, 0xA6, 0xA6} : sf::Color::White, ANIMBLOCK_NORMAL_ACTIVATED)
 	{
 	}
 
@@ -26,11 +27,12 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	)
 	{
-		return new NeutralShadow(frameData, hp, direction, pos, owner, id, tint);
+		return new NeutralShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
 	void NeutralShadow::update()

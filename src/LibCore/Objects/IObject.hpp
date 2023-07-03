@@ -16,7 +16,6 @@ namespace SpiralOfFate
 	public:
 		bool showBoxes = false;
 
-		virtual class Character *getOwnerChr() { return nullptr; };
 		virtual ~IObject() = default;
 		virtual void render() const = 0;
 		virtual void update() = 0;

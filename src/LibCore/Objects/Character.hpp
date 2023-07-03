@@ -611,6 +611,8 @@ namespace SpiralOfFate
 		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		bool _gotHitStopReset = false;
+		bool _hasBeenHitDuringFrame = false;
 		bool _hasHitDuringFrame = false;
 		mutable unsigned _effectTimer = 0;
 		mutable Sprite _neutralEffect;
@@ -659,8 +661,8 @@ namespace SpiralOfFate
 		virtual bool _consumeVoidMana(float cost);
 		virtual bool _consumeMatterMana(float cost);
 		virtual bool _consumeSpiritMana(float cost);
-		virtual std::pair<unsigned int, std::shared_ptr<IObject>>
-		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
+		virtual void _onSubObjectHit();
+		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);
@@ -790,6 +792,7 @@ namespace SpiralOfFate
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
 
+		friend class SubObject;
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;
 		friend class ReplayInGame;
