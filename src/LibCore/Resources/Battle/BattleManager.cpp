@@ -498,8 +498,10 @@ namespace SpiralOfFate
 		ldata = this->_leftCharacter->getCurrentFrameData();
 		rdata = this->_rightCharacter->getCurrentFrameData();
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
-			for (auto &object: this->_objects)
-				object.second->update();
+			auto size = this->_objects.size();
+
+			for (unsigned i = 0; i < size; i++)
+				this->_objects[i].second->update();
 			for (auto &object : this->_stageObjects)
 				object->update();
 			if (lchr->hits(*rchr))

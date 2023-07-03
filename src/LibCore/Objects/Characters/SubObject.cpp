@@ -51,11 +51,14 @@ namespace SpiralOfFate
 		return this->_ownerObj;
 	}
 
-	void SubObject::_tickMove()
+	void SubObject::_applyNewAnimFlags()
 	{
-		auto data = this->_ownerObj->getCurrentFrameData();
+		if (!this->_newAnim)
+			return;
 
-		Object::_tickMove();
+		auto data = this->getCurrentFrameData();
+
+		Object::_applyNewAnimFlags();
 		if (data->subObjectSpawn > 0)
 			this->_ownerObj->_spawnSubObject(*game->battleMgr, data->subObjectSpawn - 1, true);
 	}
