@@ -611,6 +611,8 @@ namespace SpiralOfFate
 		unsigned _matterManaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		bool _gotHitStopReset = false;
+		bool _hasBeenHitDuringFrame = false;
 		bool _hasHitDuringFrame = false;
 		mutable unsigned _effectTimer = 0;
 		mutable Sprite _neutralEffect;

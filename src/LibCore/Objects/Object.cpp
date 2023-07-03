@@ -548,6 +548,7 @@ namespace SpiralOfFate
 	{
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
 
+		//TODO: The cache shouldn't need to be saved. There definitely is something wrong here...
 		this->_fdCache.copyToBuffer(data);
 		game->logger.verbose("Saving Object (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_position = this->_position;
@@ -571,6 +572,7 @@ namespace SpiralOfFate
 
 	void Object::restoreFromBuffer(void *data)
 	{
+		//TODO: The cache shouldn't need to be saved. There definitely is something wrong here...
 		this->_fdCache.restoreFromBuffer(data);
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + this->_fdCache.getBufferSize());
@@ -684,6 +686,7 @@ namespace SpiralOfFate
 
 	void Object::_computeFrameDataCache()
 	{
+		this->_actionCache = this->_action;
 		try {
 			this->_fdCache = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {

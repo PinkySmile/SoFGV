@@ -1360,7 +1360,9 @@ namespace SpiralOfFate
 		auto isHit = isHitAction(obj->_action);
 		auto realData = this->getCurrentFrameData();
 
-		this->_speed.x += data->pushBack * -this->_dir;
+		if (!this->_hasBeenHitDuringFrame)
+			this->_speed.x += data->pushBack * -this->_dir;
+		this->_hasHitDuringFrame = true;
 		if (!this->_hasHit && (
 			(realData->oFlag.nextBlockOnHit && (!chr || isHit)) ||
 			(realData->oFlag.nextBlockOnBlock && chr && !isHit)
@@ -3526,19 +3528,14 @@ namespace SpiralOfFate
 				chr->_matterMana = chr->_matterManaMax;
 		}
 		if (!isParryAction(this->_action)) {
-			if (
-				(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
-					data.oFlag.spiritElement != data.oFlag.matterElement ||
-					data.oFlag.voidElement != data.oFlag.matterElement
-				) || data.oFlag.spiritElement)
-			) {
+			if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
 				int tier = 0;
 				auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
 				if (data.priority)
 					tier = *data.priority;
 				else if (chr)
-					tier = chr->getAttackTier(chr->_action);
+					tier = chr->getAttackTier(chr->_actionCache);
 				if (tier < 0)
 					tier = 100;
 				else
@@ -3685,19 +3682,14 @@ namespace SpiralOfFate
 				chr->_matterMana = chr->_matterManaMax;
 		}
 		my_assert(!data.oFlag.ultimate || chr);
-		if (
-			(data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) && ((
-				data.oFlag.spiritElement != data.oFlag.matterElement ||
-				data.oFlag.voidElement != data.oFlag.matterElement
-			) || data.oFlag.spiritElement)
-		) {
+		if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
 			int tier = 0;
 			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
 			if (data.priority)
 				tier = *data.priority;
 			else if (chr)
-				tier = chr->getAttackTier(chr->_action);
+				tier = chr->getAttackTier(chr->_actionCache);
 			if (tier < 0)
 				tier = 100;
 			else
@@ -3712,10 +3704,11 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
-		if (!this->_hasHitDuringFrame) {
-			this->_hasHitDuringFrame = true;
+		this->_hasBeenHitDuringFrame = true;
+		if (!this->_gotHitStopReset) {
+			this->_gotHitStopReset = true;
 			if (chr)
-				chr->_hasHitDuringFrame = true;
+				chr->_gotHitStopReset = true;
 			obj->_hitStop = 0;
 			this->_hitStop = 0;
 		}
@@ -3737,8 +3730,8 @@ namespace SpiralOfFate
 			this->_counter = true;
 			damage *= forcedCounter ? 2 : 1.5;
 			stun *= forcedCounter ? 2 : 1.5;
-			obj->_hitStop += data.hitPlayerHitStop * 1.5;
-			this->_hitStop += data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5);
+			obj->_hitStop = std::max<unsigned char>(obj->_hitStop, data.hitPlayerHitStop * 1.5);
+			this->_hitStop = std::max<unsigned char>(this->_hitStop, data.hitOpponentHitStop * (forcedCounter ? 2 : 1.5));
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
@@ -3758,8 +3751,8 @@ namespace SpiralOfFate
 				}
 			} else
 				stun = 0;
-			obj->_hitStop += data.hitPlayerHitStop;
-			this->_hitStop += data.hitOpponentHitStop;
+			obj->_hitStop = std::max<unsigned char>(obj->_hitStop, data.hitPlayerHitStop);
+			this->_hitStop = std::max<unsigned char>(this->_hitStop, data.hitOpponentHitStop);
 			game->logger.debug(std::to_string(this->_blockStun) + " hitstun frames");
 		}
 
