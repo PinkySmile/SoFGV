@@ -52,7 +52,7 @@
 			"anchorX": "border_front",
 			"anchorY": "stage_min",
 			"x": 0,
-			"y": 292
+			"y": 266
 		},
 		"dir": "back",
 		"hits": 4000,

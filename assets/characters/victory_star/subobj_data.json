@@ -1420,7 +1420,7 @@
           "matter_limit": 20,
           "offense_flag": 1107296418,
           "offset": {
-            "x": 42,
+            "x": 41,
             "y": -26
           },
           "prorate": 90.0,
@@ -1549,19 +1549,19 @@
           "hit_opponent_hit_stop": 11,
           "hit_player_hit_stop": 11,
           "offset": {
-            "x": -50,
+            "x": -47,
             "y": 0
           },
           "size": {
-            "x": 6,
+            "x": 10,
             "y": 6
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 3,
-            "left": 328,
+            "left": 326,
             "top": 256,
-            "width": 3
+            "width": 5
           }
         }
       ]
