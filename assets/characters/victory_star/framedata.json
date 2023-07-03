@@ -108,8 +108,8 @@
         {
           "collision_box": {
             "height": 87,
-            "left": -20,
-            "top": -88,
+            "left": -5,
+            "top": -90,
             "width": 38
           },
           "defense_flag": 2171392,
@@ -117,22 +117,26 @@
           "hurt_boxes": [
             {
               "height": 109,
-              "left": -30,
+              "left": -12,
               "top": -109,
               "width": 59
             }
           ],
           "offense_flag": 67108864,
-          "size": {
-            "x": 120,
-            "y": 212
+          "offset": {
+            "x": 14,
+            "y": 0
           },
-          "sprite": "sheet.png",
+          "size": {
+            "x": 62,
+            "y": 112
+          },
+          "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 106,
-            "left": 120,
-            "top": 0,
-            "width": 60
+            "height": 56,
+            "left": 549,
+            "top": 233,
+            "width": 31
           }
         }
       ]
@@ -4568,6 +4572,7 @@
               "width": 87
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": 15,
             "y": 0
@@ -4602,6 +4607,7 @@
               "width": 103
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": 15,
             "y": -14
@@ -4635,6 +4641,7 @@
               "width": 93
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": 19,
             "y": -14
@@ -4669,6 +4676,7 @@
               "width": 94
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": 15,
             "y": 0
@@ -4703,6 +4711,7 @@
               "width": 90
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": 10,
             "y": -3
@@ -5658,6 +5667,185 @@
             "left": 660,
             "top": 318,
             "width": 60
+          }
+        }
+      ]
+    ]
+  },
+  {
+    "action": 203,
+    "framedata": [
+      [
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16384,
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 84,
+            "y": 112
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": -6,
+          "texture_bounds": {
+            "height": 56,
+            "left": 582,
+            "top": 233,
+            "width": 42
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16384,
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 21,
+            "y": -4
+          },
+          "size": {
+            "x": 76,
+            "y": 116
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": 132,
+          "texture_bounds": {
+            "height": 58,
+            "left": 643,
+            "top": 233,
+            "width": 38
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16384,
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offense_flag": 2048,
+          "offset": {
+            "x": 18,
+            "y": -4
+          },
+          "size": {
+            "x": 70,
+            "y": 116
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": 6,
+          "texture_bounds": {
+            "height": 58,
+            "left": 704,
+            "top": 234,
+            "width": 35
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16384,
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offense_flag": 2048,
+          "offset": {
+            "x": 18,
+            "y": -4
+          },
+          "size": {
+            "x": 70,
+            "y": 116
+          },
+          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 58,
+            "left": 766,
+            "top": 234,
+            "width": 35
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16384,
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 98
+            }
+          ],
+          "offense_flag": 2048,
+          "offset": {
+            "x": 14,
+            "y": 0
+          },
+          "size": {
+            "x": 62,
+            "y": 112
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 56,
+            "left": 549,
+            "top": 233,
+            "width": 31
           }
         }
       ]
