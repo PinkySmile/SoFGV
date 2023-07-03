@@ -1152,17 +1152,25 @@ namespace SpiralOfFate
 
 	bool Character::_canStartMove(unsigned action, const FrameData &data)
 	{
-		if (this->_jumpCanceled && !this->getCurrentFrameData()->oFlag.cancelable && (
-			this->_action == ACTION_NEUTRAL_JUMP ||
-			this->_action == ACTION_FORWARD_JUMP ||
-			this->_action == ACTION_BACKWARD_JUMP ||
-			this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
-			this->_action == ACTION_FORWARD_HIGH_JUMP ||
-			this->_action == ACTION_BACKWARD_HIGH_JUMP ||
-			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
-			this->_action == ACTION_FORWARD_AIR_JUMP ||
-			this->_action == ACTION_BACKWARD_AIR_JUMP
-		) && !isHitAction(this->_opponent->_action))
+		if (
+			this->_jumpCanceled &&
+			!this->getCurrentFrameData()->oFlag.cancelable && (
+				this->_action == ACTION_NEUTRAL_JUMP ||
+				this->_action == ACTION_FORWARD_JUMP ||
+				this->_action == ACTION_BACKWARD_JUMP ||
+				this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
+				this->_action == ACTION_FORWARD_HIGH_JUMP ||
+				this->_action == ACTION_BACKWARD_HIGH_JUMP ||
+				this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+				this->_action == ACTION_FORWARD_AIR_JUMP ||
+				this->_action == ACTION_BACKWARD_AIR_JUMP
+			) && (
+				(
+					(action % 50 + 100) != ACTION_8N &&
+					(action % 50 + 100) != ACTION_j8N
+				) || !isHitAction(this->_opponent->_action)
+			)
+		)
 			return false;
 		if (isOverdriveAction(action)) {
 			for (auto limit : this->_limit)
