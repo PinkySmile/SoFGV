@@ -14,10 +14,11 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	) :
-		Shadow(frameData, hp, direction, pos, owner, id, tint ? sf::Color{0x67, 0x03, 0x3D} : sf::Color::White, ANIMBLOCK_VOID_ACTIVATED)
+		Shadow(frameData, hp, direction, pos, owner, ownerObj, id, tint ? sf::Color{0x67, 0x03, 0x3D} : sf::Color::White, ANIMBLOCK_VOID_ACTIVATED)
 	{
 	}
 
@@ -27,11 +28,12 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		bool tint
 	)
 	{
-		return new VoidShadow(frameData, hp, direction, pos, owner, id, tint);
+		return new VoidShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
 	void VoidShadow::_onMoveEnd(const FrameData &lastData)

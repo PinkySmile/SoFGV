@@ -196,6 +196,7 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		Character *ownerObj,
 		unsigned int id,
 		bool tint
 	)> shadowConstructors{
@@ -244,6 +245,7 @@ namespace SpiralOfFate
 				dir,
 				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
+				this,
 				id,
 				tint
 			));

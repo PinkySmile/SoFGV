@@ -4,12 +4,14 @@
 
 #include "SubObject.hpp"
 #include "Objects/Character.hpp"
+#include "Resources/Game.hpp"
 
 namespace SpiralOfFate
 {
-	SubObject::SubObject(unsigned int id, bool owner) :
+	SubObject::SubObject(unsigned int id, bool owner, class Character *ownerObj) :
 		_id(id),
-		_owner(owner)
+		_owner(owner),
+		_ownerObj(ownerObj)
 	{
 	}
 
@@ -42,5 +44,19 @@ namespace SpiralOfFate
 				if (limit >= 100)
 					return false;
 		return Object::hits(other);
+	}
+
+	class Character *SubObject::getOwnerObj() const
+	{
+		return this->_ownerObj;
+	}
+
+	void SubObject::_tickMove()
+	{
+		auto data = this->_ownerObj->getCurrentFrameData();
+
+		Object::_tickMove();
+		if (data->subObjectSpawn > 0)
+			this->_ownerObj->_spawnSubObject(*game->battleMgr, data->subObjectSpawn - 1, true);
 	}
 }

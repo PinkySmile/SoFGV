@@ -47,6 +47,7 @@ namespace SpiralOfFate
 	public:
 		Projectile(
 			bool owner,
+			class Character *ownerObj,
 			unsigned id,
 			const nlohmann::json &json
 		);
@@ -56,6 +57,7 @@ namespace SpiralOfFate
 			bool direction,
 			Vector2f pos,
 			bool owner,
+			class Character *ownerObj,
 			unsigned id,
 			const nlohmann::json &json
 		);

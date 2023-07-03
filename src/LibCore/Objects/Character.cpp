@@ -3547,8 +3547,8 @@ namespace SpiralOfFate
 			}
 			this->_guardRegenCd = 120;
 		}
-		this->_hitStop += data.blockPlayerHitStop;
-		other->_hitStop += data.blockOpponentHitStop;
+		this->_hitStop = std::max<unsigned char>(this->_hitStop, data.blockPlayerHitStop);
+		other->_hitStop = std::max<unsigned char>(other->_hitStop, data.blockOpponentHitStop);
 		if (data.oFlag.autoHitPos)
 			height |= this->_checkHitPos(other);
 		if ((this->_forceBlock & 7) == ALL_RIGHT_BLOCK)
@@ -3574,14 +3574,14 @@ namespace SpiralOfFate
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
-				this->_blockStun = data.blockStun * 5 / 3;
+				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun * 5 / 3);
 				game->soundMgr.play(BASICSOUND_WRONG_BLOCK);
 			} else {
 				if (this->_isGrounded())
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
-				this->_blockStun = data.blockStun;
+				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun);
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
 			this->_processGuardLoss(data.guardDmg);
@@ -3907,6 +3907,7 @@ namespace SpiralOfFate
 				dir,
 				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
 				this->_team,
+				this,
 				id,
 				pdat.json
 			);
@@ -4524,6 +4525,7 @@ namespace SpiralOfFate
 		this->_forceStartMove(actions[random_distrib(game->battleRandom, 0, actions.size())]);
 	}
 
+
 	bool Character::matchEndUpdate()
 	{
 		if (this->_action < ACTION_WIN_MATCH1)
@@ -4856,5 +4858,9 @@ namespace SpiralOfFate
 	std::array<unsigned, 4> Character::getLimit() const
 	{
 		return this->_limit;
+	}
+
+	void Character::_onSubObjectHit()
+	{
 	}
 }

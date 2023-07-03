@@ -14,7 +14,7 @@
 namespace SpiralOfFate
 {
 	Butterfly::Butterfly(VictoriaStar *owner, Character *opponent, bool isLeft, Butterfly *copy, const std::vector<std::vector<FrameData>> &frameData, unsigned id) :
-		SubObject(id, isLeft),
+		SubObject(id, isLeft, owner),
 		_owner(owner),
 		_opponent(opponent),
 		_copy(copy)

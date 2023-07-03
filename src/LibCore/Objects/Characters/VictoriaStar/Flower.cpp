@@ -16,7 +16,7 @@ namespace SpiralOfFate
 		bool owner,
 		unsigned int id
 	) :
-		SubObject(id, owner),
+		SubObject(id, owner, ownerObj),
 		_owner(ownerObj)
 	{
 		this->_position = pos;

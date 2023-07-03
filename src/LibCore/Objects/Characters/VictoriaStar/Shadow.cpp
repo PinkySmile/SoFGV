@@ -13,11 +13,12 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned int id,
 		const sf::Color &tint,
 		unsigned activateBlock
 	) :
-		SubObject(id, owner),
+		SubObject(id, owner, ownerObj),
 		_activateBlock(activateBlock)
 	{
 		this->_position = pos;
@@ -45,21 +46,15 @@ namespace SpiralOfFate
 	void Shadow::getHit(IObject &other, const FrameData *data)
 	{
 		auto dmg = data->damage;
-		bool isP[2] = {
-			&other == &*game->battleMgr->getLeftCharacter(),
-			&other == &*game->battleMgr->getRightCharacter()
-		};
-		auto byOwner = isP[this->getOwner()];
+		auto byOwner = &other == this->getOwnerObj();
+		auto o = reinterpret_cast<Shadow *>(&other);
 
 		this->_ownerKilled |= byOwner;
-		if (dmg >= this->_hp || byOwner)
+		if (dmg >= this->_hp || o->getTeam() == this->getOwnerObj()->getTeam())
 			this->_die();
 		else
 			this->_hp -= dmg;
 		Object::getHit(other, data);
-
-		auto o = reinterpret_cast<Shadow *>(&other);
-
 		if (o->getTeam() != this->getOwner() || !o->_hasHit)
 			o->_hitStop = data->hitPlayerHitStop;
 	}

@@ -9,10 +9,11 @@ namespace SpiralOfFate
 {
 	Projectile::Projectile(
 		bool owner,
+		class Character *ownerObj,
 		unsigned id,
 		const nlohmann::json &json
 	) :
-		SubObject(id, owner),
+		SubObject(id, owner, ownerObj),
 		_maxHit(json["hits"]),
 		_endBlock(json["end_block"]),
 		_loop(json["loop"]),
@@ -28,10 +29,11 @@ namespace SpiralOfFate
 		bool direction,
 		Vector2f pos,
 		bool owner,
+		class Character *ownerObj,
 		unsigned id,
 		const nlohmann::json &json
 	) :
-		Projectile(owner, id, json)
+		Projectile(owner, ownerObj, id, json)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -57,7 +59,7 @@ namespace SpiralOfFate
 	void Projectile::hit(IObject &other, const FrameData *data)
 	{
 		if (data->dFlag.canBlock) {
-			auto owner = (!this->getOwner() ? game->battleMgr->getLeftCharacter() : game->battleMgr->getRightCharacter());
+			auto owner = this->getOwnerObj();
 
 			owner->hit(other, data);
 			reinterpret_cast<Projectile *>(owner)->_hitStop = this->_hitStop;
@@ -121,7 +123,7 @@ namespace SpiralOfFate
 
 	void Projectile::update()
 	{
-		if (this->_disableOnHit && (this->getOwner() ? game->battleMgr->getRightCharacter() : game->battleMgr->getLeftCharacter())->isHit())
+		if (this->_disableOnHit && this->getOwnerObj()->isHit())
 			this->_disableObject();
 		if (this->_disabled && this->_anim == ANIMATION_FADE) {
 			this->_sprite.setColor({255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_animationCtr / this->_animationData)});
