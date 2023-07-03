@@ -487,7 +487,7 @@ namespace SpiralOfFate
 	{
 		std::vector<Rectangle> result;
 		Vector2f center{
-			data.offset.x * (this->_direction ? -1.f : 1.f),
+			data.offset.x * this->_dir,
 			data.size.y / -2.f - data.offset.y
 		};
 
