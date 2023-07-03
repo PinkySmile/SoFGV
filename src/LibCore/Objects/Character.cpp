@@ -548,6 +548,8 @@ namespace SpiralOfFate
 	void Character::update()
 	{
 		this->_hasHitDuringFrame = false;
+		this->_hasBeenHitDuringFrame = false;
+		this->_gotHitStopReset = false;
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->updateInputs();
