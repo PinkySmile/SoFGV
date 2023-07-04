@@ -1655,37 +1655,37 @@
         {
           "duration": 6,
           "offset": {
-            "x": -1,
-            "y": -27
+            "x": 0,
+            "y": -25
           },
           "size": {
-            "x": 68,
-            "y": 68
+            "x": 58,
+            "y": 60
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 34,
-            "left": 5,
-            "top": 116,
-            "width": 34
+            "height": 30,
+            "left": 7,
+            "top": 118,
+            "width": 29
           }
         },
         {
           "duration": 6,
           "offset": {
-            "x": 2,
-            "y": -26
+            "x": 0,
+            "y": -22
           },
           "size": {
-            "x": 48,
-            "y": 68
+            "x": 38,
+            "y": 61
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 34,
-            "left": 39,
-            "top": 116,
-            "width": 24
+            "height": 31,
+            "left": 42,
+            "top": 118,
+            "width": 19
           }
         }
       ],
@@ -1693,37 +1693,37 @@
         {
           "duration": 6,
           "offset": {
-            "x": -1,
-            "y": -27
+            "x": -2,
+            "y": -25
           },
           "size": {
-            "x": 68,
-            "y": 68
+            "x": 60,
+            "y": 58
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 34,
-            "left": 64,
-            "top": 116,
-            "width": 34
+            "height": 29,
+            "left": 66,
+            "top": 119,
+            "width": 30
           }
         },
         {
           "duration": 6,
           "offset": {
-            "x": 2,
-            "y": -26
+            "x": -3,
+            "y": -21
           },
           "size": {
-            "x": 72,
-            "y": 68
+            "x": 64,
+            "y": 54
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 34,
-            "left": 97,
-            "top": 118,
-            "width": 36
+            "height": 27,
+            "left": 98,
+            "top": 122,
+            "width": 32
           }
         }
       ]
