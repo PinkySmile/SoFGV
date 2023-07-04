@@ -44,6 +44,7 @@ namespace SpiralOfFate
 				255, 255, 255,
 				static_cast<sf::Uint8>(this->_copy->_maxAlpha * (1 - this->_copy->_alpha))
 			});
+			this->_computeFrameDataCache();
 			return;
 		}
 		if (this->_defenseCtr) {
@@ -236,6 +237,7 @@ namespace SpiralOfFate
 	void Butterfly::defensiveFormation(const Object &target)
 	{
 		if (this->_copy) {
+
 			this->_position = this->_copy->_position;
 			this->_disabled = false;
 			this->_maxAlpha = MAX_ALPHA;

@@ -36,6 +36,8 @@ namespace SpiralOfFate
 		// Game state
 		bool _hitShadow = false;
 		unsigned _stacks = START_STACKS;
+		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
+		std::optional<std::pair<unsigned, std::shared_ptr<Flower>>> _flower;
 
 		// Non-game state
 		const Object *_target = nullptr;
@@ -43,8 +45,6 @@ namespace SpiralOfFate
 		Sprite _hudFull;
 		Sprite _hudPart;
 		std::vector<std::vector<FrameData>> _shadowActions;
-		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
-		std::optional<std::pair<unsigned, std::shared_ptr<Flower>>> _flower;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 

@@ -968,10 +968,10 @@ namespace SpiralOfFate
 		        ((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_j6321469874S)) ||
 		        ((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_j6321469874M)) ||
 		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_j6321469874M)) ||
-			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_j6321469874D)) ||
-			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_j6321469874D)) ||
-			((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_j6321469874A)) ||
-			((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_j6321469874A)) ||
+		        ((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_j6321469874D)) ||
+		        ((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_j6321469874D)) ||
+		        ((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_j6321469874A)) ||
+		        ((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_j6321469874A)) ||
 
 		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_j63214N)) ||
 		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_j41236N)) ||
@@ -981,10 +981,10 @@ namespace SpiralOfFate
 		        ((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_j41236S)) ||
 		        ((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_j63214M)) ||
 		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_j41236M)) ||
-			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_j63214D)) ||
-			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_j41236D)) ||
-			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
-			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
+		        ((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_j63214D)) ||
+		        ((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_j41236D)) ||
+		        ((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
+		        ((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
 
 		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
 		        (this->_specialInputs._421n && this->_startMove(ACTION_j421N)) ||
@@ -994,27 +994,27 @@ namespace SpiralOfFate
 		        (this->_specialInputs._421s && this->_startMove(ACTION_j421S)) ||
 		        (this->_specialInputs._623m && this->_startMove(ACTION_j623M)) ||
 		        (this->_specialInputs._421m && this->_startMove(ACTION_j421M)) ||
-			(this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
-			(this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
-			(this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
-			(this->_specialInputs._421a && this->_startMove(ACTION_j421A)) ||
+		        (this->_specialInputs._623d && this->_startMove(ACTION_j623D)) ||
+		        (this->_specialInputs._421d && this->_startMove(ACTION_j421D)) ||
+		        (this->_specialInputs._623a && this->_startMove(ACTION_j623A)) ||
+		        (this->_specialInputs._421a && this->_startMove(ACTION_j421A)) ||
 
 		        (this->_specialInputs._236n && this->_startMove(ACTION_j236N)) ||
 		        (this->_specialInputs._214n && this->_startMove(ACTION_j214N)) ||
 		        (this->_specialInputs._236v && this->_startMove(ACTION_j236V)) ||
-				(this->_specialInputs._214v && this->_startMove(ACTION_j214V)) ||
-				(this->_specialInputs._236s && this->_startMove(ACTION_j236S)) ||
-				(this->_specialInputs._214s && this->_startMove(ACTION_j214S)) ||
-				(this->_specialInputs._236m && this->_startMove(ACTION_j236M)) ||
-				(this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
-				(this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
-				(this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
-				(this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
-				(this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
+		        (this->_specialInputs._214v && this->_startMove(ACTION_j214V)) ||
+		        (this->_specialInputs._236s && this->_startMove(ACTION_j236S)) ||
+		        (this->_specialInputs._214s && this->_startMove(ACTION_j214S)) ||
+		        (this->_specialInputs._236m && this->_startMove(ACTION_j236M)) ||
+		        (this->_specialInputs._214m && this->_startMove(ACTION_j214M)) ||
+		        (this->_specialInputs._236d && this->_startMove(ACTION_j236D)) ||
+		        (this->_specialInputs._214d && this->_startMove(ACTION_j214D)) ||
+		        (this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
+		        (this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
 
-				(this->_specialInputs._an > 0 && this->_startMove(ACTION_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_AIR_ROMAN_CANCEL)) ||
 
-				this->_executeAirParry(input) ||
+		        this->_executeAirParry(input) ||
 
 		        (input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8N)) ||
 		        (input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3N)) ||
@@ -1036,12 +1036,12 @@ namespace SpiralOfFate
 		        (input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6M)) ||
 		        (input.m && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_j5M)) ||
 		        (input.m &&                                                                      this->_executeNeutralAttack(ACTION_j5M)) ||
-			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8A)) ||
-			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6A)) ||
-			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_executeDownAttack(ACTION_j5A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_j5A)) ||
-			this->_executeAirDashes(input) ||
+		        (input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_j8A)) ||
+		        (input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j3A)) ||
+		        (input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_j6A)) ||
+		        (input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_executeDownAttack(ACTION_j5A)) ||
+		        (input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_j5A)) ||
+		        this->_executeAirDashes(input) ||
 		        this->_executeAirJump(input);
 	}
 
@@ -1049,101 +1049,101 @@ namespace SpiralOfFate
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
 
-			((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
-			((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
-			((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_6321469874V)) ||
-			((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_6321469874V)) ||
-			((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_6321469874S)) ||
-			((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_6321469874S)) ||
-			((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_6321469874M)) ||
-			((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_6321469874M)) ||
-			((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_6321469874D)) ||
-			((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_6321469874D)) ||
-			((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_6321469874A)) ||
-			((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_6321469874A)) ||
+		        ((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
+		        ((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
+		        ((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_6321469874V)) ||
+		        ((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_6321469874V)) ||
+		        ((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_6321469874S)) ||
+		        ((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_6321469874S)) ||
+		        ((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_6321469874M)) ||
+		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_6321469874M)) ||
+		        ((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_6321469874D)) ||
+		        ((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_6321469874D)) ||
+		        ((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_6321469874A)) ||
+		        ((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_6321469874A)) ||
 
-			((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_63214N)) ||
-			((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_41236N)) ||
-			((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_63214V)) ||
-			((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_41236V)) ||
-			((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_63214S)) ||
-			((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_41236S)) ||
-			((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_63214M)) ||
-			((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_41236M)) ||
-			((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_63214D)) ||
-			((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_41236D)) ||
-			((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_63214A)) ||
-			((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_41236A)) ||
+		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_63214N)) ||
+		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_41236N)) ||
+		        ((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_63214V)) ||
+		        ((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_41236V)) ||
+		        ((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_63214S)) ||
+		        ((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_41236S)) ||
+		        ((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_63214M)) ||
+		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_41236M)) ||
+		        ((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_63214D)) ||
+		        ((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_41236D)) ||
+		        ((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_63214A)) ||
+		        ((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_41236A)) ||
 
-			(this->_specialInputs._c28n && this->_startMove(ACTION_c28N)) ||
-			(this->_specialInputs._c46n && this->_startMove(ACTION_c46N)) ||
-			(this->_specialInputs._c64n && this->_startMove(ACTION_c64N)) ||
-			(this->_specialInputs._c28v && this->_startMove(ACTION_c28V)) ||
-			(this->_specialInputs._c46v && this->_startMove(ACTION_c46V)) ||
-			(this->_specialInputs._c64v && this->_startMove(ACTION_c64V)) ||
-			(this->_specialInputs._c28s && this->_startMove(ACTION_c28S)) ||
-			(this->_specialInputs._c46s && this->_startMove(ACTION_c46S)) ||
-			(this->_specialInputs._c64s && this->_startMove(ACTION_c64S)) ||
-			(this->_specialInputs._c28m && this->_startMove(ACTION_c28M)) ||
-			(this->_specialInputs._c46m && this->_startMove(ACTION_c46M)) ||
-			(this->_specialInputs._c64m && this->_startMove(ACTION_c64M)) ||
-			(this->_specialInputs._c46a && this->_startMove(ACTION_c46A)) ||
-			(this->_specialInputs._c64a && this->_startMove(ACTION_c64A)) ||
+		        (this->_specialInputs._c28n && this->_startMove(ACTION_c28N)) ||
+		        (this->_specialInputs._c46n && this->_startMove(ACTION_c46N)) ||
+		        (this->_specialInputs._c64n && this->_startMove(ACTION_c64N)) ||
+		        (this->_specialInputs._c28v && this->_startMove(ACTION_c28V)) ||
+		        (this->_specialInputs._c46v && this->_startMove(ACTION_c46V)) ||
+		        (this->_specialInputs._c64v && this->_startMove(ACTION_c64V)) ||
+		        (this->_specialInputs._c28s && this->_startMove(ACTION_c28S)) ||
+		        (this->_specialInputs._c46s && this->_startMove(ACTION_c46S)) ||
+		        (this->_specialInputs._c64s && this->_startMove(ACTION_c64S)) ||
+		        (this->_specialInputs._c28m && this->_startMove(ACTION_c28M)) ||
+		        (this->_specialInputs._c46m && this->_startMove(ACTION_c46M)) ||
+		        (this->_specialInputs._c64m && this->_startMove(ACTION_c64M)) ||
+		        (this->_specialInputs._c46a && this->_startMove(ACTION_c46A)) ||
+		        (this->_specialInputs._c64a && this->_startMove(ACTION_c64A)) ||
 
-			(this->_specialInputs._623n     && this->_startMove(ACTION_623N)) ||
-			(this->_specialInputs._421n > 0 && this->_startMove(ACTION_421N)) ||
-			(this->_specialInputs._623v     && this->_startMove(ACTION_623V)) ||
-			(this->_specialInputs._421v > 0 && this->_startMove(ACTION_421V)) ||
-			(this->_specialInputs._623s     && this->_startMove(ACTION_623S)) ||
-			(this->_specialInputs._421s > 0 && this->_startMove(ACTION_421S)) ||
-			(this->_specialInputs._623m     && this->_startMove(ACTION_623M)) ||
-			(this->_specialInputs._421m > 0 && this->_startMove(ACTION_421M)) ||
-			(this->_specialInputs._623d     && this->_startMove(ACTION_623D)) ||
-			(this->_specialInputs._421d     && this->_startMove(ACTION_421D)) ||
-			(this->_specialInputs._623a     && this->_startMove(ACTION_623A)) ||
-			(this->_specialInputs._421a     && this->_startMove(ACTION_421A)) ||
+		        (this->_specialInputs._623n     && this->_startMove(ACTION_623N)) ||
+		        (this->_specialInputs._421n > 0 && this->_startMove(ACTION_421N)) ||
+		        (this->_specialInputs._623v     && this->_startMove(ACTION_623V)) ||
+		        (this->_specialInputs._421v > 0 && this->_startMove(ACTION_421V)) ||
+		        (this->_specialInputs._623s     && this->_startMove(ACTION_623S)) ||
+		        (this->_specialInputs._421s > 0 && this->_startMove(ACTION_421S)) ||
+		        (this->_specialInputs._623m     && this->_startMove(ACTION_623M)) ||
+		        (this->_specialInputs._421m > 0 && this->_startMove(ACTION_421M)) ||
+		        (this->_specialInputs._623d     && this->_startMove(ACTION_623D)) ||
+		        (this->_specialInputs._421d     && this->_startMove(ACTION_421D)) ||
+		        (this->_specialInputs._623a     && this->_startMove(ACTION_623A)) ||
+		        (this->_specialInputs._421a     && this->_startMove(ACTION_421A)) ||
 
-			(this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
-			(this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
-			(this->_specialInputs._236v && this->_startMove(ACTION_236V)) ||
-				(this->_specialInputs._214v && this->_startMove(ACTION_214V)) ||
-				(this->_specialInputs._236s && this->_startMove(ACTION_236S)) ||
-				(this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
-				(this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
-				(this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
-				(this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
-				(this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
-				(this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
-				(this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
+		        (this->_specialInputs._236n && this->_startMove(ACTION_236N)) ||
+		        (this->_specialInputs._214n && this->_startMove(ACTION_214N)) ||
+		        (this->_specialInputs._236v && this->_startMove(ACTION_236V)) ||
+		        (this->_specialInputs._214v && this->_startMove(ACTION_214V)) ||
+		        (this->_specialInputs._236s && this->_startMove(ACTION_236S)) ||
+		        (this->_specialInputs._214s && this->_startMove(ACTION_214S)) ||
+		        (this->_specialInputs._236m && this->_startMove(ACTION_236M)) ||
+		        (this->_specialInputs._214m && this->_startMove(ACTION_214M)) ||
+		        (this->_specialInputs._236d && this->_startMove(ACTION_236D)) ||
+		        (this->_specialInputs._214d && this->_startMove(ACTION_214D)) ||
+		        (this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
+		        (this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
 
-				(this->_specialInputs._an > 0 && this->_startMove(ACTION_ROMAN_CANCEL)) ||
-				this->_executeGroundParry(input) ||
+		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_ROMAN_CANCEL)) ||
+		        this->_executeGroundParry(input) ||
 
-			(input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
-			(input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
-			(input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
-			(input.n && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5N)) ||
-			(input.n &&                                                                      this->_executeNeutralAttack(ACTION_5N)) ||
-			(input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
-			(input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
-			(input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
-			(input.v && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5V)) ||
-			(input.v &&                                                                      this->_executeNeutralAttack(ACTION_5V)) ||
-			(input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8S)) ||
-			(input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3S)) ||
-			(input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6S)) ||
-			(input.s && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5S)) ||
-			(input.s &&                                                                      this->_executeNeutralAttack(ACTION_5S)) ||
-			(input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8M)) ||
-			(input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3M)) ||
-			(input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
-			(input.m && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5M)) ||
-			(input.m &&                                                                      this->_executeNeutralAttack(ACTION_5M)) ||
-			(input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8A)) ||
-			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6A)) ||
-			(input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_executeDownAttack(ACTION_5A)) ||
-			(input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_5A)) ||
+		        (input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
+		        (input.n && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3N)) ||
+		        (input.n &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6N)) ||
+		        (input.n && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5N)) ||
+		        (input.n &&                                                                      this->_executeNeutralAttack(ACTION_5N)) ||
+		        (input.v && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8V)) ||
+		        (input.v && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3V)) ||
+		        (input.v &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6V)) ||
+		        (input.v && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5V)) ||
+		        (input.v &&                                                                      this->_executeNeutralAttack(ACTION_5V)) ||
+		        (input.s && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8S)) ||
+		        (input.s && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3S)) ||
+		        (input.s &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6S)) ||
+		        (input.s && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5S)) ||
+		        (input.s &&                                                                      this->_executeNeutralAttack(ACTION_5S)) ||
+		        (input.m && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8M)) ||
+		        (input.m && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3M)) ||
+		        (input.m &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6M)) ||
+		        (input.m && input.verticalAxis < 0 &&                                            this->_executeDownAttack(ACTION_5M)) ||
+		        (input.m &&                                                                      this->_executeNeutralAttack(ACTION_5M)) ||
+		        (input.a && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8A)) ||
+		        (input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_3A)) ||
+		        (input.a &&                           this->_dir * input.horizontalAxis > 0 &&   this->_startMove(ACTION_6A)) ||
+		        (input.a && input.verticalAxis < 0 && this->_dir * input.horizontalAxis == 0 &&  this->_executeDownAttack(ACTION_5A)) ||
+		        (input.a &&                           this->_dir * input.horizontalAxis == 0 &&  this->_executeNeutralAttack(ACTION_5A)) ||
 		        this->_executeGroundJump(input)   ||
 		        this->_executeGroundDashes(input) ||
 		        this->_executeCrouch(input)       ||
