@@ -125,7 +125,7 @@ namespace SpiralOfFate
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hitShadow = this->_hitShadow;
 		dat->_stacks = this->_stacks;
-		dat->_flower = this->_flower ? this->_flower->first : 0;
+		dat->_flower = this->_flower && !this->_flower->second->isDead() ? this->_flower->first : 0;
 		dat->_nbShadows = this->_shadows.size();
 		for (auto &shadow : this->_shadows)
 			dat->_objects[i++] = shadow.first;
