@@ -348,8 +348,12 @@ namespace SpiralOfFate
 	{
 		for (auto &butterfly : this->_happyBufferFlies)
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
-		for (auto &butterfly : this->_weirdBufferFlies)
+		for (unsigned i = 0; i < this->_weirdBufferFlies.size(); i++) {
+			auto &butterfly = this->_weirdBufferFlies[i];
+
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
+			butterfly.second->_copy = &*this->_happyBufferFlies[i].second;
+		}
 		for (auto &shadow : this->_shadows) {
 			auto obj = manager.getObjectFromId(shadow.first);
 

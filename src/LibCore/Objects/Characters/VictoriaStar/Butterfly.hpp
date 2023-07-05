@@ -20,10 +20,9 @@ namespace SpiralOfFate
 			float _counter;
 			Vector2f _target;
 			Vector2f _base;
+			unsigned char _defenseCtr;
 			unsigned char _ctr;
 			unsigned char _maxAlpha;
-		};
-		struct WeirdData {
 		};
 #pragma pack(pop)
 
@@ -54,6 +53,8 @@ namespace SpiralOfFate
 		void restoreFromBuffer(void *data) override;
 		void defensiveFormation(const Object &target);
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
+
+		friend VictoriaStar;
 	};
 }
 

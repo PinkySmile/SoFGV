@@ -93,6 +93,7 @@ namespace SpiralOfFate
 
 		Object::copyToBuffer(data);
 		game->logger.verbose("Saving Shadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
+		dat->_ownerKilled = this->_ownerKilled;
 		dat->_invincibleTime = this->_invincibleTime;
 		dat->_boxSize = this->_boxSize;
 		dat->_loopInfo = this->_loopInfo;
@@ -109,6 +110,7 @@ namespace SpiralOfFate
 		this->_boxSize = dat->_boxSize;
 		this->_loopInfo = dat->_loopInfo;
 		this->_idleCounter = dat->_idleCounter;
+		this->_ownerKilled = dat->_ownerKilled;
 		game->logger.verbose("Restored Shadow @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -131,6 +133,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Shadow::_loopInfo: {" + std::to_string(dat1->_loopInfo.first) + "," + std::to_string(dat1->_loopInfo.second) + "} vs {" + std::to_string(dat2->_loopInfo.first) + "," + std::to_string(dat2->_loopInfo.second) + "}");
 		if (dat1->_idleCounter != dat2->_idleCounter)
 			game->logger.fatal(std::string(msgStart) + "Shadow::_idleCounter: " + std::to_string(dat1->_idleCounter) + " vs " + std::to_string(dat2->_idleCounter));
+		if (dat1->_ownerKilled != dat2->_ownerKilled)
+			game->logger.fatal(std::string(msgStart) + "Shadow::_ownerKilled: " + (dat1->_ownerKilled ? "true" : "false") + " vs " + (dat2->_ownerKilled ? "true" : "false"));
 		return length + sizeof(Data);
 	}
 
