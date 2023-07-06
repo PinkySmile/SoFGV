@@ -125,7 +125,7 @@ namespace SpiralOfFate
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hitShadow = this->_hitShadow;
 		dat->_stacks = this->_stacks;
-		dat->_flower = this->_flower ? this->_flower->first : 0;
+		dat->_flower = this->_flower && !this->_flower->second->isDead() ? this->_flower->first : 0;
 		dat->_nbShadows = this->_shadows.size();
 		for (auto &shadow : this->_shadows)
 			dat->_objects[i++] = shadow.first;
@@ -348,8 +348,12 @@ namespace SpiralOfFate
 	{
 		for (auto &butterfly : this->_happyBufferFlies)
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
-		for (auto &butterfly : this->_weirdBufferFlies)
+		for (unsigned i = 0; i < this->_weirdBufferFlies.size(); i++) {
+			auto &butterfly = this->_weirdBufferFlies[i];
+
 			butterfly.second = reinterpret_cast<Butterfly *>(&*manager.getObjectFromId(butterfly.first));
+			butterfly.second->_copy = &*this->_happyBufferFlies[i].second;
+		}
 		for (auto &shadow : this->_shadows) {
 			auto obj = manager.getObjectFromId(shadow.first);
 

@@ -162,23 +162,21 @@ namespace SpiralOfFate
 
 	unsigned int Butterfly::getBufferSize() const
 	{
-		return Object::getBufferSize() + (this->_copy ? sizeof(WeirdData) : sizeof(HappyData));
+		return Object::getBufferSize() + (this->_copy ? 0 : sizeof(HappyData));
 	}
 
 	void Butterfly::copyToBuffer(void *data) const
 	{
 		Object::copyToBuffer(data);
-		if (this->_copy) {
-			//auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
-
+		if (this->_copy)
 			return;
-		}
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		dat->_defenseCtr = this->_defenseCtr;
+		dat->_maxAlpha = this->_maxAlpha;
 		dat->_counter = this->_counter;
 		dat->_target = this->_target;
-		dat->_maxAlpha = this->_maxAlpha;
 		dat->_base = this->_base;
 		dat->_ctr = this->_ctr;
 	}
@@ -186,14 +184,12 @@ namespace SpiralOfFate
 	void Butterfly::restoreFromBuffer(void *data)
 	{
 		Object::restoreFromBuffer(data);
-		if (this->_copy) {
-			//auto dat = reinterpret_cast<WeirdData *>((uintptr_t)data + Object::getBufferSize());
-
+		if (this->_copy)
 			return;
-		}
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		this->_defenseCtr = dat->_defenseCtr;
 		this->_maxAlpha = dat->_maxAlpha;
 		this->_counter = dat->_counter;
 		this->_target = dat->_target;
@@ -208,18 +204,16 @@ namespace SpiralOfFate
 		if (length == 0)
 			return 0;
 		game->logger.info("Butterfly @" + std::to_string(startOffset + length));
-		if (this->_copy) {
-			//auto dat1 = reinterpret_cast<WeirdData *>((uintptr_t)data1 + length);
-			//auto dat2 = reinterpret_cast<WeirdData *>((uintptr_t)data2 + length);
-
-			return length + sizeof(WeirdData);
-		}
+		if (this->_copy)
+			return length;
 
 		auto dat1 = reinterpret_cast<HappyData *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<HappyData *>((uintptr_t)data2 + length);
 
 		if (dat1->_counter != dat2->_counter)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_counter: " + std::to_string(dat1->_counter) + " vs " + std::to_string(dat2->_counter));
+		if (dat1->_defenseCtr != dat2->_defenseCtr)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_defenseCtr: " + std::to_string(dat1->_defenseCtr) + " vs " + std::to_string(dat2->_defenseCtr));
 		if (dat1->_target.x != dat2->_target.x)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_target.x: " + std::to_string(dat1->_target.x) + " vs " + std::to_string(dat2->_target.x));
 		if (dat1->_target.y != dat2->_target.y)
@@ -238,7 +232,6 @@ namespace SpiralOfFate
 	void Butterfly::defensiveFormation(const Object &target)
 	{
 		if (this->_copy) {
-
 			this->_position = this->_copy->_position;
 			this->_disabled = false;
 			this->_maxAlpha = MAX_ALPHA;
