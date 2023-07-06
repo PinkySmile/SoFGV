@@ -55,6 +55,7 @@ namespace SpiralOfFate
 		auto distance = this->_owner->_position.distance2(reinterpret_cast<VictoriaStar *>(this->_opponent)->_position);
 
 		this->_counter++;
+		this->_counter++;
 		if (distance <= 500 * 500)
 			this->_counter += (500 * 500 - distance) * 4 / (500 * 500);
 		if (this->_counter > 360)

@@ -108,5 +108,19 @@
 		"shadow": "spirit",
 		"tint": true,
 		"hp": 1600
+	},
+	{
+		"index": 132,
+		"action": 6,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "spirit",
+		"tint": true,
+		"hp": 900
 	}
 ]

@@ -1645,6 +1645,102 @@
             "width": 36
           }
         }
+      ],
+      [
+        {
+          "block_opponent_hit_stop": 9,
+          "block_player_hit_stop": 9,
+          "counter_hit_speed": {
+            "x": 6,
+            "y": 0
+          },
+          "damage": 1000,
+          "duration": 6,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 42,
+              "left": -122,
+              "top": -20,
+              "width": 247
+            }
+          ],
+          "hit_opponent_hit_stop": 9,
+          "hit_player_hit_stop": 9,
+          "hit_speed": {
+            "x": 4,
+            "y": 0
+          },
+          "hit_stun": 35,
+          "mana_gain": 100,
+          "offense_flag": 58720272,
+          "offset": {
+            "x": -1,
+            "y": -27
+          },
+          "prorate": 87.0,
+          "push_block": 6,
+          "size": {
+            "x": 68,
+            "y": 68
+          },
+          "spirit_limit": 20,
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 34,
+            "left": 6,
+            "top": 81,
+            "width": 34
+          },
+          "untech": 35
+        },
+        {
+          "block_opponent_hit_stop": 9,
+          "block_player_hit_stop": 9,
+          "counter_hit_speed": {
+            "x": 6,
+            "y": 0
+          },
+          "damage": 1000,
+          "duration": 6,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 42,
+              "left": -122,
+              "top": -20,
+              "width": 247
+            }
+          ],
+          "hit_opponent_hit_stop": 9,
+          "hit_player_hit_stop": 9,
+          "hit_speed": {
+            "x": 4,
+            "y": 0
+          },
+          "hit_stun": 35,
+          "mana_gain": 100,
+          "offense_flag": 58720272,
+          "offset": {
+            "x": 2,
+            "y": -26
+          },
+          "prorate": 87.0,
+          "push_block": 6,
+          "size": {
+            "x": 48,
+            "y": 68
+          },
+          "spirit_limit": 20,
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 34,
+            "left": 40,
+            "top": 81,
+            "width": 24
+          },
+          "untech": 35
+        }
       ]
     ]
   },
