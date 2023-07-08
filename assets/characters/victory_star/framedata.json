@@ -5677,6 +5677,8 @@
     "framedata": [
       [
         {
+          "block_opponent_hit_stop": 10,
+          "block_player_hit_stop": 2,
           "collision_box": {
             "height": 119,
             "left": -6,
@@ -5685,6 +5687,7 @@
           },
           "defense_flag": 16384,
           "duration": 6,
+          "hit_opponent_hit_stop": 15,
           "hurt_boxes": [
             {
               "height": 139,
@@ -5693,6 +5696,7 @@
               "width": 87
             }
           ],
+          "marker": 15,
           "offset": {
             "x": 16,
             "y": 0
@@ -5702,7 +5706,6 @@
             "y": 138
           },
           "sprite": "sheet_tmp.png",
-          "subobject": -6,
           "texture_bounds": {
             "height": 69,
             "left": 3,

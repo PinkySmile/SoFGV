@@ -1655,14 +1655,15 @@
             "y": 0
           },
           "damage": 1000,
+          "defense_flag": 2097152,
           "duration": 6,
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 42,
-              "left": -122,
-              "top": -20,
-              "width": 247
+              "height": 54,
+              "left": -33,
+              "top": -34,
+              "width": 66
             }
           ],
           "hit_opponent_hit_stop": 9,
@@ -1684,6 +1685,10 @@
             "x": 68,
             "y": 68
           },
+          "speed": {
+            "x": 0,
+            "y": 4
+          },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1702,14 +1707,15 @@
             "y": 0
           },
           "damage": 1000,
+          "defense_flag": 2097152,
           "duration": 6,
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 42,
-              "left": -122,
-              "top": -20,
-              "width": 247
+              "height": 54,
+              "left": -33,
+              "top": -34,
+              "width": 66
             }
           ],
           "hit_opponent_hit_stop": 9,
@@ -1730,6 +1736,10 @@
           "size": {
             "x": 48,
             "y": 68
+          },
+          "speed": {
+            "x": 0,
+            "y": 4
           },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
@@ -1820,6 +1830,44 @@
             "left": 98,
             "top": 122,
             "width": 32
+          }
+        }
+      ],
+      [
+        {
+          "duration": 6,
+          "offset": {
+            "x": -2,
+            "y": -25
+          },
+          "size": {
+            "x": 60,
+            "y": 58
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 29,
+            "left": 66,
+            "top": 119,
+            "width": 30
+          }
+        },
+        {
+          "duration": 6,
+          "offset": {
+            "x": -2,
+            "y": -25
+          },
+          "size": {
+            "x": 60,
+            "y": 58
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 29,
+            "left": 66,
+            "top": 119,
+            "width": 30
           }
         }
       ]

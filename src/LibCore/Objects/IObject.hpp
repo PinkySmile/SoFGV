@@ -34,6 +34,7 @@ namespace SpiralOfFate
 		virtual size_t printDifference(const char *msgStart, void *, void *, unsigned) const = 0;
 		virtual unsigned getClassId() const = 0;
 		virtual int getLayer() const = 0;
+		virtual bool isDisabled(const IObject &target) const = 0;
 	};
 }
 

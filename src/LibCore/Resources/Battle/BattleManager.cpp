@@ -557,6 +557,8 @@ namespace SpiralOfFate
 			}
 
 			for (auto &[attacker, defender, data]: collisions) {
+				if (attacker->isDisabled(*defender))
+					continue;
 				defender->getHit(*attacker, data);
 				attacker->hit(*defender, data);
 			}

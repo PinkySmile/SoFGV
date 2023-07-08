@@ -119,6 +119,7 @@ namespace SpiralOfFate
 		unsigned getTeam() const;
 		int getLayer() const override;
 		bool getDirection() const;
+		bool isDisabled(const IObject &target) const override;
 
 		friend class PracticeBattleManager;
 		friend class BattleManager;

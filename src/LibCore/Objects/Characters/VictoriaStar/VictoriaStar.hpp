@@ -48,15 +48,16 @@ namespace SpiralOfFate
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
 
+		Vector2f _getButterflyAttackPos(unsigned id);
+
 	protected:
 		bool _startMove(unsigned int action) override;
 		std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
 		void _blockMove(Object *other, const FrameData &data) override;
-		void _applyMoveAttributes() override;
+		void _applyNewAnimFlags() override;
 		bool _canStartMove(unsigned int action, const FrameData &data) override;
-
 		void _tickMove() override;
 
 	public:

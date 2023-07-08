@@ -3922,7 +3922,7 @@ namespace SpiralOfFate
 				pdat.json
 			);
 		} catch (std::out_of_range &e) {
-			throw std::invalid_argument("Cannot find subobject id " + std::to_string(id));
+			throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));
 		}
 	}
 

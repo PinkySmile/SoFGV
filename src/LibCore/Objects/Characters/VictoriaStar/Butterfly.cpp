@@ -3,6 +3,7 @@
 //
 
 #include "Butterfly.hpp"
+#include "Shadow.hpp"
 #include "Objects/Character.hpp"
 #include "Resources/Game.hpp"
 #include "VictoriaStar.hpp"
@@ -19,6 +20,7 @@ namespace SpiralOfFate
 		_opponent(opponent),
 		_copy(copy)
 	{
+		this->_team = isLeft;
 		this->_moves[0] = frameData;
 		this->_position = this->_owner->_position;
 		this->_position.y += 160;
@@ -51,10 +53,27 @@ namespace SpiralOfFate
 			this->_defenseCtr--;
 			return;
 		}
+		if (this->_attackId) {
+			this->_updateCurrentAttack();
+			if (this->_actionBlock >= 2) {
+				this->_sprite.setColor(sf::Color{
+					255, 255, 255,
+					static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
+				});
+				Object::update();
+				return;
+			} else if (!this->_attackFadeCtr) {
+				this->_sprite.setColor(sf::Color{
+					255, 255, 255,
+					static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
+				});
+				this->_computeFrameDataCache();
+				return;
+			}
+		}
 
 		auto distance = this->_owner->_position.distance2(reinterpret_cast<VictoriaStar *>(this->_opponent)->_position);
 
-		this->_counter++;
 		this->_counter++;
 		if (distance <= 500 * 500)
 			this->_counter += (500 * 500 - distance) * 4 / (500 * 500);
@@ -73,7 +92,8 @@ namespace SpiralOfFate
 		this->_disabled = div > 0 && id % div != 0;
 		if (this->_owner->_action >= ACTION_5N) {
 			this->_disabled = true;
-			this->_maxAlpha = 0;
+			if (!this->_attackId)
+				this->_maxAlpha = 0;
 		}
 		if (distance >= 500 * 500) {
 			this->_actionBlock = (M_PI_4 <= angle && angle < 3 * M_PI_4) || (5 * M_PI_4 <= angle && angle < 7 * M_PI_4);
@@ -138,12 +158,14 @@ namespace SpiralOfFate
 			this->_position = this->_base + (this->_target - this->_base) * this->_ctr / (float)MAX_CTR;
 		}
 
-		auto maxAlpha = (1 - this->_disabled) * MAX_ALPHA;
+		if (!this->_attackId) {
+			auto maxAlpha = (1 - this->_disabled) * MAX_ALPHA;
 
-		if (std::abs(this->_maxAlpha - maxAlpha) > ALPHA_STEP)
-			this->_maxAlpha += std::copysign(ALPHA_STEP, maxAlpha - this->_maxAlpha);
-		else
-			this->_maxAlpha = maxAlpha;
+			if (std::abs(this->_maxAlpha - maxAlpha) > ALPHA_STEP)
+				this->_maxAlpha += std::copysign(ALPHA_STEP, maxAlpha - this->_maxAlpha);
+			else
+				this->_maxAlpha = maxAlpha;
+		}
 		this->_sprite.setColor(sf::Color{
 			255, 255, 255,
 			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
@@ -173,6 +195,13 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		dat->_attackAppearCtr = this->_attackAppearCtr;
+		dat->_attackPos = this->_attackPos;
+		dat->_attackPosStep = this->_attackPosStep;
+		dat->_attackId = this->_attackId;
+		dat->_attackFadeCtr = this->_attackFadeCtr;
+		dat->_attackAttackCtr = this->_attackAttackCtr;
+		dat->_attackTravelCtr = this->_attackTravelCtr;
 		dat->_defenseCtr = this->_defenseCtr;
 		dat->_maxAlpha = this->_maxAlpha;
 		dat->_counter = this->_counter;
@@ -189,6 +218,13 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		this->_attackAppearCtr = dat->_attackAppearCtr;
+		this->_attackPos = dat->_attackPos;
+		this->_attackPosStep = dat->_attackPosStep;
+		this->_attackId = dat->_attackId;
+		this->_attackFadeCtr = dat->_attackFadeCtr;
+		this->_attackAttackCtr = dat->_attackAttackCtr;
+		this->_attackTravelCtr = dat->_attackTravelCtr;
 		this->_defenseCtr = dat->_defenseCtr;
 		this->_maxAlpha = dat->_maxAlpha;
 		this->_counter = dat->_counter;
@@ -210,6 +246,24 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<HappyData *>((uintptr_t)data1 + length);
 		auto dat2 = reinterpret_cast<HappyData *>((uintptr_t)data2 + length);
 
+		if (dat1->_attackPos.x != dat2->_attackPos.x)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackPos.x: " + std::to_string(dat1->_attackPos.x) + " vs " + std::to_string(dat2->_attackPos.x));
+		if (dat1->_attackPos.y != dat2->_attackPos.y)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackPos.y: " + std::to_string(dat1->_attackPos.y) + " vs " + std::to_string(dat2->_attackPos.y));
+		if (dat1->_attackPosStep.x != dat2->_attackPosStep.x)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackPosStep.x: " + std::to_string(dat1->_attackPosStep.x) + " vs " + std::to_string(dat2->_attackPosStep.x));
+		if (dat1->_attackPosStep.y != dat2->_attackPosStep.y)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackPosStep.y: " + std::to_string(dat1->_attackPosStep.y) + " vs " + std::to_string(dat2->_attackPosStep.y));
+		if (dat1->_attackAppearCtr != dat2->_attackAppearCtr)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackAppearCtr: " + std::to_string(dat1->_attackAppearCtr) + " vs " + std::to_string(dat2->_attackAppearCtr));
+		if (dat1->_attackId != dat2->_attackId)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackId: " + std::to_string(dat1->_attackId) + " vs " + std::to_string(dat2->_attackId));
+		if (dat1->_attackFadeCtr != dat2->_attackFadeCtr)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackFadeCtr: " + std::to_string(dat1->_attackFadeCtr) + " vs " + std::to_string(dat2->_attackFadeCtr));
+		if (dat1->_attackAttackCtr != dat2->_attackAttackCtr)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackAttackCtr: " + std::to_string(dat1->_attackAttackCtr) + " vs " + std::to_string(dat2->_attackAttackCtr));
+		if (dat1->_attackTravelCtr != dat2->_attackTravelCtr)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackTravelCtr: " + std::to_string(dat1->_attackTravelCtr) + " vs " + std::to_string(dat2->_attackTravelCtr));
 		if (dat1->_counter != dat2->_counter)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_counter: " + std::to_string(dat1->_counter) + " vs " + std::to_string(dat2->_counter));
 		if (dat1->_defenseCtr != dat2->_defenseCtr)
@@ -267,10 +321,94 @@ namespace SpiralOfFate
 
 	void Butterfly::_computeFrameDataCache()
 	{
+		if (this->_actionBlock >= 2)
+			return Object::_computeFrameDataCache();
+
 		auto angle = this->getAngle();
 		auto scale = 1.5 - std::sin(angle) * 0.5;
 
 		Object::_computeFrameDataCache();
 		this->_fdCache.size = this->_fdCache.textureBounds.size * scale;
+	}
+
+	void Butterfly::startAttack(Vector2f pos, unsigned int block, unsigned char fadeTime, unsigned char attackTime, unsigned char travelTime)
+	{
+		this->_attackPos = pos;
+		this->_attackId = block;
+		this->_attackFadeCtr = fadeTime;
+		this->_attackAppearCtr = fadeTime;
+		this->_attackFadeTime = fadeTime;
+		this->_attackAttackCtr = attackTime;
+		this->_attackTravelCtr = travelTime;
+	}
+
+	void Butterfly::_updateCurrentAttack()
+	{
+		if (!this->_attackTravelCtr && !this->_attackAttackCtr)
+			return;
+		if (this->_attackFadeCtr) {
+			this->_attackFadeCtr--;
+			this->_maxAlpha = MAX_ALPHA * this->_attackFadeCtr / this->_attackFadeTime;
+			if (!this->_attackFadeCtr) {
+				if (this->_attackTravelCtr)
+					this->_attackPosStep = (this->_attackPos - this->_position) / this->_attackTravelCtr;
+				else
+					this->_position = this->_attackPos;
+			}
+		} else if (this->_attackAppearCtr) {
+			this->_attackAppearCtr--;
+			this->_maxAlpha = MAX_ALPHA * (this->_attackFadeTime - this->_attackAppearCtr) / this->_attackFadeTime;
+		}
+		if (this->_attackAttackCtr) {
+			this->_attackAttackCtr--;
+			if (!this->_attackAttackCtr) {
+				this->_actionBlock = this->_attackId;
+				this->_rotation = 0;
+				this->_animation = 0;
+				this->_animationCtr = 0;
+				this->_alpha = 1;
+				this->_hasHit = false;
+				this->_newAnim = true;
+			}
+			return;
+		}
+		if (this->_attackTravelCtr) {
+			this->_position += this->_attackPosStep;
+			this->_attackTravelCtr--;
+		}
+	}
+
+	void Butterfly::_onMoveEnd(const FrameData &lastData)
+	{
+		if (this->_actionBlock == this->_attackId && this->_attackId)
+			this->_attackId = 0;
+		Object::_onMoveEnd(lastData);
+	}
+
+	bool Butterfly::isDisabled(const IObject &target) const
+	{
+		return this->_owner->_hasHit && !dynamic_cast<const Shadow *>(&target);
+	}
+
+	void Butterfly::hit(IObject &other, const FrameData *data)
+	{
+		Object::hit(other, data);
+		this->_owner->_hasHit = true;
+		this->_hitStop = 0;
+	}
+
+	bool Butterfly::hits(const IObject &other) const
+	{
+		auto old = this->_hasHit;
+		auto t = const_cast<Butterfly *>(this);
+		auto shadow = dynamic_cast<const Shadow *>(&other);
+
+		if (shadow && shadow->getOwner() == this->_team)
+			t->_hasHit = false;
+
+		auto result = SubObject::hits(other);
+
+		t->_hasHit = old;
+		return result;
 	}
 }

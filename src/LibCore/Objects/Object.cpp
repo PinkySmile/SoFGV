@@ -235,7 +235,7 @@ namespace SpiralOfFate
 
 	bool Object::hits(const IObject &other) const
 	{
-		if (this->_hasHit)
+		if (this->_hasHit || this->isDisabled(other))
 			return false;
 
 		auto otherObj = reinterpret_cast<const Object *>(&other);
@@ -692,5 +692,10 @@ namespace SpiralOfFate
 		} catch (std::out_of_range &) {
 			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
+	}
+
+	bool Object::isDisabled(const IObject &) const
+	{
+		return false;
 	}
 }

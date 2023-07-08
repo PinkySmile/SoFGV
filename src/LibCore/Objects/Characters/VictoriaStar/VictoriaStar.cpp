@@ -9,6 +9,7 @@
 #include "Objects/Characters/VictoriaStar/Shadows/MatterShadow.hpp"
 #include "Objects/Characters/VictoriaStar/Shadows/SpiritShadow.hpp"
 #include "Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp"
+#include "VictoriaProjectile.hpp"
 
 #define ACTION_SCREEN_TELEPORT 368
 #define ACTION_SHADOW 0
@@ -235,7 +236,21 @@ namespace SpiralOfFate
 		bool dir = this->_getProjectileDirection(pdat);
 
 		if (!pdat.json.contains("shadow"))
-			return Character::_spawnSubObject(manager, id, needRegister);
+			try {
+				return manager.registerObject<VictoriaProjectile>(
+					needRegister,
+					this->_subObjectsData.at(pdat.action),
+					this->_team,
+					dir,
+					this->_calcProjectilePosition(pdat, dir ? 1 : -1),
+					this->_team,
+					this,
+					id,
+					pdat.json
+				);
+			} catch (std::out_of_range &e) {
+				throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));
+			}
 
 		try {
 			unsigned tint = pdat.json["tint"];
@@ -386,10 +401,26 @@ namespace SpiralOfFate
 		}
 	}
 
-	void VictoriaStar::_applyMoveAttributes()
+	void VictoriaStar::_applyNewAnimFlags()
 	{
-		Character::_applyMoveAttributes();
-		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && this->getCurrentFrameData()->specialMarker) {
+		if (!this->_newAnim)
+			return;
+
+		auto data = this->getCurrentFrameData();
+
+		Character::_applyNewAnimFlags();
+		if (data->specialMarker == 15) {
+			for (size_t i = 0; i < this->_happyBufferFlies.size(); i++)
+				this->_happyBufferFlies[i].second->startAttack(
+					this->_getButterflyAttackPos(i),
+					data->blockPlayerHitStop,
+					data->blockOpponentHitStop,
+					data->hitOpponentHitStop,
+					data->hitPlayerHitStop
+				);
+			return;
+		}
+		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && data->specialMarker) {
 			for (auto &shadow: this->_shadows)
 				shadow.second->activate();
 			this->_stacks -= SHADOW_PER_STACK;
@@ -421,5 +452,15 @@ namespace SpiralOfFate
 			texture.draw(this->_hudPart);
 		}
 		Character::drawSpecialHUD(texture);
+	}
+
+	Vector2f VictoriaStar::_getButterflyAttackPos(unsigned int id)
+	{
+		if (this->_action == ACTION_6S)
+			return {
+				840.f * this->_direction + id * (160 / NB_BUTTERFLIES),
+				-20
+			};
+		return {0, 0};
 	}
 }
