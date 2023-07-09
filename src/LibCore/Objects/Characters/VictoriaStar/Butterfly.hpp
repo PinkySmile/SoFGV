@@ -30,6 +30,7 @@ namespace SpiralOfFate
 			unsigned char _defenseCtr;
 			unsigned char _ctr;
 			unsigned char _maxAlpha;
+			unsigned char _attackFadeTime;
 		};
 #pragma pack(pop)
 
@@ -47,6 +48,7 @@ namespace SpiralOfFate
 		unsigned char _defenseCtr = 0;
 		unsigned char _ctr = 1;
 		unsigned char _maxAlpha = 0;
+		unsigned char _attackFadeTime = 0;
 
 		// Non-game state
 		VictoriaStar *_owner;
@@ -54,7 +56,6 @@ namespace SpiralOfFate
 		Butterfly *_copy;
 		float _alpha = 1.f;
 		bool _disabled = false;
-		unsigned char _attackFadeTime = 0;
 
 		void _updateCurrentAttack();
 		void _computeFrameDataCache() override;

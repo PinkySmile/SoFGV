@@ -195,6 +195,7 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		dat->_attackFadeTime = this->_attackFadeTime;
 		dat->_attackAppearCtr = this->_attackAppearCtr;
 		dat->_attackPos = this->_attackPos;
 		dat->_attackPosStep = this->_attackPosStep;
@@ -218,6 +219,7 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<HappyData *>((uintptr_t)data + Object::getBufferSize());
 
+		this->_attackFadeTime = dat->_attackFadeTime;
 		this->_attackAppearCtr = dat->_attackAppearCtr;
 		this->_attackPos = dat->_attackPos;
 		this->_attackPosStep = dat->_attackPosStep;
@@ -280,6 +282,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_ctr: " + std::to_string(dat1->_ctr) + " vs " + std::to_string(dat2->_ctr));
 		if (dat1->_maxAlpha != dat2->_maxAlpha)
 			game->logger.fatal(std::string(msgStart) + "Butterfly::_maxAlpha: " + std::to_string(dat1->_maxAlpha) + " vs " + std::to_string(dat2->_maxAlpha));
+		if (dat1->_attackFadeTime != dat2->_attackFadeTime)
+			game->logger.fatal(std::string(msgStart) + "Butterfly::_attackFadeTime: " + std::to_string(dat1->_attackFadeTime) + " vs " + std::to_string(dat2->_attackFadeTime));
 		return length + sizeof(HappyData);
 	}
 

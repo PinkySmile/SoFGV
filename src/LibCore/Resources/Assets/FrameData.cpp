@@ -759,15 +759,15 @@ namespace SpiralOfFate
 			this->collisionBox = new Box(dat->collisionBox);
 		else
 			this->collisionBox = nullptr;
-		if (dat->hasPriority)
+		if (dat->hasGravity)
 			this->gravity = dat->gravity;
 		else
 			this->gravity.reset();
-		if (dat->hasGravity)
+		if (dat->hasSnap)
 			this->snap = dat->snap;
 		else
 			this->snap.reset();
-		if (dat->hasSnap)
+		if (dat->hasPriority)
 			this->priority = dat->priority;
 		else
 			this->priority.reset();
