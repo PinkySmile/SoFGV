@@ -11,14 +11,6 @@
 namespace SpiralOfFate
 {
 	class SpiritShadow : public Shadow {
-	private:
-#pragma pack(push, 1)
-		struct Data {
-		};
-#pragma pack(pop)
-
-		// Game state
-
 	public:
 		SpiritShadow(
 			const std::vector<std::vector<FrameData>> &frameData,

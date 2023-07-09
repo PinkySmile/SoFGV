@@ -46,6 +46,7 @@ namespace SpiralOfFate
 			bool _newAnim;
 			char _cornerPriority;
 		};
+		static_assert(sizeof(Data) == 52, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State

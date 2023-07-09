@@ -16,6 +16,7 @@ namespace SpiralOfFate
 		struct Data {
 			bool _attacking;
 		};
+		static_assert(sizeof(Data) == 1, "Data has wrong size");
 #pragma pack(pop)
 
 		bool _attacking = false;

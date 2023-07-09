@@ -18,6 +18,7 @@ namespace SpiralOfFate
 			unsigned _cooldown;
 			unsigned _deathTimer;
 		};
+		static_assert(sizeof(Data) == 12, "Data has wrong size");
 #pragma pack(pop)
 
 		float _width;

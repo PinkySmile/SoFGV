@@ -25,6 +25,7 @@ namespace SpiralOfFate
 			unsigned animationCtr;
 			bool disabled;
 		};
+		static_assert(sizeof(Data) == 9, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State

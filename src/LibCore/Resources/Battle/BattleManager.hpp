@@ -79,6 +79,7 @@ namespace SpiralOfFate
 			HUDDataPacked &operator=(HUDData &data);
 			HUDDataPacked &operator=(const HUDData &data);
 		};
+		static_assert(sizeof(HUDDataPacked) == 46, "HUDDataPacket has wrong size");
 
 		struct Data {
 			unsigned _currentFrame;
@@ -92,6 +93,7 @@ namespace SpiralOfFate
 			HUDDataPacked _rightHUDData;
 			bool _ended;
 		};
+		static_assert(sizeof(Data) == 125, "Data has wrong size");
 #pragma pack(pop)
 
 		// Non-Game State

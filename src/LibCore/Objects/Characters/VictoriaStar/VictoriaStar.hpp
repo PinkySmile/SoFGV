@@ -31,6 +31,7 @@ namespace SpiralOfFate
 			unsigned _nbShadows;
 			unsigned _objects[0];
 		};
+		static_assert(sizeof(Data) == 13, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game state

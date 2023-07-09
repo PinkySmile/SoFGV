@@ -151,6 +151,8 @@ namespace SpiralOfFate
 			bool hasSnap;
 			Box boxes[0];
 		};
+		static_assert(sizeof(Box) == 16, "Box has wrong size");
+		static_assert(sizeof(Data) == 220, "Data has wrong size");
 #pragma pack(pop)
 
 	public:

@@ -20,6 +20,7 @@ namespace SpiralOfFate
 			unsigned char _idleCounter;
 			std::pair<unsigned char, unsigned char> _loopInfo;
 		};
+		static_assert(sizeof(Data) == 9, "Data has wrong size");
 #pragma pack(pop)
 
 		enum AnimationBlock {

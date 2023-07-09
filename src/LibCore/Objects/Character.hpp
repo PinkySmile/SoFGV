@@ -410,7 +410,6 @@ namespace SpiralOfFate
 			unsigned _matterInstallTimer;
 			unsigned _spiritInstallTimer;
 			unsigned _voidInstallTimer;
-			unsigned char _hitStop;
 			float _regen;
 			float _voidMana;
 			float _spiritMana;
@@ -429,8 +428,11 @@ namespace SpiralOfFate
 			char _normalTreeFlag;
 			bool _armorUsed;
 			bool _hardKD;
+			unsigned char _hitStop;
 			unsigned char _specialInputs[52];
 		};
+		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
+		static_assert(sizeof(Data) == 742, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[52] = {0};
 			struct {

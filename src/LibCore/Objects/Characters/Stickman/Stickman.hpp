@@ -61,6 +61,7 @@ namespace SpiralOfFate
 			unsigned _oldAction = 0;
 			unsigned _buffTimer = 0;
 		};
+		static_assert(sizeof(Data) == 13, "Data has wrong size");
 #pragma pack(pop)
 
 		// Non Game State
