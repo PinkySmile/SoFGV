@@ -132,3 +132,8 @@ int EditableObject::getLayer() const
 {
 	return 0;
 }
+
+bool EditableObject::isDisabled(const SpiralOfFate::IObject &target) const
+{
+	return false;
+}

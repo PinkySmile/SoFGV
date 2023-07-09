@@ -42,6 +42,7 @@ public:
 	unsigned int getClassId() const override;
 	size_t printDifference(const char *msgStart, void *, void *, unsigned) const override;
 	int getLayer() const override;
+	bool isDisabled(const IObject &target) const override;
 };
 
 
