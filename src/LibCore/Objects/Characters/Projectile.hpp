@@ -29,17 +29,17 @@ namespace SpiralOfFate
 #pragma pack(pop)
 
 		// Game State
-		bool _disabled = false;
 		unsigned _animationCtr = 0;
 		unsigned _nbHit = 0;
+		bool _disabled = false;
 
 		// Non Game state
 		unsigned _maxHit;
 		unsigned _endBlock;
-		bool _loop;
-		bool _disableOnHit;
 		unsigned _animationData;
 		ProjectileAnimation _anim;
+		bool _loop;
+		bool _disableOnHit;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
