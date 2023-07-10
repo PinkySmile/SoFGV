@@ -122,5 +122,37 @@
 		"shadow": "spirit",
 		"tint": true,
 		"hp": 900
+	},
+	{
+		"index": 6,
+		"action": 7,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"hits": 4000,
+		"end_block": 0,
+		"loop": false,
+		"disable_on_hit": true,
+		"disable_animation": "fade",
+		"animation_data": 3,
+		"hp": 1000
+	},
+	{
+		"index": 133,
+		"action": 7,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "void",
+		"tint": true,
+		"hp": 500
 	}
 ]
