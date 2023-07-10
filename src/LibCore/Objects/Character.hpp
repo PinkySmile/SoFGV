@@ -666,6 +666,7 @@ namespace SpiralOfFate
 		virtual void _onSubObjectHit();
 		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 
+		static bool isReversalAction(unsigned action);
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);
 		static bool isOverdriveAction(unsigned action);

@@ -16,10 +16,10 @@ namespace SpiralOfFate
 		SubObject(id, owner, ownerObj),
 		_maxHit(json["hits"]),
 		_endBlock(json["end_block"]),
-		_loop(json["loop"]),
-		_disableOnHit(json["disable_on_hit"]),
 		_animationData(json.contains("animation_data") ? json["animation_data"].get<int>() : 0),
-		_anim(json.contains("disable_animation") ? animationFromString(json["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR)
+		_anim(json.contains("disable_animation") ? animationFromString(json["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR),
+		_loop(json["loop"]),
+		_disableOnHit(json["disable_on_hit"])
 	{
 	}
 
