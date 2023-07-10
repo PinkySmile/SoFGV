@@ -3720,6 +3720,15 @@ namespace SpiralOfFate
 		counter &= this->_action != ACTION_GROUND_SLAM;
 		counter &= this->_action != ACTION_GROUND_LOW_HIT;
 		counter &= this->_action != ACTION_GROUND_HIGH_HIT;
+
+		bool noArmor = data.oFlag.grab || (
+			(!myData->dFlag.superarmor || this->_armorUsed) &&
+			(!myData->dFlag.neutralArmor || data.oFlag.spiritElement != data.oFlag.matterElement || data.oFlag.spiritElement != data.oFlag.voidElement) &&
+			(!myData->dFlag.matterArmor || data.oFlag.matterElement) &&
+			(!myData->dFlag.spiritArmor || data.oFlag.spiritElement) &&
+			(!myData->dFlag.voidArmor || data.oFlag.voidElement)
+		);
+
 		this->_hasBeenHitDuringFrame = true;
 		if (!this->_gotHitStopReset) {
 			this->_gotHitStopReset = true;
@@ -3728,7 +3737,12 @@ namespace SpiralOfFate
 			obj->_hitStop = 0;
 			this->_hitStop = 0;
 		}
-		if ((myData->dFlag.counterHit || counter) && (data.oFlag.canCounterHit || forcedCounter) && this->_counterHit != 2 && !myData->dFlag.superarmor) {
+		if (
+			(myData->dFlag.counterHit || counter) &&
+			(data.oFlag.canCounterHit || forcedCounter) &&
+			this->_counterHit != 2 &&
+			(forcedCounter || noArmor)
+		) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
@@ -3751,7 +3765,7 @@ namespace SpiralOfFate
 			game->logger.debug("Counter hit !: " + std::to_string(this->_blockStun) + " hitstun frames");
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
-			if (!myData->dFlag.superarmor || data.oFlag.grab || this->_armorUsed) {
+			if (noArmor) {
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
 				this->_speed.y =  data.hitSpeed.y;
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
