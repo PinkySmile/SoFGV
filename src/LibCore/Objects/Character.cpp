@@ -1184,6 +1184,12 @@ namespace SpiralOfFate
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
 			return false;
+		if (data.oFlag.ultimate && this->_ultimateUsed && (
+			this->_spiritMana / this->_spiritManaMax <= 0.1f ||
+			this->_matterMana / this->_matterManaMax <= 0.1f ||
+			this->_voidMana   / this->_voidManaMax   <= 0.1f
+		))
+			return false;
 
 		auto nbMana = data.oFlag.matterMana + data.oFlag.voidMana + data.oFlag.spiritMana;
 
