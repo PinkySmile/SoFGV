@@ -12981,7 +12981,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 35662432,
+          "offense_flag": 33563232,
           "offset": {
             "x": 50,
             "y": 1
@@ -13059,7 +13059,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33565248,
+          "offense_flag": 33563200,
           "offset": {
             "x": 50,
             "y": -1
@@ -13088,7 +13088,7 @@
             "width": 43
           },
           "defense_flag": 65536,
-          "duration": 20,
+          "duration": 12,
           "hurt_boxes": [
             {
               "height": 52,
@@ -13109,7 +13109,6 @@
               "width": 46
             }
           ],
-          "offense_flag": 2048,
           "offset": {
             "x": -2,
             "y": 1
@@ -13134,7 +13133,7 @@
             "width": 43
           },
           "defense_flag": 65536,
-          "duration": 12,
+          "duration": 20,
           "hurt_boxes": [
             {
               "height": 52,
@@ -13946,8 +13945,8 @@
             "width": 56
           },
           "counter_hit_speed": {
-            "x": 12,
-            "y": 20
+            "x": 2,
+            "y": 25
           },
           "damage": 3500,
           "defense_flag": 16384,
@@ -13965,8 +13964,8 @@
           "hit_player_hit_stop": 18,
           "hit_sound": "assets/sfxs/se/009.wav",
           "hit_speed": {
-            "x": 15,
-            "y": 15
+            "x": 2,
+            "y": 20
           },
           "hit_stun": 15,
           "hurt_boxes": [
@@ -15751,8 +15750,7 @@
             "top": -136,
             "width": 40
           },
-          "defense_flag": 4096,
-          "duration": 17,
+          "duration": 12,
           "hurt_boxes": [
             {
               "height": 188,
@@ -18582,7 +18580,7 @@
         {
           "block_opponent_hit_stop": 13,
           "block_player_hit_stop": 13,
-          "block_stun": 19,
+          "block_stun": 15,
           "chip_damage": 500,
           "collision_box": {
             "height": 151,
