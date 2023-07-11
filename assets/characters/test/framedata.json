@@ -13083,7 +13083,7 @@
         {
           "block_opponent_hit_stop": 6,
           "block_player_hit_stop": 6,
-          "block_stun": 29,
+          "block_stun": 27,
           "collision_box": {
             "height": 71,
             "left": -22,
@@ -13201,7 +13201,7 @@
             "width": 43
           },
           "defense_flag": 65536,
-          "duration": 20,
+          "duration": 18,
           "hurt_boxes": [
             {
               "height": 52,
@@ -15664,7 +15664,7 @@
             "width": 40
           },
           "defense_flag": 49152,
-          "duration": 19,
+          "duration": 29,
           "hurt_boxes": [
             {
               "height": 188,
