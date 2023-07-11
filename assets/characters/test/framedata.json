@@ -12895,7 +12895,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33555040,
+          "offense_flag": 33557088,
           "offset": {
             "x": 6,
             "y": 1
@@ -12981,7 +12981,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33563232,
+          "offense_flag": 33565280,
           "offset": {
             "x": 50,
             "y": 1
@@ -13059,7 +13059,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33563232,
+          "offense_flag": 33565280,
           "offset": {
             "x": 50,
             "y": -1
@@ -13127,7 +13127,7 @@
             }
           ],
           "matter_limit": 10,
-          "offense_flag": 8800,
+          "offense_flag": 10848,
           "offset": {
             "x": 6,
             "y": 1
@@ -13176,6 +13176,7 @@
               "width": 46
             }
           ],
+          "offense_flag": 2048,
           "offset": {
             "x": -2,
             "y": 1
