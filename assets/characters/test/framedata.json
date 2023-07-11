@@ -12895,7 +12895,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33554976,
+          "offense_flag": 33555040,
           "offset": {
             "x": 6,
             "y": 1
@@ -13059,7 +13059,7 @@
           ],
           "mana_gain": 20,
           "matter_limit": 10,
-          "offense_flag": 33565184,
+          "offense_flag": 33565248,
           "offset": {
             "x": 50,
             "y": -1
@@ -18042,7 +18042,7 @@
             }
           ],
           "mana_gain": 60,
-          "offense_flag": 8390666,
+          "offense_flag": 8390730,
           "offset": {
             "x": 11,
             "y": -2
