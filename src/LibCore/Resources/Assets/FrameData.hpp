@@ -104,9 +104,7 @@ namespace SpiralOfFate
 
 #pragma pack(push, 1)
 		struct Data {
-			unsigned textureHandle;
-			unsigned soundHandle;
-			unsigned hitSoundHandle;
+			char texturePath[512];
 			unsigned blockStun;
 			unsigned hitStun;
 			unsigned untech;
@@ -152,10 +150,13 @@ namespace SpiralOfFate
 			Box boxes[0];
 		};
 		static_assert(sizeof(Box) == 16, "Box has wrong size");
-		static_assert(sizeof(Data) == 220, "Data has wrong size");
+		static_assert(sizeof(Data) == 720, "Data has wrong size");
 #pragma pack(pop)
 
 	public:
+		std::pair<std::vector<Color>, std::vector<Color>> __palette;
+		std::string __folder;
+
 		std::string spritePath;
 		std::string soundPath;
 		std::string hitSoundPath;

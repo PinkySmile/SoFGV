@@ -268,6 +268,12 @@ add_executable(
 )
 target_link_libraries(FrameDataEditor SoFGVCore)
 
+add_executable(FrameComparer src/FrameComparer/main.cpp)
+target_link_libraries(
+	FrameComparer
+	SoFGVCore
+)
+
 add_executable(PaletteExtractor src/PaletteExtractor/main.cpp)
 target_link_libraries(
 	PaletteExtractor
@@ -282,3 +288,4 @@ target_link_libraries(
 	${SFML_SYSTEM_LIB}
 	${SFML_NETWORK_LIB}
 )
+target_include_directories(LagSwitch PRIVATE src/LibCore)

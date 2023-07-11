@@ -55,6 +55,8 @@ namespace SpiralOfFate
 
 	FrameData::FrameData(const nlohmann::json &data, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
+		__folder = folder;
+		__palette = palette;
 		my_assert2(data.is_object(), "Invalid json");
 		my_assert2(data.contains("sprite"), "Invalid json");
 		my_assert2(data["sprite"].is_string(), "Invalid json");
@@ -355,6 +357,8 @@ namespace SpiralOfFate
 
 	FrameData::FrameData(const FrameData &other)
 	{
+		__folder = other.__folder;
+		__palette = other.__palette;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;
 		this->spritePath = other.spritePath;
@@ -416,6 +420,8 @@ namespace SpiralOfFate
 
 	FrameData &FrameData::operator=(const FrameData &other)
 	{
+		__folder = other.__folder;
+		__palette = other.__palette;
 		if (!this->_slave) {
 			game->textureMgr.remove(this->textureHandle);
 			game->soundMgr.remove(this->soundHandle);
@@ -652,9 +658,8 @@ namespace SpiralOfFate
 		unsigned i = 0;
 
 		game->logger.verbose("Saving FrameData (Data size: " + std::to_string(this->getBufferSize()) + ") @" + std::to_string((uintptr_t)dat));
-		dat->textureHandle = this->textureHandle;
-		dat->soundHandle = this->soundHandle;
-		dat->hitSoundHandle = this->hitSoundHandle;
+		memset(dat->texturePath, 0, sizeof(dat->texturePath));
+		strncpy(dat->texturePath, this->spritePath.c_str(), sizeof(dat->texturePath));
 		dat->blockStun = this->blockStun;
 		dat->hitStun = this->hitStun;
 		dat->untech = this->untech;
@@ -720,9 +725,9 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>(data);
 		unsigned i = 0;
 
-		this->textureHandle = dat->textureHandle;
-		this->soundHandle = dat->soundHandle;
-		this->hitSoundHandle = dat->hitSoundHandle;
+		this->spritePath = std::string(dat->texturePath, strnlen(dat->texturePath, sizeof(dat->texturePath)));
+		this->textureHandle = game->textureMgr.load(__folder + "/" + this->spritePath, __palette);
+		game->textureMgr.remove(this->textureHandle);
 		this->blockStun = dat->blockStun;
 		this->hitStun = dat->hitStun;
 		this->untech = dat->untech;
@@ -789,12 +794,8 @@ namespace SpiralOfFate
 		unsigned i = 0;
 
 		game->logger.info("FrameData @" + std::to_string(startOffset));
-		if (dat1->textureHandle != dat2->textureHandle)
-			game->logger.fatal(std::string(msgStart) + "FrameData::textureHandle: " + std::to_string(dat1->textureHandle) + " vs " + std::to_string(dat2->textureHandle));
-		if (dat1->soundHandle != dat2->soundHandle)
-			game->logger.fatal(std::string(msgStart) + "FrameData::soundHandle: " + std::to_string(dat1->soundHandle) + " vs " + std::to_string(dat2->soundHandle));
-		if (dat1->hitSoundHandle != dat2->hitSoundHandle)
-			game->logger.fatal(std::string(msgStart) + "FrameData::hitSoundHandle: " + std::to_string(dat1->hitSoundHandle) + " vs " + std::to_string(dat2->hitSoundHandle));
+		if (strncmp(dat1->texturePath, dat2->texturePath, sizeof(dat2->texturePath)))
+			game->logger.fatal(std::string(msgStart) + "FrameData::texturePath: " + std::string(dat1->texturePath, strnlen(dat1->texturePath, sizeof(dat1->texturePath))) + " vs " + std::string(dat2->texturePath, strnlen(dat2->texturePath, sizeof(dat2->texturePath))));
 		if (dat1->blockStun != dat2->blockStun)
 			game->logger.fatal(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat1->blockStun) + " vs " + std::to_string(dat2->blockStun));
 		if (dat1->hitStun != dat2->hitStun)
