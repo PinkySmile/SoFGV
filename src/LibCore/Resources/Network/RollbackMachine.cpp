@@ -97,6 +97,7 @@ namespace SpiralOfFate
 		game->connection->onDesync = [onDesync](Connection::Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum) {
 			if (onDesync)
 				onDesync(remote, frameId, cpuSum, recvSum);
+			std::filesystem::create_directory("frames");
 
 			std::ofstream stream{"frames/frames-" + std::to_string(BattleManager::getFrame(__frame.data())) + ".frame"};
 
