@@ -77,8 +77,6 @@ namespace SpiralOfFate
 		_realInputLeft(left->_input),
 		_realInputRight(right->_input)
 	{
-		auto onDesync = game->connection->onDesync;
-
 		left->_input = this->inputLeft;
 		right->_input = this->inputRight;
 		if (!game->connection)
@@ -94,12 +92,10 @@ namespace SpiralOfFate
 			this->_totalOpAvgDiffTimes /= (long long)this->_opDiffTimes.size();
 			this->_opDiffTimesAverage.push_back(this->_totalOpAvgDiffTimes);
 		};
-		game->connection->onDesync = [onDesync](Connection::Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum) {
-			if (onDesync)
-				onDesync(remote, frameId, cpuSum, recvSum);
+		game->connection->onDesync = [](Connection::Remote &, unsigned frameId, unsigned, unsigned) {
 			std::filesystem::create_directory("frames");
 
-			std::ofstream stream{"frames/frames-" + std::to_string(BattleManager::getFrame(__frame.data())) + ".frame"};
+			std::ofstream stream{"frames/frames-" + std::to_string(frameId) + ".frame"};
 
 			stream.write(__frame.data(), __frame.size());
 		};
