@@ -8642,6 +8642,200 @@
     ]
   },
   {
+    "action": 265,
+    "framedata": [
+      [
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 2113792,
+          "gravity": {
+            "x": 0.0,
+            "y": -0.10000000149011612
+          },
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 54,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": -8,
+          "texture_bounds": {
+            "height": 60,
+            "left": 208,
+            "top": 389,
+            "width": 27
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16640,
+          "duration": 9,
+          "gravity": {
+            "x": 0.0,
+            "y": -0.10000000149011612
+          },
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 54,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": -8,
+          "texture_bounds": {
+            "height": 60,
+            "left": 208,
+            "top": 389,
+            "width": 27
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16640,
+          "gravity": {
+            "x": 0.0,
+            "y": 0.10000000149011612
+          },
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 64,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": 134,
+          "texture_bounds": {
+            "height": 60,
+            "left": 236,
+            "top": 389,
+            "width": 32
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 16640,
+          "duration": 7,
+          "gravity": {
+            "x": 0.0,
+            "y": -0.10000000149011612
+          },
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 64,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "subobject": 8,
+          "texture_bounds": {
+            "height": 60,
+            "left": 236,
+            "top": 389,
+            "width": 32
+          }
+        },
+        {
+          "collision_box": {
+            "height": 111,
+            "left": -6,
+            "top": -112,
+            "width": 38
+          },
+          "defense_flag": 256,
+          "duration": 12,
+          "gravity": {
+            "x": 0.0,
+            "y": -0.10000000149011612
+          },
+          "hurt_boxes": [
+            {
+              "height": 118,
+              "left": -21,
+              "top": -118,
+              "width": 117
+            }
+          ],
+          "offset": {
+            "x": 25,
+            "y": 0
+          },
+          "size": {
+            "x": 54,
+            "y": 120
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 60,
+            "left": 208,
+            "top": 389,
+            "width": 27
+          }
+        }
+      ]
+    ]
+  },
+  {
     "action": 269,
     "framedata": [
       [
