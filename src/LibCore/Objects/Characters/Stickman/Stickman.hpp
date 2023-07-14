@@ -64,8 +64,6 @@ namespace SpiralOfFate
 		static_assert(sizeof(Data) == 13, "Data has wrong size");
 #pragma pack(pop)
 
-		// Non Game State
-
 		// Game State
 		unsigned char _buff = 0;
 		unsigned _time = 0;

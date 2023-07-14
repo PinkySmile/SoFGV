@@ -69,7 +69,7 @@ namespace SpiralOfFate
 		float _dir = -1;
 		FrameData _fdCache;
 
-		// Non Game State
+		// Non-game state
 		mutable Sprite _sprite;
 		Vector2f _airDrag = {0.99, 0.99};
 		float _groundDrag = 0.75;

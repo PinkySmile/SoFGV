@@ -598,7 +598,7 @@ namespace SpiralOfFate
 		bool _hardKD = false;
 		char _normalTreeFlag = 0;
 
-		// Non Game State
+		// Non-game state
 		sf::Text _text;
 		sf::Text _text2;
 		Character *_opponent = nullptr;

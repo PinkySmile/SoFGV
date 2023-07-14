@@ -37,7 +37,7 @@ namespace SpiralOfFate
 		void _onMoveEnd(const FrameData &lastData) override;
 		virtual void _die();
 
-		// Non game state
+		// Non-game state
 		unsigned _activateBlock;
 
 		// Game state

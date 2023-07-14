@@ -35,7 +35,7 @@ namespace SpiralOfFate
 		bool _disabled = false;
 		bool _fadingOut = false;
 
-		// Non Game state
+		// Non-game state
 		unsigned _maxHit;
 		unsigned _endBlock;
 		unsigned _animationData;
@@ -45,6 +45,7 @@ namespace SpiralOfFate
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
+		void _computeFrameDataCache() override;
 		void _disableObject();
 
 	public:
@@ -73,11 +74,6 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
 		void getHit(IObject &other, const FrameData *data) override;
 		bool hits(const IObject &other) const override;
-
-	protected:
-		void _computeFrameDataCache() override;
-
-	public:
 
 		static ProjectileAnimation animationFromString(const std::string &str);
 	};
