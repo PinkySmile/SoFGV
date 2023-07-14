@@ -9,6 +9,8 @@
 #define DIFF_TIME_NB_AVG 10
 #define MAX_SETBACK 1000LL
 
+std::vector<char> __frame;
+
 namespace SpiralOfFate
 {
 	RollbackMachine::RollbackData::RollbackData(std::pair<IInput *, IInput *> inputs, std::pair<std::bitset<INPUT_NUMBER - 1> *, std::bitset<INPUT_NUMBER - 1> *> old)
@@ -75,6 +77,8 @@ namespace SpiralOfFate
 		_realInputLeft(left->_input),
 		_realInputRight(right->_input)
 	{
+		auto onDesync = game->connection->onDesync;
+
 		left->_input = this->inputLeft;
 		right->_input = this->inputRight;
 		if (!game->connection)
@@ -89,6 +93,15 @@ namespace SpiralOfFate
 			this->_totalOpAvgDiffTimes += diff;
 			this->_totalOpAvgDiffTimes /= (long long)this->_opDiffTimes.size();
 			this->_opDiffTimesAverage.push_back(this->_totalOpAvgDiffTimes);
+		};
+		game->connection->onDesync = [onDesync](Connection::Remote &remote, unsigned frameId, unsigned cpuSum, unsigned recvSum) {
+			if (onDesync)
+				onDesync(remote, frameId, cpuSum, recvSum);
+			std::filesystem::create_directory("frames");
+
+			std::ofstream stream{"frames/frames-" + std::to_string(BattleManager::getFrame(__frame.data())) + ".frame"};
+
+			stream.write(__frame.data(), __frame.size());
 		};
 		for (unsigned m = game->connection->getCurrentDelay(), i = 0; i < m; i++)
 			game->connection->timeSync(0, i);
@@ -223,6 +236,8 @@ namespace SpiralOfFate
 				continue;
 			}
 			game->connection->reportChecksum(_computeCheckSum((short *)dat.data, dat.dataSize / sizeof(short)), frameId);
+			__frame.resize(dat.dataSize);
+			memcpy(__frame.data(), dat.data, dat.dataSize);
 			this->_savedData.pop_front();
 		}
 #endif
