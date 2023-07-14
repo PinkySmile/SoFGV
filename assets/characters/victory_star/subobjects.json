@@ -154,5 +154,37 @@
 		"shadow": "void",
 		"tint": true,
 		"hp": 500
+	},
+	{
+		"index": 7,
+		"action": 8,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"hits": 4000,
+		"end_block": 0,
+		"loop": false,
+		"disable_on_hit": true,
+		"disable_animation": "fade",
+		"animation_data": 8,
+		"hp": 1000
+	},
+	{
+		"index": 134,
+		"action": 8,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "void",
+		"tint": true,
+		"hp": 600
 	}
 ]
