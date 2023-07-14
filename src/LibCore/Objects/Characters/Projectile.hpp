@@ -24,14 +24,16 @@ namespace SpiralOfFate
 			unsigned nbHit;
 			unsigned animationCtr;
 			bool disabled;
+			bool fadingOut;
 		};
-		static_assert(sizeof(Data) == 9, "Data has wrong size");
+		static_assert(sizeof(Data) == 10, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
 		unsigned _animationCtr = 0;
 		unsigned _nbHit = 0;
 		bool _disabled = false;
+		bool _fadingOut = false;
 
 		// Non Game state
 		unsigned _maxHit;
@@ -71,6 +73,11 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
 		void getHit(IObject &other, const FrameData *data) override;
 		bool hits(const IObject &other) const override;
+
+	protected:
+		void _computeFrameDataCache() override;
+
+	public:
 
 		static ProjectileAnimation animationFromString(const std::string &str);
 	};

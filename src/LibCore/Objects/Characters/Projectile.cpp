@@ -152,6 +152,7 @@ namespace SpiralOfFate
 
 		Object::copyToBuffer(data);
 		dat->animationCtr = this->_animationCtr;
+		dat->fadingOut = this->_fadingOut;
 		dat->disabled = this->_disabled;
 		dat->nbHit = this->_nbHit;
 	}
@@ -163,6 +164,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_animationCtr = dat->animationCtr;
+		this->_fadingOut = dat->fadingOut;
 		this->_disabled = dat->disabled;
 		this->_nbHit = dat->nbHit;
 	}
@@ -200,6 +202,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled) + " vs " + std::to_string(dat2->disabled));
 		if (dat1->nbHit != dat2->nbHit)
 			game->logger.fatal(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit) + " vs " + std::to_string(dat2->nbHit));
+		if (dat1->fadingOut != dat2->fadingOut)
+			game->logger.fatal(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut) + " vs " + std::to_string(dat2->fadingOut));
 		return length + sizeof(Data);
 	}
 
@@ -218,12 +222,7 @@ namespace SpiralOfFate
 			this->_newAnim = true;
 			return;
 		}
-		for (auto &move : this->_moves)
-			for (auto &block : move.second)
-				for (auto &frame : block) {
-					frame.hitBoxes.clear();
-					frame.hurtBoxes.clear();
-				}
+		this->_fadingOut = true;
 	}
 
 	Projectile::ProjectileAnimation Projectile::animationFromString(const std::string &str)
@@ -235,5 +234,15 @@ namespace SpiralOfFate
 		if (str == "block")
 			return ANIMATION_BLOCK;
 		throw std::invalid_argument("Invalid animation '" + str + "'");
+	}
+
+	void Projectile::_computeFrameDataCache()
+	{
+		Object::_computeFrameDataCache();
+		if (this->_fadingOut) {
+			this->_fdCache.hitBoxes.clear();
+			this->_fdCache.hurtBoxes.clear();
+			this->_fdCache.collisionBox = nullptr;
+		}
 	}
 }

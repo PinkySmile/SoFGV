@@ -231,9 +231,9 @@ namespace SpiralOfFate
 				this->_savedData.pop_front();
 				continue;
 			}
-			game->connection->reportChecksum(_computeCheckSum((short *)dat.data, dat.dataSize / sizeof(short)), frameId);
 			__frame.resize(dat.dataSize);
 			memcpy(__frame.data(), dat.data, dat.dataSize);
+			game->connection->reportChecksum(_computeCheckSum((short *)dat.data, dat.dataSize / sizeof(short)), frameId);
 			this->_savedData.pop_front();
 		}
 #endif
