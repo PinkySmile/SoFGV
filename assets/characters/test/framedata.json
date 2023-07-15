@@ -13637,7 +13637,7 @@
             "x": 18,
             "y": 12
           },
-          "hit_stun": 60,
+          "hit_stun": 30,
           "hurt_boxes": [
             {
               "height": 45,
@@ -13679,7 +13679,7 @@
             "top": 930,
             "width": 104
           },
-          "untech": 60
+          "untech": 30
         },
         {
           "collision_box": {
@@ -14014,7 +14014,7 @@
           },
           "counter_hit_speed": {
             "x": 2,
-            "y": 25
+            "y": 32
           },
           "damage": 3500,
           "defense_flag": 16384,
@@ -14033,7 +14033,7 @@
           "hit_sound": "assets/sfxs/se/009.wav",
           "hit_speed": {
             "x": 2,
-            "y": 20
+            "y": 28
           },
           "hit_stun": 15,
           "hurt_boxes": [
