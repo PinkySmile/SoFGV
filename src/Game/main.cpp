@@ -401,6 +401,7 @@ void	run()
 
 		timer += clock.restart().asSeconds();
 		while (timer >= 1. / 60.) {
+			virtualController->update();
 			game->scene.update();
 			timer -= 1. / 60.;
 		}

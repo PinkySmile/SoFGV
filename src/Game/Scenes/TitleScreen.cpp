@@ -27,6 +27,9 @@
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
 
+
+#include "Inputs/VirtualController.hpp"
+
 #define THRESHOLD 50
 
 #define PLAY_BUTTON      0
@@ -38,7 +41,12 @@
 #define QUIT_BUTTON      6
 #define SYNC_TEST_BUTTON 7
 
+#define STICK_ID_KEYBOARD 0
+#define STICK_ID_VPAD 1
+#define STICK_ID_PPAD1 2
+
 extern std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream);
+extern SpiralOfFate::VirtualController *virtualController;
 
 namespace SpiralOfFate
 {
@@ -112,6 +120,7 @@ namespace SpiralOfFate
 		this->_inputs[INPUT_D].textureHandle = game->textureMgr.load("assets/icons/inputs/dash.png");
 		this->_inputs[INPUT_PAUSE].textureHandle = game->textureMgr.load("assets/icons/inputs/pause.png");
 		this->_menuObject.displayed = true;
+		this->_lastInput = &*game->menu.first;
 	}
 
 	TitleScreen::~TitleScreen()
@@ -171,7 +180,7 @@ namespace SpiralOfFate
 		game->menu.first->update();
 		game->menu.second->update();
 
-		auto inputs = (!this->_latestJoystickId ? game->menu.first->getInputs() : game->menu.second->getInputs());
+		auto inputs = this->_lastInput->getInputs();
 
 		if (game->connection && game->connection->isTerminated()) {
 			if (this->_connecting) {
@@ -201,7 +210,7 @@ namespace SpiralOfFate
 		if (inputs.s == 1)
 			this->_onCancel();
 		if (inputs.n == 1)
-			this->_onConfirm(this->_latestJoystickId + 1);
+			this->_onConfirm(this->_latestJoystickId);
 		if (game->connection || this->_chooseSpecCount || this->_changingInputs || this->_askingInputs)
 			this->_menuObject.update({});
 		else
@@ -222,6 +231,15 @@ namespace SpiralOfFate
 		case sf::Event::JoystickMoved:
 			if (this->_onJoystickMoved(event.joystickMove))
 				return;
+			break;
+		case sf::Event::MouseMoved:
+		case sf::Event::MouseButtonPressed:
+		case sf::Event::TouchBegan:
+		case sf::Event::TouchMoved:
+			if (this->_changingInputs)
+				break;
+			this->_latestJoystickId = STICK_ID_VPAD;
+			this->_lastInput = virtualController;
 			break;
 		default:
 			break;
@@ -403,7 +421,7 @@ namespace SpiralOfFate
 				this->_changeInput = false;
 				return false;
 			}
-			if (this->_latestJoystickId)
+			if (this->_latestJoystickId != STICK_ID_KEYBOARD)
 				return false;
 
 			auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
@@ -414,7 +432,8 @@ namespace SpiralOfFate
 			return true;
 		}
 
-		this->_latestJoystickId = 0;
+		this->_latestJoystickId = STICK_ID_KEYBOARD;
+		this->_lastInput = &*game->menu.first;
 		switch (ev.code) {
 		case sf::Keyboard::Escape:
 			this->_onCancel();
@@ -429,7 +448,7 @@ namespace SpiralOfFate
 	{
 		this->_oldStickValues[ev.joystickId][ev.axis] = ev.position;
 		if (this->_changeInput && this->_changingInputs) {
-			if (!this->_latestJoystickId)
+			if (this->_latestJoystickId < STICK_ID_PPAD1)
 				return false;
 			if (std::abs(ev.position) < THRESHOLD)
 				return true;
@@ -441,14 +460,15 @@ namespace SpiralOfFate
 			this->_changeInput = false;
 			return true;
 		}
-		this->_latestJoystickId = ev.joystickId + 1;
+		this->_lastInput = &*game->menu.second;
+		this->_latestJoystickId = ev.joystickId + STICK_ID_PPAD1;
 		return false;
 	}
 
 	bool TitleScreen::_onJoystickPressed(sf::Event::JoystickButtonEvent ev)
 	{
 		if (this->_changeInput && this->_changingInputs) {
-			if (!this->_latestJoystickId)
+			if (this->_latestJoystickId < STICK_ID_PPAD1)
 				return false;
 
 			auto &pair = this->_changingInputs == 1 ? game->menu : (this->_changingInputs == 2 ? game->P1 : game->P2);
@@ -458,8 +478,8 @@ namespace SpiralOfFate
 			this->_changeInput = false;
 			return true;
 		}
-
-		this->_latestJoystickId = ev.joystickId + 1;
+		this->_lastInput = &*game->menu.second;
+		this->_latestJoystickId = ev.joystickId + STICK_ID_PPAD1;
 		return false;
 	}
 
@@ -472,9 +492,9 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput)
 			game->screen->displayElement(
-				this->_leftInput == 1 ?
+				this->_leftInput >= STICK_ID_PPAD1 ?
 				game->P1.first->getName() :
-				game->P1.second->getName() + " #" + std::to_string(this->_leftInput - 1),
+				game->P1.second->getName() + " #" + std::to_string(this->_leftInput - STICK_ID_PPAD1),
 				{540, 260},
 				300,
 				Screen::ALIGN_CENTER
@@ -499,9 +519,9 @@ namespace SpiralOfFate
 		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
-					this->_rightInput == 1 ?
+					this->_rightInput >= STICK_ID_PPAD1 ?
 					game->P2.first->getName() :
-					game->P2.second->getName() + " #" + std::to_string(this->_rightInput - 1),
+					game->P2.second->getName() + " #" + std::to_string(this->_rightInput - STICK_ID_PPAD1),
 					{840, 260},
 					300,
 					Screen::ALIGN_CENTER
@@ -714,11 +734,11 @@ namespace SpiralOfFate
 			)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
-				if (stickId != 1 && this->_leftInput == stickId)
+				if (stickId >= STICK_ID_PPAD1 && this->_leftInput == stickId)
 					return;
-				this->_rightInput = stickId;
+				this->_rightInput = stickId + 1;
 			} else
-				this->_leftInput = stickId;
+				this->_leftInput = stickId + 1;
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}

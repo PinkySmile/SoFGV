@@ -5,6 +5,9 @@
 #include "VirtualController.hpp"
 #include "Resources/Game.hpp"
 
+#define MIN_ALPHA 0
+#define MAX_ALPHA 150
+
 namespace SpiralOfFate
 {
 	VirtualController::VirtualController()
@@ -12,13 +15,13 @@ namespace SpiralOfFate
 		this->_stickBack.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_back.png");
 		this->_stickBack.setPosition(20, 940 - game->textureMgr.getTextureSize(this->_stickBack.textureHandle).y * 6);
 		this->_stickBack.setScale(6, 6);
-		this->_stickBack.setColor(sf::Color{255, 255, 255, 100});
+		this->_stickBack.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
 		game->textureMgr.setTexture(this->_stickBack)->setSmooth(true);
 
 		this->_stickTop.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_top.png");
 		this->_stickTop.setPosition(20, 940 - game->textureMgr.getTextureSize(this->_stickTop.textureHandle).y * 6);
 		this->_stickTop.setScale(6, 6);
-		this->_stickTop.setColor(sf::Color{255, 255, 255, 100});
+		this->_stickTop.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
 		game->textureMgr.setTexture(this->_stickTop)->setSmooth(true);
 
 		this->_canvas.create(1680, 960);
@@ -43,6 +46,10 @@ namespace SpiralOfFate
 			this->_onRelease(game->screen->mapPixelToCoords({event.mouseButton.x, event.mouseButton.y}), -1);
 			_mousePressed = false;
 			break;
+		case sf::Event::MouseMoved:
+			if (_mousePressed)
+				this->_onDrag(game->screen->mapPixelToCoords({event.mouseMove.x, event.mouseMove.y}), -1);
+			break;
 		default:
 			break;
 		}
@@ -50,7 +57,6 @@ namespace SpiralOfFate
 
 	void VirtualController::render()
 	{
-		return;
 		sf::Sprite sprite;
 		auto view = game->screen->getView();
 		auto size = view.getSize();
@@ -58,7 +64,7 @@ namespace SpiralOfFate
 
 		top.x -= size.x / 2;
 		top.y -= size.y / 2;
-		this->_canvas.clear(sf::Color::Transparent);
+		this->_canvas.clear(sf::Color{0xFF, 0xFF, 0xFF, 0x00});
 		this->_canvas.draw(this->_stickBack, sf::BlendNone);
 		this->_canvas.draw(this->_stickTop);
 		this->_canvas.display();
@@ -79,22 +85,54 @@ namespace SpiralOfFate
 		sqr *= sqr;
 		if (center.distance2(location) < sqr) {
 			this->_indexes[INPUT_LEFT] = index;
-			this->_stickBack.setColor(sf::Color{255, 255, 255, 150});
-			this->_stickTop.setColor(sf::Color{255, 255, 255, 150});
+			this->_stickBack.setColor(sf::Color{255, 255, 255, MAX_ALPHA});
+			this->_stickTop.setColor(sf::Color{255, 255, 255, MAX_ALPHA});
+			this->_onMoveStick(location);
 		}
 	}
 
 	void VirtualController::_onDrag(const Vector2f &location, int index)
 	{
-
+		if (this->_indexes[INPUT_LEFT] == index)
+			this->_onMoveStick(location);
 	}
 
 	void VirtualController::_onRelease(const Vector2f &location, int index)
 	{
 		if (this->_indexes[INPUT_LEFT] == index) {
 			this->_indexes[INPUT_LEFT] = -30;
-			this->_stickBack.setColor(sf::Color{255, 255, 255, 100});
-			this->_stickTop.setColor(sf::Color{255, 255, 255, 100});
+			this->_stickBack.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
+			this->_stickTop.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
+			this->_stickTop.setPosition(20, 940 - this->_stickTop.getTexture()->getSize().y * 6);
+			this->_keyStates[INPUT_LEFT] = false;
+			this->_keyStates[INPUT_RIGHT] = false;
+			this->_keyStates[INPUT_UP] = false;
+			this->_keyStates[INPUT_DOWN] = false;
 		}
+	}
+
+	void VirtualController::_onMoveStick(const Vector2f &location)
+	{
+		auto backSize = Vector2(this->_stickBack.getTexture()->getSize());
+		auto size = Vector2(this->_stickTop.getTexture()->getSize());
+		auto result = location - size * 3;
+		auto base = Vector2f{20, 940.f - size.y * 6};
+		auto dist = result.distance2(base);
+		auto maxDist = backSize.x * 2;
+
+		if (dist >= maxDist * maxDist)
+			result = base + (result - base).normalized() * maxDist;
+		this->_stickTop.setPosition(result);
+		if (dist < maxDist / 2.) {
+			this->_keyStates[INPUT_LEFT] = false;
+			this->_keyStates[INPUT_RIGHT] = false;
+			this->_keyStates[INPUT_UP] = false;
+			this->_keyStates[INPUT_DOWN] = false;
+			return;
+		}
+		this->_keyStates[INPUT_LEFT] = result.x < base.x;
+		this->_keyStates[INPUT_RIGHT] = result.x > base.x;
+		this->_keyStates[INPUT_UP] = result.y < base.y;
+		this->_keyStates[INPUT_DOWN] = result.y > base.y;
 	}
 }

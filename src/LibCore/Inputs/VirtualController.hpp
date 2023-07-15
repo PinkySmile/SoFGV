@@ -19,6 +19,7 @@ namespace SpiralOfFate
 		sf::RenderTexture _canvas;
 		std::array<int, INPUT_NUMBER - 3> _indexes;
 
+		void _onMoveStick(const Vector2f &location);
 		void _onPress(const Vector2f &location, int index);
 		void _onDrag(const Vector2f &location, int index);
 		void _onRelease(const Vector2f &location, int index);

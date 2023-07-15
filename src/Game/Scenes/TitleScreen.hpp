@@ -50,6 +50,7 @@ namespace SpiralOfFate
 		unsigned char _cursorInputs = 0;
 		unsigned char _errorTimer = 0;
 		bool _connected = false;
+		IInput *_lastInput;
 		std::string _remote;
 		std::string _oldRemote;
 		std::string _errorMsg;
