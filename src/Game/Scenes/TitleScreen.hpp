@@ -80,6 +80,8 @@ namespace SpiralOfFate
 		void _pingUpdate(unsigned ping);
 		void _specUpdate(std::pair<unsigned, unsigned> spec);
 
+		static std::shared_ptr<IInput> _getInputFromId(unsigned id, const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &pair);
+
 	public:
 		TitleScreen();
 		~TitleScreen();

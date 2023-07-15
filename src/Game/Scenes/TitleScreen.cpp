@@ -343,22 +343,18 @@ namespace SpiralOfFate
 	{
 		CharacterSelect::Arguments *args;
 
-		if (this->_leftInput > 1)
-			game->P1.second->setJoystickId(this->_leftInput - 2);
-		if (this->_rightInput > 1)
-			game->P2.second->setJoystickId(this->_rightInput - 2);
 		switch (this->_menuObject.getSelectedItem()) {
 		case PLAY_BUTTON:
 			args = new CharacterSelect::Arguments();
-			args->leftInput = this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(game->P1.first) : static_cast<std::shared_ptr<IInput>>(game->P1.second);
-			args->rightInput = this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(game->P2.first) : static_cast<std::shared_ptr<IInput>>(game->P2.second);
+			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
+			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "in_game";
 			game->scene.switchScene("char_select", args);
 			break;
 		case PRACTICE_BUTTON:
 			args = new CharacterSelect::Arguments();
-			args->leftInput = this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(game->P1.first) : static_cast<std::shared_ptr<IInput>>(game->P1.second);
-			args->rightInput = this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(game->P2.first) : static_cast<std::shared_ptr<IInput>>(game->P2.second);
+			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
+			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "practice_in_game";
 			game->scene.switchScene("char_select", args);
 			break;
@@ -370,8 +366,8 @@ namespace SpiralOfFate
 			break;
 		case SYNC_TEST_BUTTON:
 			args = new CharacterSelect::Arguments();
-			args->leftInput = this->_leftInput  == 1 ? static_cast<std::shared_ptr<IInput>>(game->P1.first) : static_cast<std::shared_ptr<IInput>>(game->P1.second);
-			args->rightInput = this->_rightInput == 1 ? static_cast<std::shared_ptr<IInput>>(game->P2.first) : static_cast<std::shared_ptr<IInput>>(game->P2.second);
+			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
+			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "sync_test_in_game";
 			game->scene.switchScene("char_select", args);
 			break;
@@ -492,7 +488,7 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput)
 			game->screen->displayElement(
-				this->_leftInput >= STICK_ID_PPAD1 ?
+				this->_leftInput < STICK_ID_PPAD1 ?
 				game->P1.first->getName() :
 				game->P1.second->getName() + " #" + std::to_string(this->_leftInput - STICK_ID_PPAD1),
 				{540, 260},
@@ -519,7 +515,7 @@ namespace SpiralOfFate
 		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
-					this->_rightInput >= STICK_ID_PPAD1 ?
+					this->_rightInput < STICK_ID_PPAD1 ?
 					game->P2.first->getName() :
 					game->P2.second->getName() + " #" + std::to_string(this->_rightInput - STICK_ID_PPAD1),
 					{840, 260},
@@ -734,7 +730,7 @@ namespace SpiralOfFate
 			)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
-				if (stickId >= STICK_ID_PPAD1 && this->_leftInput == stickId)
+				if (stickId >= STICK_ID_PPAD1 && this->_leftInput == stickId + 1)
 					return;
 				this->_rightInput = stickId + 1;
 			} else
@@ -949,5 +945,14 @@ namespace SpiralOfFate
 		if (args)
 			result->_errorMsg = reinterpret_cast<Connection::TitleScreenArguments *>(args)->errorMessage;
 		return result;
+	}
+
+	std::shared_ptr<IInput> TitleScreen::_getInputFromId(unsigned int id, const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &pair)
+	{
+		if (id == STICK_ID_KEYBOARD)
+			return pair.first;
+		my_assert(id != STICK_ID_VPAD);
+		pair.second->setJoystickId(id - STICK_ID_PPAD1);
+		return pair.second;
 	}
 }
