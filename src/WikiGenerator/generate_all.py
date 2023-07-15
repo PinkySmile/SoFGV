@@ -1,4 +1,5 @@
 import os
+import sys
 import traceback
 from wiki_page_generator import generate_wiki_page
 from jinja2 import Environment
@@ -9,7 +10,7 @@ for f in os.listdir("assets/characters"):
 	if f == "template":
 		continue
 	try:
-		d = generate_wiki_page("assets/characters/" + f)
+		d = generate_wiki_page("assets/characters/" + f, no_regen=len(sys.argv) >= 1)
 		entries.append(d)
 	except:
 		traceback.print_exc()

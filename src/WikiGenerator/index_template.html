@@ -2,14 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Spiral of Fate: Grand Vision | Index</title>
+    <title>SoFGV | Index</title>
 </head>
 <body>
-    <h1>{{ Index }}</h1>
+    <h1>Spiral of Fate: Grand Vision</h1>
+    <hr>
+    <h2>Characters</h2>
     {% for stats in chrs %}
+    {% if not stats['hidden'] %}
     <div>
         <a href="generated/{{ stats['name'] }}/index.html">{{ stats['name'] }}</a>
     </div>
+    {% endif %}
     {% endfor %}
+    <h2>System mechanics</h2>
+    <div>
+        <a href="premade/typing_system.html">Typing System</a>
+    </div>
+    <div>
+        <a href="premade/cancel_tree.html">Cancel Tree</a>
+    </div>
+    <div>
+        <a href="premade/meter.html">Meter</a>
+    </div>
+    <div>
+        <a href="premade/overdrive.html">Overdrive</a>
+    </div>
+    <div>
+        <a href="premade/type_swap.html">Type Swap</a>
+    </div>
+    <div>
+        <a href="premade/type_debuff.html">Type Debuff</a>
+    </div>
+    <div>
+        <a href="premade/platforms.html">Platforms</a>
+    </div>
+    <h2><a href="premade/glossary.html">Glossary</a></h2>
 </body>
 </html>
