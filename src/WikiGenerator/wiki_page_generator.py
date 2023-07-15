@@ -1,5 +1,5 @@
 from chr_data_generator import gen_data
-from jinja2 import Environment
+from jinja2 import Environment, FileSystemLoader
 import sys
 import json
 
@@ -544,7 +544,7 @@ order = [
 
 
 def generate_page(data, stats, meta):
-    env = Environment()
+    env = Environment(loader=FileSystemLoader("resources/" + stats["name"]))
     with open("chr_template.html") as fd:
         template = env.from_string(fd.read())
     for move in data:

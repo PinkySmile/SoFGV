@@ -67,6 +67,11 @@
             <td>{{ stats["gravity"] }}</td>
         </tr>
     </table>
+    {% include "description.html" ignore missing %}
+    {% include "game_plan_as.html" ignore missing %}
+    {% include "game_plan_against.html" ignore missing %}
+    {% include "combos.html" ignore missing %}
+    {% include "matchups.html" ignore missing %}
     <h2>Palettes</h2>
     <div><img class="frame-data" src="palettes.png"></div>
     <hr>
