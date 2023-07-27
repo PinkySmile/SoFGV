@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 					if (!stagesJson.contains("objects"))
 						return std::vector<IObject *>{};
 
-					std::ifstream stream2{stagesJson["objects"]};
+					std::ifstream stream2{stagesJson["objects"].get<std::string>()};
 					nlohmann::json json;
 					std::vector<IObject *> objects;
 
