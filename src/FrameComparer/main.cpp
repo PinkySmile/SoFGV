@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 		char *frame_file = argv[5];
 		char *frame_file2 = argv[6];
 
-		new Game();
+		new Game("comparer.log");
 	//	game->screen->setView(view);
 	//	game->logger.info("CharacterSelect scene created");
 	//	this->_entries.reserve(chrList.size());
@@ -195,7 +195,10 @@ int main(int argc, char **argv)
 					chr = 0;
 			}
 		}
-		game->battleMgr->logDifference(buffer1, buffer2);
+		if (frame_file2)
+			game->battleMgr->logDifference(buffer1, buffer2);
+		else
+			game->battleMgr->printContent(buffer1, stream.tellg());
 		close(0);
 		close(1);
 		close(2);

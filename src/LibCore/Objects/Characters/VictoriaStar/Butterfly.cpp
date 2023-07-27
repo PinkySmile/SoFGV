@@ -415,4 +415,43 @@ namespace SpiralOfFate
 		t->_hasHit = old;
 		return result;
 	}
+
+	size_t Butterfly::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Object::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+		game->logger.info("Butterfly @" + std::to_string(startOffset + length));
+		if (this->_copy)
+			return length;
+
+		auto dat1 = reinterpret_cast<HappyData *>((uintptr_t)data + length);
+
+		if (startOffset + length + sizeof(HappyData) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackPos.x: " + std::to_string(dat1->_attackPos.x));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackPos.y: " + std::to_string(dat1->_attackPos.y));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackPosStep.x: " + std::to_string(dat1->_attackPosStep.x));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackPosStep.y: " + std::to_string(dat1->_attackPosStep.y));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackAppearCtr: " + std::to_string(dat1->_attackAppearCtr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackId: " + std::to_string(dat1->_attackId));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackFadeCtr: " + std::to_string(dat1->_attackFadeCtr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackAttackCtr: " + std::to_string(dat1->_attackAttackCtr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackTravelCtr: " + std::to_string(dat1->_attackTravelCtr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_counter: " + std::to_string(dat1->_counter));
+		game->logger.info(std::string(msgStart) + "Butterfly::_defenseCtr: " + std::to_string(dat1->_defenseCtr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_target.x: " + std::to_string(dat1->_target.x));
+		game->logger.info(std::string(msgStart) + "Butterfly::_target.y: " + std::to_string(dat1->_target.y));
+		game->logger.info(std::string(msgStart) + "Butterfly::_base.x: " + std::to_string(dat1->_base.x));
+		game->logger.info(std::string(msgStart) + "Butterfly::_base.y: " + std::to_string(dat1->_base.y));
+		game->logger.info(std::string(msgStart) + "Butterfly::_ctr: " + std::to_string(dat1->_ctr));
+		game->logger.info(std::string(msgStart) + "Butterfly::_maxAlpha: " + std::to_string(dat1->_maxAlpha));
+		game->logger.info(std::string(msgStart) + "Butterfly::_attackFadeTime: " + std::to_string(dat1->_attackFadeTime));
+		if (startOffset + length + sizeof(HappyData) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return length + sizeof(HappyData);
+	}
 }

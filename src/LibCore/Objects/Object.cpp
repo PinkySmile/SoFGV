@@ -698,4 +698,40 @@ namespace SpiralOfFate
 	{
 		return false;
 	}
+
+	size_t Object::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = FrameData::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + length);
+
+		game->logger.info("Object @" + std::to_string(startOffset + length));
+		if (startOffset + length + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "Object::_position: (" + std::to_string(dat->_position.x) + ", " + std::to_string(dat->_position.y) + ")");
+		game->logger.info(std::string(msgStart) + "Object::_speed: (" + std::to_string(dat->_speed.x) + ", " + std::to_string(dat->_speed.y) + ")");
+		game->logger.info(std::string(msgStart) + "Object::_gravity: (" + std::to_string(dat->_gravity.x) + ", " + std::to_string(dat->_gravity.y) + ")");
+		game->logger.info(std::string(msgStart) + "Object::_action: " + std::to_string(dat->_action));
+		game->logger.info(std::string(msgStart) + "Object::_hitStop: " + std::to_string(dat->_hitStop));
+		game->logger.info(std::string(msgStart) + "Object::_actionBlock: " + std::to_string(dat->_actionBlock));
+		game->logger.info(std::string(msgStart) + "Object::_animation: " + std::to_string(dat->_animation));
+		game->logger.info(std::string(msgStart) + "Object::_animationCtr: " + std::to_string(dat->_animationCtr));
+		game->logger.info(std::string(msgStart) + "Object::_hp: " + std::to_string(dat->_hp));
+		game->logger.info(std::string(msgStart) + "Object::_rotation: " + std::to_string(dat->_rotation));
+		game->logger.info(std::string(msgStart) + "Object::_team: " + std::to_string(dat->_team));
+		game->logger.info(std::string(msgStart) + "Object::_dead: " + std::to_string(dat->_dead));
+		game->logger.info(std::string(msgStart) + "Object::_hasHit: " + std::to_string(dat->_hasHit));
+		game->logger.info(std::string(msgStart) + "Object::_direction: " + std::to_string(dat->_direction));
+		game->logger.info(std::string(msgStart) + "Object::_cornerPriority: " + std::to_string(dat->_cornerPriority));
+		game->logger.info(std::string(msgStart) + "Object::_dir: " + std::to_string(dat->_dir));
+		game->logger.info(std::string(msgStart) + "Object::_newAnim: " + std::to_string(dat->_newAnim));
+		if (startOffset + length + sizeof(Data) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return sizeof(Data) + length;
+	}
 }

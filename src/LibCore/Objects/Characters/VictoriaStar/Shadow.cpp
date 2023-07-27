@@ -208,4 +208,28 @@ namespace SpiralOfFate
 			box.size.y += this->_boxSize;
 		}
 	}
+
+	size_t Shadow::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Object::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data + length);
+
+		game->logger.info("Shadow @" + std::to_string(startOffset + length));
+		if (startOffset + length + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "Shadow::_invincibleTime: " + std::to_string(dat1->_invincibleTime));
+		game->logger.info(std::string(msgStart) + "Shadow::_boxSize: " + std::to_string(dat1->_boxSize));
+		game->logger.info(std::string(msgStart) + "Shadow::_loopInfo: {" + std::to_string(dat1->_loopInfo.first) + "," + std::to_string(dat1->_loopInfo.second) + "}");
+		game->logger.info(std::string(msgStart) + "Shadow::_idleCounter: " + std::to_string(dat1->_idleCounter));
+		game->logger.info(std::string(msgStart) + "Shadow::_ownerKilled: " + (dat1->_ownerKilled ? "true" : "false"));
+		if (startOffset + length + sizeof(Data) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return length + sizeof(Data);
+	}
 }

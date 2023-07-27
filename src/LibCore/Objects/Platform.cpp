@@ -146,4 +146,26 @@ namespace SpiralOfFate
 	{
 		return -51;
 	}
+
+	size_t Platform::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Object::printContent(msgStart, data,  startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + length);
+
+		game->logger.info("Platform @" + std::to_string(startOffset + length));
+		if (startOffset + length + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "Platform::_width: " + std::to_string(dat->_width));
+		game->logger.info(std::string(msgStart) + "Platform::_cooldown: " + std::to_string(dat->_cooldown));
+		game->logger.info(std::string(msgStart) + "Platform::_deathTimer: " + std::to_string(dat->_deathTimer));
+		if (startOffset + length + sizeof(Data) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return length + sizeof(Data);
+	}
 }

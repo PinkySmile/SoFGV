@@ -70,7 +70,8 @@ namespace SpiralOfFate
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
 		void defensiveFormation(const Object &target);
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
+		size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const override;
+		size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 		void startAttack(Vector2f pos, unsigned block, unsigned char fadeTime, unsigned char attackTime, unsigned char travelTime);
 		bool isDisabled(const IObject &target) const override;
 		void hit(IObject &other, const FrameData *data) override;

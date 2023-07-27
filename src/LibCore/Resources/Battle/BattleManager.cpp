@@ -1073,6 +1073,118 @@ namespace SpiralOfFate
 		return reinterpret_cast<Data *>(data)->_currentFrame;
 	}
 
+	void BattleManager::printContent(void *data, size_t size)
+	{
+		auto dat1 = reinterpret_cast<Data *>(data);
+		char *ptr1 = (char *)data + sizeof(Data);
+
+		if (sizeof(Data) >= size)
+			game->logger.warn("Manager is " + std::to_string(sizeof(Data) - size) + " bytes bigger than input");
+		game->logger.info("BattleManager::random: " + std::to_string(dat1->random));
+		game->logger.info("BattleManager::_currentFrame: " + std::to_string(dat1->_currentFrame));
+		game->logger.info("BattleManager::ended: " + std::to_string(dat1->_ended));
+		game->logger.info("BattleManager::lastObjectId: " + std::to_string(dat1->_lastObjectId));
+		game->logger.info("BattleManager::leftHUDData.comboCtr: " + std::to_string(dat1->_leftHUDData.comboCtr));
+		game->logger.info("BattleManager::leftHUDData.hitCtr: " + std::to_string(dat1->_leftHUDData.hitCtr));
+		game->logger.info("BattleManager::leftHUDData.neutralLimit: " + std::to_string(dat1->_leftHUDData.neutralLimit));
+		game->logger.info("BattleManager::leftHUDData.voidLimit: " + std::to_string(dat1->_leftHUDData.voidLimit));
+		game->logger.info("BattleManager::leftHUDData.matterLimit: " + std::to_string(dat1->_leftHUDData.matterLimit));
+		game->logger.info("BattleManager::leftHUDData.spiritLimit: " + std::to_string(dat1->_leftHUDData.spiritLimit));
+		game->logger.info("BattleManager::leftHUDData.totalDamage: " + std::to_string(dat1->_leftHUDData.totalDamage));
+		game->logger.info("BattleManager::leftHUDData.proration: " + std::to_string(dat1->_leftHUDData.proration));
+		game->logger.info("BattleManager::_leftHUDData.proration: " + std::to_string(dat1->_leftHUDData.score));
+		game->logger.info("BattleManager::rightHUDData.comboCtr: " + std::to_string(dat1->_rightHUDData.comboCtr));
+		game->logger.info("BattleManager::rightHUDData.hitCtr: " + std::to_string(dat1->_rightHUDData.hitCtr));
+		game->logger.info("BattleManager::rightHUDData.neutralLimit: " + std::to_string(dat1->_rightHUDData.neutralLimit));
+		game->logger.info("BattleManager::rightHUDData.voidLimit: " + std::to_string(dat1->_rightHUDData.voidLimit));
+		game->logger.info("BattleManager::rightHUDData.spiritLimit: " + std::to_string(dat1->_rightHUDData.spiritLimit));
+		game->logger.info("BattleManager::rightHUDData.matterLimit: " + std::to_string(dat1->_rightHUDData.matterLimit));
+		game->logger.info("BattleManager::rightHUDData.totalDamage: " + std::to_string(dat1->_rightHUDData.totalDamage));
+		game->logger.info("BattleManager::rightHUDData.proration: " + std::to_string(dat1->_rightHUDData.proration));
+		game->logger.info("BattleManager::rightHUDData.score: " + std::to_string(dat1->_rightHUDData.score));
+		game->logger.info("BattleManager::currentRound: " + std::to_string(dat1->_currentRound));
+		game->logger.info("BattleManager::roundStartTimer: " + std::to_string(dat1->_roundStartTimer));
+		game->logger.info("BattleManager::roundEndTimer: " + std::to_string(dat1->_roundEndTimer));
+		game->logger.info("BattleManager::nbObjects: " + std::to_string(dat1->_nbObjects));
+		if (sizeof(Data) >= size) {
+			game->logger.fatal("Invalid input frame");
+			return;
+		}
+
+		auto length = this->_leftCharacter->printContent("Player1: ", (void *)ptr1, sizeof(Data), size);
+
+		if (!length)
+			return;
+		ptr1 += length;
+
+		length = this->_rightCharacter->printContent("Player2: ", (void *)ptr1, (ptrdiff_t)ptr1 - (ptrdiff_t)data, size);
+		if (!length)
+			return;
+		ptr1 += length;
+
+		for (size_t i = 0; i < dat1->_nbObjects; i++) {
+			std::shared_ptr<IObject> obj;
+			auto id1 = *(unsigned *)ptr1;
+
+			if ((ptrdiff_t)ptr1 - (ptrdiff_t)data + sizeof(unsigned) + sizeof(unsigned char) >= size)
+				game->logger.warn("Next object header is " + std::to_string((ptrdiff_t)ptr1 - (ptrdiff_t)data + sizeof(unsigned) + sizeof(unsigned char) - size) + " bytes bigger than input");
+			game->logger.info("BattleManager::object[" + std::to_string(i) + "]::objectId: " + std::to_string(id1));
+			ptr1 += sizeof(unsigned);
+
+			auto cl1 = *(unsigned char *)ptr1;
+
+			game->logger.info("BattleManager::object[" + std::to_string(i) + "]::class: " + std::to_string(cl1));
+			ptr1 += sizeof(unsigned char);
+
+			if ((ptrdiff_t)ptr1 - (ptrdiff_t)data >= size) {
+				game->logger.fatal("Invalid input frame");
+				return;
+			}
+			switch (cl1) {
+			case 0:
+				obj.reset(new Object());
+				break;
+			case 1:
+				obj.reset(new Character());
+				break;
+			case 2: {
+				if ((ptrdiff_t)ptr1 - (ptrdiff_t)data + sizeof(unsigned) + sizeof(bool) >= size)
+					game->logger.warn("Next object header is " + std::to_string((ptrdiff_t)ptr1 - (ptrdiff_t)data + sizeof(unsigned) + sizeof(bool) - size) + " bytes bigger than input");
+
+				auto owner1 = *(bool *)ptr1;
+
+				game->logger.info("BattleManager::object[" + std::to_string(i) + "]::owner: " + std::to_string(owner1));
+				ptr1 += sizeof(bool);
+
+				auto subobjid1 = *(unsigned *)ptr1;
+
+				game->logger.info("BattleManager::object[" + std::to_string(i) + "]::subobjectId: " + std::to_string(subobjid1));
+				ptr1 += sizeof(unsigned);
+				if ((ptrdiff_t)ptr1 - (ptrdiff_t)data >= size) {
+					game->logger.fatal("Invalid input frame");
+					return;
+				}
+				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(*this,subobjid1, false).second;
+				break;
+			}
+			default:
+				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::class invalid: " + std::to_string(cl1));
+				return;
+			}
+
+			length = obj->printContent(("BattleManager::object[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (ptrdiff_t)ptr1 - (ptrdiff_t)data, size);
+			if (length == 0)
+				return;
+			ptr1 += length;
+		}
+		for (size_t i = 0; i < this->_nbPlatform; i++) {
+			length = this->_platforms[i]->printContent(("BattleManager::platform[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (ptrdiff_t)ptr1 - (ptrdiff_t)data, size);
+			if (length == 0)
+				return;
+			ptr1 += length;
+		}
+	}
+
 	static float getTextSize(const std::string &str, const sf::Text &txt)
 	{
 		float size = 0;

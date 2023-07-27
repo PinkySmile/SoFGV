@@ -782,7 +782,8 @@ namespace SpiralOfFate
 		unsigned int getClassId() const override;
 		const std::vector<ReplayData> &getReplayData() const;
 		bool isHit() const;
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
+		size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const override;
+		size_t printContent(const char *msgStart, void *data, unsigned startOffset, size_t dataSize) const override;
 		int getLayer() const override;
 		std::array<unsigned, 4> getLimit() const;
 

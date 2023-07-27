@@ -88,7 +88,8 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-		size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset) const override;
+		size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const override;
+		size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 		bool matchEndUpdate() override;
 		void onMatchEnd() override;
 		void render() const override;

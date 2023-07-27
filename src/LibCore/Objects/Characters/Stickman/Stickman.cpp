@@ -239,4 +239,27 @@ namespace SpiralOfFate
 			return;
 		this->_allyBuffEffect(this->_fdCache);
 	}
+
+	size_t Stickman::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Character::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data + length);
+
+		game->logger.info("Stickman @" + std::to_string(startOffset + length));
+		if (startOffset + length + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "Stickman::_buff: " + std::to_string(dat1->_buff));
+		game->logger.info(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time));
+		game->logger.info(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction));
+		game->logger.info(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer));
+		if (startOffset + length + sizeof(Data) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return length + sizeof(Data);
+	}
 }

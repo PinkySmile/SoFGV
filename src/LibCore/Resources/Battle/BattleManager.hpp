@@ -191,6 +191,7 @@ namespace SpiralOfFate
 		const std::vector<Character::ReplayData> &getRightReplayData() const;
 		unsigned getCurrentFrame() const;
 		void logDifference(void *data1, void *data2);
+		void printContent(void *data, size_t size);
 		template <typename T, typename ...Args>
 		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, const Args &... args)
 		{

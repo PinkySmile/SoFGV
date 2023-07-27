@@ -4718,9 +4718,9 @@ namespace SpiralOfFate
 		if (dat1->_limit[1] != dat2->_limit[1])
 			game->logger.fatal(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat1->_limit[1]) + " vs " + std::to_string(dat2->_limit[1]));
 		if (dat1->_limit[2] != dat2->_limit[2])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat1->_limit[2]) + " vs " + std::to_string(dat2->_limit[2]));
 		if (dat1->_limit[3] != dat2->_limit[3])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat1->_limit[3]) + " vs " + std::to_string(dat2->_limit[3]));
 
 		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs)
 			game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat1->_nbReplayInputs) + " vs " + std::to_string(dat2->_nbReplayInputs));
@@ -4904,5 +4904,92 @@ namespace SpiralOfFate
 		default:
 			return false;
 		}
+	}
+
+	size_t Character::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Object::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat = reinterpret_cast<Data *>((uintptr_t)data + length);
+		auto len = length +
+		           sizeof(Data) +
+		           sizeof(LastInput) * dat->_nbLastInputs +
+		           sizeof(ReplayData) * dat->_nbReplayInputs +
+		           sizeof(unsigned) * 2 * dat->_nbUsedMoves;
+
+		if (startOffset + len >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + len - dataSize) + " bytes bigger than input");
+		game->logger.info("Character @" + std::to_string(startOffset + length));
+		game->logger.fatal(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat->_hardKD));
+		game->logger.fatal(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat->_neutralEffectTimer));
+		game->logger.fatal(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
+		game->logger.fatal(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
+		game->logger.fatal(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat->_voidEffectTimer));
+		game->logger.fatal(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat->_wrongMana));
+		game->logger.fatal(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
+		game->logger.fatal(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
+		game->logger.fatal(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
+		game->logger.fatal(std::string(msgStart) + "Character::_supersUsed: " + std::to_string(dat->_supersUsed));
+		game->logger.fatal(std::string(msgStart) + "Character::_skillsUsed: " + std::to_string(dat->_skillsUsed));
+		game->logger.fatal(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
+		game->logger.fatal(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat->_ultimateUsed));
+		game->logger.fatal(std::string(msgStart) + "Character::_normalTreeFlag: " + std::to_string(dat->_normalTreeFlag));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::horizontalAxis: " + std::to_string(dat->_inputBuffer.horizontalAxis));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::verticalAxis: " + std::to_string(dat->_inputBuffer.verticalAxis));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::n: " + std::to_string(dat->_inputBuffer.n));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::m: " + std::to_string(dat->_inputBuffer.m));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::s: " + std::to_string(dat->_inputBuffer.s));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::v: " + std::to_string(dat->_inputBuffer.v));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::a: " + std::to_string(dat->_inputBuffer.a));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::d: " + std::to_string(dat->_inputBuffer.d));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::pause: " + std::to_string(dat->_inputBuffer.pause));
+		game->logger.fatal(std::string(msgStart) + "Character::_guardRegenCd: " + std::to_string(dat->_guardRegenCd));
+		game->logger.fatal(std::string(msgStart) + "Character::_odCooldown: " + std::to_string(dat->_odCooldown));
+		game->logger.fatal(std::string(msgStart) + "Character::_counter: " + std::to_string(dat->_counter));
+		game->logger.fatal(std::string(msgStart) + "Character::_blockStun: " + std::to_string(dat->_blockStun));
+		game->logger.fatal(std::string(msgStart) + "Character::_jumpsUsed: " + std::to_string(dat->_jumpsUsed));
+		game->logger.fatal(std::string(msgStart) + "Character::_airDashesUsed: " + std::to_string(dat->_airDashesUsed));
+		game->logger.fatal(std::string(msgStart) + "Character::_comboCtr: " + std::to_string(dat->_comboCtr));
+		game->logger.fatal(std::string(msgStart) + "Character::_totalDamage: " + std::to_string(dat->_totalDamage));
+		game->logger.fatal(std::string(msgStart) + "Character::_prorate: " + std::to_string(dat->_prorate));
+		game->logger.fatal(std::string(msgStart) + "Character::_atkDisabled: " + std::to_string(dat->_atkDisabled));
+		game->logger.fatal(std::string(msgStart) + "Character::_inputDisabled: " + std::to_string(dat->_inputDisabled));
+		game->logger.fatal(std::string(msgStart) + "Character::_hasJumped: " + std::to_string(dat->_hasJumped));
+		game->logger.fatal(std::string(msgStart) + "Character::_restand: " + std::to_string(dat->_restand));
+		game->logger.fatal(std::string(msgStart) + "Character::_justGotCorner: " + std::to_string(dat->_justGotCorner));
+		game->logger.fatal(std::string(msgStart) + "Character::_regen: " + std::to_string(dat->_regen));
+		game->logger.fatal(std::string(msgStart) + "Character::_voidMana: " + std::to_string(dat->_voidMana));
+		game->logger.fatal(std::string(msgStart) + "Character::_spiritMana: " + std::to_string(dat->_spiritMana));
+		game->logger.fatal(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat->_matterMana));
+		game->logger.fatal(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat->_guardCooldown));
+		game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat->_guardBar));
+
+		char buffer[sizeof(dat->_specialInputs) * 4 + 5];
+		char number[3];
+
+		*buffer = 0;
+		for (unsigned char input : dat->_specialInputs) {
+			sprintf(number, "%02X", input);
+			strcat(buffer, number);
+		}
+		game->logger.fatal(std::string(msgStart) + "Character::_specialInputs: " + buffer);
+		game->logger.fatal(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat->_limit[0]));
+
+		game->logger.fatal(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat->_limit[1]));
+		game->logger.fatal(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat->_limit[2]));
+		game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat->_limit[3]));
+
+		game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat->_nbReplayInputs));
+		game->logger.fatal(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat->_nbLastInputs));
+		game->logger.fatal(std::string(msgStart) + "Character::_nbUsedMoves: " + std::to_string(dat->_nbUsedMoves));
+
+		if (startOffset + len >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return len;
 	}
 }

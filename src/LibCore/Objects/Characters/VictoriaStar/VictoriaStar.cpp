@@ -463,4 +463,29 @@ namespace SpiralOfFate
 			};
 		return {0, 0};
 	}
+
+	size_t VictoriaStar::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+	{
+		auto length = Character::printContent(msgStart, data, startOffset, dataSize);
+
+		if (length == 0)
+			return 0;
+
+		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data + length);
+
+		game->logger.info("VictoriaStar @" + std::to_string(startOffset + length));
+		if (startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_stacks: " + std::to_string(dat1->_stacks));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_nbShadows: " + std::to_string(dat1->_nbShadows));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_flower: " + std::to_string(dat1->_flower));
+		for (unsigned i = 0; i < dat1->_nbShadows; i++)
+			game->logger.info(std::string(msgStart) + "VictoriaStar::shadows[" + std::to_string(i) + "]: " + std::to_string(dat1->_objects[i]));
+		if (startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows;
+	}
 }

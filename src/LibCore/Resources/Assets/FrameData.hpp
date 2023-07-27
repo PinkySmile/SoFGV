@@ -211,11 +211,12 @@ namespace SpiralOfFate
 		void reloadSound();
 		void setSlave(bool slave = true);
 		nlohmann::json toJson() const;
-
 		unsigned int getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
-		static size_t printDifference(const char *msgStart, void *pVoid, void *pVoid1, unsigned startOffset);
+
+		static size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset);
+		static size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize);
 
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});
 		static std::map<unsigned, std::vector<std::vector<FrameData>>> loadFileJson(const nlohmann::json &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette = {{}, {}});

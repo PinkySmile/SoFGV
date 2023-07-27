@@ -905,6 +905,77 @@ namespace SpiralOfFate
 		return sizeof(Data) + sizeof(Box) * (dat1->hurtBoxesCount + dat1->hitBoxesCount);
 	}
 
+	size_t FrameData::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize)
+	{
+		auto dat = reinterpret_cast<Data *>(data);
+		unsigned i = 0;
+
+		game->logger.info("FrameData @" + std::to_string(startOffset));
+		if (startOffset + sizeof(Data) + sizeof(Box) * (dat->hurtBoxesCount + dat->hitBoxesCount) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "FrameData::texturePath: " + std::string(dat->texturePath, strnlen(dat->texturePath, sizeof(dat->texturePath))));
+		game->logger.info(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat->blockStun));
+		game->logger.info(std::string(msgStart) + "FrameData::hitStun: " + std::to_string(dat->hitStun));
+		game->logger.info(std::string(msgStart) + "FrameData::untech: " + std::to_string(dat->untech));
+		game->logger.info(std::string(msgStart) + "FrameData::guardDmg: " + std::to_string(dat->guardDmg));
+		game->logger.info(std::string(msgStart) + "FrameData::duration: " + std::to_string(dat->duration));
+		game->logger.info(std::string(msgStart) + "FrameData::specialMarker: " + std::to_string(dat->specialMarker));
+		game->logger.info(std::string(msgStart) + "FrameData::neutralLimit: " + std::to_string(dat->neutralLimit));
+		game->logger.info(std::string(msgStart) + "FrameData::voidLimit: " + std::to_string(dat->voidLimit));
+		game->logger.info(std::string(msgStart) + "FrameData::spiritLimit: " + std::to_string(dat->spiritLimit));
+		game->logger.info(std::string(msgStart) + "FrameData::matterLimit: " + std::to_string(dat->matterLimit));
+		game->logger.info(std::string(msgStart) + "FrameData::manaGain: " + std::to_string(dat->manaGain));
+		game->logger.info(std::string(msgStart) + "FrameData::manaCost: " + std::to_string(dat->manaCost));
+		game->logger.info(std::string(msgStart) + "FrameData::hitPlayerHitStop: " + std::to_string(dat->hitPlayerHitStop));
+		game->logger.info(std::string(msgStart) + "FrameData::hitOpponentHitStop: " + std::to_string(dat->hitOpponentHitStop));
+		game->logger.info(std::string(msgStart) + "FrameData::blockPlayerHitStop: " + std::to_string(dat->blockPlayerHitStop));
+		game->logger.info(std::string(msgStart) + "FrameData::blockOpponentHitStop: " + std::to_string(dat->blockOpponentHitStop));
+		game->logger.info(std::string(msgStart) + "FrameData::damage: " + std::to_string(dat->damage));
+		game->logger.info(std::string(msgStart) + "FrameData::chipDamage: " + std::to_string(dat->chipDamage));
+		game->logger.info(std::string(msgStart) + "FrameData::priority: " + std::to_string(dat->priority));
+		game->logger.info(std::string(msgStart) + "FrameData::hurtBoxesCount: " + std::to_string(dat->hurtBoxesCount));
+		game->logger.info(std::string(msgStart) + "FrameData::hitBoxesCount: " + std::to_string(dat->hitBoxesCount));
+		game->logger.info(std::string(msgStart) + "FrameData::dFlag: " + std::to_string(dat->dFlag.flags));
+		game->logger.info(std::string(msgStart) + "FrameData::oFlag: " + std::to_string(dat->oFlag.flags));
+		game->logger.info(std::string(msgStart) + "FrameData::pushBack: " + std::to_string(dat->pushBack));
+		game->logger.info(std::string(msgStart) + "FrameData::pushBlock: " + std::to_string(dat->pushBlock));
+		game->logger.info(std::string(msgStart) + "FrameData::subObjectSpawn: " + std::to_string(dat->subObjectSpawn));
+		game->logger.info(std::string(msgStart) + "FrameData::prorate: " + std::to_string(dat->prorate));
+		game->logger.info(std::string(msgStart) + "FrameData::minProrate: " + std::to_string(dat->minProrate));
+		game->logger.info(std::string(msgStart) + "FrameData::rotation: " + std::to_string(dat->rotation));
+		game->logger.info(std::string(msgStart) + "FrameData::hasCollisionBox: " + std::to_string(dat->hasCollisionBox));
+		game->logger.info(std::string(msgStart) + "FrameData::hasPriority: " + std::to_string(dat->hasPriority));
+		game->logger.info(std::string(msgStart) + "FrameData::hasGravity: " + std::to_string(dat->hasGravity));
+		game->logger.info(std::string(msgStart) + "FrameData::hasSnap: " + std::to_string(dat->hasSnap));
+		game->logger.info(std::string(msgStart) + "FrameData::textureBounds::pos: (" + std::to_string(dat->textureBounds.pos.x) + ", " + std::to_string(dat->textureBounds.pos.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::textureBounds::size: (" + std::to_string(dat->textureBounds.size.x) + ", " + std::to_string(dat->textureBounds.size.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::collisionBox::pos: (" + std::to_string(dat->collisionBox.pos.x) + ", " + std::to_string(dat->collisionBox.pos.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::collisionBox::size: (" + std::to_string(dat->collisionBox.size.x) + ", " + std::to_string(dat->collisionBox.size.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::size: (" + std::to_string(dat->size.x) + ", " + std::to_string(dat->size.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::offset: (" + std::to_string(dat->offset.x) + ", " + std::to_string(dat->offset.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::speed: (" + std::to_string(dat->speed.x) + ", " + std::to_string(dat->speed.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::hitSpeed: (" + std::to_string(dat->hitSpeed.x) + ", " + std::to_string(dat->hitSpeed.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::counterHitSpeed: (" + std::to_string(dat->counterHitSpeed.x) + ", " + std::to_string(dat->counterHitSpeed.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::gravity: (" + std::to_string(dat->gravity.x) + ", " + std::to_string(dat->gravity.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::snap: (" + std::to_string(dat->snap.x) + ", " + std::to_string(dat->snap.y) + ")");
+
+		while (i < dat->hurtBoxesCount) {
+			game->logger.info(std::string(msgStart) + "FrameData::hurtBoxes[" + std::to_string(i) + "]::pos: (" + std::to_string(dat->boxes[i].pos.x) + ", " + std::to_string(dat->boxes[i].pos.y) + ")");
+			game->logger.info(std::string(msgStart) + "FrameData::hurtBoxes[" + std::to_string(i) + "]::size: (" + std::to_string(dat->boxes[i].size.x) + ", " + std::to_string(dat->boxes[i].size.y) + ")");
+			i++;
+		}
+		while (i < dat->hurtBoxesCount + dat->hitBoxesCount) {
+			game->logger.info(std::string(msgStart) + "FrameData::hitBoxes[" + std::to_string(i - dat->hurtBoxesCount) + "]::pos: (" + std::to_string(dat->boxes[i].pos.x) + ", " + std::to_string(dat->boxes[i].pos.y) + ")");
+			game->logger.info(std::string(msgStart) + "FrameData::hitBoxes[" + std::to_string(i - dat->hurtBoxesCount) + "]::size: (" + std::to_string(dat->boxes[i].size.x) + ", " + std::to_string(dat->boxes[i].size.y) + ")");
+			i++;
+		}
+		if (startOffset + sizeof(Data) + sizeof(Box) * (dat->hurtBoxesCount + dat->hitBoxesCount) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return sizeof(Data) + sizeof(Box) * (dat->hurtBoxesCount + dat->hitBoxesCount);
+	}
+
 	Box::operator sf::IntRect() const noexcept
 	{
 		return {
