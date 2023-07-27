@@ -4698,20 +4698,218 @@ namespace SpiralOfFate
 		if (dat1->_guardBar != dat2->_guardBar)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
-			char buffer[sizeof(dat1->_specialInputs) * 4 + 5];
-			char number[3];
+			char number1[3];
+			char number2[3];
+			auto *ptr1 = (SpecialInputs *)dat1->_specialInputs;
+			auto *ptr2 = (SpecialInputs *)dat2->_specialInputs;
 
-			*buffer = 0;
-			for (unsigned char input : dat1->_specialInputs) {
-				sprintf(number, "%02X", input);
-				strcat(buffer, number);
+			for (unsigned i = 0; i < sizeof(dat1->_specialInputs); i++) {
+				if (dat1->_specialInputs[i] == dat2->_specialInputs[i])
+					continue;
+				sprintf(number1, "%02X", dat1->_specialInputs[i]);
+				sprintf(number2, "%02X", dat2->_specialInputs[i]);
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs[" + std::to_string(i) + "]: " + number1 + " vs " + number2);
 			}
-			strcat(buffer, " vs ");
-			for (unsigned char input : dat2->_specialInputs) {
-				sprintf(number, "%02X", input);
-				strcat(buffer, number);
-			}
-			game->logger.fatal(std::string(msgStart) + "Character::_specialInputs: " + buffer);
+			if (ptr1->_22 != ptr2->_22)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_22: " + std::to_string(ptr1->_22) + " vs " + std::to_string(ptr2->_22));
+			if (ptr1->_44 != ptr2->_44)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_44: " + std::to_string(ptr1->_44) + " vs " + std::to_string(ptr2->_44));
+			if (ptr1->_66 != ptr2->_66)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_66: " + std::to_string(ptr1->_66) + " vs " + std::to_string(ptr2->_66));
+			if (ptr1->_27 != ptr2->_27)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_27: " + std::to_string(ptr1->_27) + " vs " + std::to_string(ptr2->_27));
+			if (ptr1->_28 != ptr2->_28)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_28: " + std::to_string(ptr1->_28) + " vs " + std::to_string(ptr2->_28));
+			if (ptr1->_29 != ptr2->_29)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_29: " + std::to_string(ptr1->_29) + " vs " + std::to_string(ptr2->_29));
+			if (ptr1->_an != ptr2->_an)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_an: " + std::to_string(ptr1->_an) + " vs " + std::to_string(ptr2->_an));
+			if (ptr1->_am != ptr2->_am)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_am: " + std::to_string(ptr1->_am) + " vs " + std::to_string(ptr2->_am));
+			if (ptr1->_as != ptr2->_as)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_as: " + std::to_string(ptr1->_as) + " vs " + std::to_string(ptr2->_as));
+			if (ptr1->_av != ptr2->_av)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_av: " + std::to_string(ptr1->_av) + " vs " + std::to_string(ptr2->_av));
+			if (ptr1->_c28n != ptr2->_c28n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28n: " + std::to_string(ptr1->_c28n) + " vs " + std::to_string(ptr2->_c28n));
+			if (ptr1->_c28m != ptr2->_c28m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28m: " + std::to_string(ptr1->_c28m) + " vs " + std::to_string(ptr2->_c28m));
+			if (ptr1->_c28s != ptr2->_c28s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28s: " + std::to_string(ptr1->_c28s) + " vs " + std::to_string(ptr2->_c28s));
+			if (ptr1->_c28v != ptr2->_c28v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28v: " + std::to_string(ptr1->_c28v) + " vs " + std::to_string(ptr2->_c28v));
+			if (ptr1->_c28d != ptr2->_c28d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28d: " + std::to_string(ptr1->_c28d) + " vs " + std::to_string(ptr2->_c28d));
+			if (ptr1->_c28a != ptr2->_c28a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28a: " + std::to_string(ptr1->_c28a) + " vs " + std::to_string(ptr2->_c28a));
+			if (ptr1->_c46n != ptr2->_c46n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46n: " + std::to_string(ptr1->_c46n) + " vs " + std::to_string(ptr2->_c46n));
+			if (ptr1->_c46m != ptr2->_c46m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46m: " + std::to_string(ptr1->_c46m) + " vs " + std::to_string(ptr2->_c46m));
+			if (ptr1->_c46s != ptr2->_c46s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46s: " + std::to_string(ptr1->_c46s) + " vs " + std::to_string(ptr2->_c46s));
+			if (ptr1->_c46v != ptr2->_c46v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46v: " + std::to_string(ptr1->_c46v) + " vs " + std::to_string(ptr2->_c46v));
+			if (ptr1->_c46d != ptr2->_c46d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46d: " + std::to_string(ptr1->_c46d) + " vs " + std::to_string(ptr2->_c46d));
+			if (ptr1->_c46a != ptr2->_c46a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c46a: " + std::to_string(ptr1->_c46a) + " vs " + std::to_string(ptr2->_c46a));
+			if (ptr1->_c64n != ptr2->_c64n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64n: " + std::to_string(ptr1->_c64n) + " vs " + std::to_string(ptr2->_c64n));
+			if (ptr1->_c64m != ptr2->_c64m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64m: " + std::to_string(ptr1->_c64m) + " vs " + std::to_string(ptr2->_c64m));
+			if (ptr1->_c64s != ptr2->_c64s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64s: " + std::to_string(ptr1->_c64s) + " vs " + std::to_string(ptr2->_c64s));
+			if (ptr1->_c64v != ptr2->_c64v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64v: " + std::to_string(ptr1->_c64v) + " vs " + std::to_string(ptr2->_c64v));
+			if (ptr1->_c64d != ptr2->_c64d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64d: " + std::to_string(ptr1->_c64d) + " vs " + std::to_string(ptr2->_c64d));
+			if (ptr1->_c64a != ptr2->_c64a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c64a: " + std::to_string(ptr1->_c64a) + " vs " + std::to_string(ptr2->_c64a));
+			if (ptr1->_236n != ptr2->_236n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236n: " + std::to_string(ptr1->_236n) + " vs " + std::to_string(ptr2->_236n));
+			if (ptr1->_236m != ptr2->_236m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236m: " + std::to_string(ptr1->_236m) + " vs " + std::to_string(ptr2->_236m));
+			if (ptr1->_236s != ptr2->_236s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236s: " + std::to_string(ptr1->_236s) + " vs " + std::to_string(ptr2->_236s));
+			if (ptr1->_236v != ptr2->_236v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236v: " + std::to_string(ptr1->_236v) + " vs " + std::to_string(ptr2->_236v));
+			if (ptr1->_236d != ptr2->_236d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236d: " + std::to_string(ptr1->_236d) + " vs " + std::to_string(ptr2->_236d));
+			if (ptr1->_236a != ptr2->_236a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_236a: " + std::to_string(ptr1->_236a) + " vs " + std::to_string(ptr2->_236a));
+			if (ptr1->_214n != ptr2->_214n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214n: " + std::to_string(ptr1->_214n) + " vs " + std::to_string(ptr2->_214n));
+			if (ptr1->_214m != ptr2->_214m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214m: " + std::to_string(ptr1->_214m) + " vs " + std::to_string(ptr2->_214m));
+			if (ptr1->_214s != ptr2->_214s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214s: " + std::to_string(ptr1->_214s) + " vs " + std::to_string(ptr2->_214s));
+			if (ptr1->_214v != ptr2->_214v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214v: " + std::to_string(ptr1->_214v) + " vs " + std::to_string(ptr2->_214v));
+			if (ptr1->_214d != ptr2->_214d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214d: " + std::to_string(ptr1->_214d) + " vs " + std::to_string(ptr2->_214d));
+			if (ptr1->_214a != ptr2->_214a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_214a: " + std::to_string(ptr1->_214a) + " vs " + std::to_string(ptr2->_214a));
+			if (ptr1->_623n != ptr2->_623n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623n: " + std::to_string(ptr1->_623n) + " vs " + std::to_string(ptr2->_623n));
+			if (ptr1->_623m != ptr2->_623m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623m: " + std::to_string(ptr1->_623m) + " vs " + std::to_string(ptr2->_623m));
+			if (ptr1->_623s != ptr2->_623s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623s: " + std::to_string(ptr1->_623s) + " vs " + std::to_string(ptr2->_623s));
+			if (ptr1->_623v != ptr2->_623v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623v: " + std::to_string(ptr1->_623v) + " vs " + std::to_string(ptr2->_623v));
+			if (ptr1->_623d != ptr2->_623d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623d: " + std::to_string(ptr1->_623d) + " vs " + std::to_string(ptr2->_623d));
+			if (ptr1->_623a != ptr2->_623a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_623a: " + std::to_string(ptr1->_623a) + " vs " + std::to_string(ptr2->_623a));
+			if (ptr1->_421n != ptr2->_421n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421n: " + std::to_string(ptr1->_421n) + " vs " + std::to_string(ptr2->_421n));
+			if (ptr1->_421m != ptr2->_421m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421m: " + std::to_string(ptr1->_421m) + " vs " + std::to_string(ptr2->_421m));
+			if (ptr1->_421s != ptr2->_421s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421s: " + std::to_string(ptr1->_421s) + " vs " + std::to_string(ptr2->_421s));
+			if (ptr1->_421v != ptr2->_421v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421v: " + std::to_string(ptr1->_421v) + " vs " + std::to_string(ptr2->_421v));
+			if (ptr1->_421d != ptr2->_421d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421d: " + std::to_string(ptr1->_421d) + " vs " + std::to_string(ptr2->_421d));
+			if (ptr1->_421a != ptr2->_421a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_421a: " + std::to_string(ptr1->_421a) + " vs " + std::to_string(ptr2->_421a));
+			if (ptr1->_624n != ptr2->_624n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624n: " + std::to_string(ptr1->_624n) + " vs " + std::to_string(ptr2->_624n));
+			if (ptr1->_624m != ptr2->_624m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624m: " + std::to_string(ptr1->_624m) + " vs " + std::to_string(ptr2->_624m));
+			if (ptr1->_624s != ptr2->_624s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624s: " + std::to_string(ptr1->_624s) + " vs " + std::to_string(ptr2->_624s));
+			if (ptr1->_624v != ptr2->_624v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624v: " + std::to_string(ptr1->_624v) + " vs " + std::to_string(ptr2->_624v));
+			if (ptr1->_624d != ptr2->_624d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624d: " + std::to_string(ptr1->_624d) + " vs " + std::to_string(ptr2->_624d));
+			if (ptr1->_624a != ptr2->_624a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624a: " + std::to_string(ptr1->_624a) + " vs " + std::to_string(ptr2->_624a));
+			if (ptr1->_426n != ptr2->_426n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426n: " + std::to_string(ptr1->_426n) + " vs " + std::to_string(ptr2->_426n));
+			if (ptr1->_426m != ptr2->_426m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426m: " + std::to_string(ptr1->_426m) + " vs " + std::to_string(ptr2->_426m));
+			if (ptr1->_426s != ptr2->_426s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426s: " + std::to_string(ptr1->_426s) + " vs " + std::to_string(ptr2->_426s));
+			if (ptr1->_426v != ptr2->_426v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426v: " + std::to_string(ptr1->_426v) + " vs " + std::to_string(ptr2->_426v));
+			if (ptr1->_426d != ptr2->_426d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426d: " + std::to_string(ptr1->_426d) + " vs " + std::to_string(ptr2->_426d));
+			if (ptr1->_426a != ptr2->_426a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426a: " + std::to_string(ptr1->_426a) + " vs " + std::to_string(ptr2->_426a));
+			if (ptr1->_6314n != ptr2->_6314n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314n: " + std::to_string(ptr1->_6314n) + " vs " + std::to_string(ptr2->_6314n));
+			if (ptr1->_6314m != ptr2->_6314m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314m: " + std::to_string(ptr1->_6314m) + " vs " + std::to_string(ptr2->_6314m));
+			if (ptr1->_6314s != ptr2->_6314s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314s: " + std::to_string(ptr1->_6314s) + " vs " + std::to_string(ptr2->_6314s));
+			if (ptr1->_6314v != ptr2->_6314v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314v: " + std::to_string(ptr1->_6314v) + " vs " + std::to_string(ptr2->_6314v));
+			if (ptr1->_6314d != ptr2->_6314d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314d: " + std::to_string(ptr1->_6314d) + " vs " + std::to_string(ptr2->_6314d));
+			if (ptr1->_6314a != ptr2->_6314a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314a: " + std::to_string(ptr1->_6314a) + " vs " + std::to_string(ptr2->_6314a));
+			if (ptr1->_4136n != ptr2->_4136n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136n: " + std::to_string(ptr1->_4136n) + " vs " + std::to_string(ptr2->_4136n));
+			if (ptr1->_4136m != ptr2->_4136m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136m: " + std::to_string(ptr1->_4136m) + " vs " + std::to_string(ptr2->_4136m));
+			if (ptr1->_4136s != ptr2->_4136s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136s: " + std::to_string(ptr1->_4136s) + " vs " + std::to_string(ptr2->_4136s));
+			if (ptr1->_4136v != ptr2->_4136v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136v: " + std::to_string(ptr1->_4136v) + " vs " + std::to_string(ptr2->_4136v));
+			if (ptr1->_4136d != ptr2->_4136d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136d: " + std::to_string(ptr1->_4136d) + " vs " + std::to_string(ptr2->_4136d));
+			if (ptr1->_4136a != ptr2->_4136a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136a: " + std::to_string(ptr1->_4136a) + " vs " + std::to_string(ptr2->_4136a));
+			if (ptr1->_624684n != ptr2->_624684n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684n: " + std::to_string(ptr1->_624684n) + " vs " + std::to_string(ptr2->_624684n));
+			if (ptr1->_624684m != ptr2->_624684m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684m: " + std::to_string(ptr1->_624684m) + " vs " + std::to_string(ptr2->_624684m));
+			if (ptr1->_624684s != ptr2->_624684s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684s: " + std::to_string(ptr1->_624684s) + " vs " + std::to_string(ptr2->_624684s));
+			if (ptr1->_624684v != ptr2->_624684v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684v: " + std::to_string(ptr1->_624684v) + " vs " + std::to_string(ptr2->_624684v));
+			if (ptr1->_624684d != ptr2->_624684d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684d: " + std::to_string(ptr1->_624684d) + " vs " + std::to_string(ptr2->_624684d));
+			if (ptr1->_624684a != ptr2->_624684a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr1->_624684a) + " vs " + std::to_string(ptr2->_624684a));
+			if (ptr1->_6314684n != ptr2->_6314684n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684n: " + std::to_string(ptr1->_6314684n) + " vs " + std::to_string(ptr2->_6314684n));
+			if (ptr1->_6314684m != ptr2->_6314684m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684m: " + std::to_string(ptr1->_6314684m) + " vs " + std::to_string(ptr2->_6314684m));
+			if (ptr1->_6314684s != ptr2->_6314684s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684s: " + std::to_string(ptr1->_6314684s) + " vs " + std::to_string(ptr2->_6314684s));
+			if (ptr1->_6314684v != ptr2->_6314684v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684v: " + std::to_string(ptr1->_6314684v) + " vs " + std::to_string(ptr2->_6314684v));
+			if (ptr1->_6314684d != ptr2->_6314684d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684d: " + std::to_string(ptr1->_6314684d) + " vs " + std::to_string(ptr2->_6314684d));
+			if (ptr1->_6314684a != ptr2->_6314684a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684a: " + std::to_string(ptr1->_6314684a) + " vs " + std::to_string(ptr2->_6314684a));
+			if (ptr1->_6246974n != ptr2->_6246974n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974n: " + std::to_string(ptr1->_6246974n) + " vs " + std::to_string(ptr2->_6246974n));
+			if (ptr1->_6246974m != ptr2->_6246974m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974m: " + std::to_string(ptr1->_6246974m) + " vs " + std::to_string(ptr2->_6246974m));
+			if (ptr1->_6246974s != ptr2->_6246974s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974s: " + std::to_string(ptr1->_6246974s) + " vs " + std::to_string(ptr2->_6246974s));
+			if (ptr1->_6246974v != ptr2->_6246974v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974v: " + std::to_string(ptr1->_6246974v) + " vs " + std::to_string(ptr2->_6246974v));
+			if (ptr1->_6246974d != ptr2->_6246974d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974d: " + std::to_string(ptr1->_6246974d) + " vs " + std::to_string(ptr2->_6246974d));
+			if (ptr1->_6246974a != ptr2->_6246974a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974a: " + std::to_string(ptr1->_6246974a) + " vs " + std::to_string(ptr2->_6246974a));
+			if (ptr1->_63146974n != ptr2->_63146974n)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974n: " + std::to_string(ptr1->_63146974n) + " vs " + std::to_string(ptr2->_63146974n));
+			if (ptr1->_63146974m != ptr2->_63146974m)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974m: " + std::to_string(ptr1->_63146974m) + " vs " + std::to_string(ptr2->_63146974m));
+			if (ptr1->_63146974s != ptr2->_63146974s)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974s: " + std::to_string(ptr1->_63146974s) + " vs " + std::to_string(ptr2->_63146974s));
+			if (ptr1->_63146974v != ptr2->_63146974v)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974v: " + std::to_string(ptr1->_63146974v) + " vs " + std::to_string(ptr2->_63146974v));
+			if (ptr1->_63146974d != ptr2->_63146974d)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974d: " + std::to_string(ptr1->_63146974d) + " vs " + std::to_string(ptr2->_63146974d));
+			if (ptr1->_63146974a != ptr2->_63146974a)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974a: " + std::to_string(ptr1->_63146974a) + " vs " + std::to_string(ptr2->_63146974a));
 		}
 		if (dat1->_limit[0] != dat2->_limit[0])
 			game->logger.fatal(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
@@ -4923,68 +5121,166 @@ namespace SpiralOfFate
 		if (startOffset + len >= dataSize)
 			game->logger.warn("Object is " + std::to_string(startOffset + len - dataSize) + " bytes bigger than input");
 		game->logger.info("Character @" + std::to_string(startOffset + length));
-		game->logger.fatal(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat->_hardKD));
-		game->logger.fatal(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat->_neutralEffectTimer));
-		game->logger.fatal(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
-		game->logger.fatal(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
-		game->logger.fatal(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat->_voidEffectTimer));
-		game->logger.fatal(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat->_wrongMana));
-		game->logger.fatal(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
-		game->logger.fatal(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
-		game->logger.fatal(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
-		game->logger.fatal(std::string(msgStart) + "Character::_supersUsed: " + std::to_string(dat->_supersUsed));
-		game->logger.fatal(std::string(msgStart) + "Character::_skillsUsed: " + std::to_string(dat->_skillsUsed));
-		game->logger.fatal(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
-		game->logger.fatal(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat->_ultimateUsed));
-		game->logger.fatal(std::string(msgStart) + "Character::_normalTreeFlag: " + std::to_string(dat->_normalTreeFlag));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::horizontalAxis: " + std::to_string(dat->_inputBuffer.horizontalAxis));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::verticalAxis: " + std::to_string(dat->_inputBuffer.verticalAxis));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::n: " + std::to_string(dat->_inputBuffer.n));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::m: " + std::to_string(dat->_inputBuffer.m));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::s: " + std::to_string(dat->_inputBuffer.s));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::v: " + std::to_string(dat->_inputBuffer.v));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::a: " + std::to_string(dat->_inputBuffer.a));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::d: " + std::to_string(dat->_inputBuffer.d));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputBuffer::pause: " + std::to_string(dat->_inputBuffer.pause));
-		game->logger.fatal(std::string(msgStart) + "Character::_guardRegenCd: " + std::to_string(dat->_guardRegenCd));
-		game->logger.fatal(std::string(msgStart) + "Character::_odCooldown: " + std::to_string(dat->_odCooldown));
-		game->logger.fatal(std::string(msgStart) + "Character::_counter: " + std::to_string(dat->_counter));
-		game->logger.fatal(std::string(msgStart) + "Character::_blockStun: " + std::to_string(dat->_blockStun));
-		game->logger.fatal(std::string(msgStart) + "Character::_jumpsUsed: " + std::to_string(dat->_jumpsUsed));
-		game->logger.fatal(std::string(msgStart) + "Character::_airDashesUsed: " + std::to_string(dat->_airDashesUsed));
-		game->logger.fatal(std::string(msgStart) + "Character::_comboCtr: " + std::to_string(dat->_comboCtr));
-		game->logger.fatal(std::string(msgStart) + "Character::_totalDamage: " + std::to_string(dat->_totalDamage));
-		game->logger.fatal(std::string(msgStart) + "Character::_prorate: " + std::to_string(dat->_prorate));
-		game->logger.fatal(std::string(msgStart) + "Character::_atkDisabled: " + std::to_string(dat->_atkDisabled));
-		game->logger.fatal(std::string(msgStart) + "Character::_inputDisabled: " + std::to_string(dat->_inputDisabled));
-		game->logger.fatal(std::string(msgStart) + "Character::_hasJumped: " + std::to_string(dat->_hasJumped));
-		game->logger.fatal(std::string(msgStart) + "Character::_restand: " + std::to_string(dat->_restand));
-		game->logger.fatal(std::string(msgStart) + "Character::_justGotCorner: " + std::to_string(dat->_justGotCorner));
-		game->logger.fatal(std::string(msgStart) + "Character::_regen: " + std::to_string(dat->_regen));
-		game->logger.fatal(std::string(msgStart) + "Character::_voidMana: " + std::to_string(dat->_voidMana));
-		game->logger.fatal(std::string(msgStart) + "Character::_spiritMana: " + std::to_string(dat->_spiritMana));
-		game->logger.fatal(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat->_matterMana));
-		game->logger.fatal(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat->_guardCooldown));
-		game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat->_guardBar));
+		game->logger.info(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat->_hardKD));
+		game->logger.info(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat->_neutralEffectTimer));
+		game->logger.info(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
+		game->logger.info(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
+		game->logger.info(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat->_voidEffectTimer));
+		game->logger.info(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat->_wrongMana));
+		game->logger.info(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
+		game->logger.info(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
+		game->logger.info(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
+		game->logger.info(std::string(msgStart) + "Character::_supersUsed: " + std::to_string(dat->_supersUsed));
+		game->logger.info(std::string(msgStart) + "Character::_skillsUsed: " + std::to_string(dat->_skillsUsed));
+		game->logger.info(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
+		game->logger.info(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat->_ultimateUsed));
+		game->logger.info(std::string(msgStart) + "Character::_normalTreeFlag: " + std::to_string(dat->_normalTreeFlag));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::horizontalAxis: " + std::to_string(dat->_inputBuffer.horizontalAxis));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::verticalAxis: " + std::to_string(dat->_inputBuffer.verticalAxis));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::n: " + std::to_string(dat->_inputBuffer.n));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::m: " + std::to_string(dat->_inputBuffer.m));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::s: " + std::to_string(dat->_inputBuffer.s));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::v: " + std::to_string(dat->_inputBuffer.v));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::a: " + std::to_string(dat->_inputBuffer.a));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::d: " + std::to_string(dat->_inputBuffer.d));
+		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::pause: " + std::to_string(dat->_inputBuffer.pause));
+		game->logger.info(std::string(msgStart) + "Character::_guardRegenCd: " + std::to_string(dat->_guardRegenCd));
+		game->logger.info(std::string(msgStart) + "Character::_odCooldown: " + std::to_string(dat->_odCooldown));
+		game->logger.info(std::string(msgStart) + "Character::_counter: " + std::to_string(dat->_counter));
+		game->logger.info(std::string(msgStart) + "Character::_blockStun: " + std::to_string(dat->_blockStun));
+		game->logger.info(std::string(msgStart) + "Character::_jumpsUsed: " + std::to_string(dat->_jumpsUsed));
+		game->logger.info(std::string(msgStart) + "Character::_airDashesUsed: " + std::to_string(dat->_airDashesUsed));
+		game->logger.info(std::string(msgStart) + "Character::_comboCtr: " + std::to_string(dat->_comboCtr));
+		game->logger.info(std::string(msgStart) + "Character::_totalDamage: " + std::to_string(dat->_totalDamage));
+		game->logger.info(std::string(msgStart) + "Character::_prorate: " + std::to_string(dat->_prorate));
+		game->logger.info(std::string(msgStart) + "Character::_atkDisabled: " + std::to_string(dat->_atkDisabled));
+		game->logger.info(std::string(msgStart) + "Character::_inputDisabled: " + std::to_string(dat->_inputDisabled));
+		game->logger.info(std::string(msgStart) + "Character::_hasJumped: " + std::to_string(dat->_hasJumped));
+		game->logger.info(std::string(msgStart) + "Character::_restand: " + std::to_string(dat->_restand));
+		game->logger.info(std::string(msgStart) + "Character::_justGotCorner: " + std::to_string(dat->_justGotCorner));
+		game->logger.info(std::string(msgStart) + "Character::_regen: " + std::to_string(dat->_regen));
+		game->logger.info(std::string(msgStart) + "Character::_voidMana: " + std::to_string(dat->_voidMana));
+		game->logger.info(std::string(msgStart) + "Character::_spiritMana: " + std::to_string(dat->_spiritMana));
+		game->logger.info(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat->_matterMana));
+		game->logger.info(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat->_guardCooldown));
+		game->logger.info(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat->_guardBar));
 
-		char buffer[sizeof(dat->_specialInputs) * 4 + 5];
 		char number[3];
+		auto *ptr = (SpecialInputs *)dat->_specialInputs;
 
-		*buffer = 0;
-		for (unsigned char input : dat->_specialInputs) {
-			sprintf(number, "%02X", input);
-			strcat(buffer, number);
+		for (unsigned i = 0; i < sizeof(dat->_specialInputs); i++) {
+			sprintf(number, "%02X", dat->_specialInputs[i]);
+			game->logger.info(std::string(msgStart) + "Character::_specialInputs[" + std::to_string(i) + "]: " + number);
 		}
-		game->logger.fatal(std::string(msgStart) + "Character::_specialInputs: " + buffer);
-		game->logger.fatal(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat->_limit[0]));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_22: " + std::to_string(ptr->_22));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_44: " + std::to_string(ptr->_44));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_66: " + std::to_string(ptr->_66));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_27: " + std::to_string(ptr->_27));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_28: " + std::to_string(ptr->_28));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_29: " + std::to_string(ptr->_29));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_an: " + std::to_string(ptr->_an));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_am: " + std::to_string(ptr->_am));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_as: " + std::to_string(ptr->_as));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_av: " + std::to_string(ptr->_av));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28n: " + std::to_string(ptr->_c28n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28m: " + std::to_string(ptr->_c28m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28s: " + std::to_string(ptr->_c28s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28v: " + std::to_string(ptr->_c28v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28d: " + std::to_string(ptr->_c28d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28a: " + std::to_string(ptr->_c28a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46n: " + std::to_string(ptr->_c46n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46m: " + std::to_string(ptr->_c46m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46s: " + std::to_string(ptr->_c46s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46v: " + std::to_string(ptr->_c46v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46d: " + std::to_string(ptr->_c46d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c46a: " + std::to_string(ptr->_c46a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64n: " + std::to_string(ptr->_c64n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64m: " + std::to_string(ptr->_c64m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64s: " + std::to_string(ptr->_c64s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64v: " + std::to_string(ptr->_c64v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64d: " + std::to_string(ptr->_c64d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c64a: " + std::to_string(ptr->_c64a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236n: " + std::to_string(ptr->_236n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236m: " + std::to_string(ptr->_236m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236s: " + std::to_string(ptr->_236s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236v: " + std::to_string(ptr->_236v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236d: " + std::to_string(ptr->_236d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_236a: " + std::to_string(ptr->_236a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214n: " + std::to_string(ptr->_214n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214m: " + std::to_string(ptr->_214m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214s: " + std::to_string(ptr->_214s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214v: " + std::to_string(ptr->_214v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214d: " + std::to_string(ptr->_214d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_214a: " + std::to_string(ptr->_214a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623n: " + std::to_string(ptr->_623n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623m: " + std::to_string(ptr->_623m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623s: " + std::to_string(ptr->_623s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623v: " + std::to_string(ptr->_623v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623d: " + std::to_string(ptr->_623d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_623a: " + std::to_string(ptr->_623a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421n: " + std::to_string(ptr->_421n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421m: " + std::to_string(ptr->_421m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421s: " + std::to_string(ptr->_421s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421v: " + std::to_string(ptr->_421v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421d: " + std::to_string(ptr->_421d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_421a: " + std::to_string(ptr->_421a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624n: " + std::to_string(ptr->_624n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624m: " + std::to_string(ptr->_624m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624s: " + std::to_string(ptr->_624s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624v: " + std::to_string(ptr->_624v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624d: " + std::to_string(ptr->_624d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624a: " + std::to_string(ptr->_624a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426n: " + std::to_string(ptr->_426n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426m: " + std::to_string(ptr->_426m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426s: " + std::to_string(ptr->_426s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426v: " + std::to_string(ptr->_426v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426d: " + std::to_string(ptr->_426d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426a: " + std::to_string(ptr->_426a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314n: " + std::to_string(ptr->_6314n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314m: " + std::to_string(ptr->_6314m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314s: " + std::to_string(ptr->_6314s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314v: " + std::to_string(ptr->_6314v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314d: " + std::to_string(ptr->_6314d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314a: " + std::to_string(ptr->_6314a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136n: " + std::to_string(ptr->_4136n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136m: " + std::to_string(ptr->_4136m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136s: " + std::to_string(ptr->_4136s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136v: " + std::to_string(ptr->_4136v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136d: " + std::to_string(ptr->_4136d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136a: " + std::to_string(ptr->_4136a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684n: " + std::to_string(ptr->_624684n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684m: " + std::to_string(ptr->_624684m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684s: " + std::to_string(ptr->_624684s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684v: " + std::to_string(ptr->_624684v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684d: " + std::to_string(ptr->_624684d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr->_624684a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684n: " + std::to_string(ptr->_6314684n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684m: " + std::to_string(ptr->_6314684m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684s: " + std::to_string(ptr->_6314684s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684v: " + std::to_string(ptr->_6314684v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684d: " + std::to_string(ptr->_6314684d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684a: " + std::to_string(ptr->_6314684a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974n: " + std::to_string(ptr->_6246974n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974m: " + std::to_string(ptr->_6246974m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974s: " + std::to_string(ptr->_6246974s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974v: " + std::to_string(ptr->_6246974v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974d: " + std::to_string(ptr->_6246974d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974a: " + std::to_string(ptr->_6246974a));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974n: " + std::to_string(ptr->_63146974n));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974m: " + std::to_string(ptr->_63146974m));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974s: " + std::to_string(ptr->_63146974s));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974v: " + std::to_string(ptr->_63146974v));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974d: " + std::to_string(ptr->_63146974d));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974a: " + std::to_string(ptr->_63146974a));
 
-		game->logger.fatal(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat->_limit[1]));
-		game->logger.fatal(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat->_limit[2]));
-		game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat->_limit[3]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat->_limit[0]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat->_limit[1]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat->_limit[2]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat->_limit[3]));
 
-		game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat->_nbReplayInputs));
-		game->logger.fatal(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat->_nbLastInputs));
-		game->logger.fatal(std::string(msgStart) + "Character::_nbUsedMoves: " + std::to_string(dat->_nbUsedMoves));
+		game->logger.info(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat->_nbReplayInputs));
+		game->logger.info(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat->_nbLastInputs));
+		game->logger.info(std::string(msgStart) + "Character::_nbUsedMoves: " + std::to_string(dat->_nbUsedMoves));
 
 		if (startOffset + len >= dataSize) {
 			game->logger.fatal("Invalid input frame");

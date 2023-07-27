@@ -2,9 +2,6 @@
 // Created by PinkySmile on 11/07/23.
 //
 
-#ifndef _WIN32
-#include <unistd.h>
-#endif
 #include <Resources/Game.hpp>
 #include <fstream>
 #include "Objects/StageObjects/Cloud.hpp"
@@ -97,7 +94,7 @@ int main(int argc, char **argv)
 		game->battleMgr.reset(new BattleManager{
 			BattleManager::StageParams{
 				stagesJson[stage]["image"],
-				[&stagesJson, stage]{
+				[&stagesJson]{
 					if (!stagesJson.contains("objects"))
 						return std::vector<IObject *>{};
 
@@ -196,11 +193,6 @@ int main(int argc, char **argv)
 			game->battleMgr->logDifference(buffer1, buffer2);
 		else
 			game->battleMgr->printContent(buffer1, size);
-#ifndef _WIN32
-		close(0);
-		close(1);
-		close(2);
-#endif
 		return EXIT_SUCCESS;
 	} catch (std::exception &e) {
 		printf("%s\n", e.what());
