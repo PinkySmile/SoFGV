@@ -177,13 +177,14 @@ int main(int argc, char **argv)
 		});
 		char buffer1[16384];
 		char buffer2[16384];
-		size_t size;
 
 		memset(buffer1, 0, sizeof(buffer1));
 		stream.open(frame_file);
 		my_assert2(!stream.fail(), frame_file + std::string(": ") + strerror(errno));
 		stream.read(buffer1, sizeof(buffer1));
-		size = stream.tellg();
+
+		auto size = stream.tellg();
+
 		stream.close();
 		if (frame_file2) {
 			stream.open(frame_file2);

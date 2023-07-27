@@ -95,7 +95,7 @@ namespace SpiralOfFate
 		game->connection->onDesync = [](Connection::Remote &, unsigned frameId, unsigned, unsigned) {
 			std::filesystem::create_directory("frames");
 
-			std::ofstream stream{"frames/frames-" + std::to_string(frameId) + ".frame"};
+			std::ofstream stream{"frames/frames-" + std::to_string(frameId) + ".frame", std::ofstream::binary};
 
 			stream.write(__frame.data(), __frame.size());
 		};
@@ -224,9 +224,7 @@ namespace SpiralOfFate
 		while (this->_savedData.size() > 1 && !this->_savedData.front().left.predicted && !this->_savedData.front().right.predicted) {
 			auto &dat = this->_savedData.front();
 			auto frameId = BattleManager::getFrame(dat.data);
-			//std::ofstream stream{"frames/frame-" + std::to_string(frameId) + ".frame"};
 
-			//stream.write((char *)dat.data, dat.dataSize);
 			if (!game->connection || frameId % 60 != 0) {
 				this->_savedData.pop_front();
 				continue;
