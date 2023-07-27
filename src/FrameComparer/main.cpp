@@ -2,9 +2,7 @@
 // Created by PinkySmile on 11/07/23.
 //
 
-#ifdef _WIN32
-#include <windows.h>
-#else
+#ifndef _WIN32
 #include <unistd.h>
 #endif
 #include <Resources/Game.hpp>
@@ -197,9 +195,11 @@ int main(int argc, char **argv)
 			game->battleMgr->logDifference(buffer1, buffer2);
 		else
 			game->battleMgr->printContent(buffer1, size);
+#ifndef _WIN32
 		close(0);
 		close(1);
 		close(2);
+#endif
 		return EXIT_SUCCESS;
 	} catch (std::exception &e) {
 		printf("%s\n", e.what());
