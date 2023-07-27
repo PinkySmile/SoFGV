@@ -2,7 +2,11 @@
 // Created by PinkySmile on 11/07/23.
 //
 
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 #include <Resources/Game.hpp>
 #include <fstream>
 #include "Objects/StageObjects/Cloud.hpp"
@@ -175,30 +179,24 @@ int main(int argc, char **argv)
 		});
 		char buffer1[16384];
 		char buffer2[16384];
+		size_t size;
 
 		memset(buffer1, 0, sizeof(buffer1));
 		stream.open(frame_file);
 		my_assert2(!stream.fail(), frame_file + std::string(": ") + strerror(errno));
 		stream.read(buffer1, sizeof(buffer1));
+		size = stream.tellg();
 		stream.close();
 		if (frame_file2) {
 			stream.open(frame_file2);
 			my_assert2(!stream.fail(), frame_file2 + std::string(": ") + strerror(errno));
 			stream.read(buffer2, sizeof(buffer2));
 			stream.close();
-		} else {
-			memcpy(buffer2, buffer1, sizeof(buffer2));
-			for (auto &chr : buffer2) {
-				if (chr == 0)
-					chr = 255;
-				else
-					chr = 0;
-			}
 		}
 		if (frame_file2)
 			game->battleMgr->logDifference(buffer1, buffer2);
 		else
-			game->battleMgr->printContent(buffer1, stream.tellg());
+			game->battleMgr->printContent(buffer1, size);
 		close(0);
 		close(1);
 		close(2);
