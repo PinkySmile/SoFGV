@@ -8,8 +8,13 @@
 
 #define DIFF_TIME_NB_AVG 10
 #define MAX_SETBACK 1000LL
+#ifdef _DEBUG
+#define CHECKSUM_CHECK_INTERVAL 1
+#else
+#define CHECKSUM_CHECK_INTERVAL 60
+#endif
 
-std::vector<char> __frame;
+std::list<std::pair<size_t, std::vector<char>>> __frames;
 
 namespace SpiralOfFate
 {
@@ -97,7 +102,11 @@ namespace SpiralOfFate
 
 			std::ofstream stream{"frames/frames-" + std::to_string(frameId) + ".frame", std::ofstream::binary};
 
-			stream.write(__frame.data(), __frame.size());
+			for (auto &frame : __frames)
+				if (frame.first == frameId) {
+					stream.write(frame.second.data(), frame.second.size());
+					break;
+				}
 		};
 		for (unsigned m = game->connection->getCurrentDelay(), i = 0; i < m; i++)
 			game->connection->timeSync(0, i);
@@ -225,12 +234,16 @@ namespace SpiralOfFate
 			auto &dat = this->_savedData.front();
 			auto frameId = BattleManager::getFrame(dat.data);
 
-			if (!game->connection || frameId % 60 != 0) {
+			if (!game->connection || frameId % CHECKSUM_CHECK_INTERVAL != 0) {
 				this->_savedData.pop_front();
 				continue;
 			}
-			__frame.resize(dat.dataSize);
-			memcpy(__frame.data(), dat.data, dat.dataSize);
+			if (__frames.size() > 60)
+				__frames.pop_front();
+			__frames.emplace_back();
+			__frames.back().first = frameId;
+			__frames.back().second.resize(dat.dataSize);
+			memcpy(__frames.back().second.data(), dat.data, dat.dataSize);
 			game->connection->reportChecksum(_computeCheckSum((short *)dat.data, dat.dataSize / sizeof(short)), frameId);
 			this->_savedData.pop_front();
 		}
