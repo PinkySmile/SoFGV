@@ -813,8 +813,8 @@ namespace SpiralOfFate
 		sf::RectangleShape shape;
 		float off = 0;
 
-		this->_tex.clear(sf::Color::Transparent);
 		this->_tex.create(150, INPUT_DISPLAY_SIZE);
+		this->_tex.clear(sf::Color::Transparent);
 		shape.setOutlineThickness(0);
 		shape.setSize({INPUT_DISPLAY_SIZE, INPUT_DISPLAY_SIZE});
 		shape.setFillColor(sf::Color{0, 0, 0, 0xA0});
