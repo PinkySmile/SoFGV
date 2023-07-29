@@ -100,13 +100,23 @@ namespace SpiralOfFate
 		game->connection->onDesync = [](Connection::Remote &, unsigned frameId, unsigned, unsigned) {
 			std::filesystem::create_directory("frames");
 
-			std::ofstream stream{"frames/frames-" + std::to_string(frameId) + ".frame", std::ofstream::binary};
+			auto path = "frames/frames-" + std::to_string(frameId) + ".frame";
+			std::ofstream stream{path, std::ofstream::binary};
 
+			if (!stream) {
+				game->logger.error("Cannot open " + path + " for writing: " + strerror(errno));
+				return;
+			}
 			for (auto &frame : __frames)
 				if (frame.first == frameId) {
+					game->logger.info("Saving frame " + std::to_string(frameId) + ": Size " + std::to_string(frame.second.size()));
 					stream.write(frame.second.data(), frame.second.size());
-					break;
+					if (stream)
+						return;
+					game->logger.error("Cannot write bytes to " + path + ": " + strerror(errno));
+					return;
 				}
+			game->logger.fatal("Frame " + std::to_string(frameId) + " in no longer in the list!");
 		};
 		for (unsigned m = game->connection->getCurrentDelay(), i = 0; i < m; i++)
 			game->connection->timeSync(0, i);
@@ -114,6 +124,7 @@ namespace SpiralOfFate
 
 	RollbackMachine::~RollbackMachine()
 	{
+		__frames.clear();
 		if (!game->connection)
 			return;
 		game->connection->onInputReceived = nullptr;

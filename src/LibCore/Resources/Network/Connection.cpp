@@ -559,6 +559,7 @@ namespace SpiralOfFate
 		this->_currentFrame = 0;
 		this->_nextExpectedFrame = 0;
 		this->_nextExpectedDiffFrame = 0;
+		this->_states.clear();
 		for (auto input : this->_registeredInputs)
 			input->flush();
 	}
