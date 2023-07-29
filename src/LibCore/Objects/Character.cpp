@@ -4173,24 +4173,18 @@ namespace SpiralOfFate
 
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
 	{
-		auto sObj = dynamic_cast<SubObject *>(other);
 		auto chr = dynamic_cast<Character *>(other);
 
-		if (sObj && sObj->getCurrentFrameData()->dFlag.projectile) {
-			other->_team = this->_team;
-			other->_speed.x *= -1;
-			other->_dir *= -1;
-			other->_direction = !other->_direction;
-		} else if (chr) {
-			chr->_voidMana   -= chr->_voidManaMax   * (10 + isStrongest * 10) / 100;
-			chr->_spiritMana -= chr->_spiritManaMax * (10 + isStrongest * 10) / 100;
-			chr->_matterMana -= chr->_matterManaMax * (10 + isStrongest * 10) / 100;
+		if (other->getTeam() == !this->_team) {
+			this->_opponent->_voidMana   -= this->_opponent->_voidManaMax   * (10 + isStrongest * 10) / 100;
+			this->_opponent->_spiritMana -= this->_opponent->_spiritManaMax * (10 + isStrongest * 10) / 100;
+			this->_opponent->_matterMana -= this->_opponent->_matterManaMax * (10 + isStrongest * 10) / 100;
 			if (
-				chr->_voidMana < 0 ||
-				chr->_spiritMana < 0 ||
-				chr->_matterMana < 0
+				this->_opponent->_voidMana < 0 ||
+				this->_opponent->_spiritMana < 0 ||
+				this->_opponent->_matterMana < 0
 			)
-				chr->_manaCrush();
+				this->_opponent->_manaCrush();
 		}
 	}
 
@@ -4215,6 +4209,7 @@ namespace SpiralOfFate
 		auto oData = other->getCurrentFrameData();
 		bool isStrongest = false;
 		bool isWeakest = false;
+		auto sObj = dynamic_cast<SubObject *>(other);
 
 		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
@@ -4235,7 +4230,8 @@ namespace SpiralOfFate
 			isWeakest   = data->dFlag.spiritBlock;
 		}
 
-		if (isWeakest);
+		if (sObj && sObj->getCurrentFrameData()->dFlag.projectile);
+		else if (isWeakest);
 		else if (data->dFlag.voidBlock)
 			this->_parryVoidEffect(other, isStrongest);
 		else if (data->dFlag.spiritBlock)
@@ -4256,7 +4252,15 @@ namespace SpiralOfFate
 			}
 		}
 		if (isStrongest) {
-			this->_hitStop = 20;
+			if (sObj && sObj->getCurrentFrameData()->dFlag.projectile) {
+				this->_hitStop = 15;
+				if (other->_team <= 1)
+					other->_team = this->_team;
+				other->_speed.x *= -1;
+				other->_dir *= -1;
+				other->_direction = !other->_direction;
+			} else
+				this->_hitStop = 20;
 			other->_hitStop = 25;
 			game->soundMgr.play(BASICSOUND_BEST_PARRY);
 		} else if (isWeakest)

@@ -58,17 +58,17 @@ namespace SpiralOfFate
 
 	void Projectile::hit(IObject &other, const FrameData *data)
 	{
+		// We can't hit someone from our team normally.
+		// If it happens, that means that we got reflected.
+		// We reflected, we stay active as if we didn't actually hit the target.
+		if (reinterpret_cast<Object *>(&other)->getTeam() == this->getTeam())
+			return;
 		if (data->dFlag.canBlock) {
 			auto owner = this->getOwnerObj();
 
 			owner->hit(other, data);
 			reinterpret_cast<Projectile *>(owner)->_hitStop = this->_hitStop;
 		}
-		// We can't hit someone from our team normally.
-		// If it happens, that means that we got reflected.
-		// We reflected, we stay active as if we didn't actually hit the target.
-		if (reinterpret_cast<Object *>(&other)->getTeam() == this->getTeam())
-			return;
 		Object::hit(other, data);
 
 		auto proj = dynamic_cast<Projectile *>(&other);
