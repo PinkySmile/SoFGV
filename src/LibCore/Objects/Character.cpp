@@ -960,31 +960,25 @@ namespace SpiralOfFate
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
 		        this->_executeAirTech(input) ||
 
-		        ((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_j6321469874N)) ||
-		        ((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_j6321469874N)) ||
-		        ((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_j6321469874V)) ||
-		        ((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_j6321469874V)) ||
-		        ((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_j6321469874S)) ||
-		        ((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_j6321469874S)) ||
-		        ((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_j6321469874M)) ||
-		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_j6321469874M)) ||
-		        ((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_j6321469874D)) ||
-		        ((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_j6321469874D)) ||
-		        ((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_j6321469874A)) ||
-		        ((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_j6321469874A)) ||
+		        (this->_specialInputs._624684n && this->_startMove(ACTION_j6321469874N)) ||
+		        (this->_specialInputs._624684v && this->_startMove(ACTION_j6321469874V)) ||
+		        (this->_specialInputs._624684s && this->_startMove(ACTION_j6321469874S)) ||
+		        (this->_specialInputs._624684m && this->_startMove(ACTION_j6321469874M)) ||
+		        (this->_specialInputs._624684d && this->_startMove(ACTION_j6321469874D)) ||
+		        (this->_specialInputs._624684a && this->_startMove(ACTION_j6321469874A)) ||
 
-		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_j63214N)) ||
-		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_j41236N)) ||
-		        ((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_j63214V)) ||
-		        ((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_j41236V)) ||
-		        ((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_j63214S)) ||
-		        ((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_j41236S)) ||
-		        ((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_j63214M)) ||
-		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_j41236M)) ||
-		        ((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_j63214D)) ||
-		        ((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_j41236D)) ||
-		        ((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_j63214A)) ||
-		        ((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_j41236A)) ||
+		        (this->_specialInputs._624n && this->_startMove(ACTION_j63214N)) ||
+		        (this->_specialInputs._426n && this->_startMove(ACTION_j41236N)) ||
+		        (this->_specialInputs._624v && this->_startMove(ACTION_j63214V)) ||
+		        (this->_specialInputs._426v && this->_startMove(ACTION_j41236V)) ||
+		        (this->_specialInputs._624s && this->_startMove(ACTION_j63214S)) ||
+		        (this->_specialInputs._426s && this->_startMove(ACTION_j41236S)) ||
+		        (this->_specialInputs._624m && this->_startMove(ACTION_j63214M)) ||
+		        (this->_specialInputs._426m && this->_startMove(ACTION_j41236M)) ||
+		        (this->_specialInputs._624d && this->_startMove(ACTION_j63214D)) ||
+		        (this->_specialInputs._426d && this->_startMove(ACTION_j41236D)) ||
+		        (this->_specialInputs._624a && this->_startMove(ACTION_j63214A)) ||
+		        (this->_specialInputs._426a && this->_startMove(ACTION_j41236A)) ||
 
 		        (this->_specialInputs._623n && this->_startMove(ACTION_j623N)) ||
 		        (this->_specialInputs._421n && this->_startMove(ACTION_j421N)) ||
@@ -1049,31 +1043,25 @@ namespace SpiralOfFate
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_5N)) ||
 
-		        ((this->_specialInputs._624684n  || this->_specialInputs._6314684n)  && this->_startMove(ACTION_6321469874N)) ||
-		        ((this->_specialInputs._6246974n || this->_specialInputs._63146974n) && this->_startMove(ACTION_6321469874N)) ||
-		        ((this->_specialInputs._624684v  || this->_specialInputs._6314684v)  && this->_startMove(ACTION_6321469874V)) ||
-		        ((this->_specialInputs._6246974v || this->_specialInputs._63146974v) && this->_startMove(ACTION_6321469874V)) ||
-		        ((this->_specialInputs._624684s  || this->_specialInputs._6314684s)  && this->_startMove(ACTION_6321469874S)) ||
-		        ((this->_specialInputs._6246974s || this->_specialInputs._63146974s) && this->_startMove(ACTION_6321469874S)) ||
-		        ((this->_specialInputs._624684m  || this->_specialInputs._6314684m)  && this->_startMove(ACTION_6321469874M)) ||
-		        ((this->_specialInputs._6246974m || this->_specialInputs._63146974m) && this->_startMove(ACTION_6321469874M)) ||
-		        ((this->_specialInputs._624684d  || this->_specialInputs._6314684d)  && this->_startMove(ACTION_6321469874D)) ||
-		        ((this->_specialInputs._6246974d || this->_specialInputs._63146974d) && this->_startMove(ACTION_6321469874D)) ||
-		        ((this->_specialInputs._624684a  || this->_specialInputs._6314684a)  && this->_startMove(ACTION_6321469874A)) ||
-		        ((this->_specialInputs._6246974a || this->_specialInputs._63146974a) && this->_startMove(ACTION_6321469874A)) ||
+		        (this->_specialInputs._624684n && this->_startMove(ACTION_6321469874N)) ||
+		        (this->_specialInputs._624684v && this->_startMove(ACTION_6321469874V)) ||
+		        (this->_specialInputs._624684s && this->_startMove(ACTION_6321469874S)) ||
+		        (this->_specialInputs._624684m && this->_startMove(ACTION_6321469874M)) ||
+		        (this->_specialInputs._624684d && this->_startMove(ACTION_6321469874D)) ||
+		        (this->_specialInputs._624684a && this->_startMove(ACTION_6321469874A)) ||
 
-		        ((this->_specialInputs._624n || this->_specialInputs._6314n) && this->_startMove(ACTION_63214N)) ||
-		        ((this->_specialInputs._426n || this->_specialInputs._4136n) && this->_startMove(ACTION_41236N)) ||
-		        ((this->_specialInputs._624v || this->_specialInputs._6314v) && this->_startMove(ACTION_63214V)) ||
-		        ((this->_specialInputs._426v || this->_specialInputs._4136v) && this->_startMove(ACTION_41236V)) ||
-		        ((this->_specialInputs._624s || this->_specialInputs._6314s) && this->_startMove(ACTION_63214S)) ||
-		        ((this->_specialInputs._426s || this->_specialInputs._4136s) && this->_startMove(ACTION_41236S)) ||
-		        ((this->_specialInputs._624m || this->_specialInputs._6314m) && this->_startMove(ACTION_63214M)) ||
-		        ((this->_specialInputs._426m || this->_specialInputs._4136m) && this->_startMove(ACTION_41236M)) ||
-		        ((this->_specialInputs._624d || this->_specialInputs._6314d) && this->_startMove(ACTION_63214D)) ||
-		        ((this->_specialInputs._426d || this->_specialInputs._4136d) && this->_startMove(ACTION_41236D)) ||
-		        ((this->_specialInputs._624a || this->_specialInputs._6314a) && this->_startMove(ACTION_63214A)) ||
-		        ((this->_specialInputs._426a || this->_specialInputs._4136a) && this->_startMove(ACTION_41236A)) ||
+		        (this->_specialInputs._624n && this->_startMove(ACTION_63214N)) ||
+		        (this->_specialInputs._426n && this->_startMove(ACTION_41236N)) ||
+		        (this->_specialInputs._624v && this->_startMove(ACTION_63214V)) ||
+		        (this->_specialInputs._426v && this->_startMove(ACTION_41236V)) ||
+		        (this->_specialInputs._624s && this->_startMove(ACTION_63214S)) ||
+		        (this->_specialInputs._426s && this->_startMove(ACTION_41236S)) ||
+		        (this->_specialInputs._624m && this->_startMove(ACTION_63214M)) ||
+		        (this->_specialInputs._426m && this->_startMove(ACTION_41236M)) ||
+		        (this->_specialInputs._624d && this->_startMove(ACTION_63214D)) ||
+		        (this->_specialInputs._426d && this->_startMove(ACTION_41236D)) ||
+		        (this->_specialInputs._624a && this->_startMove(ACTION_63214A)) ||
+		        (this->_specialInputs._426a && this->_startMove(ACTION_41236A)) ||
 
 		        (this->_specialInputs._c28n && this->_startMove(ACTION_c28N)) ||
 		        (this->_specialInputs._c46n && this->_startMove(ACTION_c46N)) ||
@@ -2174,72 +2162,6 @@ namespace SpiralOfFate
 			this->_specialInputs._426a = this->_check426Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
 	}
 
-	void Character::_checkAll6314Input(bool tickBuffer)
-	{
-		if (this->_specialInputs._6314n)
-			this->_specialInputs._6314n -= tickBuffer;
-		else
-			this->_specialInputs._6314n = this->_check6314Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314m)
-			this->_specialInputs._6314m -= tickBuffer;
-		else
-			this->_specialInputs._6314m = this->_check6314Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314s)
-			this->_specialInputs._6314s -= tickBuffer;
-		else
-			this->_specialInputs._6314s = this->_check6314Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314v)
-			this->_specialInputs._6314v -= tickBuffer;
-		else
-			this->_specialInputs._6314v = this->_check6314Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314d)
-			this->_specialInputs._6314d -= tickBuffer;
-		else
-			this->_specialInputs._6314d = this->_check6314Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314a)
-			this->_specialInputs._6314a -= tickBuffer;
-		else
-			this->_specialInputs._6314a = this->_check6314Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
-	}
-
-	void Character::_checkAll4136Input(bool tickBuffer)
-	{
-		if (this->_specialInputs._4136n)
-			this->_specialInputs._4136n -= tickBuffer;
-		else
-			this->_specialInputs._4136n = this->_check4136Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._4136m)
-			this->_specialInputs._4136m -= tickBuffer;
-		else
-			this->_specialInputs._4136m = this->_check4136Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._4136s)
-			this->_specialInputs._4136s -= tickBuffer;
-		else
-			this->_specialInputs._4136s = this->_check4136Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._4136v)
-			this->_specialInputs._4136v -= tickBuffer;
-		else
-			this->_specialInputs._4136v = this->_check4136Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._4136d)
-			this->_specialInputs._4136d -= tickBuffer;
-		else
-			this->_specialInputs._4136d = this->_check4136Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._4136a)
-			this->_specialInputs._4136a -= tickBuffer;
-		else
-			this->_specialInputs._4136a = this->_check4136Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
-	}
-
 	void Character::_checkAll624684Input(bool tickBuffer)
 	{
 		if (this->_specialInputs._624684n)
@@ -2271,105 +2193,6 @@ namespace SpiralOfFate
 			this->_specialInputs._624684a -= tickBuffer;
 		else
 			this->_specialInputs._624684a = this->_check624684Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
-	}
-
-	void Character::_checkAll6314684Input(bool tickBuffer)
-	{
-		if (this->_specialInputs._6314684n)
-			this->_specialInputs._6314684n -= tickBuffer;
-		else
-			this->_specialInputs._6314684n = this->_check6314684Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314684m)
-			this->_specialInputs._6314684m -= tickBuffer;
-		else
-			this->_specialInputs._6314684m = this->_check6314684Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314684s)
-			this->_specialInputs._6314684s -= tickBuffer;
-		else
-			this->_specialInputs._6314684s = this->_check6314684Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314684v)
-			this->_specialInputs._6314684v -= tickBuffer;
-		else
-			this->_specialInputs._6314684v = this->_check6314684Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314684d)
-			this->_specialInputs._6314684d -= tickBuffer;
-		else
-			this->_specialInputs._6314684d = this->_check6314684Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6314684a)
-			this->_specialInputs._6314684a -= tickBuffer;
-		else
-			this->_specialInputs._6314684a = this->_check6314684Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
-	}
-
-	void Character::_checkAll6246974Input(bool tickBuffer)
-	{
-		if (this->_specialInputs._6246974n)
-			this->_specialInputs._6246974n -= tickBuffer;
-		else
-			this->_specialInputs._6246974n = this->_check6246974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6246974m)
-			this->_specialInputs._6246974m -= tickBuffer;
-		else
-			this->_specialInputs._6246974m = this->_check6246974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6246974s)
-			this->_specialInputs._6246974s -= tickBuffer;
-		else
-			this->_specialInputs._6246974s = this->_check6246974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6246974v)
-			this->_specialInputs._6246974v -= tickBuffer;
-		else
-			this->_specialInputs._6246974v = this->_check6246974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6246974d)
-			this->_specialInputs._6246974d -= tickBuffer;
-		else
-			this->_specialInputs._6246974d = this->_check6246974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._6246974a)
-			this->_specialInputs._6246974a -= tickBuffer;
-		else
-			this->_specialInputs._6246974a = this->_check6246974Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
-	}
-
-	void Character::_checkAll63146974Input(bool tickBuffer)
-	{
-		if (this->_specialInputs._63146974n)
-			this->_specialInputs._63146974n -= tickBuffer;
-		else
-			this->_specialInputs._63146974n = this->_check63146974Input(getInputN) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._63146974m)
-			this->_specialInputs._63146974m -= tickBuffer;
-		else
-			this->_specialInputs._63146974m = this->_check63146974Input(getInputM) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._63146974s)
-			this->_specialInputs._63146974s -= tickBuffer;
-		else
-			this->_specialInputs._63146974s = this->_check63146974Input(getInputS) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._63146974v)
-			this->_specialInputs._63146974v -= tickBuffer;
-		else
-			this->_specialInputs._63146974v = this->_check63146974Input(getInputV) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._63146974d)
-			this->_specialInputs._63146974d -= tickBuffer;
-		else
-			this->_specialInputs._63146974d = this->_check63146974Input(getInputD) * SPECIAL_INPUT_BUFFER_PERSIST;
-
-		if (this->_specialInputs._63146974a)
-			this->_specialInputs._63146974a -= tickBuffer;
-		else
-			this->_specialInputs._63146974a = this->_check63146974Input(getInputA) * SPECIAL_INPUT_BUFFER_PERSIST;
 	}
 
 	void Character::_checkAllHJInput(bool tickBuffer)
@@ -2440,12 +2263,7 @@ namespace SpiralOfFate
 		this->_checkAll421Input(tickBuffer);
 		this->_checkAll624Input(tickBuffer);
 		this->_checkAll426Input(tickBuffer);
-		this->_checkAll6314Input(tickBuffer);
-		this->_checkAll4136Input(tickBuffer);
 		this->_checkAll624684Input(tickBuffer);
-		this->_checkAll6314684Input(tickBuffer);
-		this->_checkAll6246974Input(tickBuffer);
-		this->_checkAll63146974Input(tickBuffer);
 	}
 
 	bool Character::_check236Input(const std::function<bool (const LastInput &)> &atkInput)
@@ -2557,7 +2375,7 @@ namespace SpiralOfFate
 				return false;
 			foundAtk |= atkInput(input);
 			found4 |= foundAtk && !input.v && input.h < 0;
-			found2 |= found4 && input.v < 0 && !input.h;
+			found2 |= found4 && input.v < 0;
 			found6 |= found2 && !input.v && input.h > 0;
 			if (!input.v && input.h < 0 && found2 && found4)
 				break;
@@ -2583,63 +2401,11 @@ namespace SpiralOfFate
 				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
-			found2 |= found4 && input.v < 0 && !input.h;
+			found2 |= found4 && input.v < 0;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (!input.v && input.h > 0 && found2 && found6)
 				break;
 			if (found2 && found4 && found6)
-				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
-		}
-		return false;
-	}
-
-	bool Character::_check6314Input(const std::function<bool (const LastInput &)> &atkInput)
-	{
-		unsigned total = 0;
-		bool found1 = false;
-		bool found3 = false;
-		bool found4 = false;
-		bool found6 = false;
-		bool foundAtk = false;
-
-		for (auto &input : this->_lastInputs) {
-			if (foundAtk && atkInput(input))
-				return false;
-			foundAtk |= atkInput(input);
-			found4 |= foundAtk && !input.v && input.h < 0;
-			found1 |= found4 && input.v < 0 && input.h < 0;
-			found3 |= found1 && input.v < 0 && input.h > 0;
-			found6 |= found3 && !input.v && input.h > 0;
-			if (found1 && found3 && found4 && found6)
-				return true;
-			total += input.nbFrames;
-			if (total > HALF_CIRCLE_BUFFER)
-				break;
-		}
-		return false;
-	}
-
-	bool Character::_check4136Input(const std::function<bool (const LastInput &)> &atkInput)
-	{
-		unsigned total = 0;
-		bool found1 = false;
-		bool found3 = false;
-		bool found4 = false;
-		bool found6 = false;
-		bool foundAtk = false;
-
-		for (auto &input : this->_lastInputs) {
-			if (foundAtk && atkInput(input))
-				return false;
-			foundAtk |= atkInput(input);
-			found6 |= foundAtk && !input.v && input.h > 0;
-			found3 |= found6 && input.v < 0 && input.h > 0;
-			found1 |= found3 && input.v < 0 && input.h < 0;
-			found4 |= found1 && !input.v && input.h < 0;
-			if (found1 && found3 && found4 && found6)
 				return true;
 			total += input.nbFrames;
 			if (total > HALF_CIRCLE_BUFFER)
@@ -2664,110 +2430,12 @@ namespace SpiralOfFate
 				return false;
 			foundAtk |= atkInput(input);
 			found4_2 |= foundAtk && !input.v && input.h < 0;
-			found8   |= found4_2 && input.v > 0 && !input.h;
+			found8   |= found4_2 && input.v > 0;
 			found6_2 |= found8   && !input.v && input.h > 0;
 			found4_1 |= found6_2 && !input.v && input.h < 0;
-			found2   |= found4_1 && input.v < 0 && !input.h;
+			found2   |= found4_1 && input.v < 0;
 			found6_1 |= found2   && !input.v && input.h > 0;
 			if (found6_1 && found2 && found4_1 && found6_2 && found8 && found4_2)
-				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
-		}
-		return false;
-	}
-
-	bool Character::_check6314684Input(const std::function<bool (const LastInput &)> &atkInput)
-	{
-		unsigned total = 0;
-		bool found6_1 = false;
-		bool found3 = false;
-		bool found1 = false;
-		bool found4_1 = false;
-		bool found6_2 = false;
-		bool found8 = false;
-		bool found4_2 = false;
-		bool foundAtk = false;
-
-		for (auto &input : this->_lastInputs) {
-			if (foundAtk && atkInput(input))
-				return false;
-			foundAtk |= atkInput(input);
-			found4_2 |= foundAtk && !input.v && input.h < 0;
-			found8   |= found4_2 && input.v > 0 && !input.h;
-			found6_2 |= found8   && !input.v && input.h > 0;
-			found4_1 |= found6_2 && !input.v && input.h < 0;
-			found1   |= found4_1 && input.v < 0 && input.h < 0;
-			found3   |= found1   && input.v < 0 && input.h > 0;
-			found6_1 |= found3   && !input.v && input.h > 0;
-			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found8 && found4_2)
-				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
-		}
-		return false;
-	}
-
-	bool Character::_check6246974Input(const std::function<bool (const LastInput &)> &atkInput)
-	{
-		unsigned total = 0;
-		bool found6_1 = false;
-		bool found2 = false;
-		bool found4_1 = false;
-		bool found6_2 = false;
-		bool found9 = false;
-		bool found7 = false;
-		bool found4_2 = false;
-		bool foundAtk = false;
-
-		for (auto &input : this->_lastInputs) {
-			if (foundAtk && atkInput(input))
-				return false;
-			foundAtk |= atkInput(input);
-			found4_2 |= foundAtk && !input.v && input.h < 0;
-			found7   |= found4_2 && input.v > 0 && input.h < 0;
-			found9   |= found7   && input.v > 0 && input.h > 0;
-			found6_2 |= found9   && !input.v && input.h > 0;
-			found4_1 |= found6_2 && !input.v && input.h < 0;
-			found2   |= found4_1 && input.v < 0 && !input.h;
-			found6_1 |= found2   && !input.v && input.h > 0;
-			if (found6_1 && found2 && found4_1 && found6_2 && found9 && found7 && found4_2)
-				return true;
-			total += input.nbFrames;
-			if (total > SPIRAL_BUFFER)
-				break;
-		}
-		return false;
-	}
-
-	bool Character::_check63146974Input(const std::function<bool (const LastInput &)> &atkInput)
-	{
-		unsigned total = 0;
-		bool found6_1 = false;
-		bool found3 = false;
-		bool found1 = false;
-		bool found4_1 = false;
-		bool found6_2 = false;
-		bool found9 = false;
-		bool found7 = false;
-		bool found4_2 = false;
-		bool foundAtk = false;
-
-		for (auto &input : this->_lastInputs) {
-			if (foundAtk && atkInput(input))
-				return false;
-			foundAtk |= atkInput(input);
-			found4_2 |= foundAtk && !input.v && input.h < 0;
-			found7   |= found4_2 && input.v > 0 && input.h < 0;
-			found9   |= found7   && input.v > 0 && input.h > 0;
-			found6_2 |= found9   && !input.v && input.h > 0;
-			found4_1 |= found6_2 && !input.v && input.h < 0;
-			found1   |= found4_1 && input.v < 0 && input.h < 0;
-			found3   |= found1   && input.v < 0 && input.h > 0;
-			found6_1 |= found3   && !input.v && input.h > 0;
-			if (found6_1 && found3 && found1 && found4_1 && found6_2 && found9 && found7 && found4_2)
 				return true;
 			total += input.nbFrames;
 			if (total > SPIRAL_BUFFER)
@@ -4842,30 +4510,6 @@ namespace SpiralOfFate
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426d: " + std::to_string(ptr1->_426d) + " vs " + std::to_string(ptr2->_426d));
 			if (ptr1->_426a != ptr2->_426a)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_426a: " + std::to_string(ptr1->_426a) + " vs " + std::to_string(ptr2->_426a));
-			if (ptr1->_6314n != ptr2->_6314n)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314n: " + std::to_string(ptr1->_6314n) + " vs " + std::to_string(ptr2->_6314n));
-			if (ptr1->_6314m != ptr2->_6314m)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314m: " + std::to_string(ptr1->_6314m) + " vs " + std::to_string(ptr2->_6314m));
-			if (ptr1->_6314s != ptr2->_6314s)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314s: " + std::to_string(ptr1->_6314s) + " vs " + std::to_string(ptr2->_6314s));
-			if (ptr1->_6314v != ptr2->_6314v)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314v: " + std::to_string(ptr1->_6314v) + " vs " + std::to_string(ptr2->_6314v));
-			if (ptr1->_6314d != ptr2->_6314d)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314d: " + std::to_string(ptr1->_6314d) + " vs " + std::to_string(ptr2->_6314d));
-			if (ptr1->_6314a != ptr2->_6314a)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314a: " + std::to_string(ptr1->_6314a) + " vs " + std::to_string(ptr2->_6314a));
-			if (ptr1->_4136n != ptr2->_4136n)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136n: " + std::to_string(ptr1->_4136n) + " vs " + std::to_string(ptr2->_4136n));
-			if (ptr1->_4136m != ptr2->_4136m)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136m: " + std::to_string(ptr1->_4136m) + " vs " + std::to_string(ptr2->_4136m));
-			if (ptr1->_4136s != ptr2->_4136s)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136s: " + std::to_string(ptr1->_4136s) + " vs " + std::to_string(ptr2->_4136s));
-			if (ptr1->_4136v != ptr2->_4136v)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136v: " + std::to_string(ptr1->_4136v) + " vs " + std::to_string(ptr2->_4136v));
-			if (ptr1->_4136d != ptr2->_4136d)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136d: " + std::to_string(ptr1->_4136d) + " vs " + std::to_string(ptr2->_4136d));
-			if (ptr1->_4136a != ptr2->_4136a)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_4136a: " + std::to_string(ptr1->_4136a) + " vs " + std::to_string(ptr2->_4136a));
 			if (ptr1->_624684n != ptr2->_624684n)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684n: " + std::to_string(ptr1->_624684n) + " vs " + std::to_string(ptr2->_624684n));
 			if (ptr1->_624684m != ptr2->_624684m)
@@ -4878,42 +4522,6 @@ namespace SpiralOfFate
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684d: " + std::to_string(ptr1->_624684d) + " vs " + std::to_string(ptr2->_624684d));
 			if (ptr1->_624684a != ptr2->_624684a)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr1->_624684a) + " vs " + std::to_string(ptr2->_624684a));
-			if (ptr1->_6314684n != ptr2->_6314684n)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684n: " + std::to_string(ptr1->_6314684n) + " vs " + std::to_string(ptr2->_6314684n));
-			if (ptr1->_6314684m != ptr2->_6314684m)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684m: " + std::to_string(ptr1->_6314684m) + " vs " + std::to_string(ptr2->_6314684m));
-			if (ptr1->_6314684s != ptr2->_6314684s)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684s: " + std::to_string(ptr1->_6314684s) + " vs " + std::to_string(ptr2->_6314684s));
-			if (ptr1->_6314684v != ptr2->_6314684v)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684v: " + std::to_string(ptr1->_6314684v) + " vs " + std::to_string(ptr2->_6314684v));
-			if (ptr1->_6314684d != ptr2->_6314684d)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684d: " + std::to_string(ptr1->_6314684d) + " vs " + std::to_string(ptr2->_6314684d));
-			if (ptr1->_6314684a != ptr2->_6314684a)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6314684a: " + std::to_string(ptr1->_6314684a) + " vs " + std::to_string(ptr2->_6314684a));
-			if (ptr1->_6246974n != ptr2->_6246974n)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974n: " + std::to_string(ptr1->_6246974n) + " vs " + std::to_string(ptr2->_6246974n));
-			if (ptr1->_6246974m != ptr2->_6246974m)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974m: " + std::to_string(ptr1->_6246974m) + " vs " + std::to_string(ptr2->_6246974m));
-			if (ptr1->_6246974s != ptr2->_6246974s)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974s: " + std::to_string(ptr1->_6246974s) + " vs " + std::to_string(ptr2->_6246974s));
-			if (ptr1->_6246974v != ptr2->_6246974v)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974v: " + std::to_string(ptr1->_6246974v) + " vs " + std::to_string(ptr2->_6246974v));
-			if (ptr1->_6246974d != ptr2->_6246974d)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974d: " + std::to_string(ptr1->_6246974d) + " vs " + std::to_string(ptr2->_6246974d));
-			if (ptr1->_6246974a != ptr2->_6246974a)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_6246974a: " + std::to_string(ptr1->_6246974a) + " vs " + std::to_string(ptr2->_6246974a));
-			if (ptr1->_63146974n != ptr2->_63146974n)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974n: " + std::to_string(ptr1->_63146974n) + " vs " + std::to_string(ptr2->_63146974n));
-			if (ptr1->_63146974m != ptr2->_63146974m)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974m: " + std::to_string(ptr1->_63146974m) + " vs " + std::to_string(ptr2->_63146974m));
-			if (ptr1->_63146974s != ptr2->_63146974s)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974s: " + std::to_string(ptr1->_63146974s) + " vs " + std::to_string(ptr2->_63146974s));
-			if (ptr1->_63146974v != ptr2->_63146974v)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974v: " + std::to_string(ptr1->_63146974v) + " vs " + std::to_string(ptr2->_63146974v));
-			if (ptr1->_63146974d != ptr2->_63146974d)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974d: " + std::to_string(ptr1->_63146974d) + " vs " + std::to_string(ptr2->_63146974d));
-			if (ptr1->_63146974a != ptr2->_63146974a)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_63146974a: " + std::to_string(ptr1->_63146974a) + " vs " + std::to_string(ptr2->_63146974a));
 		}
 		if (dat1->_limit[0] != dat2->_limit[0])
 			game->logger.fatal(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
@@ -5240,42 +4848,12 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426v: " + std::to_string(ptr->_426v));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426d: " + std::to_string(ptr->_426d));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_426a: " + std::to_string(ptr->_426a));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314n: " + std::to_string(ptr->_6314n));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314m: " + std::to_string(ptr->_6314m));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314s: " + std::to_string(ptr->_6314s));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314v: " + std::to_string(ptr->_6314v));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314d: " + std::to_string(ptr->_6314d));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314a: " + std::to_string(ptr->_6314a));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136n: " + std::to_string(ptr->_4136n));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136m: " + std::to_string(ptr->_4136m));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136s: " + std::to_string(ptr->_4136s));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136v: " + std::to_string(ptr->_4136v));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136d: " + std::to_string(ptr->_4136d));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_4136a: " + std::to_string(ptr->_4136a));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684n: " + std::to_string(ptr->_624684n));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684m: " + std::to_string(ptr->_624684m));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684s: " + std::to_string(ptr->_624684s));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684v: " + std::to_string(ptr->_624684v));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684d: " + std::to_string(ptr->_624684d));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr->_624684a));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684n: " + std::to_string(ptr->_6314684n));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684m: " + std::to_string(ptr->_6314684m));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684s: " + std::to_string(ptr->_6314684s));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684v: " + std::to_string(ptr->_6314684v));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684d: " + std::to_string(ptr->_6314684d));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6314684a: " + std::to_string(ptr->_6314684a));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974n: " + std::to_string(ptr->_6246974n));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974m: " + std::to_string(ptr->_6246974m));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974s: " + std::to_string(ptr->_6246974s));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974v: " + std::to_string(ptr->_6246974v));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974d: " + std::to_string(ptr->_6246974d));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_6246974a: " + std::to_string(ptr->_6246974a));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974n: " + std::to_string(ptr->_63146974n));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974m: " + std::to_string(ptr->_63146974m));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974s: " + std::to_string(ptr->_63146974s));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974v: " + std::to_string(ptr->_63146974v));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974d: " + std::to_string(ptr->_63146974d));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_63146974a: " + std::to_string(ptr->_63146974a));
 
 		game->logger.info(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat->_limit[0]));
 		game->logger.info(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat->_limit[1]));

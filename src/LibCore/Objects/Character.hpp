@@ -429,12 +429,12 @@ namespace SpiralOfFate
 			bool _armorUsed;
 			bool _hardKD;
 			unsigned char _hitStop;
-			unsigned char _specialInputs[52];
+			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 742, "Data has wrong size");
+		static_assert(sizeof(Data) == 727, "Data has wrong size");
 		union SpecialInputs {
-			unsigned char _value[52] = {0};
+			unsigned char _value[37] = {0};
 			struct {
 				char _an;
 				char _am;
@@ -500,42 +500,12 @@ namespace SpiralOfFate
 				unsigned char _426v: 4;
 				unsigned char _426d: 4;
 				unsigned char _426a: 4;
-				unsigned char _6314n: 4;
-				unsigned char _6314m: 4;
-				unsigned char _6314s: 4;
-				unsigned char _6314v: 4;
-				unsigned char _6314d: 4;
-				unsigned char _6314a: 4;
-				unsigned char _4136n: 4;
-				unsigned char _4136m: 4;
-				unsigned char _4136s: 4;
-				unsigned char _4136v: 4;
-				unsigned char _4136d: 4;
-				unsigned char _4136a: 4;
 				unsigned char _624684n: 4;
 				unsigned char _624684m: 4;
 				unsigned char _624684s: 4;
 				unsigned char _624684v: 4;
 				unsigned char _624684d: 4;
 				unsigned char _624684a: 4;
-				unsigned char _6314684n: 4;
-				unsigned char _6314684m: 4;
-				unsigned char _6314684s: 4;
-				unsigned char _6314684v: 4;
-				unsigned char _6314684d: 4;
-				unsigned char _6314684a: 4;
-				unsigned char _6246974n: 4;
-				unsigned char _6246974m: 4;
-				unsigned char _6246974s: 4;
-				unsigned char _6246974v: 4;
-				unsigned char _6246974d: 4;
-				unsigned char _6246974a: 4;
-				unsigned char _63146974n: 4;
-				unsigned char _63146974m: 4;
-				unsigned char _63146974s: 4;
-				unsigned char _63146974v: 4;
-				unsigned char _63146974d: 4;
-				unsigned char _63146974a: 4;
 			};
 		};
 #pragma pack(pop)
@@ -713,12 +683,7 @@ namespace SpiralOfFate
 		void _checkAll421Input(bool tickBuffer);
 		void _checkAll624Input(bool tickBuffer);
 		void _checkAll426Input(bool tickBuffer);
-		void _checkAll6314Input(bool tickBuffer);
-		void _checkAll4136Input(bool tickBuffer);
 		void _checkAll624684Input(bool tickBuffer);
-		void _checkAll6314684Input(bool tickBuffer);
-		void _checkAll6246974Input(bool tickBuffer);
-		void _checkAll63146974Input(bool tickBuffer);
 		bool _checkc28Input(const std::function<bool (const LastInput &)> &atkInput);
 		bool _checkc46Input(const std::function<bool (const LastInput &)> &atkInput);
 		bool _checkc64Input(const std::function<bool (const LastInput &)> &atkInput);
@@ -728,12 +693,7 @@ namespace SpiralOfFate
 		bool _check421Input(const std::function<bool (const LastInput &)> &atkInput);
 		bool _check624Input(const std::function<bool (const LastInput &)> &atkInput);
 		bool _check426Input(const std::function<bool (const LastInput &)> &atkInput);
-		bool _check6314Input(const std::function<bool (const LastInput &)> &atkInput);
-		bool _check4136Input(const std::function<bool (const LastInput &)> &atkInput);
 		bool _check624684Input(const std::function<bool (const LastInput &)> &atkInput);
-		bool _check6314684Input(const std::function<bool (const LastInput &)> &atkInput);
-		bool _check6246974Input(const std::function<bool (const LastInput &)> &atkInput);
-		bool _check63146974Input(const std::function<bool (const LastInput &)> &atkInput);
 
 	public:
 		struct InitData {
