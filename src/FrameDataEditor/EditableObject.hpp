@@ -40,7 +40,8 @@ public:
 	void copyToBuffer(void *data) const override;
 	void restoreFromBuffer(void *data) override;
 	unsigned int getClassId() const override;
-	size_t d printDifference(const char *msgStart, void *, void *, unsigned) const override;
+	size_t printDifference(const char *msgStart, void *, void *, unsigned) const override;
+	size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 	int getLayer() const override;
 	bool isDisabled(const IObject &target) const override;
 };

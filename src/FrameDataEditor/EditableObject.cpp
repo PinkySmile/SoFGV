@@ -137,3 +137,8 @@ bool EditableObject::isDisabled(const SpiralOfFate::IObject &target) const
 {
 	return false;
 }
+
+size_t EditableObject::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
+{
+	return 0;
+}
