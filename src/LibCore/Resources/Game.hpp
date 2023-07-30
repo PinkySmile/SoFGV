@@ -38,7 +38,7 @@
 
 #define my_assert(_Expression)                                                                 \
 	do {                                                                                   \
-		if (_Expression);                                                              \
+		if ((_Expression));                                                            \
 		else                                                                           \
 			throw _AssertionFailedException(                                       \
 				"Debug Assertion " + std::string(#_Expression) +               \

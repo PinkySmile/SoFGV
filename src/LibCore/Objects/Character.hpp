@@ -21,6 +21,9 @@
 #define MYDLL_API
 #endif
 
+#define START_STALLING_THRESHOLD (450)
+#define STALLING_PENALTY_THRESHOLD (800)
+
 namespace SpiralOfFate
 {
 	enum CharacterActions {
@@ -410,6 +413,7 @@ namespace SpiralOfFate
 			unsigned _matterInstallTimer;
 			unsigned _spiritInstallTimer;
 			unsigned _voidInstallTimer;
+			float _stallingFactor;
 			float _regen;
 			float _voidMana;
 			float _spiritMana;
@@ -432,7 +436,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 727, "Data has wrong size");
+		static_assert(sizeof(Data) == 731, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -547,6 +551,7 @@ namespace SpiralOfFate
 		unsigned _matterInstallTimer = 0;
 		unsigned _spiritInstallTimer = 0;
 		unsigned _voidInstallTimer = 0;
+		float _stallingFactor = 0;
 		float _prorate = 1;
 		float _regen = 0;
 		float _voidMana = 0;
@@ -645,6 +650,7 @@ namespace SpiralOfFate
 		static SubObjectAnchor anchorFromString(const std::string &str);
 		static SubObjectDirection directionFromString(const std::string &str);
 
+		void _processStallingFactor();
 		bool _getProjectileDirection(const SubObjectData &data);
 		float _getAnchoredPos(const Character::SubObjectData &data, bool y);
 		Vector2f _calcProjectilePosition(const SubObjectData &data, float dir);

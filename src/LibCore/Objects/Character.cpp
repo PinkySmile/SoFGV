@@ -16,6 +16,16 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define MINIMUM_STALLING_STACKING (-600)
+#define STALLING_HIT_REMOVE (90)
+#define STALLING_BLOCK_REMOVE (60)
+#define STALLING_BLOCK_WIPE_THRESHOLD (150)
+#define MAXIMUM_STALLING_STACKING (2700)
+#define BACKING_STALLING_FACTOR (1.f)
+#define FORWARD_STALLING_FACTOR (2.f)
+// 0.1% per frame max
+#define METER_PENALTY_EQUATION(val, maxval) (((val) - START_STALLING_THRESHOLD) * (maxval) / (float)(MAXIMUM_STALLING_STACKING - START_STALLING_THRESHOLD) / 1000)
+
 #define IDLE_ANIM_FIRST 600
 #define IDLE_ANIM_CHANCE 50
 #define IDLE_ANIM_CD_MIN 300
@@ -545,6 +555,33 @@ namespace SpiralOfFate
 		}
 	}
 
+	void Character::_processStallingFactor()
+	{
+		auto currentDist = this->_opponent->_position.distance(this->_position);
+		auto nextDist = this->_opponent->_position.distance(this->_position + this->_speed);
+		auto diffDist = nextDist - currentDist;
+
+		if (diffDist < 0)
+			this->_stallingFactor += diffDist * FORWARD_STALLING_FACTOR;
+		else
+			this->_stallingFactor += diffDist * BACKING_STALLING_FACTOR;
+		if (this->_stallingFactor < MINIMUM_STALLING_STACKING)
+			this->_stallingFactor = MINIMUM_STALLING_STACKING;
+		if (this->_stallingFactor > MAXIMUM_STALLING_STACKING)
+			this->_stallingFactor = MAXIMUM_STALLING_STACKING;
+		if (this->_stallingFactor >= START_STALLING_THRESHOLD) {
+			this->_voidMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_voidManaMax);
+			this->_matterMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_matterManaMax);
+			this->_spiritMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_spiritManaMax);
+			if (this->_voidMana < 0)
+				this->_voidMana = 0;
+			if (this->_matterMana < 0)
+				this->_matterMana = 0;
+			if (this->_spiritMana < 0)
+				this->_spiritMana = 0;
+		}
+	}
+
 	void Character::update()
 	{
 		this->_hasHitDuringFrame = false;
@@ -771,13 +808,14 @@ namespace SpiralOfFate
 				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
 				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
-
 		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
 		this->_processWallSlams();
+		if (!isHitAction(this->_action) && !isBlockingAction(this->_action))
+			this->_processStallingFactor();
 
 		auto data = this->getCurrentFrameData();
 
@@ -1379,6 +1417,17 @@ namespace SpiralOfFate
 			this->_newAnim = true;
 		} else
 			Object::hit(other, data);
+		if (
+			chr &&
+			(isHitAction(chr->_action) || isBlockingAction(chr->_action)) &&
+			this->_stallingFactor < STALLING_BLOCK_WIPE_THRESHOLD &&
+			this->_stallingFactor > 0
+		)
+			this->_stallingFactor = 0;
+		else if (chr && isHitAction(chr->_action))
+			this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_HIT_REMOVE);
+		else if (chr && isBlockingAction(chr->_action))
+			this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_BLOCK_REMOVE);
 	}
 
 	void Character::getHit(IObject &other, const FrameData *dat)
@@ -2983,7 +3032,8 @@ namespace SpiralOfFate
 			"SkillsUsed %u\n"
 			"NormalFlag: %x\n"
 			"JumpCancel: %s\n"
-			"Time since idle: %i",
+			"Time since idle: %i\n"
+			"Stalling factor: %f\n",
 			this->_position.x,
 			this->_position.y,
 			this->_speed.x,
@@ -3027,7 +3077,8 @@ namespace SpiralOfFate
 			this->_skillsUsed,
 			this->_normalTreeFlag,
 			this->_jumpCanceled ? "true" : "false",
-			this->_timeSinceIdle
+			this->_timeSinceIdle,
+			this->_stallingFactor
 		);
 		this->_text.setString(buffer);
 		this->_text.setPosition({static_cast<float>(this->_team * 850) + 50, 50});
@@ -3654,7 +3705,6 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		Object::copyToBuffer(data);
-		//TODO: Save _usedMoves
 		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hardKD = this->_hardKD;
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
@@ -3697,6 +3747,7 @@ namespace SpiralOfFate
 		dat->_matterMana = this->_matterMana;
 		dat->_guardCooldown = this->_guardCooldown;
 		dat->_guardBar = this->_guardBar;
+		dat->_stallingFactor = this->_stallingFactor;
 		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
 		dat->_nbUsedMoves = this->_usedMoves.size();
 		dat->_nbLastInputs = this->_lastInputs.size();
@@ -3757,6 +3808,7 @@ namespace SpiralOfFate
 		this->_armorUsed = dat->_armorUsed;
 		this->_totalDamage = dat->_totalDamage;
 		this->_prorate = dat->_prorate;
+		this->_stallingFactor = dat->_stallingFactor;
 		this->_atkDisabled = dat->_atkDisabled;
 		this->_inputDisabled = dat->_inputDisabled;
 		this->_hasJumped = dat->_hasJumped;
@@ -3841,8 +3893,6 @@ namespace SpiralOfFate
 
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
 	{
-		auto chr = dynamic_cast<Character *>(other);
-
 		if (other->getTeam() == !this->_team) {
 			this->_opponent->_voidMana   -= this->_opponent->_voidManaMax   * (10 + isStrongest * 10) / 100;
 			this->_opponent->_spiritMana -= this->_opponent->_spiritManaMax * (10 + isStrongest * 10) / 100;
@@ -4369,6 +4419,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat1->_guardCooldown) + " vs " + std::to_string(dat2->_guardCooldown));
 		if (dat1->_guardBar != dat2->_guardBar)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
+		if (dat1->_stallingFactor != dat2->_stallingFactor)
+			game->logger.fatal(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat1->_stallingFactor) + " vs " + std::to_string(dat2->_stallingFactor));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char number1[3];
 			char number2[3];
@@ -4776,6 +4828,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat->_matterMana));
 		game->logger.info(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat->_guardCooldown));
 		game->logger.info(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat->_guardBar));
+		game->logger.info(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat->_stallingFactor));
 
 		char number[3];
 		auto *ptr = (SpecialInputs *)dat->_specialInputs;

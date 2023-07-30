@@ -99,6 +99,10 @@ namespace SpiralOfFate
 		this->_rightHUDIcon.textureHandle = rightCharacter.icon;
 		this->_oosBubble.textureHandle = game->textureMgr.load("assets/effects/oosBubble.png");
 		this->_oosBubbleMask.textureHandle = game->textureMgr.load("assets/effects/oosBubbleMask.png");
+		this->_stallWarn.textureHandle = game->textureMgr.load("assets/battleui/meter_warning.png");
+		my_assert(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png"));
+		game->textureMgr.setTexture(this->_stallWarn);
+		game->textureMgr.setTexture(this->_stallDown)->setRepeated(true);
 		game->textureMgr.setTexture(this->_oosBubbleMask);
 		game->textureMgr.setTexture(this->_oosBubble);
 		game->textureMgr.setTexture(this->_leftIcon);
@@ -1396,6 +1400,19 @@ namespace SpiralOfFate
 		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
 		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
 		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
+		if (this->base._stallingFactor > STALLING_PENALTY_THRESHOLD) {
+			this->mgr._stallDown.setPosition(320, 620);
+			this->mgr._stallDown.setTextureRect({
+				0,
+				static_cast<int>(this->penaltyTimer / -200),
+				static_cast<int>(this->mgr._stallDown.getTexture()->getSize().x),
+				static_cast<int>(this->mgr._stallDown.getTexture()->getSize().y)
+			});
+			output.draw(this->mgr._stallDown, sf::BlendNone);
+		} else if (this->base._stallingFactor > START_STALLING_THRESHOLD) {
+			this->mgr._stallWarn.setPosition(320, 620);
+			output.draw(this->mgr._stallWarn, sf::BlendNone);
+		}
 		this->base.drawSpecialHUD(output);
 	}
 
@@ -1470,6 +1487,8 @@ namespace SpiralOfFate
 			this->overdriveCrossTimer++;
 		if (this->comboCtr)
 			this->comboCtr--;
+		if (this->base._stallingFactor > STALLING_PENALTY_THRESHOLD)
+			this->penaltyTimer += (this->base._stallingFactor - STALLING_PENALTY_THRESHOLD) / 8 + 100;
 		this->lifeBarEffect++;
 		this->lifeBarEffect %= game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].textureHandle).x;
 		if (this->base._opponent->_comboCtr) {
@@ -1490,6 +1509,7 @@ namespace SpiralOfFate
 
 	BattleManager::HUDData &BattleManager::HUDData::operator=(BattleManager::HUDDataPacked &data)
 	{
+		this->penaltyTimer = data.penaltyTimer;
 		this->comboCtr = data.comboCtr;
 		this->hitCtr = data.hitCtr;
 		this->neutralLimit = data.neutralLimit;
@@ -1508,6 +1528,7 @@ namespace SpiralOfFate
 
 	BattleManager::HUDData &BattleManager::HUDData::operator=(const BattleManager::HUDDataPacked &data)
 	{
+		this->penaltyTimer = data.penaltyTimer;
 		this->comboCtr = data.comboCtr;
 		this->hitCtr = data.hitCtr;
 		this->neutralLimit = data.neutralLimit;
@@ -1526,6 +1547,7 @@ namespace SpiralOfFate
 
 	BattleManager::HUDDataPacked &BattleManager::HUDDataPacked::operator=(BattleManager::HUDData &data)
 	{
+		this->penaltyTimer = data.penaltyTimer;
 		this->comboCtr = data.comboCtr;
 		this->hitCtr = data.hitCtr;
 		this->neutralLimit = data.neutralLimit;
@@ -1544,6 +1566,7 @@ namespace SpiralOfFate
 
 	BattleManager::HUDDataPacked &BattleManager::HUDDataPacked::operator=(const BattleManager::HUDData &data)
 	{
+		this->penaltyTimer = data.penaltyTimer;
 		this->comboCtr = data.comboCtr;
 		this->hitCtr = data.hitCtr;
 		this->neutralLimit = data.neutralLimit;

@@ -47,6 +47,7 @@ namespace SpiralOfFate
 			unsigned guardCrossTimer = 0;
 			unsigned overdriveCrossTimer = 0;
 			unsigned lifeBarEffect = 0;
+			float penaltyTimer = 0;
 			float proration = 0;
 			bool counter = false;
 			unsigned char score = 0;
@@ -72,6 +73,7 @@ namespace SpiralOfFate
 			unsigned guardCrossTimer = 0;
 			unsigned overdriveCrossTimer = 0;
 			unsigned lifeBarEffect = 0;
+			float penaltyTimer = 0;
 			float proration = 0;
 			bool counter = false;
 			unsigned char score = 0;
@@ -79,7 +81,7 @@ namespace SpiralOfFate
 			HUDDataPacked &operator=(HUDData &data);
 			HUDDataPacked &operator=(const HUDData &data);
 		};
-		static_assert(sizeof(HUDDataPacked) == 46, "HUDDataPacket has wrong size");
+		static_assert(sizeof(HUDDataPacked) == 50, "HUDDataPacket has wrong size");
 
 		struct Data {
 			unsigned _currentFrame;
@@ -93,7 +95,7 @@ namespace SpiralOfFate
 			HUDDataPacked _rightHUDData;
 			bool _ended;
 		};
-		static_assert(sizeof(Data) == 125, "Data has wrong size");
+		static_assert(sizeof(Data) == 133, "Data has wrong size");
 #pragma pack(pop)
 
 		// Non-Game State
@@ -108,6 +110,8 @@ namespace SpiralOfFate
 		sf::RenderTexture _hud;
 		sf::RenderTexture _leftHUD;
 		sf::RenderTexture _rightHUD;
+		Sprite _stallWarn;
+		Sprite _stallDown;
 		Sprite _leftIcon;
 		Sprite _rightIcon;
 		Sprite _leftHUDIcon;
