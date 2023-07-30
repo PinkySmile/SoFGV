@@ -460,9 +460,9 @@ def get_data_for_move(mid, move, objs_datas):
 				'guard_dmg': frame.get("guard_damage", 0)
 			}
 			if current['type'] == (OffensiveFlag.voidElement | OffensiveFlag.matterElement | OffensiveFlag.spiritElement):
-				current['type'] = ["TN"]
-			elif current['type'] == 0:
 				current['type'] = ["N"]
+			elif current['type'] == 0:
+				current['type'] = ["NT"]
 			else:
 				types = []
 				if current['type'] & OffensiveFlag.voidElement:

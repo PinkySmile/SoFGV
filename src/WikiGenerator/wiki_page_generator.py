@@ -533,13 +533,20 @@ color = {
     'S': "spirit",
     'M': "matter",
     'N': "neutral",
-    'TN': "true-neutral"
+    'NT': "not-typed"
+}
+name = {
+    'V': "Void",
+    'S': "Spirit",
+    'M': "Matter",
+    'N': "Neutral",
+    'NT': "Non-Typed"
 }
 order = [
     "void",
     "spirit",
     "matter",
-    "neutral"
+    "not-typed"
 ]
 
 
@@ -552,7 +559,7 @@ def generate_page(data, stats, meta):
             move["limit"] = [" ".join('<span class="' + order[elem] + '">' + str(limit[elem]) + '%</span>' for elem in range(4) if limit[elem]) or "0%" for limit in move["limit"]]
         if 'type' in move:
             move["type"] = [
-                "+".join('<span class="' + color[t] + '">' + t + '</span>' for t in types) for types in move["type"]
+                "+".join('<span style="cursor:help" class="' + color[t] + '" title="' + name[t] + '">' + t + '</span>' for t in types) for types in move["type"]
             ]
         if 'guard' in move:
             r = ["A", "H", "L"]
