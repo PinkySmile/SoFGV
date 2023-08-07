@@ -19,6 +19,7 @@ namespace SpiralOfFate
 			return this->_allocatedSounds[file].first;
 		}
 
+#ifndef __ANDROID__
 		struct stat s;
 
 		if (stat(file.c_str(), &s) < 0) {
@@ -29,6 +30,7 @@ namespace SpiralOfFate
 			game->logger.error(file + ": Is a directory");
 			return 0;
 		}
+#endif
 
 		unsigned index;
 

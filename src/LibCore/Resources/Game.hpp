@@ -21,6 +21,7 @@
 #include "Logger.hpp"
 #include "Resources/Battle/RandomWrapper.hpp"
 #include "MSVCMacros.hpp"
+#include "Inputs/VirtualController.hpp"
 
 #ifdef __GNUC__
 #define FCT_NAME __PRETTY_FUNCTION__
@@ -116,6 +117,7 @@ namespace SpiralOfFate
 		std::unique_ptr<Screen> screen;
 		TextureManager textureMgr;
 		SoundManager soundMgr;
+		std::shared_ptr<VirtualController> virtualController;
 		std::unique_ptr<BattleManager> battleMgr;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;

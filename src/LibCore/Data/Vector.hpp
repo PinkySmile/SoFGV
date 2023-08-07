@@ -66,9 +66,9 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		Vector2<T> operator+(const Vector2<T2> &vec) const noexcept
+		auto operator+(const Vector2<T2> &vec) const noexcept
 		{
-			return Vector2<T>(this->x + vec.x, this->y + vec.y);
+			return Vector2<decltype(this->x + vec.x)>(this->x + vec.x, this->y + vec.y);
 		}
 
 		template<typename T2>
@@ -80,9 +80,9 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		Vector2<T> operator-(const Vector2<T2> &vec) const noexcept
+		auto operator-(const Vector2<T2> &vec) const noexcept
 		{
-			return Vector2<T>(this->x - vec.x, this->y - vec.y);
+			return Vector2<decltype(this->x - vec.x)>(this->x - vec.x, this->y - vec.y);
 		}
 
 		template<typename T2>
@@ -100,9 +100,9 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		Vector2<T> operator*(T2 d) const noexcept
+		auto operator*(T2 d) const noexcept
 		{
-			return Vector2<T>(this->x * d, this->y * d);
+			return Vector2<decltype(this->x * d)>(this->x * d, this->y * d);
 		}
 
 		template<typename T2>
@@ -114,9 +114,9 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		Vector2<T> operator/(Vector2<T2> &b) const noexcept
+		auto operator/(Vector2<T2> &b) const noexcept
 		{
-			return Vector2<T>(this->x / b.x, this->y / b.y);
+			return Vector2<decltype(this->x / b)>(this->x / b.x, this->y / b.y);
 		}
 
 		template<typename T2>

@@ -16,8 +16,10 @@ namespace SpiralOfFate
 	private:
 		Sprite _stickTop;
 		Sprite _stickBack;
+		Sprite _buttons[7];
 		sf::RenderTexture _canvas;
 		std::array<int, INPUT_NUMBER - 3> _indexes;
+		bool _frameStart = true;
 
 		void _onMoveStick(const Vector2f &location);
 		void _onPress(const Vector2f &location, int index);
@@ -34,9 +36,14 @@ namespace SpiralOfFate
 		SceneState currentState = SCENESTATE_TITLE_SCREEN;
 
 		VirtualController();
-		~VirtualController();
-		void consumeEvent(const sf::Event &event) override;
+		~VirtualController() override;
+
 		void render();
+		void onFrameStart();
+
+		void update() override;
+		void consumeEvent(const sf::Event &event) override;
+		std::string getName() const override;
 	};
 } // SpiralOfFate
 

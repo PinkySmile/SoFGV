@@ -85,8 +85,6 @@ std::string getLastError(int err = errno)
 
 using namespace SpiralOfFate;
 
-VirtualController *virtualController;
-
 std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadPlayerInputs(std::ifstream &stream)
 {
 	std::map<InputEnum, sf::Keyboard::Key> keyboardMap{
@@ -382,7 +380,7 @@ void	run()
 	checkCompilationEnv();
 	loadSettings();
 	registerScenes();
-	virtualController = new VirtualController();
+	game->virtualController = std::make_shared<VirtualController>();
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	if (!game->font.loadFromFile(font))
@@ -401,12 +399,13 @@ void	run()
 
 		timer += clock.restart().asSeconds();
 		while (timer >= 1. / 60.) {
-			virtualController->update();
+			game->virtualController->onFrameStart();
+			game->virtualController->update();
 			game->scene.update();
 			timer -= 1. / 60.;
 		}
 		game->scene.render();
-		virtualController->render();
+		game->virtualController->render();
 		game->screen->display();
 
 		while (game->screen->pollEvent(event)) {
@@ -416,7 +415,7 @@ void	run()
 			if (event.type == sf::Event::Closed)
 				game->screen->close();
 			game->scene.consumeEvent(event);
-			virtualController->consumeEvent(event);
+			game->virtualController->consumeEvent(event);
 		}
 		game->sceneMutex.unlock();
 	}

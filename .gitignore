@@ -42,3 +42,4 @@ assets/sfxs/se
 
 src/WikiGenerator/generated
 __pycache__
+Android.mk

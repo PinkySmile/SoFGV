@@ -46,7 +46,6 @@
 #define STICK_ID_PPAD1 2
 
 extern std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> loadPlayerInputs(std::ifstream &stream);
-extern SpiralOfFate::VirtualController *virtualController;
 
 namespace SpiralOfFate
 {
@@ -239,7 +238,7 @@ namespace SpiralOfFate
 			if (this->_changingInputs)
 				break;
 			this->_latestJoystickId = STICK_ID_VPAD;
-			this->_lastInput = virtualController;
+			this->_lastInput = &*game->virtualController;
 			break;
 		default:
 			break;
@@ -488,7 +487,9 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput)
 			game->screen->displayElement(
-				this->_leftInput < STICK_ID_PPAD1 ?
+				this->_leftInput - 1 == STICK_ID_VPAD ?
+				game->virtualController->getName() :
+				this->_leftInput - 1 == STICK_ID_KEYBOARD ?
 				game->P1.first->getName() :
 				game->P1.second->getName() + " #" + std::to_string(this->_leftInput - STICK_ID_PPAD1),
 				{540, 260},
@@ -515,7 +516,9 @@ namespace SpiralOfFate
 		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
-					this->_rightInput < STICK_ID_PPAD1 ?
+					this->_rightInput - 1 == STICK_ID_VPAD ?
+					game->virtualController->getName() :
+					this->_rightInput - 1 == STICK_ID_KEYBOARD ?
 					game->P2.first->getName() :
 					game->P2.second->getName() + " #" + std::to_string(this->_rightInput - STICK_ID_PPAD1),
 					{840, 260},
@@ -951,7 +954,8 @@ namespace SpiralOfFate
 	{
 		if (id == STICK_ID_KEYBOARD)
 			return pair.first;
-		my_assert(id != STICK_ID_VPAD);
+		if (id == STICK_ID_VPAD)
+			return game->virtualController;
 		pair.second->setJoystickId(id - STICK_ID_PPAD1);
 		return pair.second;
 	}
