@@ -16,13 +16,14 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
-#define MINIMUM_STALLING_STACKING (-600)
-#define STALLING_HIT_REMOVE (90)
-#define STALLING_BLOCK_REMOVE (60)
+#define MINIMUM_STALLING_STACKING (-1800)
+#define STALLING_HIT_REMOVE (75)
+#define STALLING_BLOCK_REMOVE (25)
+#define STALLING_BLOCKING_REMOVE (25)
 #define STALLING_BLOCK_WIPE_THRESHOLD (150)
 #define MAXIMUM_STALLING_STACKING (2700)
-#define BACKING_STALLING_FACTOR (1.f)
-#define FORWARD_STALLING_FACTOR (2.f)
+#define BACKING_STALLING_FACTOR (1.1f)
+#define FORWARD_STALLING_FACTOR (0.9f)
 // 0.1% per frame max
 #define METER_PENALTY_EQUATION(val, maxval) (((val) - START_STALLING_THRESHOLD) * (maxval) / (float)(MAXIMUM_STALLING_STACKING - START_STALLING_THRESHOLD) / 1000)
 
@@ -3363,6 +3364,7 @@ namespace SpiralOfFate
 			this->_hp -= data.chipDamage;
 		else
 			this->_hp = 0;
+		this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_BLOCKING_REMOVE);
 	}
 
 	bool Character::_isOnPlatform() const

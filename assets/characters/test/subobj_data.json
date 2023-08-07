@@ -8,7 +8,7 @@
           "block_player_hit_stop": 4,
           "block_stun": 8,
           "damage": 600,
-          "defense_flag": 2359808,
+          "defense_flag": 2359296,
           "guard_damage": 20,
           "hit_boxes": [
             {
