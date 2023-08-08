@@ -498,7 +498,7 @@ namespace SpiralOfFate
 
 			__box.pt1 = real + _box.pos.rotation(this->_rotation, center);
 			__box.pt2 = real + (_box.pos + Vector2f{0, static_cast<float>(_box.size.y)}).rotation(this->_rotation, center);
-			__box.pt3 = real + (_box.pos + _box.size).rotation(this->_rotation, center);
+			__box.pt3 = real + (_box.pos + _box.size.to<int>()).rotation(this->_rotation, center);
 			__box.pt4 = real + (_box.pos + Vector2f{static_cast<float>(_box.size.x), 0}).rotation(this->_rotation, center);
 			result.push_back(__box);
 		}
