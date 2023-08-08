@@ -423,6 +423,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto nboh = panel->get<tgui::CheckBox>("NBOH");
 	auto nbob = panel->get<tgui::CheckBox>("NBOB");
 	auto hardKD = panel->get<tgui::CheckBox>("HardKD");
+	auto groundSlam = panel->get<tgui::CheckBox>("GroundSlam");
+	auto groundSlamCH = panel->get<tgui::CheckBox>("GroundSlamCH");
+	auto wallSplat = panel->get<tgui::CheckBox>("WallSplat");
+	auto wallSplatCH = panel->get<tgui::CheckBox>("WallSplatCH");
 
 	auto invulnerable = panel->get<tgui::CheckBox>("Invulnerable");
 	auto invulnerableArmor = panel->get<tgui::CheckBox>("InvulnerableArmor");
@@ -1432,7 +1436,51 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [&object, hardKD, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
+	groundSlam->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.groundSlam = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	groundSlamCH->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.groundSlamCH = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	wallSplat->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.wallSplat = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	wallSplatCH->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.wallSplatCH = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	oFlags->connect("TextChanged", [&object, groundSlam, groundSlamCH, wallSplat, wallSplatCH, hardKD, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
@@ -1474,6 +1522,10 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		nboh->setChecked(data.oFlag.nextBlockOnHit);
 		nbob->setChecked(data.oFlag.nextBlockOnBlock);
 		hardKD->setChecked(data.oFlag.hardKnockDown);
+		groundSlam->setChecked(data.oFlag.groundSlam);
+		groundSlamCH->setChecked(data.oFlag.groundSlamCH);
+		wallSplat->setChecked(data.oFlag.wallSplat);
+		wallSplatCH->setChecked(data.oFlag.wallSplatCH);
 		if (!g)
 			*c = false;
 	});

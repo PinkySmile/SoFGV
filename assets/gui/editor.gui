@@ -253,7 +253,7 @@ ScrollablePanel.Panel1 {
 
         Panel.Panel2 {
             Position = (0, 40);
-            Size = (&.w, 950);
+            Size = (&.w, 980);
             renderer = &1;
 
             Label.Label17 {
@@ -912,7 +912,7 @@ ScrollablePanel.Panel1 {
                 }
             }
 
-            CheckBox.groundSlam {
+            CheckBox.GroundSlam {
                 Position = (170, 860);
                 Size = (20, 20);
                 Text = "Ground Slam";
@@ -920,7 +920,7 @@ ScrollablePanel.Panel1 {
                 renderer = &13;
             }
 
-            CheckBox.groundSlamCH {
+            CheckBox.GroundSlamCH {
                 Position = (10, 890);
                 Size = (20, 20);
                 Text = "Ground Slam on CH";
@@ -928,7 +928,7 @@ ScrollablePanel.Panel1 {
                 renderer = &13;
             }
 
-            CheckBox.wallSplatCH {
+            CheckBox.WallSplatCH {
                 Position = (10, 920);
                 Size = (20, 20);
                 Text = "Wall Splat on CH";
@@ -936,7 +936,7 @@ ScrollablePanel.Panel1 {
                 renderer = &13;
             }
 
-            CheckBox.wallSplat {
+            CheckBox.WallSplat {
                 Position = (170, 890);
                 Size = (20, 20);
                 Text = "Wall Splat";

@@ -3467,6 +3467,8 @@ namespace SpiralOfFate
 			(forcedCounter || noArmor)
 		) {
 			game->soundMgr.play(BASICSOUND_COUNTER_HIT);
+			this->_willGroundSlam = data.oFlag.groundSlamCH;
+			this->_willWallSplat = data.oFlag.wallSplatCH;
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
@@ -3489,6 +3491,8 @@ namespace SpiralOfFate
 		} else {
 			game->soundMgr.play(data.hitSoundHandle);
 			if (noArmor) {
+				this->_willGroundSlam = data.oFlag.groundSlam;
+				this->_willWallSplat = data.oFlag.wallSplat;
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
 				this->_speed.y =  data.hitSpeed.y;
 				if (this->_isGrounded() && data.hitSpeed.y <= 0)
@@ -3546,16 +3550,17 @@ namespace SpiralOfFate
 		else if (this->_position.x > 1000)
 			this->_position.x = 1000;
 
-		if (this->_position.x >= 0 && this->_position.x <= 1000)
-			return;
-		if (!this->_willWallSplat)
-			return;
-		if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
-			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
+		if (this->_position.x >= 0 && this->_position.x <= 1000) {
+			if (
+				!this->_willWallSplat ||
+				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
+			)
+				return;
+			this->_speed.x *= 0.1;
+			this->_speed.y *= -0.8;
 			game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
-			this->_speed.x *= -0.15;
-			this->_speed.y = 7.5;
+			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 		}
 	}
 
@@ -3568,16 +3573,18 @@ namespace SpiralOfFate
 			this->_position.y = 750;
 
 		if (this->_position.y > 750 || this->_isGrounded()) {
-			this->_speed.y = 0;
-			if (!this->_willGroundSlam)
+			if (
+				!this->_willGroundSlam ||
+				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
+			) {
+				this->_speed.y = 0;
 				return;
-			if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
-				this->_speed.x *= 0.1;
-				this->_speed.y *= -0.8;
-				game->soundMgr.play(BASICSOUND_GROUND_SLAM);
-				this->_forceStartMove(ACTION_GROUND_SLAM);
-				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 			}
+			this->_speed.x *= 0.1;
+			this->_speed.y *= -0.8;
+			game->soundMgr.play(BASICSOUND_GROUND_SLAM);
+			this->_forceStartMove(ACTION_GROUND_SLAM);
+			this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
 		}
 	}
 

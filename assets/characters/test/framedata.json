@@ -9651,7 +9651,7 @@
           "hit_stun": 60,
           "matter_limit": 100,
           "neutral_limit": 100,
-          "offense_flag": 1073881144,
+          "offense_flag": 26843684920,
           "offset": {
             "x": 0,
             "y": -24
@@ -14719,7 +14719,7 @@
           ],
           "mana_gain": 60,
           "matter_limit": 50,
-          "offense_flag": 33555104,
+          "offense_flag": 6476006048,
           "offset": {
             "x": 2,
             "y": -28
