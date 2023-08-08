@@ -25,7 +25,7 @@ LOCAL_SHARED_LIBRARIES += sfml-activity-d
 LOCAL_SHARED_LIBRARIES += openal
 LOCAL_WHOLE_STATIC_LIBRARIES := sfml-main-d
 
-LOCAL_CFLAGS += -I $(pwd)/include -I $(pwd)/src/LibCore
+LOCAL_CFLAGS += -I $(pwd)/include -I $(pwd)/src/LibCore  -I $(pwd)/android/app/src/main/jni
 
 include \$(BUILD_SHARED_LIBRARY)
 

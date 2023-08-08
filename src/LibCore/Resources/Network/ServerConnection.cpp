@@ -237,7 +237,10 @@ namespace SpiralOfFate
 	{
 		game->logger.info("Hosting on port " + std::to_string(port));
 		this->_states.clear();
-		this->_socket.bind(port);
+		if (this->_socket.bind(port) != sf::Socket::Done) {
+			game->logger.error("Failed to bind port.");
+			return;
+		}
 		this->_terminated = false;
 	}
 

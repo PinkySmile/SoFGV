@@ -607,21 +607,16 @@ namespace SpiralOfFate
 
 	std::vector<IObject *> InGame::_generateStageObjects(const StageEntry &stage)
 	{
-
 		if (stage.objectPath.empty())
 			return std::vector<IObject *>{};
 
-		std::ifstream stream{stage.objectPath};
+		auto data = game->fileMgr.readFull(stage.objectPath);
 		nlohmann::json json;
 		std::vector<IObject *> objects;
 
-		if (stream.fail()) {
-			game->logger.error("Failed to open stage object file: " + stage.objectPath + ": " + strerror(errno));
-			return {};
-		}
 
 		try {
-			stream >> json;
+			json = nlohmann::json::parse(data);
 			for (auto &obj : json) {
 				switch (obj["class"].get<int>()) {
 				case 1:

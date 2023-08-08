@@ -49,23 +49,20 @@ namespace SpiralOfFate
 		}
 	}
 
-	std::vector<std::filesystem::path> Game::getCharacters()
+	std::vector<std::string> Game::getCharacters()
 	{
-#ifdef __ANDROID
-#else
-		std::vector<std::filesystem::path> result;
+		std::vector<std::string> result;
 
-		for (auto &entry : std::filesystem::directory_iterator("assets/characters")) {
-			if (!entry.is_directory())
+		for (auto &entry : this->fileMgr.listDirectory("assets/characters")) {
+			if (!entry.dir)
 				continue;
 
-			auto file = entry.path() / "chr.json";
+			auto file = entry.path + "/chr.json";
 
-			if (!exists(file))
+			if (!this->fileMgr.exists(file))
 				continue;
-			result.push_back(entry.path());
+			result.push_back(entry.path);
 		}
 		return result;
-#endif
 	}
 }

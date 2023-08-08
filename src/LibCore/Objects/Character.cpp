@@ -4630,12 +4630,8 @@ namespace SpiralOfFate
 
 	void Character::_loadProjectileData(const std::string &path)
 	{
-		std::ifstream stream{path};
-		nlohmann::json j;
+		nlohmann::json j = nlohmann::json::parse(game->fileMgr.readFull(path));
 
-		if (stream.fail())
-			throw std::invalid_argument(path + ": " + strerror(errno));
-		stream >> j;
 		for (auto &i : j)  {
 			SubObjectData pdat;
 

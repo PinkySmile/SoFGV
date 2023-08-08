@@ -2,6 +2,7 @@
 // Created by PinkySmile on 15/08/2022.
 //
 
+#include <filesystem>
 #include <iostream>
 #include "RollbackMachine.hpp"
 #include "Resources/Game.hpp"
@@ -98,7 +99,12 @@ namespace SpiralOfFate
 			this->_opDiffTimesAverage.push_back(this->_totalOpAvgDiffTimes);
 		};
 		game->connection->onDesync = [](Connection::Remote &, unsigned frameId, unsigned, unsigned) {
-			std::filesystem::create_directory("frames");
+			try {
+				std::filesystem::create_directory("frames");
+			} catch (std::exception &e) {
+				game->logger.error("Cannot save frame " + std::to_string(frameId) + ": " + e.what());
+				return;
+			}
 
 			auto path = "frames/frames-" + std::to_string(frameId) + ".frame";
 			std::ofstream stream{path, std::ofstream::binary};

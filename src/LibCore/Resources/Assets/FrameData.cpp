@@ -11,13 +11,8 @@ namespace SpiralOfFate
 {
 	std::map<unsigned int, std::vector<std::vector<FrameData>>> SpiralOfFate::FrameData::loadFile(const std::string &path, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
-		std::ifstream stream{path};
-		nlohmann::json json;
-
 		game->logger.debug("Loading framedata file " + path);
-		my_assert2(!stream.fail(), path + ": " + strerror(errno));
-		stream >> json;
-		return loadFileJson(json, folder, palette);
+		return loadFileJson(nlohmann::json::parse(game->fileMgr.readFull(path)), folder, palette);
 	}
 
 	std::map<unsigned, std::vector<std::vector<FrameData>>> FrameData::loadFileJson(const nlohmann::json &json, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)

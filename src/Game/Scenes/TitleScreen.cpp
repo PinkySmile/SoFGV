@@ -820,7 +820,7 @@ namespace SpiralOfFate
 		std::vector<StageEntry> stages;
 		std::vector<CharacterEntry> entries;
 		std::ifstream stream{path, std::ifstream::binary};
-		std::ifstream stream3{"assets/stages/list.json"};
+		auto data = game->fileMgr.readFull("assets/stages/list.json");
 		nlohmann::json json;
 		unsigned nb;
 		unsigned short P1pos;
@@ -849,19 +849,20 @@ namespace SpiralOfFate
 
 		entries.reserve(chrList.size());
 		for (auto &entry : chrList) {
-			auto file = entry / "chr.json";
-			std::ifstream s{file};
+			auto file = entry + "/chr.json";
 
-			game->logger.debug("Loading character from " + file.string());
-			my_assert2(!s.fail(), file.string() + ": " + strerror(errno));
-			s >> json;
-			entries.emplace_back(json, entry.string());
+			game->logger.debug("Loading character from " + file);
+
+			auto data2 = game->fileMgr.readFull(file);
+
+			json = nlohmann::json::parse(data2);
+			entries.emplace_back(json, entry);
 		}
 		std::sort(entries.begin(), entries.end(), [](CharacterEntry &a, CharacterEntry &b){
 			return a.pos < b.pos;
 		});
 
-		stream3 >> json;
+		json = nlohmann::json::parse(data);
 		for (auto &elem : json)
 			stages.emplace_back(elem);
 		stream.read(reinterpret_cast<char *>(&frameCount), sizeof(frameCount));

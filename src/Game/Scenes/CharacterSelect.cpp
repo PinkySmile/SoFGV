@@ -23,7 +23,6 @@ namespace SpiralOfFate
 		_inGameName(inGameName)
 	{
 		sf::View view{{0, 0, 1680, 960}};
-		std::ifstream stream;
 		nlohmann::json json;
 		auto chrList = game->getCharacters();
 
@@ -31,25 +30,26 @@ namespace SpiralOfFate
 		game->logger.info("CharacterSelect scene created");
 		this->_entries.reserve(chrList.size());
 		for (auto &entry : chrList) {
-			auto file = entry / "chr.json";
-			std::ifstream s{file};
+			auto file = entry + "/chr.json";
 
-			game->logger.debug("Loading character from " + file.string());
-			my_assert2(!s.fail(), file.string() + ": " + strerror(errno));
-			s >> json;
+			game->logger.debug("Loading character from " + file);
+
+			auto data = game->fileMgr.readFull(file);
+
+			json = nlohmann::json::parse(data);
 #ifndef _DEBUG
 			if (json.contains("hidden") && json["hidden"])
 				continue;
 #endif
-			this->_entries.emplace_back(json, entry.string());
+			this->_entries.emplace_back(json, entry);
 		}
 		std::sort(this->_entries.begin(), this->_entries.end(), [](CharacterEntry &a, CharacterEntry &b){
 			return a.pos < b.pos;
 		});
 
-		stream.open("assets/stages/list.json");
-		my_assert2(!stream.fail(), "assets/stages/list.json: " + strerror(errno));
-		stream >> json;
+		auto data = game->fileMgr.readFull("assets/stages/list.json");
+
+		json = nlohmann::json::parse(data);
 		this->_stages.reserve(json.size());
 		for (auto &elem: json)
 			this->_stages.emplace_back(elem);

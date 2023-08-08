@@ -8,7 +8,6 @@
 #include <mutex>
 #include <memory>
 #include <random>
-#include <filesystem>
 #include "Screen.hpp"
 #include "Resources/Assets/TextureManager.hpp"
 #include "Resources/Battle/BattleManager.hpp"
@@ -22,6 +21,7 @@
 #include "Resources/Battle/RandomWrapper.hpp"
 #include "MSVCMacros.hpp"
 #include "Inputs/VirtualController.hpp"
+#include "Resources/Assets/FileManager.hpp"
 
 #ifdef __GNUC__
 #define FCT_NAME __PRETTY_FUNCTION__
@@ -115,6 +115,7 @@ namespace SpiralOfFate
 		std::string lastIp = "127.0.0.1";
 		unsigned short lastPort = 0;
 		std::unique_ptr<Screen> screen;
+		FileManager fileMgr;
 		TextureManager textureMgr;
 		SoundManager soundMgr;
 		std::shared_ptr<VirtualController> virtualController;
@@ -128,7 +129,7 @@ namespace SpiralOfFate
 		std::shared_ptr<IInput> activeNetInput;
 
 		Game(const std::string &loggerPath = "./latest.log");
-		std::vector<std::filesystem::path> getCharacters();
+		std::vector<std::string> getCharacters();
 	};
 	extern MYDLL_API Game *game;
 }
