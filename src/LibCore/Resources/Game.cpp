@@ -51,6 +51,8 @@ namespace SpiralOfFate
 
 	std::vector<std::filesystem::path> Game::getCharacters()
 	{
+#ifdef __ANDROID
+#else
 		std::vector<std::filesystem::path> result;
 
 		for (auto &entry : std::filesystem::directory_iterator("assets/characters")) {
@@ -64,5 +66,6 @@ namespace SpiralOfFate
 			result.push_back(entry.path());
 		}
 		return result;
+#endif
 	}
 }

@@ -409,9 +409,6 @@ void	run()
 		game->screen->display();
 
 		while (game->screen->pollEvent(event)) {
-#ifdef __ANDROID__
-			logEvent(event);
-#endif
 			if (event.type == sf::Event::Closed)
 				game->screen->close();
 			game->scene.consumeEvent(event);

@@ -164,6 +164,9 @@ namespace SpiralOfFate
 			unsigned voidManaMax;
 			unsigned spiritManaMax;
 			unsigned matterManaMax;
+			unsigned voidManaStart;
+			unsigned spiritManaStart;
+			unsigned matterManaStart;
 			float manaRegen;
 			unsigned maxGuard;
 			unsigned guardCooldown;

@@ -432,11 +432,13 @@ namespace SpiralOfFate
 			char _normalTreeFlag;
 			bool _armorUsed;
 			bool _hardKD;
+			bool _willGroundSlam;
+			bool _willWallSplat;
 			unsigned char _hitStop;
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 731, "Data has wrong size");
+		static_assert(sizeof(Data) == 733, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -571,6 +573,8 @@ namespace SpiralOfFate
 		bool _armorUsed = false;
 		bool _forceCH = false;
 		bool _hardKD = false;
+		bool _willGroundSlam = false;
+		bool _willWallSplat = false;
 		char _normalTreeFlag = 0;
 
 		// Non-game state
@@ -710,6 +714,9 @@ namespace SpiralOfFate
 			unsigned maxMMana;
 			unsigned maxVMana;
 			unsigned maxSMana;
+			unsigned startMMana;
+			unsigned startVMana;
+			unsigned startSMana;
 			float manaRegen;
 			unsigned maxGuardBar;
 			unsigned maxGuardCooldown;

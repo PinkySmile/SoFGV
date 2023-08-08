@@ -41,8 +41,6 @@
 
 #define WALL_SLAM_HITSTUN_INCREASE 30
 #define GROUND_SLAM_HITSTUN_INCREASE 30
-#define WALL_SLAM_THRESHOLD 15
-#define GROUND_SLAM_THRESHOLD 20
 
 #define SPECIAL_INPUT_BUFFER_PERSIST 10
 #define DASH_BUFFER_PERSIST 6
@@ -90,7 +88,11 @@ static const char *oFlags[] = {
 	"forceTurnAround",
 	"nextBlockOnHit",
 	"nextBlockOnBlock",
-	"hardKnockDown"
+	"hardKnockDown",
+	"groundSlam",
+	"groundSlamCH",
+	"wallSplat",
+	"wallSplatCH"
 };
 
 static const char *dFlags[] = {
@@ -842,9 +844,9 @@ namespace SpiralOfFate
 		this->_voidManaMax   = data.maxVMana;
 		this->_spiritManaMax = data.maxSMana;
 		this->_matterManaMax = data.maxMMana;
-		this->_voidMana   = data.maxVMana / 2.f;
-		this->_spiritMana = data.maxSMana / 2.f;
-		this->_matterMana = data.maxMMana / 2.f;
+		this->_voidMana   = data.startVMana;
+		this->_spiritMana = data.startSMana;
+		this->_matterMana = data.startMMana;
 		this->_regen = data.manaRegen;
 		this->_maxGuardCooldown = data.maxGuardCooldown;
 		this->_guardBar = this->_maxGuardBar = data.maxGuardBar;
@@ -3539,26 +3541,16 @@ namespace SpiralOfFate
 
 	void Character::_processWallSlams()
 	{
-		if (this->_position.x < 0) {
+		if (this->_position.x < 0)
 			this->_position.x = 0;
-			if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
-				this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
-				game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
-				this->_forceStartMove(ACTION_WALL_SLAM);
-				this->_speed.x *= -0.15;
-				this->_speed.y = 7.5;
-			}
-			return;
-		}
+		else if (this->_position.x > 1000)
+			this->_position.x = 1000;
 
-		if (this->_position.x <= 1000)
+		if (this->_position.x >= 0 && this->_position.x <= 1000)
 			return;
-		this->_position.x = 1000;
-		if (std::abs(this->_speed.x) >= WALL_SLAM_THRESHOLD && (
-			this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-		)) {
+		if (!this->_willWallSplat)
+			return;
+		if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
 			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
 			game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
@@ -3572,30 +3564,20 @@ namespace SpiralOfFate
 		if (this->_isGrounded()) {
 			if (this->_position.y < 0)
 				this->_position.y = 0;
+		} else if (this->_position.y > 750)
+			this->_position.y = 750;
 
-			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
+		if (this->_position.y > 750 || this->_isGrounded()) {
+			this->_speed.y = 0;
+			if (!this->_willGroundSlam)
+				return;
+			if (this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
 				this->_speed.x *= 0.1;
 				this->_speed.y *= -0.8;
 				game->soundMgr.play(BASICSOUND_GROUND_SLAM);
 				this->_forceStartMove(ACTION_GROUND_SLAM);
 				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
-			} else
-				this->_speed.y = 0;
-		} else if (this->_position.y > 1000) {
-			this->_position.y = 1000;
-
-			if (std::abs(this->_speed.y) >= GROUND_SLAM_THRESHOLD && (
-				this->_action == ACTION_AIR_HIT || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT
-			)) {
-				this->_speed.x *= 0.1;
-				this->_speed.y *= -0.8;
-				game->soundMgr.play(BASICSOUND_GROUND_SLAM);
-				this->_forceStartMove(ACTION_GROUND_SLAM);
-				this->_blockStun += GROUND_SLAM_HITSTUN_INCREASE;
-			} else
-				this->_speed.y = 0;
+			}
 		}
 	}
 

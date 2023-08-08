@@ -60,7 +60,7 @@ namespace SpiralOfFate
 	};
 
 	union OffensiveFlags {
-		unsigned flags;
+		unsigned long long flags;
 		struct {
 			bool grab : 1;
 			bool airUnblockable : 1;
@@ -93,10 +93,14 @@ namespace SpiralOfFate
 			bool nextBlockOnHit : 1;
 			bool nextBlockOnBlock : 1;
 			bool hardKnockDown : 1;
+			bool groundSlam : 1;
+			bool groundSlamCH : 1;
+			bool wallSplat : 1;
+			bool wallSplatCH : 1;
 		};
 	};
 	static_assert(sizeof(DefensiveFlags) == sizeof(unsigned), "Too many defensive flags");
-	static_assert(sizeof(OffensiveFlags) == sizeof(unsigned), "Too many offensive flags");
+	static_assert(sizeof(OffensiveFlags) == sizeof(unsigned long long), "Too many offensive flags");
 
 	class FrameData {
 	private:
@@ -150,7 +154,7 @@ namespace SpiralOfFate
 			Box boxes[0];
 		};
 		static_assert(sizeof(Box) == 16, "Box has wrong size");
-		static_assert(sizeof(Data) == 720, "Data has wrong size");
+		static_assert(sizeof(Data) == 724, "Data has wrong size");
 #pragma pack(pop)
 
 	public:

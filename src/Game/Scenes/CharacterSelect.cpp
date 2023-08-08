@@ -527,6 +527,12 @@ namespace SpiralOfFate
 			throw std::invalid_argument("spirit_mana_max is missing");
 		if (!json.contains("matter_mana_max"))
 			throw std::invalid_argument("matter_mana_max is missing");
+		if (!json.contains("void_mana_start"))
+			throw std::invalid_argument("void_mana_start is missing");
+		if (!json.contains("spirit_mana_start"))
+			throw std::invalid_argument("spirit_mana_start is missing");
+		if (!json.contains("matter_mana_start"))
+			throw std::invalid_argument("matter_mana_start is missing");
 		if (!json.contains("mana_regen"))
 			throw std::invalid_argument("mana_regen is missing");
 		if (!json.contains("palettes"))

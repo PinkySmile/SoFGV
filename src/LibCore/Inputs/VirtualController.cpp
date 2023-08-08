@@ -8,7 +8,7 @@
 #ifdef __ANDROID__
 #define MIN_ALPHA 100
 #else
-#define MIN_ALPHA 100
+#define MIN_ALPHA 0
 #endif
 #define MAX_ALPHA 150
 #define STICK_SCALE 6
