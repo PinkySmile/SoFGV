@@ -1355,7 +1355,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.oFlag.voidMana = b;
+		data.oFlag.unusedFlag1 = b;
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
@@ -1366,7 +1366,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.oFlag.matterMana = b;
+		data.oFlag.unusedFlag2 = b;
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
@@ -1377,7 +1377,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		*c = true;
-		data.oFlag.spiritMana = b;
+		data.oFlag.unusedFlag3 = b;
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
@@ -1514,9 +1514,9 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		unTransformCancelable->setChecked(data.oFlag.unTransformCancelable);
 		dashCancelable->setChecked(data.oFlag.dashCancelable);
 		backDashCancelable->setChecked(data.oFlag.backDashCancelable);
-		voidMana->setChecked(data.oFlag.voidMana);
-		matterMana->setChecked(data.oFlag.matterMana);
-		spiritMana->setChecked(data.oFlag.spiritMana);
+		voidMana->setChecked(data.oFlag.unusedFlag1);
+		matterMana->setChecked(data.oFlag.unusedFlag2);
+		spiritMana->setChecked(data.oFlag.unusedFlag3);
 		turnAround->setChecked(data.oFlag.turnAround);
 		forceTurnAround->setChecked(data.oFlag.forceTurnAround);
 		nboh->setChecked(data.oFlag.nextBlockOnHit);
