@@ -617,11 +617,6 @@ namespace SpiralOfFate
 			this->_voidInstallTimer--;
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
-		if (this->_spiritEffectTimer) {
-			if (this->_spiritEffectTimer % 5 == 0 && this->_mana > 0)
-				this->_mana--;
-			this->_spiritEffectTimer--;
-		}
 		if (this->_matterEffectTimer) {
 			if (this->_guardBar && !this->_guardCooldown)
 				this->_guardBar--;
@@ -3221,6 +3216,8 @@ namespace SpiralOfFate
 		this->_forceCH = false;
 		if (chr) {
 			chr->_mana += data.manaGain / 4;
+			if (this->_spiritEffectTimer)
+				chr->_mana += data.manaGain / 4;
 			if (chr->_mana > chr->_manaMax)
 				chr->_mana = chr->_manaMax;
 		}
@@ -3365,6 +3362,8 @@ namespace SpiralOfFate
 			counter |= forcedCounter;
 			chr->_forceCH = false;
 			chr->_mana += data.manaGain;
+			if (this->_spiritEffectTimer)
+				chr->_mana += data.manaGain;
 			if (chr->_mana > chr->_manaMax)
 				chr->_mana = chr->_manaMax;
 		}
