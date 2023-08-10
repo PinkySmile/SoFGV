@@ -573,15 +573,9 @@ namespace SpiralOfFate
 		if (this->_stallingFactor > MAXIMUM_STALLING_STACKING)
 			this->_stallingFactor = MAXIMUM_STALLING_STACKING;
 		if (this->_stallingFactor >= START_STALLING_THRESHOLD) {
-			this->_voidMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_voidManaMax);
-			this->_matterMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_matterManaMax);
-			this->_spiritMana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_spiritManaMax);
-			if (this->_voidMana < 0)
-				this->_voidMana = 0;
-			if (this->_matterMana < 0)
-				this->_matterMana = 0;
-			if (this->_spiritMana < 0)
-				this->_spiritMana = 0;
+			this->_mana -= METER_PENALTY_EQUATION(this->_stallingFactor, this->_manaMax);
+			if (this->_mana < 0)
+				this->_mana = 0;
 		}
 	}
 
@@ -624,14 +618,8 @@ namespace SpiralOfFate
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
 		if (this->_spiritEffectTimer) {
-			if (this->_spiritEffectTimer % 5 == 0) {
-				if (this->_matterMana > 0)
-					this->_matterMana--;
-				if (this->_spiritMana > 0)
-					this->_spiritMana--;
-				if (this->_voidMana > 0)
-					this->_voidMana--;
-			}
+			if (this->_spiritEffectTimer % 5 == 0 && this->_mana > 0)
+				this->_mana--;
 			this->_spiritEffectTimer--;
 		}
 		if (this->_matterEffectTimer) {
@@ -675,9 +663,9 @@ namespace SpiralOfFate
 
 		this->_tickMove();
 		if (!this->_ultimateUsed) {
-			this->_matterMana += (this->_matterManaMax - this->_matterMana) * this->_regen;
-			this->_spiritMana += (this->_spiritManaMax - this->_spiritMana) * this->_regen;
-			this->_voidMana += (this->_voidManaMax - this->_voidMana) * this->_regen;
+			this->_mana += this->_manaMax * this->_regen;
+			if (this->_mana > this->_manaMax)
+				this->_mana = this->_manaMax;
 		}
 
 		if (this->_action == ACTION_FALLING_TECH && this->_isGrounded())
@@ -841,12 +829,8 @@ namespace SpiralOfFate
 		this->_maxJumps = data.maxJumps;
 		this->_maxAirDashes = data.maxAirDash;
 		this->_baseGravity = this->_gravity = data.gravity;
-		this->_voidManaMax   = data.maxVMana;
-		this->_spiritManaMax = data.maxSMana;
-		this->_matterManaMax = data.maxMMana;
-		this->_voidMana   = data.startVMana;
-		this->_spiritMana = data.startSMana;
-		this->_matterMana = data.startMMana;
+		this->_manaMax = data.maxMana;
+		this->_mana = data.startMana;
 		this->_regen = data.manaRegen;
 		this->_maxGuardCooldown = data.maxGuardCooldown;
 		this->_guardBar = this->_maxGuardBar = data.maxGuardBar;
@@ -890,17 +874,17 @@ namespace SpiralOfFate
 			this->_voidInstallTimer = 0;
 			this->_spiritInstallTimer = 0;
 			this->_matterInstallTimer = 0;
-			if (this->_specialInputs._av > 0 && this->_voidMana >= INSTALL_COST) {
+			if (this->_specialInputs._av > 0 && this->_mana >= INSTALL_COST) {
 				installed = true;
-				this->_voidMana -= INSTALL_COST;
+				this->_mana -= INSTALL_COST;
 				this->_voidInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._as > 0 && this->_spiritMana >= INSTALL_COST) {
+			} else if (this->_specialInputs._as > 0 && this->_mana >= INSTALL_COST) {
 				installed = true;
-				this->_spiritMana -= INSTALL_COST;
+				this->_mana -= INSTALL_COST;
 				this->_spiritInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._am > 0 && this->_matterMana >= INSTALL_COST) {
+			} else if (this->_specialInputs._am > 0 && this->_mana >= INSTALL_COST) {
 				installed = true;
-				this->_matterMana -= INSTALL_COST;
+				this->_mana -= INSTALL_COST;
 				this->_matterInstallTimer = INSTALL_DURATION;
 			}
 			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
@@ -1213,16 +1197,9 @@ namespace SpiralOfFate
 			return false;
 		if (data.subObjectSpawn < 0 && data.subObjectSpawn >= -128 && this->_subobjects[-data.subObjectSpawn - 1].first)
 			return false;
-		if (data.oFlag.ultimate && this->_ultimateUsed && (
-			this->_spiritMana / this->_spiritManaMax <= 0.1f ||
-			this->_matterMana / this->_matterManaMax <= 0.1f ||
-			this->_voidMana   / this->_voidManaMax   <= 0.1f
-		))
+		if (data.oFlag.ultimate && this->_ultimateUsed && this->_mana / this->_manaMax <= 0.1f)
 			return false;
-
-		auto nbMana = data.oFlag.matterMana + data.oFlag.voidMana + data.oFlag.spiritMana;
-
-		if ((this->_matterMana + this->_voidMana + this->_spiritMana) < data.manaCost * nbMana)
+		if (this->_mana < data.manaCost)
 			return false;
 		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
 			for (auto limit : this->_limit)
@@ -1499,9 +1476,6 @@ namespace SpiralOfFate
 		}
 		this->startedAttack |= action >= ACTION_5N;
 		this->_armorUsed = false;
-		this->_wrongMana = (data->oFlag.voidMana && this->_voidMana < data->manaCost) ||
-			(data->oFlag.spiritMana && this->_spiritMana < data->manaCost) ||
-			(data->oFlag.matterMana && this->_matterMana < data->manaCost);
 		this->_jumpCanceled = this->_moves.at(this->_action)[this->_actionBlock][anim].oFlag.jumpCancelable && (
 			action == ACTION_NEUTRAL_JUMP ||
 			action == ACTION_FORWARD_JUMP ||
@@ -3088,9 +3062,7 @@ namespace SpiralOfFate
 
 		sprintf(
 			buffer,
-			"voidMana: %.2f/%u\n"
-			"spiritMana: %.2f/%u\n"
-			"matterMana: %.2f/%u\n"
+			"mana: %.2f/%u\n"
 			"specialMarker: %u\n"
 			"blockStun: %u\n"
 			"hitStun: %u\n"
@@ -3109,12 +3081,8 @@ namespace SpiralOfFate
 			"blockPlayerHitStop: %u\n"
 			"blockOpponentHitStop: %u\n"
 			"damage: %u\n",
-			this->_voidMana,
-			this->_voidManaMax,
-			this->_spiritMana,
-			this->_spiritManaMax,
-			this->_matterMana,
-			this->_matterManaMax,
+			this->_mana,
+			this->_manaMax,
 			data->specialMarker,
 			data->blockStun,
 			data->hitStun,
@@ -3252,18 +3220,9 @@ namespace SpiralOfFate
 			chr->_forceCH = false;
 		this->_forceCH = false;
 		if (chr) {
-			if (data.oFlag.voidMana)
-				chr->_voidMana += data.manaGain / 4;
-			if (data.oFlag.spiritMana)
-				chr->_spiritMana += data.manaGain / 4;
-			if (data.oFlag.matterMana)
-				chr->_matterMana += data.manaGain / 4;
-			if (chr->_voidMana > chr->_voidManaMax)
-				chr->_voidMana = chr->_voidManaMax;
-			if (chr->_spiritMana > chr->_spiritManaMax)
-				chr->_spiritMana = chr->_spiritManaMax;
-			if (chr->_matterMana > chr->_matterManaMax)
-				chr->_matterMana = chr->_matterManaMax;
+			chr->_mana += data.manaGain / 4;
+			if (chr->_mana > chr->_manaMax)
+				chr->_mana = chr->_manaMax;
 		}
 		if (!isParryAction(this->_action)) {
 			if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
@@ -3390,8 +3349,6 @@ namespace SpiralOfFate
 		if (this->_isGrounded() && myData->dFlag.crouch && this->_action != ACTION_GROUND_LOW_HIT)
 			this->_prorate = 1.15f;
 		this->_prorate = maxi(data.minProrate / 100, this->_prorate);
-		if (chr && chr->_wrongMana)
-			this->_prorate *= 0.8;
 
 		auto superRate = this->_supersUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
 		auto skillRate = this->_skillsUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
@@ -3407,18 +3364,9 @@ namespace SpiralOfFate
 			forcedCounter = chr->_forceCH;
 			counter |= forcedCounter;
 			chr->_forceCH = false;
-			if (data.oFlag.voidMana)
-				chr->_voidMana += data.manaGain;
-			if (data.oFlag.spiritMana)
-				chr->_spiritMana += data.manaGain;
-			if (data.oFlag.matterMana)
-				chr->_matterMana += data.manaGain;
-			if (chr->_voidMana > chr->_voidManaMax)
-				chr->_voidMana = chr->_voidManaMax;
-			if (chr->_spiritMana > chr->_spiritManaMax)
-				chr->_spiritMana = chr->_spiritManaMax;
-			if (chr->_matterMana > chr->_matterManaMax)
-				chr->_matterMana = chr->_matterManaMax;
+			chr->_mana += data.manaGain;
+			if (chr->_mana > chr->_manaMax)
+				chr->_mana = chr->_manaMax;
 		}
 		my_assert(!data.oFlag.ultimate || chr);
 		if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
@@ -3618,18 +3566,16 @@ namespace SpiralOfFate
 		Object::_applyMoveAttributes();
 		if (!this->_hadUltimate && data->oFlag.ultimate) {
 			game->soundMgr.play(BASICSOUND_ULTIMATE);
-			this->_voidMana = 0;
-			this->_matterMana = 0;
-			this->_spiritMana = 0;
+			this->_mana = 0;
 		}
 		this->_hadUltimate = data->oFlag.ultimate;
 		this->_ultimateUsed |= data->oFlag.ultimate;
-		if (data->oFlag.voidMana)
-			this->_consumeVoidMana(data->manaCost);
-		if (data->oFlag.spiritMana)
-			this->_consumeSpiritMana(data->manaCost);
-		if (data->oFlag.matterMana)
-			this->_consumeMatterMana(data->manaCost);
+		if (this->_mana >= data->manaCost) {
+			this->_mana -= data->manaCost;
+			return;
+		}
+		this->_mana = 0;
+		this->_forceStartMove(data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 	}
 
 	std::pair<unsigned int, std::shared_ptr<IObject>> Character::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
@@ -3711,7 +3657,6 @@ namespace SpiralOfFate
 		dat->_supersUsed = this->_supersUsed;
 		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
-		dat->_wrongMana = this->_wrongMana;
 		dat->_hitStop = this->_hitStop;
 		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_normalTreeFlag = this->_normalTreeFlag;
@@ -3733,12 +3678,12 @@ namespace SpiralOfFate
 		dat->_restand = this->_restand;
 		dat->_justGotCorner = this->_justGotCorner;
 		dat->_regen = this->_regen;
-		dat->_voidMana = this->_voidMana;
-		dat->_spiritMana = this->_spiritMana;
-		dat->_matterMana = this->_matterMana;
+		dat->_mana = this->_mana;
 		dat->_guardCooldown = this->_guardCooldown;
 		dat->_guardBar = this->_guardBar;
 		dat->_stallingFactor = this->_stallingFactor;
+		dat->_willGroundSlam = this->_willGroundSlam;
+		dat->_willWallSplat = this->_willWallSplat;
 		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
 		dat->_nbUsedMoves = this->_usedMoves.size();
 		dat->_nbLastInputs = this->_lastInputs.size();
@@ -3779,7 +3724,6 @@ namespace SpiralOfFate
 		this->_matterInstallTimer = dat->_matterInstallTimer;
 		this->_spiritInstallTimer = dat->_spiritInstallTimer;
 		this->_voidInstallTimer = dat->_voidInstallTimer;
-		this->_wrongMana = dat->_wrongMana;
 		this->_hitStop = dat->_hitStop;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
@@ -3806,11 +3750,11 @@ namespace SpiralOfFate
 		this->_restand = dat->_restand;
 		this->_justGotCorner = dat->_justGotCorner;
 		this->_regen = dat->_regen;
-		this->_voidMana = dat->_voidMana;
-		this->_spiritMana = dat->_spiritMana;
-		this->_matterMana = dat->_matterMana;
+		this->_mana = dat->_mana;
 		this->_guardCooldown = dat->_guardCooldown;
 		this->_guardBar = dat->_guardBar;
+		this->_willGroundSlam = dat->_willGroundSlam;
+		this->_willWallSplat = dat->_willWallSplat;
 		memcpy(this->_specialInputs._value, dat->_specialInputs, sizeof(dat->_specialInputs));
 		this->_lastInputs.clear();
 		for (size_t i = 0; i < dat->_nbLastInputs; i++)
@@ -3885,14 +3829,8 @@ namespace SpiralOfFate
 	void Character::_parryMatterEffect(Object *other, bool isStrongest)
 	{
 		if (other->getTeam() == !this->_team) {
-			this->_opponent->_voidMana   -= this->_opponent->_voidManaMax   * (10 + isStrongest * 10) / 100;
-			this->_opponent->_spiritMana -= this->_opponent->_spiritManaMax * (10 + isStrongest * 10) / 100;
-			this->_opponent->_matterMana -= this->_opponent->_matterManaMax * (10 + isStrongest * 10) / 100;
-			if (
-				this->_opponent->_voidMana < 0 ||
-				this->_opponent->_spiritMana < 0 ||
-				this->_opponent->_matterMana < 0
-			)
+			this->_opponent->_mana -= this->_opponent->_manaMax * (10 + isStrongest * 10) / 100;
+			if (this->_opponent->_mana < 0)
 				this->_opponent->_manaCrush();
 		}
 	}
@@ -4127,9 +4065,7 @@ namespace SpiralOfFate
 		Object::_applyNewAnimFlags();
 		if (!this->_ultimateUsed && data->oFlag.ultimate) {
 			game->soundMgr.play(BASICSOUND_ULTIMATE);
-			this->_voidMana = 0;
-			this->_matterMana = 0;
-			this->_spiritMana = 0;
+			this->_mana = 0;
 		}
 		this->_ultimateUsed |= data->oFlag.ultimate;
 		if (data->subObjectSpawn > 0) {
@@ -4146,104 +4082,9 @@ namespace SpiralOfFate
 		}
 	}
 
-	bool Character::_consumeVoidMana(float cost)
-	{
-		if (this->_voidMana >= cost)
-			return (this->_voidMana -= cost), true;
-
-		auto remaining = cost - this->_voidMana;
-
-		if (this->_matterMana + this->_spiritMana < remaining) {
-			this->_matterMana = 0;
-			this->_spiritMana = 0;
-			this->_voidMana = 0;
-			return false;
-		}
-		if (this->_matterMana < remaining / 2) {
-			this->_spiritMana -= remaining - this->_matterMana;
-			this->_matterMana = 0;
-			this->_voidMana = 0;
-			return true;
-		}
-		if (this->_spiritMana < remaining / 2) {
-			this->_matterMana -= remaining - this->_spiritMana;
-			this->_spiritMana = 0;
-			this->_voidMana = 0;
-			return true;
-		}
-		this->_matterMana -= remaining / 2;
-		this->_spiritMana -= remaining / 2;
-		this->_voidMana = 0;
-		return false;
-	}
-
-	bool Character::_consumeMatterMana(float cost)
-	{
-		if (this->_matterMana >= cost)
-			return (this->_matterMana -= cost), true;
-
-		auto remaining = cost - this->_matterMana;
-
-		if (this->_voidMana + this->_spiritMana < remaining) {
-			this->_voidMana = 0;
-			this->_spiritMana = 0;
-			this->_matterMana = 0;
-			return false;
-		}
-		if (this->_voidMana < remaining / 2) {
-			this->_spiritMana -= remaining - this->_voidMana;
-			this->_voidMana = 0;
-			this->_matterMana = 0;
-			return true;
-		}
-		if (this->_spiritMana < remaining / 2) {
-			this->_voidMana -= remaining - this->_spiritMana;
-			this->_spiritMana = 0;
-			this->_matterMana = 0;
-			return true;
-		}
-		this->_voidMana -= remaining / 2;
-		this->_spiritMana -= remaining / 2;
-		this->_matterMana = 0;
-		return false;
-	}
-
-	bool Character::_consumeSpiritMana(float cost)
-	{
-		if (this->_spiritMana >= cost)
-			return (this->_spiritMana -= cost), true;
-
-		auto remaining = cost - this->_spiritMana;
-
-		if (this->_voidMana + this->_matterMana < remaining) {
-			this->_voidMana = 0;
-			this->_spiritMana = 0;
-			this->_spiritMana = 0;
-			return false;
-		}
-		if (this->_voidMana < remaining / 2) {
-			this->_matterMana -= remaining - this->_voidMana;
-			this->_voidMana = 0;
-			this->_spiritMana = 0;
-			return true;
-		}
-		if (this->_matterMana < remaining / 2) {
-			this->_voidMana -= remaining - this->_matterMana;
-			this->_matterMana = 0;
-			this->_spiritMana = 0;
-			return true;
-		}
-		this->_voidMana -= remaining / 2;
-		this->_matterMana -= remaining / 2;
-		this->_spiritMana = 0;
-		return false;
-	}
-
 	void Character::_manaCrush()
 	{
-		this->_voidMana = this->_voidManaMax / 10;
-		this->_spiritMana = this->_spiritManaMax / 10;
-		this->_matterMana = this->_matterManaMax / 10;
+		this->_mana = this->_manaMax / 10;
 		if (this->_isGrounded()) {
 			this->_blockStun = 60;
 			this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
@@ -4334,8 +4175,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat1->_spiritEffectTimer) + " vs " + std::to_string(dat2->_spiritEffectTimer));
 		if (dat1->_voidEffectTimer != dat2->_voidEffectTimer)
 			game->logger.fatal(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat1->_voidEffectTimer) + " vs " + std::to_string(dat2->_voidEffectTimer));
-		if (dat1->_wrongMana != dat2->_wrongMana)
-			game->logger.fatal(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat1->_wrongMana) + " vs " + std::to_string(dat2->_wrongMana));
 		if (dat1->_hitStop != dat2->_hitStop)
 			game->logger.fatal(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
 		if (dat1->_jumpCanceled != dat2->_jumpCanceled)
@@ -4400,18 +4239,18 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_justGotCorner: " + std::to_string(dat1->_justGotCorner) + " vs " + std::to_string(dat2->_justGotCorner));
 		if (dat1->_regen != dat2->_regen)
 			game->logger.fatal(std::string(msgStart) + "Character::_regen: " + std::to_string(dat1->_regen) + " vs " + std::to_string(dat2->_regen));
-		if (dat1->_voidMana != dat2->_voidMana)
-			game->logger.fatal(std::string(msgStart) + "Character::_voidMana: " + std::to_string(dat1->_voidMana) + " vs " + std::to_string(dat2->_voidMana));
-		if (dat1->_spiritMana != dat2->_spiritMana)
-			game->logger.fatal(std::string(msgStart) + "Character::_spiritMana: " + std::to_string(dat1->_spiritMana) + " vs " + std::to_string(dat2->_spiritMana));
-		if (dat1->_matterMana != dat2->_matterMana)
-			game->logger.fatal(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat1->_matterMana) + " vs " + std::to_string(dat2->_matterMana));
+		if (dat1->_mana != dat2->_mana)
+			game->logger.fatal(std::string(msgStart) + "Character::_mana: " + std::to_string(dat1->_mana) + " vs " + std::to_string(dat2->_mana));
 		if (dat1->_guardCooldown != dat2->_guardCooldown)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat1->_guardCooldown) + " vs " + std::to_string(dat2->_guardCooldown));
 		if (dat1->_guardBar != dat2->_guardBar)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat1->_guardBar) + " vs " + std::to_string(dat2->_guardBar));
 		if (dat1->_stallingFactor != dat2->_stallingFactor)
 			game->logger.fatal(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat1->_stallingFactor) + " vs " + std::to_string(dat2->_stallingFactor));
+		if (dat1->_willGroundSlam != dat2->_willGroundSlam)
+			game->logger.fatal(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat1->_willGroundSlam) + " vs " + std::to_string(dat2->_willGroundSlam));
+		if (dat1->_willWallSplat != dat2->_willWallSplat)
+			game->logger.fatal(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat1->_willWallSplat) + " vs " + std::to_string(dat2->_willWallSplat));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char number1[3];
 			char number2[3];
@@ -4723,9 +4562,9 @@ namespace SpiralOfFate
 	void Character::_computeFrameDataCache()
 	{
 		Object::_computeFrameDataCache();
-		this->_fdCache.oFlag.voidElement   &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fdCache.oFlag.matterElement &= !this->_wrongMana && !this->_neutralEffectTimer;
-		this->_fdCache.oFlag.spiritElement &= !this->_wrongMana && !this->_neutralEffectTimer;
+		this->_fdCache.oFlag.voidElement   &= !this->_neutralEffectTimer;
+		this->_fdCache.oFlag.matterElement &= !this->_neutralEffectTimer;
+		this->_fdCache.oFlag.spiritElement &= !this->_neutralEffectTimer;
 		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
 			this->_fdCache.oFlag.voidElement = this->_voidInstallTimer;
 			this->_fdCache.oFlag.matterElement = this->_matterInstallTimer;
@@ -4777,7 +4616,6 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat->_voidEffectTimer));
-		game->logger.info(std::string(msgStart) + "Character::_wrongMana: " + std::to_string(dat->_wrongMana));
 		game->logger.info(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
 		game->logger.info(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
 		game->logger.info(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
@@ -4810,12 +4648,12 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_restand: " + std::to_string(dat->_restand));
 		game->logger.info(std::string(msgStart) + "Character::_justGotCorner: " + std::to_string(dat->_justGotCorner));
 		game->logger.info(std::string(msgStart) + "Character::_regen: " + std::to_string(dat->_regen));
-		game->logger.info(std::string(msgStart) + "Character::_voidMana: " + std::to_string(dat->_voidMana));
-		game->logger.info(std::string(msgStart) + "Character::_spiritMana: " + std::to_string(dat->_spiritMana));
-		game->logger.info(std::string(msgStart) + "Character::_matterMana: " + std::to_string(dat->_matterMana));
+		game->logger.info(std::string(msgStart) + "Character::_mana: " + std::to_string(dat->_mana));
 		game->logger.info(std::string(msgStart) + "Character::_guardCooldown: " + std::to_string(dat->_guardCooldown));
 		game->logger.info(std::string(msgStart) + "Character::_guardBar: " + std::to_string(dat->_guardBar));
 		game->logger.info(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat->_stallingFactor));
+		game->logger.info(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat->_willGroundSlam));
+		game->logger.info(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat->_willWallSplat));
 
 		char number[3];
 		auto *ptr = (SpecialInputs *)dat->_specialInputs;

@@ -38,12 +38,8 @@ namespace SpiralOfFate
 				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
 				lJson["jump_count"],
 				lJson["air_dash_count"],
-				lJson["void_mana_max"],
-				lJson["spirit_mana_max"],
-				lJson["matter_mana_max"],
-				lJson["void_mana_start"],
-				lJson["spirit_mana_start"],
-				lJson["matter_mana_start"],
+				lJson["mana_max"],
+				lJson["mana_start"],
 				lJson["mana_regen"],
 				lJson["guard_bar"],
 				lJson["guard_break_cooldown"],
@@ -58,12 +54,8 @@ namespace SpiralOfFate
 				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
 				rJson["jump_count"],
 				rJson["air_dash_count"],
-				rJson["void_mana_max"],
-				rJson["spirit_mana_max"],
-				rJson["matter_mana_max"],
-				rJson["void_mana_start"],
-				rJson["spirit_mana_start"],
-				rJson["matter_mana_start"],
+				rJson["mana_max"],
+				rJson["mana_start"],
 				rJson["mana_regen"],
 				rJson["guard_bar"],
 				rJson["guard_break_cooldown"],
@@ -369,40 +361,24 @@ namespace SpiralOfFate
 				this->_rightCounter--;
 		}
 		if (this->_mana == 4) {
-			this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
-			this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
-			this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
-			this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
-			this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
-			this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
+			this->_manager->_leftCharacter->_mana = this->_manager->_leftCharacter->_manaMax;
+			this->_manager->_rightCharacter->_mana = this->_manager->_rightCharacter->_manaMax;
 		}
 		if (!this->_manager->_leftCharacter->_comboCtr && !this->_manager->_leftCharacter->_blockStun && !this->_manager->_rightCharacter->_comboCtr && !this->_manager->_rightCharacter->_blockStun) {
 			switch (this->_mana) {
 			case 0:
 				break;
 			case 1:
-				this->_manager->_leftCharacter->_voidMana   = 0;
-				this->_manager->_leftCharacter->_matterMana = 0;
-				this->_manager->_leftCharacter->_spiritMana = 0;
-				this->_manager->_rightCharacter->_voidMana   = 0;
-				this->_manager->_rightCharacter->_matterMana = 0;
-				this->_manager->_rightCharacter->_spiritMana = 0;
+				this->_manager->_leftCharacter->_mana = 0;
+				this->_manager->_rightCharacter->_mana = 0;
 				break;
 			case 2:
-				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax / 2.f;
-				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax / 2.f;
-				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax / 2.f;
-				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax / 2.f;
-				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax / 2.f;
-				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax / 2.f;
+				this->_manager->_leftCharacter->_mana = this->_manager->_leftCharacter->_manaMax / 2.f;
+				this->_manager->_rightCharacter->_mana = this->_manager->_rightCharacter->_manaMax / 2.f;
 				break;
 			case 3:
-				this->_manager->_leftCharacter->_voidMana   = this->_manager->_leftCharacter->_voidManaMax;
-				this->_manager->_leftCharacter->_matterMana = this->_manager->_leftCharacter->_matterManaMax;
-				this->_manager->_leftCharacter->_spiritMana = this->_manager->_leftCharacter->_spiritManaMax;
-				this->_manager->_rightCharacter->_voidMana   = this->_manager->_rightCharacter->_voidManaMax;
-				this->_manager->_rightCharacter->_matterMana = this->_manager->_rightCharacter->_matterManaMax;
-				this->_manager->_rightCharacter->_spiritMana = this->_manager->_rightCharacter->_spiritManaMax;
+				this->_manager->_leftCharacter->_mana = this->_manager->_leftCharacter->_manaMax;
+				this->_manager->_rightCharacter->_mana = this->_manager->_rightCharacter->_manaMax;
 				break;
 			}
 			if (!this->_replay) {

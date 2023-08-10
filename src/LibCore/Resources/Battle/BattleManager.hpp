@@ -161,12 +161,8 @@ namespace SpiralOfFate
 			Vector2f gravity;
 			unsigned char maxJumps;
 			unsigned char maxAirDash;
-			unsigned voidManaMax;
-			unsigned spiritManaMax;
-			unsigned matterManaMax;
-			unsigned voidManaStart;
-			unsigned spiritManaStart;
-			unsigned matterManaStart;
+			unsigned manaMax;
+			unsigned manaStart;
 			float manaRegen;
 			unsigned maxGuard;
 			unsigned guardCooldown;

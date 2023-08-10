@@ -415,15 +415,12 @@ namespace SpiralOfFate
 			unsigned _voidInstallTimer;
 			float _stallingFactor;
 			float _regen;
-			float _voidMana;
-			float _spiritMana;
-			float _matterMana;
+			float _mana;
 			float _prorate;
 			bool _ultimateUsed;
 			bool _counter;
 			bool _jumpCanceled;
 			bool _hadUltimate;
-			bool _wrongMana;
 			bool _atkDisabled;
 			bool _inputDisabled;
 			bool _hasJumped;
@@ -438,7 +435,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 733, "Data has wrong size");
+		static_assert(sizeof(Data) == 724, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -556,12 +553,9 @@ namespace SpiralOfFate
 		float _stallingFactor = 0;
 		float _prorate = 1;
 		float _regen = 0;
-		float _voidMana = 0;
-		float _spiritMana = 0;
-		float _matterMana = 0;
+		float _mana = 0;
 		SpecialInputs _specialInputs;
 		bool _counter = false;
-		bool _wrongMana = false;
 		bool _ultimateUsed = false;
 		bool _jumpCanceled = false;
 		bool _atkDisabled = false;
@@ -587,9 +581,7 @@ namespace SpiralOfFate
 		unsigned _maxOdCooldown = 0;
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
-		unsigned _voidManaMax = 0;
-		unsigned _spiritManaMax = 0;
-		unsigned _matterManaMax = 0;
+		unsigned _manaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
 		bool _gotHitStopReset = false;
@@ -639,9 +631,6 @@ namespace SpiralOfFate
 		virtual void _calculateCornerPriority();
 		virtual InputStruct _getInputs();
 		virtual void _manaCrush();
-		virtual bool _consumeVoidMana(float cost);
-		virtual bool _consumeMatterMana(float cost);
-		virtual bool _consumeSpiritMana(float cost);
 		virtual void _onSubObjectHit();
 		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 
@@ -711,12 +700,8 @@ namespace SpiralOfFate
 			unsigned short maxHp;
 			unsigned char maxJumps;
 			unsigned char maxAirDash;
-			unsigned maxMMana;
-			unsigned maxVMana;
-			unsigned maxSMana;
-			unsigned startMMana;
-			unsigned startVMana;
-			unsigned startSMana;
+			unsigned maxMana;
+			unsigned startMana;
 			float manaRegen;
 			unsigned maxGuardBar;
 			unsigned maxGuardCooldown;

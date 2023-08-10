@@ -85,9 +85,9 @@ namespace SpiralOfFate
 			bool unTransformCancelable : 1;
 			bool dashCancelable : 1;
 			bool backDashCancelable : 1;
-			bool voidMana : 1;
-			bool spiritMana : 1;
-			bool matterMana : 1;
+			bool unusedFlag1 : 1;
+			bool unusedFlag2 : 1;
+			bool unusedFlag3 : 1;
 			bool turnAround : 1;
 			bool forceTurnAround : 1;
 			bool nextBlockOnHit : 1;

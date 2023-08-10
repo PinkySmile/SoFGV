@@ -14,16 +14,16 @@
 namespace SpiralOfFate
 {
 	static const char *battleHudSprite[] = {
-		"assets/battleui/player_hud.png",        // BATTLEUI_HUD_SEAT
-		"assets/battleui/meterbars.png",         // BATTLEUI_MANA_BAR
-		"assets/battleui/guard.png",             // BATTLEUI_GUARD_TEXT
-		"assets/battleui/guardbar.png",          // BATTLEUI_GUARD_BAR
-		"assets/battleui/guard_red.png",         // BATTLEUI_GUARD_BAR_DISABLED
-		"assets/battleui/lifebar.png",           // BATTLEUI_LIFE_BAR
-		"assets/battleui/lifebar_red.png",       // BATTLEUI_LIFE_BAR_RED
-		"assets/battleui/lifebar_texture.png",   // BATTLEUI_LIFE_BAR_EFFECT
-		"assets/battleui/overdrive.png",         // BATTLEUI_OVERDRIVE
-		"assets/battleui/overdrive_outline.png", // BATTLEUI_OVERDRIVE_OUTLINE
+		"assets/battleui/player_hud.png",       // BATTLEUI_HUD_SEAT
+		"assets/battleui/meterbars.png",        // BATTLEUI_MANA_BAR
+		"assets/battleui/guard.png",            // BATTLEUI_GUARD_TEXT
+		"assets/battleui/guardbar.png",         // BATTLEUI_GUARD_BAR
+		"assets/battleui/guard_red.png",        // BATTLEUI_GUARD_BAR_DISABLED
+		"assets/battleui/lifebar.png",          // BATTLEUI_LIFE_BAR
+		"assets/battleui/lifebar_red.png",      // BATTLEUI_LIFE_BAR_RED
+		"assets/battleui/lifebar_texture.png",  // BATTLEUI_LIFE_BAR_EFFECT
+		"assets/battleui/overdrive.png",        // BATTLEUI_OVERDRIVE
+		"assets/battleui/overdrive_outline.png",// BATTLEUI_OVERDRIVE_OUTLINE
 		"assets/battleui/round_container.png",  // BATTLEUI_SCORE_SEAT
 		"assets/battleui/round_point.png",      // BATTLEUI_SCORE_BULLET
 	};
@@ -53,12 +53,8 @@ namespace SpiralOfFate
 			leftCharacter.hp,
 			leftCharacter.maxJumps,
 			leftCharacter.maxAirDash,
-			leftCharacter.matterManaMax,
-			leftCharacter.voidManaMax,
-			leftCharacter.spiritManaMax,
-			leftCharacter.matterManaStart,
-			leftCharacter.voidManaStart,
-			leftCharacter.spiritManaStart,
+			leftCharacter.manaMax,
+			leftCharacter.manaStart,
 			leftCharacter.manaRegen,
 			leftCharacter.maxGuard,
 			leftCharacter.guardCooldown,
@@ -72,12 +68,8 @@ namespace SpiralOfFate
 			rightCharacter.hp,
 			rightCharacter.maxJumps,
 			rightCharacter.maxAirDash,
-			rightCharacter.matterManaMax,
-			rightCharacter.voidManaMax,
-			rightCharacter.spiritManaMax,
-			rightCharacter.matterManaStart,
-			rightCharacter.voidManaStart,
-			rightCharacter.spiritManaStart,
+			rightCharacter.manaMax,
+			rightCharacter.manaStart,
 			rightCharacter.manaRegen,
 			rightCharacter.maxGuard,
 			rightCharacter.guardCooldown,
@@ -1399,13 +1391,11 @@ namespace SpiralOfFate
 			output.draw(this->mgr._battleUi[BATTLEUI_SCORE_BULLET], sf::BlendNone);
 		}
 
-		this->mgr._battleUi[BATTLEUI_MANA_BAR].setPosition(20, 611);
+		this->mgr._battleUi[BATTLEUI_MANA_BAR].setPosition(130, 655);
 		output.draw(this->mgr._battleUi[BATTLEUI_MANA_BAR], sf::BlendNone);
 		output.draw(this->icon);
 
-		this->renderMeterBar(output, {24,  616}, (float)this->base._spiritMana / this->base._spiritManaMax, {0,   162, 195}, {45, 219, 255});
-		this->renderMeterBar(output, {79,  638}, (float)this->base._matterMana / this->base._matterManaMax, {184, 92,  0},   {255, 156, 56});
-		this->renderMeterBar(output, {134, 660}, (float)this->base._voidMana   / this->base._voidManaMax,   {158, 0,   158}, {255, 63, 255});
+		this->renderMeterBar(output, {134, 660}, (float)this->base._mana / this->base._manaMax, {200, 200, 200}, {200, 200, 0});
 		if (this->base._stallingFactor > STALLING_PENALTY_THRESHOLD) {
 			this->mgr._stallDown.setPosition(320, 620);
 			this->mgr._stallDown.setTextureRect({
