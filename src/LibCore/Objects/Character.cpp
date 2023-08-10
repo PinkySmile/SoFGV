@@ -1450,8 +1450,8 @@ namespace SpiralOfFate
 		data = *dat;
 		this->_mutateHitFramedata(data);
 		if (myData->dFlag.invulnerableArmor) {
-			this->_hitStop += data.hitPlayerHitStop;
-			obj->_hitStop += data.hitOpponentHitStop * 2;
+			obj->_hitStop += data.hitPlayerHitStop;
+			this->_hitStop += data.hitOpponentHitStop;
 			return;
 		}
 		this->_restand = false;
