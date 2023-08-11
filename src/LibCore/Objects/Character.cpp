@@ -708,7 +708,7 @@ namespace SpiralOfFate
 						if (this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_SLAM && this->_action != ACTION_WALL_SLAM)
 							this->_forceStartMove(this->getCurrentFrameData()->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 					} else if (this->_restand || this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) {
-						if (!this->_executeAirTech(input))
+						if (!this->_executeAirTech(this->_getInputs()))
 							this->_forceStartMove(ACTION_FALLING);
 					}
 				}
