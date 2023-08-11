@@ -41,7 +41,7 @@
 #define IDLE_ANIM_CD_MAX 600
 
 #define PARRY_COST 100
-#define INSTALL_COST 300
+#define INSTALL_COST 200
 #define INSTALL_DURATION 30
 #define REFLECT_PERCENT 60
 #define COMBINATION_LENIENCY 4
@@ -3543,14 +3543,14 @@ namespace SpiralOfFate
 		else if (this->_position.x > 1000)
 			this->_position.x = 1000;
 
-		if (this->_position.x >= 0 && this->_position.x <= 1000) {
+		if (this->_position.x == 0 || this->_position.x == 1000) {
 			if (
 				!this->_willWallSplat ||
 				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
 			)
 				return;
-			this->_speed.x *= 0.1;
-			this->_speed.y *= -0.8;
+			this->_speed.x *= -0.1;
+			this->_speed.y = 7.5;
 			game->soundMgr.play(BASICSOUND_WALL_BOUNCE);
 			this->_forceStartMove(ACTION_WALL_SLAM);
 			this->_blockStun += WALL_SLAM_HITSTUN_INCREASE;
@@ -3565,7 +3565,7 @@ namespace SpiralOfFate
 		} else if (this->_position.y > 750)
 			this->_position.y = 750;
 
-		if (this->_position.y > 750 || this->_isGrounded()) {
+		if (this->_position.y == 750 || this->_isGrounded()) {
 			if (
 				!this->_willGroundSlam ||
 				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
