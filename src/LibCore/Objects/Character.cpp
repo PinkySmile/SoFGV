@@ -16,13 +16,8 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
-#define VOID_LIMIT_EFFECT (1U)
-#define MATTER_LIMIT_EFFECT (2U)
-#define SPIRIT_LIMIT_EFFECT (4U)
-#define NEUTRAL_LIMIT_EFFECT (8U)
 #define MAX_LIMIT_EFFECT_TIMER (15 << 4)
 #define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
-#define LIMIT_EFFECT_TIMER(x) (((x) & 0xF0) >> 4)
 
 #define MINIMUM_STALLING_STACKING (-1800)
 #define STALLING_HIT_REMOVE (75)

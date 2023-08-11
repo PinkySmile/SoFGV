@@ -10,22 +10,38 @@
 
 #define FIRST_TO 2
 #define INPUT_DISPLAY_SIZE 24
+#define LIMIT_SPRITE_VOID 0
+#define LIMIT_SPRITE_MATTER 2
+#define LIMIT_SPRITE_SPIRIT 4
+#define LIMIT_SPRITE_NEUTRAL 6
 
 namespace SpiralOfFate
 {
 	static const char *battleHudSprite[] = {
-		"assets/battleui/player_hud.png",       // BATTLEUI_HUD_SEAT
-		"assets/battleui/meterbars.png",        // BATTLEUI_MANA_BAR
-		"assets/battleui/guard.png",            // BATTLEUI_GUARD_TEXT
-		"assets/battleui/guardbar.png",         // BATTLEUI_GUARD_BAR
-		"assets/battleui/guard_red.png",        // BATTLEUI_GUARD_BAR_DISABLED
-		"assets/battleui/lifebar.png",          // BATTLEUI_LIFE_BAR
-		"assets/battleui/lifebar_red.png",      // BATTLEUI_LIFE_BAR_RED
-		"assets/battleui/lifebar_texture.png",  // BATTLEUI_LIFE_BAR_EFFECT
-		"assets/battleui/overdrive.png",        // BATTLEUI_OVERDRIVE
-		"assets/battleui/overdrive_outline.png",// BATTLEUI_OVERDRIVE_OUTLINE
-		"assets/battleui/round_container.png",  // BATTLEUI_SCORE_SEAT
-		"assets/battleui/round_point.png",      // BATTLEUI_SCORE_BULLET
+		"assets/battleui/player_hud.png",        // BATTLEUI_HUD_SEAT
+		"assets/battleui/meterbars.png",         // BATTLEUI_MANA_BAR
+		"assets/battleui/meterbars_disabled.png",// BATTLEUI_MANA_BAR_CROSS
+		"assets/battleui/guard.png",             // BATTLEUI_GUARD_TEXT
+		"assets/battleui/guardbar.png",          // BATTLEUI_GUARD_BAR
+		"assets/battleui/guard_red.png",         // BATTLEUI_GUARD_BAR_DISABLED
+		"assets/battleui/lifebar.png",           // BATTLEUI_LIFE_BAR
+		"assets/battleui/lifebar_red.png",       // BATTLEUI_LIFE_BAR_RED
+		"assets/battleui/lifebar_texture.png",   // BATTLEUI_LIFE_BAR_EFFECT
+		"assets/battleui/overdrive.png",         // BATTLEUI_OVERDRIVE
+		"assets/battleui/overdrive_outline.png", // BATTLEUI_OVERDRIVE_OUTLINE
+		"assets/battleui/round_container.png",   // BATTLEUI_SCORE_SEAT
+		"assets/battleui/round_point.png",       // BATTLEUI_SCORE_BULLET
+	};
+
+	static const char *limitSprites[] = {
+		"assets/battleui/void_limit.png",
+		"assets/battleui/void_limit2.png",
+		"assets/battleui/matter_limit.png",
+		"assets/battleui/matter_limit2.png",
+		"assets/battleui/spirit_limit.png",
+		"assets/battleui/spirit_limit2.png",
+		"assets/battleui/neutral_limit.png",
+		"assets/battleui/neutral_limit2.png"
 	};
 
 	BattleManager::BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter) :
@@ -132,6 +148,14 @@ namespace SpiralOfFate
 		this->_rightHUDIcon.setScale({s4, s4});
 		this->_rightHUDIcon.setPosition({0, 0});
 
+		for (int i = 0; i < 8; i++) {
+			this->_limitSprites[i].textureHandle = game->textureMgr.load(limitSprites[i]);
+			game->textureMgr.setTexture(this->_limitSprites[i]);
+			this->_limitSprites[i].setOrigin(
+				this->_limitSprites[i].getTexture()->getSize().x / 2.f,
+				this->_limitSprites[i].getTexture()->getSize().y / 2.f
+			);
+		}
 		for (int i = 0; i < BATTLEUI_NB_SPRITES; i++) {
 			this->_battleUi[i].textureHandle = game->textureMgr.load(battleHudSprite[i], nullptr, true);
 			game->textureMgr.setTexture(this->_battleUi[i]);
@@ -269,7 +293,7 @@ namespace SpiralOfFate
 			it++;
 		}
 		if (this->_leftFirst) {
-			this->_leftCharacter->render();
+			this->_renderCharacter(*this->_leftCharacter);
 			// <= 0, On top of background character
 			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj : it->second)
@@ -277,7 +301,7 @@ namespace SpiralOfFate
 				it++;
 			}
 		}
-		this->_rightCharacter->render();
+		this->_renderCharacter(*this->_rightCharacter);
 		if (!this->_leftFirst) {
 			// <= 50, On top of background character
 			while (it != objectLayers.end() && it->first <= 50) {
@@ -285,7 +309,7 @@ namespace SpiralOfFate
 					obj->render();
 				it++;
 			}
-			this->_leftCharacter->render();
+			this->_renderCharacter(*this->_leftCharacter);
 		}
 		while (it != objectLayers.end()) {
 			for (auto obj : it->second)
@@ -490,6 +514,8 @@ namespace SpiralOfFate
 		auto lchr = &*this->_leftCharacter;
 		auto rchr = &*this->_rightCharacter;
 
+		this->_limitAnimTimer++;
+		this->_limitAnimTimer %= 360;
 		for (auto &platform : this->_platforms)
 			platform->update();
 		if (!rdata->dFlag.flash || ldata->dFlag.flash)
@@ -569,7 +595,7 @@ namespace SpiralOfFate
 		my_assert(!lchr->isDead());
 		my_assert(!rchr->isDead());
 
-		// Not using std::remove_if because it doesn't work with MSVC for some reasons
+		// Not using std::remove_if because it doesn't work with MSVC for some reason
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i].second->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
@@ -629,6 +655,7 @@ namespace SpiralOfFate
 
 		game->logger.verbose("Saving BattleManager (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->random = game->battleRandom.ser.invoke_count;
+		dat->_limitAnimTimer = this->_limitAnimTimer;
 		dat->_ended = this->_ended;
 		dat->_lastObjectId = this->_lastObjectId;
 		dat->_leftHUDData = this->_leftHUDData;
@@ -674,6 +701,7 @@ namespace SpiralOfFate
 
 		if (dat->random != game->battleRandom.ser.invoke_count)
 			game->battleRandom.rollback(dat->random);
+		this->_limitAnimTimer = dat->_limitAnimTimer;
 		this->_ended = dat->_ended;
 		this->_currentFrame = dat->_currentFrame;
 		this->_lastObjectId = dat->_lastObjectId;
@@ -773,6 +801,71 @@ namespace SpiralOfFate
 	const std::vector<Character::ReplayData> &BattleManager::getRightReplayData() const
 	{
 		return this->_rightCharacter->getReplayData();
+	}
+
+	void BattleManager::_renderCharacter(const Character &chr)
+	{
+		for (int i = 0; i < 4; i++) {
+			this->_limitSprites[i * 2].setRotation(i * 33 - this->_limitAnimTimer);
+			this->_limitSprites[i * 2 + 1].setRotation(i * 33 - this->_limitAnimTimer);
+		}
+		if (chr._limitEffects & NEUTRAL_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_NEUTRAL].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_NEUTRAL].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_NEUTRAL]);
+		}
+		if (chr._limitEffects & MATTER_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_MATTER].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_MATTER].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_MATTER]);
+		}
+		if (chr._limitEffects & SPIRIT_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_SPIRIT].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_SPIRIT].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_SPIRIT]);
+		}
+		if (chr._limitEffects & VOID_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_VOID].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_VOID].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_VOID]);
+		}
+		chr.render();
+		if (chr._limitEffects & NEUTRAL_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_NEUTRAL + 1].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_NEUTRAL + 1].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_NEUTRAL + 1]);
+		}
+		if (chr._limitEffects & MATTER_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_MATTER + 1].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_MATTER + 1].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_MATTER + 1]);
+		}
+		if (chr._limitEffects & SPIRIT_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_SPIRIT + 1].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_SPIRIT + 1].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_SPIRIT + 1]);
+		}
+		if (chr._limitEffects & VOID_LIMIT_EFFECT) {
+			this->_limitSprites[LIMIT_SPRITE_VOID + 1].setPosition({
+				chr._position.x,
+				-chr._position.y - this->_limitSprites[LIMIT_SPRITE_VOID + 1].getTexture()->getSize().y / 2
+			});
+			game->textureMgr.render(this->_limitSprites[LIMIT_SPRITE_VOID + 1]);
+		}
 	}
 
 	void BattleManager::renderInputs()
@@ -975,6 +1068,8 @@ namespace SpiralOfFate
 			game->logger.fatal("BattleManager::roundStartTimer differs: " + std::to_string(dat1->_roundStartTimer) + " vs " + std::to_string(dat2->_roundStartTimer));
 		if (dat1->_roundEndTimer != dat2->_roundEndTimer)
 			game->logger.fatal("BattleManager::roundEndTimer differs: " + std::to_string(dat1->_roundEndTimer) + " vs " + std::to_string(dat2->_roundEndTimer));
+		if (dat1->_limitAnimTimer != dat2->_limitAnimTimer)
+			game->logger.fatal("BattleManager::limitAnimTimer differs: " + std::to_string(dat1->_limitAnimTimer) + " vs " + std::to_string(dat2->_limitAnimTimer));
 		if (dat1->_nbObjects != dat2->_nbObjects)
 			game->logger.fatal("BattleManager::nbObjects differs: " + std::to_string(dat1->_nbObjects) + " vs " + std::to_string(dat2->_nbObjects));
 
@@ -1084,6 +1179,7 @@ namespace SpiralOfFate
 			game->logger.warn("Manager is " + std::to_string(sizeof(Data) - size) + " bytes bigger than input");
 		game->logger.info("BattleManager::random: " + std::to_string(dat1->random));
 		game->logger.info("BattleManager::_currentFrame: " + std::to_string(dat1->_currentFrame));
+		game->logger.info("BattleManager::_limitAnimTimer: " + std::to_string(dat1->_limitAnimTimer));
 		game->logger.info("BattleManager::ended: " + std::to_string(dat1->_ended));
 		game->logger.info("BattleManager::lastObjectId: " + std::to_string(dat1->_lastObjectId));
 		game->logger.info("BattleManager::leftHUDData.comboCtr: " + std::to_string(dat1->_leftHUDData.comboCtr));
@@ -1395,7 +1491,12 @@ namespace SpiralOfFate
 		output.draw(this->mgr._battleUi[BATTLEUI_MANA_BAR], sf::BlendNone);
 		output.draw(this->icon);
 
-		this->renderMeterBar(output, {134, 660}, (float)this->base._mana / this->base._manaMax, {200, 200, 200}, {200, 200, 0});
+		if (LIMIT_EFFECT_TIMER(this->base._limitEffects)) {
+			this->renderMeterBar(output, {134, 660}, (float)this->base._mana / this->base._manaMax, {50, 50, 50}, {50, 50, 0});
+			this->mgr._battleUi[BATTLEUI_MANA_BAR_CROSS].setPosition(130, 655);
+			output.draw(this->mgr._battleUi[BATTLEUI_MANA_BAR_CROSS], sf::BlendAlpha);
+		} else
+			this->renderMeterBar(output, {134, 660}, (float)this->base._mana / this->base._manaMax, {200, 200, 200}, {200, 200, 0});
 		if (this->base._stallingFactor > STALLING_PENALTY_THRESHOLD) {
 			this->mgr._stallDown.setPosition(320, 620);
 			this->mgr._stallDown.setTextureRect({

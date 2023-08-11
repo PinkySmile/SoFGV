@@ -184,8 +184,7 @@ namespace SpiralOfFate
 
 	sf::Texture *TextureManager::setTexture(Sprite &sprite)
 	{
-		if (!sprite.textureHandle)
-			return nullptr;
+		my_assert(sprite.textureHandle);
 		sprite.setTexture(this->_textures.at(sprite.textureHandle));
 		return &this->_textures.at(sprite.textureHandle);
 	}
