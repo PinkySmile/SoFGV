@@ -16,6 +16,14 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define VOID_LIMIT_EFFECT (1U)
+#define MATTER_LIMIT_EFFECT (2U)
+#define SPIRIT_LIMIT_EFFECT (4U)
+#define NEUTRAL_LIMIT_EFFECT (8U)
+#define MAX_LIMIT_EFFECT_TIMER (15 << 4)
+#define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
+#define LIMIT_EFFECT_TIMER(x) (((x) & 0xF0) >> 4)
+
 #define MINIMUM_STALLING_STACKING (-1800)
 #define STALLING_HIT_REMOVE (75)
 #define STALLING_BLOCK_REMOVE (25)
@@ -657,6 +665,12 @@ namespace SpiralOfFate
 		}
 
 		this->_tickMove();
+		if (this->_limitEffects & VOID_LIMIT_EFFECT) {
+			auto diff = this->_opponent->_position.x - this->_position.x;
+			auto dist = std::abs(diff);
+
+			this->_position.x += std::copysign(4, diff) / (std::pow(2, dist / 100));
+		}
 		if (!this->_ultimateUsed) {
 			this->_mana += this->_manaMax * this->_regen;
 			if (this->_mana > this->_manaMax)
@@ -813,6 +827,20 @@ namespace SpiralOfFate
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
 		}
+		if (
+			!isHitAction(this->_action)&&
+			this->_action != ACTION_UP_AIR_TECH &&
+			this->_action != ACTION_DOWN_AIR_TECH &&
+			this->_action != ACTION_FORWARD_AIR_TECH &&
+			this->_action != ACTION_BACKWARD_AIR_TECH &&
+			this->_action != ACTION_BEING_KNOCKED_DOWN &&
+			this->_action != ACTION_KNOCKED_DOWN &&
+			this->_action != ACTION_FORWARD_TECH &&
+			this->_action != ACTION_NEUTRAL_TECH &&
+			this->_action != ACTION_BACKWARD_TECH &&
+			LIMIT_EFFECT_TIMER(this->_limitEffects)
+		)
+			DEC_LIMIT_EFFECT_TIMER(this->_limitEffects);
 	}
 
 	void Character::init(BattleManager &, const InitData &data)
@@ -1196,6 +1224,8 @@ namespace SpiralOfFate
 			return false;
 		if (this->_mana < data.manaCost)
 			return false;
+		if (data.manaCost && LIMIT_EFFECT_TIMER(this->_limitEffects))
+			return false;
 		if (action == ACTION_UP_AIR_TECH || action == ACTION_DOWN_AIR_TECH || action == ACTION_FORWARD_AIR_TECH || action == ACTION_BACKWARD_AIR_TECH) {
 			for (auto limit : this->_limit)
 				if (limit >= 100)
@@ -1290,8 +1320,12 @@ namespace SpiralOfFate
 
 			auto inputs = this->_getInputs();
 
-			if (this->_hardKD)
-				return this->_forceStartMove(ACTION_NEUTRAL_TECH);
+			if (this->_hardKD || (this->_limitEffects & MATTER_LIMIT_EFFECT)) {
+				this->_forceStartMove(ACTION_NEUTRAL_TECH);
+				this->_actionBlock = 1;
+				my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
+				return;
+			}
 
 			switch (this->_dummyGroundTech) {
 			case GROUNDTECH_NONE:
@@ -1617,11 +1651,7 @@ namespace SpiralOfFate
 				this->_specialInputs._av = -COMBINATION_LENIENCY;
 		}
 		if (
-			action != ACTION_AIR_HIT &&
-			action != ACTION_GROUND_LOW_HIT &&
-			action != ACTION_GROUND_HIGH_HIT &&
-			action != ACTION_GROUND_SLAM &&
-			action != ACTION_WALL_SLAM &&
+			!isHitAction(action) &&
 			action != ACTION_UP_AIR_TECH &&
 			action != ACTION_DOWN_AIR_TECH &&
 			action != ACTION_FORWARD_AIR_TECH &&
@@ -1638,6 +1668,8 @@ namespace SpiralOfFate
 			this->_opponent->_usedMoves.clear();
 			this->_counter = false;
 			this->_hardKD = false;
+			if (action != ACTION_FORWARD_TECH && action != ACTION_NEUTRAL_TECH && action != ACTION_BACKWARD_TECH)
+				this->_limitEffects &= ~(MATTER_LIMIT_EFFECT | NEUTRAL_LIMIT_EFFECT | VOID_LIMIT_EFFECT | SPIRIT_LIMIT_EFFECT);
 		}
 		Object::_forceStartMove(action);
 	}
@@ -3476,12 +3508,26 @@ namespace SpiralOfFate
 		}
 		this->_blockStun = stun;
 		this->_totalDamage += damage;
+		if (this->_comboCtr == 0)
+			this->_limitEffects = 0;
 		this->_comboCtr++;
 		this->_prorate *= std::pow(data.prorate / 100, (nb + 1));
 		this->_limit[0] += data.neutralLimit * (nb + 1);
 		this->_limit[1] += data.voidLimit * (nb + 1);
 		this->_limit[2] += data.matterLimit * (nb + 1);
 		this->_limit[3] += data.spiritLimit * (nb + 1);
+		if (this->_limit[0] >= 100) {
+			this->_opponent->Object::_forceStartMove(this->_opponent->_isGrounded() ? ACTION_ROMAN_CANCEL : ACTION_AIR_ROMAN_CANCEL);
+			this->_limitEffects |= NEUTRAL_LIMIT_EFFECT;
+		}
+		if (this->_limit[1] >= 100)
+			this->_limitEffects |= VOID_LIMIT_EFFECT;
+		if (this->_limit[2] >= 100)
+			this->_limitEffects |= MATTER_LIMIT_EFFECT;
+		if (this->_limit[3] >= 100) {
+			this->_limitEffects |= SPIRIT_LIMIT_EFFECT;
+			this->_limitEffects |= MAX_LIMIT_EFFECT_TIMER;
+		}
 		this->_hardKD = data.oFlag.hardKnockDown;
 		if (this->_hp > damage)
 			this->_hp -= damage;
@@ -3643,6 +3689,7 @@ namespace SpiralOfFate
 		Object::copyToBuffer(data);
 		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hardKD = this->_hardKD;
+		dat->_limitEffects = this->_limitEffects;
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
@@ -3715,6 +3762,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_hardKD = dat->_hardKD;
+		this->_limitEffects = dat->_limitEffects;
 		this->_neutralEffectTimer = dat->_neutralEffectTimer;
 		this->_matterEffectTimer = dat->_matterEffectTimer;
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
@@ -4164,6 +4212,8 @@ namespace SpiralOfFate
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
 		game->logger.info("Character @" + std::to_string(startOffset + length));
+		if (dat1->_limitEffects != dat2->_limitEffects)
+			game->logger.fatal(std::string(msgStart) + "Character::_limitEffects: " + std::to_string(dat1->_limitEffects) + " vs " + std::to_string(dat2->_limitEffects));
 		if (dat1->_hardKD != dat2->_hardKD)
 			game->logger.fatal(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat1->_hardKD) + " vs " + std::to_string(dat2->_hardKD));
 		if (dat1->_neutralEffectTimer != dat2->_neutralEffectTimer)
@@ -4611,6 +4661,7 @@ namespace SpiralOfFate
 			game->logger.warn("Object is " + std::to_string(startOffset + len - dataSize) + " bytes bigger than input");
 		game->logger.info("Character @" + std::to_string(startOffset + length));
 		game->logger.info(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat->_hardKD));
+		game->logger.info(std::string(msgStart) + "Character::_limitEffects: " + std::to_string(dat->_limitEffects));
 		game->logger.info(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat->_neutralEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
