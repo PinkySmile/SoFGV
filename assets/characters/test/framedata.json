@@ -17252,14 +17252,14 @@
             }
           ],
           "mana_gain": 10,
-          "offense_flag": 2097680,
+          "offense_flag": 2099728,
           "offset": {
             "x": 1,
             "y": -15
           },
           "prorate": 92.0,
           "push_block": 1,
-          "rotation": 29.119999717507557,
+          "rotation": 38.36000105228605,
           "size": {
             "x": 112,
             "y": 196
@@ -17269,7 +17269,7 @@
             "x": 3,
             "y": 0
           },
-          "spirit_limit": 10,
+          "spirit_limit": 5,
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 98,
@@ -17347,24 +17347,23 @@
             }
           ],
           "mana_gain": 10,
-          "offense_flag": 2097680,
+          "offense_flag": 2107920,
           "offset": {
             "x": 1,
             "y": -15
           },
           "prorate": 92.0,
           "push_block": 1,
-          "rotation": 29.119999717507557,
+          "rotation": 38.36000105228605,
           "size": {
             "x": 112,
             "y": 196
           },
-          "sound": "assets/sfxs/se/remilia/012.wav",
           "speed": {
             "x": 3,
             "y": 0
           },
-          "spirit_limit": 10,
+          "spirit_limit": 5,
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 98,
@@ -17442,24 +17441,23 @@
             }
           ],
           "mana_gain": 10,
-          "offense_flag": 2097680,
+          "offense_flag": 2107920,
           "offset": {
             "x": 1,
             "y": -15
           },
           "prorate": 92.0,
           "push_block": 1,
-          "rotation": 29.119999717507557,
+          "rotation": 38.36000105228605,
           "size": {
             "x": 112,
             "y": 196
           },
-          "sound": "assets/sfxs/se/remilia/012.wav",
           "speed": {
             "x": 3,
             "y": 0
           },
-          "spirit_limit": 10,
+          "spirit_limit": 5,
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 98,
@@ -17537,24 +17535,23 @@
             }
           ],
           "mana_gain": 10,
-          "offense_flag": 2097680,
+          "offense_flag": 2107920,
           "offset": {
             "x": 1,
             "y": -15
           },
           "prorate": 92.0,
           "push_block": 1,
-          "rotation": 29.119999717507557,
+          "rotation": 38.36000105228605,
           "size": {
             "x": 112,
             "y": 196
           },
-          "sound": "assets/sfxs/se/remilia/012.wav",
           "speed": {
             "x": 3,
             "y": 0
           },
-          "spirit_limit": 10,
+          "spirit_limit": 5,
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 98,
@@ -17632,19 +17629,18 @@
             }
           ],
           "mana_gain": 10,
-          "offense_flag": 2097680,
+          "offense_flag": 2107920,
           "offset": {
             "x": 1,
             "y": -15
           },
           "prorate": 92.0,
           "push_block": 1,
-          "rotation": 29.119999717507557,
+          "rotation": 38.36000105228605,
           "size": {
             "x": 112,
             "y": 196
           },
-          "sound": "assets/sfxs/se/remilia/012.wav",
           "speed": {
             "x": 3,
             "y": 0
