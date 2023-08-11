@@ -15,6 +15,7 @@ namespace SpiralOfFate
 	enum BattleUiSprite {
 		BATTLEUI_HUD_SEAT,
 		BATTLEUI_MANA_BAR,
+		BATTLEUI_MANA_BAR_CROSS,
 		BATTLEUI_GUARD_TEXT,
 		BATTLEUI_GUARD_BAR,
 		BATTLEUI_GUARD_BAR_DISABLED,
@@ -84,18 +85,19 @@ namespace SpiralOfFate
 		static_assert(sizeof(HUDDataPacked) == 50, "HUDDataPacket has wrong size");
 
 		struct Data {
+			uint64_t random;
 			unsigned _currentFrame;
 			unsigned _lastObjectId;
 			unsigned _currentRound;
 			unsigned _roundEndTimer;
 			unsigned _nbObjects;
 			int _roundStartTimer;
-			uint64_t random;
 			HUDDataPacked _leftHUDData;
 			HUDDataPacked _rightHUDData;
+			unsigned short _limitAnimTimer;
 			bool _ended;
 		};
-		static_assert(sizeof(Data) == 133, "Data has wrong size");
+		static_assert(sizeof(Data) == 135, "Data has wrong size");
 #pragma pack(pop)
 
 		// Non-Game State
@@ -119,11 +121,11 @@ namespace SpiralOfFate
 		Sprite _oosBubble;
 		Sprite _oosBubbleMask;
 		Sprite _battleUi[BATTLEUI_NB_SPRITES];
+		Sprite _limitSprites[8];
 		sf::Sprite _roundSprite;
 		sf::Texture _cross;
 		std::vector<sf::Texture> _roundSprites;
 		unsigned char _speed = 60;
-		unsigned _lastObjectId = 0;
 		//TODO: Also save these in the rollback
 		std::vector<std::unique_ptr<IObject>> _stageObjects;
 		std::array<unsigned, NB_SPRITES> _moveSprites;
@@ -135,9 +137,11 @@ namespace SpiralOfFate
 		std::vector<std::shared_ptr<Platform>> _platforms;
 		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
 		unsigned _currentRound = 0;
-		int _roundStartTimer = 0;
+		unsigned _lastObjectId = 0;
 		unsigned _roundEndTimer = 0;
 		unsigned _currentFrame = 0;
+		int _roundStartTimer = 0;
+		unsigned short _limitAnimTimer = 0;
 		bool _ended = false;
 		HUDData _leftHUDData;
 		HUDData _rightHUDData;
@@ -152,6 +156,7 @@ namespace SpiralOfFate
 		void _renderRoundStartAnimation() const;
 		void _renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side);
 		void _renderButton(unsigned spriteId, float offset, int k, Vector2f pos);
+		void _renderCharacter(const Character &chr);
 
 	public:
 		struct CharacterParams {

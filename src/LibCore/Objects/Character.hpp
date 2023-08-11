@@ -23,6 +23,11 @@
 
 #define START_STALLING_THRESHOLD (450)
 #define STALLING_PENALTY_THRESHOLD (800)
+#define VOID_LIMIT_EFFECT (1U)
+#define MATTER_LIMIT_EFFECT (2U)
+#define SPIRIT_LIMIT_EFFECT (4U)
+#define NEUTRAL_LIMIT_EFFECT (8U)
+#define LIMIT_EFFECT_TIMER(x) (((x) & 0xF0) >> 4)
 
 namespace SpiralOfFate
 {
