@@ -427,6 +427,7 @@ namespace SpiralOfFate
 			bool _restand;
 			bool _justGotCorner;
 			char _normalTreeFlag;
+			char _limitEffects;
 			bool _armorUsed;
 			bool _hardKD;
 			bool _willGroundSlam;
@@ -435,7 +436,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 724, "Data has wrong size");
+		static_assert(sizeof(Data) == 725, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -569,6 +570,7 @@ namespace SpiralOfFate
 		bool _hardKD = false;
 		bool _willGroundSlam = false;
 		bool _willWallSplat = false;
+		char _limitEffects = 0;
 		char _normalTreeFlag = 0;
 
 		// Non-game state
