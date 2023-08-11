@@ -104,9 +104,9 @@ namespace SpiralOfFate
 		my_assert2(stat(path.c_str(), &s) >= 0, "Cannot stat " + path + ": " + strerror(errno));
 		result.resize(s.st_size);
 
-		std::ifstream stream{path};
+		std::ifstream stream{path, std::ifstream::binary};
 
-		my_assert2(stream, "Cannot stat " + path + ": " + strerror(errno));
+		my_assert2(stream, "Cannot open " + path + ": " + strerror(errno));
 		stream.read(result.data(), result.size());
 #endif
 		return result;
