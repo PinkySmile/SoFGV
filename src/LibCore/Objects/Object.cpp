@@ -199,6 +199,9 @@ namespace SpiralOfFate
 
 	void Object::update()
 	{
+#ifdef _DEBUG
+		this->_cacheComputed = false;
+#endif
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->_computeFrameDataCache();
@@ -293,6 +296,9 @@ namespace SpiralOfFate
 
 	const FrameData *Object::getCurrentFrameData() const
 	{
+#ifdef _DEBUG
+		//my_assert(this->_cacheComputed);
+#endif
 		return &this->_fdCache;
 	}
 
@@ -441,12 +447,13 @@ namespace SpiralOfFate
 		this->_speed += Vector2f{this->_dir * data->speed.x, static_cast<float>(data->speed.y)};
 		this->_position += this->_speed;
 		this->_checkPlatforms(oldPos);
-		if (!this->_isGrounded()) {
+		if (data->dFlag.airborne) {
 			this->_speed.x *= this->_airDrag.x;
 			this->_speed.y *= this->_airDrag.y;
-			this->_speed.y += this->_gravity.y;
 		} else
-			this->_speed *= this->_groundDrag;
+			this->_speed.x *= this->_groundDrag;
+		if (!this->_isGrounded())
+			this->_speed.y += this->_gravity.y;
 		this->_speed.x += this->_gravity.x * this->_dir;
 	}
 
@@ -692,6 +699,9 @@ namespace SpiralOfFate
 		} catch (std::out_of_range &) {
 			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
+#ifdef _DEBUG
+		this->_cacheComputed = true;
+#endif
 	}
 
 	bool Object::isDisabled(const IObject &) const

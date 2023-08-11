@@ -650,6 +650,7 @@ namespace SpiralOfFate
 		static SubObjectAnchor anchorFromString(const std::string &str);
 		static SubObjectDirection directionFromString(const std::string &str);
 
+		void _processGroundedEvents();
 		void _processStallingFactor();
 		bool _getProjectileDirection(const SubObjectData &data);
 		float _getAnchoredPos(const Character::SubObjectData &data, bool y);
