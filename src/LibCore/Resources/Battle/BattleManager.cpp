@@ -807,7 +807,7 @@ namespace SpiralOfFate
 	{
 		for (int i = 0; i < 4; i++) {
 			this->_limitSprites[i * 2].setRotation(i * 33 - this->_limitAnimTimer);
-			this->_limitSprites[i * 2 + 1].setRotation(i * 33 - this->_limitAnimTimer);
+			this->_limitSprites[i * 2 + 1].setRotation(i * 33 + this->_limitAnimTimer);
 		}
 		if (chr._limitEffects & NEUTRAL_LIMIT_EFFECT) {
 			this->_limitSprites[LIMIT_SPRITE_NEUTRAL].setPosition({

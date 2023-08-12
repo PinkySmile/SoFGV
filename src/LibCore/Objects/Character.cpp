@@ -751,6 +751,7 @@ namespace SpiralOfFate
 				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		}
 
+		this->_processGroundedEvents();
 		if (!this->_blockStun)
 			this->_processInput(input);
 		else if (isHitAction(this->_action)) {
@@ -768,7 +769,6 @@ namespace SpiralOfFate
 		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
-		this->_processGroundedEvents();
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
 		this->_processWallSlams();

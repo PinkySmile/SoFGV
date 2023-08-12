@@ -74,8 +74,8 @@ namespace SpiralOfFate
 		bool _cacheComputed = true;
 #endif
 		mutable Sprite _sprite;
-		Vector2f _airDrag = {0.99, 0.99};
-		float _groundDrag = 0.75;
+		Vector2f _airDrag = {1, 1};
+		float _groundDrag = 1;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _moves;
 		float _baseRotation = 0;
 		Vector2f _baseGravity = {0, 0};
