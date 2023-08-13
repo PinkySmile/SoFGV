@@ -956,8 +956,6 @@ namespace SpiralOfFate
 			int spriteId = SPRITE_1 + dir - 1;
 			float offset = off;
 
-
-			game->textureMgr.setTexture(sprite);
 			if (dir != 5) {
 				if (spriteId > SPRITE_4)
 					spriteId -= 1;
