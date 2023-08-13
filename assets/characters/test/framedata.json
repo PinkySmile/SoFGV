@@ -14732,7 +14732,7 @@
           },
           "counter_hit_speed": {
             "x": 1,
-            "y": -32
+            "y": -28
           },
           "damage": 850,
           "defense_flag": 16640,
@@ -14755,7 +14755,7 @@
           "hit_sound": "assets/sfxs/se/005.wav",
           "hit_speed": {
             "x": 1,
-            "y": -30
+            "y": -24
           },
           "hit_stun": 25,
           "hurt_boxes": [

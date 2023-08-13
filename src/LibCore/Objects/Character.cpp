@@ -16,6 +16,8 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
+#define GRAB_INVUL_STACK 9
+
 #define MAX_LIMIT_EFFECT_TIMER (15 << 4)
 #define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
 
@@ -584,6 +586,9 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
+#ifdef _DEBUG
+		this->_cacheComputed = false;
+#endif
 		this->_hasHitDuringFrame = false;
 		this->_hasBeenHitDuringFrame = false;
 		this->_gotHitStopReset = false;
@@ -609,7 +614,6 @@ namespace SpiralOfFate
 		} else
 			this->_timeSinceIdle = 0;
 
-		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 		auto input = this->_updateInputs();
 
 		if (this->_matterInstallTimer)
@@ -674,7 +678,13 @@ namespace SpiralOfFate
 
 		if (this->_action == ACTION_FALLING_TECH && this->_isGrounded())
 			this->_forceStartMove(ACTION_IDLE);
-		if ((this->_action == ACTION_NEUTRAL_TECH || this->_action == ACTION_FORWARD_TECH || this->_action == ACTION_BACKWARD_TECH) && !this->_isGrounded())
+		if ((
+			this->_action == ACTION_NEUTRAL_TECH ||
+			this->_action == ACTION_FORWARD_TECH ||
+			this->_action == ACTION_BACKWARD_TECH ||
+			this->_action == ACTION_KNOCKED_DOWN ||
+			this->_action == ACTION_BEING_KNOCKED_DOWN
+		) && !this->_isGrounded())
 			this->_forceStartMove(ACTION_FALLING_TECH);
 
 		if (
@@ -691,9 +701,11 @@ namespace SpiralOfFate
 			this->_action == ACTION_GROUND_LOW_NEUTRAL_BLOCK ||
 			this->_action == ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK
 		)
-			this->_grabInvul = 6;
+			this->_grabInvul = GRAB_INVUL_STACK;
 		else if (this->_grabInvul)
 			this->_grabInvul--;
+
+		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
 		if (this->_blockStun) {
 			this->_blockStun--;
@@ -739,56 +751,7 @@ namespace SpiralOfFate
 				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		}
 
-		if (this->_isGrounded()) {
-			this->_airDashesUsed = 0;
-			if (this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
-				this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
-			if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
-				this->_forceStartMove(ACTION_HARD_LAND);
-			else if (
-				this->_speed.y <= 0 &&
-				this->_action != ACTION_BEING_KNOCKED_DOWN &&
-				this->_action != ACTION_KNOCKED_DOWN &&
-				this->_action != ACTION_NEUTRAL_TECH &&
-				this->_action != ACTION_FORWARD_TECH &&
-				this->_action != ACTION_BACKWARD_TECH &&
-				this->_action != ACTION_FALLING_TECH && (
-					this->_action == ACTION_AIR_HIT ||
-					this->_action == ACTION_GROUND_SLAM ||
-					this->_action == ACTION_WALL_SLAM ||
-					limited ||
-					this->_hp <= 0
-				)
-			) {
-				if (!this->_restand) {
-					this->_blockStun = 0;
-					game->soundMgr.play(BASICSOUND_KNOCKDOWN);
-					this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
-				} else {
-					this->_restand = false;
-					this->_forceStartMove(ACTION_GROUND_HIGH_HIT);
-					this->_actionBlock = 1;
-				}
-			} else if ((
-				this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
-				this->_action == ACTION_AIR_NEUTRAL_PARRY ||
-				this->_action == ACTION_AIR_MATTER_PARRY ||
-				this->_action == ACTION_AIR_VOID_PARRY ||
-				this->_action == ACTION_AIR_SPIRIT_PARRY ||
-				this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK
-			)) {
-				this->_blockStun = 0;
-				this->_forceStartMove(ACTION_IDLE);
-			} else if (
-				this->_action != ACTION_NEUTRAL_JUMP &&
-				this->_action != ACTION_FORWARD_JUMP &&
-				this->_action != ACTION_BACKWARD_JUMP &&
-				this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
-				this->_action != ACTION_FORWARD_HIGH_JUMP &&
-				this->_action != ACTION_BACKWARD_HIGH_JUMP
-			)
-				this->_jumpsUsed = 0;
-		}
+		this->_processGroundedEvents();
 		if (!this->_blockStun)
 			this->_processInput(input);
 		else if (isHitAction(this->_action)) {
@@ -4792,5 +4755,62 @@ namespace SpiralOfFate
 			return 0;
 		}
 		return len;
+	}
+
+	void Character::_processGroundedEvents()
+	{
+		if (!this->_isGrounded())
+			return;
+
+		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
+
+		this->_airDashesUsed = 0;
+		if (this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
+			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
+		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)
+			this->_forceStartMove(ACTION_HARD_LAND);
+		else if (
+			this->_speed.y <= 0 &&
+			this->_action != ACTION_BEING_KNOCKED_DOWN &&
+			this->_action != ACTION_KNOCKED_DOWN &&
+			this->_action != ACTION_NEUTRAL_TECH &&
+			this->_action != ACTION_FORWARD_TECH &&
+			this->_action != ACTION_BACKWARD_TECH &&
+			this->_action != ACTION_FALLING_TECH && (
+				this->_action == ACTION_AIR_HIT ||
+				this->_action == ACTION_GROUND_SLAM ||
+				this->_action == ACTION_WALL_SLAM ||
+				limited ||
+				this->_hp <= 0
+			)
+		) {
+			if (!this->_restand) {
+				this->_blockStun = 0;
+				game->soundMgr.play(BASICSOUND_KNOCKDOWN);
+				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
+			} else {
+				this->_restand = false;
+				this->_forceStartMove(ACTION_GROUND_HIGH_HIT);
+				this->_actionBlock = 1;
+			}
+		} else if ((
+			this->_action == ACTION_AIR_NEUTRAL_BLOCK ||
+			this->_action == ACTION_AIR_NEUTRAL_PARRY ||
+			this->_action == ACTION_AIR_MATTER_PARRY ||
+			this->_action == ACTION_AIR_VOID_PARRY ||
+			this->_action == ACTION_AIR_SPIRIT_PARRY ||
+			this->_action == ACTION_AIR_NEUTRAL_WRONG_BLOCK
+		)) {
+			this->_blockStun = 0;
+			this->_forceStartMove(ACTION_IDLE);
+		} else if (
+			this->_action != ACTION_NEUTRAL_JUMP &&
+			this->_action != ACTION_FORWARD_JUMP &&
+			this->_action != ACTION_BACKWARD_JUMP &&
+			this->_action != ACTION_NEUTRAL_HIGH_JUMP &&
+			this->_action != ACTION_FORWARD_HIGH_JUMP &&
+			this->_action != ACTION_BACKWARD_HIGH_JUMP
+		)
+			this->_jumpsUsed = 0;
 	}
 }
