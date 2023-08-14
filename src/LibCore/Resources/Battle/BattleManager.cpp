@@ -516,22 +516,37 @@ namespace SpiralOfFate
 
 		this->_limitAnimTimer++;
 		this->_limitAnimTimer %= 360;
-		for (auto &platform : this->_platforms)
+		for (auto &platform : this->_platforms) {
+			platform->_cacheComputed = false;
 			platform->update();
-		if (!rdata->dFlag.flash || ldata->dFlag.flash)
+			platform->_computeFrameDataCache();
+		}
+		if (!rdata->dFlag.flash || ldata->dFlag.flash) {
+			lchr->_cacheComputed = false;
 			lchr->update();
-		if (!ldata->dFlag.flash)
+			lchr->_computeFrameDataCache();
+		}
+		if (!ldata->dFlag.flash) {
+			rchr->_cacheComputed = false;
 			rchr->update();
+			rchr->_computeFrameDataCache();
+		}
 
 		ldata = this->_leftCharacter->getCurrentFrameData();
 		rdata = this->_rightCharacter->getCurrentFrameData();
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
 			auto size = this->_objects.size();
 
-			for (unsigned i = 0; i < size; i++)
+			for (unsigned i = 0; i < size; i++) {
+				this->_objects[i].second->_cacheComputed = false;
 				this->_objects[i].second->update();
-			for (auto &object : this->_stageObjects)
+				this->_objects[i].second->_computeFrameDataCache();
+			}
+			for (auto &object : this->_stageObjects) {
+				object->_cacheComputed = false;
 				object->update();
+				object->_computeFrameDataCache();
+			}
 			if (lchr->hits(*rchr))
 				collisions.emplace_back(&*lchr, &*rchr, lchr->getCurrentFrameData());
 			if (rchr->hits(*lchr))

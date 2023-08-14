@@ -586,16 +586,12 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
-#ifdef _DEBUG
-		this->_cacheComputed = false;
-#endif
 		this->_hasHitDuringFrame = false;
 		this->_hasBeenHitDuringFrame = false;
 		this->_gotHitStopReset = false;
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->updateInputs();
-			this->_computeFrameDataCache();
 			return;
 		}
 		if (this->_action == ACTION_IDLE) {
@@ -751,7 +747,6 @@ namespace SpiralOfFate
 				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		}
 
-		this->_processGroundedEvents();
 		if (!this->_blockStun)
 			this->_processInput(input);
 		else if (isHitAction(this->_action)) {
@@ -766,12 +761,12 @@ namespace SpiralOfFate
 				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
 				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
-		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
 		this->_processWallSlams();
+		this->_processGroundedEvents();
 		if (!isHitAction(this->_action) && !isBlockingAction(this->_action))
 			this->_processStallingFactor();
 

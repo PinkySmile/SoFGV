@@ -13,6 +13,11 @@ namespace SpiralOfFate
 	class BattleManager;
 
 	class IObject {
+	protected:
+		bool _cacheComputed = false;
+
+		virtual void _computeFrameDataCache() = 0;
+
 	public:
 		bool showBoxes = false;
 
@@ -36,6 +41,8 @@ namespace SpiralOfFate
 		virtual unsigned getClassId() const = 0;
 		virtual int getLayer() const = 0;
 		virtual bool isDisabled(const IObject &target) const = 0;
+
+		friend class BattleManager;
 	};
 }
 
