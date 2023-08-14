@@ -23,6 +23,7 @@ namespace SpiralOfFate
 		"assets/battleui/meterbars_disabled.png",// BATTLEUI_MANA_BAR_CROSS
 		"assets/battleui/guard.png",             // BATTLEUI_GUARD_TEXT
 		"assets/battleui/guardbar.png",          // BATTLEUI_GUARD_BAR
+		"assets/battleui/guardbartmp.png",       // BATTLEUI_GUARD_BAR_TMP
 		"assets/battleui/guard_red.png",         // BATTLEUI_GUARD_BAR_DISABLED
 		"assets/battleui/lifebar.png",           // BATTLEUI_LIFE_BAR
 		"assets/battleui/lifebar_red.png",       // BATTLEUI_LIFE_BAR_RED
@@ -1422,14 +1423,26 @@ namespace SpiralOfFate
 		                 std::pair<int, int>(this->base._maxGuardCooldown - this->base._guardCooldown, this->base._maxGuardCooldown) :
 		                 std::pair<int, int>(this->base._guardBar, this->base._maxGuardBar);
 		auto guardId = this->base._guardCooldown ? BATTLEUI_GUARD_BAR_DISABLED : BATTLEUI_GUARD_BAR;
+		auto width = game->textureMgr.getTextureSize(this->mgr._battleUi[guardId].textureHandle).x * guardVals.first / guardVals.second;
 
 		this->mgr._battleUi[guardId].setPosition(260, 78);
 		this->mgr._battleUi[guardId].setTextureRect({
-			0, 0,
-			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[guardId].textureHandle).x * guardVals.first / guardVals.second),
+			0, 0, static_cast<int>(width),
 			static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[guardId].textureHandle).y)
 		});
 		output.draw(this->mgr._battleUi[guardId], sf::BlendNone);
+
+		if (!this->base._guardCooldown) {
+			auto sizeX = game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_GUARD_BAR_TMP].textureHandle).x;
+
+			this->mgr._battleUi[BATTLEUI_GUARD_BAR_TMP].setPosition(260 + width, 78);
+			this->mgr._battleUi[BATTLEUI_GUARD_BAR_TMP].setTextureRect({
+				static_cast<int>(width), 0,
+				static_cast<int>(sizeX * (this->base._guardBarTmp / 2 + this->base._guardBar) / this->base._maxGuardBar - width),
+				static_cast<int>(game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_GUARD_BAR_TMP].textureHandle).y)
+			});
+			output.draw(this->mgr._battleUi[BATTLEUI_GUARD_BAR_TMP], sf::BlendNone);
+		}
 
 		this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setScale(this->side ? -1 : 1, 1);
 		this->mgr._battleUi[BATTLEUI_GUARD_TEXT].setPosition(222 + game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_GUARD_TEXT].textureHandle).x / 2, 62);

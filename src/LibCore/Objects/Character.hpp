@@ -396,6 +396,7 @@ namespace SpiralOfFate
 			unsigned _limit[4];
 			unsigned _subObjects[128];
 			int _timeSinceIdle;
+			unsigned _guardBarTmp;
 			unsigned _grabInvul;
 			unsigned _supersUsed;
 			unsigned _skillsUsed;
@@ -441,7 +442,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 725, "Data has wrong size");
+		static_assert(sizeof(Data) == 729, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -547,6 +548,7 @@ namespace SpiralOfFate
 		unsigned _totalDamage = 0;
 		unsigned _guardCooldown = 0;
 		unsigned _guardBar = 0;
+		unsigned _guardBarTmp = 0;
 		unsigned _guardRegenCd = 0;
 		unsigned _grabInvul = 0;
 		unsigned _neutralEffectTimer = 0;
@@ -615,7 +617,6 @@ namespace SpiralOfFate
 		virtual void _parryVoidEffect(Object *other, bool isStrongest);
 		virtual void _parryMatterEffect(Object *other, bool isStrongest);
 		virtual void _parrySpiritEffect(Object *other, bool isStrongest);
-		virtual void _processGuardLoss(unsigned loss);
 		virtual bool _executeAirDashes(const InputStruct &input);
 		virtual bool _executeAirParry(const InputStruct &input);
 		virtual bool _executeAirJump(const InputStruct &input);
@@ -641,6 +642,7 @@ namespace SpiralOfFate
 		virtual void _onSubObjectHit();
 		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 		virtual void _renderExtraEffects(const Vector2f &pos) const;
+		virtual void _reduceGuard(unsigned amount, unsigned regenTime, bool canCrush);
 
 		static bool isReversalAction(unsigned action);
 		static bool isBlockingAction(unsigned action);
