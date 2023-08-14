@@ -640,6 +640,7 @@ namespace SpiralOfFate
 		virtual void _manaCrush();
 		virtual void _onSubObjectHit();
 		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
+		virtual void _renderExtraEffects(const Vector2f &pos) const;
 
 		static bool isReversalAction(unsigned action);
 		static bool isBlockingAction(unsigned action);

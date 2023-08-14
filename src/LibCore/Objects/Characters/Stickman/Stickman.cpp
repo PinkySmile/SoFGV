@@ -6,11 +6,8 @@
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
 
-#define DAMAGE_DIFF 0.5
-#define HITSTUN_DIFF 0.25
-#define MANA_COST_DIFF 0.25
-#define PRORATION_DIFF 0.95
-#define SPEED_DIFF 0.1
+#define INSTALL_COST 200
+#define INSTALL_DURATION 30
 
 namespace SpiralOfFate
 {
@@ -31,40 +28,6 @@ namespace SpiralOfFate
 		return 3;
 	}
 
-	void Stickman::_forceStartMove(unsigned int action)
-	{
-		Character::_forceStartMove(action);
-		if (action == ACTION_5A && this->_buffTimer) {
-			this->_actionBlock = 1;
-			this->_newAnim = true;
-		}
-	}
-
-	void Stickman::_applyMoveAttributes()
-	{
-		Character::_applyMoveAttributes();
-		if (this->_action >= ACTION_5A && this->_action <= ACTION_c64A) {
-			auto data = this->getCurrentFrameData();
-
-			if (data->specialMarker == 1) {
-				this->_buff = random_distrib(game->battleRandom, 0, timers.size());
-				this->_buffTimer = timers[this->_buff];
-				this->_guardCooldown = 300;
-			} else if (data->specialMarker == 2) {
-				if (this->_buffTimer)
-					this->_guardCooldown += 300;
-				this->_buffTimer = 0;
-			}
-		}
-	}
-
-	bool Stickman::_canStartMove(unsigned int action, const FrameData &data)
-	{
-		if (action == ACTION_5A)
-			return (this->_guardCooldown == 0 || this->_buffTimer != 0) && this->_action < ACTION_WALK_BACKWARD;
-		return Character::_canStartMove(action, data);
-	}
-
 	void Stickman::_onMoveEnd(const FrameData &lastData)
 	{
 		if (this->_action == ACTION_WIN_MATCH2 && this->_actionBlock == 1) {
@@ -78,8 +41,28 @@ namespace SpiralOfFate
 	void Stickman::update()
 	{
 		Character::update();
-		if (!dynamic_cast<PracticeBattleManager *>(&*game->battleMgr))
-			this->_buffTimer -= !!this->_buffTimer;
+		this->_buffTimer -= !!this->_buffTimer;
+		if (
+			this->_inputBuffer.a &&
+			this->_inputBuffer.verticalAxis < 0 &&
+			this->_action >= ACTION_5N &&
+			!isOverdriveAction(this->_action) &&
+			!this->_voidInstallTimer &&
+			!this->_spiritInstallTimer &&
+			!this->_matterInstallTimer &&
+			!this->_buffTimer
+		) {
+			this->_voidInstallTimer = 0;
+			this->_spiritInstallTimer = 0;
+			this->_matterInstallTimer = 0;
+			this->_buffTimer = INSTALL_DURATION;
+			this->_mana -= INSTALL_COST;
+			this->_specialInputs._am = -30;
+			this->_specialInputs._as = -30;
+			this->_specialInputs._av = -30;
+			this->_inputBuffer.a = 0;
+			game->soundMgr.play(BASICSOUND_INSTALL_START);
+		}
 	}
 
 	unsigned int Stickman::getBufferSize() const
@@ -93,7 +76,6 @@ namespace SpiralOfFate
 
 		Character::copyToBuffer(data);
 		game->logger.verbose("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		dat->_buff = this->_buff;
 		dat->_time = this->_time;
 		dat->_oldAction = this->_oldAction;
 		dat->_buffTimer = this->_buffTimer;
@@ -105,7 +87,6 @@ namespace SpiralOfFate
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
 
-		this->_buff = dat->_buff;
 		this->_time = dat->_time;
 		this->_oldAction = dat->_oldAction;
 		this->_buffTimer = dat->_buffTimer;
@@ -138,59 +119,6 @@ namespace SpiralOfFate
 		return this->_time < 30;
 	}
 
-	void Stickman::_mutateHitFramedata(FrameData &framedata) const
-	{
-		this->_enemyBuffEffect(framedata);
-	}
-
-	void Stickman::_allyBuffEffect(FrameData &framedata) const
-	{
-		if (this->_buffTimer == 0)
-			return;
-		switch (this->_buff) {
-		case BUFFTYPE_GUARD_BAR_IGNORED:
-			framedata.guardDmg = 0;
-			return;
-		case BUFFTYPE_INSTA_CRUSH:
-			framedata.guardDmg = UINT32_MAX;
-			return;
-		case BUFFTYPE_PLUS_DAMAGE:
-			framedata.damage *= 1 + DAMAGE_DIFF;
-			return;
-		case BUFFTYPE_MINUS_DAMAGE:
-			framedata.damage /= 1 + DAMAGE_DIFF;
-			return;
-		case BUFFTYPE_PLUS_HITSTUN:
-			framedata.hitStun *= 1 + HITSTUN_DIFF;
-			framedata.untech *= 1 + HITSTUN_DIFF;
-			return;
-		case BUFFTYPE_MINUS_HITSTUN:
-			framedata.hitStun /= 1 + HITSTUN_DIFF;
-			framedata.untech /= 1 + HITSTUN_DIFF;
-			return;
-		case BUFFTYPE_PLUS_MANA_COST:
-			framedata.manaCost *= 1 + MANA_COST_DIFF;
-			return;
-		case BUFFTYPE_MINUS_MANA_COST:
-			framedata.manaCost /= 1 + MANA_COST_DIFF;
-			return;
-		case BUFFTYPE_PLUS_PRORATION:
-			framedata.prorate *= 0.95;
-			return;
-		case BUFFTYPE_PLUS_SPEED:
-			framedata.speed.x *= 1 + SPEED_DIFF;
-			return;
-		case BUFFTYPE_MINUS_SPEED:
-			framedata.speed.x /= 1 + SPEED_DIFF * 2;
-			return;
-		}
-	}
-
-	void Stickman::_enemyBuffEffect(FrameData &framedata) const
-	{
-		this->_allyBuffEffect(framedata);
-	}
-
 	size_t Stickman::printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const
 	{
 		auto length = Character::printDifference(msgStart, data1, data2, startOffset);
@@ -202,34 +130,16 @@ namespace SpiralOfFate
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
 		game->logger.info("Stickman @" + std::to_string(startOffset + length));
-		if (dat1->_buff != dat2->_buff)
-			game->logger.fatal(std::string(msgStart) + "Stickman::_buff: " + std::to_string(dat1->_buff) + " vs " + std::to_string(dat2->_buff));
-		if (dat1->_time != dat2->_time)
-			game->logger.fatal(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time) + " vs " + std::to_string(dat2->_time));
-		if (dat1->_oldAction != dat2->_oldAction)
-			game->logger.fatal(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction) + " vs " + std::to_string(dat2->_oldAction));
 		if (dat1->_buffTimer != dat2->_buffTimer)
 			game->logger.fatal(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer) + " vs " + std::to_string(dat2->_buffTimer));
 		return length + sizeof(Data);
 	}
 
-	void Stickman::render() const
+	void Stickman::_renderExtraEffects(const Vector2f &pos) const
 	{
-		Character::render();
-		if (/*this->showBoxes && */this->_buffTimer) {
-			game->screen->displayElement(
-				{static_cast<int>(this->_position.x - this->_buffTimer / 4), -static_cast<int>(this->_position.y), static_cast<int>(this->_buffTimer / 2), 10},
-				sf::Color::Green
-			);
-			game->screen->fillColor(sf::Color::Black);
-			game->screen->textSize(10);
-			game->screen->displayElement(
-				buffName[this->_buff],
-				{static_cast<float>(this->_position.x - 50), -static_cast<float>(this->_position.y)},
-				100, Screen::ALIGN_CENTER
-			);
-			game->screen->textSize(30);
-		}
+		Character::_renderExtraEffects(pos);
+		if (this->_buffTimer)
+			this->_renderInstallEffect(this->_neutralEffect);
 	}
 
 	void Stickman::_computeFrameDataCache()
@@ -237,7 +147,9 @@ namespace SpiralOfFate
 		Character::_computeFrameDataCache();
 		if (!this->_buffTimer)
 			return;
-		this->_allyBuffEffect(this->_fdCache);
+		this->_fdCache.oFlag.voidElement = true;
+		this->_fdCache.oFlag.matterElement = true;
+		this->_fdCache.oFlag.spiritElement = true;
 	}
 
 	size_t Stickman::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
@@ -252,10 +164,9 @@ namespace SpiralOfFate
 		game->logger.info("Stickman @" + std::to_string(startOffset + length));
 		if (startOffset + length + sizeof(Data) >= dataSize)
 			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
-		game->logger.info(std::string(msgStart) + "Stickman::_buff: " + std::to_string(dat1->_buff));
+		game->logger.info(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer));
 		game->logger.info(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time));
 		game->logger.info(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction));
-		game->logger.info(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
 			game->logger.fatal("Invalid input frame");
 			return 0;

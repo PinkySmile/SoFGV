@@ -521,20 +521,7 @@ namespace SpiralOfFate
 
 		Object::_render(result, scale);
 		this->_effectTimer++;
-		if (this->_neutralEffectTimer)
-			this->_renderEffect(result, this->_neutralEffect);
-		else if (this->_spiritEffectTimer)
-			this->_renderEffect(result, this->_spiritEffect);
-		else if (this->_matterEffectTimer)
-			this->_renderEffect(result, this->_matterEffect);
-		else if (this->_voidEffectTimer)
-			this->_renderEffect(result, this->_voidEffect);
-		if (this->_spiritInstallTimer)
-			this->_renderInstallEffect(this->_spiritEffect);
-		else if (this->_matterInstallTimer)
-			this->_renderInstallEffect(this->_matterEffect);
-		else if (this->_voidInstallTimer)
-			this->_renderInstallEffect(this->_voidEffect);
+		this->_renderExtraEffects(result);
 
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
@@ -844,31 +831,22 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action)) {
-			bool installed = false;
-
+		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action) && this->_mana >= INSTALL_COST) {
 			this->_voidInstallTimer = 0;
 			this->_spiritInstallTimer = 0;
 			this->_matterInstallTimer = 0;
-			if (this->_specialInputs._av > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			if (this->_specialInputs._av > 0)
 				this->_voidInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._as > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			else if (this->_specialInputs._as > 0)
 				this->_spiritInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._am > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			else if (this->_specialInputs._am > 0)
 				this->_matterInstallTimer = INSTALL_DURATION;
-			}
+			this->_mana -= INSTALL_COST;
 			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_inputBuffer.a = 0;
-			if (installed)
-				game->soundMgr.play(BASICSOUND_INSTALL_START);
+			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 		if (
 			(airborne && this->_executeAirborneMoves(input)) ||
@@ -4807,5 +4785,23 @@ namespace SpiralOfFate
 			this->_action != ACTION_BACKWARD_HIGH_JUMP
 		)
 			this->_jumpsUsed = 0;
+	}
+
+	void Character::_renderExtraEffects(const Vector2f &pos) const
+	{
+		if (this->_neutralEffectTimer)
+			this->_renderEffect(pos, this->_neutralEffect);
+		else if (this->_spiritEffectTimer)
+			this->_renderEffect(pos, this->_spiritEffect);
+		else if (this->_matterEffectTimer)
+			this->_renderEffect(pos, this->_matterEffect);
+		else if (this->_voidEffectTimer)
+			this->_renderEffect(pos, this->_voidEffect);
+		if (this->_spiritInstallTimer)
+			this->_renderInstallEffect(this->_spiritEffect);
+		else if (this->_matterInstallTimer)
+			this->_renderInstallEffect(this->_matterEffect);
+		else if (this->_voidInstallTimer)
+			this->_renderInstallEffect(this->_voidEffect);
 	}
 }
