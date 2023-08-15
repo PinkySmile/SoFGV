@@ -142,3 +142,8 @@ size_t EditableObject::printContent(const char *msgStart, void *data, unsigned i
 {
 	return 0;
 }
+
+void EditableObject::_computeFrameDataCache()
+{
+
+}

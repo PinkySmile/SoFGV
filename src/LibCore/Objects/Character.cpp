@@ -21,6 +21,10 @@
 #define MAX_LIMIT_EFFECT_TIMER (15 << 4)
 #define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
 
+#define TMP_GUARD_MAX (300)
+#define REGEN_CD_BLOCK (240)
+#define REGEN_CD_PARRY (240)
+
 #define MINIMUM_STALLING_STACKING (-1800)
 #define STALLING_HIT_REMOVE (75)
 #define STALLING_BLOCK_REMOVE (25)
@@ -521,20 +525,7 @@ namespace SpiralOfFate
 
 		Object::_render(result, scale);
 		this->_effectTimer++;
-		if (this->_neutralEffectTimer)
-			this->_renderEffect(result, this->_neutralEffect);
-		else if (this->_spiritEffectTimer)
-			this->_renderEffect(result, this->_spiritEffect);
-		else if (this->_matterEffectTimer)
-			this->_renderEffect(result, this->_matterEffect);
-		else if (this->_voidEffectTimer)
-			this->_renderEffect(result, this->_voidEffect);
-		if (this->_spiritInstallTimer)
-			this->_renderInstallEffect(this->_spiritEffect);
-		else if (this->_matterInstallTimer)
-			this->_renderInstallEffect(this->_matterEffect);
-		else if (this->_voidInstallTimer)
-			this->_renderInstallEffect(this->_voidEffect);
+		this->_renderExtraEffects(result);
 
 		if (this->showBoxes) {
 			if (isBlockingAction(this->_action))
@@ -586,16 +577,12 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
-#ifdef _DEBUG
-		this->_cacheComputed = false;
-#endif
 		this->_hasHitDuringFrame = false;
 		this->_hasBeenHitDuringFrame = false;
 		this->_gotHitStopReset = false;
 		if (this->_hitStop) {
 			this->_hitStop--;
 			this->updateInputs();
-			this->_computeFrameDataCache();
 			return;
 		}
 		if (this->_action == ACTION_IDLE) {
@@ -625,8 +612,7 @@ namespace SpiralOfFate
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
 		if (this->_matterEffectTimer) {
-			if (this->_guardBar && !this->_guardCooldown)
-				this->_guardBar--;
+			this->_reduceGuard(1, 0, false);
 			this->_matterEffectTimer--;
 		}
 		if (this->_voidEffectTimer) {
@@ -649,8 +635,14 @@ namespace SpiralOfFate
 				this->_guardRegenCd = 0;
 			} else if (this->_guardRegenCd)
 				this->_guardRegenCd--;
-			else if (this->_guardBar < this->_maxGuardBar)
+			else if (this->_guardBar < this->_maxGuardBar) {
 				this->_guardBar++;
+				if (this->_guardBarTmp > 2)
+					this->_guardBarTmp -= 2;
+				else
+					this->_guardBarTmp = 0;
+				my_assert(this->_guardBar + this->_guardBarTmp / 2 <= this->_maxGuardBar);
+			}
 		} else {
 			this->_barMaxOdCooldown = this->_maxOdCooldown;
 			if (this->_odCooldown > 299 * this->_maxOdCooldown / 300)
@@ -719,6 +711,15 @@ namespace SpiralOfFate
 							this->_forceStartMove(ACTION_FALLING);
 					}
 				}
+				if (this->_restand) {
+					if (this->_guardCooldown)
+						;
+					else if (this->_guardBar + TMP_GUARD_MAX / 2 >= this->_maxGuardBar)
+						this->_guardBarTmp = TMP_GUARD_MAX - (this->_maxGuardBar - this->_guardBar) * 2;
+					else
+						this->_guardBarTmp = TMP_GUARD_MAX;
+					this->_restand = false;
+				}
 			}
 		}
 
@@ -751,7 +752,6 @@ namespace SpiralOfFate
 				this->_forceStartMove(this->_isGrounded() ? ACTION_IDLE : ACTION_FALLING);
 		}
 
-		this->_processGroundedEvents();
 		if (!this->_blockStun)
 			this->_processInput(input);
 		else if (isHitAction(this->_action)) {
@@ -766,12 +766,12 @@ namespace SpiralOfFate
 				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
 				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
-		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 		this->_processGroundSlams();
 		this->_calculateCornerPriority();
 		this->_processWallSlams();
+		this->_processGroundedEvents();
 		if (!isHitAction(this->_action) && !isBlockingAction(this->_action))
 			this->_processStallingFactor();
 
@@ -849,31 +849,22 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action)) {
-			bool installed = false;
-
+		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action) && this->_mana >= INSTALL_COST) {
 			this->_voidInstallTimer = 0;
 			this->_spiritInstallTimer = 0;
 			this->_matterInstallTimer = 0;
-			if (this->_specialInputs._av > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			if (this->_specialInputs._av > 0)
 				this->_voidInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._as > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			else if (this->_specialInputs._as > 0)
 				this->_spiritInstallTimer = INSTALL_DURATION;
-			} else if (this->_specialInputs._am > 0 && this->_mana >= INSTALL_COST) {
-				installed = true;
-				this->_mana -= INSTALL_COST;
+			else if (this->_specialInputs._am > 0)
 				this->_matterInstallTimer = INSTALL_DURATION;
-			}
+			this->_mana -= INSTALL_COST;
 			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_inputBuffer.a = 0;
-			if (installed)
-				game->soundMgr.play(BASICSOUND_INSTALL_START);
+			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 		if (
 			(airborne && this->_executeAirborneMoves(input)) ||
@@ -1453,6 +1444,8 @@ namespace SpiralOfFate
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto data = &this->_moves.at(action).at(0).at(0);
 
+		if (action >= ACTION_5N)
+			this->_guardBarTmp = 0;
 		if (this->_opponent->_comboCtr) {
 			auto it = this->_usedMoves.find(this->_action);
 
@@ -1490,13 +1483,7 @@ namespace SpiralOfFate
 			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game->soundMgr.play(BASICSOUND_PARRY);
-			this->_guardRegenCd = 120;
-			if (this->_guardBar <= loss) {
-				this->_guardBar = this->_maxGuardBar;
-				this->_guardCooldown = this->_maxGuardCooldown;
-				game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-			} else
-				this->_guardBar -= loss;
+			this->_reduceGuard(loss, REGEN_CD_PARRY, true);
 		}
 
 		// Bits magic to allow the semi cyclic cancel tree (S -> M -> V -> S -> ...) to work
@@ -3229,7 +3216,6 @@ namespace SpiralOfFate
 				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 4;
 				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 4;
 			}
-			this->_guardRegenCd = 120;
 		}
 		this->_hitStop = std::max<unsigned char>(this->_hitStop, data.blockPlayerHitStop);
 		other->_hitStop = std::max<unsigned char>(other->_hitStop, data.blockOpponentHitStop);
@@ -3268,7 +3254,7 @@ namespace SpiralOfFate
 				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun);
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
-			this->_processGuardLoss(data.guardDmg);
+			this->_reduceGuard(data.guardDmg, REGEN_CD_BLOCK, true);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
 		else if (isParryAction(this->_action) && this->_animation == 0) {
@@ -3647,6 +3633,7 @@ namespace SpiralOfFate
 		Object::copyToBuffer(data);
 		game->logger.verbose("Saving Character (Data size: " + std::to_string(sizeof(Data) + sizeof(LastInput) * this->_lastInputs.size()) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hardKD = this->_hardKD;
+		dat->_guardBarTmp = this->_guardBarTmp;
 		dat->_limitEffects = this->_limitEffects;
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
@@ -3720,6 +3707,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_hardKD = dat->_hardKD;
+		this->_guardBarTmp = dat->_guardBarTmp;
 		this->_limitEffects = dat->_limitEffects;
 		this->_neutralEffectTimer = dat->_neutralEffectTimer;
 		this->_matterEffectTimer = dat->_matterEffectTimer;
@@ -3809,18 +3797,6 @@ namespace SpiralOfFate
 	{
 		for (auto &obj : this->_subobjects)
 			obj.second.reset();
-	}
-
-	void Character::_processGuardLoss(unsigned loss)
-	{
-		if (this->_guardCooldown)
-			return;
-		if (loss >= this->_guardBar) {
-			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
-			this->_guardBar = this->_maxGuardBar;
-			this->_guardCooldown = this->_maxGuardCooldown;
-		} else
-			this->_guardBar -= loss;
 	}
 
 	void Character::_parryVoidEffect(Object *other, bool isStrongest)
@@ -4258,6 +4234,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat1->_willGroundSlam) + " vs " + std::to_string(dat2->_willGroundSlam));
 		if (dat1->_willWallSplat != dat2->_willWallSplat)
 			game->logger.fatal(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat1->_willWallSplat) + " vs " + std::to_string(dat2->_willWallSplat));
+		if (dat1->_guardBarTmp != dat2->_guardBarTmp)
+			game->logger.fatal(std::string(msgStart) + "Character::_guardBarTmp: " + std::to_string(dat1->_guardBarTmp) + " vs " + std::to_string(dat2->_guardBarTmp));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char number1[3];
 			char number2[3];
@@ -4618,6 +4596,7 @@ namespace SpiralOfFate
 		if (startOffset + len >= dataSize)
 			game->logger.warn("Object is " + std::to_string(startOffset + len - dataSize) + " bytes bigger than input");
 		game->logger.info("Character @" + std::to_string(startOffset + length));
+		game->logger.info(std::string(msgStart) + "Character::_guardBarTmp: " + std::to_string(dat->_guardBarTmp));
 		game->logger.info(std::string(msgStart) + "Character::_hardKD: " + std::to_string(dat->_hardKD));
 		game->logger.info(std::string(msgStart) + "Character::_limitEffects: " + std::to_string(dat->_limitEffects));
 		game->logger.info(std::string(msgStart) + "Character::_neutralEffectTimer: " + std::to_string(dat->_neutralEffectTimer));
@@ -4789,7 +4768,6 @@ namespace SpiralOfFate
 				game->soundMgr.play(BASICSOUND_KNOCKDOWN);
 				this->_forceStartMove(ACTION_BEING_KNOCKED_DOWN);
 			} else {
-				this->_restand = false;
 				this->_forceStartMove(ACTION_GROUND_HIGH_HIT);
 				this->_actionBlock = 1;
 			}
@@ -4812,5 +4790,45 @@ namespace SpiralOfFate
 			this->_action != ACTION_BACKWARD_HIGH_JUMP
 		)
 			this->_jumpsUsed = 0;
+	}
+
+	void Character::_renderExtraEffects(const Vector2f &pos) const
+	{
+		if (this->_neutralEffectTimer)
+			this->_renderEffect(pos, this->_neutralEffect);
+		else if (this->_spiritEffectTimer)
+			this->_renderEffect(pos, this->_spiritEffect);
+		else if (this->_matterEffectTimer)
+			this->_renderEffect(pos, this->_matterEffect);
+		else if (this->_voidEffectTimer)
+			this->_renderEffect(pos, this->_voidEffect);
+		if (this->_spiritInstallTimer)
+			this->_renderInstallEffect(this->_spiritEffect);
+		else if (this->_matterInstallTimer)
+			this->_renderInstallEffect(this->_matterEffect);
+		else if (this->_voidInstallTimer)
+			this->_renderInstallEffect(this->_voidEffect);
+	}
+
+	void Character::_reduceGuard(unsigned int amount, unsigned regenTime, bool canCrush)
+	{
+		if (this->_guardCooldown)
+			return;
+		if (this->_guardBarTmp >= amount) {
+			this->_guardBarTmp -= amount;
+			return;
+		}
+		amount -= this->_guardBarTmp;
+		this->_guardBarTmp = 0;
+		if (regenTime)
+			this->_guardRegenCd = regenTime;
+		if (amount < this->_guardBar)
+			this->_guardBar -= amount;
+		else if (canCrush) {
+			this->_guardBar = this->_maxGuardBar;
+			this->_guardCooldown = this->_maxGuardCooldown;
+			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
+		} else
+			this->_guardBar = 0;
 	}
 }

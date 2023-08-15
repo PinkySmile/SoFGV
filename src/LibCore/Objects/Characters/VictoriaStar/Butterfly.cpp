@@ -46,7 +46,6 @@ namespace SpiralOfFate
 				255, 255, 255,
 				static_cast<sf::Uint8>(this->_copy->_maxAlpha * (1 - this->_copy->_alpha))
 			});
-			this->_computeFrameDataCache();
 			return;
 		}
 		if (this->_defenseCtr) {
@@ -67,7 +66,6 @@ namespace SpiralOfFate
 					255, 255, 255,
 					static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
 				});
-				this->_computeFrameDataCache();
 				return;
 			}
 		}
@@ -171,7 +169,6 @@ namespace SpiralOfFate
 			static_cast<sf::Uint8>(this->_maxAlpha * this->_alpha)
 		});
 		this->_direction = this->_dir == 1;
-		this->_computeFrameDataCache();
 	}
 
 	float Butterfly::getAngle() const

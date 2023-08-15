@@ -143,7 +143,6 @@ namespace SpiralOfFate
 	{
 		if (this->_hitStop) {
 			this->_hitStop--;
-			this->_computeFrameDataCache();
 			return;
 		}
 		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
@@ -151,7 +150,6 @@ namespace SpiralOfFate
 		if (this->_invincibleTime)
 			this->_invincibleTime--;
 		this->_boxSize += this->getCurrentFrameData()->manaGain;
-		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 	}
@@ -179,7 +177,6 @@ namespace SpiralOfFate
 		if (--this->_loopInfo.second == 0)
 			return Object::_applyNewAnimFlags();
 		this->_animation = this->_loopInfo.first;
-		this->_computeFrameDataCache();
 		Object::_applyNewAnimFlags();
 	}
 

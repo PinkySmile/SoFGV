@@ -199,16 +199,11 @@ namespace SpiralOfFate
 
 	void Object::update()
 	{
-#ifdef _DEBUG
-		this->_cacheComputed = false;
-#endif
 		if (this->_hitStop) {
 			this->_hitStop--;
-			this->_computeFrameDataCache();
 			return;
 		}
 		this->_tickMove();
-		this->_computeFrameDataCache();
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
 	}
@@ -296,10 +291,13 @@ namespace SpiralOfFate
 
 	const FrameData *Object::getCurrentFrameData() const
 	{
-#ifdef _DEBUG
-		//my_assert(this->_cacheComputed);
-#endif
-		return &this->_fdCache;
+		if (this->_cacheComputed)
+			return &this->_fdCache;
+		try {
+			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
+		} catch (std::out_of_range &) {
+			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+		}
 	}
 
 	Box Object::_applyModifiers(Box box) const
@@ -699,9 +697,7 @@ namespace SpiralOfFate
 		} catch (std::out_of_range &) {
 			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
-#ifdef _DEBUG
 		this->_cacheComputed = true;
-#endif
 	}
 
 	bool Object::isDisabled(const IObject &) const

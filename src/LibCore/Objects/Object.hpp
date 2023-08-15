@@ -70,9 +70,6 @@ namespace SpiralOfFate
 		FrameData _fdCache;
 
 		// Non-game state
-#ifdef _DEBUG
-		bool _cacheComputed = true;
-#endif
 		mutable Sprite _sprite;
 		Vector2f _airDrag = {1, 1};
 		float _groundDrag = 1;
@@ -99,7 +96,7 @@ namespace SpiralOfFate
 		virtual void _tickMove();
 		virtual void _applyMoveAttributes();
 		virtual void _render(Vector2f spritePos, Vector2f scale) const;
-		virtual void _computeFrameDataCache();
+		void _computeFrameDataCache() override;
 
 	public:
 		Object();
