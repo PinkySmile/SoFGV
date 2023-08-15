@@ -4370,6 +4370,12 @@
     "framedata": [
       [
         {
+          "collision_box": {
+            "height": 136,
+            "left": -19,
+            "top": -136,
+            "width": 40
+          },
           "defense_flag": 9,
           "duration": 14,
           "offset": {
