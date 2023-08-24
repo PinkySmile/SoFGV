@@ -3514,7 +3514,8 @@ namespace SpiralOfFate
 				!this->_willGroundSlam ||
 				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
 			) {
-				this->_speed.y = 0;
+				if (this->_isGrounded())
+					this->_speed.y = 0;
 				return;
 			}
 			this->_speed.x *= 0.1;
