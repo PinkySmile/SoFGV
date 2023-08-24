@@ -19769,7 +19769,7 @@
             "y": 24
           },
           "damage": 1000,
-          "defense_flag": 46792968,
+          "defense_flag": 46268680,
           "duration": 6,
           "guard_damage": 20,
           "hit_boxes": [
@@ -19936,7 +19936,6 @@
               "width": 113
             }
           ],
-          "rotation": 0.2800000002026108,
           "size": {
             "x": 94,
             "y": 166
