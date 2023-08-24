@@ -13079,7 +13079,7 @@
         {
           "block_opponent_hit_stop": 6,
           "block_player_hit_stop": 6,
-          "block_stun": 27,
+          "block_stun": 23,
           "collision_box": {
             "height": 71,
             "left": -22,
