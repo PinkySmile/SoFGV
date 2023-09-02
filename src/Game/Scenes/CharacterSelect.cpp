@@ -521,6 +521,8 @@ namespace SpiralOfFate
 			throw std::invalid_argument("jump_count is missing");
 		if (!json.contains("air_dash_count"))
 			throw std::invalid_argument("air_dash_count is missing");
+		if (!json.contains("air_movements"))
+			throw std::invalid_argument("air_movements is missing");
 		if (!json.contains("mana_max"))
 			throw std::invalid_argument("mana_max is missing");
 		if (!json.contains("mana_start"))

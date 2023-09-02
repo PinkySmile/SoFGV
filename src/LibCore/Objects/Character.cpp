@@ -809,6 +809,7 @@ namespace SpiralOfFate
 		this->_baseHp = this->_hp = data.maxHp;
 		this->_maxJumps = data.maxJumps;
 		this->_maxAirDashes = data.maxAirDash;
+		this->_maxAirMovement = data.maxAirMovement;
 		this->_baseGravity = this->_gravity = data.gravity;
 		this->_manaMax = data.maxMana;
 		this->_mana = data.startMana;
@@ -1192,9 +1193,9 @@ namespace SpiralOfFate
 		if (this->_canCancel(action))
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
-			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING;
+			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING && this->_airMovementUsed < this->_maxAirMovement;
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
-			return this->_jumpsUsed < this->_maxJumps && (
+			return this->_jumpsUsed < this->_maxJumps && this->_airMovementUsed < this->_maxAirMovement && (
 				this->_action <= ACTION_WALK_BACKWARD || (
 					this->_action >= ACTION_NEUTRAL_JUMP &&
 					this->_action <= ACTION_BACKWARD_JUMP &&
@@ -1566,12 +1567,14 @@ namespace SpiralOfFate
 			action == ACTION_BACKWARD_AIR_JUMP
 		) {
 			this->_jumpsUsed++;
+			this->_airMovementUsed += !this->_isGrounded();
 			this->_hasJumped = true;
 		} else if (action == ACTION_NEUTRAL_HIGH_JUMP || action == ACTION_FORWARD_HIGH_JUMP || action == ACTION_BACKWARD_HIGH_JUMP) {
 			this->_jumpsUsed += 2;
 			this->_hasJumped = true;
 		} else if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9) {
 			this->_airDashesUsed++;
+			this->_airMovementUsed++;
 			if (
 				this->_action == ACTION_NEUTRAL_JUMP ||
 				this->_action == ACTION_FORWARD_JUMP ||
@@ -1634,11 +1637,11 @@ namespace SpiralOfFate
 			return false;
 		if (currentData->oFlag.backDashCancelable && action == ACTION_BACKWARD_DASH)
 			return true;
-		if (currentData->oFlag.dashCancelable && action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9 && this->_airDashesUsed < this->_maxAirDashes)
+		if (currentData->oFlag.dashCancelable && action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9 && this->_airDashesUsed < this->_maxAirDashes && this->_airMovementUsed < this->_maxAirMovement)
 			return true;
 		if (currentData->oFlag.dashCancelable && action == ACTION_FORWARD_DASH)
 			return true;
-		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP && this->_jumpsUsed < this->_maxJumps)
+		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP && this->_jumpsUsed < this->_maxJumps && this->_airMovementUsed < this->_maxAirMovement)
 			return true;
 		if (currentData->oFlag.jumpCancelable && action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP)
 			return true;
@@ -2953,6 +2956,7 @@ namespace SpiralOfFate
 			"GravityY: %f\n"
 			"BlockStun: %i\n"
 			"JumpUsed: %i/%i\n"
+			"AirMovUsed: %i/%i\n"
 			"AirDashUsed: %i/%i\n"
 			"Jumped: %s\n"
 			"Restand: %s\n"
@@ -2994,6 +2998,8 @@ namespace SpiralOfFate
 			this->_maxJumps,
 			this->_airDashesUsed,
 			this->_maxAirDashes,
+			this->_airMovementUsed,
+			this->_maxAirMovement,
 			this->_hasJumped ? "true" : "false",
 			this->_restand ? "true" : "false",
 			this->_action,
@@ -3636,6 +3642,7 @@ namespace SpiralOfFate
 		dat->_hardKD = this->_hardKD;
 		dat->_guardBarTmp = this->_guardBarTmp;
 		dat->_limitEffects = this->_limitEffects;
+		dat->_airMovementUsed = this->_airMovementUsed;
 		dat->_neutralEffectTimer = this->_neutralEffectTimer;
 		dat->_matterEffectTimer = this->_matterEffectTimer;
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
@@ -3708,6 +3715,7 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_hardKD = dat->_hardKD;
+		this->_airMovementUsed = dat->_airMovementUsed;
 		this->_guardBarTmp = dat->_guardBarTmp;
 		this->_limitEffects = dat->_limitEffects;
 		this->_neutralEffectTimer = dat->_neutralEffectTimer;
@@ -4237,6 +4245,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat1->_willWallSplat) + " vs " + std::to_string(dat2->_willWallSplat));
 		if (dat1->_guardBarTmp != dat2->_guardBarTmp)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBarTmp: " + std::to_string(dat1->_guardBarTmp) + " vs " + std::to_string(dat2->_guardBarTmp));
+		if (dat1->_airMovementUsed != dat2->_airMovementUsed)
+			game->logger.fatal(std::string(msgStart) + "Character::_airMovementUsed: " + std::to_string(dat1->_airMovementUsed) + " vs " + std::to_string(dat2->_airMovementUsed));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char number1[3];
 			char number2[3];
@@ -4642,6 +4652,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat->_stallingFactor));
 		game->logger.info(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat->_willGroundSlam));
 		game->logger.info(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat->_willWallSplat));
+		game->logger.info(std::string(msgStart) + "Character::_airMovementUsed: " + std::to_string(dat->_airMovementUsed));
 
 		char number[3];
 		auto *ptr = (SpecialInputs *)dat->_specialInputs;
@@ -4745,6 +4756,7 @@ namespace SpiralOfFate
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
 		this->_airDashesUsed = 0;
+		this->_airMovementUsed = 0;
 		if (this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)
 			this->_forceStartMove(ACTION_AIR_TECH_LANDING_LAG);
 		if (this->_action >= ACTION_AIR_DASH_1 && this->_action <= ACTION_AIR_DASH_9)

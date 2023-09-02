@@ -5,6 +5,7 @@
   "mana_regen":0.0001,
   "jump_count":2,
   "air_dash_count":2,
+  "air_movements":3,
   "guard_bar":900,
   "guard_break_cooldown":600,
   "overdrive_cooldown":3600,

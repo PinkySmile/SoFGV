@@ -31,6 +31,7 @@
             <th>Mana Regeneration</th>
             <th>Jump Counts</th>
             <th>Airdashes Count</th>
+            <th>Max Air Movement Count</th>
             <th>Guard Bar</th>
             <th>Guard Break Cooldown</th>
             <th>Burst Cooldown</th>
@@ -40,14 +41,11 @@
         </tr>
         <tr>
             <td>{{ stats["hp"] }}</td>
-            <td>
-                <span class="void">{{ stats["void_mana_max"] }}</span>,
-                <span class="spirit">{{ stats["spirit_mana_max"] }}</span>,
-                <span class="matter">{{ stats["matter_mana_max"] }}</span>
-            </td>
+            <td>{{ stats["mana_max"] }}</td>
             <td>{{ stats["mana_regen"] }}% / frame</td>
             <td>{{ stats["jump_count"] }}</td>
             <td>{{ stats["air_dash_count"] }}</td>
+            <td>{{ stats["air_movements"] }}</td>
             <td>{{ stats["guard_bar"] }} units</td>
             <td>{{ stats["guard_break_cooldown"] / 60 }}s</td>
             <td>{{ stats["overdrive_cooldown"]/60 }}s</td>

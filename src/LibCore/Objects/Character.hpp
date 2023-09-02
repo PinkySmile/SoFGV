@@ -404,6 +404,7 @@ namespace SpiralOfFate
 			unsigned _blockStun;
 			unsigned _jumpsUsed;
 			unsigned _airDashesUsed;
+			unsigned _airMovementUsed;
 			unsigned _comboCtr;
 			unsigned _totalDamage;
 			unsigned _guardCooldown;
@@ -442,7 +443,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 729, "Data has wrong size");
+		static_assert(sizeof(Data) == 733, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
@@ -544,6 +545,7 @@ namespace SpiralOfFate
 		unsigned _blockStun = 0;
 		unsigned _jumpsUsed = 0;
 		unsigned _airDashesUsed = 0;
+		unsigned _airMovementUsed = 0;
 		unsigned _comboCtr = 0;
 		unsigned _totalDamage = 0;
 		unsigned _guardCooldown = 0;
@@ -590,6 +592,7 @@ namespace SpiralOfFate
 		unsigned _maxOdCooldown = 0;
 		unsigned _maxJumps = 0;
 		unsigned _maxAirDashes = 0;
+		unsigned _maxAirMovement = 0;
 		unsigned _manaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
@@ -711,6 +714,7 @@ namespace SpiralOfFate
 			unsigned short maxHp;
 			unsigned char maxJumps;
 			unsigned char maxAirDash;
+			unsigned char maxAirMovement;
 			unsigned maxMana;
 			unsigned startMana;
 			float manaRegen;
