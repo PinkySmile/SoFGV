@@ -611,10 +611,8 @@ namespace SpiralOfFate
 			this->_voidInstallTimer--;
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
-		if (this->_matterEffectTimer) {
-			this->_reduceGuard(1, 0, false);
+		if (this->_matterEffectTimer)
 			this->_matterEffectTimer--;
-		}
 		if (this->_voidEffectTimer) {
 			if (this->_hp > 1) {
 				this->_hp--;
@@ -635,7 +633,7 @@ namespace SpiralOfFate
 				this->_guardRegenCd = 0;
 			} else if (this->_guardRegenCd)
 				this->_guardRegenCd--;
-			else if (this->_guardBar < this->_maxGuardBar) {
+			else if (this->_guardBar < this->_maxGuardBar && !this->_matterEffectTimer) {
 				this->_guardBar++;
 				if (this->_guardBarTmp > 2)
 					this->_guardBarTmp -= 2;
