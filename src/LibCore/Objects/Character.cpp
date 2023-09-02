@@ -3556,8 +3556,12 @@ namespace SpiralOfFate
 	void Character::_applyMoveAttributes()
 	{
 		auto data = this->getCurrentFrameData();
+		auto gravity = this->_gravity;
 
+		if (this->_opponent->_limitEffects & NEUTRAL_LIMIT_EFFECT)
+			this->_gravity.y *= 2;
 		Object::_applyMoveAttributes();
+		this->_gravity = gravity;
 		if (!this->_hadUltimate && data->oFlag.ultimate) {
 			game->soundMgr.play(BASICSOUND_ULTIMATE);
 			this->_mana = 0;
