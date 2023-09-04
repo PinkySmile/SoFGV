@@ -613,6 +613,8 @@ namespace SpiralOfFate
 			this->_neutralEffectTimer--;
 		if (this->_matterEffectTimer)
 			this->_matterEffectTimer--;
+		if (this->_spiritEffectTimer)
+			this->_spiritEffectTimer--;
 		if (this->_voidEffectTimer) {
 			if (this->_hp > 1) {
 				this->_hp--;
@@ -3356,7 +3358,7 @@ namespace SpiralOfFate
 				tier = *data.priority;
 			else if (chr)
 				tier = chr->getAttackTier(chr->_actionCache);
-			if (tier < 0)
+			if (tier <= 0)
 				tier = 100;
 			else
 				tier += 200;
