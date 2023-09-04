@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SoFGV | Cancel_Tree</title>
-	<link href="typing.css" rel="stylesheet">
-</head>
-<body>
-	<h1>Cancel tree</h1>
-	<h2>The different of types of moves</h2>
+{% extends 'base.html' %}
+{% block title %}Cancel Tree{% endblock %}
+{% block content %}
+	<h1>Cancel Tree</h1>
+	<hr>
+	<h2>The different types of moves</h2>
 	Moves are categorized depending on their input, we will go over each types of move from bottom to top of the cancel tree.<br>
 	<ul>
 		<li>
@@ -49,4 +45,4 @@
 	<br>
 	X being <span class="spirit">S</span> or <span class="matter">M</span> or <span class="void">V</span><br>
 	y being any direction that doesn't result in a jab (so j.2,j.3,j.6,j.8,3,6,8).
-</html>
+{% endblock %}

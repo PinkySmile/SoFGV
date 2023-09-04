@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoFGV | {% block title %}{% endblock %}</title>
+    <style>
+        .footer-header {
+            border: solid 1px;
+            margin: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .footer-table {
+            border: solid 1px;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: row;
+            border: solid 1px;
+            margin: 4px;
+            text-align: center;
+        }
+        .footer-link {
+            flex: 1;
+            color: white;
+        }
+        #footer {
+            background: black;
+            color: white;
+        }
+    {% block extrastyle %}
+        table {
+            border: solid 1px;
+        }
+        td {
+            padding: 4px;
+            border: solid 1px;
+            text-align: center;
+        }
+        th {
+            padding: 4px;
+            border: solid 1px;
+            text-align: center;
+        }
+    {% endblock %}
+    </style>
+    <link href="{{ root }}generated/base/typing.css" rel="stylesheet">
+</head>
+<body style="margin: 0; overflow: auto">
+<div id="header" style="height: 64px; position: fixed; top: 0; background-color: black; color: white; width: 100%; z-index: 1;display: flex;font-weight: bold;font-size: 28px; align-items: center; justify-content: center;">
+{% block left_header %}
+    <a href="{{ root }}wiki.html" style="color: white; flex: 1; text-align: start; margin-left: 8px">&ShortLeftArrow; Main page</a>
+{% endblock %}
+    <span style="flex: 1; text-align: center;">Spiral of Fate: Grand Vision</span>
+{% block right_header %}
+    <a href="#bottom" style="color: white; flex: 1; text-align: end; margin-right: 24px">Bottom &ShortDownArrow;</a>
+{% endblock %}
+</div>
+<div id="content" style="margin: 72px 8px 8px 8px">
+    {% block content %}{% endblock %}
+</div>
+<div id="footer">
+    {% block footer %}
+    <div class="footer-table">
+        <div class="footer-header">
+            System Mechanics
+        </div>
+        <div class="footer-content">
+            <div class="footer-link">
+                <a class="footer-link" href="generated/base/typing_system.html">Typing System</a>
+            </div>
+            <div class="footer-link">
+                <a class="footer-link" href="generated/base/cancel_tree.html">Cancel Tree</a>
+            </div>
+            <div class="footer-link">
+                <a class="footer-link" href="generated/base/combo.html">Combo</a>
+            </div>
+            <div class="footer-link">
+                <a class="footer-link" href="generated/base/meter.html">Meter</a>
+            </div>
+            <div class="footer-link">
+                <a class="footer-link" href="generated/base/platforms.html">Platforms</a>
+            </div>
+        </div>
+        <div class="footer-header">
+            Characters
+        </div>
+        <div class="footer-content">
+            {% for stats in chrs %}
+            {% if not stats['hidden'] %}
+            <div class="footer-link">
+                <a class="footer-link" href="generated/{{ stats['name'] }}/index.html">{{ stats['name'] }}</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    <span id="bottom"></span>
+</div>
+</body>

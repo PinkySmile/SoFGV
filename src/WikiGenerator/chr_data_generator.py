@@ -610,10 +610,11 @@ def generate_diff(data, old_data):
 	return []
 
 
-def gen_data(path):
+def gen_data(path, chr_stats=None):
 	print("Loading character files")
-	with open(path + "/chr.json") as fd:
-		chr_stats = json.load(fd)
+	if chr_stats is None:
+		with open(path + "/chr.json") as fd:
+			chr_stats = json.load(fd)
 	with open(path + "/subobjects.json") as fd:
 		objs = json.load(fd)
 	with open(path + "/subobj_data.json") as fd:

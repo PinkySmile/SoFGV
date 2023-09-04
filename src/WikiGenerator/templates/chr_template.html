@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SoFGV | {{ stats['name'] }}</title>
-    <style>
-        table {
-            border: solid 1px;
-        }
-        td {
-            padding: 4px;
-            border: solid 1px;
-            text-align: center;
-        }
-        th {
-            padding: 4px;
-            border: solid 1px;
-            text-align: center;
-        }
-    </style>
-    <link href="../../premade/typing.css" rel="stylesheet">
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ stats['name'] }}{% endblock %}
+{% block content %}
     <h1>{{ stats['name'] }}</h1>
     <hr>
     <h2>Basic information</h2>
@@ -147,5 +127,4 @@
     </table>
     <hr>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

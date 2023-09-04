@@ -1,7 +1,9 @@
 from chr_data_generator import gen_data
 from jinja2 import Environment, FileSystemLoader
-import sys
+import traceback
 import json
+import sys
+import os
 
 ACTION_IDLE = 0
 ACTION_CROUCHING = 1
@@ -550,9 +552,9 @@ order = [
 ]
 
 
-def generate_page(data, stats, meta):
-    env = Environment(loader=FileSystemLoader("resources/" + stats["name"]))
-    with open("chr_template.html") as fd:
+def generate_page(data, stats, meta, chrs):
+    env = Environment(loader=FileSystemLoader([os.path.dirname(__file__) + "resources/" + stats["name"], os.path.dirname(__file__) + "/templates"]))
+    with open(os.path.dirname(__file__) + "/templates/chr_template.html") as fd:
         template = env.from_string(fd.read())
     for move in data:
         if 'limit' in move:
@@ -572,10 +574,10 @@ def generate_page(data, stats, meta):
                 else:
                     result.append("".join(f for f in r if g[f]) or "-")
             move["guard"] = result
-    return template.render(moves=data, stats=stats, names=names, meta=meta)
+    return template.render(moves=data, stats=stats, names=names, meta=meta, chrs=chrs)
 
 
-def generate_wiki_page(path, no_regen=False):
+def generate_wiki_page(path, chrs_stats, no_regen=False, chr_stats=None):
     if no_regen:
         print("Loading character files")
         with open(path + "/chr.json") as fd:
@@ -585,13 +587,25 @@ def generate_wiki_page(path, no_regen=False):
         with open(f"generated/{chr_stats['name']}/meta.json") as fd:
             meta = json.load(fd)
     else:
-        data, chr_stats, meta = gen_data(path)
+        data, chr_stats, meta = gen_data(path, chr_stats=chr_stats)
     print("Rendering page")
-    html = generate_page(data, chr_stats, meta)
+    html = generate_page(data, chr_stats, meta, chrs_stats)
     with open(f"generated/{chr_stats['name']}/index.html", "w") as fd:
         fd.write(html)
     return chr_stats
 
 
 if __name__ == '__main__':
-    generate_wiki_page(sys.argv[1], no_regen=len(sys.argv) > 2)
+    entries = []
+    d = None
+    for f in os.listdir("assets/characters"):
+        if f == "template":
+            continue
+        try:
+            with open("assets/characters/" + f + "/chr.json") as fd:
+                entries.append(json.load(fd))
+            if os.path.samefile("assets/characters/" + f, sys.argv[1]):
+                d = entries[-1]
+        except:
+            traceback.print_exc()
+    generate_wiki_page(sys.argv[1], entries, no_regen=len(sys.argv) > 2, chr_stats=d)
