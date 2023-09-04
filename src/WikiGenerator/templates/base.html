@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoFGV | {% block title %}{% endblock %}</title>
+    <style>
+    {% block extrastyle %}
+        table {
+            border: solid 1px;
+        }
+        td {
+            padding: 4px;
+            border: solid 1px;
+            text-align: center;
+        }
+        th {
+            padding: 4px;
+            border: solid 1px;
+            text-align: center;
+        }
+    {% endblock %}
+    </style>
+    <link href="{{ root }}generated/base/typing.css" rel="stylesheet">
+</head>
+<body style="margin: 0; overflow: auto">
+<div id="header" style="height: 64px; position: fixed; top: 0; background-color: black; color: white; width: 100%; z-index: 1;display: flex;font-weight: bold;font-size: 28px; align-items: center; justify-content: center;">
+{% block left_header %}
+    <a href="{{ root }}wiki.html" style="color: white; flex: 1; text-align: start; margin-left: 8px">&ShortLeftArrow; Main page</a>
+{% endblock %}
+    <span style="flex: 1; text-align: center;">Spiral of Fate: Grand Vision</span>
+{% block right_header %}
+    <a href="#bottom" style="color: white; flex: 1; text-align: end; margin-right: 24px">Bottom &ShortDownArrow;</a>
+{% endblock %}
+</div>
+<div id="content" style="margin: 72px 8px 8px 8px">
+    {% block content %}{% endblock %}
+</div>
+<div id="footer">
+    {% block footer %}
+    {% endblock %}
+    <span id="bottom"></span>
+</div>
+</body>

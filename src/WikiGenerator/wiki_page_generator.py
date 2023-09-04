@@ -2,6 +2,7 @@ from chr_data_generator import gen_data
 from jinja2 import Environment, FileSystemLoader
 import sys
 import json
+import os
 
 ACTION_IDLE = 0
 ACTION_CROUCHING = 1
@@ -551,8 +552,8 @@ order = [
 
 
 def generate_page(data, stats, meta):
-    env = Environment(loader=FileSystemLoader("resources/" + stats["name"]))
-    with open("chr_template.html") as fd:
+    env = Environment(loader=FileSystemLoader([os.path.dirname(__file__) + "resources/" + stats["name"], os.path.dirname(__file__) + "/templates"]))
+    with open(os.path.dirname(__file__) + "/templates/chr_template.html") as fd:
         template = env.from_string(fd.read())
     for move in data:
         if 'limit' in move:

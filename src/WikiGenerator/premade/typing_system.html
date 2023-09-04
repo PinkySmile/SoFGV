@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SoFGV | Typing system</title>
-	<link href="typing.css" rel="stylesheet">
-</head>
-<body>
-<h1>Typing System</h1>
+{% extends 'base.html' %}
+{% block title %}Typing System{% endblock %}
+{% block content %}
+	<h1>Typing System</h1>
     <h2>The types</h2>
 	There are five elements/types in Spiral of Fate. Firstly there are <span class="spirit">Spirit</span>, <span class="matter">Matter</span> and <span class="void">Void</span>.<br>
 	They are each assigned to a button, respectively <span class="spirit">S</span>, <span class="matter">M</span> and <span class="void">V</span>.<br>
@@ -39,5 +34,4 @@
 	</ul>
 	When someone inflicted by a status effect is hit by another move of another type, the new status effect will replace the one already in place (except for <span class="not-typed">Non-typed</span>).<br>
 	How long the status effect will linger depends on how high in the cancel tree the move that inflicted the status is (so jab don't inflict it for long and things like specials or supers inflict it for much longer).
-</body>
-</html>
+{% endblock %}

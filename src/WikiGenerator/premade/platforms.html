@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SoFGV | Platforms</title>
-	<link href="typing.css" rel="stylesheet">
-</head>
-<body>
-<h1>Platforms</h1>
+{% extends 'base.html' %}
+{% block title %}Platforms{% endblock %}
+{% block content %}
+	<h1>Platforms</h1>
 	<h2>Platforms interactions</h2>
 	Platforms permit anyone to stand on them and to have access to all their grounded options while on one, however, there is more nuance to this mechanic.<br>
 	Firstly, platforms can be hit and destroyed.<br>
@@ -18,5 +13,4 @@
 	While being knocked down on a platform is mostly the same as being knocked down on the ground, there is one thing that changes.<br>
 	If the platform is destroyed while you are knocked down or teching, or, if you fall from the platform while teching (if you go too far during your directional tech or if you're pushed from the platform while neutral teching for example) you will enter the falling tech state.<br>
 	The falling tech state is a very dangerous state to be in, as you are not actionable and completely vulnerable during it, this state will linger as long as you're falling.<br>
-</body>
-</html>
+{% endblock %}

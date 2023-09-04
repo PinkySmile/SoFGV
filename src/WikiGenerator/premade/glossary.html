@@ -1,75 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SoFGV | Glossary</title>
-</head>
-<body>
-<h1>Glossary</h1>
-<ul id="summary"></ul>
-<div id="elems">
-    <div id="crush">
-        <h2>Crush</h2>
-        The act of breaking the guard.
+{% extends 'base.html' %}
+{% block title %}Glossary{% endblock %}
+{% block content %}
+    <h1>Glossary</h1>
+    <ul id="summary"></ul>
+    <div id="elems">
+        <div id="crush">
+            <h2>Crush</h2>
+            The act of breaking the guard.
+        </div>
+        <div id="set">
+            <h2>set</h2>
+            Simply multiple games in a row against the same opponent.
+        <div>
+        <div id="untech">
+            <h2>Untech</h2>
+            The time before being able to <a href="#tech">airtech</a> after being hit by a move.
+        </div>
+        <div id="hitstun">
+            <h2>Hitstun</h2>
+            The time before being able to block and attack when getting hit.
+        </div>
+        <div id="blockstun">
+            <h2>Blockstun</h2>
+            The time before being able to block and start a move when getting hit.
+        </div>
+        <div id="hitstop">
+            <h2>Hitstop</h2>
+            The time during which a character/object is frozen when hitting/getting hit.
+        </div>
+        <div id="blockstop">
+            <h2>Blockstop</h2>
+            The time during which a character/object is frozen when blocking/getting someone to block.
+        </div>
+        <div id="tech">
+            <h2>Groundtech/Airtech</h2>
+            Action of getting up, either in the air (called airtech), or on the ground (called groundtech). Performed by holding a direction and any key.
+        </div>
+        <div id="mana">
+            <h2>Mana/Meter</h2>
+            Refers to the 3 bars at the bottom of the screen, spent when using special moves or supers. For more information see <a href="meter.html">this page</a>.
+        </div>
+        <div id="proration">
+            <h2>Proration/Prorate</h2>
+            Multiplier applied to next attacks' damage in the combo.
+        </div>
+        <div id="limit">
+            <h2>Limit</h2>
+            Value that accumulates in combos. When any of the 4 values reach 100%, the combo ends, but the target cannot <a href="#tech">airtech</a>.
+        </div>
+        <div id="title_screen">
+            <h2>Title screen</h2>
+            Refers to the <a href="#screen">screen</a> shown when starting the game.
+        </div>
     </div>
-	<div id="set">
-		<h2>set</h2>
-		Simply multiple games in a row against the same opponent.
-	<div>
-    <div id="untech">
-        <h2>Untech</h2>
-        The time before being able to <a href="#tech">airtech</a> after being hit by a move.
-    </div>
-    <div id="hitstun">
-        <h2>Hitstun</h2>
-        The time before being able to block and attack when getting hit.
-    </div>
-    <div id="blockstun">
-        <h2>Blockstun</h2>
-        The time before being able to block and start a move when getting hit.
-    </div>
-    <div id="hitstop">
-        <h2>Hitstop</h2>
-        The time during which a character/object is frozen when hitting/getting hit.
-    </div>
-    <div id="blockstop">
-        <h2>Blockstop</h2>
-        The time during which a character/object is frozen when blocking/getting someone to block.
-    </div>
-    <div id="tech">
-        <h2>Groundtech/Airtech</h2>
-        Action of getting up, either in the air (called airtech), or on the ground (called groundtech). Performed by holding a direction and any key.
-    </div>
-    <div id="mana">
-        <h2>Mana/Meter</h2>
-        Refers to the 3 bars at the bottom of the screen, spent when using special moves or supers. For more information see <a href="meter.html">this page</a>.
-    </div>
-    <div id="proration">
-        <h2>Proration/Prorate</h2>
-        Multiplier applied to next attacks' damage in the combo.
-    </div>
-    <div id="limit">
-        <h2>Limit</h2>
-        Value that accumulates in combos. When any of the 4 values reach 100%, the combo ends, but the target cannot <a href="#tech">airtech</a>.
-    </div>
-    <div id="title_screen">
-        <h2>Title screen</h2>
-        Refers to the <a href="#screen">screen</a> shown when starting the game.
-    </div>
-</div>
-<script type="text/javascript">
-    let base = document.getElementById("elems");
-    let list = document.getElementById("summary");
+    <script type="text/javascript">
+        let base = document.getElementById("elems");
+        let list = document.getElementById("summary");
 
-    for (let elem of base.children) {
-        let node = document.createElement("li");
-        let link = document.createElement("a");
+        for (let elem of base.children) {
+            let node = document.createElement("li");
+            let link = document.createElement("a");
 
-        link.textContent = elem.getElementsByTagName("h2")[0].textContent;
-        link.href = "#" + elem.id;
-        node.appendChild(link);
-        list.appendChild(node);
-    }
-</script>
-</body>
-</html>
+            link.textContent = elem.getElementsByTagName("h2")[0].textContent;
+            link.href = "#" + elem.id;
+            node.appendChild(link);
+            list.appendChild(node);
+        }
+    </script>
+{% endblock %}
