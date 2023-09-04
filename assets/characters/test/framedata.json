@@ -5019,7 +5019,7 @@
             "width": 40
           },
           "defense_flag": 256,
-          "duration": 300,
+          "duration": 3000,
           "offset": {
             "x": 12,
             "y": -6
@@ -18660,7 +18660,7 @@
     ]
   },
   {
-    "action": 260,
+    "action": 259,
     "framedata": [
       [
         {
@@ -19404,7 +19404,7 @@
     ]
   },
   {
-    "action": 272,
+    "action": 271,
     "framedata": [
       [
         {
