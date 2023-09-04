@@ -15601,7 +15601,7 @@
     ]
   },
   {
-    "action": 210,
+    "action": 209,
     "framedata": [
       [
         {
@@ -15951,7 +15951,7 @@
           "hit_sound": "assets/sfxs/se/010.wav",
           "hit_speed": {
             "x": 3,
-            "y": 1
+            "y": 3
           },
           "hit_stun": 18,
           "hurt_boxes": [
@@ -16031,7 +16031,7 @@
           "hit_sound": "assets/sfxs/se/010.wav",
           "hit_speed": {
             "x": 3,
-            "y": 1
+            "y": 3
           },
           "hit_stun": 18,
           "hurt_boxes": [
