@@ -2400,7 +2400,7 @@ namespace SpiralOfFate
 				return false;
 			foundAtk |= atkInput(input);
 			found6 |= foundAtk && !input.v && input.h > 0;
-			found2 |= found4 && input.v < 0;
+			found2 |= found6 && input.v < 0;
 			found4 |= found2 && !input.v && input.h < 0;
 			if (!input.v && input.h > 0 && found2 && found6)
 				break;
