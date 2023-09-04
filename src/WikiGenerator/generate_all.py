@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import traceback
 from wiki_page_generator import generate_wiki_page
 from jinja2 import Environment, FileSystemLoader
@@ -14,13 +15,20 @@ def render_file(file, out, root):
 		fd.write(html)
 
 
-entries = []
+entries=[]
 for f in os.listdir("assets/characters"):
 	if f == "template":
 		continue
 	try:
-		d = generate_wiki_page("assets/characters/" + f, no_regen=len(sys.argv) >= 2)
-		entries.append(d)
+		with open("assets/characters/" + f + "/chr.json") as fd:
+			entries.append(json.load(fd))
+	except:
+		traceback.print_exc()
+for f in os.listdir("assets/characters"):
+	if f == "template":
+		continue
+	try:
+		generate_wiki_page("assets/characters/" + f, entries, no_regen=len(sys.argv) >= 2)
 	except:
 		traceback.print_exc()
 		print("\033[31mCannot generate page for " + f + "\033[0m")
