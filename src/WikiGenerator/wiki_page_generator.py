@@ -574,7 +574,7 @@ def generate_page(data, stats, meta, chrs):
                 else:
                     result.append("".join(f for f in r if g[f]) or "-")
             move["guard"] = result
-    return template.render(moves=data, stats=stats, names=names, meta=meta, chrs=chrs)
+    return template.render(moves=data, stats=stats, names=names, meta=meta, chrs=chrs, root="../../")
 
 
 def generate_wiki_page(path, chrs_stats, no_regen=False, chr_stats=None):
