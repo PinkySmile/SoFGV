@@ -105,7 +105,7 @@ namespace SpiralOfFate
 		this->_titleSpiral.textureHandle = game->textureMgr.load("assets/ui/spiral.png");
 		this->_titleSpiral.setOrigin({140, 131});
 		this->_titleSpiral.setPosition({328, 139});
-		this->_netbellSound = game->soundMgr.load("assets/sfxs/se/057.wav");
+		this->_netbellSound = game->soundMgr.load("assets/sfxs/se/057.ogg");
 		this->_inputs.resize(INPUT_NUMBER);
 		this->_inputs[INPUT_LEFT].textureHandle = game->textureMgr.load("assets/icons/inputs/4.png");
 		this->_inputs[INPUT_RIGHT].textureHandle = game->textureMgr.load("assets/icons/inputs/6.png");
