@@ -4685,7 +4685,7 @@
             "x": 76,
             "y": 140
           },
-          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 70,
@@ -4878,7 +4878,7 @@
             "x": 130,
             "y": 160
           },
-          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 80,
@@ -4966,7 +4966,7 @@
           ],
           "hit_opponent_hit_stop": 15,
           "hit_player_hit_stop": 15,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 15,
             "y": 10
@@ -5005,7 +5005,7 @@
             "x": 480,
             "y": 160
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 80,
@@ -5055,7 +5055,7 @@
           ],
           "hit_opponent_hit_stop": 15,
           "hit_player_hit_stop": 15,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 5,
             "y": 20
@@ -5773,7 +5773,7 @@
             "x": 56,
             "y": 146
           },
-          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 73,
@@ -6050,7 +6050,7 @@
             "x": 70,
             "y": 116
           },
-          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 58,
@@ -6643,7 +6643,7 @@
             }
           ],
           "hit_opponent_hit_stop": 20,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_stun": 30,
           "hurt_boxes": [
             {
@@ -7348,7 +7348,7 @@
               "width": 44
             }
           ],
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "hit_speed": {
             "x": 30,
             "y": 4
@@ -7384,7 +7384,7 @@
             "width": 38
           },
           "duration": 14,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "offset": {
             "x": 13,
             "y": -19
@@ -7409,7 +7409,7 @@
             "width": 38
           },
           "duration": 20,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "offset": {
             "x": 9,
             "y": -14
@@ -7485,7 +7485,7 @@
             }
           ],
           "hit_opponent_hit_stop": 20,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_stun": 30,
           "hurt_boxes": [
             {
@@ -8225,7 +8225,7 @@
               "width": 44
             }
           ],
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "hit_speed": {
             "x": 30,
             "y": 4
@@ -8261,7 +8261,7 @@
             "width": 38
           },
           "duration": 14,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "offset": {
             "x": 13,
             "y": -19
@@ -8286,7 +8286,7 @@
             "width": 38
           },
           "duration": 20,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "offset": {
             "x": 9,
             "y": -14
@@ -8471,7 +8471,7 @@
             "x": 74,
             "y": 112
           },
-          "sound": "assets/sfxs/se/marisa/009.wav",
+          "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
             "height": 56,
@@ -9259,7 +9259,7 @@
             "x": 120,
             "y": 212
           },
-          "sound": "assets/sfxs/se/suwako/051.wav",
+          "sound": "assets/sfxs/se/suwako/051.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 106,
@@ -9357,7 +9357,7 @@
             "x": 120,
             "y": 212
           },
-          "sound": "assets/sfxs/se/suwako/051.wav",
+          "sound": "assets/sfxs/se/suwako/051.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 106,

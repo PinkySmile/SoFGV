@@ -10782,7 +10782,7 @@
           },
           "damage": 500,
           "duration": 2,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "hit_boxes": [
             {
               "height": 40,
@@ -10842,7 +10842,7 @@
             "x": 260,
             "y": 190
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "remilia.png",
           "texture_bounds": {
             "height": 95,
@@ -11021,7 +11021,7 @@
           "damage": 750,
           "defense_flag": 2113536,
           "duration": 3,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_boxes": [
             {
               "height": 41,
@@ -11072,7 +11072,7 @@
             "x": 220,
             "y": 220
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "speed": {
             "x": 3,
             "y": 0
@@ -11250,7 +11250,7 @@
           "damage": 750,
           "defense_flag": 2113536,
           "duration": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_boxes": [
             {
               "height": 41,
@@ -11307,7 +11307,7 @@
             "x": 260,
             "y": 220
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "speed": {
             "x": 3,
             "y": 0
@@ -11612,7 +11612,7 @@
           },
           "defense_flag": 4,
           "guard_damage": 10000,
-          "hit_sound": "assets/sfxs/se/remilia/064.wav",
+          "hit_sound": "assets/sfxs/se/remilia/064.ogg",
           "hit_boxes": [
             {
               "height": 181,
@@ -11880,7 +11880,7 @@
           },
           "damage": 4800,
           "duration": 2,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_boxes": [
             {
               "height": 254,
@@ -11915,7 +11915,7 @@
             "x": 160,
             "y": 210
           },
-          "sound": "assets/sfxs/se/remilia/065.wav",
+          "sound": "assets/sfxs/se/remilia/065.ogg",
           "spirit_limit": 100,
           "sprite": "remilia.png",
           "texture_bounds": {

@@ -20,7 +20,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/011.wav",
+          "hit_sound": "assets/sfxs/se/011.ogg",
           "hit_speed": {
             "x": 4,
             "y": 0
@@ -85,7 +85,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/youmu/000.wav",
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0
@@ -136,7 +136,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/youmu/000.wav",
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0
@@ -186,7 +186,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/youmu/000.wav",
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0
@@ -236,7 +236,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/youmu/000.wav",
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0

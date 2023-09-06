@@ -3469,6 +3469,7 @@ namespace SpiralOfFate
 		if (this->_limit[0] >= 100) {
 			this->_opponent->Object::_forceStartMove(this->_opponent->_isGrounded() ? ACTION_ROMAN_CANCEL : ACTION_AIR_ROMAN_CANCEL);
 			this->_limitEffects |= NEUTRAL_LIMIT_EFFECT;
+			this->_opponent->_doubleGravity = true;
 		}
 		if (this->_limit[1] >= 100)
 			this->_limitEffects |= VOID_LIMIT_EFFECT;
@@ -3560,7 +3561,7 @@ namespace SpiralOfFate
 		auto data = this->getCurrentFrameData();
 		auto gravity = this->_gravity;
 
-		if (this->_opponent->_limitEffects & NEUTRAL_LIMIT_EFFECT)
+		if (this->_doubleGravity)
 			this->_gravity.y *= 2;
 		Object::_applyMoveAttributes();
 		this->_gravity = gravity;
@@ -3687,6 +3688,7 @@ namespace SpiralOfFate
 		dat->_stallingFactor = this->_stallingFactor;
 		dat->_willGroundSlam = this->_willGroundSlam;
 		dat->_willWallSplat = this->_willWallSplat;
+		dat->_doubleGravity = this->_doubleGravity;
 		memcpy(dat->_specialInputs, this->_specialInputs._value, sizeof(dat->_specialInputs));
 		dat->_nbUsedMoves = this->_usedMoves.size();
 		dat->_nbLastInputs = this->_lastInputs.size();
@@ -3761,6 +3763,7 @@ namespace SpiralOfFate
 		this->_guardBar = dat->_guardBar;
 		this->_willGroundSlam = dat->_willGroundSlam;
 		this->_willWallSplat = dat->_willWallSplat;
+		this->_doubleGravity = dat->_doubleGravity;
 		memcpy(this->_specialInputs._value, dat->_specialInputs, sizeof(dat->_specialInputs));
 		this->_lastInputs.clear();
 		for (size_t i = 0; i < dat->_nbLastInputs; i++)
@@ -4247,6 +4250,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat1->_willGroundSlam) + " vs " + std::to_string(dat2->_willGroundSlam));
 		if (dat1->_willWallSplat != dat2->_willWallSplat)
 			game->logger.fatal(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat1->_willWallSplat) + " vs " + std::to_string(dat2->_willWallSplat));
+		if (dat1->_doubleGravity != dat2->_doubleGravity)
+			game->logger.fatal(std::string(msgStart) + "Character::_doubleGravity: " + std::to_string(dat1->_doubleGravity) + " vs " + std::to_string(dat2->_doubleGravity));
 		if (dat1->_guardBarTmp != dat2->_guardBarTmp)
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBarTmp: " + std::to_string(dat1->_guardBarTmp) + " vs " + std::to_string(dat2->_guardBarTmp));
 		if (dat1->_airMovementUsed != dat2->_airMovementUsed)
@@ -4656,6 +4661,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_stallingFactor: " + std::to_string(dat->_stallingFactor));
 		game->logger.info(std::string(msgStart) + "Character::_willGroundSlam: " + std::to_string(dat->_willGroundSlam));
 		game->logger.info(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat->_willWallSplat));
+		game->logger.info(std::string(msgStart) + "Character::_doubleGravity: " + std::to_string(dat->_doubleGravity));
 		game->logger.info(std::string(msgStart) + "Character::_airMovementUsed: " + std::to_string(dat->_airMovementUsed));
 
 		char number[3];
@@ -4759,6 +4765,7 @@ namespace SpiralOfFate
 
 		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
 
+		this->_doubleGravity = false;
 		this->_airDashesUsed = 0;
 		this->_airMovementUsed = 0;
 		if (this->_action >= ACTION_UP_AIR_TECH && this->_action <= ACTION_BACKWARD_AIR_TECH)

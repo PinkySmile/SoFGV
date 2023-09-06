@@ -7117,7 +7117,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 5,
             "y": 0
@@ -7150,7 +7150,7 @@
             "x": 74,
             "y": 192
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -7445,7 +7445,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 15,
             "y": 0
@@ -7485,7 +7485,7 @@
             "x": 58,
             "y": 192
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "speed": {
             "x": 2,
             "y": 0
@@ -7672,7 +7672,7 @@
           ],
           "hit_opponent_hit_stop": 14,
           "hit_player_hit_stop": 14,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 4,
             "y": 17
@@ -7700,7 +7700,7 @@
             "x": 60,
             "y": 192
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -7856,7 +7856,7 @@
           ],
           "hit_opponent_hit_stop": 12,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 3,
             "y": 0
@@ -7902,7 +7902,7 @@
             "x": 110,
             "y": 132
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 66,
@@ -8056,7 +8056,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 2,
             "y": 0
@@ -8089,7 +8089,7 @@
             "x": 100,
             "y": 140
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 70,
@@ -8280,7 +8280,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/008.wav",
+          "hit_sound": "assets/sfxs/se/008.ogg",
           "hit_speed": {
             "x": 3,
             "y": 22
@@ -8313,7 +8313,7 @@
             "x": 88,
             "y": 146
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "speed": {
             "x": 15,
             "y": 6
@@ -8356,7 +8356,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/008.wav",
+          "hit_sound": "assets/sfxs/se/008.ogg",
           "hit_speed": {
             "x": 3,
             "y": 22
@@ -8675,7 +8675,7 @@
             "x": 20.0,
             "y": 0.0
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -8793,7 +8793,7 @@
             "x": 86,
             "y": 180
           },
-          "sound": "assets/sfxs/se/007.wav",
+          "sound": "assets/sfxs/se/007.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -8865,7 +8865,7 @@
             "x": 86,
             "y": 180
           },
-          "sound": "assets/sfxs/se/008.wav",
+          "sound": "assets/sfxs/se/008.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -9053,7 +9053,7 @@
           ],
           "hit_opponent_hit_stop": 15,
           "hit_player_hit_stop": 15,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 1,
             "y": 20
@@ -9099,7 +9099,7 @@
             "x": 104,
             "y": 160
           },
-          "sound": "assets/sfxs/se/071.wav",
+          "sound": "assets/sfxs/se/071.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 80,
@@ -9231,7 +9231,7 @@
           ],
           "hit_opponent_hit_stop": 30,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/marisa/002.wav",
+          "hit_sound": "assets/sfxs/se/marisa/002.ogg",
           "hit_stun": 20,
           "min_prorate": 75.0,
           "offense_flag": 805437496,
@@ -9245,7 +9245,7 @@
             "x": 100,
             "y": 222
           },
-          "sound": "assets/sfxs/se/marisa/004.wav",
+          "sound": "assets/sfxs/se/marisa/004.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 111,
@@ -9516,7 +9516,7 @@
             "x": 178,
             "y": 328
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9557,7 +9557,7 @@
             "x": 132,
             "y": 328
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9598,7 +9598,7 @@
             "x": 122,
             "y": 340
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 170,
@@ -9639,7 +9639,7 @@
             "x": 178,
             "y": 328
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9680,7 +9680,7 @@
             "x": 132,
             "y": 328
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 164,
@@ -9727,7 +9727,7 @@
             "x": 122,
             "y": 340
           },
-          "sound": "assets/sfxs/se/marisa/002.wav",
+          "sound": "assets/sfxs/se/marisa/002.ogg",
           "spirit_limit": 100,
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9921,7 +9921,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 2,
             "y": 0
@@ -9959,7 +9959,7 @@
             "x": 158,
             "y": 124
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 62,
@@ -10290,7 +10290,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 5,
             "y": 0
@@ -10324,7 +10324,7 @@
             "x": 62,
             "y": 192
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -10362,7 +10362,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 6,
             "y": 5
@@ -10433,7 +10433,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 2,
             "y": 12
@@ -10702,7 +10702,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 2,
             "y": 10
@@ -10730,7 +10730,7 @@
             "x": 68,
             "y": 192
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -10768,7 +10768,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 3,
             "y": 7
@@ -10829,7 +10829,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 8,
             "y": 2
@@ -11019,7 +11019,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/005.wav",
+          "hit_sound": "assets/sfxs/se/005.ogg",
           "hit_speed": {
             "x": 0,
             "y": -10
@@ -11053,7 +11053,7 @@
             "x": 46,
             "y": 224
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 112,
@@ -11201,7 +11201,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11235,7 +11235,7 @@
             "x": 62,
             "y": 192
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "speed": {
             "x": 2,
             "y": -2
@@ -11277,7 +11277,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11352,7 +11352,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11427,7 +11427,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11502,7 +11502,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11577,7 +11577,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -11652,7 +11652,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -12013,7 +12013,7 @@
             "x": 20.0,
             "y": 0.0
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -12128,7 +12128,7 @@
             "x": 86,
             "y": 180
           },
-          "sound": "assets/sfxs/se/007.wav",
+          "sound": "assets/sfxs/se/007.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -12203,7 +12203,7 @@
             "x": 86,
             "y": 180
           },
-          "sound": "assets/sfxs/se/008.wav",
+          "sound": "assets/sfxs/se/008.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 90,
@@ -12616,7 +12616,7 @@
           ],
           "hit_opponent_hit_stop": 12,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_stun": 35,
           "hurt_boxes": [
             {
@@ -12639,7 +12639,7 @@
             "x": 122,
             "y": 254
           },
-          "sound": "assets/sfxs/se/alice/021.wav",
+          "sound": "assets/sfxs/se/alice/021.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 127,
@@ -12677,7 +12677,7 @@
           ],
           "hit_opponent_hit_stop": 16,
           "hit_player_hit_stop": 16,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 2,
             "y": 16
@@ -12830,7 +12830,7 @@
             "x": 70,
             "y": 134
           },
-          "sound": "assets/sfxs/se/tenshi/011.wav",
+          "sound": "assets/sfxs/se/tenshi/011.ogg",
           "speed": {
             "x": 2,
             "y": 0
@@ -12867,7 +12867,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_stun": 10,
           "hurt_boxes": [
             {
@@ -12949,7 +12949,7 @@
           ],
           "hit_opponent_hit_stop": 6,
           "hit_player_hit_stop": 6,
-          "hit_sound": "assets/sfxs/se/007.wav",
+          "hit_sound": "assets/sfxs/se/007.ogg",
           "hit_speed": {
             "x": -4,
             "y": 0
@@ -12989,7 +12989,7 @@
             "x": 188,
             "y": 130
           },
-          "sound": "assets/sfxs/se/tenshi/012.wav",
+          "sound": "assets/sfxs/se/tenshi/012.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 65,
@@ -13027,7 +13027,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/008.wav",
+          "hit_sound": "assets/sfxs/se/008.ogg",
           "hit_speed": {
             "x": -4,
             "y": 0
@@ -13100,7 +13100,7 @@
           ],
           "hit_opponent_hit_stop": 6,
           "hit_player_hit_stop": 6,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_stun": 30,
           "hurt_boxes": [
             {
@@ -13339,7 +13339,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 3,
             "y": 0
@@ -13372,7 +13372,7 @@
             "x": 120,
             "y": 136
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 68,
@@ -13416,7 +13416,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 3,
             "y": 0
@@ -13542,7 +13542,7 @@
             "x": 106,
             "y": 192
           },
-          "sound": "assets/sfxs/se/suika/018.wav",
+          "sound": "assets/sfxs/se/suika/018.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -13627,7 +13627,7 @@
           ],
           "hit_opponent_hit_stop": 16,
           "hit_player_hit_stop": 16,
-          "hit_sound": "assets/sfxs/se/tenshi/002.wav",
+          "hit_sound": "assets/sfxs/se/tenshi/002.ogg",
           "hit_speed": {
             "x": 20,
             "y": 12
@@ -13666,7 +13666,7 @@
             "x": 208,
             "y": 184
           },
-          "sound": "assets/sfxs/se/suika/001.wav",
+          "sound": "assets/sfxs/se/suika/001.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 92,
@@ -14024,7 +14024,7 @@
           ],
           "hit_opponent_hit_stop": 18,
           "hit_player_hit_stop": 18,
-          "hit_sound": "assets/sfxs/se/009.wav",
+          "hit_sound": "assets/sfxs/se/009.ogg",
           "hit_speed": {
             "x": 2,
             "y": 28
@@ -14051,7 +14051,7 @@
             "x": 162,
             "y": 330
           },
-          "sound": "assets/sfxs/se/alice/036.wav",
+          "sound": "assets/sfxs/se/alice/036.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 165,
@@ -14171,7 +14171,7 @@
           ],
           "hit_opponent_hit_stop": 10,
           "hit_player_hit_stop": 10,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 5,
             "y": 8
@@ -14205,7 +14205,7 @@
             "x": 100,
             "y": 188
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -14243,7 +14243,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 5,
             "y": 8
@@ -14441,7 +14441,7 @@
           ],
           "hit_opponent_hit_stop": 12,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 0,
             "y": 20
@@ -14475,7 +14475,7 @@
             "x": 128,
             "y": 199
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "speed": {
             "x": 0,
             "y": 1
@@ -14758,7 +14758,7 @@
           ],
           "hit_opponent_hit_stop": 12,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/005.wav",
+          "hit_sound": "assets/sfxs/se/005.ogg",
           "hit_speed": {
             "x": 1,
             "y": -24
@@ -14792,7 +14792,7 @@
             "x": 46,
             "y": 220
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 110,
@@ -15098,7 +15098,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -15131,7 +15131,7 @@
             "x": 94,
             "y": 192
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 93,
@@ -15320,7 +15320,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 10
@@ -15352,7 +15352,7 @@
             "x": 174,
             "y": 130
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "spirit_limit": 30,
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -15391,7 +15391,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 7
@@ -15948,7 +15948,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 3,
             "y": 3
@@ -15981,7 +15981,7 @@
             "x": 106,
             "y": 188
           },
-          "sound": "assets/sfxs/se/tenshi/055.wav",
+          "sound": "assets/sfxs/se/tenshi/055.ogg",
           "speed": {
             "x": -1,
             "y": 0
@@ -16028,7 +16028,7 @@
           ],
           "hit_opponent_hit_stop": 5,
           "hit_player_hit_stop": 5,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 3,
             "y": 3
@@ -16103,7 +16103,7 @@
           ],
           "hit_opponent_hit_stop": 6,
           "hit_player_hit_stop": 6,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 3,
             "y": 1
@@ -16136,7 +16136,7 @@
             "x": 168,
             "y": 188
           },
-          "sound": "assets/sfxs/se/remilia/000.wav",
+          "sound": "assets/sfxs/se/remilia/000.ogg",
           "spirit_limit": 10,
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16418,7 +16418,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -16451,7 +16451,7 @@
             "x": 66,
             "y": 192
           },
-          "sound": "assets/sfxs/se/remilia/001.wav",
+          "sound": "assets/sfxs/se/remilia/001.ogg",
           "spirit_limit": 20,
           "sprite": "sheet.png",
           "subobject": 1,
@@ -16495,7 +16495,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -16570,7 +16570,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/001.wav",
+          "hit_sound": "assets/sfxs/se/001.ogg",
           "hit_speed": {
             "x": 6,
             "y": 0
@@ -16795,7 +16795,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0
@@ -16827,7 +16827,7 @@
             "x": 96,
             "y": 162
           },
-          "sound": "assets/sfxs/se/tenshi/055.wav",
+          "sound": "assets/sfxs/se/tenshi/055.ogg",
           "spirit_limit": 10,
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16868,7 +16868,7 @@
           ],
           "hit_opponent_hit_stop": 6,
           "hit_player_hit_stop": 6,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 1,
             "y": 0
@@ -16965,7 +16965,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/010.wav",
+          "hit_sound": "assets/sfxs/se/010.ogg",
           "hit_speed": {
             "x": 2,
             "y": 0
@@ -17282,7 +17282,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 2
@@ -17309,7 +17309,7 @@
             "x": 112,
             "y": 196
           },
-          "sound": "assets/sfxs/se/remilia/012.wav",
+          "sound": "assets/sfxs/se/remilia/012.ogg",
           "speed": {
             "x": 3,
             "y": 0
@@ -17381,7 +17381,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 2
@@ -17479,7 +17479,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 2
@@ -17573,7 +17573,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 2
@@ -17667,7 +17667,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 4,
             "y": 7
@@ -18015,7 +18015,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/006.wav",
+          "hit_sound": "assets/sfxs/se/006.ogg",
           "hit_speed": {
             "x": 0,
             "y": 3
@@ -18048,7 +18048,7 @@
             "x": 58,
             "y": 188
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -18178,7 +18178,7 @@
           ],
           "hit_opponent_hit_stop": 4,
           "hit_player_hit_stop": 4,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 5,
             "y": 0
@@ -18216,7 +18216,7 @@
             "x": 86,
             "y": 130
           },
-          "sound": "assets/sfxs/se/028.wav",
+          "sound": "assets/sfxs/se/028.ogg",
           "speed": {
             "x": 1,
             "y": 0
@@ -18258,7 +18258,7 @@
           ],
           "hit_opponent_hit_stop": 6,
           "hit_player_hit_stop": 6,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 8
@@ -18337,7 +18337,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/003.wav",
+          "hit_sound": "assets/sfxs/se/003.ogg",
           "hit_speed": {
             "x": 2,
             "y": 15
@@ -18815,7 +18815,7 @@
           ],
           "hit_opponent_hit_stop": 73,
           "hit_player_hit_stop": 13,
-          "hit_sound": "assets/sfxs/se/012.wav",
+          "hit_sound": "assets/sfxs/se/012.ogg",
           "hit_stun": 40,
           "hurt_boxes": [
             {
@@ -18963,7 +18963,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/002.wav",
+          "hit_sound": "assets/sfxs/se/002.ogg",
           "hit_speed": {
             "x": 1,
             "y": 6
@@ -18996,7 +18996,7 @@
             "x": 52,
             "y": 192
           },
-          "sound": "assets/sfxs/se/027.wav",
+          "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 96,
@@ -19109,7 +19109,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/005.wav",
+          "hit_sound": "assets/sfxs/se/005.ogg",
           "hit_speed": {
             "x": 0,
             "y": 2
@@ -19136,7 +19136,7 @@
             "x": 50,
             "y": 200
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "speed": {
             "x": 0,
             "y": -5
@@ -19566,7 +19566,7 @@
           ],
           "hit_opponent_hit_stop": 73,
           "hit_player_hit_stop": 13,
-          "hit_sound": "assets/sfxs/se/012.wav",
+          "hit_sound": "assets/sfxs/se/012.ogg",
           "hit_stun": 40,
           "hurt_boxes": [
             {
@@ -19613,7 +19613,7 @@
           },
           "defense_flag": 2097408,
           "duration": 2,
-          "hit_sound": "assets/sfxs/se/012.wav",
+          "hit_sound": "assets/sfxs/se/012.ogg",
           "hurt_boxes": [
             {
               "height": 190,
@@ -19781,7 +19781,7 @@
           ],
           "hit_opponent_hit_stop": 12,
           "hit_player_hit_stop": 12,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 2,
             "y": 19
@@ -19803,7 +19803,7 @@
             "x": 122,
             "y": 178
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "speed": {
             "x": 1,
             "y": 4
@@ -19847,7 +19847,7 @@
           ],
           "hit_opponent_hit_stop": 8,
           "hit_player_hit_stop": 8,
-          "hit_sound": "assets/sfxs/se/004.wav",
+          "hit_sound": "assets/sfxs/se/004.ogg",
           "hit_speed": {
             "x": 4,
             "y": 17
@@ -20307,7 +20307,7 @@
             "x": 46,
             "y": 188
           },
-          "sound": "assets/sfxs/se/058.wav",
+          "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20366,7 +20366,7 @@
           ],
           "hit_opponent_hit_stop": 16,
           "hit_player_hit_stop": 16,
-          "hit_sound": "assets/sfxs/se/058.wav",
+          "hit_sound": "assets/sfxs/se/058.ogg",
           "hit_speed": {
             "x": 4,
             "y": 18
@@ -20384,7 +20384,7 @@
             "x": 70,
             "y": 188
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20452,7 +20452,7 @@
             "x": 46,
             "y": 188
           },
-          "sound": "assets/sfxs/se/058.wav",
+          "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20511,7 +20511,7 @@
           ],
           "hit_opponent_hit_stop": 16,
           "hit_player_hit_stop": 16,
-          "hit_sound": "assets/sfxs/se/058.wav",
+          "hit_sound": "assets/sfxs/se/058.ogg",
           "hit_speed": {
             "x": 4,
             "y": 18
@@ -20529,7 +20529,7 @@
             "x": 70,
             "y": 188
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20601,7 +20601,7 @@
             "x": 46,
             "y": 188
           },
-          "sound": "assets/sfxs/se/058.wav",
+          "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -20668,7 +20668,7 @@
           ],
           "hit_opponent_hit_stop": 16,
           "hit_player_hit_stop": 16,
-          "hit_sound": "assets/sfxs/se/058.wav",
+          "hit_sound": "assets/sfxs/se/058.ogg",
           "hit_speed": {
             "x": -3,
             "y": 18
@@ -20686,7 +20686,7 @@
             "x": 70,
             "y": 188
           },
-          "sound": "assets/sfxs/se/029.wav",
+          "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
