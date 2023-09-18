@@ -20,18 +20,23 @@
 	The "elemental wheel" describes which elements beats which. As you can see below, it is pretty much a rock, paper, scissors, with <span class="not-typed">Non-Typed</span> losing or not interacting with other elements and <span class="neutral">Neutral</span> winning against all but <span class="not-typed">Non-typed</span>.<br>
 	<img src="type-wheel.png" alt="type-wheel" height="256" width ="256"><br>
 	In effect, the wheel doesn't interact with most moves, as a <span class="void">Void</span> move will not necessarily "beat" a <span class="matter">Matter</span> move. However, it does interact with some special properties of moves.<br>
-	For example, invincibility and guard points are generally typed, which means you can be hit during those moves by the stronger type.<br>
+	For example, invincibility and guard points are generally <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span>, which means you can be hit during those moves by the stronger type.<br>
 	Moreover, most system mechanics (mechanics common to all characters) interact in some way or another with this wheel, but we will develop that in the said mechanics sections.<br>
 	Even if it is good to know that the wheel exists as to not be too surprised when it comes into play, it is only worth mastering for optimisation; ignoring it won't deprive you of any essential tool.
 	<h2 id="status_effect">Type status effects</h2>
-	When one takes a hit from any typed move (and whether they block it or not) they will be inflicted a status effect depending on the move type they've been hit by.<br>
+	When one takes a hit from any <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> move (and whether they block it or not) they will be inflicted a status effect depending on the move type they've been hit by.<br>
 	<ul>
 		<li><span class="spirit">Spirit</span> each hits on a character already affected by this status effect will give 2 times more mana.</li>
 		<li><span class="matter">Matter</span> the guard bar doesn't regenarate as long as you're affected.</li>
 		<li><span class="void">Void</span> inflicts a dot that deals chip damage (this damage cannot kill).</li>
-		<li><span class="neutral">Neutral</span> removes the typed properties of all your moves which are now considered <span class="not-typed">Non-typed</span>.</li>
+		<li><span class="neutral">Neutral</span> removes the <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> properties of all your moves which are now considered <span class="not-typed">Non-typed</span>.</li>
 		<li><span class="not-typed">Non-typed</span> doesn't inflict any status but it also won't replace or remove any status effect already in place.</li>
 	</ul>
 	When someone inflicted by a status effect is hit by another move of another type, the new status effect will replace the one already in place (except for <span class="not-typed">Non-typed</span>).<br>
 	How long the status effect will linger depends on how high in the cancel tree the move that inflicted the status is (so jab don't inflict it for long and things like specials or supers inflict it for much longer).
+	<h2 id="type_switch">Type switch</h2>
+	You can press <span class="neutral">A</span> + <span class="spirit">S</span>/<span class="matter">M</span>/<span class="void">V</span> even during another move to do a type switch for 10% of meter.<br>
+	after a type switch your next moves for a 1/3 of a second will be of the type of the type switch (<span class="spirit">S</span> for <span class="spirit">Spirit</span>, <span class="matter">M</span> for <span class="matter">Matter</span>, <span class="void">V</span> for <span class="void">Void</span>).<br>
+	This will only change what the type of the hit of a move, as such it will inflicts the status effect of its new type but, if the move that has been typed switch has <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> armor, invincibility or other specific typed properties, they will not change.<br>
+	Think of this mechanic as an option to apply a certain status effect when you can't just use a move of the type you want or, more importantly, as an answer to any <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> defensive option.<br>
 {% endblock %}
