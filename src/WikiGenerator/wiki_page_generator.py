@@ -553,7 +553,7 @@ order = [
 
 
 def generate_page(data, stats, meta, chrs):
-    env = Environment(loader=FileSystemLoader([os.path.dirname(__file__) + "resources/" + stats["name"], os.path.dirname(__file__) + "/templates"]))
+    env = Environment(loader=FileSystemLoader([os.path.dirname(__file__) + "/resources/" + stats["name"], os.path.dirname(__file__) + "/templates"]))
     with open(os.path.dirname(__file__) + "/templates/chr_template.html") as fd:
         template = env.from_string(fd.read())
     for move in data:
