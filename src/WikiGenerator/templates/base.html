@@ -28,6 +28,18 @@
         #footer {
             background: black;
             color: white;
+            height: 118px;
+            flex-shrink: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        #content {
+            flex: 1 0 auto;
         }
     {% block extrastyle %}
         table {
