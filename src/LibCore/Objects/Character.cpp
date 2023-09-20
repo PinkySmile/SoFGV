@@ -715,7 +715,7 @@ namespace SpiralOfFate
 					if (this->_guardCooldown)
 						;
 					else if (this->_guardBar + TMP_GUARD_MAX / 2 >= this->_maxGuardBar)
-						this->_guardBarTmp = TMP_GUARD_MAX - (this->_maxGuardBar - this->_guardBar) * 2;
+						this->_guardBarTmp = (this->_maxGuardBar - this->_guardBar) * 2;
 					else
 						this->_guardBarTmp = TMP_GUARD_MAX;
 					this->_restand = false;
