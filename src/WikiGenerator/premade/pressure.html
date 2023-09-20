@@ -2,33 +2,33 @@
 {% block title %}Pressure{% endblock %}
 {% block content %}
 	<h1>Pressure</h1>
-	<h2>counter hit</h2>
-	A counter hit, is when you hit your opponent during the start-up of their moves (not every move can be counter-hit), when you counter-hit someone with a move, this move will deal 1.5 time more damage and hitstun/untech.<br>
-	<h2>on the defense</h2>
-	In this game you have two way to defend, you can defend high(by pressing back/4 or up-back/7) or low (by pressing back-down/1).<br>
-	All moves are either high, low, or mid. Most air moves are high, you must defend high moves by blocking high, low moves by blocking, and mid moves can be blocked by either.<br>
+	<h2>Counter Hit</h2>
+	A counter hit, is when you hit your opponent during the start-up of their moves (not every move can be counter-hit), when you counter-hit someone with a move, this move will deal 1.5 time more damage and <a href="glossary.html#untech">hitstun/untech</a>.<br>
+	<h2>Defense</h2>
+	In this game you have two way to defend, you can defend high(by pressing 4 or 7) or low (by pressing 1).<br>
+	All moves are either high, low, or mid. Most air moves are high, you must defend high moves by blocking high, low moves by blocking low, and mid moves can be blocked by either.<br>
 	When you block any move, you lose some guard bar and you suffer blockstun, which means that you are forced to maintain your shield, without being able to do anything else for a while.<br>
-	Also When you wrongblock a move, you suffer more blockstun and lose more guard bar.<br>
+	Also when you wrongblock a move, you suffer more blockstun and lose more guard bar.<br>
 	Your guard bar recovers when you are not blocking a move, but recovers even when blocking if you have been guard crushed.<br>
-	Guard crush will happen when your guard bar get to 0 and as long as your guard bar hasn't recovered, you will remain in this state. In guard crush, every time you wrongblock a move, it will go through your defenses.<br>
+	Guard crush will happen when your guard bar get to 0 and as long as your guard bar hasn't recovered, you will remain in this state. In guard crush, you can no longer wrongblock moves as they will hit you instead, however you can still block if you guess right.<br>
 	To stop your opponent from oppening your defense you can do invincible moves or try to hit them if they leave a large gap among other options, but you can also try to parry if they leave a small gap.<br>
-	<h2>Parrying</h2>
-	Parries, which can be done with back/4<span class="neutral">A</span>+<span class="neutral">N</span>/<span class="spirit">S</span>/<span class="matter">M</span>/<span class="void">V</span> and cost some guard bar, are <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> moves (as such there is 4 of them, one for each types and 1 <span class="not-typed">Non-Typed</span>) that come out instantly, but are only active during a short period.<br>
-	During this period, if your opponent hit you with a move that is of the same or weaker type (except for the <span class="not-typed">Non-Typed</span> one which activates regardless of the opposing type), they will activate and do something depending on which one you had used.
+	<h2 id="parry">Parrying</h2>
+	Parries, which can be done with 4<span class="neutral">A</span>+<span class="neutral">N</span>/<span class="spirit">S</span>/<span class="matter">M</span>/<span class="void">V</span> and cost some guard bar, are <span class="spirit">Ty</span><span class="matter">p</span><span class="void">ed</span> moves (as such there is 4 of them, one for each types and 1 <span class="not-typed">Non-Typed</span>) that come out instantly, but are only active during a short period.<br>
+	During this period, if your opponent hit you with a move that is of the <a href="typing_system.html#type_wheel">same or weaker type</a> (except for the <span class="not-typed">Non-Typed</span> one which activates regardless of the opposing type), they will activate and do something depending on which one you had used.
 	However, you must also choose between parrying high or low, and can only parry moves of the same height otherwise you will simply be hit.
 	When you do any parry, if you don't receive any move during its active frame, you will go into a form of recovery where you can only block.<br>
 	While in recovery if your opponent hit you with a move that is of the strong type against the type of your parry, or at a different height than that of your parry, you will be hit (The <span class="not-typed">Non-Typed</span> parry can block any type during it's recovery, but is still limited by height and suffer a much longer recovery than the other parries).<br>
 	When parrying a projectile, if you use the sronger type compared to the one of the projectile, you will send it back but you won't be able to act for a small amount of time.<br> 
-	Every parry, when activated by a non-projectile, freeze your opponent for a short time if parrying a move of a weak type compared to your parry, allowing you to punish them, but they also have different effects that applies whether your parry a move of the same or weaker type:<br>
+	Every parry, when activated by a non-projectile, freeze your opponent for a short time if parrying a move of a <a href="typing_system.html#type_wheel">weak type</a> compared to your parry, allowing you to punish them, but they also have different effects that applies whether your parry a move of the <a href="typing_system.html#type_wheel">same or weaker type</a>:<br>
 		<ul>
 		<li><span class="spirit">Spirit</span> You exchange your position with you opponent.</li>
 		<li><span class="matter">Matter</span> Remove a large portion of their meter and stunning them for a short while if they reach 0 meter due to this parry.</li>
-		<li><span class="void">Void</span> your next move will be a super counter hit that deals twice as much damage and hitstun/untech.</li>
+		<li><span class="void">Void</span> your next move will be a super counter hit that deals twice as much damage and <a href="glossary.html#untech">hitstun/untech</a>.</li>
 		<li><span class="not-typed">Non-Typed</span> Immediately throw a move that is invincible during the start up, However it will give you a better reward and not do a follow-up move, freezing the opponent instead if parrying a <span class="neutral">Neutral</span> move.</li>
 	</ul>
-	<img src="Non-typed_parry.gif" alt="Non-typed_parry" height="113" width ="150"><span>  </span><img src="Spirit_parry.gif" alt="Spirit_parry" height="113" width ="150"><span>  </span><img src="Matter_parry.gif" alt="Matter_parry" height="113" width ="150"><span>  </span><img src="Void_parry.gif" alt="Void_parry" height="113" width ="150"><br>
+	<img src="Spirit_parry.gif" alt="Spirit_parry" height="113" width ="150"><span>  </span><img src="Matter_parry.gif" alt="Matter_parry" height="113" width ="150"><span>  </span><img src="Void_parry.gif" alt="Void_parry" height="113" width ="150"><span>  <span><img src="Non-typed_parry.gif" alt="Non-typed_parry" height="113" width ="150"><br>
 	To sum up, parries are extremely fast options that allow you to counter your opponent moves and reverse a difficult situation, however they leave you somewhat vulnerable and you need to guess correctly at which height, of which type their move will be and the exact timing of when you'll get hit for you tu pull one of.<br>
-	<h2>On the offense</h2>
+	<h2>Offense</h2>
 	When doing a pressure string, which means when you're trying to open their defenses, you can do it in different ways.<br>
 	You can bypass pressure by doing grabs but will generally have a low reward.<br>
 	Or you can destroy with strong moves their guard bar and then going through their defenses with highs and lows while they are stuck in guard crush.<br>
