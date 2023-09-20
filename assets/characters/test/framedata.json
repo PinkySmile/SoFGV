@@ -8048,9 +8048,9 @@
           "guard_damage": 40,
           "hit_boxes": [
             {
-              "height": 82,
+              "height": 48,
               "left": 20,
-              "top": -95,
+              "top": -61,
               "width": 42
             }
           ],
