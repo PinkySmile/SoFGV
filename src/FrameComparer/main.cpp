@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 				rJson["void_mana_start"],
 				rJson["spirit_mana_start"],
 				rJson["matter_mana_start"],
-				rJson["mana_regen"],
+				git rJson["mana_regen"],
 				rJson["guard_bar"],
 				rJson["guard_break_cooldown"],
 				rJson["overdrive_cooldown"],
