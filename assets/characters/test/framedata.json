@@ -13297,20 +13297,20 @@
             }
           ],
           "offset": {
-            "x": 24,
-            "y": -2
+            "x": 4,
+            "y": 2
           },
           "prorate": 80.0,
           "size": {
-            "x": 100,
-            "y": 140
+            "x": 60,
+            "y": 136
           },
           "sprite": "sheet.png",
           "texture_bounds": {
-            "height": 70,
-            "left": 118,
-            "top": 20,
-            "width": 50
+            "height": 68,
+            "left": 99,
+            "top": 100,
+            "width": 30
           }
         },
         {
@@ -13491,19 +13491,19 @@
           ],
           "offense_flag": 6144,
           "offset": {
-            "x": 24,
-            "y": -2
+            "x": 4,
+            "y": 2
           },
           "size": {
-            "x": 100,
-            "y": 140
+            "x": 60,
+            "y": 136
           },
           "sprite": "sheet.png",
           "texture_bounds": {
-            "height": 70,
-            "left": 118,
-            "top": 20,
-            "width": 50
+            "height": 68,
+            "left": 99,
+            "top": 100,
+            "width": 30
           }
         }
       ]
