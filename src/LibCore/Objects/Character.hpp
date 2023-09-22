@@ -587,6 +587,7 @@ namespace SpiralOfFate
 		// Non-game state
 		sf::Text _text;
 		sf::Text _text2;
+		const FrameData *_oldData;
 		Character *_opponent = nullptr;
 		std::map<unsigned, SubObjectData> _projectileData;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
