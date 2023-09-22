@@ -577,6 +577,7 @@ namespace SpiralOfFate
 
 	void Character::update()
 	{
+		this->_oldData = nullptr;
 		this->_hasHitDuringFrame = false;
 		this->_hasBeenHitDuringFrame = false;
 		this->_gotHitStopReset = false;
@@ -655,6 +656,13 @@ namespace SpiralOfFate
 				this->_guardCooldown += this->_maxGuardCooldown / 300;
 		}
 
+		if (!this->_ultimateUsed) {
+			this->_mana += this->_manaMax * this->_regen;
+			if (this->_mana > this->_manaMax)
+				this->_mana = this->_manaMax;
+		}
+
+		this->_oldData = this->getCurrentFrameData();
 		this->_tickMove();
 		if (this->_limitEffects & VOID_LIMIT_EFFECT) {
 			auto diff = this->_opponent->_position.x - this->_position.x;
@@ -662,12 +670,6 @@ namespace SpiralOfFate
 
 			this->_position.x += std::copysign(4, diff) / (std::pow(2, dist / 100));
 		}
-		if (!this->_ultimateUsed) {
-			this->_mana += this->_manaMax * this->_regen;
-			if (this->_mana > this->_manaMax)
-				this->_mana = this->_manaMax;
-		}
-
 		if (this->_action == ACTION_FALLING_TECH && this->_isGrounded())
 			this->_forceStartMove(ACTION_IDLE);
 		if ((
@@ -1629,8 +1631,10 @@ namespace SpiralOfFate
 
 	bool Character::_canCancel(unsigned int action)
 	{
-		auto currentData = this->getCurrentFrameData();
+		auto currentData = this->_oldData;
 
+		if (!currentData)
+			currentData = this->getCurrentFrameData();
 		if (!currentData->oFlag.cancelable)
 			return false;
 		if (!this->_hasHit && !currentData->dFlag.karaCancel)
