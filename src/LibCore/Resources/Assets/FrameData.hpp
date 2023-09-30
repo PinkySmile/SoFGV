@@ -200,9 +200,9 @@ namespace SpiralOfFate
 		unsigned damage = 0;
 		unsigned chipDamage = 0;
 		std::optional<unsigned> priority;
-		Vector2i speed = {0, 0};
-		Vector2i hitSpeed = {0, 0};
-		Vector2i counterHitSpeed = {0, 0};
+		Vector2f speed = {0, 0};
+		Vector2f hitSpeed = {0, 0};
+		Vector2f counterHitSpeed = {0, 0};
 		std::optional<Vector2f> gravity;
 		std::optional<Vector2f> snap;
 

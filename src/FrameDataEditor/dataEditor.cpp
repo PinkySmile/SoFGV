@@ -284,9 +284,9 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newBounds = "(" + std::to_string(data.textureBounds.pos.x) + "," + std::to_string(data.textureBounds.pos.y) + "," + std::to_string(data.textureBounds.size.x) + "," + std::to_string(data.textureBounds.size.y) + ")";
 	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
 	auto newOffset = "(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")";
-	auto newSpeed = "(" + std::to_string(data.speed.x) + "," + std::to_string(data.speed.y) + ")";
-	auto newCHitSpeed = "(" + std::to_string(data.counterHitSpeed.x) + "," + std::to_string(data.counterHitSpeed.y) + ")";
-	auto newHitSpeed = "(" + std::to_string(data.hitSpeed.x) + "," + std::to_string(data.hitSpeed.y) + ")";
+	auto newSpeed = "(" + floatToString(data.speed.x) + "," + floatToString(data.speed.y) + ")";
+	auto newCHitSpeed = "(" + floatToString(data.counterHitSpeed.x) + "," + floatToString(data.counterHitSpeed.y) + ")";
+	auto newHitSpeed = "(" + floatToString(data.hitSpeed.x) + "," + floatToString(data.hitSpeed.y) + ")";
 	auto newGravity = data.gravity ? "(" + floatToString(data.gravity->x) + "," + floatToString(data.gravity->y) + ")" : "";
 	auto newSnap = data.snap ? "(" + floatToString(data.snap->x) + "," + floatToString(data.snap->y) + ")" : "";
 
@@ -657,8 +657,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		try {
 			std::stol(y);
-			data.speed.x = std::stol(x);
-			data.speed.y = std::stol(y);
+			data.speed.x = std::stof(x);
+			data.speed.y = std::stof(y);
 			refreshBoxes(boxes, data, object);
 			if (spriteSelected)
 				arrangeButtons(&*object);
@@ -696,8 +696,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		try {
-			data.hitSpeed.x = std::stol(x);
-			data.hitSpeed.y = std::stol(y);
+			data.hitSpeed.x = std::stof(x);
+			data.hitSpeed.y = std::stof(y);
 		} catch (...) {}
 		refreshBoxes(boxes, data, object);
 		if (spriteSelected)
@@ -715,8 +715,8 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		try {
-			data.counterHitSpeed.x = std::stol(x);
-			data.counterHitSpeed.y = std::stol(y);
+			data.counterHitSpeed.x = std::stof(x);
+			data.counterHitSpeed.y = std::stof(y);
 		} catch (...) {}
 		refreshBoxes(boxes, data, object);
 		if (spriteSelected)

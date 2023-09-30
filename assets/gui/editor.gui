@@ -692,7 +692,7 @@ ScrollablePanel.Panel1 {
             }
 
             EditBox.MoveSpeed {
-                InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
+                InputValidator = "\\([+-]?[0-9]*\\.?[0-9]*,[+-]?[0-9]*\\.?[0-9]*\\)";
                 Position = (250, 240);
                 Size = (70, 22);
                 Text = "(0,0)";
@@ -1278,7 +1278,7 @@ ScrollablePanel.Panel1 {
         }
 
         EditBox.HitSpeed {
-            InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
+            InputValidator = "\\([+-]?[0-9]*\\.?[0-9]*,[+-]?[0-9]*\\.?[0-9]*\\)";
             Position = (90, 280);
             Size = (80, 22);
             Text = "(0,0)";
@@ -1335,7 +1335,7 @@ ScrollablePanel.Panel1 {
         }
 
         EditBox.CHSpeed {
-            InputValidator = "\\(-?[0-9]{1,4},-?[0-9]{1,4}\\)";
+            InputValidator = "\\([+-]?[0-9]*\\.?[0-9]*,[+-]?[0-9]*\\.?[0-9]*\\)";
             Position = (520, 280);
             Size = (70, 22);
             Text = "(0,0)";
