@@ -552,7 +552,7 @@ order = [
 ]
 
 
-def generate_page(data, stats, meta, chrs):
+def generate_page(data, stats, meta, chrs, version):
     env = Environment(loader=FileSystemLoader([os.path.dirname(__file__) + "/resources/" + stats["name"], os.path.dirname(__file__) + "/templates"]))
     with open(os.path.dirname(__file__) + "/templates/chr_template.html") as fd:
         template = env.from_string(fd.read())
@@ -574,10 +574,10 @@ def generate_page(data, stats, meta, chrs):
                 else:
                     result.append("".join(f for f in r if g[f]) or "-")
             move["guard"] = result
-    return template.render(moves=data, stats=stats, names=names, meta=meta, chrs=chrs, root="../../")
+    return template.render(moves=data, stats=stats, names=names, meta=meta, chrs=chrs, root="../../", version=version)
 
 
-def generate_wiki_page(path, chrs_stats, no_regen=False, chr_stats=None):
+def generate_wiki_page(path, chrs_stats, version, no_regen=False, chr_stats=None):
     if no_regen:
         print("Loading character files")
         with open(path + "/chr.json") as fd:
@@ -589,13 +589,16 @@ def generate_wiki_page(path, chrs_stats, no_regen=False, chr_stats=None):
     else:
         data, chr_stats, meta = gen_data(path, chr_stats=chr_stats)
     print("Rendering page")
-    html = generate_page(data, chr_stats, meta, chrs_stats)
+    html = generate_page(data, chr_stats, meta, chrs_stats, version)
     with open(f"generated/{chr_stats['name']}/index.html", "w") as fd:
         fd.write(html)
     return chr_stats
 
 
 if __name__ == '__main__':
+    with open(os.path.dirname(__file__) + "/../LibCore/Resources/version.h") as fd:
+        version = fd.read()
+        version = [i.split('"')[-2] for i in version.split("\n") if i.startswith("#define REAL_VERSION_STR")][0]
     entries = []
     d = None
     for f in os.listdir("assets/characters"):
@@ -608,4 +611,4 @@ if __name__ == '__main__':
                 d = entries[-1]
         except:
             traceback.print_exc()
-    generate_wiki_page(sys.argv[1], entries, no_regen=len(sys.argv) > 2, chr_stats=d)
+    generate_wiki_page(sys.argv[1], entries, version, no_regen=len(sys.argv) > 2, chr_stats=d)
