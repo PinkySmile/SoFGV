@@ -38,6 +38,7 @@ namespace SpiralOfFate
 		unsigned _peakPing = 0;
 		unsigned _delay = 0;
 		unsigned _netbellSound;
+		unsigned _hostingPort = 10800;
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;

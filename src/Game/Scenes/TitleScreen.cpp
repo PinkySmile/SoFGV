@@ -78,7 +78,7 @@ namespace SpiralOfFate
 					}
 				}
 			}},
-			{"host", "Host an online game (on port 10800)", [this]{
+			{"host", "Host an online game", [this]{
 				this->_askingInputs = true;
 			}},
 			{"connect", "Connect to ip from clipboard", [this]{
@@ -253,9 +253,12 @@ namespace SpiralOfFate
 
 		// TODO: Handle names
 		auto con = new ServerConnection("SpiralOfFate::ServerConnection");
+		std::ifstream stream{"hostPort.txt"};
 
+		if (stream) {
+			stream >> this->_hostingPort;
+		}
 		game->connection.reset(con);
-		// TODO: Allow to change port
 		con->onConnection = [this](Connection::Remote &remote, PacketInitRequest &packet){
 			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
@@ -270,7 +273,7 @@ namespace SpiralOfFate
 			this->_onDisconnect(remote.ip.toString());
 		};
 		con->spectatorEnabled = spec;
-		con->host(10800);
+		con->host(this->_hostingPort);
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
 			con->onDisconnect = nullptr;
@@ -316,7 +319,6 @@ namespace SpiralOfFate
 		game->connection.reset(con);
 		game->lastIp = ip.toString();
 		game->lastPort = port;
-		// TODO: Allow to change port
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
 			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
@@ -326,6 +328,7 @@ namespace SpiralOfFate
 		};
 		con->onError = [](Connection::Remote &remote, const PacketError &e){
 			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+			// TODO: Abort connection and display error on UI
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
 			this->_onDisconnect(remote.ip.toString());
@@ -542,7 +545,7 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_remote.empty()) {
 			game->screen->displayElement({640, 280, 400, 100}, sf::Color{0x50, 0x50, 0x50});
-			game->screen->displayElement("Hosting on port 10800", {640, 300}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Hosting on port " + std::to_string(this->_hostingPort), {640, 300}, 400, Screen::ALIGN_CENTER);
 		} else {
 			game->screen->displayElement({620, 280, 440, 200}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement(this->_remote + " joined.", {640, 300}, 400, Screen::ALIGN_CENTER);
