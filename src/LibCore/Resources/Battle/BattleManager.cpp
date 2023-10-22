@@ -65,38 +65,8 @@ namespace SpiralOfFate
 
 		this->_leftCharacter->setOpponent(rightCharacter.character);
 		this->_rightCharacter->setOpponent(leftCharacter.character);
-		this->_leftCharacter->init(*this, {
-			true,
-			leftCharacter.hp,
-			leftCharacter.maxJumps,
-			leftCharacter.maxAirDash,
-			leftCharacter.maxAirMov,
-			leftCharacter.manaMax,
-			leftCharacter.manaStart,
-			leftCharacter.manaRegen,
-			leftCharacter.maxGuard,
-			leftCharacter.guardCooldown,
-			leftCharacter.odCd,
-			leftCharacter.groundDrag,
-			leftCharacter.airDrag,
-			leftCharacter.gravity
-		});
-		this->_rightCharacter->init(*this, {
-			false,
-			rightCharacter.hp,
-			rightCharacter.maxJumps,
-			rightCharacter.maxAirDash,
-			rightCharacter.maxAirMov,
-			rightCharacter.manaMax,
-			rightCharacter.manaStart,
-			rightCharacter.manaRegen,
-			rightCharacter.maxGuard,
-			rightCharacter.guardCooldown,
-			rightCharacter.odCd,
-			rightCharacter.groundDrag,
-			rightCharacter.airDrag,
-			rightCharacter.gravity
-		});
+		this->_leftCharacter->init(*this, leftCharacter.data);
+		this->_rightCharacter->init(*this, rightCharacter.data);
 		this->_leftCharacter->setAttacksDisabled(true);
 		this->_rightCharacter->setAttacksDisabled(true);
 		this->_roundSprites.resize(5 + FIRST_TO * 2 - 1);

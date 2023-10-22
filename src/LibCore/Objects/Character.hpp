@@ -56,8 +56,7 @@ namespace SpiralOfFate
 		/* 21  */ ACTION_AIR_DASH_7,
 		/* 22  */ ACTION_AIR_DASH_8,
 		/* 23  */ ACTION_AIR_DASH_9,
-		/* 24  */ ACTION_AIR_TRANSFORM,
-		/* 25  */ ACTION_GROUND_HIGH_NEUTRAL_BLOCK,
+		/* 25  */ ACTION_GROUND_HIGH_NEUTRAL_BLOCK = 25,
 		/* 26  */ ACTION_GROUND_HIGH_SPIRIT_PARRY,
 		/* 27  */ ACTION_GROUND_HIGH_MATTER_PARRY,
 		/* 28  */ ACTION_GROUND_HIGH_VOID_PARRY,
@@ -83,8 +82,7 @@ namespace SpiralOfFate
 		/* 48  */ ACTION_FORWARD_AIR_TECH,
 		/* 49  */ ACTION_BACKWARD_AIR_TECH,
 		/* 50  */ ACTION_AIR_TECH_LANDING_LAG,
-		/* 51  */ ACTION_UNTRANSFORM,
-		/* 52  */ ACTION_GROUND_SLAM,
+		/* 52  */ ACTION_GROUND_SLAM = 52,
 		/* 53  */ ACTION_WALL_SLAM,
 		/* 54  */ ACTION_HARD_LAND,
 		/* 55  */ ACTION_NEUTRAL_AIR_JUMP,
@@ -310,6 +308,31 @@ namespace SpiralOfFate
 
 	class Character : public Object {
 	public:
+		struct AirDrift {
+			float accel;
+			float max;
+		};
+		struct InitData {
+			bool side;
+			unsigned short maxHp;
+			unsigned char maxJumps;
+			unsigned char maxAirDash;
+			unsigned char maxAirMovement;
+			unsigned maxMana;
+			unsigned startMana;
+			float manaRegen;
+			unsigned maxGuardBar;
+			unsigned maxGuardCooldown;
+			unsigned odCd;
+			float groundDrag;
+			Vector2f airDrag;
+			Vector2f gravity;
+			AirDrift upDrift;
+			AirDrift downDrift;
+			AirDrift backDrift;
+			AirDrift frontDrift;
+		};
+
 		struct ReplayData {
 			bool n : 1;
 			bool m : 1;
@@ -599,6 +622,10 @@ namespace SpiralOfFate
 		unsigned _manaMax = 0;
 		unsigned _maxGuardCooldown = 0;
 		unsigned _maxGuardBar = 0;
+		AirDrift _upDrift;
+		AirDrift _downDrift;
+		AirDrift _backDrift;
+		AirDrift _frontDrift;
 		bool _gotHitStopReset = false;
 		bool _hasBeenHitDuringFrame = false;
 		bool _hasHitDuringFrame = false;
@@ -659,6 +686,7 @@ namespace SpiralOfFate
 		static SubObjectAnchor anchorFromString(const std::string &str);
 		static SubObjectDirection directionFromString(const std::string &str);
 
+		void _processAirDrift(const InputStruct &input);
 		void _processGroundedEvents();
 		void _processStallingFactor();
 		bool _getProjectileDirection(const SubObjectData &data);
@@ -712,23 +740,6 @@ namespace SpiralOfFate
 		bool _check624684Input(const std::function<bool (const LastInput &)> &atkInput);
 
 	public:
-		struct InitData {
-			bool side;
-			unsigned short maxHp;
-			unsigned char maxJumps;
-			unsigned char maxAirDash;
-			unsigned char maxAirMovement;
-			unsigned maxMana;
-			unsigned startMana;
-			float manaRegen;
-			unsigned maxGuardBar;
-			unsigned maxGuardCooldown;
-			unsigned odCd;
-			float groundDrag;
-			Vector2f airDrag;
-			Vector2f gravity;
-		};
-
 		unsigned index;
 		std::wstring name;
 		bool showAttributes = false;

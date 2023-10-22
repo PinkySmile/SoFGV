@@ -171,7 +171,6 @@ namespace SpiralOfFate
 		{ ACTION_AIR_DASH_7,                     "Down back air dash" },
 		{ ACTION_AIR_DASH_8,                     "Down air dash" },
 		{ ACTION_AIR_DASH_9,                     "Down forward air dash" },
-		{ ACTION_AIR_TRANSFORM,                  "Air transform" },
 		{ ACTION_GROUND_HIGH_NEUTRAL_BLOCK,      "Ground high neutral block" },
 		{ ACTION_GROUND_HIGH_NEUTRAL_PARRY,      "Ground high neutral parry" },
 		{ ACTION_GROUND_HIGH_SPIRIT_PARRY,       "Ground high spirit parry" },
@@ -201,7 +200,6 @@ namespace SpiralOfFate
 		{ ACTION_FORWARD_AIR_TECH,               "Forward air tech" },
 		{ ACTION_BACKWARD_AIR_TECH,              "Backward air tech" },
 		{ ACTION_AIR_TECH_LANDING_LAG,           "Air tech landing lag" },
-		{ ACTION_UNTRANSFORM,                    "Untransform" },
 		{ ACTION_GROUND_SLAM,                    "Ground slam" },
 		{ ACTION_WALL_SLAM,                      "Wall slam" },
 		{ ACTION_HARD_LAND,                      "Hard land" },
@@ -821,6 +819,10 @@ namespace SpiralOfFate
 		this->_maxOdCooldown = data.odCd;
 		this->_groundDrag = data.groundDrag;
 		this->_airDrag = data.airDrag;
+		this->_upDrift = data.upDrift;
+		this->_downDrift = data.downDrift;
+		this->_backDrift = data.backDrift;
+		this->_frontDrift = data.frontDrift;
 		if (data.side)
 			this->_position = {200, 0};
 		else
@@ -832,6 +834,38 @@ namespace SpiralOfFate
 		this->_input->consumeEvent(event);
 	}
 
+	void Character::_processAirDrift(const InputStruct &input)
+	{
+		if (input.verticalAxis > 0) {
+			if (this->_speed.y < this->_upDrift.max) {
+				this->_speed.y += this->_upDrift.accel;
+				if (this->_speed.y > this->_upDrift.max)
+					this->_speed.y = this->_upDrift.max;
+			}
+		}
+		if (input.verticalAxis < 0) {
+			if (this->_speed.y > this->_downDrift.max) {
+				this->_speed.y -= this->_downDrift.accel;
+				if (this->_speed.y < this->_downDrift.max)
+					this->_speed.y = -this->_downDrift.max;
+			}
+		}
+		if (input.horizontalAxis * this->_dir < 0) {
+			if (this->_speed.x > -this->_backDrift.max) {
+				this->_speed.x -= this->_backDrift.accel * this->_dir;
+				if (this->_speed.x < -this->_backDrift.max)
+					this->_speed.x = -this->_backDrift.max * this->_dir;
+			}
+		}
+		if (input.horizontalAxis * this->_dir > 0) {
+			if (this->_speed.x < this->_frontDrift.max) {
+				this->_speed.x += this->_frontDrift.accel * this->_dir;
+				if (this->_speed.x > this->_frontDrift.max)
+					this->_speed.x = this->_frontDrift.max * this->_dir;
+			}
+		}
+	}
+
 	void Character::_processInput(InputStruct input)
 	{
 		auto data = this->getCurrentFrameData();
@@ -840,6 +874,13 @@ namespace SpiralOfFate
 			data->dFlag.airborne :
 			!this->_isGrounded();
 
+		if (airborne && (
+			this->_action < ACTION_GROUND_HIGH_NEUTRAL_BLOCK ||
+			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+			this->_action == ACTION_FORWARD_AIR_JUMP ||
+			this->_action == ACTION_BACKWARD_AIR_JUMP
+		))
+			this->_processAirDrift(input);
 		if (this->_atkDisabled || this->_inputDisabled) {
 			input.n = 0;
 			input.m = 0;
@@ -1445,7 +1486,6 @@ namespace SpiralOfFate
 		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
 
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
-		auto data = &this->_moves.at(action).at(0).at(0);
 
 		if (action >= ACTION_5N)
 			this->_guardBarTmp = 0;

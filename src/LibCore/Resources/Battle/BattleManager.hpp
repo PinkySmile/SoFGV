@@ -163,19 +163,7 @@ namespace SpiralOfFate
 		struct CharacterParams {
 			Character *character;
 			unsigned icon;
-			unsigned short hp;
-			Vector2f gravity;
-			unsigned char maxJumps;
-			unsigned char maxAirDash;
-			unsigned char maxAirMov;
-			unsigned manaMax;
-			unsigned manaStart;
-			float manaRegen;
-			unsigned maxGuard;
-			unsigned guardCooldown;
-			unsigned odCd;
-			float groundDrag;
-			Vector2f airDrag;
+			Character::InitData data;
 		};
 		struct StageParams {
 			std::string path;

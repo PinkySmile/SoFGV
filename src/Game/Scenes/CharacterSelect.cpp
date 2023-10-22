@@ -531,6 +531,32 @@ namespace SpiralOfFate
 			throw std::invalid_argument("mana_regen is missing");
 		if (!json.contains("palettes"))
 			throw std::invalid_argument("palettes is missing");
+		if (!json.contains("airdrift"))
+			throw std::invalid_argument("gravity is missing");
+		if (!json["airdrift"].contains("up"))
+			throw std::invalid_argument("airdrift.up is missing");
+		if (!json["airdrift"].contains("down"))
+			throw std::invalid_argument("airdrift.down is missing");
+		if (!json["airdrift"].contains("back"))
+			throw std::invalid_argument("airdrift.back is missing");
+		if (!json["airdrift"].contains("front"))
+			throw std::invalid_argument("airdrift.front is missing");
+		if (!json["airdrift"]["up"].contains("accel"))
+			throw std::invalid_argument("airdrift.up.accel is missing");
+		if (!json["airdrift"]["up"].contains("max"))
+			throw std::invalid_argument("airdrift.up.max is missing");
+		if (!json["airdrift"]["down"].contains("accel"))
+			throw std::invalid_argument("airdrift.down.accel is missing");
+		if (!json["airdrift"]["down"].contains("max"))
+			throw std::invalid_argument("airdrift.down.max is missing");
+		if (!json["airdrift"]["back"].contains("accel"))
+			throw std::invalid_argument("airdrift.back.accel is missing");
+		if (!json["airdrift"]["back"].contains("max"))
+			throw std::invalid_argument("airdrift.back.max is missing");
+		if (!json["airdrift"]["front"].contains("accel"))
+			throw std::invalid_argument("airdrift.front.accel is missing");
+		if (!json["airdrift"]["front"].contains("max"))
+			throw std::invalid_argument("airdrift.front.max is missing");
 
 		for (auto &j : json["palettes"]) {
 			this->palettes.emplace_back();
