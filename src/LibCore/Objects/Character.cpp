@@ -851,16 +851,16 @@ namespace SpiralOfFate
 			}
 		}
 		if (input.horizontalAxis * this->_dir < 0) {
-			if (this->_speed.x > -this->_backDrift.max) {
+			if (this->_speed.x * this->_dir > -this->_backDrift.max) {
 				this->_speed.x -= this->_backDrift.accel * this->_dir;
-				if (this->_speed.x < -this->_backDrift.max)
+				if (this->_speed.x * this->_dir < -this->_backDrift.max)
 					this->_speed.x = -this->_backDrift.max * this->_dir;
 			}
 		}
 		if (input.horizontalAxis * this->_dir > 0) {
-			if (this->_speed.x < this->_frontDrift.max) {
+			if (this->_speed.x * this->_dir < this->_frontDrift.max) {
 				this->_speed.x += this->_frontDrift.accel * this->_dir;
-				if (this->_speed.x > this->_frontDrift.max)
+				if (this->_speed.x * this->_dir > this->_frontDrift.max)
 					this->_speed.x = this->_frontDrift.max * this->_dir;
 			}
 		}
