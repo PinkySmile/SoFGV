@@ -29,11 +29,11 @@
       "max": 0
     },
     "back": {
-      "accel": 0.25,
+      "accel": 0.15,
       "max": 2.5
     },
     "front": {
-      "accel": 0.25,
+      "accel": 0.15,
       "max": 2.5
     }
   },

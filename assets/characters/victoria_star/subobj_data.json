@@ -2195,7 +2195,7 @@
           "hit_player_hit_stop": 8,
           "hit_speed": {
             "x": 10.0,
-            "y": 0.0
+            "y": 10.0
           },
           "offense_flag": 520,
           "offset": {
@@ -2540,7 +2540,7 @@
           },
           "hit_stun": 18,
           "mana_gain": 100,
-          "offense_flag": 60820048,
+          "offense_flag": 58720848,
           "offset": {
             "x": 61,
             "y": -5
@@ -2588,7 +2588,7 @@
           },
           "hit_stun": 18,
           "mana_gain": 100,
-          "offense_flag": 60820048,
+          "offense_flag": 58720848,
           "offset": {
             "x": 63,
             "y": -11
