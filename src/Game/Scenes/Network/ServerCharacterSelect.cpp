@@ -84,7 +84,7 @@ namespace SpiralOfFate
 
 	ServerCharacterSelect *ServerCharacterSelect::create(SceneArguments *args)
 	{
-		checked_cast(realArgs, ServerConnection::CharSelectArguments, args);
+		checked_cast(realArgs, CharSelectArguments, args);
 		if (args->reportProgressA)
 			args->reportProgressA("Loading assets...");
 

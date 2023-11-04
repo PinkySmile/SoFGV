@@ -5,6 +5,9 @@
 #ifndef SOFGV_CONNECTION_HPP
 #define SOFGV_CONNECTION_HPP
 
+#ifndef HAS_NETWORK
+#error "No network backend available"
+#endif
 
 #include <thread>
 #include <SFML/Network.hpp>
@@ -35,16 +38,6 @@ namespace SpiralOfFate
 			CONNECTION_STATE_PLAYER,
 			CONNECTION_STATE_SPECTATOR,
 			CONNECTION_STATE_CONNECTING
-		};
-
-		struct GameStartParams {
-			unsigned seed;
-			unsigned p1chr;
-			unsigned p1pal;
-			unsigned p2chr;
-			unsigned p2pal;
-			unsigned stage;
-			unsigned platformConfig;
 		};
 
 		class Remote {
@@ -122,20 +115,6 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
-		struct TitleScreenArguments : public SceneArguments {
-			std::string errorMessage;
-		};
-		struct InGameArguments : public SceneArguments {
-			Connection *connection;
-			GameStartParams startParams;
-			class IScene *currentScene;
-		};
-		struct CharSelectArguments : public SceneArguments {
-			Connection *connection;
-			GameStartParams startParams;
-			bool restore;
-		};
-
 		std::vector<std::string> blacklist;
 		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (unsigned newDelay)> onDelayUpdate;

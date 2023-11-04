@@ -9,7 +9,7 @@
 #include <map>
 #include <array>
 #include <SFML/Window/Keyboard.hpp>
-#include "IInput.hpp"
+#include "Inputs/IInput.hpp"
 
 namespace SpiralOfFate
 {

@@ -12,10 +12,12 @@
 #include <filesystem>
 #include "Resources/IScene.hpp"
 #include "Menu.hpp"
-#include "Inputs/KeyboardInput.hpp"
-#include "Inputs/ControllerInput.hpp"
-#include "Resources/Network/Connection.hpp"
+#include "KeyboardInput.hpp"
+#include "ControllerInput.hpp"
 #include "Resources/SceneArgument.hpp"
+#ifdef HAS_NETWORK
+#include "Resources/Network/Connection.hpp"
+#endif
 
 namespace SpiralOfFate
 {
@@ -38,19 +40,20 @@ namespace SpiralOfFate
 		unsigned _peakPing = 0;
 		unsigned _delay = 0;
 		unsigned _netbellSound;
-		unsigned _hostingPort = 10800;
 		bool _connecting = false;
 		bool _changeInput = false;
 		bool _askingInputs = false;
-		bool _chooseSpecCount = false;
-		bool _replaySelect = false;
-		bool _specEnabled = true;
 		std::string _basePath;
 		std::vector<std::pair<bool, std::string>> _replays;
 		unsigned char _changingInputs = 0;
 		unsigned char _cursorInputs = 0;
 		unsigned char _errorTimer = 0;
+	#ifdef HAS_NETWORK
+		unsigned _hostingPort = 10800;
 		bool _connected = false;
+		bool _chooseSpecCount = false;
+		bool _specEnabled = true;
+	#endif
 		IInput *_lastInput;
 		std::string _remote;
 		std::string _oldRemote;
@@ -60,26 +63,32 @@ namespace SpiralOfFate
 		void _loadReplay(const std::filesystem::path &path);
 		void _fetchReplayList();
 		void _onInputsChosen();
+	#ifdef HAS_NETWORK
 		void _host(bool spec);
 		void _connect();
+	#endif
 		bool _onKeyPressed(sf::Event::KeyEvent ev);
 		bool _onJoystickMoved(sf::Event::JoystickMoveEvent ev);
 		bool _onJoystickPressed(sf::Event::JoystickButtonEvent ev);
 		void _showAskInputBox() const;
-		void _showHostMessage() const;
 		void _showEditKeysMenu() const;
+	#ifdef HAS_NETWORK
+		void _showHostMessage() const;
 		void _showConnectMessage() const;
 		void _showChooseSpecCount() const;
+	#endif
 		void _onGoUp();
 		void _onGoDown();
 		void _onGoLeft();
 		void _onGoRight();
 		void _onCancel();
 		void _onConfirm(unsigned stickId);
+#ifdef HAS_NETWORK
 		void _onDisconnect(const std::string &address);
 		void _onConnect(const std::string &address);
 		void _pingUpdate(unsigned ping);
 		void _specUpdate(std::pair<unsigned, unsigned> spec);
+#endif
 
 		static std::shared_ptr<IInput> _getInputFromId(unsigned id, const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &pair);
 

@@ -5,20 +5,208 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_compile_definitions(_USE_MATH_DEFINES=1)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/pkgs)
-find_package(SFML REQUIRED)
-find_package(TGUI REQUIRED)
-include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src/LibCore ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS})
+
+if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
+	set(USE_SDL2 ON)
+endif ()
+if (USE_SDL2)
+	find_package(SDL2 REQUIRED)
+
+	message("SDL2 include dir is ${SDL2_INCLUDE_DIRS}")
+	message("SDL2 library is ${SDL2_LIBRARY}")
+
+	set(EXTRA_LIBRARY_INCLUDES ${SDL2_INCLUDE_DIRS} src/LibCore/SDL2)
+	set(SPECIFIC_INCLUDES_PATH src/LibCore/SDL2)
+	set(
+		INPUT_SRCS
+		src/LibCore/SDL2/ControllerInput.cpp
+		src/LibCore/SDL2/ControllerInput.hpp
+		src/LibCore/SDL2/KeyboardInput.cpp
+		src/LibCore/SDL2/KeyboardInput.hpp
+	)
+	set(
+		ASSETS_SRCS
+		src/LibCore/SDL2/SoundManager.cpp
+		src/LibCore/SDL2/SoundManager.hpp
+		src/LibCore/SDL2/TextureManager.cpp
+		src/LibCore/SDL2/TextureManager.hpp
+	)
+	set(
+		SCREEN_SRCS
+		src/LibCore/SDL2/Screen.cpp
+		src/LibCore/SDL2/Screen.hpp
+	)
 
 
-message("SFML include dir is ${SFML_INCLUDE_DIRS}")
-message("SFML graphics library is ${SFML_GRAPHICS_LIBRARY}")
-message("SFML audio library is ${SFML_AUDIO_LIBRARY}")
-message("SFML system library is ${SFML_SYSTEM_LIBRARY}")
-message("SFML window library is ${SFML_WINDOW_LIBRARY}")
-message("SFML network library is ${SFML_NETWORK_LIBRARY}")
-message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
-message("TGUI library is ${TGUI_LIBRARIES}")
+	find_package(SFML REQUIRED)
+	find_package(TGUI REQUIRED)
+	message("SFML include dir is ${SFML_INCLUDE_DIRS}")
+	message("SFML graphics library is ${SFML_GRAPHICS_LIBRARY}")
+	message("SFML audio library is ${SFML_AUDIO_LIBRARY}")
+	message("SFML system library is ${SFML_SYSTEM_LIBRARY}")
+	message("SFML window library is ${SFML_WINDOW_LIBRARY}")
+	message("SFML network library is ${SFML_NETWORK_LIBRARY}")
+	message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
+	message("TGUI library is ${TGUI_LIBRARIES}")
 
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+		if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
+			set(TGUI_LIB "${TGUI_DIR}/lib/tgui-d.lib")
+			set(SFML_GRAPHICS_LIB "${SFML_DIR}/lib/sfml-graphics-d.lib")
+			set(SFML_AUDIO_LIB "${SFML_DIR}/lib/sfml-audio-d.lib")
+			set(SFML_SYSTEM_LIB "${SFML_DIR}/lib/sfml-system-d.lib")
+			set(SFML_WINDOW_LIB "${SFML_DIR}/lib/sfml-window-d.lib")
+			set(SFML_NETWORK_LIB "${SFML_DIR}/lib/sfml-network-d.lib")
+		else ()
+			set(TGUI_LIB "${TGUI_LIBRARIES}")
+			set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
+			set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
+			set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
+			set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+			set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
+		endif ()
+	else ()
+		set(TGUI_LIB "${TGUI_LIBRARIES}")
+		set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
+		set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
+		set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
+		set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+		set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
+	endif ()
+	set(
+		EXTRA_LINK_LIBRARIES
+		${SDL2_LIBRARY}
+		${SFML_GRAPHICS_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_NETWORK_LIB}
+		${TGUI_LIB}
+	)
+
+
+	set(NETWORK_CLASSES)
+	set(NETWORK_EXTRA_SRC)
+	set(VIRTUAL_CONTROLLER OFF)
+else (USE_SDL2)
+	find_package(SFML REQUIRED)
+	find_package(TGUI REQUIRED)
+
+	message("SFML include dir is ${SFML_INCLUDE_DIRS}")
+	message("SFML graphics library is ${SFML_GRAPHICS_LIBRARY}")
+	message("SFML audio library is ${SFML_AUDIO_LIBRARY}")
+	message("SFML system library is ${SFML_SYSTEM_LIBRARY}")
+	message("SFML window library is ${SFML_WINDOW_LIBRARY}")
+	message("SFML network library is ${SFML_NETWORK_LIBRARY}")
+	message("TGUI include dir is ${TGUI_INCLUDE_DIRS}")
+	message("TGUI library is ${TGUI_LIBRARIES}")
+
+	set(EXTRA_LIBRARY_INCLUDES ${SFML_INCLUDE_DIRS} ${TGUI_INCLUDE_DIRS} src/LibCore/SFML)
+	set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=sf::UdpSocket)
+	set(NETWORK_EXTRA_SRC)
+	set(
+		INPUT_SRCS
+		src/LibCore/SFML/ControllerInput.cpp
+		src/LibCore/SFML/ControllerInput.hpp
+		src/LibCore/SFML/KeyboardInput.cpp
+		src/LibCore/SFML/KeyboardInput.hpp
+		src/LibCore/SFML/VirtualController.cpp
+		src/LibCore/SFML/VirtualController.hpp
+	)
+	set(
+		ASSETS_SRCS
+		src/LibCore/SFML/SoundManager.cpp
+		src/LibCore/SFML/SoundManager.hpp
+		src/LibCore/SFML/TextureManager.cpp
+		src/LibCore/SFML/TextureManager.hpp
+	)
+	set(
+		SCREEN_SRCS
+		src/LibCore/SFML/Screen.cpp
+		src/LibCore/SFML/Screen.hpp
+	)
+
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+		if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
+			set(TGUI_LIB "${TGUI_DIR}/lib/tgui-d.lib")
+			set(SFML_GRAPHICS_LIB "${SFML_DIR}/lib/sfml-graphics-d.lib")
+			set(SFML_AUDIO_LIB "${SFML_DIR}/lib/sfml-audio-d.lib")
+			set(SFML_SYSTEM_LIB "${SFML_DIR}/lib/sfml-system-d.lib")
+			set(SFML_WINDOW_LIB "${SFML_DIR}/lib/sfml-window-d.lib")
+			set(SFML_NETWORK_LIB "${SFML_DIR}/lib/sfml-network-d.lib")
+		else ()
+			set(TGUI_LIB "${TGUI_LIBRARIES}")
+			set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
+			set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
+			set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
+			set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+			set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
+		endif ()
+	else ()
+		set(TGUI_LIB "${TGUI_LIBRARIES}")
+		set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
+		set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
+		set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
+		set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
+		set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
+	endif ()
+	set(
+		EXTRA_LINK_LIBRARIES
+		${SFML_GRAPHICS_LIB}
+		${SFML_AUDIO_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+		${SFML_NETWORK_LIB}
+		${TGUI_LIB}
+	)
+endif (USE_SDL2)
+
+if (VIRTUAL_CONTROLLER)
+	add_compile_definitions(VIRTUAL_CONTROLLER=1)
+endif()
+if (NETWORK_CLASSES)
+	set(
+		NETWORK_SRCS
+		${NETWORK_EXTRA_SRC}
+		src/LibCore/Inputs/NetworkInput.cpp
+		src/LibCore/Inputs/NetworkInput.hpp
+		src/LibCore/Resources/Network/ClientConnection.cpp
+		src/LibCore/Resources/Network/ClientConnection.hpp
+		src/LibCore/Resources/Network/Connection.cpp
+		src/LibCore/Resources/Network/Connection.hpp
+		src/LibCore/Resources/Network/Exceptions.hpp
+		src/LibCore/Resources/Network/IConnection.hpp
+		src/LibCore/Resources/Network/NetManager.cpp
+		src/LibCore/Resources/Network/NetManager.hpp
+		src/LibCore/Resources/Network/Packet.cpp
+		src/LibCore/Resources/Network/Packet.hpp
+		src/LibCore/Resources/Network/RollbackMachine.cpp
+		src/LibCore/Resources/Network/RollbackMachine.hpp
+		src/LibCore/Resources/Network/ServerConnection.cpp
+		src/LibCore/Resources/Network/ServerConnection.hpp
+	)
+	set(
+		NETWORK_EXTRA_SCENES
+		src/Game/Scenes/Network/SyncTestInGame.cpp
+		src/Game/Scenes/Network/SyncTestInGame.hpp
+		src/Game/Scenes/Network/ClientCharacterSelect.cpp
+		src/Game/Scenes/Network/ClientCharacterSelect.hpp
+		src/Game/Scenes/Network/ServerCharacterSelect.cpp
+		src/Game/Scenes/Network/ServerCharacterSelect.hpp
+		src/Game/Scenes/Network/NetworkCharacterSelect.cpp
+		src/Game/Scenes/Network/NetworkCharacterSelect.hpp
+		src/Game/Scenes/Network/ClientInGame.cpp
+		src/Game/Scenes/Network/ClientInGame.hpp
+		src/Game/Scenes/Network/ServerInGame.cpp
+		src/Game/Scenes/Network/ServerInGame.hpp
+		src/Game/Scenes/Network/NetworkInGame.cpp
+		src/Game/Scenes/Network/NetworkInGame.hpp
+	)
+	add_compile_definitions(HAS_NETWORK=1)
+	add_compile_definitions(NETWORK_CLASSES)
+endif ()
+
+include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src/LibCore ${EXTRA_LIBRARY_INCLUDES})
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 if (ASAN)
 	add_compile_options(-fsanitize=address)
@@ -59,130 +247,87 @@ else()
 	set(FDICON)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-	if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
-		set(TGUI_LIB "${TGUI_DIR}/lib/tgui-d.lib")
-		set(SFML_GRAPHICS_LIB "${SFML_DIR}/lib/sfml-graphics-d.lib")
-		set(SFML_AUDIO_LIB "${SFML_DIR}/lib/sfml-audio-d.lib")
-		set(SFML_SYSTEM_LIB "${SFML_DIR}/lib/sfml-system-d.lib")
-		set(SFML_WINDOW_LIB "${SFML_DIR}/lib/sfml-window-d.lib")
-		set(SFML_NETWORK_LIB "${SFML_DIR}/lib/sfml-network-d.lib")
-	else ()
-		set(TGUI_LIB "${TGUI_LIBRARIES}")
-		set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
-		set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
-		set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
-		set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
-		set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
-	endif ()
-else ()
-	set(TGUI_LIB "${TGUI_LIBRARIES}")
-	set(SFML_GRAPHICS_LIB "${SFML_GRAPHICS_LIBRARY}")
-	set(SFML_AUDIO_LIB "${SFML_AUDIO_LIBRARY}")
-	set(SFML_SYSTEM_LIB "${SFML_SYSTEM_LIBRARY}")
-	set(SFML_WINDOW_LIB "${SFML_WINDOW_LIBRARY}")
-	set(SFML_NETWORK_LIB "${SFML_NETWORK_LIBRARY}")
-endif ()
-
 add_library(
 	SoFGVCore SHARED
 	src/LibCore/Data/Color.hpp
 	src/LibCore/Data/Vector.hpp
-	src/LibCore/Inputs/ControllerInput.cpp
-	src/LibCore/Inputs/ControllerInput.hpp
+	src/LibCore/Inputs/DelayInput.cpp
+	src/LibCore/Inputs/DelayInput.hpp
 	src/LibCore/Inputs/IInput.hpp
 	src/LibCore/Inputs/InputEnum.hpp
-	src/LibCore/Inputs/KeyboardInput.cpp
-	src/LibCore/Inputs/KeyboardInput.hpp
+	src/LibCore/Inputs/RemoteInput.cpp
+	src/LibCore/Inputs/RemoteInput.hpp
+	src/LibCore/Inputs/ReplayInput.cpp
+	src/LibCore/Inputs/ReplayInput.hpp
 	src/LibCore/Inputs/RollbackInput.cpp
 	src/LibCore/Inputs/RollbackInput.hpp
 	src/LibCore/Logger.cpp
 	src/LibCore/Logger.hpp
 	src/LibCore/Objects/Character.cpp
 	src/LibCore/Objects/Character.hpp
-	src/LibCore/Objects/Object.cpp
-	src/LibCore/Objects/Object.hpp
-	src/LibCore/Objects/Platform.cpp
-	src/LibCore/Objects/Platform.hpp
 	src/LibCore/Objects/Characters/Projectile.cpp
 	src/LibCore/Objects/Characters/Projectile.hpp
-	src/LibCore/Objects/FakeObject.cpp
-	src/LibCore/Objects/FakeObject.hpp
-	src/LibCore/Objects/IObject.hpp
-	src/LibCore/Resources/Battle/BattleManager.cpp
-	src/LibCore/Resources/Battle/BattleManager.hpp
-	src/LibCore/Resources/Assets/FrameData.cpp
-	src/LibCore/Resources/Assets/FrameData.hpp
-	src/LibCore/Resources/Game.cpp
-	src/LibCore/Resources/Game.hpp
-	src/LibCore/Resources/Assets/MoveListData.cpp
-	src/LibCore/Resources/Assets/MoveListData.hpp
-	src/LibCore/Resources/Screen.cpp
-	src/LibCore/Resources/Screen.hpp
-	src/LibCore/Resources/Assets/SoundManager.cpp
-	src/LibCore/Resources/Assets/SoundManager.hpp
-	src/LibCore/Resources/Assets/Sprite.hpp
-	src/LibCore/Resources/Assets/TextureManager.cpp
-	src/LibCore/Resources/Assets/TextureManager.hpp
-	src/LibCore/Resources/Battle/PracticeBattleManager.cpp
-	src/LibCore/Resources/Battle/PracticeBattleManager.hpp
-	src/LibCore/Resources/Battle/RandomWrapper.cpp
-	src/LibCore/Resources/Battle/RandomWrapper.hpp
 	src/LibCore/Objects/Characters/Stickman/Stickman.cpp
 	src/LibCore/Objects/Characters/Stickman/Stickman.hpp
-	src/LibCore/Utils.cpp
-	src/LibCore/Utils.hpp
-	src/LibCore/Resources/SceneManager.cpp
-	src/LibCore/Resources/SceneManager.hpp
-	src/LibCore/Inputs/ReplayInput.cpp
-	src/LibCore/Inputs/ReplayInput.hpp
-	src/LibCore/Resources/version.h
-	src/LibCore/Objects/StageObjects/StageObject.cpp
-	src/LibCore/Objects/StageObjects/StageObject.hpp
-	src/LibCore/Objects/StageObjects/Cloud.hpp
-	src/LibCore/Objects/StageObjects/Cloud.cpp
-	src/LibCore/Resources/Network/NetManager.cpp
-	src/LibCore/Resources/Network/NetManager.hpp
-	src/LibCore/Resources/Network/Packet.cpp
-	src/LibCore/Resources/Network/Packet.hpp
-	src/LibCore/Resources/Network/Connection.cpp
-	src/LibCore/Resources/Network/Connection.hpp
-	src/LibCore/Resources/Network/Exceptions.hpp
-	src/LibCore/Resources/Network/ServerConnection.cpp
-	src/LibCore/Resources/Network/ServerConnection.hpp
-	src/LibCore/Resources/Network/ClientConnection.cpp
-	src/LibCore/Resources/Network/ClientConnection.hpp
-	src/LibCore/Resources/Network/IConnection.hpp
-	src/LibCore/Resources/IScene.hpp
-	src/LibCore/Resources/Network/RollbackMachine.cpp
-	src/LibCore/Resources/Network/RollbackMachine.hpp
-	src/LibCore/Inputs/RemoteInput.cpp
-	src/LibCore/Inputs/RemoteInput.hpp
-	src/LibCore/Inputs/NetworkInput.cpp
-	src/LibCore/Inputs/NetworkInput.hpp
-	src/LibCore/Inputs/DelayInput.cpp
-	src/LibCore/Inputs/DelayInput.hpp
-	src/LibCore/Inputs/VirtualController.cpp
-	src/LibCore/Inputs/VirtualController.hpp
-	src/LibCore/Resources/SceneArgument.hpp
-        src/LibCore/Resources/MSVCMacros.hpp
-	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.cpp
-	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.hpp
-	src/LibCore/Objects/Characters/VictoriaStar/Shadow.cpp
-	src/LibCore/Objects/Characters/VictoriaStar/Shadow.hpp
-	src/LibCore/Objects/Characters/SubObject.hpp
 	src/LibCore/Objects/Characters/SubObject.cpp
+	src/LibCore/Objects/Characters/SubObject.hpp
 	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.cpp
 	src/LibCore/Objects/Characters/VictoriaStar/Butterfly.hpp
-	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.cpp
-	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Flower.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Flower.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadow.hpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/MatterShadow.cpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/MatterShadow.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/Shadows/NeutralShadow.hpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/SpiritShadow.cpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/SpiritShadow.hpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.cpp
 	src/LibCore/Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp
-	src/LibCore/Objects/Characters/VictoriaStar/Flower.cpp src/LibCore/Objects/Characters/VictoriaStar/Flower.hpp src/LibCore/Objects/Characters/VictoriaStar/VictoriaProjectile.cpp src/LibCore/Objects/Characters/VictoriaStar/VictoriaProjectile.hpp src/LibCore/Resources/Assets/FileManager.cpp src/LibCore/Resources/Assets/FileManager.hpp)
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaProjectile.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaProjectile.hpp
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.cpp
+	src/LibCore/Objects/Characters/VictoriaStar/VictoriaStar.hpp
+	src/LibCore/Objects/FakeObject.cpp
+	src/LibCore/Objects/FakeObject.hpp
+	src/LibCore/Objects/IObject.hpp
+	src/LibCore/Objects/Object.cpp
+	src/LibCore/Objects/Object.hpp
+	src/LibCore/Objects/Platform.cpp
+	src/LibCore/Objects/Platform.hpp
+	src/LibCore/Objects/StageObjects/Cloud.cpp
+	src/LibCore/Objects/StageObjects/Cloud.hpp
+	src/LibCore/Objects/StageObjects/StageObject.cpp
+	src/LibCore/Objects/StageObjects/StageObject.hpp
+	src/LibCore/Resources/Assets/FileManager.cpp
+	src/LibCore/Resources/Assets/FileManager.hpp
+	src/LibCore/Resources/Assets/FrameData.cpp
+	src/LibCore/Resources/Assets/FrameData.hpp
+	src/LibCore/Resources/Assets/MoveListData.cpp
+	src/LibCore/Resources/Assets/MoveListData.hpp
+	src/LibCore/Resources/Assets/Sprite.hpp
+	src/LibCore/Resources/Battle/BattleManager.cpp
+	src/LibCore/Resources/Battle/BattleManager.hpp
+	src/LibCore/Resources/Battle/PracticeBattleManager.cpp
+	src/LibCore/Resources/Battle/PracticeBattleManager.hpp
+	src/LibCore/Resources/Battle/RandomWrapper.cpp
+	src/LibCore/Resources/Battle/RandomWrapper.hpp
+	src/LibCore/Resources/Game.cpp
+	src/LibCore/Resources/Game.hpp
+	src/LibCore/Resources/IScene.hpp
+	src/LibCore/Resources/MSVCMacros.hpp
+	src/LibCore/Resources/SceneArgument.hpp
+	src/LibCore/Resources/SceneManager.cpp
+	src/LibCore/Resources/SceneManager.hpp
+	src/LibCore/Resources/version.h
+	src/LibCore/Utils.cpp
+	src/LibCore/Utils.hpp
+	${INPUT_SRCS}
+	${ASSETS_SRCS}
+	${SCREEN_SRCS}
+	${NETWORK_SRCS}
+)
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
 	enable_language(RC)
@@ -192,24 +337,14 @@ endif ()
 if (WIN32)
 	target_link_libraries(
 		SoFGVCore
+		${EXTRA_LINK_LIBRARIES}
 		dbghelp
-		${SFML_GRAPHICS_LIB}
-		${SFML_AUDIO_LIB}
-		${SFML_SYSTEM_LIB}
-		${SFML_WINDOW_LIB}
-		${SFML_NETWORK_LIB}
-		${TGUI_LIB}
 		ws2_32
 	)
 else ()
 	target_link_libraries(
 		SoFGVCore
-		${SFML_GRAPHICS_LIB}
-		${SFML_AUDIO_LIB}
-		${SFML_SYSTEM_LIB}
-		${SFML_WINDOW_LIB}
-		${SFML_NETWORK_LIB}
-		${TGUI_LIB}
+		${EXTRA_LINK_LIBRARIES}
 		pthread
 		png
 		xcb
@@ -237,55 +372,44 @@ add_executable(
 	src/Game/Scenes/PracticeInGame.hpp
 	src/Game/Scenes/ReplayInGame.cpp
 	src/Game/Scenes/ReplayInGame.hpp
-	src/Game/Scenes/Network/SyncTestInGame.cpp
-	src/Game/Scenes/Network/SyncTestInGame.hpp
-	src/Game/Scenes/Network/ClientCharacterSelect.cpp
-	src/Game/Scenes/Network/ClientCharacterSelect.hpp
-	src/Game/Scenes/Network/ServerCharacterSelect.cpp
-	src/Game/Scenes/Network/ServerCharacterSelect.hpp
-	src/Game/Scenes/Network/NetworkCharacterSelect.cpp
-	src/Game/Scenes/Network/NetworkCharacterSelect.hpp
-	src/Game/Scenes/Network/ClientInGame.cpp
-	src/Game/Scenes/Network/ClientInGame.hpp
-	src/Game/Scenes/Network/ServerInGame.cpp
-	src/Game/Scenes/Network/ServerInGame.hpp
-	src/Game/Scenes/Network/NetworkInGame.cpp
-	src/Game/Scenes/Network/NetworkInGame.hpp
+	${NETWORK_EXTRA_SCENES}
 	src/LibCore/LibCore.hpp
 	src/Game/Scenes/Scenes.hpp
 )
-target_link_libraries(SoFGV SoFGVCore)
+target_link_libraries(SoFGV SoFGVCore ${EXTRA_LINK_LIBRARIES})
 target_include_directories(SoFGV PRIVATE src/LibCore src/Game)
 
-message("${FDICON}")
-add_executable(
-	FrameDataEditor
-	${FDICON}
-	src/FrameDataEditor/dataEditor.cpp
-	src/FrameDataEditor/EditableObject.cpp
-	src/FrameDataEditor/EditableObject.hpp
-	src/LibCore/LibCore.hpp
-)
-target_link_libraries(FrameDataEditor SoFGVCore)
+if (NOT USE_SDL2)
+	message("${FDICON}")
+	add_executable(
+		FrameDataEditor
+		${FDICON}
+		src/FrameDataEditor/dataEditor.cpp
+		src/FrameDataEditor/EditableObject.cpp
+		src/FrameDataEditor/EditableObject.hpp
+		src/LibCore/LibCore.hpp
+	)
+	target_link_libraries(FrameDataEditor SoFGVCore)
 
-add_executable(FrameComparer src/FrameComparer/main.cpp)
-target_link_libraries(
-	FrameComparer
-	SoFGVCore
-)
+	add_executable(FrameComparer src/FrameComparer/main.cpp)
+	target_link_libraries(
+		FrameComparer
+		SoFGVCore
+	)
 
-add_executable(PaletteExtractor src/PaletteExtractor/main.cpp)
-target_link_libraries(
-	PaletteExtractor
-	${SFML_GRAPHICS_LIB}
-	${SFML_SYSTEM_LIB}
-	${SFML_WINDOW_LIB}
-)
+	add_executable(PaletteExtractor src/PaletteExtractor/main.cpp)
+	target_link_libraries(
+		PaletteExtractor
+		${SFML_GRAPHICS_LIB}
+		${SFML_SYSTEM_LIB}
+		${SFML_WINDOW_LIB}
+	)
 
-add_executable(LagSwitch src/LagSwitch/main.cpp)
-target_link_libraries(
-	LagSwitch
-	${SFML_SYSTEM_LIB}
-	${SFML_NETWORK_LIB}
-)
-target_include_directories(LagSwitch PRIVATE src/LibCore)
+	add_executable(LagSwitch src/LagSwitch/main.cpp)
+	target_link_libraries(
+		LagSwitch
+		${SFML_SYSTEM_LIB}
+		${SFML_NETWORK_LIB}
+	)
+	target_include_directories(LagSwitch PRIVATE src/LibCore)
+endif ()

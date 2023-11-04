@@ -6,6 +6,7 @@
 #define SOFGV_SCENEMANAGER_HPP
 
 
+#include <thread>
 #include <functional>
 #include "IScene.hpp"
 #include "SceneArgument.hpp"

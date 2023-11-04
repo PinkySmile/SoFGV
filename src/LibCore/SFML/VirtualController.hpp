@@ -6,7 +6,7 @@
 #define SOFGV_VIRTUALCONTROLLER_HPP
 
 
-#include "RollbackInput.hpp"
+#include "Inputs/RollbackInput.hpp"
 #include "Resources/Assets/Sprite.hpp"
 #include "Data/Vector.hpp"
 

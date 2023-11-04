@@ -8,20 +8,24 @@
 #include <mutex>
 #include <memory>
 #include <random>
-#include "Screen.hpp"
-#include "Resources/Assets/TextureManager.hpp"
+#include "SFML/Screen.hpp"
+#include "SFML/TextureManager.hpp"
 #include "Resources/Battle/BattleManager.hpp"
-#include "Resources/Assets/SoundManager.hpp"
-#include "Resources/Network/Connection.hpp"
+#include "SFML/SoundManager.hpp"
 #include "SceneManager.hpp"
-#include "Inputs/KeyboardInput.hpp"
-#include "Inputs/ControllerInput.hpp"
+#include "KeyboardInput.hpp"
+#include "ControllerInput.hpp"
 #include "Inputs/RollbackInput.hpp"
 #include "Logger.hpp"
 #include "Resources/Battle/RandomWrapper.hpp"
 #include "MSVCMacros.hpp"
-#include "Inputs/VirtualController.hpp"
 #include "Resources/Assets/FileManager.hpp"
+#ifdef VIRTUAL_CONTROLLER
+#include "VirtualController.hpp"
+#endif
+#ifdef HAS_NETWORK
+#include "Resources/Network/Connection.hpp"
+#endif
 
 #ifdef __GNUC__
 #define FCT_NAME __PRETTY_FUNCTION__
@@ -118,12 +122,16 @@ namespace SpiralOfFate
 		FileManager fileMgr;
 		TextureManager textureMgr;
 		SoundManager soundMgr;
+	#ifdef VIRTUAL_CONTROLLER
 		std::shared_ptr<VirtualController> virtualController;
+	#endif
 		std::unique_ptr<BattleManager> battleMgr;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
+	#ifdef HAS_NETWORK
 		std::shared_ptr<class Connection> connection;
+	#endif
 		SceneManager scene;
 		std::mutex sceneMutex;
 		std::shared_ptr<IInput> activeNetInput;

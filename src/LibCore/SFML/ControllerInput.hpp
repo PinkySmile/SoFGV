@@ -9,7 +9,7 @@
 #include <map>
 #include <array>
 #include <memory>
-#include "IInput.hpp"
+#include "Inputs/IInput.hpp"
 
 namespace SpiralOfFate
 {

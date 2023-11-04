@@ -33,7 +33,7 @@ namespace SpiralOfFate
 
 	ClientCharacterSelect *ClientCharacterSelect::create(SceneArguments *args)
 	{
-		checked_cast(realArgs, ClientConnection::CharSelectArguments, args);
+		checked_cast(realArgs, CharSelectArguments, args);
 		if (args->reportProgressA)
 			args->reportProgressA("Loading assets...");
 

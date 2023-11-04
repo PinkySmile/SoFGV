@@ -39,7 +39,7 @@ namespace SpiralOfFate
 
 	ClientInGame *ClientInGame::create(SceneArguments *args)
 	{
-		checked_cast(realArgs, ClientConnection::InGameArguments, args);
+		checked_cast(realArgs, InGameArguments, args);
 		checked_cast(scene, NetworkCharacterSelect, realArgs->currentScene);
 
 		auto params = scene->createParams(args, realArgs->startParams);

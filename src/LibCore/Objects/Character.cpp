@@ -786,7 +786,7 @@ namespace SpiralOfFate
 			this->_direction = this->_dir == 1;
 		}
 		if (
-			!isHitAction(this->_action)&&
+			!isHitAction(this->_action) &&
 			this->_action != ACTION_UP_AIR_TECH &&
 			this->_action != ACTION_DOWN_AIR_TECH &&
 			this->_action != ACTION_FORWARD_AIR_TECH &&

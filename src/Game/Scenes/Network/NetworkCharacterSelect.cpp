@@ -66,7 +66,7 @@ namespace SpiralOfFate
 		game->screen->displayElement("Delay " + std::to_string(game->connection->getCurrentDelay()), {0, 920});
 	}
 
-	InGame::InitParams NetworkCharacterSelect::createParams(SceneArguments *args, Connection::GameStartParams params)
+	InGame::InitParams NetworkCharacterSelect::createParams(SceneArguments *args, GameStartParams params)
 	{
 		auto &lentry = this->_entries[params.p1chr];
 		auto &rentry = this->_entries[params.p2chr];

@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
-#include "Inputs/VirtualController.hpp"
+#include "SFML/VirtualController.hpp"
 
 #ifdef _WIN32
 std::wstring getLastError(int err = GetLastError())
@@ -356,13 +356,17 @@ void	registerScenes()
 	game->scene.registerScene("in_game", InGame::create, true);
 	game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
 	game->scene.registerScene("replay_in_game", ReplayInGame::create, true);
+#ifdef HAS_NETWORK
+#ifdef _DEBUG
 	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, true);
+#endif
 
 	// Netplay
 	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, true);
 	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, true);
 	game->scene.registerScene("client_in_game", ClientInGame::create, true);
 	game->scene.registerScene("server_in_game", ServerInGame::create, true);
+#endif
 }
 
 void	run()
@@ -380,7 +384,9 @@ void	run()
 	checkCompilationEnv();
 	loadSettings();
 	registerScenes();
+#ifdef VIRTUAL_CONTROLLER
 	game->virtualController = std::make_shared<VirtualController>();
+#endif
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	if (!game->font.loadFromFile(font))
@@ -394,25 +400,33 @@ void	run()
 	game->screen->setFramerateLimit(60);
 	while (game->screen->isOpen()) {
 		game->sceneMutex.lock();
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			game->connection->update();
+	#endif
 
 		timer += clock.restart().asSeconds();
 		while (timer >= 1. / 60.) {
+		#ifdef VIRTUAL_CONTROLLER
 			game->virtualController->onFrameStart();
 			game->virtualController->update();
+		#endif
 			game->scene.update();
 			timer -= 1. / 60.;
 		}
 		game->scene.render();
+	#ifdef VIRTUAL_CONTROLLER
 		game->virtualController->render();
+	#endif
 		game->screen->display();
 
 		while (game->screen->pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
 				game->screen->close();
 			game->scene.consumeEvent(event);
+		#ifdef VIRTUAL_CONTROLLER
 			game->virtualController->consumeEvent(event);
+		#endif
 		}
 		game->sceneMutex.unlock();
 	}

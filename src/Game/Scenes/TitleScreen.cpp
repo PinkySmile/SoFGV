@@ -18,28 +18,44 @@
 #include "CharacterSelect.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
-#include "Inputs/KeyboardInput.hpp"
-#include "Inputs/ControllerInput.hpp"
+#include "SFML/KeyboardInput.hpp"
+#include "SFML/ControllerInput.hpp"
 #include "Utils.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Resources/version.h"
 #include "ReplayInGame.hpp"
+#ifdef HAS_NETWORK
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
+#endif
 
 
-#include "Inputs/VirtualController.hpp"
+#include "SFML/VirtualController.hpp"
 
 #define THRESHOLD 50
 
-#define PLAY_BUTTON      0
-#define PRACTICE_BUTTON  1
-#define REPLAY_BUTTON    2
-#define HOST_BUTTON      3
-#define CONNECT_BUTTON   4
-#define SETTINGS_BUTTON  5
-#define QUIT_BUTTON      6
-#define SYNC_TEST_BUTTON 7
+enum TitleScreenButton {
+	#define PLAY_BUTTON PLAY_BUTTON
+	PLAY_BUTTON,
+	#define PRACTICE_BUTTON PRACTICE_BUTTON
+	PRACTICE_BUTTON,
+	#define REPLAY_BUTTON REPLAY_BUTTON
+	REPLAY_BUTTON,
+#ifdef HAS_NETWORK
+	#define HOST_BUTTON HOST_BUTTON
+	HOST_BUTTON,
+	#define CONNECT_BUTTON CONNECT_BUTTON
+	CONNECT_BUTTON,
+#endif
+	#define SETTINGS_BUTTON SETTINGS_BUTTON
+	SETTINGS_BUTTON,
+	#define QUIT_BUTTON QUIT_BUTTON
+	QUIT_BUTTON,
+#if defined(_DEBUG) && defined(HAS_NETWORK)
+	SYNC_TEST_BUTTON,
+	#define SYNC_TEST_BUTTON SYNC_TEST_BUTTON
+#endif
+};
 
 #define STICK_ID_KEYBOARD 0
 #define STICK_ID_VPAD 1
@@ -78,12 +94,14 @@ namespace SpiralOfFate
 					}
 				}
 			}},
+		#ifdef HAS_NETWORK
 			{"host", "Host an online game", [this]{
 				this->_askingInputs = true;
 			}},
 			{"connect", "Connect to ip from clipboard", [this]{
 				this->_askingInputs = true;
 			}},
+		#endif
 			{"settings", "Change inputs", [this]{
 				this->_changingInputs = 1;
 				this->_cursorInputs = 0;
@@ -91,11 +109,11 @@ namespace SpiralOfFate
 			{"quit", "Quit game", []{
 				game->screen->close();
 			}},
-#ifdef _DEBUG
+		#ifdef SYNC_TEST_BUTTON
 			{"synctest", "Verify that rollback doesn't desync", [this]{
 				this->_askingInputs = true;
 			}},
-#endif
+		#endif
 		}}
 	{
 		game->logger.info("Title scene created");
@@ -159,12 +177,15 @@ namespace SpiralOfFate
 			game->screen->fillColor(sf::Color::White);
 			game->screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement(this->_errorMsg, {540, 300}, 600, Screen::ALIGN_CENTER);
-		} else if (this->_connecting)
+		}
+	#ifdef HAS_NETWORK
+		else if (this->_connecting)
 			this->_showConnectMessage();
 		else if (game->connection)
 			this->_showHostMessage();
 		else if (this->_chooseSpecCount)
 			this->_showChooseSpecCount();
+	#endif
 		else if (this->_askingInputs)
 			this->_showAskInputBox();
 		if (this->_changingInputs)
@@ -181,6 +202,7 @@ namespace SpiralOfFate
 
 		auto inputs = this->_lastInput->getInputs();
 
+	#ifdef HAS_NETWORK
 		if (game->connection && game->connection->isTerminated()) {
 			if (this->_connecting) {
 				this->_errorMsg = "Failed to connect";
@@ -188,6 +210,7 @@ namespace SpiralOfFate
 			}
 			game->connection.reset();
 		}
+	#endif
 		if (!this->_errorMsg.empty())  {
 			if (this->_errorTimer == 0)
 				game->soundMgr.play(BASICSOUND_MENU_CANCEL);
@@ -210,7 +233,14 @@ namespace SpiralOfFate
 			this->_onCancel();
 		if (inputs.n == 1)
 			this->_onConfirm(this->_latestJoystickId);
-		if (game->connection || this->_chooseSpecCount || this->_changingInputs || this->_askingInputs)
+		if (
+		#ifdef HAS_NETWORK
+			game->connection ||
+			this->_chooseSpecCount ||
+		#endif
+			this->_changingInputs ||
+			this->_askingInputs
+		)
 			this->_menuObject.update({});
 		else
 			this->_menuObject.update(inputs);
@@ -231,6 +261,7 @@ namespace SpiralOfFate
 			if (this->_onJoystickMoved(event.joystickMove))
 				return;
 			break;
+#ifdef VIRTUAL_CONTROLLER
 		case sf::Event::MouseMoved:
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::TouchBegan:
@@ -240,6 +271,7 @@ namespace SpiralOfFate
 			this->_latestJoystickId = STICK_ID_VPAD;
 			this->_lastInput = &*game->virtualController;
 			break;
+#endif
 		default:
 			break;
 		}
@@ -247,6 +279,7 @@ namespace SpiralOfFate
 		game->menu.second->consumeEvent(event);
 	}
 
+#ifdef HAS_NETWORK
 	void TitleScreen::_host(bool spec)
 	{
 		game->activeNetInput = this->_leftInput == 1 ? static_cast<std::shared_ptr<IInput>>(game->P1.first) : static_cast<std::shared_ptr<IInput>>(game->P1.second);
@@ -340,6 +373,7 @@ namespace SpiralOfFate
 			con->onDisconnect = nullptr;
 		};
 	}
+#endif
 
 	void TitleScreen::_onInputsChosen()
 	{
@@ -360,12 +394,14 @@ namespace SpiralOfFate
 			args->inGameName = "practice_in_game";
 			game->scene.switchScene("char_select", args);
 			break;
+	#ifdef HAS_NETWORK
 		case HOST_BUTTON:
 			this->_chooseSpecCount = true;
 			break;
 		case CONNECT_BUTTON:
 			this->_connect();
 			break;
+	#ifdef _DEBUG
 		case SYNC_TEST_BUTTON:
 			args = new CharacterSelect::Arguments();
 			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
@@ -373,6 +409,8 @@ namespace SpiralOfFate
 			args->inGameName = "sync_test_in_game";
 			game->scene.switchScene("char_select", args);
 			break;
+	#endif
+	#endif
 		}
 	}
 
@@ -490,8 +528,10 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput)
 			game->screen->displayElement(
+			#ifdef VIRTUAL_CONTROLLER
 				this->_leftInput - 1 == STICK_ID_VPAD ?
 				game->virtualController->getName() :
+			#endif
 				this->_leftInput - 1 == STICK_ID_KEYBOARD ?
 				game->P1.first->getName() :
 				game->P1.second->getName() + " #" + std::to_string(this->_leftInput - STICK_ID_PPAD1),
@@ -504,8 +544,10 @@ namespace SpiralOfFate
 
 		if (
 			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
-			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+		#ifdef SYNC_TEST_BUTTON
+			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+		#endif
+			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
 		)
 			game->screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
@@ -514,13 +556,17 @@ namespace SpiralOfFate
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput && (
 			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
-			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+		#ifdef SYNC_TEST_BUTTON
+			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+		#endif
+			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
 		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
+				#ifdef VIRTUAL_CONTROLLER
 					this->_rightInput - 1 == STICK_ID_VPAD ?
 					game->virtualController->getName() :
+				#endif
 					this->_rightInput - 1 == STICK_ID_KEYBOARD ?
 					game->P2.first->getName() :
 					game->P2.second->getName() + " #" + std::to_string(this->_rightInput - STICK_ID_PPAD1),
@@ -534,12 +580,15 @@ namespace SpiralOfFate
 
 		if (this->_leftInput && (this->_rightInput || (
 			this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
-			this->_menuObject.getSelectedItem() != PRACTICE_BUTTON &&
-			this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON
+		#ifdef SYNC_TEST_BUTTON
+			this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON &&
+		#endif
+			this->_menuObject.getSelectedItem() != PRACTICE_BUTTON
 		)))
 			game->screen->displayElement("Press [Confirm] to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
+#ifdef HAS_NETWORK
 	void TitleScreen::_showHostMessage() const
 	{
 		game->screen->fillColor(sf::Color::White);
@@ -579,6 +628,7 @@ namespace SpiralOfFate
 				game->screen->displayElement("Waiting for spectator(s) (" + std::to_string(this->_spec.first) + "/" + std::to_string(this->_spec.second) + ").", {540, 330}, 600, Screen::ALIGN_CENTER);
 		}
 	}
+#endif
 
 	void TitleScreen::_showEditKeysMenu() const
 	{
@@ -632,10 +682,12 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoUp()
 	{
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
 		if (this->_chooseSpecCount)
 			return;
+	#endif
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			do {
@@ -653,8 +705,10 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoDown()
 	{
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
+	#endif
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			do {
@@ -663,8 +717,10 @@ namespace SpiralOfFate
 			} while (std::find(inputs, inputs + 7, this->_cursorInputs) == inputs + 7 && this->_changingInputs == 1);
 			return;
 		}
+	#ifdef HAS_NETWORK
 		if (this->_chooseSpecCount)
 			return;
+	#endif
 		if (this->_askingInputs)
 			return;
 		game->soundMgr.play(BASICSOUND_MENU_MOVE);
@@ -673,12 +729,14 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoLeft()
 	{
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
 		if (this->_chooseSpecCount) {
 			this->_specEnabled = !this->_specEnabled;
 			return;
 		}
+	#endif
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_changingInputs--;
@@ -694,12 +752,14 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onGoRight()
 	{
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
 		if (this->_chooseSpecCount) {
 			this->_specEnabled = !this->_specEnabled;
 			return;
 		}
+	#endif
 		if (this->_changingInputs) {
 			game->soundMgr.play(BASICSOUND_MENU_MOVE);
 			this->_changingInputs = (this->_changingInputs + 1) % 4;
@@ -715,6 +775,7 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onConfirm(unsigned stickId)
 	{
+	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
 		if (this->_chooseSpecCount) {
@@ -723,6 +784,7 @@ namespace SpiralOfFate
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
+	#endif
 		if (this->_changingInputs) {
 			this->_changeInput = true;
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
@@ -731,8 +793,10 @@ namespace SpiralOfFate
 		if (this->_askingInputs) {
 			if (this->_rightInput || (this->_leftInput && (
 				this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
-				this->_menuObject.getSelectedItem() != PRACTICE_BUTTON &&
-				this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON
+			#ifdef SYNC_TEST_BUTTON
+				this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON &&
+			#endif
+				this->_menuObject.getSelectedItem() != PRACTICE_BUTTON
 			)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
@@ -749,6 +813,7 @@ namespace SpiralOfFate
 	void TitleScreen::_onCancel()
 	{
 		game->soundMgr.play(BASICSOUND_MENU_CANCEL);
+	#ifdef HAS_NETWORK
 		if (game->connection) {
 			this->_connecting = false;
 			return game->connection.reset();
@@ -757,6 +822,7 @@ namespace SpiralOfFate
 			this->_chooseSpecCount = false;
 			return;
 		}
+	#endif
 		if (this->_changingInputs) {
 			this->_changingInputs = 0;
 			return;
@@ -764,8 +830,10 @@ namespace SpiralOfFate
 		if (this->_askingInputs) {
 			if (this->_rightInput && (
 				this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-				this->_menuObject.getSelectedItem() == PRACTICE_BUTTON ||
-				this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON
+			#ifdef SYNC_TEST_BUTTON
+				this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+			#endif
+				this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
 			))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
@@ -777,6 +845,7 @@ namespace SpiralOfFate
 		this->_menuObject.setSelectedItem(QUIT_BUTTON);
 	}
 
+#ifdef HAS_NETWORK
 	void TitleScreen::_onDisconnect(const std::string &address)
 	{
 		game->logger.info(address + " disconnected");
@@ -817,6 +886,7 @@ namespace SpiralOfFate
 		game->screen->displayElement("Enable spectating?", {640, 280}, 400, Screen::ALIGN_CENTER);
 		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 340}, 400, Screen::ALIGN_CENTER);
 	}
+#endif
 
 	void TitleScreen::_loadReplay(const std::filesystem::path &path)
 	{
@@ -950,7 +1020,7 @@ namespace SpiralOfFate
 		auto result = new TitleScreen();
 
 		if (args)
-			result->_errorMsg = reinterpret_cast<Connection::TitleScreenArguments *>(args)->errorMessage;
+			result->_errorMsg = reinterpret_cast<TitleScreenArguments *>(args)->errorMessage;
 		return result;
 	}
 
@@ -958,8 +1028,10 @@ namespace SpiralOfFate
 	{
 		if (id == STICK_ID_KEYBOARD)
 			return pair.first;
+	#ifdef VIRTUAL_CONTROLLER
 		if (id == STICK_ID_VPAD)
 			return game->virtualController;
+	#endif
 		pair.second->setJoystickId(id - STICK_ID_PPAD1);
 		return pair.second;
 	}

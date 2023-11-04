@@ -9,7 +9,7 @@
 #include <map>
 #include <string>
 #include <SFML/Audio.hpp>
-#include "Sprite.hpp"
+#include "Resources/Assets/Sprite.hpp"
 #include "Data/Vector.hpp"
 #include "Data/Color.hpp"
 

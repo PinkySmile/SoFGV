@@ -4,7 +4,7 @@
 
 #include "Logger.hpp"
 #include "Screen.hpp"
-#include "Game.hpp"
+#include "Resources/Game.hpp"
 
 namespace SpiralOfFate
 {
