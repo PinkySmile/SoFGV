@@ -10,6 +10,11 @@
 
 namespace SpiralOfFate
 {
+#define EVENT_WINDOW_CLOSED sf::Event::Closed
+
+	typedef sf::Event Event;
+	typedef sf::View ViewPort;
+
 	class Screen : public sf::RenderWindow {
 	private:
 		sf::RectangleShape _rect;
@@ -30,7 +35,6 @@ namespace SpiralOfFate
 		};
 
 		float getTextSize(const std::string &txt) const;
-		void handleEvents();
 		const std::string &getTitle() const;
 		void setTitle(const std::string &);
 		void borderColor(float thickness = 0, const sf::Color &color = sf::Color(0, 0, 0, 255));
@@ -45,5 +49,7 @@ namespace SpiralOfFate
 	};
 }
 
+#define libraryInit()
+#define libraryUnInit()
 
 #endif //THFGAME_RESSOURCES_HPP

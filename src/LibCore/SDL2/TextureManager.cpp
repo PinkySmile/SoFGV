@@ -2,6 +2,7 @@
 // Created by PinkySmile on 04/11/2023.
 //
 
+#include <SDL2/SDL_image.h>
 #include "TextureManager.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
@@ -19,8 +20,10 @@ namespace SpiralOfFate
 		if (this->_allocatedTextures[file].second != 0) {
 			this->_allocatedTextures[file].second++;
 			game->logger.verbose("Returning already loaded file " + path);
-			if (size)
-				*size = this->_textures[this->_allocatedTextures[file].first].getSize();
+			if (size) {
+				size->x = this->_textures[this->_allocatedTextures[file].first].surface->w;
+				size->y = this->_textures[this->_allocatedTextures[file].first].surface->h;
+			}
 			return this->_allocatedTextures[file].first;
 		}
 
@@ -36,15 +39,32 @@ namespace SpiralOfFate
 		}
 
 		game->logger.debug("Loading file " + file + " (" + path + ")");
-		if (!this->_textures[index].loadFromFile(file)) {
+		this->_textures[index].surface = std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)>(
+			IMG_Load(file.c_str()),
+			&SDL_FreeSurface
+		);
+		if (!this->_textures[index].surface) {
+			game->logger.error("Cannot load image into surface: " + std::string(IMG_GetError()));
 			this->_freedIndexes.push_back(index);
 			return 0;
 		}
 
-		if (size)
-			*size = this->_textures[index].getSize();
+		this->_textures[index].texture = std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>(
+			SDL_CreateTextureFromSurface(game->screen->getSDLRenderer(), &*this->_textures[index].surface),
+			&SDL_DestroyTexture
+		);
+		if (!this->_textures[index].texture) {
+			game->logger.error("Cannot create texture from surface: " + std::string(IMG_GetError()));
+			this->_freedIndexes.push_back(index);
+			return 0;
+		}
 
-		this->_textures[index].setRepeated(repeated);
+		if (size) {
+			size->x = this->_textures[index].surface->w;
+			size->y = this->_textures[index].surface->h;
+		}
+
+		this->_textures[index].repeated = repeated;
 		this->_allocatedTextures[file].first = index;
 		this->_allocatedTextures[file].second = 1;
 		return index;
@@ -84,8 +104,10 @@ namespace SpiralOfFate
 		if (this->_allocatedTextures[allocName].second != 0) {
 			this->_allocatedTextures[allocName].second++;
 			game->logger.verbose("Returning already loaded paletted file " + allocName);
-			if (size)
-				*size = this->_textures[this->_allocatedTextures[allocName].first].getSize();
+			if (size) {
+				size->x = this->_textures[this->_allocatedTextures[allocName].first].surface->w;
+				size->y = this->_textures[this->_allocatedTextures[allocName].first].surface->h;
+			}
 			return this->_allocatedTextures[allocName].first;
 		}
 		if (!ok)
@@ -128,34 +150,62 @@ namespace SpiralOfFate
 
 	unsigned TextureManager::load(const Color *pixels, Vector2u size)
 	{
-		sf::Image image;
-
-		image.create(size.x, size.y, reinterpret_cast<const sf::Uint8 *>(pixels));
-		if (!this->_textures[this->_lastIndex].loadFromImage(image))
+		this->_textures[this->_lastIndex].surface = std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)>(
+			SDL_CreateRGBSurfaceWithFormat(0, size.x, size.y, 32, SDL_PIXELFORMAT_ABGR8888),
+			&SDL_FreeSurface
+		);
+		if (!this->_textures[this->_lastIndex].surface) {
+			game->logger.error("Cannot load image into surface: " + std::string(IMG_GetError()));
 			return 0;
+		}
+		memcpy(this->_textures[this->_lastIndex].surface->pixels, pixels, size.x * size.y * 4);
+
+		this->_textures[this->_lastIndex].texture = std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>(
+			SDL_CreateTextureFromSurface(game->screen->getSDLRenderer(), &*this->_textures[this->_lastIndex].surface),
+			&SDL_DestroyTexture
+		);
+		if (!this->_textures[this->_lastIndex].texture) {
+			game->logger.error("Cannot create texture from surface: " + std::string(IMG_GetError()));
+			return 0;
+		}
 		return this->_lastIndex++;
 	}
 
 	Color *TextureManager::loadPixels(const std::string &file, Vector2u &size)
 	{
-		sf::Image image;
+		game->logger.debug("Loading pixels from " + file);
 
 		// TODO: Cache this too
-		game->logger.debug("Loading pixels from " + file);
-		if (!image.loadFromFile(file))
+		SDL_Surface *surface = IMG_Load(file.c_str());
+
+		if (!surface) {
+			game->logger.error("Failed to load image to surface: " + std::string(IMG_GetError()));
 			return nullptr;
-		size = image.getSize();
+		}
+		size.x = surface->w;
+		size.y = surface->h;
 
 		Color * buffer = new Color[size.x * size.y];
-		auto ptr = image.getPixelsPtr();
+		auto ptr = (char *)surface->pixels;
+		auto format = surface->format;
+		std::pair<unsigned, unsigned> r = {format->Rmask, format->Rshift};
+		std::pair<unsigned, unsigned> g = {format->Gmask, format->Gshift};
+		std::pair<unsigned, unsigned> b = {format->Bmask, format->Bshift};
+		std::pair<unsigned, unsigned> a = {format->Amask, format->Ashift};
 
-		for (unsigned x = 0; x < size.x; x++)
-			for (unsigned y = 0; y < size.y; y++) {
-				buffer[x + y * size.x].r = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].r;
-				buffer[x + y * size.x].g = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].g;
-				buffer[x + y * size.x].b = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].b;
-				buffer[x + y * size.x].a = reinterpret_cast<const sf::Color *>(ptr)[x + y * size.x].a;
+		for (unsigned y = 0; y < size.y; y++) {
+			auto ptr2 = ptr;
+
+			for (unsigned x = 0; x < size.x; x++) {
+				buffer[x + y * size.x].r = (*reinterpret_cast<unsigned *>(ptr2) & r.first) >> r.second;
+				buffer[x + y * size.x].g = (*reinterpret_cast<unsigned *>(ptr2) & g.first) >> g.second;
+				buffer[x + y * size.x].b = (*reinterpret_cast<unsigned *>(ptr2) & b.first) >> b.second;
+				buffer[x + y * size.x].a = (*reinterpret_cast<unsigned *>(ptr2) & a.first) >> a.second;
+				ptr2 += format->BytesPerPixel;
 			}
+			ptr += surface->pitch;
+		}
+		SDL_FreeSurface(surface);
 		return buffer;
 	}
 
@@ -182,18 +232,19 @@ namespace SpiralOfFate
 		this->_freedIndexes.push_back(id);
 	}
 
-	sf::Texture *TextureManager::setTexture(Sprite &sprite)
+	void TextureManager::setTexture(Sprite &sprite)
 	{
 		my_assert(sprite.textureHandle);
-		sprite.setTexture(this->_textures.at(sprite.textureHandle));
-		return &this->_textures.at(sprite.textureHandle);
+		sprite.texture = &*this->_textures.at(sprite.textureHandle).texture;
+		sprite.surface = &*this->_textures.at(sprite.textureHandle).surface;
 	}
 
 	void TextureManager::render(Sprite &sprite) const
 	{
 		if (!sprite.textureHandle)
 			return;
-		sprite.setTexture(this->_textures.at(sprite.textureHandle));
+		sprite.texture = &*this->_textures.at(sprite.textureHandle).texture;
+		sprite.surface = &*this->_textures.at(sprite.textureHandle).surface;
 		game->screen->displayElement(sprite);
 	}
 
@@ -214,7 +265,10 @@ namespace SpiralOfFate
 	{
 		if (id == 0)
 			return {0, 0};
-		return this->_textures.at(id).getSize();
+
+		auto &s = this->_textures.at(id).surface;
+
+		return { static_cast<unsigned int>(s->w), static_cast<unsigned int>(s->h) };
 	}
 
 	void TextureManager::reloadEverything()
@@ -232,7 +286,6 @@ namespace SpiralOfFate
 		std::string p = path;
 		size_t pos = p.find(':');
 		auto elem = p.substr(0, pos);
-		sf::Image image;
 		auto oit = this->_overrideList.find(elem);
 		auto real = oit == this->_overrideList.end() ? elem : oit->second;
 		Color *pixels = TextureManager::loadPixels(real, realSize);
@@ -271,8 +324,23 @@ namespace SpiralOfFate
 				}
 
 		game->logger.debug("Reloading resulting image (" + std::to_string(pal1.size()) + " paletted colors)");
-		image.create(realSize.x, realSize.y, reinterpret_cast<const sf::Uint8 *>(pixels));
-		this->_textures[id].loadFromImage(image);
+		this->_textures[this->_lastIndex].surface = std::unique_ptr<SDL_Surface, decltype(&SDL_FreeSurface)>(
+			SDL_CreateRGBSurfaceWithFormat(0, realSize.x, realSize.y, 32, SDL_PIXELFORMAT_ABGR8888),
+			&SDL_FreeSurface
+		);
+		if (!this->_textures[this->_lastIndex].surface) {
+			game->logger.error("Cannot load image into surface: " + std::string(IMG_GetError()));
+			delete[] pixels;
+			return;
+		}
+		memcpy(this->_textures[this->_lastIndex].surface->pixels, pixels, realSize.x * realSize.y * 4);
+
+		this->_textures[this->_lastIndex].texture = std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)>(
+			SDL_CreateTextureFromSurface(game->screen->getSDLRenderer(), &*this->_textures[this->_lastIndex].surface),
+			&SDL_DestroyTexture
+		);
+		if (!this->_textures[this->_lastIndex].texture)
+			game->logger.error("Cannot create texture from surface: " + std::string(IMG_GetError()));
 		delete[] pixels;
 	}
 

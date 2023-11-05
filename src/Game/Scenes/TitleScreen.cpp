@@ -18,8 +18,8 @@
 #include "CharacterSelect.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
-#include "SFML/KeyboardInput.hpp"
-#include "SFML/ControllerInput.hpp"
+#include "KeyboardInput.hpp"
+#include "ControllerInput.hpp"
 #include "Utils.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Resources/version.h"
@@ -28,9 +28,9 @@
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
 #endif
-
-
-#include "SFML/VirtualController.hpp"
+#ifdef VIRTUAL_CONTROLLER
+#include "VirtualController.hpp"
+#endif
 
 #define THRESHOLD 50
 
@@ -166,7 +166,7 @@ namespace SpiralOfFate
 
 	void TitleScreen::render() const
 	{
-		sf::View view{{0, 0, 1680, 960}};
+		ViewPort view{{0, 0, 1680, 960}};
 
 		game->screen->setView(view);
 		game->textureMgr.render(this->_titleBg);

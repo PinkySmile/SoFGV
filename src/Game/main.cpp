@@ -9,7 +9,9 @@
 #include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
-#include "SFML/VirtualController.hpp"
+#ifdef VIRTUAL_CONTROLLER
+#include "VirtualController.hpp"
+#endif
 
 #ifdef _WIN32
 std::wstring getLastError(int err = GetLastError())
@@ -371,7 +373,7 @@ void	registerScenes()
 
 void	run()
 {
-	sf::Event event;
+	Event event;
 	sf::Image icon;
 	double timer = 0;
 	sf::Clock clock;
@@ -421,9 +423,11 @@ void	run()
 		game->screen->display();
 
 		while (game->screen->pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			if (event.type == EVENT_WINDOW_CLOSED)
 				game->screen->close();
+		#ifdef USE_SFML
 			game->scene.consumeEvent(event);
+		#endif
 		#ifdef VIRTUAL_CONTROLLER
 			game->virtualController->consumeEvent(event);
 		#endif
@@ -437,6 +441,7 @@ int	main()
 {
 	int ret = EXIT_SUCCESS;
 
+	libraryInit();
 #ifdef _WIN32
 	SetUnhandledExceptionFilter(UnhandledExFilter);
 #endif
@@ -464,5 +469,6 @@ int	main()
 	// The main gets called again when the app is restarted so we need to make sure the global is set to null.
 	game = nullptr;
 #endif
+	libraryUnInit();
 	return ret;
 }

@@ -6,7 +6,7 @@
 #define SOFGV_MENUITEM_HPP
 
 
-#include "Resources/Assets/Sprite.hpp"
+#include "Sprite.hpp"
 #include <functional>
 
 namespace SpiralOfFate

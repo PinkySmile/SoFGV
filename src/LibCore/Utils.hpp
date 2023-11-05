@@ -14,9 +14,16 @@
 #endif
 
 #ifndef _WIN32
+#ifdef USE_SDL
+#include <SDL2/SDL.h>
+#define MB_ICONERROR SDL_MESSAGEBOX_ERROR
+#define MB_ICONINFORMATION SDL_MESSAGEBOX_INFORMATION
+#define MB_ICONWARNING SDL_MESSAGEBOX_WARNING
+#else
 #define MB_ICONERROR 0x10
 #define MB_ICONINFORMATION 0x20
 #define MB_ICONWARNING 0x30
+#endif
 #else
 #include <windows.h>
 #endif
@@ -112,7 +119,7 @@ namespace SpiralOfFate::Utils
 		return result;
 	}
 
-#ifndef __ANDROID__
+#ifdef USE_TGUI
 	//! @brief Display a Windows dialog box.
 	//! @details This functions opens a Windows dialog box and return the button clicked by the user.
 	//! @param title The title of the window.
@@ -120,7 +127,7 @@ namespace SpiralOfFate::Utils
 	//! @param variate A bit combination of the window attributes (see Windows MessageBox function for a list of the enums).
 	//! @return The button clicked by the user.
 	//! @note On Non-Windows systems, it will simulate the Windows dialog box. Only MB_ICONERROR and MB_OK are simulated on those systems.
-	int	dispMsg(const std::string &title, const std::string &content, int variate, sf::RenderWindow *win = nullptr);
+	int	dispMsg(const std::string &title, const std::string &content, int variate, Screen *win = nullptr);
 
 	//! @brief Opens a FileDialog
 	//! @param title Title of the FileDialog
@@ -163,7 +170,11 @@ namespace SpiralOfFate::Utils
 	#define makeColorPickWindow(...) __nothing2()
 	#define openFileDialog(...) __nothing3()
 	#define saveFileDialog(...) __nothing3()
+#ifdef USE_SDL
+	int dispMsg(const std::string &title, const std::string &content, int variate, Screen *win = nullptr);
+#else
 	#define dispMsg(...) __nothing()
+#endif
 	#define setRendered(...) __nothing()
 	#define getTheme() *(tgui::Theme *)nullptr
 	void __nothing();

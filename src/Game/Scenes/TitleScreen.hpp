@@ -6,7 +6,6 @@
 #define SOFGV_TITLESCREEN_HPP
 
 
-#include <SFML/Graphics/Font.hpp>
 #include <memory>
 #include <thread>
 #include <filesystem>

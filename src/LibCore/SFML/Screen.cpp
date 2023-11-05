@@ -49,16 +49,7 @@ namespace SpiralOfFate
 		sf::RenderWindow::setTitle(title);
 	}
 
-	void	Screen::handleEvents()
-	{
-		sf::Event	event;
-
-		while (this->pollEvent(event))
-			if (event.type == sf::Event::Closed)
-				this->close();
-	}
-
-	void	Screen::displayElement(sf::IntRect rect, sf::Color color)
+	void Screen::displayElement(sf::IntRect rect, sf::Color color)
 	{
 		this->_rect.setPosition(sf::Vector2f(rect.left, rect.top));
 		this->_rect.setSize(sf::Vector2f(rect.width, rect.height));
@@ -66,7 +57,7 @@ namespace SpiralOfFate
 		this->draw(this->_rect);
 	}
 
-	void    Screen::borderColor(float thickness, const sf::Color &color)
+	void Screen::borderColor(float thickness, const sf::Color &color)
 	{
 		this->_rect.setOutlineColor(color);
 		this->_text.setOutlineColor(color);
@@ -74,23 +65,23 @@ namespace SpiralOfFate
 		this->_text.setOutlineThickness(thickness);
 	}
 
-	void    Screen::fillColor(const sf::Color &color)
+	void Screen::fillColor(const sf::Color &color)
 	{
 		this->_rect.setFillColor(color);
 		this->_text.setFillColor(color);
 	}
 
-	void	Screen::setFont(const sf::Font &font)
+	void Screen::setFont(const sf::Font &font)
 	{
 		this->_text.setFont(font);
 	}
 
-	void	Screen::textSize(const size_t &size)
+	void Screen::textSize(const size_t &size)
 	{
 		this->_text.setCharacterSize(size);
 	}
 
-	void	Screen::displayElement(const sf::String &str, sf::Vector2f pos, float boxSize, TextAlign align)
+	void Screen::displayElement(const sf::String &str, sf::Vector2f pos, float boxSize, TextAlign align)
 	{
 		switch (align) {
 		case ALIGN_RIGHT:
@@ -107,18 +98,18 @@ namespace SpiralOfFate
 		this->draw(this->_text);
 	}
 
-	void	Screen::displayElement(sf::Sprite &sprite, sf::Vector2f pos)
+	void Screen::displayElement(sf::Sprite &sprite, sf::Vector2f pos)
 	{
 		sprite.setPosition(pos);
 		this->displayElement(sprite);
 	}
 
-	void	Screen::displayElement(const sf::Sprite &sprite)
+	void Screen::displayElement(const sf::Sprite &sprite)
 	{
 		this->draw(sprite);
 	}
 
-	void	Screen::displayElement(const sf::Texture &texture, sf::Vector2f pos)
+	void Screen::displayElement(const sf::Texture &texture, sf::Vector2f pos)
 	{
 		sf::Sprite sprite;
 

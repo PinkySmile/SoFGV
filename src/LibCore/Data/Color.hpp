@@ -17,6 +17,10 @@ namespace SpiralOfFate
 		};
 		unsigned value;
 
+		Color() {};
+		Color(unsigned v) : value(v) {}
+		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) : r(r), g(g), b(b), a(a) {}
+
 		bool operator==(const Color &other) const
 		{
 			return this->value == other.value;

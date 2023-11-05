@@ -27,7 +27,7 @@
 
 namespace SpiralOfFate::Utils
 {
-#ifndef __ANDROID__
+#ifdef USE_TGUI
 	static tgui::Theme *theme = nullptr;
 #endif
 	static const std::map<std::string, std::string> _icons{
@@ -86,7 +86,7 @@ namespace SpiralOfFate::Utils
 		{"",       "assets/icons/unknownFile.png"},
 	};
 
-#ifndef __ANDROID__
+#ifdef USE_TGUI
 	tgui::Theme &getTheme()
 	{
 		if (!theme)
@@ -130,8 +130,8 @@ namespace SpiralOfFate::Utils
 #endif
 	}
 
-#ifndef __ANDROID__
-	int	dispMsg(const std::string &title, const std::string &content, int variate, sf::RenderWindow *w)
+#ifdef USE_TGUI
+	int	dispMsg(const std::string &title, const std::string &content, int variate, Screen *w)
 	{
 #ifdef _WIN32
 		HWND hwnd = w ? w->getSystemHandle() : nullptr;
@@ -552,6 +552,13 @@ namespace SpiralOfFate::Utils
 		return window;
 	}
 #else
+#ifdef USE_SDL
+	int dispMsg(const std::string &title, const std::string &content, int variate, Screen *win)
+	{
+		SDL_ShowSimpleMessageBox(variate, title.c_str(), content.c_str(), win ? win->getSDLWindow() : nullptr);
+		return 0;
+	}
+#endif
 	void __nothing() {};
 	void *__nothing2() { return nullptr; };
 	std::filesystem::path __nothing3() { return "Not implemented"; }
@@ -631,7 +638,7 @@ namespace SpiralOfFate::Utils
 		};
 	}
 
-#ifndef __ANDROID__
+#ifdef USE_TGUI
 	tgui::ChildWindow::Ptr makeColorPickWindow(tgui::Gui &gui, const std::function<void(sf::Color color)> &onFinish, sf::Color startColor)
 	{
 		char buffer[8];

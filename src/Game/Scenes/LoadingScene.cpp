@@ -44,10 +44,10 @@ namespace SpiralOfFate
 
 	void SpiralOfFate::LoadingScene::render() const
 	{
-		sf::View view{{0, 0, 1680, 960}};
+		ViewPort view{{0, 0, 1680, 960}};
 
 		game->screen->setView(view);
-		game->screen->clear(sf::Color{0xA0, 0xA0, 0xA0, 0xFF});
+		game->screen->clear({0xA0, 0xA0, 0xA0});
 		game->screen->borderColor(2, sf::Color::Black);
 		game->screen->fillColor();
 		game->screen->textSize(50);

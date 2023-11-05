@@ -87,9 +87,8 @@ namespace SpiralOfFate
 		this->_oosBubble.textureHandle = game->textureMgr.load("assets/effects/oosBubble.png");
 		this->_oosBubbleMask.textureHandle = game->textureMgr.load("assets/effects/oosBubbleMask.png");
 		this->_stallWarn.textureHandle = game->textureMgr.load("assets/battleui/meter_warning.png");
-		my_assert(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png"));
+		my_assert(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png", nullptr, true));
 		game->textureMgr.setTexture(this->_stallWarn);
-		game->textureMgr.setTexture(this->_stallDown)->setRepeated(true);
 		game->textureMgr.setTexture(this->_oosBubbleMask);
 		game->textureMgr.setTexture(this->_oosBubble);
 		game->textureMgr.setTexture(this->_leftIcon);

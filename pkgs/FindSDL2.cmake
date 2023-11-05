@@ -14,7 +14,7 @@
 if (NOSDL2)
         SET(SDL2_FOUND FALSE)
 else ()
-        IF (NOT SDL2_INCLUDE_DIRS OR NOT SDL2_LIBRARY)
+        IF (NOT SDL2_INCLUDE_DIRS OR NOT SDL2_LIBRARY OR NOT SDL2_IMAGE_LIBRARY)
                 IF (MSVC)      # Visual Studio
                         SET(CMAKE_FIND_LIBRARY_PREFIXES ";lib")
                         SET(CMAKE_FIND_LIBRARY_SUFFIXES ".lib;.dll.lib;.dll.a;.a")
@@ -34,6 +34,14 @@ else ()
                         ${SDL2_DIR}                   # SDL2 root directory (if provided)
                 )
 
+                FIND_LIBRARY(SDL2_IMAGE_LIBRARY
+                        NAMES
+                        SDL2_image
+                        PATHS
+                        ${SDL2_DIR}/lib/              # SDL2 root directory (if provided)
+                        ${SDL2_DIR}                   # SDL2 root directory (if provided)
+                )
+
                 FIND_PATH(SDL2_INCLUDE_DIRS
                         NAMES
                         SDL2/SDL.h
@@ -41,9 +49,9 @@ else ()
                         ${SDL2_DIR}/include/             # SDL2 root directory (if provided)
                         ${SDL2_DIR}                      # SDL2 root directory (if provided)
                 )
-        ENDIF (NOT SDL2_INCLUDE_DIRS OR NOT SDL2_LIBRARY)
+        ENDIF (NOT SDL2_INCLUDE_DIRS OR NOT SDL2_LIBRARY OR NOT SDL2_IMAGE_LIBRARY)
 
-        IF (SDL2_INCLUDE_DIRS AND SDL2_LIBRARY)
+        IF (SDL2_INCLUDE_DIRS AND SDL2_LIBRARY AND SDL2_IMAGE_LIBRARY)
                 SET(SDL2_FOUND TRUE)
         ELSE ()
                 SET(SDL2_FOUND FALSE)

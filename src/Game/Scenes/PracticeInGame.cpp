@@ -478,7 +478,7 @@ namespace SpiralOfFate
 
 	void PracticeInGame::render() const
 	{
-		sf::View view{{-50, -600, 1100, 700}};
+		ViewPort view{{-50, -600, 1100, 700}};
 
 		game->screen->setView(view);
 		game->battleMgr->render();

@@ -8,10 +8,10 @@
 #include <mutex>
 #include <memory>
 #include <random>
-#include "SFML/Screen.hpp"
-#include "SFML/TextureManager.hpp"
+#include "Screen.hpp"
+#include "TextureManager.hpp"
 #include "Resources/Battle/BattleManager.hpp"
-#include "SFML/SoundManager.hpp"
+#include "SoundManager.hpp"
 #include "SceneManager.hpp"
 #include "KeyboardInput.hpp"
 #include "ControllerInput.hpp"
@@ -54,7 +54,7 @@
 	} while (0)
 #define my_assert2(_Expression, msg)                                                           \
 	do {                                                                                   \
-		if (_Expression);                                                              \
+		if ((_Expression));                                                            \
 		else                                                                           \
 			throw AssertionFailedException(#_Expression, msg);                     \
 	} while (0)

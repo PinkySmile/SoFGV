@@ -14,6 +14,7 @@ if (USE_SDL2)
 
 	message("SDL2 include dir is ${SDL2_INCLUDE_DIRS}")
 	message("SDL2 library is ${SDL2_LIBRARY}")
+	message("SDL2 image library is ${SDL2_IMAGE_LIBRARY}")
 
 	set(EXTRA_LIBRARY_INCLUDES ${SDL2_INCLUDE_DIRS} src/LibCore/SDL2)
 	set(SPECIFIC_INCLUDES_PATH src/LibCore/SDL2)
@@ -33,6 +34,7 @@ if (USE_SDL2)
 	)
 	set(
 		SCREEN_SRCS
+		src/LibCore/SDL2/Sprite.hpp
 		src/LibCore/SDL2/Screen.cpp
 		src/LibCore/SDL2/Screen.hpp
 	)
@@ -76,6 +78,7 @@ if (USE_SDL2)
 	set(
 		EXTRA_LINK_LIBRARIES
 		${SDL2_LIBRARY}
+		${SDL2_IMAGE_LIBRARY}
 		${SFML_GRAPHICS_LIB}
 		${SFML_AUDIO_LIB}
 		${SFML_SYSTEM_LIB}
@@ -88,6 +91,7 @@ if (USE_SDL2)
 	set(NETWORK_CLASSES)
 	set(NETWORK_EXTRA_SRC)
 	set(VIRTUAL_CONTROLLER OFF)
+	add_compile_definitions(USE_SDL=1)
 else (USE_SDL2)
 	find_package(SFML REQUIRED)
 	find_package(TGUI REQUIRED)
@@ -122,6 +126,7 @@ else (USE_SDL2)
 	)
 	set(
 		SCREEN_SRCS
+		src/LibCore/SFML/Sprite.hpp
 		src/LibCore/SFML/Screen.cpp
 		src/LibCore/SFML/Screen.hpp
 	)
@@ -159,6 +164,8 @@ else (USE_SDL2)
 		${SFML_NETWORK_LIB}
 		${TGUI_LIB}
 	)
+	add_compile_definitions(USE_SFML=1)
+	add_compile_definitions(USE_TGUI=1)
 endif (USE_SDL2)
 
 if (VIRTUAL_CONTROLLER)
@@ -306,7 +313,6 @@ add_library(
 	src/LibCore/Resources/Assets/FrameData.hpp
 	src/LibCore/Resources/Assets/MoveListData.cpp
 	src/LibCore/Resources/Assets/MoveListData.hpp
-	src/LibCore/Resources/Assets/Sprite.hpp
 	src/LibCore/Resources/Battle/BattleManager.cpp
 	src/LibCore/Resources/Battle/BattleManager.hpp
 	src/LibCore/Resources/Battle/PracticeBattleManager.cpp

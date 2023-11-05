@@ -22,7 +22,7 @@ namespace SpiralOfFate
 		_rightInput(std::move(rightInput)),
 		_inGameName(inGameName)
 	{
-		sf::View view{{0, 0, 1680, 960}};
+		ViewPort view{{0, 0, 1680, 960}};
 		nlohmann::json json;
 		auto chrList = game->getCharacters();
 
@@ -567,12 +567,12 @@ namespace SpiralOfFate
 					throw std::invalid_argument("c.g is missing");
 				if (!c.contains("b"))
 					throw std::invalid_argument("c.b is missing");
-				this->palettes.back().push_back(Color{{
+				this->palettes.back().push_back(Color{
 					c["r"],
 					c["g"],
 					c["b"],
 					255
-				}});
+				});
 			}
 			my_assert(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
 		}
