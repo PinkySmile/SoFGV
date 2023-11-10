@@ -2512,8 +2512,8 @@ void	run()
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto animpanel = gui.get<tgui::Panel>("AnimPanel");
 	auto progress = panel->get<tgui::Slider>("Progress");
-	ViewPort view;
-	ViewPort guiView{
+	SpiralOfFate::ViewPort view;
+	SpiralOfFate::ViewPort guiView{
 		{
 			0, 0,
 			static_cast<float>(SpiralOfFate::game->screen->getSize().x),
