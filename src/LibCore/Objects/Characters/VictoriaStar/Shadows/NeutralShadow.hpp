@@ -24,7 +24,7 @@ namespace SpiralOfFate
 		);
 
 		void update() override;
-		void getHit(IObject &other, const FrameData *data) override;
+		void getHit(Object &other, const FrameData *data) override;
 		void activate() override;
 
 		static Shadow *create(

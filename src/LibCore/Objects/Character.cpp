@@ -1282,7 +1282,10 @@ namespace SpiralOfFate
 			return this->_forceStartMove(ACTION_KNOCKED_DOWN);
 		}
 		if (
-			this->_action == ACTION_AIR_HIT &&
+			(
+				this->_action == ACTION_AIR_HIT ||
+				this->_action == ACTION_FALLING
+			) &&
 			this->_actionBlock == 1 &&
 			this->_moves.at(this->_action).size() > 2
 		) {
@@ -1397,11 +1400,10 @@ namespace SpiralOfFate
 		Object::_onMoveEnd(lastData);
 	}
 
-	void Character::hit(IObject &other, const FrameData *data)
+	void Character::hit(Object &other, const FrameData *data)
 	{
 		auto chr = dynamic_cast<Character *>(&other);
-		auto obj = reinterpret_cast<Object *>(&other);
-		auto isHit = isHitAction(obj->_action);
+		auto isHit = isHitAction(other._action);
 		auto realData = this->getCurrentFrameData();
 
 		if (!this->_hasBeenHitDuringFrame)
@@ -1432,7 +1434,7 @@ namespace SpiralOfFate
 			this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_BLOCK_REMOVE);
 	}
 
-	void Character::getHit(IObject &other, const FrameData *dat)
+	void Character::getHit(Object &other, const FrameData *dat)
 	{
 		char buffer[48];
 
@@ -1443,13 +1445,12 @@ namespace SpiralOfFate
 
 		FrameData data;
 		auto myData = this->getCurrentFrameData();
-		auto obj = reinterpret_cast<Object *>(&other);
 
 		data.setSlave();
 		data = *dat;
 		this->_mutateHitFramedata(data);
 		if (myData->dFlag.invulnerableArmor) {
-			obj->_hitStop += data.hitPlayerHitStop;
+			other._hitStop += data.hitPlayerHitStop;
 			this->_hitStop += data.hitOpponentHitStop;
 			return;
 		}
@@ -1460,9 +1461,9 @@ namespace SpiralOfFate
 			data.oFlag.unblockable ||
 			data.oFlag.grab
 		)
-			this->_getHitByMove(obj, data);
+			this->_getHitByMove(&other, data);
 		else
-			this->_blockMove(obj, data);
+			this->_blockMove(&other, data);
 	}
 
 	bool Character::_isBlocking() const
@@ -1487,6 +1488,15 @@ namespace SpiralOfFate
 
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 
+		if (
+			action == ACTION_AIR_HIT &&
+			this->_speed.y > 0 &&
+			this->_moves.at(action).size() > 2
+		) {
+			Object::_forceStartMove(action);
+			this->_actionBlock = 2;
+			return;
+		}
 		if (action >= ACTION_5N)
 			this->_guardBarTmp = 0;
 		if (this->_opponent->_comboCtr) {
@@ -1586,7 +1596,7 @@ namespace SpiralOfFate
 		) {
 			if (this->_moves.at(this->_action)[this->_actionBlock][anim].dFlag.airborne) {
 				game->soundMgr.play(BASICSOUND_LAND);
-				if (this->_action == ACTION_FALLING)
+				if (this->_action == ACTION_FALLING && action == ACTION_IDLE)
 					return this->_forceStartMove(ACTION_LANDING);
 			}
 		}
@@ -2911,10 +2921,9 @@ namespace SpiralOfFate
 			(this->_dir * input.horizontalAxis < 0 && this->_startMove(ACTION_BACKWARD_AIR_TECH));
 	}
 
-	bool Character::hits(const IObject &other) const
+	bool Character::hits(const Object &other) const
 	{
 		auto otherChr = dynamic_cast<const Character *>(&other);
-		//auto otherObj = dynamic_cast<const Object *>(&other);
 
 		if (otherChr) {
 			for (auto limit : otherChr->_limit)
@@ -3623,7 +3632,7 @@ namespace SpiralOfFate
 		this->_forceStartMove(data->dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE);
 	}
 
-	std::pair<unsigned int, std::shared_ptr<IObject>> Character::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
+	std::pair<unsigned int, std::shared_ptr<Object>> Character::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
 		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
@@ -4181,7 +4190,10 @@ namespace SpiralOfFate
 			}
 		}
 		if (
-			this->_action == ACTION_AIR_HIT &&
+			(
+				this->_action == ACTION_AIR_HIT ||
+				this->_action == ACTION_FALLING
+			) &&
 			this->_actionBlock == 0 &&
 			this->_moves.at(this->_action).size() > 2 &&
 			this->_speed.y < 0

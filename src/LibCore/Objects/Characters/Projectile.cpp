@@ -42,7 +42,7 @@ namespace SpiralOfFate
 		this->_moves[0] = frameData;
 	}
 
-	bool Projectile::hits(const IObject &other) const
+	bool Projectile::hits(const Object &other) const
 	{
 		if (this->_disabled)
 			return false;
@@ -56,12 +56,12 @@ namespace SpiralOfFate
 		return Object::hits(other);
 	}
 
-	void Projectile::hit(IObject &other, const FrameData *data)
+	void Projectile::hit(Object &other, const FrameData *data)
 	{
 		// We can't hit someone from our team normally.
 		// If it happens, that means that we got reflected.
 		// We reflected, we stay active as if we didn't actually hit the target.
-		if (reinterpret_cast<Object *>(&other)->getTeam() == this->getTeam())
+		if (other.getTeam() == this->getTeam())
 			return;
 		if (data->dFlag.canBlock) {
 			auto owner = this->getOwnerObj();
@@ -93,7 +93,7 @@ namespace SpiralOfFate
 			this->_nbHit++;
 	}
 
-	void Projectile::getHit(IObject &other, const FrameData *odata)
+	void Projectile::getHit(Object &other, const FrameData *odata)
 	{
 		Object::getHit(other, odata);
 

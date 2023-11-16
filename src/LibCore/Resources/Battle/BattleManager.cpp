@@ -178,7 +178,7 @@ namespace SpiralOfFate
 			this->_fpsTimes.pop_front();
 		this->_fpsTimes.push_back(this->_fpsClock.restart().asMicroseconds());
 
-		std::map<int, std::vector<IObject *>> objectLayers;
+		std::map<int, std::vector<Object *>> objectLayers;
 		float total = 0;
 
 		for (auto &object : this->_stageObjects)
@@ -296,7 +296,7 @@ namespace SpiralOfFate
 			this->_renderRoundStartAnimation();
 	}
 
-	unsigned BattleManager::registerObject(const std::shared_ptr<IObject> &object)
+	unsigned BattleManager::registerObject(const std::shared_ptr<Object> &object)
 	{
 		this->_objects.emplace_back(++this->_lastObjectId, object);
 		return this->_lastObjectId;
@@ -480,7 +480,7 @@ namespace SpiralOfFate
 
 	void BattleManager::_gameUpdate()
 	{
-		std::vector<std::tuple<IObject *, IObject *, const FrameData *>> collisions;
+		std::vector<std::tuple<Object *, Object *, const FrameData *>> collisions;
 		auto ldata = this->_leftCharacter->getCurrentFrameData();
 		auto rdata = this->_rightCharacter->getCurrentFrameData();
 		auto lchr = &*this->_leftCharacter;
@@ -612,7 +612,7 @@ namespace SpiralOfFate
 		return this->_leftFirst;
 	}
 
-	std::shared_ptr<IObject> BattleManager::getObjectFromId(unsigned int id) const
+	std::shared_ptr<Object> BattleManager::getObjectFromId(unsigned int id) const
 	{
 		for (auto &object : this->_objects)
 			if (object.first == id)
@@ -708,7 +708,7 @@ namespace SpiralOfFate
 		this->_objects.reserve(dat->_nbObjects);
 		this->_platforms.erase(this->_platforms.begin() + this->_nbPlatform, this->_platforms.end());
 		for (size_t i = 0; i < dat->_nbObjects; i++) {
-			std::shared_ptr<IObject> obj;
+			std::shared_ptr<Object> obj;
 			auto id = *(unsigned *)ptr;
 
 			ptr += sizeof(unsigned);
@@ -1075,7 +1075,7 @@ namespace SpiralOfFate
 			return;
 
 		for (size_t i = 0; i < dat1->_nbObjects; i++) {
-			std::shared_ptr<IObject> obj;
+			std::shared_ptr<Object> obj;
 			auto id1 = *(unsigned *)ptr1;
 			auto id2 = *(unsigned *)ptr2;
 
@@ -1145,7 +1145,7 @@ namespace SpiralOfFate
 		return this->_currentFrame;
 	}
 
-	const std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> &BattleManager::getObjects() const
+	const std::vector<std::pair<unsigned, std::shared_ptr<Object>>> &BattleManager::getObjects() const
 	{
 		return this->_objects;
 	}
@@ -1206,7 +1206,7 @@ namespace SpiralOfFate
 		ptr1 += length;
 
 		for (size_t i = 0; i < dat1->_nbObjects; i++) {
-			std::shared_ptr<IObject> obj;
+			std::shared_ptr<Object> obj;
 			auto id1 = *(unsigned *)ptr1;
 
 			if ((ptrdiff_t)ptr1 - (ptrdiff_t)data + sizeof(unsigned) + sizeof(unsigned char) >= size)

@@ -54,7 +54,7 @@ namespace SpiralOfFate
 		this->_sprite.setColor(color);
 	}
 
-	void NeutralShadow::getHit(IObject &other, const FrameData *data)
+	void NeutralShadow::getHit(Object &other, const FrameData *data)
 	{
 		auto color = this->_sprite.getColor();
 

@@ -62,40 +62,9 @@ void EditableObject::update()
 	this->_speed.y += this->_gravity;
 }
 
-void EditableObject::reset()
-{
-}
-
 bool EditableObject::isDead() const
 {
 	return false;
-}
-
-bool EditableObject::hits(const IObject &) const
-{
-	return false;
-}
-
-void EditableObject::hit(SpiralOfFate::IObject &, const SpiralOfFate::FrameData *)
-{
-}
-
-void EditableObject::getHit(SpiralOfFate::IObject &, const SpiralOfFate::FrameData *)
-{
-}
-
-const SpiralOfFate::FrameData *EditableObject::getCurrentFrameData() const
-{
-	return nullptr;
-}
-
-bool EditableObject::collides(const SpiralOfFate::IObject &) const
-{
-	return false;
-}
-
-void EditableObject::collide(IObject &)
-{
 }
 
 void EditableObject::kill()
@@ -131,11 +100,6 @@ size_t EditableObject::printDifference(const char *, void *, void *, unsigned) c
 int EditableObject::getLayer() const
 {
 	return 0;
-}
-
-bool EditableObject::isDisabled(const SpiralOfFate::IObject &target) const
-{
-	return false;
 }
 
 size_t EditableObject::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const

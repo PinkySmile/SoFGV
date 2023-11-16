@@ -30,14 +30,7 @@ public:
 	~EditableObject() override = default;
 	void render() const override;
 	void update() override;
-	bool collides(const SpiralOfFate::IObject &other) const override;
-	void reset() override;
 	bool isDead() const override;
-	bool hits(const SpiralOfFate::IObject &other) const override;
-	void hit(SpiralOfFate::IObject &other, const SpiralOfFate::FrameData *data) override;
-	void getHit(SpiralOfFate::IObject &other, const SpiralOfFate::FrameData *data) override;
-	const SpiralOfFate::FrameData *getCurrentFrameData() const override;
-	void collide(SpiralOfFate::IObject &other) override;
 	void kill() override;
 	unsigned int getBufferSize() const override;
 	void copyToBuffer(void *data) const override;
@@ -46,7 +39,6 @@ public:
 	size_t printDifference(const char *msgStart, void *, void *, unsigned) const override;
 	size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 	int getLayer() const override;
-	bool isDisabled(const IObject &target) const override;
 };
 
 

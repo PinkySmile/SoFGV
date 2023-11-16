@@ -43,11 +43,10 @@ namespace SpiralOfFate
 		Object::_onMoveEnd(lastData);
 	}
 
-	void Shadow::getHit(IObject &other, const FrameData *data)
+	void Shadow::getHit(Object &other, const FrameData *data)
 	{
 		auto dmg = data->damage;
-		auto otherObj = reinterpret_cast<Object *>(&other);
-		auto byOwner = otherObj->getTeam() == this->getOwner();
+		auto byOwner = other.getTeam() == this->getOwner();
 		auto o = reinterpret_cast<Shadow *>(&other);
 
 		this->_ownerKilled |= byOwner;

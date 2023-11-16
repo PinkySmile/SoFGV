@@ -35,8 +35,8 @@ namespace SpiralOfFate
 		bool isDestructed();
 		void update() override;
 		void render() const override;
-		virtual void touch(IObject &object);
-		void getHit(IObject &other, const FrameData *data) override;
+		virtual void touch(Object &object);
+		void getHit(Object &other, const FrameData *data) override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
 		unsigned int getBufferSize() const override;

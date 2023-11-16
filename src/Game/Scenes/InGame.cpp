@@ -637,15 +637,14 @@ namespace SpiralOfFate
 		game->logger.info(std::string(buf2) + " created.");
 	}
 
-	std::vector<IObject *> InGame::_generateStageObjects(const StageEntry &stage)
+	std::vector<Object *> InGame::_generateStageObjects(const StageEntry &stage)
 	{
 		if (stage.objectPath.empty())
-			return std::vector<IObject *>{};
+			return std::vector<Object *>{};
 
 		auto data = game->fileMgr.readFull(stage.objectPath);
 		nlohmann::json json;
-		std::vector<IObject *> objects;
-
+		std::vector<Object *> objects;
 
 		try {
 			json = nlohmann::json::parse(data);

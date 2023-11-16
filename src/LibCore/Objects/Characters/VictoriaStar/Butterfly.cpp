@@ -386,19 +386,19 @@ namespace SpiralOfFate
 		Object::_onMoveEnd(lastData);
 	}
 
-	bool Butterfly::isDisabled(const IObject &target) const
+	bool Butterfly::isDisabled(const Object &target) const
 	{
 		return this->_owner->_hasHit && !dynamic_cast<const Shadow *>(&target);
 	}
 
-	void Butterfly::hit(IObject &other, const FrameData *data)
+	void Butterfly::hit(Object &other, const FrameData *data)
 	{
 		Object::hit(other, data);
 		this->_owner->_hasHit = true;
 		this->_hitStop = 0;
 	}
 
-	bool Butterfly::hits(const IObject &other) const
+	bool Butterfly::hits(const Object &other) const
 	{
 		auto old = this->_hasHit;
 		auto t = const_cast<Butterfly *>(this);

@@ -220,25 +220,23 @@ namespace SpiralOfFate
 		return this->_dead;
 	}
 
-	void Object::hit(IObject &, const FrameData *)
+	void Object::hit(Object &, const FrameData *)
 	{
 		this->_hasHit = true;
 	}
 
-	void Object::getHit(IObject &, const FrameData *data)
+	void Object::getHit(Object &, const FrameData *data)
 	{
 		this->_hitStop = data->hitOpponentHitStop;
 		game->soundMgr.play(data->hitSoundHandle);
 	}
 
-	bool Object::hits(const IObject &other) const
+	bool Object::hits(const Object &other) const
 	{
 		if (this->_hasHit || this->isDisabled(other))
 			return false;
 
-		auto otherObj = reinterpret_cast<const Object *>(&other);
-
-		if (!otherObj || otherObj->_team == this->_team)
+		if (other._team == this->_team)
 			return false;
 
 		auto *oData = other.getCurrentFrameData();
@@ -263,11 +261,11 @@ namespace SpiralOfFate
 		if (oData->dFlag.neutralInvul && (mData->oFlag.matterElement == mData->oFlag.voidElement && mData->oFlag.voidElement == mData->oFlag.spiritElement))
 			return false;
 
-		auto hurtBoxes = otherObj->_getModifiedHurtBoxes();
+		auto hurtBoxes = other._getModifiedHurtBoxes();
 		auto hitBoxes = this->_getModifiedHitBoxes();
 
 		// TODO: Check if there is perf benefit in doing this
-		if (otherObj->_rotation == 0 && this->_rotation == 0) {
+		if (other._rotation == 0 && this->_rotation == 0) {
 			for (auto &hurtBox : hurtBoxes)
 				for (auto &hitBox : hitBoxes) {
 					if (hitBox.pt3.x < hurtBox.pt1.x)
@@ -376,32 +374,27 @@ namespace SpiralOfFate
 		return this->_position.y <= 0 || this->_isOnPlatform();
 	}
 
-	void Object::collide(IObject &other)
+	void Object::collide(Object &other)
 	{
 		auto myData = this->getCurrentFrameData();
 		auto data = other.getCurrentFrameData();
-		auto asAObject = dynamic_cast<Object *>(&other);
-
-		if (!asAObject)
-			return;
-
 		auto myBox = this->_applyModifiers(*myData->collisionBox);
-		auto opBox = asAObject->_applyModifiers(*data->collisionBox);
+		auto opBox = other._applyModifiers(*data->collisionBox);
 		float myDiff;
 		float opDiff;
 
-		if (this->_position.x > asAObject->_position.x || (this->_position.x == asAObject->_position.x && this->_cornerPriority > asAObject->_cornerPriority)) {
-			opDiff = (this->_position.x      + myBox.pos.to<float>().x - opBox.pos.to<float>().x  - opBox.size.to<float>().x) - asAObject->_position.x;
-			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x + opBox.size.to<float>().x - myBox.pos.to<float>().x)  - this->_position.x;
+		if (this->_position.x > other._position.x || (this->_position.x == other._position.x && this->_cornerPriority > other._cornerPriority)) {
+			opDiff = (this->_position.x + myBox.pos.to<float>().x - opBox.pos.to<float>().x  - opBox.size.to<float>().x) - other._position.x;
+			myDiff = (other._position.x + opBox.pos.to<float>().x + opBox.size.to<float>().x - myBox.pos.to<float>().x)  - this->_position.x;
 		} else {
-			opDiff = (this->_position.x      + myBox.pos.to<float>().x + myBox.size.to<float>().x - opBox.pos.to<float>().x)  - asAObject->_position.x;
-			myDiff = (asAObject->_position.x + opBox.pos.to<float>().x - myBox.pos.to<float>().x  - myBox.size.to<float>().x) - this->_position.x;
+			opDiff = (this->_position.x + myBox.pos.to<float>().x + myBox.size.to<float>().x - opBox.pos.to<float>().x)  - other._position.x;
+			myDiff = (other._position.x + opBox.pos.to<float>().x - myBox.pos.to<float>().x  - myBox.size.to<float>().x) - this->_position.x;
 		}
 		this->_position.x += myDiff * 0.5f;
-		asAObject->_position.x += opDiff * 0.5f;
+		other._position.x += opDiff * 0.5f;
 	}
 
-	bool Object::collides(const IObject &other) const
+	bool Object::collides(const Object &other) const
 	{
 		auto myData = this->getCurrentFrameData();
 
@@ -413,18 +406,13 @@ namespace SpiralOfFate
 		if (!data || !data->collisionBox)
 			return false;
 
-		auto asAObject = dynamic_cast<const Object *>(&other);
-
-		if (!asAObject)
-			return false;
-
 		auto _hitBox = this->_applyModifiers(*myData->collisionBox);
-		auto _hurtBox = asAObject->_applyModifiers(*data->collisionBox);
+		auto _hurtBox = other._applyModifiers(*data->collisionBox);
 
 		_hitBox.pos.x += this->_position.x;
 		_hitBox.pos.y -= this->_position.y;
-		_hurtBox.pos.x += asAObject->_position.x;
-		_hurtBox.pos.y -= asAObject->_position.y;
+		_hurtBox.pos.x += other._position.x;
+		_hurtBox.pos.y -= other._position.y;
 		return static_cast<float>(_hurtBox.pos.x)                   < static_cast<float>(_hitBox.pos.x) + _hitBox.size.x &&
 		       static_cast<float>(_hurtBox.pos.y)                   < static_cast<float>(_hitBox.pos.y) + _hitBox.size.y &&
 		       static_cast<float>(_hurtBox.pos.x) + _hurtBox.size.x > static_cast<float>(_hitBox.pos.x)                  &&
@@ -700,7 +688,7 @@ namespace SpiralOfFate
 		this->_cacheComputed = true;
 	}
 
-	bool Object::isDisabled(const IObject &) const
+	bool Object::isDisabled(const Object &) const
 	{
 		return false;
 	}

@@ -73,9 +73,9 @@ namespace SpiralOfFate
 		size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const override;
 		size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 		void startAttack(Vector2f pos, unsigned block, unsigned char fadeTime, unsigned char attackTime, unsigned char travelTime);
-		bool isDisabled(const IObject &target) const override;
-		void hit(IObject &other, const FrameData *data) override;
-		bool hits(const IObject &other) const override;
+		bool isDisabled(const Object &target) const override;
+		void hit(Object &other, const FrameData *data) override;
+		bool hits(const Object &other) const override;
 
 		friend VictoriaStar;
 	};

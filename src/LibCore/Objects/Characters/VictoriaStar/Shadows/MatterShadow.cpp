@@ -34,7 +34,7 @@ namespace SpiralOfFate
 		return new MatterShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
-	void MatterShadow::getHit(IObject &other, const FrameData *data)
+	void MatterShadow::getHit(Object &other, const FrameData *data)
 	{
 		Shadow::getHit(other, data);
 		if (this->_hp == 0)

@@ -96,11 +96,11 @@ int main(int argc, char **argv)
 				stagesJson[stage]["image"],
 				[&stagesJson]{
 					if (!stagesJson.contains("objects"))
-						return std::vector<IObject *>{};
+						return std::vector<Object *>{};
 
 					std::ifstream stream2{stagesJson["objects"].get<std::string>()};
 					nlohmann::json json;
-					std::vector<IObject *> objects;
+					std::vector<Object *> objects;
 
 					if (stream2.fail()) {
 						game->logger.error("Failed to open stage object file: " + stagesJson["objects"].get<std::string>() + ": " + strerror(errno));
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 						for (auto object : objects)
 							delete object;
 					}
-					return std::vector<IObject *>{};
+					return std::vector<Object *>{};
 				},
 				[&stagesJson, stage, platforms]{
 					std::vector<Platform *> objects;

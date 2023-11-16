@@ -22,7 +22,7 @@ namespace SpiralOfFate
 			unsigned id,
 			const nlohmann::json &json
 		);
-		bool hits(const IObject &other) const override;
+		bool hits(const Object &other) const override;
 	};
 }
 

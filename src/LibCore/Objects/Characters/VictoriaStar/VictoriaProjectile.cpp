@@ -21,7 +21,7 @@ namespace SpiralOfFate
 	{
 	}
 
-	bool VictoriaProjectile::hits(const IObject &other) const
+	bool VictoriaProjectile::hits(const Object &other) const
 	{
 		auto old = this->_hasHit;
 		auto t = const_cast<VictoriaProjectile *>(this);

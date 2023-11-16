@@ -51,7 +51,7 @@ namespace SpiralOfFate
 		Object::_onMoveEnd(lastData);
 	}
 
-	void Platform::getHit(IObject &other, const FrameData *data)
+	void Platform::getHit(Object &other, const FrameData *data)
 	{
 		Object::getHit(other, data);
 		if (this->_hp < data->damage)
@@ -90,7 +90,7 @@ namespace SpiralOfFate
 		return this->_position;
 	}
 
-	void Platform::touch(IObject &)
+	void Platform::touch(Object &)
 	{
 	}
 

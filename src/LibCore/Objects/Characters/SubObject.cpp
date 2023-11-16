@@ -35,7 +35,7 @@ namespace SpiralOfFate
 		return 100;
 	}
 
-	bool SubObject::hits(const IObject &other) const
+	bool SubObject::hits(const Object &other) const
 	{
 		auto otherChr = dynamic_cast<const Character *>(&other);
 

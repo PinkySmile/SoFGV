@@ -558,7 +558,7 @@ namespace SpiralOfFate
 		std::vector<ReplayData> _replayData;
 		std::list<LastInput> _lastInputs;
 		std::map<unsigned, unsigned> _usedMoves;
-		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 128> _subobjects;
+		std::array<std::pair<unsigned, std::shared_ptr<Object>>, 128> _subobjects;
 		std::array<unsigned, 4> _limit{0, 0, 0, 0};
 		InputStruct _inputBuffer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 		int _timeSinceIdle = 0;
@@ -673,7 +673,7 @@ namespace SpiralOfFate
 		virtual InputStruct _getInputs();
 		virtual void _manaCrush();
 		virtual void _onSubObjectHit();
-		virtual std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
+		virtual std::pair<unsigned int, std::shared_ptr<Object>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister);
 		virtual void _renderExtraEffects(const Vector2f &pos) const;
 		virtual void _reduceGuard(unsigned amount, unsigned regenTime, bool canCrush);
 
@@ -749,9 +749,9 @@ namespace SpiralOfFate
 		Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		~Character() override;
 		void setOpponent(Character *opponent);
-		bool hits(const IObject &other) const override;
-		void hit(IObject &other, const FrameData *data) override;
-		void getHit(IObject &other, const FrameData *data) override;
+		bool hits(const Object &other) const override;
+		void hit(Object &other, const FrameData *data) override;
+		void getHit(Object &other, const FrameData *data) override;
 		void render() const override;
 		void update() override;
 		InputStruct updateInputs();

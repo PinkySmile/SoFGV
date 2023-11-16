@@ -128,7 +128,7 @@ namespace SpiralOfFate
 		std::vector<sf::Texture> _roundSprites;
 		unsigned char _speed = 60;
 		//TODO: Also save these in the rollback
-		std::vector<std::unique_ptr<IObject>> _stageObjects;
+		std::vector<std::unique_ptr<Object>> _stageObjects;
 		std::array<unsigned, NB_SPRITES> _moveSprites;
 		bool _leftFirst = false;
 
@@ -136,7 +136,7 @@ namespace SpiralOfFate
 		std::unique_ptr<Character> _leftCharacter;
 		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::shared_ptr<Platform>> _platforms;
-		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _objects;
+		std::vector<std::pair<unsigned, std::shared_ptr<Object>>> _objects;
 		unsigned _currentRound = 0;
 		unsigned _lastObjectId = 0;
 		unsigned _roundEndTimer = 0;
@@ -167,7 +167,7 @@ namespace SpiralOfFate
 		};
 		struct StageParams {
 			std::string path;
-			std::function<std::vector<IObject *>()> objects;
+			std::function<std::vector<Object *>()> objects;
 			std::function<std::vector<Platform *>()> platforms;
 		};
 
@@ -178,9 +178,9 @@ namespace SpiralOfFate
 		void renderInputs();
 		void renderLeftInputs();
 		void renderRightInputs();
-		unsigned registerObject(const std::shared_ptr<IObject> &object);
+		unsigned registerObject(const std::shared_ptr<Object> &object);
 		virtual void consumeEvent(const sf::Event &);
-		std::shared_ptr<IObject> getObjectFromId(unsigned id) const;
+		std::shared_ptr<Object> getObjectFromId(unsigned id) const;
 		Character *getLeftCharacter();
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;
@@ -191,7 +191,7 @@ namespace SpiralOfFate
 		void logDifference(void *data1, void *data2);
 		void printContent(void *data, size_t size);
 		template <typename T, typename ...Args>
-		std::pair<unsigned, std::shared_ptr<IObject>> registerObject(bool needRegister, const Args &... args)
+		std::pair<unsigned, std::shared_ptr<Object>> registerObject(bool needRegister, const Args &... args)
 		{
 			auto obj = std::make_shared<T>(args...);
 
@@ -200,7 +200,7 @@ namespace SpiralOfFate
 		unsigned getBufferSize() const;
 		void copyToBuffer(void *data) const;
 		void restoreFromBuffer(void *data);
-		const std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> &getObjects() const;
+		const std::vector<std::pair<unsigned, std::shared_ptr<Object>>> &getObjects() const;
 		const std::vector<std::shared_ptr<Platform>> &getPlatforms() const;
 		bool isLeftFirst() const;
 

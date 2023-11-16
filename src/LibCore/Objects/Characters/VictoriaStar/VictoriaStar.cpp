@@ -207,7 +207,7 @@ namespace SpiralOfFate
 		{"void", VoidShadow::create },
 	};
 
-	std::pair<unsigned int, std::shared_ptr<IObject>> VictoriaStar::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
+	std::pair<unsigned int, std::shared_ptr<Object>> VictoriaStar::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
 		// Butterflies
 		if (BUTTERFLIES_START_ID <= id && id < BUTTERFLIES_END_ID)
@@ -277,7 +277,7 @@ namespace SpiralOfFate
 		}
 	}
 
-	void VictoriaStar::getHit(IObject &other, const FrameData *data)
+	void VictoriaStar::getHit(Object &other, const FrameData *data)
 	{
 		auto old = this->_hasHit;
 
@@ -294,7 +294,7 @@ namespace SpiralOfFate
 		return Character::_canStartMove(action, data);
 	}
 
-	bool VictoriaStar::hits(const IObject &other) const
+	bool VictoriaStar::hits(const Object &other) const
 	{
 		auto old = this->_hasHit;
 		auto t = const_cast<VictoriaStar *>(this);
@@ -309,7 +309,7 @@ namespace SpiralOfFate
 		return result;
 	}
 
-	void VictoriaStar::hit(IObject &other, const FrameData *data)
+	void VictoriaStar::hit(Object &other, const FrameData *data)
 	{
 		auto shadow = dynamic_cast<const Shadow *>(&other);
 

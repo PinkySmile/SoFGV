@@ -22,7 +22,7 @@ namespace SpiralOfFate
 	public:
 		SubObject(unsigned id, bool owner, class Character *ownerObj);
 
-		bool hits(const IObject &other) const override;
+		bool hits(const Object &other) const override;
 		bool getOwner() const;
 		class Character *getOwnerObj() const;
 		unsigned int getId() const;

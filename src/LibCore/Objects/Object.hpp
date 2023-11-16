@@ -99,18 +99,20 @@ namespace SpiralOfFate
 		void _computeFrameDataCache() override;
 
 	public:
+		virtual void reset();
+		virtual bool hits(const Object &other) const;
+		virtual void hit(Object &her, const FrameData *data);
+		virtual void getHit(Object &other, const FrameData *data);
+		virtual void collide(Object &other);
+		virtual bool collides(const Object &other) const;
+		virtual bool isDisabled(const Object &target) const;
+
 		Object();
 		~Object() override = default;
 		void render() const override;
 		void update() override;
-		void reset() override;
 		bool isDead() const override;
-		bool hits(const IObject &other) const override;
-		void hit(IObject &other, const FrameData *data) override;
-		void getHit(IObject &other, const FrameData *data) override;
-		void collide(IObject &other) override;
-		bool collides(const IObject &other) const override;
-		const FrameData *getCurrentFrameData() const final;
+		const FrameData *getCurrentFrameData() const;
 		void kill() override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
@@ -121,7 +123,6 @@ namespace SpiralOfFate
 		unsigned getTeam() const;
 		int getLayer() const override;
 		bool getDirection() const;
-		bool isDisabled(const IObject &target) const override;
 
 		friend class PracticeBattleManager;
 		friend class BattleManager;

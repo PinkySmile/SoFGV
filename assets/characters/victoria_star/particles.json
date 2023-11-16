@@ -1,0 +1,59 @@
+[
+	{
+		"sprite": "particles.png",
+		"colors": [
+			{"r": 255, "g": 155, "b": 255},
+			{"r": 255, "g": 205, "b": 255}
+		],
+		"spawn_boundary": {
+			"left": -25,
+			"top": -150,
+			"width": 50,
+			"height": 150
+		},
+		"clip_center": {"x": 150, "y": 0},
+		"stick_to_target": false,
+		"force_in_stage": true,
+		"life_span": [180, 180],
+		"particles": [
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"use_random_color": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 0,
+					"top": 0,
+					"width": 9,
+					"height": 9
+				},
+				"mirror": [false, false],
+				"rotation": [0, 0],
+				"velocity": [{"x": -2, "y": 5}, {"x": 2, "y": 5}],
+				"spawn_chance": 0.8,
+				"life_span": [120, 120],
+				"fade_time": [30, 30]
+			},
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"use_random_color": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"mirror": [true, false],
+				"rotation": [0, 0],
+				"velocity": [{"x": -2, "y": 5}, {"x": 2, "y": 5}],
+				"spawn_chance": 0.2,
+				"life_span": [120, 120],
+				"fade_time": [30, 30]
+			}
+		]
+	}
+]

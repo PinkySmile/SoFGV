@@ -53,7 +53,7 @@ namespace SpiralOfFate
 
 	protected:
 		bool _startMove(unsigned int action) override;
-		std::pair<unsigned int, std::shared_ptr<IObject>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
+		std::pair<unsigned int, std::shared_ptr<Object>> _spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
 		bool _canCancel(unsigned int action) override;
 		void _forceStartMove(unsigned int action) override;
 		void _blockMove(Object *other, const FrameData &data) override;
@@ -76,9 +76,9 @@ namespace SpiralOfFate
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;
 		void restoreFromBuffer(void *data) override;
-		void getHit(IObject &other, const FrameData *data) override;
-		bool hits(const IObject &other) const override;
-		void hit(IObject &other, const FrameData *data) override;
+		void getHit(Object &other, const FrameData *data) override;
+		bool hits(const Object &other) const override;
+		void hit(Object &other, const FrameData *data) override;
 		void init(BattleManager &manager, const InitData &data) override;
 		void resolveSubObjects(const BattleManager &manager) override;
 		size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const override;
