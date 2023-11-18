@@ -196,8 +196,8 @@ namespace SpiralOfFate
 			"Both"
 		};
 
-		values[0] = this->_manager->_showBoxes ? "Shown"    : "Hidden";
-		values[1] = !this->_debug              ? "Disabled" : "Enabled";
+		values[0] = this->_manager->_showBoxes       ? "Shown"    : "Hidden";
+		values[1] = !this->_manager->_showAttributes ? "Disabled" : "Enabled";
 		values[2] = vals[this->_inputDisplay];
 
 		game->screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(ReplayInGame::_practiceMenuStrings) / sizeof(*ReplayInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
@@ -262,9 +262,7 @@ namespace SpiralOfFate
 			this->_manager->_showBoxes = !this->_manager->_showBoxes;
 			break;
 		case 1:
-			this->_debug = !this->_debug;
-			this->_manager->_leftCharacter->showAttributes = this->_debug;
-			this->_manager->_rightCharacter->showAttributes = this->_debug;
+			this->_manager->_showAttributes = !this->_manager->_showAttributes;
 			break;
 		case 2:
 			this->_inputDisplay++;

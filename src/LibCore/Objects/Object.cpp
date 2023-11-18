@@ -371,7 +371,7 @@ namespace SpiralOfFate
 
 	bool Object::_isGrounded() const
 	{
-		return this->_position.y <= 0 || this->_isOnPlatform();
+		return this->_position.y <= STAGE_Y_MIN || this->_isOnPlatform();
 	}
 
 	void Object::collide(Object &other)
@@ -727,5 +727,10 @@ namespace SpiralOfFate
 			return 0;
 		}
 		return sizeof(Data) + length;
+	}
+
+	const Vector2f &Object::getPosition() const
+	{
+		return this->_position;
 	}
 }

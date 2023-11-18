@@ -33,6 +33,7 @@ namespace SpiralOfFate
 		BlockingState _left;
 		BlockingState _right;
 		bool _showBoxes = false;
+		bool _showAttributes = false;
 		float _time = 0;
 		bool _step = false;
 		bool _next = false;

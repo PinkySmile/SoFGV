@@ -70,7 +70,7 @@ namespace SpiralOfFate
 			}
 		}
 
-		auto distance = this->_owner->_position.distance2(reinterpret_cast<VictoriaStar *>(this->_opponent)->_position);
+		auto distance = this->_owner->_position.distance2(this->_opponent->getPosition());
 
 		this->_counter++;
 		if (distance <= 500 * 500)
@@ -300,7 +300,7 @@ namespace SpiralOfFate
 		auto owDat = this->_owner->getCurrentFrameData();
 		auto opDat = target.getCurrentFrameData();
 		auto owCenter = this->_owner->_position + Vector2f{0, owDat->size.y / 2.f};
-		auto opCenter = reinterpret_cast<const VictoriaStar *>(&target)->_position + Vector2f{0, opDat->size.y / 2.f};
+		auto opCenter = target.getPosition() + Vector2f{0, opDat->size.y / 2.f};
 		auto dir = opCenter - owCenter;
 		auto normalized = dir.normalized();
 		Vector2f normalPt = {normalized.x * 60, normalized.y * 80};

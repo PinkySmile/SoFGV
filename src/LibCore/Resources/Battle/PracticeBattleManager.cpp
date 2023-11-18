@@ -31,13 +31,25 @@ namespace SpiralOfFate
 	void PracticeBattleManager::render()
 	{
 		this->_leftCharacter->showBoxes = this->_showBoxes;
+		this->_leftCharacter->showAttributes = this->_showAttributes;
 		this->_rightCharacter->showBoxes = this->_showBoxes;
-		for (auto &platform : this->_platforms)
+		this->_rightCharacter->showAttributes = this->_showAttributes;
+		for (auto &platform : this->_platforms) {
 			platform->showBoxes = this->_showBoxes;
-		for (auto &obj : this->_objects)
+			platform->showAttributes = this->_showAttributes;
+		}
+		for (auto &obj : this->_objects) {
 			obj.second->showBoxes = this->_showBoxes;
-		for (auto &obj : this->_stageObjects)
+			obj.second->showAttributes = this->_showAttributes;
+		}
+		for (auto &obj : this->_iobjects) {
+			obj.second->showBoxes = this->_showBoxes;
+			obj.second->showAttributes = this->_showAttributes;
+		}
+		for (auto &obj : this->_stageObjects) {
 			obj->showBoxes = this->_showBoxes;
+			obj->showAttributes = this->_showAttributes;
+		}
 		BattleManager::render();
 		if (this->_showBoxes) {
 			game->screen->borderColor(2, sf::Color::White);

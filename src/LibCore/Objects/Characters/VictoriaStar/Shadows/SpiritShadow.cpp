@@ -37,6 +37,17 @@ namespace SpiralOfFate
 		return new SpiritShadow(frameData, hp, direction, pos, owner, ownerObj, id, tint);
 	}
 
+	#define checkDistance(obj) \
+	do { \
+		auto &data = *(obj)->getCurrentFrameData(); \
+		if (data.hurtBoxes.empty() || this->getTeam() == (obj)->getTeam())\
+			break; \
+		auto opPos = (obj)->getPosition(); \
+		opPos.y += (data.size.y + data.offset.y) / 2.f; \
+		if (myPos.distance2(opPos) <= TRIGGER_RADIUS * TRIGGER_RADIUS) \
+			return this->activate(); \
+	} while (0)
+
 	void SpiritShadow::update()
 	{
 		if (this->_hitStop) {
@@ -52,24 +63,11 @@ namespace SpiralOfFate
 		std::vector<Object *> objects;
 		auto &subObjs = game->battleMgr->getObjects();
 
-		objects.reserve(subObjs.size() + 2);
-		objects.push_back(&*game->battleMgr->getLeftCharacter());
-		objects.push_back(&*game->battleMgr->getRightCharacter());
-		for (auto &object : subObjs)
-			objects.push_back(reinterpret_cast<Object *>(&*object.second));
 		myPos.y += (dat.size.y + dat.offset.y) / 2.f;
-		for (auto &obj : objects) {
-			auto &data = *obj->getCurrentFrameData();
-
-			if (data.hurtBoxes.empty() || this->getTeam() == obj->getTeam())
-				continue;
-
-			auto opPos = reinterpret_cast<SpiritShadow *>(obj)->_position;
-
-			opPos.y += (data.size.y + data.offset.y) / 2.f;
-			if (myPos.distance2(opPos) <= TRIGGER_RADIUS * TRIGGER_RADIUS)
-				return this->activate();
-		}
+		checkDistance(game->battleMgr->getLeftCharacter());
+		checkDistance(game->battleMgr->getRightCharacter());
+		for (auto &object : subObjs)
+			checkDistance(&*object.second);
 	}
 
 	void SpiritShadow::render() const

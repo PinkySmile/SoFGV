@@ -261,11 +261,11 @@ namespace SpiralOfFate
 		values[2] = this->dummyStateToString();
 		values[3] = this->blockToString();
 		values[4] = delay.c_str();
-		values[5] = chVal == 0                 ? "Normal"   : (chVal == 1            ? "Always"   : "Never");
-		values[6] = this->_guardBar == 0       ? "Normal"   : (this->_guardBar == 1  ? "Disabled" : "Instant regeneration");
-		values[7] = this->_overdrive == 0      ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
-		values[8] = this->_manager->_showBoxes ? "Shown"    : "Hidden";
-		values[9] = !this->_debug              ? "Disabled" : "Enabled";
+		values[5] = chVal == 0                       ? "Normal"   : (chVal == 1            ? "Always"   : "Never");
+		values[6] = this->_guardBar == 0             ? "Normal"   : (this->_guardBar == 1  ? "Disabled" : "Instant regeneration");
+		values[7] = this->_overdrive == 0            ? "Normal"   : (this->_overdrive == 1 ? "Disabled" : "Instant regeneration");
+		values[8] = this->_manager->_showBoxes       ? "Shown"    : "Hidden";
+		values[9] = !this->_manager->_showAttributes ? "Disabled" : "Enabled";
 		values[10]= this->manaStateToString();
 		values[11]= vals[this->_inputDisplay];
 
@@ -359,9 +359,7 @@ namespace SpiralOfFate
 			this->_manager->_showBoxes = !this->_manager->_showBoxes;
 			break;
 		case 9:
-			this->_debug = !this->_debug;
-			this->_manager->_leftCharacter->showAttributes = this->_debug;
-			this->_manager->_rightCharacter->showAttributes = this->_debug;
+			this->_manager->_showAttributes = !this->_manager->_showAttributes;
 			break;
 		case 10:
 			this->_mana = (this->_mana + 1) % 5;

@@ -109,7 +109,7 @@ namespace SpiralOfFate
 			this->_forceStartMove(this->_oldAction);
 		if (!this->_isGrounded())
 			this->_speed.x = 0;
-		if (std::abs(this->_position.x - reinterpret_cast<Stickman *>(&*this->_opponent)->_position.x) < 30 && this->_actionBlock == 0) {
+		if (std::abs(this->_position.x - this->_opponent->getPosition().x) < 30 && this->_actionBlock == 0) {
 			this->_actionBlock++;
 			this->_animation = 0;
 			this->_animationCtr = 0;

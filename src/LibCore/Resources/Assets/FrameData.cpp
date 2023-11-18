@@ -193,6 +193,10 @@ namespace SpiralOfFate
 				data["collision_box"]["height"]
 			}};
 		}
+		if (data.contains("particle_generator")) {
+			my_assert2(data["particle_generator"].is_number(), "Invalid json");
+			this->particleGenerator = data["particle_generator"];
+		}
 		if (data.contains("block_stun")) {
 			my_assert2(data["block_stun"].is_number(), "Invalid json");
 			this->blockStun = data["block_stun"];
@@ -354,6 +358,7 @@ namespace SpiralOfFate
 	{
 		__folder = other.__folder;
 		__palette = other.__palette;
+		this->particleGenerator = other.particleGenerator;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;
 		this->spritePath = other.spritePath;
@@ -422,6 +427,7 @@ namespace SpiralOfFate
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 		}
+		this->particleGenerator = other.particleGenerator;
 		this->chipDamage = other.chipDamage;
 		this->priority = other.priority;
 		this->spritePath = other.spritePath;
@@ -517,6 +523,8 @@ namespace SpiralOfFate
 			result["sound"] = this->soundPath;
 		if (!this->hitSoundPath.empty())
 			result["hit_sound"] = this->hitSoundPath;
+		if (this->particleGenerator)
+			result["particle_generator"] = this->particleGenerator;
 		if (this->offset.x || this->offset.y)
 			result["offset"] = {
 				{"x", this->offset.x},
@@ -655,6 +663,7 @@ namespace SpiralOfFate
 		game->logger.verbose("Saving FrameData (Data size: " + std::to_string(this->getBufferSize()) + ") @" + std::to_string((uintptr_t)dat));
 		memset(dat->texturePath, 0, sizeof(dat->texturePath));
 		strncpy(dat->texturePath, this->spritePath.c_str(), sizeof(dat->texturePath));
+		dat->particleGenerator = this->particleGenerator;
 		dat->blockStun = this->blockStun;
 		dat->hitStun = this->hitStun;
 		dat->untech = this->untech;
@@ -723,6 +732,7 @@ namespace SpiralOfFate
 		this->spritePath = std::string(dat->texturePath, strnlen(dat->texturePath, sizeof(dat->texturePath)));
 		this->textureHandle = game->textureMgr.load(__folder + "/" + this->spritePath, __palette);
 		game->textureMgr.remove(this->textureHandle);
+		this->particleGenerator = dat->particleGenerator;
 		this->blockStun = dat->blockStun;
 		this->hitStun = dat->hitStun;
 		this->untech = dat->untech;
@@ -791,6 +801,8 @@ namespace SpiralOfFate
 		game->logger.info("FrameData @" + std::to_string(startOffset));
 		if (strncmp(dat1->texturePath, dat2->texturePath, sizeof(dat2->texturePath)))
 			game->logger.fatal(std::string(msgStart) + "FrameData::texturePath: " + std::string(dat1->texturePath, strnlen(dat1->texturePath, sizeof(dat1->texturePath))) + " vs " + std::string(dat2->texturePath, strnlen(dat2->texturePath, sizeof(dat2->texturePath))));
+		if (dat1->particleGenerator != dat2->particleGenerator)
+			game->logger.fatal(std::string(msgStart) + "FrameData::particleGenerator: " + std::to_string(dat1->particleGenerator) + " vs " + std::to_string(dat2->particleGenerator));
 		if (dat1->blockStun != dat2->blockStun)
 			game->logger.fatal(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat1->blockStun) + " vs " + std::to_string(dat2->blockStun));
 		if (dat1->hitStun != dat2->hitStun)
@@ -909,6 +921,7 @@ namespace SpiralOfFate
 		if (startOffset + sizeof(Data) + sizeof(Box) * (dat->hurtBoxesCount + dat->hitBoxesCount) >= dataSize)
 			game->logger.warn("Object is " + std::to_string(startOffset + sizeof(Data) - dataSize) + " bytes bigger than input");
 		game->logger.info(std::string(msgStart) + "FrameData::texturePath: " + std::string(dat->texturePath, strnlen(dat->texturePath, sizeof(dat->texturePath))));
+		game->logger.info(std::string(msgStart) + "FrameData::particleGenerator: " + std::to_string(dat->particleGenerator));
 		game->logger.info(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat->blockStun));
 		game->logger.info(std::string(msgStart) + "FrameData::hitStun: " + std::to_string(dat->hitStun));
 		game->logger.info(std::string(msgStart) + "FrameData::untech: " + std::to_string(dat->untech));

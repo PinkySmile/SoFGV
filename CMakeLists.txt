@@ -333,6 +333,10 @@ add_library(
 	${ASSETS_SRCS}
 	${SCREEN_SRCS}
 	${NETWORK_SRCS}
+	src/LibCore/Objects/Particle.cpp
+	src/LibCore/Objects/Particle.hpp
+	src/LibCore/Objects/ParticleGenerator.cpp
+	src/LibCore/Objects/ParticleGenerator.hpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)

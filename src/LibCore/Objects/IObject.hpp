@@ -13,13 +13,9 @@ namespace SpiralOfFate
 	class BattleManager;
 
 	class IObject {
-	protected:
-		bool _cacheComputed = false;
-
-		virtual void _computeFrameDataCache() = 0;
-
 	public:
 		bool showBoxes = false;
+		bool showAttributes = false;
 
 		virtual ~IObject() = default;
 		virtual void render() const = 0;

@@ -205,6 +205,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto sound = panel->get<tgui::EditBox>("SFX");
 	auto hitSound = panel->get<tgui::EditBox>("HitSFX");
+	auto pGenerator = panel->get<tgui::EditBox>("PGen");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -280,6 +281,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	manaGain->setText(std::to_string(data.manaGain));
 	manaCost->setText(std::to_string(data.manaCost));
 	neutralLimit->setText(std::to_string(data.neutralLimit));
+	pGenerator->setText(std::to_string(data.particleGenerator));
 
 	auto newBounds = "(" + std::to_string(data.textureBounds.pos.x) + "," + std::to_string(data.textureBounds.pos.y) + "," + std::to_string(data.textureBounds.size.x) + "," + std::to_string(data.textureBounds.size.y) + ")";
 	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
@@ -355,6 +357,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto sprite = panel->get<tgui::EditBox>("Sprite");
 	auto sfx = panel->get<tgui::EditBox>("SFX");
 	auto hitSound = panel->get<tgui::EditBox>("HitSFX");
+	auto pGenerator = panel->get<tgui::EditBox>("PGen");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto size = panel->get<tgui::EditBox>("Size");
@@ -859,6 +862,16 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.duration = std::stoul(t);
+	});
+	pGenerator->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.particleGenerator = std::stoul(t);
 	});
 	damage->connect("TextChanged", [&object](std::string t){
 		if (*c)

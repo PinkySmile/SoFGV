@@ -22,8 +22,6 @@ namespace SpiralOfFate
 		unsigned char _guardBar = 0;
 		unsigned char _overdrive = 0;
 		unsigned _rightCounter = 0;
-		bool _hitboxes = false;
-		bool _debug = false;
 		unsigned char _mana = 0;
 
 		constexpr static const char *_menuStrings[] = {

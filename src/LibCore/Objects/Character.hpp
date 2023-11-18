@@ -10,6 +10,7 @@
 #include "Object.hpp"
 #include "Inputs/IInput.hpp"
 #include "Data/Color.hpp"
+#include "ParticleGenerator.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS
@@ -614,6 +615,7 @@ namespace SpiralOfFate
 		Character *_opponent = nullptr;
 		std::map<unsigned, SubObjectData> _projectileData;
 		std::map<unsigned, std::vector<std::vector<FrameData>>> _subObjectsData;
+		std::vector<ParticleGenerator::InitData> _generators;
 		std::shared_ptr<IInput> _input;
 		unsigned _maxOdCooldown = 0;
 		unsigned _maxJumps = 0;
@@ -693,6 +695,7 @@ namespace SpiralOfFate
 		float _getAnchoredPos(const Character::SubObjectData &data, bool y);
 		Vector2f _calcProjectilePosition(const SubObjectData &data, float dir);
 		void _loadProjectileData(const std::string &path);
+		void _loadParticleData(const std::string &path, const std::string &folder);
 		void _tickMove() override;
 		void _applyNewAnimFlags() override;
 		void _applyMoveAttributes() override;
@@ -742,7 +745,6 @@ namespace SpiralOfFate
 	public:
 		unsigned index;
 		std::wstring name;
-		bool showAttributes = false;
 		bool startedAttack = false;
 
 		Character();

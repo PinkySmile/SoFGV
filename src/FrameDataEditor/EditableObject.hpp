@@ -9,9 +9,6 @@
 #include <LibCore.hpp>
 
 class EditableObject : public SpiralOfFate::IObject {
-protected:
-	void _computeFrameDataCache() override;
-
 public:
 	mutable SpiralOfFate::Sprite _sprite;
 

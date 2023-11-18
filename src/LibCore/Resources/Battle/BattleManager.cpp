@@ -89,6 +89,7 @@ namespace SpiralOfFate
 		this->_stallWarn.textureHandle = game->textureMgr.load("assets/battleui/meter_warning.png");
 		my_assert(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png", nullptr, true));
 		game->textureMgr.setTexture(this->_stallWarn);
+		game->textureMgr.setTexture(this->_stallDown);
 		game->textureMgr.setTexture(this->_oosBubbleMask);
 		game->textureMgr.setTexture(this->_oosBubble);
 		game->textureMgr.setTexture(this->_leftIcon);
@@ -178,7 +179,7 @@ namespace SpiralOfFate
 			this->_fpsTimes.pop_front();
 		this->_fpsTimes.push_back(this->_fpsClock.restart().asMicroseconds());
 
-		std::map<int, std::vector<Object *>> objectLayers;
+		std::map<int, std::vector<IObject *>> objectLayers;
 		float total = 0;
 
 		for (auto &object : this->_stageObjects)
@@ -186,6 +187,8 @@ namespace SpiralOfFate
 		for (auto &object : this->_platforms)
 			objectLayers[object->getLayer()].push_back(&*object);
 		for (auto &object : this->_objects)
+			objectLayers[object.second->getLayer()].push_back(&*object.second);
+		for (auto &object : this->_iobjects)
 			objectLayers[object.second->getLayer()].push_back(&*object.second);
 
 		auto it = objectLayers.begin();
@@ -299,6 +302,12 @@ namespace SpiralOfFate
 	unsigned BattleManager::registerObject(const std::shared_ptr<Object> &object)
 	{
 		this->_objects.emplace_back(++this->_lastObjectId, object);
+		return this->_lastObjectId;
+	}
+
+	unsigned BattleManager::registerObject(const std::shared_ptr<IObject> &object)
+	{
+		this->_iobjects.emplace_back(++this->_lastObjectId, object);
 		return this->_lastObjectId;
 	}
 
@@ -507,13 +516,18 @@ namespace SpiralOfFate
 		ldata = this->_leftCharacter->getCurrentFrameData();
 		rdata = this->_rightCharacter->getCurrentFrameData();
 		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
+			// TODO: Using the sizes here since update() can grow the list of objects
+			//       causing the iterators to be invalid.
 			auto size = this->_objects.size();
+			auto size2 = this->_iobjects.size();
 
 			for (unsigned i = 0; i < size; i++) {
 				this->_objects[i].second->_cacheComputed = false;
 				this->_objects[i].second->update();
 				this->_objects[i].second->_computeFrameDataCache();
 			}
+			for (unsigned i = 0; i < size2; i++)
+				this->_iobjects[i].second->update();
 			for (auto &object : this->_stageObjects) {
 				object->_cacheComputed = false;
 				object->update();
@@ -586,6 +600,9 @@ namespace SpiralOfFate
 		for (unsigned i = 0; i < this->_objects.size(); i++)
 			if (this->_objects[i].second->isDead())
 				this->_objects.erase(this->_objects.begin() + i--);
+		for (unsigned i = 0; i < this->_iobjects.size(); i++)
+			if (this->_iobjects[i].second->isDead())
+				this->_iobjects.erase(this->_iobjects.begin() + i--);
 
 		if (lchr->collides(*rchr))
 			lchr->collide(*rchr);
@@ -630,6 +647,8 @@ namespace SpiralOfFate
 			size += object.second->getBufferSize();
 			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
 		}
+		// TODO: Save other objects
+		// TODO: Save stage objects
 		for (size_t i = 0; i < this->_nbPlatform; i++)
 			size += this->_platforms[i]->getBufferSize();
 		return size;
@@ -678,7 +697,8 @@ namespace SpiralOfFate
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
 		}
-		//TODO: Also save the stage objects. The clouds call the random number generator so it's a must
+		// TODO: Save other objects
+		// TODO: Save stage objects
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)
@@ -749,6 +769,8 @@ namespace SpiralOfFate
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
 		game->logger.verbose("Restored BattleManager @" + std::to_string((uintptr_t)dat));
+		// TODO: Save other objects
+		// TODO: Save stage objects
 	}
 
 	bool BattleManager::_updateLoop()

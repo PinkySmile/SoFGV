@@ -268,7 +268,7 @@ namespace SpiralOfFate
 			if (!needRegister)
 				return {0, obj};
 
-			auto objectId = manager.registerObject(obj);
+			auto objectId = manager.registerObject(static_cast<std::shared_ptr<Object>>(obj));
 
 			this->_shadows.emplace_back(objectId, obj);
 			return {objectId, obj};

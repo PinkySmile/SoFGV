@@ -65,6 +65,7 @@ namespace SpiralOfFate
 		bool _dead = false;
 		bool _hasHit = false;
 		bool _direction = false;
+		bool _cacheComputed = false;
 		char _cornerPriority = 0;
 		float _dir = -1;
 		FrameData _fdCache;
@@ -96,7 +97,7 @@ namespace SpiralOfFate
 		virtual void _tickMove();
 		virtual void _applyMoveAttributes();
 		virtual void _render(Vector2f spritePos, Vector2f scale) const;
-		void _computeFrameDataCache() override;
+		virtual void _computeFrameDataCache();
 
 	public:
 		virtual void reset();
@@ -123,6 +124,7 @@ namespace SpiralOfFate
 		unsigned getTeam() const;
 		int getLayer() const override;
 		bool getDirection() const;
+		const Vector2f &getPosition() const;
 
 		friend class PracticeBattleManager;
 		friend class BattleManager;

@@ -10,6 +10,11 @@
 #include "Objects/Platform.hpp"
 #include "Resources/Assets/MoveListData.hpp"
 
+#define STAGE_X_MIN 0
+#define STAGE_X_MAX 1000
+#define STAGE_Y_MIN 0
+#define STAGE_Y_MAX 750
+
 namespace SpiralOfFate
 {
 	enum BattleUiSprite {
@@ -137,6 +142,7 @@ namespace SpiralOfFate
 		std::unique_ptr<Character> _rightCharacter;
 		std::vector<std::shared_ptr<Platform>> _platforms;
 		std::vector<std::pair<unsigned, std::shared_ptr<Object>>> _objects;
+		std::vector<std::pair<unsigned, std::shared_ptr<IObject>>> _iobjects;
 		unsigned _currentRound = 0;
 		unsigned _lastObjectId = 0;
 		unsigned _roundEndTimer = 0;
@@ -179,6 +185,7 @@ namespace SpiralOfFate
 		void renderLeftInputs();
 		void renderRightInputs();
 		unsigned registerObject(const std::shared_ptr<Object> &object);
+		unsigned registerObject(const std::shared_ptr<IObject> &object);
 		virtual void consumeEvent(const sf::Event &);
 		std::shared_ptr<Object> getObjectFromId(unsigned id) const;
 		Character *getLeftCharacter();
@@ -191,11 +198,14 @@ namespace SpiralOfFate
 		void logDifference(void *data1, void *data2);
 		void printContent(void *data, size_t size);
 		template <typename T, typename ...Args>
-		std::pair<unsigned, std::shared_ptr<Object>> registerObject(bool needRegister, const Args &... args)
+		auto registerObject(bool needRegister, const Args &... args)
 		{
 			auto obj = std::make_shared<T>(args...);
 
-			return {needRegister ? this->registerObject(obj) : 0, obj};
+			if constexpr (std::is_base_of<Object, T>::value)
+				return std::pair<unsigned, std::shared_ptr<Object>>{needRegister ? this->registerObject(static_cast<std::shared_ptr<Object>>(obj)) : 0, obj};
+			else
+				return std::pair<unsigned, std::shared_ptr<IObject>>{needRegister ? this->registerObject(obj) : 0, obj};
 		}
 		unsigned getBufferSize() const;
 		void copyToBuffer(void *data) const;

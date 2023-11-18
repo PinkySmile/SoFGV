@@ -312,6 +312,7 @@
               "width": 59
             }
           ],
+          "particle_generator": 2,
           "size": {
             "x": 120,
             "y": 212
@@ -327,6 +328,7 @@
         },
         {
           "defense_flag": 2105344,
+          "particle_generator": 1,
           "size": {
             "x": 1,
             "y": 1

@@ -447,8 +447,9 @@ namespace SpiralOfFate
 		this->_limit.fill(0);
 		this->_moves = FrameData::loadFile(folder + "/framedata.json", folder, palette);
 		this->_subObjectsData = FrameData::loadFile(folder + "/subobj_data.json", folder, palette);
-		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 		this->_loadProjectileData(folder + "/subobjects.json");
+		this->_loadParticleData(folder + "/particles.json", folder);
+		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 	}
 
 	Character::~Character()
@@ -2987,14 +2988,14 @@ namespace SpiralOfFate
 	{
 		if (this->_blockStun == 0 && (this->_action == ACTION_GROUND_HIGH_HIT || this->_action == ACTION_GROUND_LOW_HIT) && this->_opponent->_action < ACTION_5N)
 			this->_blockStun = 60;
-		if (this->_position.x < 0)
-			this->_position.x = 0;
-		else if (this->_position.x > 1000)
-			this->_position.x = 1000;
-		if (this->_position.y < 0)
-			this->_position.y = 0;
-		else if (this->_position.y > 1000)
-			this->_position.y = 1000;
+		if (this->_position.x < STAGE_X_MIN)
+			this->_position.x = STAGE_X_MIN;
+		else if (this->_position.x > STAGE_X_MAX)
+			this->_position.x = STAGE_X_MAX;
+		if (this->_position.y < STAGE_Y_MIN)
+			this->_position.y = STAGE_Y_MIN;
+		else if (this->_position.y > STAGE_Y_MAX)
+			this->_position.y = STAGE_Y_MAX;
 
 		auto data = this->getCurrentFrameData();
 		char buffer[8194];
@@ -3542,12 +3543,12 @@ namespace SpiralOfFate
 
 	void Character::_processWallSlams()
 	{
-		if (this->_position.x < 0)
-			this->_position.x = 0;
-		else if (this->_position.x > 1000)
-			this->_position.x = 1000;
+		if (this->_position.x < STAGE_X_MIN)
+			this->_position.x = STAGE_X_MIN;
+		else if (this->_position.x > STAGE_X_MAX)
+			this->_position.x = STAGE_X_MAX;
 
-		if (this->_position.x == 0 || this->_position.x == 1000) {
+		if (this->_position.x == STAGE_X_MIN || this->_position.x == STAGE_X_MAX) {
 			if (
 				!this->_willWallSplat ||
 				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
@@ -3564,12 +3565,12 @@ namespace SpiralOfFate
 	void Character::_processGroundSlams()
 	{
 		if (this->_isGrounded()) {
-			if (this->_position.y < 0)
-				this->_position.y = 0;
-		} else if (this->_position.y > 750)
-			this->_position.y = 750;
+			if (this->_position.y < STAGE_Y_MIN)
+				this->_position.y = STAGE_Y_MIN;
+		} else if (this->_position.y > STAGE_Y_MAX)
+			this->_position.y = STAGE_Y_MAX;
 
-		if (this->_position.y == 750 || this->_isGrounded()) {
+		if (this->_position.y == STAGE_Y_MAX || this->_isGrounded()) {
 			if (
 				!this->_willGroundSlam ||
 				(this->_action != ACTION_AIR_HIT && this->_action != ACTION_GROUND_HIGH_HIT && this->_action != ACTION_GROUND_LOW_HIT)
@@ -3588,7 +3589,7 @@ namespace SpiralOfFate
 
 	void Character::_calculateCornerPriority()
 	{
-		auto newPriority = (this->_position.x >= 1000) - (this->_position.x <= 0);
+		auto newPriority = (this->_position.x >= STAGE_X_MAX) - (this->_position.x <= STAGE_X_MIN);
 
 		this->_justGotCorner = newPriority && !this->_cornerPriority;
 		if (newPriority && this->_justGotCorner) {
@@ -4130,6 +4131,10 @@ namespace SpiralOfFate
 				return;
 			this->_subobjects[data->subObjectSpawn - 1] = obj;
 		}
+		if (data->particleGenerator > 0) {
+			my_assert(data->particleGenerator <= this->_generators.size());
+			game->battleMgr->registerObject<ParticleGenerator>(true, this->_generators[data->particleGenerator - 1], *this);
+		}
 	}
 
 	void Character::_manaCrush()
@@ -4546,6 +4551,15 @@ namespace SpiralOfFate
 		}
 	}
 
+	void Character::_loadParticleData(const std::string &path, const std::string &folder)
+	{
+		nlohmann::json j = nlohmann::json::parse(game->fileMgr.readFull(path));
+
+		this->_generators.reserve(j.size());
+		for (auto &i : j)
+			this->_generators.emplace_back(i, folder);
+	}
+
 	Vector2f Character::_calcProjectilePosition(const SubObjectData &pdat, float dir)
 	{
 		Vector2f pos{
@@ -4566,15 +4580,15 @@ namespace SpiralOfFate
 		case ANCHOR_OPPONENT:
 			return (&this->_opponent->_position.x)[y];
 		case ANCHOR_BORDER_FRONT:
-			return this->_direction * 1000;
+			return this->_direction * STAGE_X_MAX;
 		case ANCHOR_BORDER_BACK:
-			return !this->_direction * 1000;
+			return !this->_direction * STAGE_X_MAX;
 		case ANCHOR_STAGE_MIN:
-			return 0;
+			return y ? STAGE_Y_MIN : STAGE_X_MIN;
 		case ANCHOR_STAGE_MAX:
-			return 1000;
+			return y ? STAGE_Y_MAX : STAGE_X_MAX;
 		case ANCHOR_STAGE_CENTER:
-			return 500;
+			return y ? (STAGE_Y_MIN + STAGE_Y_MAX) / 2 : (STAGE_X_MIN + STAGE_X_MAX) / 2;
 		}
 		my_assert(false);
 	}

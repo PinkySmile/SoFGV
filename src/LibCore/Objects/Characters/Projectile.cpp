@@ -60,14 +60,14 @@ namespace SpiralOfFate
 	{
 		// We can't hit someone from our team normally.
 		// If it happens, that means that we got reflected.
-		// We reflected, we stay active as if we didn't actually hit the target.
+		// When reflected, we stay active as if we didn't actually hit the target.
 		if (other.getTeam() == this->getTeam())
 			return;
 		if (data->dFlag.canBlock) {
 			auto owner = this->getOwnerObj();
 
 			owner->hit(other, data);
-			reinterpret_cast<Projectile *>(owner)->_hitStop = this->_hitStop;
+			this->_hitStop = reinterpret_cast<Projectile *>(owner)->_hitStop;
 		}
 		Object::hit(other, data);
 
