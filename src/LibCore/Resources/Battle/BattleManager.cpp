@@ -269,7 +269,7 @@ namespace SpiralOfFate
 		}
 		if (this->_leftFirst) {
 			this->_renderCharacter(*this->_leftCharacter);
-			// <= 0, On top of background character
+			// <= 50, On top of background character
 			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj : it->second)
 					obj->render();

@@ -25,6 +25,7 @@ namespace SpiralOfFate
 			std::pair<Vector2f, Vector2f> velocity_limit;
 			std::pair<unsigned, unsigned> lifeSpan;
 			std::pair<unsigned, unsigned> fadeTime;
+			std::pair<float, float> scale;
 			float spawnChance;
 			int layer;
 			bool useRandomColor;
@@ -42,6 +43,7 @@ namespace SpiralOfFate
 		unsigned _maxFadeTime;
 		unsigned _updateTimer;
 		unsigned _currentColors = 0;
+		float _scale;
 		Vector2f _speed;
 		Vector2f _position;
 

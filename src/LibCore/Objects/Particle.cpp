@@ -18,6 +18,7 @@ namespace SpiralOfFate
 		this->_maxFadeTime = random_distrib(game->battleRandom, initData.fadeTime.first, initData.fadeTime.second);
 		this->_fadeTime = this->_maxFadeTime;
 		this->_updateTimer = random_distrib(game->battleRandom, initData.updateInterval.first, initData.updateInterval.second);
+		this->_scale = random_distrib(game->battleRandom, initData.scale.first, initData.scale.second);
 		game->textureMgr.setTexture(this->_sprite);
 	}
 
@@ -25,7 +26,7 @@ namespace SpiralOfFate
 	{
 		{
 			sf::VertexArray arr{sf::Quads, 4};
-			auto size = this->_data.textureBounds.size;
+			auto size = this->_data.textureBounds.size * this->_scale;
 			Rectangle box = {
 				{this->_position.x - size.x / 2.f, -this->_position.y - size.y / 2.f},
 				{this->_position.x + size.x / 2.f, -this->_position.y - size.y / 2.f},
@@ -176,6 +177,8 @@ namespace SpiralOfFate
 		this->textureBounds.pos.y = data["bounds"]["top"];
 		this->textureBounds.size.x = data["bounds"]["width"];
 		this->textureBounds.size.y = data["bounds"]["height"];
+		this->scale.first = data["scale"][0];
+		this->scale.second = data["scale"][1];
 		this->mirror.first = data["mirror"][0];
 		this->mirror.second = data["mirror"][1];
 		this->rotation.first = data["rotation"][0];

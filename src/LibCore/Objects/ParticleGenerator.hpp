@@ -44,7 +44,8 @@ namespace SpiralOfFate
 
 	public:
 		ParticleGenerator(const InitData &initData, const Character &owner);
-		ParticleGenerator(ParticleGenerator &generator) = delete;
+		ParticleGenerator(const ParticleGenerator &generator) = delete;
+		ParticleGenerator &operator=(ParticleGenerator &generator) = delete;
 
 		void render() const override;
 		void update() override;
