@@ -41,19 +41,19 @@ namespace SpiralOfFate
 				arr[i].color.a *= this->_fadeTime * 1.f / this->_maxFadeTime;
 				arr[i].position = (&box.pt1)[i];
 			}
-			arr[0].texCoords = {
+			arr[this->_mirror.y * 2 + this->_mirror.x].texCoords = {
 				static_cast<float>(this->_data.textureBounds.pos.x),
 				static_cast<float>(this->_data.textureBounds.pos.y)
 			};
-			arr[1].texCoords = {
+			arr[this->_mirror.y * 2 + !this->_mirror.x].texCoords = {
 				static_cast<float>(this->_data.textureBounds.pos.x + this->_data.textureBounds.size.x),
 				static_cast<float>(this->_data.textureBounds.pos.y)
 			};
-			arr[2].texCoords = {
+			arr[!this->_mirror.y * 2 + this->_mirror.x].texCoords = {
 				static_cast<float>(this->_data.textureBounds.pos.x + this->_data.textureBounds.size.x),
 				static_cast<float>(this->_data.textureBounds.pos.y + this->_data.textureBounds.size.y)
 			};
-			arr[3].texCoords = {
+			arr[!this->_mirror.y * 2 + !this->_mirror.x].texCoords = {
 				static_cast<float>(this->_data.textureBounds.pos.x),
 				static_cast<float>(this->_data.textureBounds.pos.y + this->_data.textureBounds.size.y)
 			};
@@ -111,6 +111,10 @@ namespace SpiralOfFate
 		else if (this->_speed.y > this->_data.velocity_limit.second.y)
 			this->_speed.y = this->_data.velocity_limit.second.y;
 		this->_position += this->_speed;
+		if (random_distrib(game->battleRandom, 0, 100) < this->_data.mirror.x)
+			this->_mirror.x = !this->_mirror.x;
+		if (random_distrib(game->battleRandom, 0, 100) < this->_data.mirror.y)
+			this->_mirror.y = !this->_mirror.y;
 	}
 
 	bool Particle::isDead() const
@@ -179,8 +183,8 @@ namespace SpiralOfFate
 		this->textureBounds.size.y = data["bounds"]["height"];
 		this->scale.first = data["scale"][0];
 		this->scale.second = data["scale"][1];
-		this->mirror.first = data["mirror"][0];
-		this->mirror.second = data["mirror"][1];
+		this->mirror.x = data["mirror"][0];
+		this->mirror.y = data["mirror"][1];
 		this->rotation.first = data["rotation"][0];
 		this->rotation.second = data["rotation"][1];
 		this->lifeSpan.first = data["life_span"][0];

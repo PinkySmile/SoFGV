@@ -19,7 +19,7 @@ namespace SpiralOfFate
 			std::vector<std::array<Color, 4>> colors;
 			std::pair<unsigned, unsigned> updateInterval;
 			Box textureBounds;
-			std::pair<unsigned, unsigned> mirror;
+			Vector2u mirror;
 			std::pair<int, int> rotation;
 			std::pair<Vector2f, Vector2f> acceleration;
 			std::pair<Vector2f, Vector2f> velocity_limit;
@@ -44,6 +44,7 @@ namespace SpiralOfFate
 		unsigned _updateTimer;
 		unsigned _currentColors = 0;
 		float _scale;
+		Vector2<bool> _mirror;
 		Vector2f _speed;
 		Vector2f _position;
 
