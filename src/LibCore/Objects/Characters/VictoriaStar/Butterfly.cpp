@@ -30,7 +30,7 @@ namespace SpiralOfFate
 	{
 		if (this->_defenseCtr)
 			return 50;
-		return (this->getOwner() != game->battleMgr->isLeftFirst()) * 100 - 50 - std::sin(this->getAngle()) * NB_BUTTERFLIES / 2;
+		return (this->getOwner() == game->battleMgr->isLeftFirst()) * 100 - 50 - std::sin(this->getAngle()) * NB_BUTTERFLIES / 2;
 	}
 
 	void Butterfly::update()

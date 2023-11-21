@@ -543,7 +543,8 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 67110912,
+          "rotation": 4.480000003241773,
           "size": {
             "x": 120,
             "y": 212
@@ -641,7 +642,7 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 67110912,
           "size": {
             "x": 120,
             "y": 212
@@ -739,7 +740,7 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 67110912,
           "size": {
             "x": 120,
             "y": 212
@@ -8912,6 +8913,7 @@
     "framedata": [
       [
         {
+          "block_opponent_hit_stop": 20,
           "collision_box": {
             "height": 111,
             "left": -6,
@@ -8923,6 +8925,8 @@
             "x": 0.0,
             "y": -0.10000000149011612
           },
+          "hit_opponent_hit_stop": 10,
+          "hit_player_hit_stop": 7,
           "hurt_boxes": [
             {
               "height": 118,

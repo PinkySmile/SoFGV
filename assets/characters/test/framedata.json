@@ -1350,6 +1350,7 @@
               "width": 48
             }
           ],
+          "offense_flag": 67108864,
           "size": {
             "x": 48,
             "y": 192
@@ -1453,6 +1454,7 @@
               "width": 48
             }
           ],
+          "offense_flag": 67108864,
           "size": {
             "x": 48,
             "y": 192
@@ -1550,6 +1552,7 @@
               "width": 48
             }
           ],
+          "offense_flag": 67108864,
           "size": {
             "x": 48,
             "y": 192
@@ -4421,6 +4424,12 @@
       ],
       [
         {
+          "collision_box": {
+            "height": 136,
+            "left": -19,
+            "top": -136,
+            "width": 40
+          },
           "defense_flag": 9,
           "duration": 24,
           "offset": {
@@ -5691,6 +5700,7 @@
               "width": 48
             }
           ],
+          "rotation": 1.1200000008104432,
           "size": {
             "x": 48,
             "y": 192
