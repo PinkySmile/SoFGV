@@ -778,10 +778,7 @@ namespace SpiralOfFate
 
 		auto data = this->getCurrentFrameData();
 
-		if (data->oFlag.forceTurnAround) {
-			this->_dir *= -1;
-			this->_direction = this->_dir == 1;
-		} else if (data->oFlag.turnAround && this->_opponent) {
+		if (data->oFlag.turnAround && this->_opponent) {
 			if (this->_opponent->_position.x - this->_position.x != 0)
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
 			this->_direction = this->_dir == 1;
@@ -1488,6 +1485,13 @@ namespace SpiralOfFate
 		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
 
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
+		auto &data = this->_moves[action][0][0];
+
+		if (data.oFlag.turnAround && this->_opponent) {
+			if (this->_opponent->_position.x - this->_position.x != 0)
+				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			this->_direction = this->_dir == 1;
+		}
 
 		if (
 			action == ACTION_AIR_HIT &&
@@ -4114,6 +4118,14 @@ namespace SpiralOfFate
 		auto data = this->getCurrentFrameData();
 
 		Object::_applyNewAnimFlags();
+		if (data->oFlag.forceTurnAround) {
+			this->_dir *= -1;
+			this->_direction = this->_dir == 1;
+		} else if (data->oFlag.turnAround && this->_opponent) {
+			if (this->_opponent->_position.x - this->_position.x != 0)
+				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+			this->_direction = this->_dir == 1;
+		}
 		if (!this->_ultimateUsed && data->oFlag.ultimate) {
 			game->soundMgr.play(BASICSOUND_ULTIMATE);
 			this->_mana = 0;
