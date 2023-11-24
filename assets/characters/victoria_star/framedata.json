@@ -543,7 +543,7 @@
               "width": 59
             }
           ],
-          "offense_flag": 67110912,
+          "offense_flag": 2048,
           "rotation": 4.480000003241773,
           "size": {
             "x": 120,
@@ -606,6 +606,36 @@
               "width": 59
             }
           ],
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 60,
+            "top": 106,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 768,
+          "duration": 17,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "offense_flag": 2048,
           "size": {
             "x": 120,
             "y": 212
@@ -715,6 +745,36 @@
             "top": 106,
             "width": 60
           }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 768,
+          "duration": 17,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "offense_flag": 2048,
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 120,
+            "top": 106,
+            "width": 60
+          }
         }
       ]
     ]
@@ -802,6 +862,36 @@
               "width": 59
             }
           ],
+          "size": {
+            "x": 120,
+            "y": 212
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 106,
+            "left": 180,
+            "top": 106,
+            "width": 60
+          }
+        },
+        {
+          "collision_box": {
+            "height": 167,
+            "left": -20,
+            "top": -168,
+            "width": 38
+          },
+          "defense_flag": 768,
+          "duration": 17,
+          "hurt_boxes": [
+            {
+              "height": 190,
+              "left": -30,
+              "top": -190,
+              "width": 59
+            }
+          ],
+          "offense_flag": 2048,
           "size": {
             "x": 120,
             "y": 212
