@@ -679,6 +679,7 @@ namespace SpiralOfFate
 		virtual void _renderExtraEffects(const Vector2f &pos) const;
 		virtual void _reduceGuard(unsigned amount, unsigned regenTime, bool canCrush);
 
+		static bool isMovementCancelable(unsigned action, bool cancelable);
 		static bool isReversalAction(unsigned action);
 		static bool isBlockingAction(unsigned action);
 		static bool isParryAction(unsigned action);

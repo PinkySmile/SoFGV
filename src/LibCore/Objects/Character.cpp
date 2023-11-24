@@ -1234,17 +1234,9 @@ namespace SpiralOfFate
 		if (this->_canCancel(action))
 			return true;
 		if (action >= ACTION_AIR_DASH_1 && action <= ACTION_AIR_DASH_9)
-			return this->_airDashesUsed < this->_maxAirDashes && this->_action == ACTION_FALLING && this->_airMovementUsed < this->_maxAirMovement;
+			return this->_airDashesUsed < this->_maxAirDashes && isMovementCancelable(this->_action, this->getCurrentFrameData()->oFlag.cancelable) && this->_airMovementUsed < this->_maxAirMovement;
 		if ((action >= ACTION_NEUTRAL_JUMP && action <= ACTION_BACKWARD_HIGH_JUMP) || (action >= ACTION_NEUTRAL_AIR_JUMP && action <= ACTION_BACKWARD_AIR_JUMP))
-			return this->_jumpsUsed < this->_maxJumps && this->_airMovementUsed < this->_maxAirMovement && (
-				this->_action <= ACTION_WALK_BACKWARD || (
-					this->_action >= ACTION_NEUTRAL_JUMP &&
-					this->_action <= ACTION_BACKWARD_JUMP &&
-					this->getCurrentFrameData()->oFlag.jumpCancelable
-				) ||
-				this->_action == ACTION_FALLING ||
-				this->_action == ACTION_LANDING
-			);
+			return this->_jumpsUsed < this->_maxJumps && this->_airMovementUsed < this->_maxAirMovement && isMovementCancelable(this->_action, this->getCurrentFrameData()->oFlag.cancelable);
 		if (this->_action == action)
 			return false;
 		if (isBlockingAction(action))
@@ -1257,17 +1249,24 @@ namespace SpiralOfFate
 			return (action || this->_action != ACTION_LANDING) && (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING);
 		if (this->_action <= ACTION_WALK_BACKWARD || this->_action == ACTION_FALLING || this->_action == ACTION_LANDING)
 			return true;
-		if (!this->getCurrentFrameData()->dFlag.airborne && (
-			this->_action == ACTION_NEUTRAL_JUMP ||
-			this->_action == ACTION_FORWARD_JUMP ||
-			this->_action == ACTION_BACKWARD_JUMP ||
-			this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
-			this->_action == ACTION_FORWARD_HIGH_JUMP ||
-			this->_action == ACTION_BACKWARD_HIGH_JUMP ||
-			this->_action == ACTION_NEUTRAL_AIR_JUMP ||
-			this->_action == ACTION_FORWARD_AIR_JUMP ||
-			this->_action == ACTION_BACKWARD_AIR_JUMP
-		) && action >= 100)
+		if (
+			(
+				// Can cancel jumpsquat by move
+				(this->_animation == 0 && (
+					this->_action == ACTION_NEUTRAL_JUMP ||
+					this->_action == ACTION_FORWARD_JUMP ||
+					this->_action == ACTION_BACKWARD_JUMP ||
+					this->_action == ACTION_NEUTRAL_HIGH_JUMP ||
+					this->_action == ACTION_FORWARD_HIGH_JUMP ||
+					this->_action == ACTION_BACKWARD_HIGH_JUMP ||
+					this->_action == ACTION_NEUTRAL_AIR_JUMP ||
+					this->_action == ACTION_FORWARD_AIR_JUMP ||
+					this->_action == ACTION_BACKWARD_AIR_JUMP
+				)) ||
+				// Can cancel jumps by moves
+				isMovementCancelable(this->_action, this->getCurrentFrameData()->oFlag.cancelable)
+			) && action >= 100
+		)
 			return true;
 		return false;
 	}
@@ -4667,6 +4666,38 @@ namespace SpiralOfFate
 
 	void Character::_onSubObjectHit()
 	{
+	}
+
+	bool Character::isMovementCancelable(unsigned int action, bool cancelable)
+	{
+		switch (action) {
+		case ACTION_WALK_FORWARD:
+		case ACTION_WALK_BACKWARD:
+		case ACTION_IDLE:
+		case ACTION_FALLING:
+		case ACTION_LANDING:
+			return true;
+		case ACTION_NEUTRAL_JUMP:
+		case ACTION_FORWARD_JUMP:
+		case ACTION_BACKWARD_JUMP:
+		case ACTION_NEUTRAL_HIGH_JUMP:
+		case ACTION_FORWARD_HIGH_JUMP:
+		case ACTION_BACKWARD_HIGH_JUMP:
+		case ACTION_AIR_DASH_1:
+		case ACTION_AIR_DASH_2:
+		case ACTION_AIR_DASH_3:
+		case ACTION_AIR_DASH_4:
+		case ACTION_AIR_DASH_6:
+		case ACTION_AIR_DASH_7:
+		case ACTION_AIR_DASH_8:
+		case ACTION_AIR_DASH_9:
+		case ACTION_NEUTRAL_AIR_JUMP:
+		case ACTION_FORWARD_AIR_JUMP:
+		case ACTION_BACKWARD_AIR_JUMP:
+			return cancelable;
+		default:
+			return false;
+		}
 	}
 
 	bool Character::isReversalAction(unsigned int action)
