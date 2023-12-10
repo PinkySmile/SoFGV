@@ -1,0 +1,51 @@
+[
+  {
+    "index": 0,
+    "action": 0,
+    "spawn_offset": {
+      "anchorX": "owner",
+      "anchorY": "owner",
+      "x": 0,
+      "y": 96
+    },
+    "dir": "front",
+    "hits": 1,
+    "loop": true,
+    "disable_on_hit": true,
+    "disable_animation": "fade",
+    "animation_data": 30,
+    "end_block": 0
+  },
+  {
+    "index": 128,
+    "action": 128,
+    "spawn_offset": {
+      "anchorX": "owner",
+      "anchorY": "owner",
+      "x": 0,
+      "y": 94
+    },
+    "dir": "front",
+    "hits": 4,
+    "loop": true,
+    "disable_on_hit": true,
+    "disable_animation": "fade",
+    "animation_data": 30,
+    "end_block": 0
+  },
+  {
+    "index": 129,
+    "action": 129,
+    "spawn_offset": {
+      "anchorX": "owner",
+      "anchorY": "owner",
+      "x": 26,
+      "y": 94
+    },
+    "dir": "front",
+    "hits": 1,
+    "loop": true,
+    "disable_on_hit": false,
+    "end_block": 1
+  }
+]

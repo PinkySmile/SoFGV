@@ -1,0 +1,427 @@
+[
+  {
+    "action": 0,
+    "framedata": [
+      [
+        {
+          "block_opponent_hit_stop": 4,
+          "block_player_hit_stop": 4,
+          "block_stun": 8,
+          "damage": 600,
+          "defense_flag": 2359296,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 44,
+              "left": 8,
+              "top": -22,
+              "width": 43
+            }
+          ],
+          "hit_opponent_hit_stop": 4,
+          "hit_player_hit_stop": 4,
+          "hit_sound": "assets/sfxs/se/011.ogg",
+          "hit_speed": {
+            "x": 4,
+            "y": 0
+          },
+          "hit_stun": 18,
+          "hurt_boxes": [
+            {
+              "height": 59,
+              "left": 4,
+              "top": -30,
+              "width": 56
+            }
+          ],
+          "offense_flag": 16,
+          "offset": {
+            "x": 29,
+            "y": -29
+          },
+          "prorate": 85.0,
+          "push_block": 4,
+          "size": {
+            "x": 58,
+            "y": 58
+          },
+          "speed": {
+            "x": 8,
+            "y": 0
+          },
+          "spirit_limit": 10,
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 17,
+            "left": 145,
+            "top": 833,
+            "width": 17
+          },
+          "untech": 20
+        }
+      ]
+    ]
+  },
+  {
+    "action": 128,
+    "framedata": [
+      [
+        {
+          "block_opponent_hit_stop": 10,
+          "block_player_hit_stop": 10,
+          "block_stun": 18,
+          "chip_damage": 150,
+          "damage": 600,
+          "defense_flag": 35913728,
+          "duration": 3,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 62,
+              "left": -3,
+              "top": -31,
+              "width": 66
+            }
+          ],
+          "hit_opponent_hit_stop": 10,
+          "hit_player_hit_stop": 10,
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
+          "hit_speed": {
+            "x": 1,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "offense_flag": 144,
+          "offset": {
+            "x": 30,
+            "y": -30
+          },
+          "priority": 10,
+          "prorate": 95.0,
+          "push_block": 4,
+          "size": {
+            "x": 64,
+            "y": 60
+          },
+          "speed": {
+            "x": 1,
+            "y": 0
+          },
+          "spirit_limit": 10,
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 30,
+            "left": 167,
+            "top": 838,
+            "width": 33
+          },
+          "untech": 40
+        },
+        {
+          "block_opponent_hit_stop": 10,
+          "block_player_hit_stop": 10,
+          "block_stun": 18,
+          "chip_damage": 150,
+          "damage": 600,
+          "defense_flag": 35913728,
+          "duration": 3,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 64,
+              "left": -3,
+              "top": -32,
+              "width": 67
+            }
+          ],
+          "hit_opponent_hit_stop": 10,
+          "hit_player_hit_stop": 10,
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
+          "hit_speed": {
+            "x": 1,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "offense_flag": 8336,
+          "offset": {
+            "x": 30,
+            "y": -30
+          },
+          "prorate": 95.0,
+          "push_block": 4,
+          "size": {
+            "x": 64,
+            "y": 60
+          },
+          "speed": {
+            "x": 1,
+            "y": 0
+          },
+          "spirit_limit": 10,
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 30,
+            "left": 167,
+            "top": 838,
+            "width": 33
+          },
+          "untech": 40
+        },
+        {
+          "block_opponent_hit_stop": 10,
+          "block_player_hit_stop": 10,
+          "block_stun": 18,
+          "chip_damage": 150,
+          "damage": 600,
+          "defense_flag": 35913728,
+          "duration": 3,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 61,
+              "left": -2,
+              "top": -31,
+              "width": 66
+            }
+          ],
+          "hit_opponent_hit_stop": 10,
+          "hit_player_hit_stop": 10,
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
+          "hit_speed": {
+            "x": 1,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "offense_flag": 8336,
+          "offset": {
+            "x": 30,
+            "y": -30
+          },
+          "prorate": 95.0,
+          "push_block": 4,
+          "size": {
+            "x": 64,
+            "y": 60
+          },
+          "speed": {
+            "x": 1,
+            "y": 0
+          },
+          "spirit_limit": 10,
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 30,
+            "left": 208,
+            "top": 838,
+            "width": 35
+          },
+          "untech": 40
+        },
+        {
+          "block_opponent_hit_stop": 10,
+          "block_player_hit_stop": 10,
+          "block_stun": 18,
+          "chip_damage": 150,
+          "damage": 600,
+          "defense_flag": 35913728,
+          "duration": 3,
+          "guard_damage": 60,
+          "hit_boxes": [
+            {
+              "height": 61,
+              "left": -2,
+              "top": -31,
+              "width": 66
+            }
+          ],
+          "hit_opponent_hit_stop": 10,
+          "hit_player_hit_stop": 10,
+          "hit_sound": "assets/sfxs/se/youmu/000.ogg",
+          "hit_speed": {
+            "x": 1,
+            "y": 0
+          },
+          "hit_stun": 30,
+          "offense_flag": 8336,
+          "offset": {
+            "x": 30,
+            "y": -30
+          },
+          "priority": 10,
+          "prorate": 93.0,
+          "push_block": 4,
+          "size": {
+            "x": 64,
+            "y": 60
+          },
+          "speed": {
+            "x": 1,
+            "y": 0
+          },
+          "spirit_limit": 10,
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 30,
+            "left": 208,
+            "top": 838,
+            "width": 35
+          },
+          "untech": 40
+        }
+      ]
+    ]
+  },
+  {
+    "action": 129,
+    "framedata": [
+      [
+        {
+          "duration": 8,
+          "offset": {
+            "x": -2,
+            "y": -10
+          },
+          "size": {
+            "x": 16,
+            "y": 24
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 12,
+            "left": 791,
+            "top": 503,
+            "width": 8
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 3,
+            "y": -28
+          },
+          "size": {
+            "x": 26,
+            "y": 42
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 21,
+            "left": 807,
+            "top": 503,
+            "width": 13
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 0,
+            "y": -54
+          },
+          "size": {
+            "x": 32,
+            "y": 68
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 34,
+            "left": 827,
+            "top": 504,
+            "width": 16
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 0,
+            "y": -80
+          },
+          "size": {
+            "x": 32,
+            "y": 94
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 47,
+            "left": 848,
+            "top": 504,
+            "width": 24
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "offset": {
+            "x": 6,
+            "y": -92
+          },
+          "size": {
+            "x": 60,
+            "y": 108
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 56,
+            "left": 895,
+            "top": 576,
+            "width": 30
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 11,
+            "y": -102
+          },
+          "size": {
+            "x": 50,
+            "y": 118
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 59,
+            "left": 930,
+            "top": 575,
+            "width": 25
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 7,
+            "y": -100
+          },
+          "size": {
+            "x": 54,
+            "y": 116
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 58,
+            "left": 961,
+            "top": 576,
+            "width": 27
+          }
+        },
+        {
+          "duration": 8,
+          "offset": {
+            "x": 5,
+            "y": -102
+          },
+          "size": {
+            "x": 54,
+            "y": 118
+          },
+          "sprite": "sheet.png",
+          "texture_bounds": {
+            "height": 59,
+            "left": 992,
+            "top": 576,
+            "width": 27
+          }
+        }
+      ]
+    ]
+  }
+]
