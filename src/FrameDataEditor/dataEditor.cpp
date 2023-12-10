@@ -2511,20 +2511,36 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 				if (isEditBoxSelected(panel))
 					return;
 				try {
-					object->_moves[object->_action][object->_actionBlock][object->_animation] = SpiralOfFate::FrameData(
-						nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
-						object->_folder
-					);
+					auto &anim = object->_moves[object->_action][object->_actionBlock][object->_animation];
+
+					if (event.shift) {
+						SpiralOfFate::FrameData tmp = {
+							nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
+							object->_folder
+						};
+
+						std::swap(anim.collisionBox, tmp.collisionBox);
+						anim.hurtBoxes = tmp.hurtBoxes;
+						anim.hitBoxes = tmp.hitBoxes;
+					} else
+						anim = SpiralOfFate::FrameData(
+							nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
+							object->_folder
+						);
 					refreshFrameDataPanel(panel, boxes, object);
 				} catch (std::exception &e) {
 					SpiralOfFate::game->logger.info("Clipboard contains invalid data: " + std::string(e.what()));
 				}
 			}
 		}
-		if (event.code == sf::Keyboard::Left)
-			frame->setValue(frame->getValue() - 1);
-		if (event.code == sf::Keyboard::Right)
-			frame->setValue(frame->getValue() + 1);
+		if (event.code == sf::Keyboard::Left) {
+			if (event.alt || !isEditBoxSelected(panel))
+				frame->setValue(frame->getValue() - 1);
+		}
+		if (event.code == sf::Keyboard::Right) {
+			if (event.alt || !isEditBoxSelected(panel))
+				frame->setValue(frame->getValue() + 1);
+		}
 	}
 }
 
