@@ -2513,7 +2513,18 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 				try {
 					auto &anim = object->_moves[object->_action][object->_actionBlock][object->_animation];
 
-					if (event.shift) {
+					if (event.alt) {
+						SpiralOfFate::FrameData tmp = {
+							nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
+							object->_folder
+						};
+
+						std::swap(anim.textureHandle, tmp.textureHandle);
+						anim.spritePath = tmp.spritePath;
+						anim.textureBounds = tmp.textureBounds;
+						anim.size = tmp.size;
+						anim.offset = tmp.offset;
+					} else if (event.shift) {
 						SpiralOfFate::FrameData tmp = {
 							nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
 							object->_folder
