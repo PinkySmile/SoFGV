@@ -378,7 +378,8 @@ void	run()
 	double timer = 0;
 	sf::Clock clock;
 #ifdef _WIN32
-	std::string font = getenv("SYSTEMROOT") + std::string("\\Fonts\\comic.ttf");
+	char *root = getenv("SYSTEMROOT");
+	std::string font = (root ? root : "C:\\Windows") + std::string("\\Fonts\\comic.ttf");
 #else
 	std::string font = "assets/fonts/Retro Gaming.ttf";
 #endif
