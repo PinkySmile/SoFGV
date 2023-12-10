@@ -339,6 +339,20 @@ void	refreshRightPanel(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, 
 	refreshFrameDataPanel(panel, gui.get<tgui::Panel>("Boxes"), object);
 }
 
+void	setDisplayedFrame(int i, tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object)
+{
+	auto frameLabel = panel->get<tgui::Label>("Label2");
+	auto progress = panel->get<tgui::Slider>("Progress");
+
+	frameLabel->setText("Frame " + std::to_string(i));
+	object->_animation = i;
+	object->_animationCtr = 0;
+	progress->onValueChange.setEnabled(false);
+	progress->setValue(i);
+	refreshFrameDataPanel(panel, boxes, object);
+	progress->onValueChange.setEnabled(true);
+}
+
 void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &object)
 {
 	auto panWeak = std::weak_ptr<tgui::Panel>(panel);
@@ -576,15 +590,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		frame->onValueChange.setEnabled(true);
 	});
 	frame->connect("ValueChanged", [boxes, &object, frameLabel, panWeak, progress](float f){
-		int i = f;
-
-		frameLabel->setText("Frame " + std::to_string(i));
-		object->_animation = i;
-		object->_animationCtr = 0;
-		progress->onValueChange.setEnabled(false);
-		progress->setValue(i);
-		refreshFrameDataPanel(panWeak.lock(), boxes, object);
-		progress->onValueChange.setEnabled(true);
+		setDisplayedFrame(f, panWeak.lock(), boxes, object);
 	});
 	play->connect("Clicked", [speedLabel, speedCtrl]{
 		speedCtrl->setValue(1);
@@ -2436,11 +2442,24 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	}
 }
 
+bool	isEditBoxSelected(const tgui::Panel::Ptr &panel)
+{
+	auto &widgets = panel->getWidgets();
+
+	return std::any_of(widgets.begin(), widgets.end(), [](const tgui::Widget::Ptr &widget){
+		auto box = widget->cast<tgui::EditBox>();
+		auto pan = widget->cast<tgui::Panel>();
+
+		return (pan && isEditBoxSelected(pan)) || (box && box->isFocused());
+	});
+}
+
 void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &object, tgui::Gui &gui)
 {
 	auto bar = gui.get<tgui::MenuBar>("main_bar");
 	auto panel = gui.get<tgui::Panel>("Panel1");
 	auto boxes = gui.get<tgui::Panel>("Boxes");
+	auto frame = panel->get<tgui::SpinButton>("Frame");
 
 	if (event.code == sf::Keyboard::S) {
 		if (event.control && event.shift)
@@ -2482,21 +2501,30 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 				removeBoxCallback(boxes, object, panel);
 		}
 		if (event.code == sf::Keyboard::C) {
-			if (event.control)
-				sf::Clipboard::setString(object->_moves[object->_action][object->_actionBlock][object->_animation].toJson().dump());
+			if (event.control) {
+				if (!isEditBoxSelected(panel))
+					sf::Clipboard::setString(object->_moves[object->_action][object->_actionBlock][object->_animation].toJson().dump());
+			}
 		}
 		if (event.code == sf::Keyboard::V) {
 			if (event.control) {
+				if (isEditBoxSelected(panel))
+					return;
 				try {
 					object->_moves[object->_action][object->_actionBlock][object->_animation] = SpiralOfFate::FrameData(
 						nlohmann::json::parse(sf::Clipboard::getString().toAnsiString()),
 						object->_folder
 					);
+					refreshFrameDataPanel(panel, boxes, object);
 				} catch (std::exception &e) {
 					SpiralOfFate::game->logger.info("Clipboard contains invalid data: " + std::string(e.what()));
 				}
 			}
 		}
+		if (event.code == sf::Keyboard::Left)
+			frame->setValue(frame->getValue() - 1);
+		if (event.code == sf::Keyboard::Right)
+			frame->setValue(frame->getValue() + 1);
 	}
 }
 
@@ -2561,27 +2589,8 @@ void	run()
 				quitRequest = true;
 				continue;
 			}
-			if (event.type == sf::Event::KeyPressed) {
-				if (
-					!event.key.control ||
-					event.key.code == sf::Keyboard::C ||
-					event.key.code == sf::Keyboard::V
-				) {
-					if (panel->get<tgui::EditBox>("Action")->isFocused())
-						goto loopEnd;
-					for (auto &widget: animpanel->getWidgets()) {
-						auto box = widget->cast<tgui::EditBox>();
-
-						if (!box)
-							continue;
-						if (box->isFocused())
-							goto loopEnd;
-					}
-				}
+			if (event.type == sf::Event::KeyPressed)
 				handleKeyPress(event.key, object, gui);
-				loopEnd:
-				continue;
-			}
 			if (event.type == sf::Event::Resized) {
 				guiView.setSize(event.size.width, event.size.height);
 				guiView.setCenter(event.size.width / 2, event.size.height / 2);
