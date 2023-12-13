@@ -2596,7 +2596,7 @@ void	run()
 	gui.setView(guiView);
 	while (SpiralOfFate::game->screen->isOpen()) {
 		timer++;
-		SpiralOfFate::game->screen->clear(sf::Color::Black);
+		SpiralOfFate::game->screen->clear(sf::Color{0x40, 0x40, 0x40});
 		SpiralOfFate::game->screen->draw(sprite);
 		if (object) {
 			if (timer >= updateTimer || updateAnyway) {
