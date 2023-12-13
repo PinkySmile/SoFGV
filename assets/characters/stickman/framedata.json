@@ -10794,10 +10794,10 @@
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 86,
+              "height": 76,
               "left": -9,
-              "top": -98,
-              "width": 87
+              "top": -88,
+              "width": 82
             }
           ],
           "hit_opponent_hit_stop": 10,
@@ -10859,10 +10859,10 @@
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 86,
+              "height": 75,
               "left": -9,
-              "top": -98,
-              "width": 87
+              "top": -87,
+              "width": 80
             }
           ],
           "hit_opponent_hit_stop": 10,
@@ -10924,10 +10924,10 @@
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 86,
+              "height": 75,
               "left": -9,
-              "top": -98,
-              "width": 87
+              "top": -87,
+              "width": 80
             }
           ],
           "hit_opponent_hit_stop": 10,
@@ -10989,10 +10989,10 @@
           "guard_damage": 60,
           "hit_boxes": [
             {
-              "height": 86,
+              "height": 76,
               "left": -9,
-              "top": -98,
-              "width": 87
+              "top": -88,
+              "width": 81
             }
           ],
           "hit_opponent_hit_stop": 10,
@@ -11107,7 +11107,7 @@
             "width": 45
           },
           "defense_flag": 8192,
-          "duration": 4,
+          "duration": 5,
           "hurt_boxes": [
             {
               "height": 146,
@@ -11140,7 +11140,7 @@
             "width": 40
           },
           "defense_flag": 8192,
-          "duration": 4,
+          "duration": 5,
           "hurt_boxes": [
             {
               "height": 170,
@@ -11339,7 +11339,7 @@
             "width": 40
           },
           "defense_flag": 24576,
-          "duration": 4,
+          "duration": 6,
           "hurt_boxes": [
             {
               "height": 191,
