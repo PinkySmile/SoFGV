@@ -1259,7 +1259,7 @@ namespace SpiralOfFate
 		if (
 			(
 				// Can cancel jumpsquat by move
-				(this->_animation == 0 && (
+				(this->getCurrentFrameData()->dFlag.grabInvulnerable && (
 					this->_action == ACTION_NEUTRAL_JUMP ||
 					this->_action == ACTION_FORWARD_JUMP ||
 					this->_action == ACTION_BACKWARD_JUMP ||
