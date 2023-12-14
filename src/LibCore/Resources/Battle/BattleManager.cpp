@@ -1608,16 +1608,13 @@ namespace SpiralOfFate
 		this->lifeBarEffect++;
 		this->lifeBarEffect %= game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].textureHandle).x;
 		if (this->base._opponent->_comboCtr) {
-			auto superRate = this->base._opponent->_supersUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (10 << (this->base._opponent->_supersUsed - 2))) / 100.f)) : 1;
-			auto skillRate = this->base._opponent->_skillsUsed >= 2 ? std::min(1.f, std::max(0.f, (100.f - (3 << (this->base._opponent->_skillsUsed - 2))) / 100.f)) : 1;
-
 			this->hitCtr       = this->base._opponent->_comboCtr;
 			this->neutralLimit = this->base._opponent->_limit[0];
 			this->voidLimit    = this->base._opponent->_limit[1];
 			this->matterLimit  = this->base._opponent->_limit[2];
 			this->spiritLimit  = this->base._opponent->_limit[3];
 			this->totalDamage  = this->base._opponent->_totalDamage;
-			this->proration    = this->base._opponent->_prorate * superRate * skillRate;
+			this->proration    = this->base._opponent->_prorate;
 			this->counter      = this->base._opponent->_counter;
 			this->comboCtr     = 120;
 		}

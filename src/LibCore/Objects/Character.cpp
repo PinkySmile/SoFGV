@@ -1531,13 +1531,6 @@ namespace SpiralOfFate
 			action == ACTION_FORWARD_AIR_JUMP ||
 			action == ACTION_BACKWARD_AIR_JUMP
 		);
-		// FIXME: This actually doesn't count supers at all! Should we use data->oFlag.super instead!?
-		//        It's probably better this way anyway because it restricts Ascends that would be able
-		//        to cancel skills to create some too stupid combos.
-		//        Same goes for the check for skills under though we have no skill indicator other than the action ID.
-		//        What should we consider a skill anyway?
-		this->_opponent->_supersUsed += this->getAttackTier(action) >= 700 && this->getAttackTier(action) < 800;
-		this->_opponent->_skillsUsed += this->getAttackTier(action) >= 600 && this->getAttackTier(action) < 700;
 		game->logger.debug("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
 			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * PARRY_COST;
@@ -1673,8 +1666,6 @@ namespace SpiralOfFate
 			this->_comboCtr = 0;
 			this->_prorate = 1;
 			this->_totalDamage = 0;
-			this->_opponent->_supersUsed = 0;
-			this->_opponent->_skillsUsed = 0;
 			this->_limit.fill(0);
 			this->_opponent->_usedMoves.clear();
 			this->_counter = false;
@@ -3045,8 +3036,6 @@ namespace SpiralOfFate
 			"BaseGravityX: %f\n"
 			"BaseGravityY: %f\n"
 			"Overdrive CD: %u/%u\n"
-			"SupersUsed %u\n"
-			"SkillsUsed %u\n"
 			"NormalFlag: %x\n"
 			"JumpCancel: %s\n"
 			"Time since idle: %i\n"
@@ -3092,8 +3081,6 @@ namespace SpiralOfFate
 			this->_baseGravity.y,
 			this->_odCooldown,
 			this->_maxOdCooldown,
-			this->_supersUsed,
-			this->_skillsUsed,
 			this->_normalTreeFlag,
 			this->_jumpCanceled ? "true" : "false",
 			this->_timeSinceIdle,
@@ -3380,11 +3367,8 @@ namespace SpiralOfFate
 
 	void Character::_getHitByMove(Object *obj, const FrameData &data)
 	{
-		if (data.oFlag.ultimate) {
-			this->_supersUsed = 0;
-			this->_skillsUsed = 0;
+		if (data.oFlag.ultimate)
 			this->_prorate = maxi(0.25, this->_prorate);
-		}
 
 		auto myData = this->getCurrentFrameData();
 		auto chr = dynamic_cast<Character *>(obj);
@@ -3393,11 +3377,9 @@ namespace SpiralOfFate
 			this->_prorate = 1.15f;
 		this->_prorate = maxi(data.minProrate / 100, this->_prorate);
 
-		auto superRate = this->_supersUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - (10 << (this->_supersUsed - 2))) / 100.f)) : 1;
-		auto skillRate = this->_skillsUsed >= 2 ? mini(1.f, maxi(0.f, (100.f - ( 3 << (this->_skillsUsed - 2))) / 100.f)) : 1;
 		auto counter = this->_counterHit == 1;
 		auto forcedCounter = false;
-		float damage = data.damage * this->_prorate * skillRate * superRate;
+		float damage = data.damage * this->_prorate;
 		auto stun = data.hitStun;
 
 		if (data.snap)
@@ -3723,8 +3705,6 @@ namespace SpiralOfFate
 		dat->_voidInstallTimer = this->_voidInstallTimer;
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
-		dat->_supersUsed = this->_supersUsed;
-		dat->_skillsUsed = this->_skillsUsed;
 		dat->_grabInvul = this->_grabInvul;
 		dat->_hitStop = this->_hitStop;
 		dat->_ultimateUsed = this->_ultimateUsed;
@@ -3800,8 +3780,6 @@ namespace SpiralOfFate
 		this->_hitStop = dat->_hitStop;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
-		this->_supersUsed = dat->_supersUsed;
-		this->_skillsUsed = dat->_skillsUsed;
 		this->_grabInvul = dat->_grabInvul;
 		this->_ultimateUsed = dat->_ultimateUsed;
 		this->_normalTreeFlag = dat->_normalTreeFlag;
@@ -4260,10 +4238,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat1->_jumpCanceled) + " vs " + std::to_string(dat2->_jumpCanceled));
 		if (dat1->_hadUltimate != dat2->_hadUltimate)
 			game->logger.fatal(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat1->_hadUltimate) + " vs " + std::to_string(dat2->_hadUltimate));
-		if (dat1->_supersUsed != dat2->_supersUsed)
-			game->logger.fatal(std::string(msgStart) + "Character::_supersUsed: " + std::to_string(dat1->_supersUsed) + " vs " + std::to_string(dat2->_supersUsed));
-		if (dat1->_skillsUsed != dat2->_skillsUsed)
-			game->logger.fatal(std::string(msgStart) + "Character::_skillsUsed: " + std::to_string(dat1->_skillsUsed) + " vs " + std::to_string(dat2->_skillsUsed));
 		if (dat1->_grabInvul != dat2->_grabInvul)
 			game->logger.fatal(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat1->_grabInvul) + " vs " + std::to_string(dat2->_grabInvul));
 		if (dat1->_ultimateUsed != dat2->_ultimateUsed)
@@ -4747,8 +4721,6 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
 		game->logger.info(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
 		game->logger.info(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
-		game->logger.info(std::string(msgStart) + "Character::_supersUsed: " + std::to_string(dat->_supersUsed));
-		game->logger.info(std::string(msgStart) + "Character::_skillsUsed: " + std::to_string(dat->_skillsUsed));
 		game->logger.info(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
 		game->logger.info(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat->_ultimateUsed));
 		game->logger.info(std::string(msgStart) + "Character::_normalTreeFlag: " + std::to_string(dat->_normalTreeFlag));
