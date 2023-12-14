@@ -1673,8 +1673,8 @@ namespace SpiralOfFate
 			this->_comboCtr = 0;
 			this->_prorate = 1;
 			this->_totalDamage = 0;
-			this->_supersUsed = 0;
-			this->_skillsUsed = 0;
+			this->_opponent->_supersUsed = 0;
+			this->_opponent->_skillsUsed = 0;
 			this->_limit.fill(0);
 			this->_opponent->_usedMoves.clear();
 			this->_counter = false;
