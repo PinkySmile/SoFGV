@@ -14011,7 +14011,6 @@
             "x": 172,
             "y": 198
           },
-          "sound": "assets/sfxs/se/suika/001.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 99,
