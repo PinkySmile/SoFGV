@@ -170,7 +170,7 @@ namespace SpiralOfFate
 #ifdef _DEBUG
 		if (event.type == sf::Event::KeyPressed) {
 			if (event.key.code == sf::Keyboard::F11)
-				stepMode = true;
+				stepMode = !stepMode;
 			if (event.key.code == sf::Keyboard::F10)
 				step = true;
 			if (event.key.code == sf::Keyboard::F2)
