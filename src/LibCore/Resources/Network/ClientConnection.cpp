@@ -73,7 +73,7 @@ namespace SpiralOfFate
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-			game->connection->nextGame();
+			this->nextGame();
 
 			auto args = new CharSelectArguments();
 
@@ -141,7 +141,7 @@ namespace SpiralOfFate
 			auto args = new CharSelectArguments();
 
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
-			game->connection->nextGame();
+			this->nextGame();
 			args->restore = restore;
 			args->startParams = this->_startParams;
 			args->connection = this;
@@ -195,7 +195,7 @@ namespace SpiralOfFate
 		args->currentScene = game->scene.getCurrentScene().second;
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-		game->connection->nextGame();
+		this->nextGame();
 		game->scene.switchScene("client_in_game", args);
 	}
 

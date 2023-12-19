@@ -173,12 +173,12 @@ namespace SpiralOfFate
 
 		while (true) {
 			size_t realSize = 0;
-			sf::IpAddress ip = sf::IpAddress::Any;
-			// TODO: Allow to change the port
-			unsigned short port = 10800;
+			sf::IpAddress ip;
+			unsigned short port;
 			auto res = this->_socket.receive(packet, RECV_BUFFER_SIZE, realSize, ip, port);
+			auto iter = this->_remotes.begin();
 
-			for (auto iter = this->_remotes.begin(); iter != this->_remotes.end(); ) {
+			while (iter != this->_remotes.end()) {
 				auto t = iter->timeSinceLastPacket.getElapsedTime().asSeconds();
 
 				if (t < 10 && iter->connectPhase != CONNECTION_STATE_DISCONNECTED) {
@@ -252,6 +252,8 @@ namespace SpiralOfFate
 
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
+		else if (remote.connectPhase != CONNECTION_STATE_NOT_INITIALIZED)
+			err = ERROR_UNEXPECTED_OPCODE;
 		else if (std::find(this->blacklist.begin(), this->blacklist.end(), remote.ip.toString()) != this->blacklist.end())
 			err = ERROR_BLACKLISTED;
 		else if (packet.getMagic() != PacketHello::computeMagic(REAL_VERSION_STR))
@@ -262,6 +264,8 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
+		remote.connectPhase = CONNECTION_STATE_CONNECTING;
+
 		PacketOlleh olleh;
 
 		this->_send(remote, &olleh, sizeof(olleh));
@@ -333,7 +337,7 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Remote &remote, PacketGameFrame &packet, size_t size)
 	{
-		if (remote.connectPhase != 1) {
+		if (remote.connectPhase != CONNECTION_STATE_PLAYER) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_GAME_FRAME, size};
 
 			return this->_send(remote, &error, sizeof(error));
@@ -492,7 +496,7 @@ namespace SpiralOfFate
 
 	void Connection::_handlePacket(Connection::Remote &remote, PacketTimeSync &packet, size_t size)
 	{
-		if (remote.connectPhase != 1) {
+		if (remote.connectPhase != CONNECTION_STATE_PLAYER) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_TIME_SYNC, size};
 
 			return this->_send(remote, &error, sizeof(error));

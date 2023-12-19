@@ -46,11 +46,13 @@ namespace SpiralOfFate
 
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
+		else if (remote.connectPhase != CONNECTION_STATE_CONNECTING)
+			err = ERROR_UNEXPECTED_OPCODE;
 		else if (packet.spectator && !this->_playing)
 			err = ERROR_GAME_NOT_STARTED;
 		else if (packet.spectator && !this->spectatorEnabled)
 			err = ERROR_SPECTATORS_DISABLED;
-		else if (!packet.spectator && this->_playing && remote.connectPhase != 1)
+		else if (!packet.spectator && this->_playing)
 			err = ERROR_GAME_ALREADY_STARTED;
 
 		if (err != -1) {
@@ -62,15 +64,15 @@ namespace SpiralOfFate
 		this->_send(remote, &result, sizeof(result));
 		this->_playing = true;
 		this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-		if (remote.connectPhase == 0) {
+		if (remote.connectPhase == CONNECTION_STATE_CONNECTING) {
 			if (this->onConnection)
 				this->onConnection(remote, packet);
+			remote.connectPhase = packet.spectator ? CONNECTION_STATE_SPECTATOR : CONNECTION_STATE_PLAYER;
 			if (packet.spectator)
 				return;
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
-			remote.connectPhase = packet.spectator ? CONNECTION_STATE_SPECTATOR : CONNECTION_STATE_PLAYER;
-			game->connection->nextGame();
+			this->nextGame();
 
 			auto args = new CharSelectArguments();
 
@@ -96,7 +98,7 @@ namespace SpiralOfFate
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketMenuSwitch &packet, size_t size)
 	{
-		if (remote.connectPhase != 1) {
+		if (remote.connectPhase != CONNECTION_STATE_PLAYER) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
 
 			this->_send(remote, &error, sizeof(error));
@@ -117,7 +119,7 @@ namespace SpiralOfFate
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketError &packet, size_t size)
 	{
 		if (
-			remote.connectPhase == 1 &&
+			remote.connectPhase == CONNECTION_STATE_PLAYER &&
 			packet.code == ERROR_UNEXPECTED_OPCODE &&
 			packet.offendingPacket == OPCODE_MENU_SWITCH &&
 			packet.offendingPacketSize == sizeof(PacketMenuSwitch)
@@ -154,7 +156,7 @@ namespace SpiralOfFate
 
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &packet, size_t size)
 	{
-		if (remote.connectPhase != 1) {
+		if (remote.connectPhase != CONNECTION_STATE_PLAYER) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
 
 			this->_send(remote, &error, sizeof(error));
@@ -185,7 +187,7 @@ namespace SpiralOfFate
 		this->_nextExpectedDiffFrame = 0;
 		this->_states.clear();
 		if (id == MENUSTATE_CHARSELECT && lock) {
-			game->connection->nextGame();
+			this->nextGame();
 
 			auto args = new CharSelectArguments();
 
@@ -195,7 +197,7 @@ namespace SpiralOfFate
 		} else if (id == MENUSTATE_INGAME) {
 			auto args = new InGameArguments();
 
-			game->connection->nextGame();
+			this->nextGame();
 			args->startParams = this->_startParams;
 			args->connection = this;
 			args->currentScene = game->scene.getCurrentScene().second;
