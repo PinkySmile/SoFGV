@@ -157,6 +157,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		my_assert(!inputs.empty());
+		my_assert((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = inputs.front().first;
 		packet->nbInputs = inputs.size();
@@ -286,6 +287,7 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketState();
 
 		//TODO: Compress the data
+		my_assert((void *)buffer == (void *)packet);
 		return {packet, deleteArray};
 	}
 
@@ -309,6 +311,7 @@ namespace SpiralOfFate
 		void *buffer = new char[out.size() + sizeof(PacketReplay)];
 		auto *packet = new(buffer) PacketReplay();
 
+		my_assert((void *)buffer == (void *)packet);
 		packet->compressedSize = out.size();
 		packet->gameId = gameId;
 		packet->frameId = frameId;
@@ -395,6 +398,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		my_assert(!diffs.empty());
+		my_assert((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = diffs.front().first;
 		packet->nbDiff = diffs.size();
@@ -433,6 +437,23 @@ namespace SpiralOfFate
 	{
 		return "Packet REPLAY_LIST:"
 		       " nbEntries " + std::to_string(this->nbEntries);
+	}
+
+	size_t PacketReplayList::getSize()
+	{
+		return sizeof(*this) + this->nbEntries * sizeof(*this->gameIds);
+	}
+
+	std::shared_ptr<PacketReplayList> PacketReplayList::create(const std::vector<unsigned int> &ids)
+	{
+		void *buffer = new char[ids.size() * sizeof(*PacketReplayList::gameIds) + sizeof(PacketReplayList)];
+		auto *packet = new(buffer) PacketReplayList();
+
+		static_assert(sizeof(*ids.data()) == sizeof(*PacketReplayList::gameIds));
+		my_assert((void *)buffer == (void *)packet);
+		packet->nbEntries = ids.size();
+		memcpy(packet->gameIds, ids.data(), ids.size() * sizeof(*ids.data()));
+		return {packet, deleteArray};
 	}
 
 	PacketReplayListRequest::PacketReplayListRequest() :

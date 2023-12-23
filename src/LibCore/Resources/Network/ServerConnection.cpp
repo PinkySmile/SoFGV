@@ -49,7 +49,7 @@ namespace SpiralOfFate
 			err = ERROR_GAME_NOT_STARTED;
 		else if (packet.spectator && !this->spectatorEnabled)
 			err = ERROR_SPECTATORS_DISABLED;
-		else if (!packet.spectator && this->_playing)
+		else if (packet.spectator && this->_playing)
 			err = ERROR_GAME_ALREADY_STARTED;
 
 		if (err != -1) {
@@ -59,7 +59,6 @@ namespace SpiralOfFate
 		}
 		if (!this->_playing)
 			this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-		this->_playing = true;
 
 		PacketInitSuccess result{this->_names.first.c_str(), this->_names.second.c_str(), VERSION_STR};
 
@@ -70,6 +69,7 @@ namespace SpiralOfFate
 			remote.connectPhase = packet.spectator ? CONNECTION_STATE_SPECTATOR : CONNECTION_STATE_PLAYER;
 			if (packet.spectator)
 				return;
+			this->_playing = true;
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->nextGame();

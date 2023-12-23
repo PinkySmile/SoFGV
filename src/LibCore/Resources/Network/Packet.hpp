@@ -371,9 +371,10 @@ namespace SpiralOfFate
 		uint32_t nbDiff;
 		int64_t timeDiff[];
 
-		static std::shared_ptr<PacketTimeSync> create(std::list<std::pair<unsigned, long long>> &diffs, unsigned lastRecvFrameId);
 		size_t getSize();
 		std::string toString() const;
+
+		static std::shared_ptr<PacketTimeSync> create(std::list<std::pair<unsigned, long long>> &diffs, unsigned lastRecvFrameId);
 	};
 
 	struct PacketReplayRequest {
@@ -398,7 +399,10 @@ namespace SpiralOfFate
 		uint32_t nbEntries;
 		uint32_t gameIds[0];
 
+		size_t getSize();
 		std::string toString() const;
+
+		static std::shared_ptr<PacketReplayList> create(const std::vector<unsigned> &ids);
 	};
 
 	struct PacketReplayListRequest {

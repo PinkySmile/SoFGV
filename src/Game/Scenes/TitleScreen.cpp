@@ -353,7 +353,7 @@ namespace SpiralOfFate
 		game->lastIp = ip.toString();
 		game->lastPort = port;
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
-			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
+			std::string name{packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name))};
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
 
 			game->logger.info("Connected to " + name + " with game version " + vers);

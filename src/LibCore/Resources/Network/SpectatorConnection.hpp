@@ -18,7 +18,6 @@ namespace SpiralOfFate
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitRequest &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitSuccess &packet, size_t size) override;
-		void _handlePacket(Remote &remote, PacketDelayUpdate &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketMenuSwitch &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketState &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketReplay &packet, size_t size) override;
