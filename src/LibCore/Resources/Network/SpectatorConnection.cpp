@@ -2,18 +2,18 @@
 // Created by PinkySmile on 22/08/2022.
 //
 
-#include "ClientConnection.hpp"
+#include "SpectatorConnection.hpp"
 #include "Resources/version.h"
 #include "Resources/Game.hpp"
 
 namespace SpiralOfFate
 {
-	ClientConnection::ClientConnection(const std::string &name)
+	SpectatorConnection::SpectatorConnection(const std::string &name)
 	{
 		this->_names.second = name;
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketOlleh &packet, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketOlleh &packet, size_t size)
 	{
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_OLLEH, size};
@@ -32,21 +32,21 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketRedirect &, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketRedirect &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_REDIRECT, size};
 
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketPunch &, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketPunch &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_PUNCH, size};
 
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_PUNCH, size};
 
@@ -54,7 +54,7 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitSuccess &packet, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketInitSuccess &packet, size_t size)
 	{
 		if (remote.connectPhase == 0) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
@@ -67,45 +67,14 @@ namespace SpiralOfFate
 			return this->_send(remote, &error, sizeof(error));
 		}
 
-		if (this->_currentMenu != MENUSTATE_LOADING_CHARSELECT && this->_currentMenu != MENUSTATE_CHARSELECT) {
-			remote.connectPhase = CONNECTION_STATE_PLAYER;
-			this->_opponent = &remote;
-			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
-			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
-			this->_names.first = std::string(packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name)));
-			this->nextGame();
-
-			auto args = new CharSelectArguments();
-
-			args->restore = false;
-			args->connection = this;
-			game->scene.switchScene("client_char_select", args);
-		}
-
-		PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
-
-		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
+		remote.connectPhase = CONNECTION_STATE_HOST_NODE;
+		this->_opponent = &remote;
+		this->_names.first = std::string(packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name)));
+		this->_names.second = std::string(packet.player2Name, strnlen(packet.player2Name, sizeof(packet.player2Name)));
+		game->scene.switchScene("spectator_char_select");
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketDelayUpdate &packet, size_t size)
-	{
-		if (remote.connectPhase != 1) {
-			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
-
-			return this->_send(remote, &error, sizeof(error));
-		}
-		if (size != sizeof(packet)) {
-			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_INIT_SUCCESS, size};
-
-			return this->_send(remote, &error, sizeof(error));
-		}
-
-		this->_expectedDelay = packet.newDelay;
-		//TODO
-		this->_delay = packet.newDelay;
-	}
-
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketMenuSwitch &packet, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketMenuSwitch &packet, size_t size)
 	{
 		if (remote.connectPhase != 1) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
@@ -149,21 +118,21 @@ namespace SpiralOfFate
 		}
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketState &, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketState &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_STATE, size};
 
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketReplay &, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketReplay &, size_t size)
 	{
 		PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY, size};
 
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketGameStart &packet, size_t size)
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketGameStart &packet, size_t size)
 	{
 		if (remote.connectPhase != 1) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
@@ -199,7 +168,7 @@ namespace SpiralOfFate
 		game->scene.switchScene("client_in_game", args);
 	}
 
-	void ClientConnection::update()
+	void SpectatorConnection::update()
 	{
 		if (this->_terminated)
 			return;
@@ -210,17 +179,18 @@ namespace SpiralOfFate
 		if (this->_remotes.size() != 1)
 			return;
 
-		auto &op = this->_remotes.front();
+		auto &op = this->_remotes.back();
 
-		if (op.connectPhase != CONNECTION_STATE_CONNECTING)
+		if (op.connectPhase == CONNECTION_STATE_CONNECTING) {
+			PacketHello hello{REAL_VERSION_STR, op.ip.toInteger(), op.port};
+
+			return this->_send(this->_remotes.back(), &hello, sizeof(hello));
+		}
+		if (this->_gameId)
 			return;
-
-		PacketHello hello{REAL_VERSION_STR, op.ip.toInteger(), op.port};
-
-		this->_send(this->_remotes.back(), &hello, sizeof(hello));
 	}
 
-	void ClientConnection::connect(sf::IpAddress ip, unsigned short port)
+	void SpectatorConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
 		this->_remotes.emplace_back(*this, ip, port);
@@ -234,5 +204,16 @@ namespace SpiralOfFate
 		};
 		this->_states.clear();
 		this->_terminated = false;
+	}
+
+	void SpectatorConnection::_handlePacket(Connection::Remote &remote, PacketReplayList &packet, size_t size)
+	{
+	}
+
+	void SpectatorConnection::requestInputs(unsigned int startFrame)
+	{
+		PacketReplayRequest req{this->_gameId, startFrame, false};
+
+		this->_send(this->_remotes.front(), &req, sizeof(req));
 	}
 }

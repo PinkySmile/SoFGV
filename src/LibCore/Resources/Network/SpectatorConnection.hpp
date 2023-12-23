@@ -2,21 +2,17 @@
 // Created by PinkySmile on 22/08/2022.
 //
 
-#ifndef SOFGV_SERVERCONNECTION_HPP
-#define SOFGV_SERVERCONNECTION_HPP
+#ifndef SOFGV_SPECTATORCONNECTION_HPP
+#define SOFGV_SPECTATORCONNECTION_HPP
 
 
+#include "Resources/SceneArgument.hpp"
 #include "Connection.hpp"
-#include "Resources/ReplayData.hpp"
-#include "Inputs/IInput.hpp"
 
 namespace SpiralOfFate
 {
-	class ServerConnection : public Connection {
+	class SpectatorConnection : public Connection {
 	protected:
-		bool _playing = false;
-
-		void _checkOpponentState();
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
@@ -27,24 +23,20 @@ namespace SpiralOfFate
 		void _handlePacket(Remote &remote, PacketState &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketReplay &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size) override;
-		void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size) override;
-
-		void _handlePacket(Remote &remote, PacketError &packet, size_t size) override;
+		void _handlePacket(Remote &remote, PacketReplayList &packet, size_t size) override;
 
 	public:
-		bool spectatorEnabled = true;
-		std::function<void (Remote &remote, PacketInitRequest &packet)> onConnection;
+		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
+		std::function<void (PacketGameStart &packet)> onGameStart;
+		std::function<void (PacketReplay &replay)> onReplayData;
 
-		ServerConnection(const std::string &name);
-		~ServerConnection() override;
+		SpectatorConnection(const std::string &name);
 
-		void switchToChrLoadingScreen();
-		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);
-		void switchMenu(unsigned id, bool lock = true);
-		void host(unsigned short port);
+		void connect(sf::IpAddress ip, unsigned short port);
 		void update() override;
+		void requestInputs(unsigned startFrame);
 	};
 }
 
 
-#endif //SOFGV_SERVERCONNECTION_HPP
+#endif //SOFGV_SPECTATORCONNECTION_HPP

@@ -42,12 +42,9 @@ namespace SpiralOfFate
 	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
 	{
 		int err = -1;
-		PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
 
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
-		else if (remote.connectPhase != CONNECTION_STATE_CONNECTING)
-			err = ERROR_UNEXPECTED_OPCODE;
 		else if (packet.spectator && !this->_playing)
 			err = ERROR_GAME_NOT_STARTED;
 		else if (packet.spectator && !this->spectatorEnabled)
@@ -60,10 +57,13 @@ namespace SpiralOfFate
 
 			return this->_send(remote, &error, sizeof(error));
 		}
+		if (!this->_playing)
+			this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
+		this->_playing = true;
+
+		PacketInitSuccess result{this->_names.first.c_str(), this->_names.second.c_str(), VERSION_STR};
 
 		this->_send(remote, &result, sizeof(result));
-		this->_playing = true;
-		this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
 		if (remote.connectPhase == CONNECTION_STATE_CONNECTING) {
 			if (this->onConnection)
 				this->onConnection(remote, packet);
@@ -125,7 +125,7 @@ namespace SpiralOfFate
 			packet.offendingPacketSize == sizeof(PacketMenuSwitch)
 		) {
 			// In this case, the init success packet has probably been dropped, so we send it again
-			PacketInitSuccess result{this->_names.first.c_str(), VERSION_STR};
+			PacketInitSuccess result{this->_names.first.c_str(), this->_names.second.c_str(), VERSION_STR};
 
 			this->_send(remote, &result, sizeof(result));
 			return;

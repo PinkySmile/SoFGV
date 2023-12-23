@@ -161,7 +161,7 @@ namespace SpiralOfFate
 		void _renderRoundEndAnimation() const;
 		void _updateRoundStartAnimation();
 		void _renderRoundStartAnimation() const;
-		void _renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side);
+		void _renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side);
 		void _renderButton(unsigned spriteId, float offset, int k, Vector2f pos);
 		void _renderCharacter(const Character &chr);
 
@@ -192,8 +192,8 @@ namespace SpiralOfFate
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;
 		const Character *getRightCharacter() const;
-		const std::vector<Character::ReplayData> &getLeftReplayData() const;
-		const std::vector<Character::ReplayData> &getRightReplayData() const;
+		const std::vector<ReplayData> &getLeftReplayData() const;
+		const std::vector<ReplayData> &getRightReplayData() const;
 		unsigned getCurrentFrame() const;
 		void logDifference(void *data1, void *data2);
 		void printContent(void *data, size_t size);

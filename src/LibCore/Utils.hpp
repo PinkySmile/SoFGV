@@ -37,6 +37,12 @@ namespace SpiralOfFate::Utils
 		unsigned char l;
 	};
 
+	namespace Z {
+		int compress(unsigned char *inBuffer, size_t size, std::vector<unsigned char> &outBuffer, int level);
+		int decompress(unsigned char *inBuffer, size_t size, std::vector<unsigned char> &outBuffer);
+		std::string error(int ret);
+	}
+
 	//! @brief Get the last Exception Name
 	//! @details Return the last type of Exception name
 	//! @return std::string The last Exception name

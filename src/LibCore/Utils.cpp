@@ -15,6 +15,7 @@
 #include <numeric>
 #include <fstream>
 #include <cmath>
+#include <zlib.h>
 #include "Resources/Game.hpp"
 #include "Utils.hpp"
 
@@ -27,6 +28,102 @@
 
 namespace SpiralOfFate::Utils
 {
+	namespace Z
+	{
+		static constexpr long int CHUNK = {16384};
+
+		int compress(unsigned char *inBuffer, size_t size, std::vector<unsigned char> &outBuffer, int level)
+		{
+			int ret, flush;
+			unsigned have;
+			z_stream strm;
+			unsigned char out[CHUNK];
+
+			outBuffer.clear();
+			strm.zalloc = Z_NULL;
+			strm.zfree = Z_NULL;
+			strm.opaque = Z_NULL;
+			ret = deflateInit(&strm, level);
+			if (ret != Z_OK)
+				return ret;
+
+			strm.avail_in = size;
+			strm.next_in = inBuffer;
+			do {
+				strm.avail_out = CHUNK;
+				strm.next_out = out;
+				ret = deflate(&strm, Z_FINISH);    /* anyone error value */
+				my_assert(ret != Z_STREAM_ERROR);
+				have = CHUNK - strm.avail_out;
+				outBuffer.insert(outBuffer.end(), out, out + have);
+			} while (strm.avail_out == 0);
+			my_assert(strm.avail_in == 0);
+			my_assert(ret == Z_STREAM_END);
+			deflateEnd(&strm);
+			return Z_OK;
+		}
+
+		int decompress(unsigned char *inBuffer, size_t size, std::vector<unsigned char> &outBuffer)
+		{
+			int ret;
+			unsigned have;
+			z_stream strm;
+			unsigned char out[CHUNK];
+
+			strm.zalloc = Z_NULL;
+			strm.zfree = Z_NULL;
+			strm.opaque = Z_NULL;
+			strm.avail_in = 0;
+			strm.next_in = Z_NULL;
+			ret = inflateInit(&strm);
+			if (ret != Z_OK)
+				return ret;
+
+			strm.avail_in = size;
+			strm.next_in = inBuffer;
+
+			do {
+				strm.avail_out = CHUNK;
+				strm.next_out = out;
+				ret = inflate(&strm, Z_NO_FLUSH);
+				my_assert(ret != Z_STREAM_ERROR);
+				switch (ret) {
+				case Z_NEED_DICT:
+					ret = Z_DATA_ERROR;
+				case Z_DATA_ERROR:
+				case Z_MEM_ERROR:
+					inflateEnd(&strm);
+					return ret;
+				}
+				have = CHUNK - strm.avail_out;
+				outBuffer.insert(outBuffer.end(), out, out + have);
+			} while (strm.avail_out == 0);
+			my_assert(ret == Z_STREAM_END);
+
+			inflateEnd(&strm);
+			return Z_OK;
+		}
+
+		std::string error(int ret)
+		{
+			switch (ret) {
+			case Z_ERRNO:
+				if (ferror(stdin))
+					return "Error reading from stdin.";
+				else if (ferror(stdout))
+					return "Error writing ro stdout.";
+			case Z_STREAM_ERROR:
+				return "Invalid compression level.";
+			case Z_DATA_ERROR:
+				return "Empty data, invalid or incomplete.";
+			case Z_MEM_ERROR:
+				return "No memory.";
+			case Z_VERSION_ERROR:
+				return "zlib version is incompatible.";
+			}
+			return "Unknown error " + std::to_string(ret);
+		}
+	}
 #ifdef USE_TGUI
 	static tgui::Theme *theme = nullptr;
 #endif

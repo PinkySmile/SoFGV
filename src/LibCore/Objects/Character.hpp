@@ -11,6 +11,7 @@
 #include "Inputs/IInput.hpp"
 #include "Data/Color.hpp"
 #include "ParticleGenerator.hpp"
+#include "Resources/ReplayData.hpp"
 
 #ifdef _MSC_VER
 #ifdef MYDLL_EXPORTS
@@ -333,19 +334,6 @@ namespace SpiralOfFate
 			AirDrift backDrift;
 			AirDrift frontDrift;
 		};
-
-		struct ReplayData {
-			bool n : 1;
-			bool m : 1;
-			bool v : 1;
-			bool s : 1;
-			bool a : 1;
-			bool d : 1;
-			char _h : 2;
-			char _v : 2;
-			unsigned char time : 6;
-		};
-		static_assert(sizeof(ReplayData) == 2);
 
 	protected:
 		enum GroundTech {

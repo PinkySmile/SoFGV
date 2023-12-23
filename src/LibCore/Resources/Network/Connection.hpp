@@ -37,7 +37,8 @@ namespace SpiralOfFate
 			CONNECTION_STATE_NOT_INITIALIZED,
 			CONNECTION_STATE_PLAYER,
 			CONNECTION_STATE_SPECTATOR,
-			CONNECTION_STATE_CONNECTING
+			CONNECTION_STATE_CONNECTING,
+			CONNECTION_STATE_HOST_NODE
 		};
 
 		class Remote {
@@ -70,8 +71,14 @@ namespace SpiralOfFate
 		};
 
 	protected:
+		struct ReplayData {
+			std::vector<PacketInput> local;
+			std::vector<PacketInput> remote;
+		};
+
 		GameStartParams _startParams;
 		bool _terminated = true;
+		bool _swapSide = false;
 		unsigned _currentMenu = 0;
 		unsigned _opCurrentMenu = 0;
 		unsigned _delay = 0;
@@ -82,6 +89,7 @@ namespace SpiralOfFate
 		unsigned _gameId = 0;
 		std::map<unsigned, unsigned> _states;
 		Remote *_opponent = nullptr;
+		std::map<unsigned, ReplayData> _replayData;
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
 		std::list<std::pair<unsigned, long long>> _sendSyncBuffer;
@@ -112,12 +120,16 @@ namespace SpiralOfFate
 		virtual void _handlePacket(Remote &remote, PacketGameQuit &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketDesyncDetected &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketTimeSync &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketReplayRequest &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketReplayList &packet, size_t size);
+		virtual void _handlePacket(Remote &remote, PacketReplayListRequest &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, Packet &packet, size_t size);
 
 	public:
 		std::vector<std::string> blacklist;
 		std::function<void (Remote &remote)> onDisconnect;
 		std::function<void (unsigned newDelay)> onDelayUpdate;
+		std::function<std::pair<void *, unsigned> ()> getSavedState;
 		std::function<void (Remote &remote, const PacketError &e)> onError;
 		std::function<void (Remote &remote, unsigned frameId)> onInputReceived;
 		std::function<void (Remote &remote, unsigned frameId, long long timeDiff)> onTimeSync;

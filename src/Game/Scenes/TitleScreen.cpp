@@ -900,10 +900,10 @@ namespace SpiralOfFate
 		unsigned short P2pos;
 		unsigned short P1palette;
 		unsigned short P2palette;
-		std::deque<Character::ReplayData> P1inputs;
-		std::deque<Character::ReplayData> P2inputs;
+		std::deque<ReplayData> P1inputs;
+		std::deque<ReplayData> P2inputs;
 		char *buffer;
-		Character::ReplayData *buffer2;
+		ReplayData *buffer2;
 		InGame::GameParams params;
 		unsigned magic;
 		unsigned frameCount;
@@ -960,9 +960,9 @@ namespace SpiralOfFate
 
 		stream.read(reinterpret_cast<char *>(&nb), sizeof(nb));
 		game->logger.debug("P1 has " + std::to_string(nb) + "inputs");
-		buffer = new char[nb * sizeof(Character::ReplayData)];
-		stream.read(buffer, nb * sizeof(Character::ReplayData));
-		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
+		buffer = new char[nb * sizeof(ReplayData)];
+		stream.read(buffer, nb * sizeof(ReplayData));
+		buffer2 = reinterpret_cast<ReplayData *>(buffer);
 		P1inputs.insert(P1inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 
@@ -977,9 +977,9 @@ namespace SpiralOfFate
 
 		stream.read(reinterpret_cast<char *>(&nb), sizeof(nb));
 		game->logger.debug("P2 has " + std::to_string(nb) + "inputs");
-		buffer = new char[nb * sizeof(Character::ReplayData)];
-		stream.read(buffer, nb * sizeof(Character::ReplayData));
-		buffer2 = reinterpret_cast<Character::ReplayData *>(buffer);
+		buffer = new char[nb * sizeof(ReplayData)];
+		stream.read(buffer, nb * sizeof(ReplayData));
+		buffer2 = reinterpret_cast<ReplayData *>(buffer);
 		P2inputs.insert(P2inputs.begin(), buffer2, buffer2 + nb);
 		delete[] buffer;
 

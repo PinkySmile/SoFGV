@@ -38,6 +38,9 @@ namespace SpiralOfFate
 		OPCODE_GAME_QUIT,
 		OPCODE_DESYNC_DETECTED,
 		OPCODE_TIME_SYNC,
+		OPCODE_REPLAY_REQUEST,
+		OPCODE_REPLAY_LIST,
+		OPCODE_REPLAY_LIST_REQUEST,
 		OPCODE_COUNT
 	};
 
@@ -51,6 +54,7 @@ namespace SpiralOfFate
 		ERROR_GAME_ALREADY_STARTED,
 		ERROR_SPECTATORS_DISABLED,
 		ERROR_BLACKLISTED,
+		ERROR_INVALID_DATA,
 		ERROR_COUNT
 	};
 
@@ -63,7 +67,8 @@ namespace SpiralOfFate
 		"Game not started",
 		"Game already started",
 		"Spectators disabled",
-		"Blacklisted"
+		"Blacklisted",
+		"Invalid data"
 	};
 	constexpr std::array<const char *, OPCODE_COUNT> opcodeStrings{
 		"Hello",
@@ -85,7 +90,10 @@ namespace SpiralOfFate
 		"Quit",
 		"Game quit",
 		"Desync detected",
-		"Time sync"
+		"Time sync",
+		"Replay request",
+		"Replay list",
+		"Replay list request"
 	};
 
 #pragma pack(push, 1)
@@ -231,10 +239,11 @@ namespace SpiralOfFate
 		Opcode opcode;
 
 	public:
-		char playerName[32];
+		char player1Name[32];
+		char player2Name[32];
 		char gameVersion[32];
 
-		PacketInitSuccess(const char *name, const char *version);
+		PacketInitSuccess(const char *name1, const char *name2, const char *version);
 		std::string toString() const;
 	};
 
@@ -306,11 +315,17 @@ namespace SpiralOfFate
 
 		PacketReplay();
 	public:
+		uint32_t gameId;
+		uint32_t frameId;
+		uint32_t lastFrameId;
+		uint32_t nbInputs;
 		uint32_t compressedSize;
 		uint8_t compressedData[0];
 
-		std::shared_ptr<PacketReplay> create(void *data, size_t size);
+		unsigned getSize() const;
 		std::string toString() const;
+
+		static std::shared_ptr<PacketReplay> create(void *data, size_t size, unsigned gameId, unsigned frameId, unsigned lastFrameId, unsigned nbInputs);
 	};
 
 	struct PacketQuit {
@@ -361,6 +376,40 @@ namespace SpiralOfFate
 		std::string toString() const;
 	};
 
+	struct PacketReplayRequest {
+	private:
+		Opcode opcode;
+
+	public:
+		uint32_t gameId;
+		uint32_t frame;
+		uint8_t allowState;
+
+		PacketReplayRequest(unsigned gameId, unsigned frame, bool allowState);
+		std::string toString() const;
+	};
+
+	struct PacketReplayList {
+	private:
+		Opcode opcode;
+
+		PacketReplayList();
+	public:
+		uint32_t nbEntries;
+		uint32_t gameIds[0];
+
+		std::string toString() const;
+	};
+
+	struct PacketReplayListRequest {
+	private:
+		Opcode opcode;
+
+	public:
+		PacketReplayListRequest();
+		std::string toString() const;
+	};
+
 	union Packet {
 		Opcode opcode;
 		PacketHello hello;
@@ -383,6 +432,9 @@ namespace SpiralOfFate
 		PacketGameQuit gameQuit;
 		PacketDesyncDetected desyncDetected;
 		PacketTimeSync timeSync;
+		PacketReplayRequest replayRequest;
+		PacketReplayList replayList;
+		PacketReplayListRequest replayListRequest;
 
 		std::string toString() const;
 	};

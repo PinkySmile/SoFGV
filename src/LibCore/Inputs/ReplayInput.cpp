@@ -8,7 +8,7 @@
 
 namespace SpiralOfFate
 {
-	ReplayInput::ReplayInput(const std::deque<Character::ReplayData> &inputs) :
+	ReplayInput::ReplayInput(const std::deque<ReplayData> &inputs) :
 		_inputs(inputs)
 	{
 		this->_keyStates.reset();

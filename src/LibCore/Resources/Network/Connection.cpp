@@ -7,10 +7,13 @@
 #include "Exceptions.hpp"
 #include "Resources/Game.hpp"
 #include "Inputs/RemoteInput.hpp"
+#include "Utils.hpp"
 
 // The size of the recv buffer. Packets bigger than this won't be able to be received.
 // Additionally, the game will check if it is not attempting to send larger packets than this.
-#define RECV_BUFFER_SIZE 2048
+#define RECV_BUFFER_SIZE 4096
+#define MAX_REPLAYS_STORED 16
+#define MAX_REPLAY_SEND_FRAMES (RECV_BUFFER_SIZE / 4)
 
 namespace SpiralOfFate
 {
@@ -59,6 +62,8 @@ namespace SpiralOfFate
 		else
 			input._v = 1;
 
+		if (this->_currentMenu == MENUSTATE_INGAME)
+			this->_replayData[this->_gameId].local.push_back(input);
 		this->_sendBuffer.emplace_back(this->_currentFrame, input);
 		this->_currentFrame++;
 		return true;
@@ -154,6 +159,15 @@ namespace SpiralOfFate
 			break;
 		case OPCODE_TIME_SYNC:
 			this->_handlePacket(remote, packet.timeSync, size);
+			break;
+		case OPCODE_REPLAY_REQUEST:
+			this->_handlePacket(remote, packet.replayRequest, size);
+			break;
+		case OPCODE_REPLAY_LIST:
+			this->_handlePacket(remote, packet.replayList, size);
+			break;
+		case OPCODE_REPLAY_LIST_REQUEST:
+			this->_handlePacket(remote, packet.replayListRequest, size);
 			break;
 		default:
 			PacketError error{ERROR_INVALID_OPCODE, packet.opcode, size};
@@ -356,6 +370,8 @@ namespace SpiralOfFate
 					return;
 				this->_nextExpectedFrame++;
 				this->_buffer.push_back(packet.inputs[i]);
+				if (this->_currentMenu == MENUSTATE_INGAME)
+					this->_replayData[this->_gameId].remote.push_back(packet.inputs[i]);
 				if (!this->onInputReceived)
 					continue;
 				this->onInputReceived(remote, packet.frameId + i);
@@ -450,7 +466,7 @@ namespace SpiralOfFate
 		// We disconnect them even if the packet was malformed.
 		// It is supposed to be only the opcode but if they want to quit,
 		// who am I to disagree.
-		if (this->_opponent == &remote) {
+		if (remote.connectPhase == CONNECTION_STATE_PLAYER) {
 			auto args = new TitleScreenArguments();
 
 			args->errorMessage = "Your opponent left.";
@@ -519,10 +535,81 @@ namespace SpiralOfFate
 			this->_sendSyncBuffer.pop_front();
 	}
 
+	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayRequest &packet, size_t size)
+	{
+		if (size < sizeof(packet)) {
+			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_REPLAY_REQUEST, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (this->_replayData.find(packet.gameId) == this->_replayData.end()) {
+			PacketError error{ERROR_INVALID_DATA, OPCODE_REPLAY_REQUEST, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+
+		auto &array = this->_replayData[packet.gameId];
+		auto total = std::min<size_t>(MAX_REPLAY_SEND_FRAMES, std::min(array.local.size(), array.remote.size()));
+
+		if (total == packet.frame) {
+			auto replay = PacketReplay::create(nullptr, 0, packet.gameId, packet.frame, packet.gameId == this->_gameId ? 0 : total, 0);
+
+			return this->_send(remote, &*replay, replay->getSize());
+		}
+		if (total > packet.frame) {
+			PacketError error{ERROR_INVALID_DATA, OPCODE_REPLAY_REQUEST, size};
+
+			return this->_send(remote, &error, sizeof(error));
+		}
+		if (packet.frame == 0) {
+			PacketGameStart gameStart{
+				this->_startParams.seed,
+				this->_startParams.p1chr,
+				this->_startParams.p1pal,
+				this->_startParams.p2chr,
+				this->_startParams.p2pal,
+				this->_startParams.stage,
+				this->_startParams.platformConfig
+			};
+
+			this->_send(remote, &gameStart, sizeof(gameStart));
+		}
+
+		auto s = total - packet.frame;
+		size_t bufferSize = s * sizeof(PacketInput) * 2;
+		auto buffer = new unsigned char[bufferSize];
+
+		memcpy(buffer, (this->_swapSide ? array.remote : array.local).data(), bufferSize / 2);
+		memcpy(buffer + bufferSize / 2, (this->_swapSide ? array.local : array.remote).data(), bufferSize / 2);
+
+		auto replay = PacketReplay::create(buffer, bufferSize, packet.gameId, packet.frame, packet.gameId == this->_gameId ? 0 : total, s);
+
+		delete[] buffer;
+		this->_send(remote, &*replay, replay->getSize());
+	}
+
+	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayList &packet, size_t size)
+	{
+		//Implemented in children classes
+		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_REPLAY_LIST, size};
+
+		this->_send(remote, &error, sizeof(error));
+	}
+
+	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayListRequest &packet, size_t size)
+	{
+		//Implemented in children classes
+		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_REPLAY_LIST_REQUEST, size};
+
+		this->_send(remote, &error, sizeof(error));
+	}
+
 	void Connection::terminate()
 	{
 		PacketQuit quit;
 
+		if (this->_terminated)
+			return;
 		this->_terminationMutex.lock();
 		this->_terminated = true;
 		this->_sendBuffer.clear();

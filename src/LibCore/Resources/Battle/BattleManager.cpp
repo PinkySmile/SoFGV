@@ -802,12 +802,12 @@ namespace SpiralOfFate
 		return this->_platforms;
 	}
 
-	const std::vector<Character::ReplayData> &BattleManager::getLeftReplayData() const
+	const std::vector<ReplayData> &BattleManager::getLeftReplayData() const
 	{
 		return this->_leftCharacter->getReplayData();
 	}
 
-	const std::vector<Character::ReplayData> &BattleManager::getRightReplayData() const
+	const std::vector<ReplayData> &BattleManager::getRightReplayData() const
 	{
 		return this->_rightCharacter->getReplayData();
 	}
@@ -909,7 +909,7 @@ namespace SpiralOfFate
 		});
 	}
 
-	void BattleManager::_renderInputs(const std::vector<Character::ReplayData> &data, Vector2f pos, bool side)
+	void BattleManager::_renderInputs(const std::vector<ReplayData> &data, Vector2f pos, bool side)
 	{
 		Sprite sprite;
 		sf::Sprite s;

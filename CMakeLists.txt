@@ -179,6 +179,8 @@ if (NETWORK_CLASSES)
 		src/LibCore/Inputs/NetworkInput.hpp
 		src/LibCore/Resources/Network/ClientConnection.cpp
 		src/LibCore/Resources/Network/ClientConnection.hpp
+		src/LibCore/Resources/Network/SpectatorConnection.cpp
+		src/LibCore/Resources/Network/SpectatorConnection.hpp
 		src/LibCore/Resources/Network/Connection.cpp
 		src/LibCore/Resources/Network/Connection.hpp
 		src/LibCore/Resources/Network/Exceptions.hpp
@@ -337,6 +339,7 @@ add_library(
 	src/LibCore/Objects/Particle.hpp
 	src/LibCore/Objects/ParticleGenerator.cpp
 	src/LibCore/Objects/ParticleGenerator.hpp
+	src/LibCore/Resources/ReplayData.hpp
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
@@ -350,6 +353,7 @@ if (WIN32)
 		${EXTRA_LINK_LIBRARIES}
 		dbghelp
 		ws2_32
+		z
 	)
 else ()
 	target_link_libraries(
@@ -358,6 +362,7 @@ else ()
 		pthread
 		png
 		xcb
+		z
 	)
 endif ()
 
