@@ -18012,7 +18012,6 @@
             "x": 68,
             "y": 188
           },
-          "sound": "assets/sfxs/se/suika/001.ogg",
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 94,
@@ -18029,7 +18028,7 @@
             "top": -139,
             "width": 38
           },
-          "duration": 22,
+          "duration": 42,
           "hurt_boxes": [
             {
               "height": 188,
