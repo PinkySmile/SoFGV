@@ -4068,7 +4068,7 @@ namespace SpiralOfFate
 		}
 	}
 
-	const std::vector<Character::ReplayData> &Character::getReplayData() const
+	const std::vector<ReplayData> &Character::getReplayData() const
 	{
 		return this->_replayData;
 	}

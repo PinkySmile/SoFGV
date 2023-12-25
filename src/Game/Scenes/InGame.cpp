@@ -628,12 +628,12 @@ namespace SpiralOfFate
 		leftChrSer.index = leftChr->index;
 		leftChrSer.nbInputs = leftInputs.size();
 		stream.write(reinterpret_cast<char *>(&leftChrSer), sizeof(leftChrSer));
-		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(Character::ReplayData));
+		stream.write(reinterpret_cast<char *>(leftInputs.data()), leftInputs.size() * sizeof(ReplayData));
 
 		rightChrSer.index = rightChr->index;
 		rightChrSer.nbInputs = rightInputs.size();
 		stream.write(reinterpret_cast<char *>(&rightChrSer), sizeof(rightChrSer));
-		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(Character::ReplayData));
+		stream.write(reinterpret_cast<char *>(rightInputs.data()), rightInputs.size() * sizeof(ReplayData));
 		game->logger.info(std::string(buf2) + " created.");
 	}
 

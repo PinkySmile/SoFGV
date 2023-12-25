@@ -51,7 +51,7 @@ namespace SpiralOfFate
 		void update();
 		void render() const;
 		void consumeEvent(const sf::Event &event);
-		void switchScene(const std::string &name, SceneArguments *args = nullptr);
+		void switchScene(const std::string &name, SceneArguments *args = nullptr, bool force = false);
 		SceneConstructor registerScene(
 			const std::string &name,
 			const std::function<IScene *(SceneArguments *args)> &constructor,

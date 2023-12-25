@@ -7,8 +7,10 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <zlib.h>
 #include "Resources/Game.hpp"
 #include "Packet.hpp"
+#include "Utils.hpp"
 
 
 namespace SpiralOfFate
@@ -156,6 +158,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		my_assert(!inputs.empty());
+		my_assert((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = inputs.front().first;
 		packet->nbInputs = inputs.size();
@@ -202,21 +205,25 @@ namespace SpiralOfFate
 		return buffer;
 	}
 
-	PacketInitSuccess::PacketInitSuccess(const char *name, const char *version) :
+	PacketInitSuccess::PacketInitSuccess(const char *name1, const char *name2, const char *version) :
 		opcode(OPCODE_INIT_SUCCESS)
 	{
-		strncpy(this->playerName, name, sizeof(this->playerName));
+		strncpy(this->player1Name, name1, sizeof(this->player1Name));
+		if (name2)
+			strncpy(this->player2Name, name2, sizeof(this->player2Name));
 		strncpy(this->gameVersion, version, sizeof(this->gameVersion));
 	}
 
 	std::string PacketInitSuccess::toString() const
 	{
-		char buffer[130];
+		char buffer[180];
 
 		memset(buffer, 0, sizeof(buffer));
-		strcpy(buffer, "Packet INITSUCCESS: From player ");
-		strncat(buffer, this->playerName, sizeof(this->playerName));
-		strcat(buffer, " using game version ");
+		strcpy(buffer, "Packet INITSUCCESS: '");
+		strncat(buffer, this->player1Name, sizeof(this->player1Name));
+		strcat(buffer, "' vs '");
+		strncat(buffer, this->player2Name, sizeof(this->player2Name));
+		strcat(buffer, "' using game version ");
 		strncat(buffer, this->gameVersion, sizeof(this->gameVersion));
 		return buffer;
 	}
@@ -281,6 +288,7 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketState();
 
 		//TODO: Compress the data
+		my_assert((void *)buffer == (void *)packet);
 		return {packet, deleteArray};
 	}
 
@@ -294,18 +302,41 @@ namespace SpiralOfFate
 	{
 	}
 
-	std::shared_ptr<PacketReplay> PacketReplay::create(void *data, size_t size)
+	std::shared_ptr<PacketReplay> PacketReplay::create(void *data, size_t size, unsigned gameId, unsigned frameId, unsigned lastFrameId, unsigned nbInputs)
 	{
-		void *buffer = new char[size + 5];
+		std::vector<unsigned char> out;
+
+		if (size) {
+			int res = Utils::Z::compress((unsigned char *) data, size, out, -1);
+
+			my_assert2(res == Z_OK, "Compression failed with result '" + Utils::Z::error(res) + "'");
+		}
+
+		void *buffer = new char[out.size() + sizeof(PacketReplay)];
 		auto *packet = new(buffer) PacketReplay();
 
-		//TODO: Compress the data
+		my_assert((void *)buffer == (void *)packet);
+		packet->compressedSize = out.size();
+		packet->gameId = gameId;
+		packet->frameId = frameId;
+		packet->lastFrameId = lastFrameId;
+		packet->nbInputs = nbInputs;
+		memcpy(packet->compressedData, out.data(), out.size());
 		return {packet, deleteArray};
 	}
 
 	std::string PacketReplay::toString() const
 	{
-		return "Packet REPLAY: " + std::to_string(this->compressedSize) + " compressed bytes";
+		return "Packet REPLAY: " + std::to_string(this->compressedSize) + " compressed bytes, " +
+		       std::to_string(this->nbInputs) + " inputs"
+		       " on game" + std::to_string(this->gameId) +
+		       " from frame " + std::to_string(this->frameId) + ". " +
+		       (this->lastFrameId ? "Last frame is " + std::to_string(this->lastFrameId) : "Game is still in progress");
+	}
+
+	unsigned PacketReplay::getSize() const
+	{
+		return sizeof(PacketReplay) + this->compressedSize;
 	}
 
 	PacketQuit::PacketQuit() :
@@ -375,6 +406,7 @@ namespace SpiralOfFate
 		size_t i = 0;
 
 		my_assert(!diffs.empty());
+		my_assert((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = diffs.front().first;
 		packet->nbDiff = diffs.size();
@@ -390,9 +422,63 @@ namespace SpiralOfFate
 		return this->nbDiff * sizeof(*this->timeDiff) + sizeof(*this);
 	}
 
+	PacketReplayRequest::PacketReplayRequest(unsigned gameId, unsigned int frame, bool allowState) :
+		opcode(OPCODE_REPLAY_REQUEST),
+		gameId(gameId),
+		frame(frame),
+		allowState(allowState)
+	{
+	}
+
+	std::string PacketReplayRequest::toString() const
+	{
+		return "Packet REPLAY_REQUEST:"
+		       " gameId " + std::to_string(this->gameId) +
+		       " frame " + std::to_string(this->frame) +
+		       " allowState " + (this->allowState ? "true" : "false");
+	}
+
+	PacketReplayList::PacketReplayList() :
+		opcode(OPCODE_REPLAY_LIST)
+	{
+	}
+
+	std::string PacketReplayList::toString() const
+	{
+		return "Packet REPLAY_LIST:"
+		       " nbEntries " + std::to_string(this->nbEntries);
+	}
+
+	size_t PacketReplayList::getSize()
+	{
+		return sizeof(*this) + this->nbEntries * sizeof(*this->gameIds);
+	}
+
+	std::shared_ptr<PacketReplayList> PacketReplayList::create(const std::vector<unsigned int> &ids)
+	{
+		void *buffer = new char[ids.size() * sizeof(*PacketReplayList::gameIds) + sizeof(PacketReplayList)];
+		auto *packet = new(buffer) PacketReplayList();
+
+		static_assert(sizeof(*ids.data()) == sizeof(*PacketReplayList::gameIds));
+		my_assert((void *)buffer == (void *)packet);
+		packet->nbEntries = ids.size();
+		memcpy(packet->gameIds, ids.data(), ids.size() * sizeof(*ids.data()));
+		return {packet, deleteArray};
+	}
+
+	PacketReplayListRequest::PacketReplayListRequest() :
+		opcode(OPCODE_REPLAY_LIST_REQUEST)
+	{
+	}
+
+	std::string PacketReplayListRequest::toString() const
+	{
+		return "Packet REPLAY_LIST_REQUEST";
+	}
+
 	std::string Packet::toString() const
 	{
-		switch (opcode) {
+		switch (this->opcode) {
 		case OPCODE_HELLO:
 			return this->hello.toString();
 		case OPCODE_OLLEH:
@@ -433,8 +519,14 @@ namespace SpiralOfFate
 			return this->desyncDetected.toString();
 		case OPCODE_TIME_SYNC:
 			return this->timeSync.toString();
+		case OPCODE_REPLAY_REQUEST:
+			return this->replayRequest.toString();
+		case OPCODE_REPLAY_LIST:
+			return this->replayList.toString();
+		case OPCODE_REPLAY_LIST_REQUEST:
+			return this->replayListRequest.toString();
 		default:
-			return "Packet UNKNOWN";
+			return "Packet UNKNOWN (Opcode " + std::to_string(this->opcode) + ")";
 		}
 	}
 }

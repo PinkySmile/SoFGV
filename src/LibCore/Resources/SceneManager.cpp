@@ -39,9 +39,10 @@ namespace SpiralOfFate
 		(this->_scene ? this->_scene : this->_oldScene)->consumeEvent(event);
 	}
 
-	void SceneManager::switchScene(const std::string &name, SceneArguments *args)
+	void SceneManager::switchScene(const std::string &name, SceneArguments *args, bool force)
 	{
-		my_assert(name != this->_currentScene);
+		if (!force)
+			my_assert(name != this->_currentScene);
 		my_assert2(this->_factory.find(name) != this->_factory.end(), "Scene '" + name + "' doesn't exist");
 		my_assert(!this->_factory[name].needLoading || this->_factory.find("loading") != this->_factory.end());
 		delete this->_nextScene.args;

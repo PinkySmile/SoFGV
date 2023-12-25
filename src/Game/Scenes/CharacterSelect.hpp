@@ -126,6 +126,8 @@ namespace SpiralOfFate
 		void consumeEvent(const sf::Event &event) override;
 		InGame::InitParams createParams(SceneArguments *args);
 
+		static std::pair<std::vector<StageEntry>, std::vector<CharacterEntry>> loadData();
+		static InGame::InitParams staticCreateParams(std::vector<StageEntry> &stages, std::vector<CharacterEntry> &entries, InGameArguments *args, std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput);
 		static CharacterSelect *create(SceneArguments *args);
 	};
 }

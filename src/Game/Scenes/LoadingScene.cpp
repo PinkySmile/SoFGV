@@ -100,12 +100,14 @@ namespace SpiralOfFate
 		auto realArgs = arg->args;
 
 		return new LoadingScene([&fct, realArgs](LoadingScene *me){
-			realArgs->reportProgressA = [me](const std::string &t){
-				me->setStatus(t);
-			};
-			realArgs->reportProgressW = [me](const std::wstring &t){
-				me->setStatus(t);
-			};
+			if (realArgs) {
+				realArgs->reportProgressA = [me](const std::string &t) {
+					me->setStatus(t);
+				};
+				realArgs->reportProgressW = [me](const std::wstring &t) {
+					me->setStatus(t);
+				};
+			}
 			return fct(realArgs);
 		}, arg->onLoadingFinished);
 	}

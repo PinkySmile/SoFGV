@@ -63,6 +63,7 @@ namespace SpiralOfFate
 
 		friend class ReplayInGame;
 		friend class PracticeInGame;
+		friend class SpectatorInGame;
 	};
 }
 

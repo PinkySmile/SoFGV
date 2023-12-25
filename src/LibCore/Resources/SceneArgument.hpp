@@ -41,6 +41,9 @@ namespace SpiralOfFate
 		GameStartParams startParams;
 		bool restore;
 	};
+	struct SpectatorArguments : public SceneArguments {
+		class SpectatorConnection *connection;
+	};
 }
 
 

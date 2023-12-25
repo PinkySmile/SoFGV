@@ -2,8 +2,8 @@
 // Created by PinkySmile on 22/08/2022.
 //
 
-#ifndef SOFGV_CLIENTCONNECTION_HPP
-#define SOFGV_CLIENTCONNECTION_HPP
+#ifndef SOFGV_SPECTATORCONNECTION_HPP
+#define SOFGV_SPECTATORCONNECTION_HPP
 
 
 #include "Resources/SceneArgument.hpp"
@@ -11,31 +11,33 @@
 
 namespace SpiralOfFate
 {
-	class ClientConnection : public Connection {
+	class SpectatorConnection : public Connection {
 	protected:
-		bool _playing = false;
+		bool _gameEnded = true;
+		bool _wantNextGame = false;
+		unsigned _lastFrame = 0;
 
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitRequest &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketInitSuccess &packet, size_t size) override;
-		void _handlePacket(Remote &remote, PacketDelayUpdate &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketMenuSwitch &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketState &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketReplay &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketGameStart &packet, size_t size) override;
+		void _handlePacket(Remote &remote, PacketReplayList &packet, size_t size) override;
 
 	public:
 		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
 		std::function<void (PacketGameStart &packet)> onGameStart;
-
-		ClientConnection(const std::string &name);
+		std::function<void (PacketReplay &replay)> onReplayData;
 
 		void connect(sf::IpAddress ip, unsigned short port);
 		void update() override;
+		void requestInputs(unsigned startFrame);
 	};
 }
 
 
-#endif //SOFGV_CLIENTCONNECTION_HPP
+#endif //SOFGV_SPECTATORCONNECTION_HPP

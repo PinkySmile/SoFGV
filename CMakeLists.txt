@@ -179,6 +179,8 @@ if (NETWORK_CLASSES)
 		src/LibCore/Inputs/NetworkInput.hpp
 		src/LibCore/Resources/Network/ClientConnection.cpp
 		src/LibCore/Resources/Network/ClientConnection.hpp
+		src/LibCore/Resources/Network/SpectatorConnection.cpp
+		src/LibCore/Resources/Network/SpectatorConnection.hpp
 		src/LibCore/Resources/Network/Connection.cpp
 		src/LibCore/Resources/Network/Connection.hpp
 		src/LibCore/Resources/Network/Exceptions.hpp
@@ -191,6 +193,10 @@ if (NETWORK_CLASSES)
 		src/LibCore/Resources/Network/RollbackMachine.hpp
 		src/LibCore/Resources/Network/ServerConnection.cpp
 		src/LibCore/Resources/Network/ServerConnection.hpp
+		src/LibCore/Resources/Network/SpectatorInputManager.cpp
+		src/LibCore/Resources/Network/SpectatorInputManager.hpp
+		src/LibCore/Inputs/SpectatorInput.cpp
+		src/LibCore/Inputs/SpectatorInput.hpp
 	)
 	set(
 		NETWORK_EXTRA_SCENES
@@ -202,12 +208,16 @@ if (NETWORK_CLASSES)
 		src/Game/Scenes/Network/ServerCharacterSelect.hpp
 		src/Game/Scenes/Network/NetworkCharacterSelect.cpp
 		src/Game/Scenes/Network/NetworkCharacterSelect.hpp
+		src/Game/Scenes/Network/SpectatorCharacterSelect.cpp
+		src/Game/Scenes/Network/SpectatorCharacterSelect.hpp
 		src/Game/Scenes/Network/ClientInGame.cpp
 		src/Game/Scenes/Network/ClientInGame.hpp
 		src/Game/Scenes/Network/ServerInGame.cpp
 		src/Game/Scenes/Network/ServerInGame.hpp
 		src/Game/Scenes/Network/NetworkInGame.cpp
 		src/Game/Scenes/Network/NetworkInGame.hpp
+		src/Game/Scenes/Network/SpectatorInGame.cpp
+		src/Game/Scenes/Network/SpectatorInGame.hpp
 	)
 	add_compile_definitions(HAS_NETWORK=1)
 	add_compile_definitions(NETWORK_CLASSES)
@@ -329,14 +339,15 @@ add_library(
 	src/LibCore/Resources/version.h
 	src/LibCore/Utils.cpp
 	src/LibCore/Utils.hpp
-	${INPUT_SRCS}
-	${ASSETS_SRCS}
-	${SCREEN_SRCS}
-	${NETWORK_SRCS}
 	src/LibCore/Objects/Particle.cpp
 	src/LibCore/Objects/Particle.hpp
 	src/LibCore/Objects/ParticleGenerator.cpp
 	src/LibCore/Objects/ParticleGenerator.hpp
+	src/LibCore/Resources/ReplayData.hpp
+	${INPUT_SRCS}
+	${ASSETS_SRCS}
+	${SCREEN_SRCS}
+	${NETWORK_SRCS}
 )
 target_compile_definitions(SoFGVCore PRIVATE MYDLL_EXPORTS=1)
 if (WIN32)
@@ -350,6 +361,7 @@ if (WIN32)
 		${EXTRA_LINK_LIBRARIES}
 		dbghelp
 		ws2_32
+		z
 	)
 else ()
 	target_link_libraries(
@@ -358,6 +370,7 @@ else ()
 		pthread
 		png
 		xcb
+		z
 	)
 endif ()
 

@@ -7,6 +7,7 @@
 
 
 #include "Connection.hpp"
+#include "Resources/ReplayData.hpp"
 #include "Inputs/IInput.hpp"
 
 namespace SpiralOfFate
@@ -35,7 +36,7 @@ namespace SpiralOfFate
 		std::function<void (Remote &remote, PacketInitRequest &packet)> onConnection;
 
 		ServerConnection(const std::string &name);
-		~ServerConnection();
+		~ServerConnection() override;
 
 		void switchToChrLoadingScreen();
 		void startGame(unsigned seed, unsigned p1chr, unsigned p1pal, unsigned p2chr, unsigned p2pal, unsigned stage, unsigned platformConfig);

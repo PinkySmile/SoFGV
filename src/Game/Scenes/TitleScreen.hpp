@@ -65,6 +65,7 @@ namespace SpiralOfFate
 	#ifdef HAS_NETWORK
 		void _host(bool spec);
 		void _connect();
+		void _spectate();
 	#endif
 		bool _onKeyPressed(sf::Event::KeyEvent ev);
 		bool _onJoystickMoved(sf::Event::JoystickMoveEvent ev);

@@ -46,11 +46,10 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
+	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_PUNCH, size};
 
-		(void)packet;
 		this->_send(remote, &error, sizeof(error));
 	}
 
@@ -72,8 +71,8 @@ namespace SpiralOfFate
 			this->_opponent = &remote;
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
 			this->_opCurrentMenu = MENUSTATE_LOADING_CHARSELECT;
-			this->_names.first = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
-			game->connection->nextGame();
+			this->_names.first = std::string(packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name)));
+			this->nextGame();
 
 			auto args = new CharSelectArguments();
 
@@ -141,7 +140,7 @@ namespace SpiralOfFate
 			auto args = new CharSelectArguments();
 
 			this->_currentMenu = MENUSTATE_LOADING_CHARSELECT;
-			game->connection->nextGame();
+			this->nextGame();
 			args->restore = restore;
 			args->startParams = this->_startParams;
 			args->connection = this;
@@ -175,8 +174,7 @@ namespace SpiralOfFate
 		if (this->_currentMenu == MENUSTATE_LOADING_INGAME || this->_currentMenu == MENUSTATE_INGAME) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
-			this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-			return;
+			return this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		}
 		this->_currentMenu = MENUSTATE_LOADING_INGAME;
 		this->_startParams.seed = packet.seed;
@@ -195,7 +193,8 @@ namespace SpiralOfFate
 		args->currentScene = game->scene.getCurrentScene().second;
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-		game->connection->nextGame();
+		this->nextGame();
+		this->_replayData[this->_gameId].params = this->_startParams;
 		game->scene.switchScene("client_in_game", args);
 	}
 
@@ -210,7 +209,7 @@ namespace SpiralOfFate
 		if (this->_remotes.size() != 1)
 			return;
 
-		auto &op = this->_remotes.back();
+		auto &op = this->_remotes.front();
 
 		if (op.connectPhase != CONNECTION_STATE_CONNECTING)
 			return;
@@ -230,17 +229,9 @@ namespace SpiralOfFate
 		op.connectPhase = CONNECTION_STATE_CONNECTING;
 		op.onDisconnect = [this](Remote &This){
 			this->onDisconnect(This);
-			this->_terminated = false;
+			this->terminate();
 		};
 		this->_states.clear();
 		this->_terminated = false;
-	}
-
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &packet, size_t size)
-	{
-		PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY, size};
-
-		(void)packet;
-		this->_send(remote, &error, sizeof(error));
 	}
 }
