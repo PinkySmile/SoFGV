@@ -12,6 +12,10 @@
 #include <list>
 #include <array>
 
+#ifdef ERROR_INVALID_DATA
+#undef ERROR_INVALID_DATA
+#endif
+
 namespace SpiralOfFate
 {
 	//TODO: Handle endianness properly
