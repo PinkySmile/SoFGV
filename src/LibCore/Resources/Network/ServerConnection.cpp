@@ -49,7 +49,7 @@ namespace SpiralOfFate
 			err = ERROR_GAME_NOT_STARTED;
 		else if (packet.spectator && !this->spectatorEnabled)
 			err = ERROR_SPECTATORS_DISABLED;
-		else if (packet.spectator && this->_playing)
+		else if (!packet.spectator && this->_playing)
 			err = ERROR_GAME_ALREADY_STARTED;
 
 		if (err != -1) {
@@ -127,8 +127,7 @@ namespace SpiralOfFate
 			// In this case, the init success packet has probably been dropped, so we send it again
 			PacketInitSuccess result{this->_names.first.c_str(), this->_names.second.c_str(), VERSION_STR};
 
-			this->_send(remote, &result, sizeof(result));
-			return;
+			return this->_send(remote, &result, sizeof(result));
 		}
 		Connection::_handlePacket(remote, packet, size);
 	}
@@ -154,7 +153,7 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &packet, size_t size)
+	void ServerConnection::_handlePacket(Connection::Remote &remote, PacketGameQuit &, size_t size)
 	{
 		if (remote.connectPhase != CONNECTION_STATE_PLAYER) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_MENU_SWITCH, size};
@@ -225,6 +224,7 @@ namespace SpiralOfFate
 		this->_startParams.platformConfig = _platformConfig;
 		this->_send(*this->_opponent, &gameStart, sizeof(gameStart));
 		this->switchMenu(MENUSTATE_INGAME, false);
+		this->_replayData[this->_gameId].params = this->_startParams;
 	}
 
 	void ServerConnection::update()

@@ -9,6 +9,9 @@
 #include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
+#include "Scenes/Network/SpectatorCharacterSelect.hpp"
+#include "Scenes/Network/SpectatorInGame.hpp"
+
 #ifdef VIRTUAL_CONTROLLER
 #include "VirtualController.hpp"
 #endif
@@ -366,8 +369,10 @@ void	registerScenes()
 	// Netplay
 	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, true);
 	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, true);
+	game->scene.registerScene("spectator_char_select", SpectatorCharacterSelect::create, false);
 	game->scene.registerScene("client_in_game", ClientInGame::create, true);
 	game->scene.registerScene("server_in_game", ServerInGame::create, true);
+	game->scene.registerScene("spectator_in_game", SpectatorInGame::create, true);
 #endif
 }
 

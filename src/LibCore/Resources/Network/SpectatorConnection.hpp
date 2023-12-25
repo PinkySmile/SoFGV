@@ -13,6 +13,10 @@ namespace SpiralOfFate
 {
 	class SpectatorConnection : public Connection {
 	protected:
+		bool _gameEnded = true;
+		bool _wantNextGame = false;
+		unsigned _lastFrame = 0;
+
 		void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketRedirect &packet, size_t size) override;
 		void _handlePacket(Remote &remote, PacketPunch &packet, size_t size) override;
@@ -28,8 +32,6 @@ namespace SpiralOfFate
 		std::function<void (Remote &remote, PacketInitSuccess &packet)> onConnection;
 		std::function<void (PacketGameStart &packet)> onGameStart;
 		std::function<void (PacketReplay &replay)> onReplayData;
-
-		SpectatorConnection(const std::string &name);
 
 		void connect(sf::IpAddress ip, unsigned short port);
 		void update() override;

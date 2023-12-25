@@ -7,6 +7,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <zlib.h>
 #include "Resources/Game.hpp"
 #include "Packet.hpp"
 #include "Utils.hpp"
@@ -305,8 +306,11 @@ namespace SpiralOfFate
 	{
 		std::vector<unsigned char> out;
 
-		if (size)
-			Utils::Z::compress((unsigned char *)data, size, out, -1);
+		if (size) {
+			int res = Utils::Z::compress((unsigned char *) data, size, out, -1);
+
+			my_assert2(res == Z_OK, "Compression failed with result '" + Utils::Z::error(res) + "'");
+		}
 
 		void *buffer = new char[out.size() + sizeof(PacketReplay)];
 		auto *packet = new(buffer) PacketReplay();
@@ -323,7 +327,11 @@ namespace SpiralOfFate
 
 	std::string PacketReplay::toString() const
 	{
-		return "Packet REPLAY: " + std::to_string(this->compressedSize) + " compressed bytes";
+		return "Packet REPLAY: " + std::to_string(this->compressedSize) + " compressed bytes, " +
+		       std::to_string(this->nbInputs) + " inputs"
+		       " on game" + std::to_string(this->gameId) +
+		       " from frame " + std::to_string(this->frameId) + ". " +
+		       (this->lastFrameId ? "Last frame is " + std::to_string(this->lastFrameId) : "Game is still in progress");
 	}
 
 	unsigned PacketReplay::getSize() const
@@ -416,6 +424,7 @@ namespace SpiralOfFate
 
 	PacketReplayRequest::PacketReplayRequest(unsigned gameId, unsigned int frame, bool allowState) :
 		opcode(OPCODE_REPLAY_REQUEST),
+		gameId(gameId),
 		frame(frame),
 		allowState(allowState)
 	{
@@ -424,6 +433,7 @@ namespace SpiralOfFate
 	std::string PacketReplayRequest::toString() const
 	{
 		return "Packet REPLAY_REQUEST:"
+		       " gameId " + std::to_string(this->gameId) +
 		       " frame " + std::to_string(this->frame) +
 		       " allowState " + (this->allowState ? "true" : "false");
 	}

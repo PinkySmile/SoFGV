@@ -27,6 +27,7 @@
 #ifdef HAS_NETWORK
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
+#include "Resources/Network/SpectatorConnection.hpp"
 #endif
 #ifdef VIRTUAL_CONTROLLER
 #include "VirtualController.hpp"
@@ -46,6 +47,8 @@ enum TitleScreenButton {
 	HOST_BUTTON,
 	#define CONNECT_BUTTON CONNECT_BUTTON
 	CONNECT_BUTTON,
+	#define SPECTATE_BUTTON SPECTATE_BUTTON
+	SPECTATE_BUTTON,
 #endif
 	#define SETTINGS_BUTTON SETTINGS_BUTTON
 	SETTINGS_BUTTON,
@@ -100,6 +103,9 @@ namespace SpiralOfFate
 			}},
 			{"connect", "Connect to ip from clipboard", [this]{
 				this->_askingInputs = true;
+			}},
+			{"spectate", "Connect to ip from clipboard", [this]{
+				this->_spectate();
 			}},
 		#endif
 			{"settings", "Change inputs", [this]{
@@ -319,6 +325,64 @@ namespace SpiralOfFate
 
 		// TODO: Handle names
 		auto con = new ClientConnection("SpiralOfFate::ClientConnection");
+		auto ipString = sf::Clipboard::getString();
+
+		if (ipString.isEmpty()) {
+			Utils::dispMsg("Error", "No ip is copied to the clipboard", MB_ICONERROR, &*game->screen);
+			delete con;
+			return;
+		}
+
+		size_t pos = ipString.find(':');
+		sf::IpAddress ip = static_cast<std::string>(ipString.substring(0, pos));
+		unsigned short port = 10800;
+
+		if (ip == sf::IpAddress()) {
+			Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
+			delete con;
+			return;
+		}
+		if (pos != std::string::npos) {
+			try {
+				auto p = std::stoul(static_cast<std::string>(ipString.substring(pos + 1)));
+
+				if (p > UINT16_MAX)
+					throw std::exception();
+				port = p;
+			} catch (...) {
+				Utils::dispMsg("Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR, &*game->screen);
+				delete con;
+				return;
+			}
+		}
+		game->connection.reset(con);
+		game->lastIp = ip.toString();
+		game->lastPort = port;
+		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
+			std::string name{packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name))};
+			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
+
+			game->logger.info("Connected to " + name + " with game version " + vers);
+			this->_onConnect(remote.ip.toString());
+		};
+		con->onError = [](Connection::Remote &remote, const PacketError &e){
+			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+			// TODO: Abort connection and display error on UI
+		};
+		con->onDisconnect = [this](Connection::Remote &remote){
+			this->_onDisconnect(remote.ip.toString());
+		};
+		con->connect(ip, port);
+		this->_connecting = true;
+		this->onDestruct = [con]{
+			con->onConnection = nullptr;
+			con->onDisconnect = nullptr;
+		};
+	}
+
+	void TitleScreen::_spectate()
+	{
+		auto con = new SpectatorConnection();
 		auto ipString = sf::Clipboard::getString();
 
 		if (ipString.isEmpty()) {

@@ -63,7 +63,7 @@ namespace SpiralOfFate
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
 			sf::Clock timeSinceLastPacket;
-			std::thread pingThread;
+			std::thread pingThread{&Remote::_pingLoop, this};
 			std::function<void (Remote &remote)> onDisconnect;
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port);
@@ -72,6 +72,7 @@ namespace SpiralOfFate
 
 	protected:
 		struct ReplayData {
+			GameStartParams params;
 			std::vector<PacketInput> local;
 			std::vector<PacketInput> remote;
 		};

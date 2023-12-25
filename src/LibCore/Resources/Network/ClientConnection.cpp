@@ -46,11 +46,10 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &packet, size_t size)
+	void ClientConnection::_handlePacket(Connection::Remote &remote, PacketInitRequest &, size_t size)
 	{
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_PUNCH, size};
 
-		(void)packet;
 		this->_send(remote, &error, sizeof(error));
 	}
 
@@ -175,8 +174,7 @@ namespace SpiralOfFate
 		if (this->_currentMenu == MENUSTATE_LOADING_INGAME || this->_currentMenu == MENUSTATE_INGAME) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
-			this->_send(remote, &menuSwitch, sizeof(menuSwitch));
-			return;
+			return this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		}
 		this->_currentMenu = MENUSTATE_LOADING_INGAME;
 		this->_startParams.seed = packet.seed;
@@ -196,6 +194,7 @@ namespace SpiralOfFate
 
 		this->_send(remote, &menuSwitch, sizeof(menuSwitch));
 		this->nextGame();
+		this->_replayData[this->_gameId].params = this->_startParams;
 		game->scene.switchScene("client_in_game", args);
 	}
 

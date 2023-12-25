@@ -488,6 +488,118 @@ namespace SpiralOfFate
 		};
 	}
 
+	InGame::InitParams CharacterSelect::staticCreateParams(std::vector<StageEntry> &stages, std::vector<CharacterEntry> &entries, InGameArguments *args, std::shared_ptr<IInput> leftInput, std::shared_ptr<IInput> rightInput)
+	{
+		std::uniform_int_distribution<size_t> dist{0, entries.size() - 1};
+		std::uniform_int_distribution<size_t> dist2{0, stages.size() - 1};
+		int leftPos = args->startParams.p1chr;
+		int rightPos = args->startParams.p2chr;
+		int leftPalette = args->startParams.p1pal;
+		int rightPalette = args->startParams.p2pal;
+		int _stage = args->startParams.stage;
+		int platform = args->startParams.platformConfig;
+
+		if (_stage == -1) {
+			platform = -1;
+			_stage = dist2(game->random);
+		}
+
+		std::uniform_int_distribution<size_t> dist3{0, stages[_stage].platforms.size() - 1};
+		auto &stage = stages[_stage];
+
+		if (platform == -1)
+			platform = dist3(game->random);
+		if (leftPos < 0)
+			leftPalette = 0;
+		if (rightPos < 0)
+			rightPalette = 0;
+		if (leftPos < 0)
+			leftPos = dist(game->random);
+		if (rightPos < 0)
+			rightPos = dist(game->random);
+		if (leftPos == rightPos && entries[leftPos].palettes.size() <= 1) {
+			leftPalette = 0;
+			rightPalette = 0;
+		} else if (
+			leftPos == rightPos &&
+			entries[leftPos].palettes.size() == 2 &&
+			leftPalette == rightPalette
+		) {
+			leftPalette = 0;
+			rightPalette = 1;
+		}
+		if (
+			leftPos == rightPos &&
+			leftPalette == rightPalette &&
+			entries[leftPos].palettes.size() > 1
+		) {
+			rightPalette++;
+			rightPalette %= entries[leftPos].palettes.size();
+		}
+
+		auto &lentry = entries[leftPos];
+		auto &rentry = entries[rightPos];
+		auto &licon = lentry.icon[leftPalette];
+		auto &ricon = rentry.icon[rightPalette];
+
+		if (args->reportProgressW)
+			args->reportProgressW(L"Loading P1's character (" + entries[leftPos].name + L")");
+
+		auto lchr = createCharacter(entries[leftPos], entries[rightPos], leftPos, leftPalette, std::move(leftInput));
+
+		if (args->reportProgressW)
+			args->reportProgressW(L"Loading P2's character (" + entries[rightPos].name + L")");
+
+		auto rchr = createCharacter(entries[rightPos], entries[leftPos], rightPos, rightPalette, std::move(rightInput));
+
+		return {
+			{static_cast<unsigned>(_stage), 0, static_cast<unsigned>(platform)},
+			stage.platforms[platform],
+			stage,
+			lchr,
+			rchr,
+			licon.textureHandle,
+			ricon.textureHandle,
+			lentry.entry,
+			rentry.entry
+		};
+	}
+
+	std::pair<std::vector<StageEntry>, std::vector<CharacterEntry>> CharacterSelect::loadData()
+	{
+		auto chrList = game->getCharacters();
+		std::vector<StageEntry> stages;
+		std::vector<CharacterEntry> entries;
+		nlohmann::json json;
+
+		entries.reserve(chrList.size());
+		for (auto &entry : chrList) {
+			auto file = entry + "/chr.json";
+
+			game->logger.debug("Loading character from " + file);
+
+			auto data = game->fileMgr.readFull(file);
+
+			json = nlohmann::json::parse(data);
+#ifndef _DEBUG
+			if (json.contains("hidden") && json["hidden"])
+				continue;
+#endif
+			entries.emplace_back(json, entry);
+		}
+		std::sort(entries.begin(), entries.end(), [](CharacterEntry &a, CharacterEntry &b){
+			return a.pos < b.pos;
+		});
+
+		auto data = game->fileMgr.readFull("assets/stages/list.json");
+
+		json = nlohmann::json::parse(data);
+		stages.reserve(json.size());
+		for (auto &elem: json)
+			stages.emplace_back(elem);
+		return { stages, entries };
+	}
+
 	CharacterEntry::CharacterEntry(const nlohmann::json &json, const std::string &folder) :
 		entry(json)
 	{

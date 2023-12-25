@@ -11,9 +11,9 @@
 
 // The size of the recv buffer. Packets bigger than this won't be able to be received.
 // Additionally, the game will check if it is not attempting to send larger packets than this.
-#define RECV_BUFFER_SIZE 4096
+#define RECV_BUFFER_SIZE (1 * 1024 * 1024) // 1MB
 #define MAX_REPLAYS_STORED 16
-#define MAX_REPLAY_SEND_FRAMES (RECV_BUFFER_SIZE / 4)
+#define MAX_REPLAY_SEND_FRAMES RECV_BUFFER_SIZE
 
 namespace SpiralOfFate
 {
@@ -266,7 +266,7 @@ namespace SpiralOfFate
 
 		if (size != sizeof(packet))
 			err = ERROR_SIZE_MISMATCH;
-		else if (remote.connectPhase != CONNECTION_STATE_NOT_INITIALIZED)
+		else if (remote.connectPhase != CONNECTION_STATE_NOT_INITIALIZED && remote.connectPhase != CONNECTION_STATE_CONNECTING)
 			err = ERROR_UNEXPECTED_OPCODE;
 		else if (std::find(this->blacklist.begin(), this->blacklist.end(), remote.ip.toString()) != this->blacklist.end())
 			err = ERROR_BLACKLISTED;
@@ -551,36 +551,36 @@ namespace SpiralOfFate
 		auto &array = this->_replayData[packet.gameId];
 		auto total = std::min<size_t>(MAX_REPLAY_SEND_FRAMES, std::min(array.local.size(), array.remote.size()));
 
-		if (total == packet.frame) {
-			auto replay = PacketReplay::create(nullptr, 0, packet.gameId, packet.frame, packet.gameId == this->_gameId ? 0 : total, 0);
-
-			return this->_send(remote, &*replay, replay->getSize());
-		}
-		if (total > packet.frame) {
+		if (total < packet.frame) {
 			PacketError error{ERROR_INVALID_DATA, OPCODE_REPLAY_REQUEST, size};
 
 			return this->_send(remote, &error, sizeof(error));
 		}
 		if (packet.frame == 0) {
 			PacketGameStart gameStart{
-				this->_startParams.seed,
-				this->_startParams.p1chr,
-				this->_startParams.p1pal,
-				this->_startParams.p2chr,
-				this->_startParams.p2pal,
-				this->_startParams.stage,
-				this->_startParams.platformConfig
+				array.params.seed,
+				array.params.p1chr,
+				array.params.p1pal,
+				array.params.p2chr,
+				array.params.p2pal,
+				array.params.stage,
+				array.params.platformConfig
 			};
 
 			this->_send(remote, &gameStart, sizeof(gameStart));
+		}
+		if (total == packet.frame) {
+			auto replay = PacketReplay::create(nullptr, 0, packet.gameId, packet.frame, packet.gameId == this->_gameId ? 0 : total, 0);
+
+			return this->_send(remote, &*replay, replay->getSize());
 		}
 
 		auto s = total - packet.frame;
 		size_t bufferSize = s * sizeof(PacketInput) * 2;
 		auto buffer = new unsigned char[bufferSize];
 
-		memcpy(buffer, (this->_swapSide ? array.remote : array.local).data(), bufferSize / 2);
-		memcpy(buffer + bufferSize / 2, (this->_swapSide ? array.local : array.remote).data(), bufferSize / 2);
+		memcpy(buffer,                  (this->_swapSide ? array.remote : array.local).data() + packet.frame, bufferSize / 2);
+		memcpy(buffer + bufferSize / 2, (this->_swapSide ? array.local : array.remote).data() + packet.frame, bufferSize / 2);
 
 		auto replay = PacketReplay::create(buffer, bufferSize, packet.gameId, packet.frame, packet.gameId == this->_gameId ? 0 : total, s);
 
@@ -588,7 +588,7 @@ namespace SpiralOfFate
 		this->_send(remote, &*replay, replay->getSize());
 	}
 
-	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayList &packet, size_t size)
+	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayList &, size_t size)
 	{
 		//Implemented in children classes
 		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_REPLAY_LIST, size};
@@ -596,12 +596,17 @@ namespace SpiralOfFate
 		this->_send(remote, &error, sizeof(error));
 	}
 
-	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayListRequest &packet, size_t size)
+	void Connection::_handlePacket(Connection::Remote &remote, PacketReplayListRequest &, size_t size)
 	{
-		//Implemented in children classes
-		PacketError error{ERROR_NOT_IMPLEMENTED, OPCODE_REPLAY_LIST_REQUEST, size};
+		std::vector<unsigned> ids;
 
-		this->_send(remote, &error, sizeof(error));
+		ids.reserve(this->_replayData.size());
+		for (auto pair : this->_replayData)
+			ids.push_back(pair.first);
+
+		auto packet = PacketReplayList::create(ids);
+
+		this->_send(remote, &*packet, packet->getSize());
 	}
 
 	void Connection::terminate()
