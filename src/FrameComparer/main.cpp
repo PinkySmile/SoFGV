@@ -140,44 +140,74 @@ int main(int argc, char **argv)
 			BattleManager::CharacterParams{
 				createCharacter(chr1_path, lJson["class"]),
 				0,
-				lJson["hp"],
-				{lJson["gravity"]["x"], lJson["gravity"]["y"]},
-				lJson["jump_count"],
-				lJson["air_dash_count"],
-				lJson["air_movements"],
-				lJson["void_mana_max"],
-				lJson["spirit_mana_max"],
-				lJson["matter_mana_max"],
-				lJson["void_mana_start"],
-				lJson["spirit_mana_start"],
-				lJson["matter_mana_start"],
-				lJson["mana_regen"],
-				lJson["guard_bar"],
-				lJson["guard_break_cooldown"],
-				lJson["overdrive_cooldown"],
-				lJson["ground_drag"],
-				{lJson["air_drag"]["x"], lJson["air_drag"]["y"]}
+				{
+					true,
+					lJson["hp"],
+					lJson["jump_count"],
+					lJson["air_dash_count"],
+					lJson["air_movements"],
+					lJson["mana_max"],
+					lJson["mana_start"],
+					lJson["mana_regen"],
+					lJson["guard_bar"],
+					lJson["guard_break_cooldown"],
+					lJson["overdrive_cooldown"],
+					lJson["ground_drag"],
+					{lJson["air_drag"]["x"], lJson["air_drag"]["y"]},
+					{lJson["gravity"]["x"], lJson["gravity"]["y"]},
+					{
+						lJson["airdrift"]["up"]["accel"],
+						lJson["airdrift"]["up"]["max"]
+					},
+					{
+						lJson["airdrift"]["down"]["accel"],
+						lJson["airdrift"]["down"]["max"]
+					},
+					{
+						lJson["airdrift"]["back"]["accel"],
+						lJson["airdrift"]["back"]["max"]
+					},
+					{
+						lJson["airdrift"]["front"]["accel"],
+						lJson["airdrift"]["front"]["max"]
+					},
+				}
 			},
 			BattleManager::CharacterParams{
 				createCharacter(chr2_path, rJson["class"]),
 				0,
-				rJson["hp"],
-				{rJson["gravity"]["x"], rJson["gravity"]["y"]},
-				rJson["jump_count"],
-				rJson["air_dash_count"],
-				rJson["air_movements"],
-				rJson["void_mana_max"],
-				rJson["spirit_mana_max"],
-				rJson["matter_mana_max"],
-				rJson["void_mana_start"],
-				rJson["spirit_mana_start"],
-				rJson["matter_mana_start"],
-				rJson["mana_regen"],
-				rJson["guard_bar"],
-				rJson["guard_break_cooldown"],
-				rJson["overdrive_cooldown"],
-				rJson["ground_drag"],
-				{rJson["air_drag"]["x"], rJson["air_drag"]["y"]}
+				{
+					false,
+					rJson["hp"],
+					rJson["jump_count"],
+					rJson["air_dash_count"],
+					rJson["air_movements"],
+					rJson["mana_max"],
+					rJson["mana_start"],
+					rJson["mana_regen"],
+					rJson["guard_bar"],
+					rJson["guard_break_cooldown"],
+					rJson["overdrive_cooldown"],
+					rJson["ground_drag"],
+					{rJson["air_drag"]["x"], rJson["air_drag"]["y"]},
+					{rJson["gravity"]["x"], rJson["gravity"]["y"]},
+					{
+						rJson["airdrift"]["up"]["accel"],
+						rJson["airdrift"]["up"]["max"]
+					},
+					{
+						rJson["airdrift"]["down"]["accel"],
+						rJson["airdrift"]["down"]["max"]
+					},
+					{
+						rJson["airdrift"]["back"]["accel"],
+						rJson["airdrift"]["back"]["max"]
+					},
+					{
+						rJson["airdrift"]["front"]["accel"],
+						rJson["airdrift"]["front"]["max"]
+					},
+				}
 			}
 		});
 		char buffer1[16384];
