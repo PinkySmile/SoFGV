@@ -32,11 +32,11 @@
 #define STALLING_BLOCKING_REMOVE (50)
 #define STALLING_BLOCK_WIPE_THRESHOLD (350)
 #define MAXIMUM_STALLING_STACKING (2700)
-#define BACKING_STALLING_FACTOR (1.6f)
+#define BACKING_STALLING_FACTOR (1.1f)
 #define FORWARD_STALLING_FACTOR (0.9f)
 #define GROUND_STALLING_FACTOR (0.25f)
-#define MAX_STALLING_FACTOR_HEIGHT (500.f)
-#define PASSIVE_STALLING_FACTOR (0.5f)
+#define MAX_STALLING_FACTOR_HEIGHT (0.f)
+#define PASSIVE_STALLING_FACTOR (0.25f)
 // 0.1% per frame max
 #define METER_PENALTY_EQUATION(val, maxval) (((val) - START_STALLING_THRESHOLD) * (maxval) / (float)(MAXIMUM_STALLING_STACKING - START_STALLING_THRESHOLD) / 1000)
 
@@ -567,7 +567,7 @@ namespace SpiralOfFate
 			this->_stallingFactor += diffDist * FORWARD_STALLING_FACTOR;
 		else
 			this->_stallingFactor += (diffDist * BACKING_STALLING_FACTOR + PASSIVE_STALLING_FACTOR) * (
-				this->_position.y > MAX_STALLING_FACTOR_HEIGHT ? 1 :
+				this->_position.y >= MAX_STALLING_FACTOR_HEIGHT ? 1 :
 				((this->_position.y * (1 - GROUND_STALLING_FACTOR) / MAX_STALLING_FACTOR_HEIGHT) + GROUND_STALLING_FACTOR)
 			);
 		if (this->_stallingFactor < MINIMUM_STALLING_STACKING)
@@ -780,7 +780,20 @@ namespace SpiralOfFate
 		this->_calculateCornerPriority();
 		this->_processWallSlams();
 		this->_processGroundedEvents();
-		if (!isHitAction(this->_action) && !isBlockingAction(this->_action))
+		if (
+			!isHitAction(this->_action) &&
+			!isBlockingAction(this->_action) &&
+			this->_action != ACTION_KNOCKED_DOWN &&
+			this->_action != ACTION_BEING_KNOCKED_DOWN &&
+			this->_action != ACTION_UP_AIR_TECH &&
+			this->_action != ACTION_DOWN_AIR_TECH &&
+			this->_action != ACTION_FORWARD_AIR_TECH &&
+			this->_action != ACTION_BACKWARD_AIR_TECH &&
+			this->_action != ACTION_FALLING_TECH &&
+			this->_action != ACTION_NEUTRAL_TECH &&
+			this->_action != ACTION_FORWARD_TECH &&
+			this->_action != ACTION_BACKWARD_TECH
+		)
 			this->_processStallingFactor();
 
 		auto data = this->getCurrentFrameData();
