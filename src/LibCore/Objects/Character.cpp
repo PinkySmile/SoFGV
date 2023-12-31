@@ -1004,7 +1004,7 @@ namespace SpiralOfFate
 	bool Character::_executeAirborneMoves(const InputStruct &input)
 	{
 		return  //(input.n && input.n <= 4 && this->_startMove(ACTION_j5N));
-		        this->_executeAirTech(input) ||
+		        this->_executeAirTech(this->_getInputs()) ||
 
 		        (this->_specialInputs._624684n && this->_startMove(ACTION_j6321469874N)) ||
 		        (this->_specialInputs._624684v && this->_startMove(ACTION_j6321469874V)) ||
