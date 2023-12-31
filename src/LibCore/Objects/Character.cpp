@@ -1673,6 +1673,8 @@ namespace SpiralOfFate
 			if (action != ACTION_FORWARD_TECH && action != ACTION_NEUTRAL_TECH && action != ACTION_BACKWARD_TECH)
 				this->_limitEffects &= ~(MATTER_LIMIT_EFFECT | NEUTRAL_LIMIT_EFFECT | VOID_LIMIT_EFFECT | SPIRIT_LIMIT_EFFECT);
 		}
+		if (action == ACTION_UP_AIR_TECH)
+			this->_hasJumped = true;
 		Object::_forceStartMove(action);
 	}
 
