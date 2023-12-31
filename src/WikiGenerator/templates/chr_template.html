@@ -28,10 +28,10 @@
             <td>{{ stats["air_movements"] }}</td>
             <td>{{ stats["guard_bar"] }} units</td>
             <td>{{ stats["guard_break_cooldown"] / 60 }}s</td>
-            <td>{{ stats["overdrive_cooldown"]/60 }}s</td>
+            <td>{{ stats["overdrive_cooldown"] / 60 }}s</td>
             <td>{{ stats["ground_drag"] }}</td>
-            <td>{{ stats["air_drag"] }}</td>
-            <td>{{ stats["gravity"] }}</td>
+            <td>H: {{ stats["air_drag"]["x"] * 100 }} / frame<br>V: {{ stats["air_drag"]["y"] * 100 }}% / frame</td>
+            <td>{{ stats["gravity"]["y"] * -60 }} units / s²</td>
         </tr>
     </table>
     {% include "description.html" ignore missing %}

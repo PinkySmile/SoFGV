@@ -1,4 +1,4 @@
-from chr_data_generator import gen_data
+from chr_data_generator import gen_data, rmdir
 from jinja2 import Environment, FileSystemLoader
 import traceback
 import json
@@ -592,6 +592,18 @@ def generate_wiki_page(path, chrs_stats, version, no_regen=False, chr_stats=None
     html = generate_page(data, chr_stats, meta, chrs_stats, version)
     with open(f"generated/{chr_stats['name']}/index.html", "w") as fd:
         fd.write(html)
+    try:
+        try:
+            rmdir(f"generated/{chr_stats['name']}/static")
+        except FileNotFoundError:
+            pass
+        os.mkdir(f"generated/{chr_stats['name']}/static")
+        for file in os.listdir(os.path.dirname(__file__) + "/resources/" + chr_stats["name"] + "/static"):
+            with open(f"generated/{chr_stats['name']}/static/{file}", "wb") as fdw:
+                with open(f"{os.path.dirname(__file__)}/resources/{chr_stats['name']}/static/{file}", "rb") as fdr:
+                    fdw.write(fdr.read())
+    except FileNotFoundError:
+        pass
     return chr_stats
 
 

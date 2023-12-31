@@ -418,7 +418,7 @@ def get_data_for_move(mid, move, objs_datas):
 				# Restand
 				'restand': bool(oflags & OffensiveFlag.restand),
 				# Startup
-				'startup': real_current_frame,
+				'startup': real_current_frame + 1,
 				# Startup animation
 				'startup_anim': [anim, real_current_frame]
 			}
@@ -432,7 +432,7 @@ def get_data_for_move(mid, move, objs_datas):
 				# Restand
 				'restand': bool(oflags & OffensiveFlag.restand),
 				# Startup
-				'startup': real_current_frame,
+				'startup': real_current_frame + 1,
 				# Startup animation
 				'startup_anim': [anim, real_current_frame],
 				# Damage
