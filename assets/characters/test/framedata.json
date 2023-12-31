@@ -9459,6 +9459,14 @@
           },
           "defense_flag": 2105344,
           "duration": 10,
+          "hurt_boxes": [
+            {
+              "height": 212,
+              "left": -43,
+              "top": -203,
+              "width": 79
+            }
+          ],
           "offense_flag": 131072,
           "size": {
             "x": 50,
@@ -9481,6 +9489,14 @@
           },
           "defense_flag": 2138112,
           "duration": 48,
+          "hurt_boxes": [
+            {
+              "height": 212,
+              "left": -43,
+              "top": -203,
+              "width": 79
+            }
+          ],
           "offense_flag": 131072,
           "size": {
             "x": 50,
@@ -9521,6 +9537,14 @@
           "hit_player_hit_stop": 12,
           "hit_sound": "assets/sfxs/se/marisa/002.ogg",
           "hit_stun": 20,
+          "hurt_boxes": [
+            {
+              "height": 213,
+              "left": -39,
+              "top": -203,
+              "width": 78
+            }
+          ],
           "min_prorate": 75.0,
           "offense_flag": 805437496,
           "offset": {
