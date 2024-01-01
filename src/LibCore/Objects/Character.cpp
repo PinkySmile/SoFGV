@@ -22,8 +22,9 @@
 #define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
 
 #define TMP_GUARD_MAX (300)
-#define REGEN_CD_BLOCK (240)
-#define REGEN_CD_PARRY (240)
+#define GUARD_REGEN_CD_BLOCK (240)
+#define GUARD_REGEN_CD_PARRY (60)
+#define GUARD_REGEN_PER_FRAME (2)
 
 #define MINIMUM_STALLING_STACKING (-800)
 #define STALLING_HIT_REMOVE (75)
@@ -643,9 +644,11 @@ namespace SpiralOfFate
 			} else if (this->_guardRegenCd)
 				this->_guardRegenCd--;
 			else if (this->_guardBar < this->_maxGuardBar && !this->_matterEffectTimer) {
-				this->_guardBar++;
-				if (this->_guardBarTmp > 2)
-					this->_guardBarTmp -= 2;
+				this->_guardBar += GUARD_REGEN_PER_FRAME;
+				if (this->_guardBar > this->_maxGuardBar)
+					this->_guardBar = this->_maxGuardBar;
+				if (this->_guardBarTmp > (GUARD_REGEN_PER_FRAME * 2))
+					this->_guardBarTmp -= (GUARD_REGEN_PER_FRAME * 2);
 				else
 					this->_guardBarTmp = 0;
 				my_assert(this->_guardBar + this->_guardBarTmp / 2 <= this->_maxGuardBar);
@@ -1553,7 +1556,7 @@ namespace SpiralOfFate
 			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game->soundMgr.play(BASICSOUND_PARRY);
-			this->_reduceGuard(loss, REGEN_CD_PARRY, true);
+			this->_reduceGuard(loss, GUARD_REGEN_CD_PARRY, true);
 		}
 
 		// Bits magic to allow the semi cyclic cancel tree (S -> M -> V -> S -> ...) to work
@@ -3326,7 +3329,7 @@ namespace SpiralOfFate
 				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun);
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
-			this->_reduceGuard(data.guardDmg, REGEN_CD_BLOCK, true);
+			this->_reduceGuard(data.guardDmg, GUARD_REGEN_CD_BLOCK, true);
 		} else if (wrongBlock)
 			return this->_getHitByMove(other, data);
 		else if (isParryAction(this->_action) && this->_animation == 0) {
