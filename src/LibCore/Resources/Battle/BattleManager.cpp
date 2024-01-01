@@ -490,8 +490,8 @@ namespace SpiralOfFate
 	void BattleManager::_gameUpdate()
 	{
 		std::vector<std::tuple<Object *, Object *, const FrameData *>> collisions;
-		auto ldata = this->_leftCharacter->getCurrentFrameData();
-		auto rdata = this->_rightCharacter->getCurrentFrameData();
+		auto lflash = this->_leftCharacter->getCurrentFrameData()->dFlag.flash;
+		auto rflash = this->_rightCharacter->getCurrentFrameData()->dFlag.flash;
 		auto lchr = &*this->_leftCharacter;
 		auto rchr = &*this->_rightCharacter;
 
@@ -502,20 +502,20 @@ namespace SpiralOfFate
 			platform->update();
 			platform->_computeFrameDataCache();
 		}
-		if (!rdata->dFlag.flash || ldata->dFlag.flash) {
+		if (!rflash || lflash) {
 			lchr->_cacheComputed = false;
 			lchr->update();
 			lchr->_computeFrameDataCache();
 		}
-		if (!ldata->dFlag.flash) {
+		if (!lflash) {
 			rchr->_cacheComputed = false;
 			rchr->update();
 			rchr->_computeFrameDataCache();
 		}
 
-		ldata = this->_leftCharacter->getCurrentFrameData();
-		rdata = this->_rightCharacter->getCurrentFrameData();
-		if (!ldata->dFlag.flash && !rdata->dFlag.flash) {
+		lflash = this->_leftCharacter->getCurrentFrameData()->dFlag.flash;
+		rflash = this->_rightCharacter->getCurrentFrameData()->dFlag.flash;
+		if (!lflash && !rflash) {
 			// TODO: Using the sizes here since update() can grow the list of objects
 			//       causing the iterators to be invalid.
 			auto size = this->_objects.size();
