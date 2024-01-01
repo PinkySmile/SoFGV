@@ -3041,9 +3041,9 @@ namespace SpiralOfFate
 			"Dir: %f\n"
 			"cornerPriority: %i\n"
 			"justGotCorner: %s\n"
-			"comboCtr: %u\n"
-			"prorate: %f\n"
-			"totalDamage: %u\n"
+			"guard: %u/%u\n"
+			"guardCd: %u\n"
+			"guardRegenCd: %u\n"
 			"neutralLimit: %u\n"
 			"voidLimit: %u\n"
 			"matterLimit: %u\n"
@@ -3085,9 +3085,10 @@ namespace SpiralOfFate
 			this->_dir,
 			this->_cornerPriority,
 			this->_justGotCorner ? "true" : "false",
-			this->_comboCtr,
-			this->_prorate,
-			this->_totalDamage,
+			this->_guardBar,
+			this->_maxGuardBar,
+			this->_guardCooldown,
+			this->_guardRegenCd,
 			this->_limit[0],
 			this->_limit[1],
 			this->_limit[2],
