@@ -187,8 +187,8 @@ namespace SpiralOfFate
 		float minProrate = 0;
 		unsigned neutralLimit = 0;
 		unsigned voidLimit = 0;
-		unsigned spiritLimit = 0;
 		unsigned matterLimit = 0;
+		unsigned spiritLimit = 0;
 		int pushBack = 0;
 		int pushBlock = 0;
 		int subObjectSpawn = 0;

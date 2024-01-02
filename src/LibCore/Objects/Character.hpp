@@ -384,6 +384,12 @@ namespace SpiralOfFate
 			DIRECTION_OP_FRONT,
 			DIRECTION_OP_BACK,
 		};
+		enum LimitType {
+			LIMIT_NEUTRAL,
+			LIMIT_VOID,
+			LIMIT_MATTER,
+			LIMIT_SPIRIT,
+		};
 		struct SubObjectData {
 			unsigned action;
 			Vector2f offset;

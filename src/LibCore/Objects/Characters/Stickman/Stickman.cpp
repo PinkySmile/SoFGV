@@ -152,6 +152,12 @@ namespace SpiralOfFate
 		this->_fdCache.oFlag.voidElement = true;
 		this->_fdCache.oFlag.matterElement = true;
 		this->_fdCache.oFlag.spiritElement = true;
+		this->_fdCache.neutralLimit += this->_fdCache.voidLimit;
+		this->_fdCache.neutralLimit += this->_fdCache.matterLimit;
+		this->_fdCache.neutralLimit += this->_fdCache.spiritLimit;
+		this->_fdCache.voidLimit = 0;
+		this->_fdCache.matterLimit = 0;
+		this->_fdCache.spiritLimit = 0;
 	}
 
 	size_t Stickman::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const

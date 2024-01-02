@@ -700,7 +700,7 @@ namespace SpiralOfFate
 		else if (this->_grabInvul)
 			this->_grabInvul--;
 
-		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
+		auto limited = std::any_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d >= 100; });
 
 		if (this->_blockStun) {
 			this->_blockStun--;
@@ -3113,10 +3113,10 @@ namespace SpiralOfFate
 			this->_comboCtr,
 			this->_prorate,
 			this->_totalDamage,
-			this->_limit[0],
-			this->_limit[1],
-			this->_limit[2],
-			this->_limit[3],
+			this->_limit[LIMIT_NEUTRAL],
+			this->_limit[LIMIT_VOID],
+			this->_limit[LIMIT_MATTER],
+			this->_limit[LIMIT_SPIRIT],
 			this->_baseGravity.x,
 			this->_baseGravity.y,
 			this->_odCooldown,
@@ -3496,7 +3496,7 @@ namespace SpiralOfFate
 			else {
 				this->_forceStartMove(ACTION_AIR_HIT);
 				this->_restand = data.oFlag.restand;
-				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
+				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
 					this->_actionBlock = 3;
 				else if (this->_speed.y < 0)
 					this->_actionBlock = 1;
@@ -3520,7 +3520,7 @@ namespace SpiralOfFate
 				else {
 					this->_forceStartMove(ACTION_AIR_HIT);
 					this->_restand = data.oFlag.restand;
-					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && this->_limit[0] < 100 && this->_limit[1] < 100 && this->_limit[2] < 100 && this->_limit[3] < 100)
+					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
 						this->_actionBlock = 3;
 					else if (this->_speed.y < 0)
 						this->_actionBlock = 1;
@@ -3553,20 +3553,20 @@ namespace SpiralOfFate
 			this->_limitEffects = 0;
 		this->_comboCtr++;
 		this->_prorate *= std::pow(data.prorate / 100, (nb + 1));
-		this->_limit[0] += data.neutralLimit * (nb + 1);
-		this->_limit[1] += data.voidLimit * (nb + 1);
-		this->_limit[2] += data.matterLimit * (nb + 1);
-		this->_limit[3] += data.spiritLimit * (nb + 1);
-		if (this->_limit[0] >= 100) {
+		this->_limit[LIMIT_NEUTRAL] += data.neutralLimit * (nb + 1);
+		this->_limit[LIMIT_VOID] += data.voidLimit * (nb + 1);
+		this->_limit[LIMIT_MATTER] += data.matterLimit * (nb + 1);
+		this->_limit[LIMIT_SPIRIT] += data.spiritLimit * (nb + 1);
+		if (this->_limit[LIMIT_NEUTRAL] >= 100) {
 			this->_opponent->Object::_forceStartMove(this->_opponent->_isGrounded() ? ACTION_ROMAN_CANCEL : ACTION_AIR_ROMAN_CANCEL);
 			this->_limitEffects |= NEUTRAL_LIMIT_EFFECT;
 			this->_opponent->_doubleGravity = true;
 		}
-		if (this->_limit[1] >= 100)
+		if (this->_limit[LIMIT_VOID] >= 100)
 			this->_limitEffects |= VOID_LIMIT_EFFECT;
-		if (this->_limit[2] >= 100)
+		if (this->_limit[LIMIT_MATTER] >= 100)
 			this->_limitEffects |= MATTER_LIMIT_EFFECT;
-		if (this->_limit[3] >= 100) {
+		if (this->_limit[LIMIT_SPIRIT] >= 100) {
 			this->_limitEffects |= SPIRIT_LIMIT_EFFECT;
 			this->_limitEffects |= MAX_LIMIT_EFFECT_TIMER;
 		}
@@ -4534,14 +4534,14 @@ namespace SpiralOfFate
 			if (ptr1->_624684a != ptr2->_624684a)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr1->_624684a) + " vs " + std::to_string(ptr2->_624684a));
 		}
-		if (dat1->_limit[0] != dat2->_limit[0])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat1->_limit[0]) + " vs " + std::to_string(dat2->_limit[0]));
-		if (dat1->_limit[1] != dat2->_limit[1])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat1->_limit[1]) + " vs " + std::to_string(dat2->_limit[1]));
-		if (dat1->_limit[2] != dat2->_limit[2])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat1->_limit[2]) + " vs " + std::to_string(dat2->_limit[2]));
-		if (dat1->_limit[3] != dat2->_limit[3])
-			game->logger.fatal(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat1->_limit[3]) + " vs " + std::to_string(dat2->_limit[3]));
+		if (dat1->_limit[LIMIT_NEUTRAL] != dat2->_limit[LIMIT_NEUTRAL])
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[LIMIT_NEUTRAL]: " + std::to_string(dat1->_limit[LIMIT_NEUTRAL]) + " vs " + std::to_string(dat2->_limit[LIMIT_NEUTRAL]));
+		if (dat1->_limit[LIMIT_VOID] != dat2->_limit[LIMIT_VOID])
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[LIMIT_VOID]: " + std::to_string(dat1->_limit[LIMIT_VOID]) + " vs " + std::to_string(dat2->_limit[LIMIT_VOID]));
+		if (dat1->_limit[LIMIT_MATTER] != dat2->_limit[LIMIT_MATTER])
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[LIMIT_MATTER]: " + std::to_string(dat1->_limit[LIMIT_MATTER]) + " vs " + std::to_string(dat2->_limit[LIMIT_MATTER]));
+		if (dat1->_limit[LIMIT_SPIRIT] != dat2->_limit[LIMIT_SPIRIT])
+			game->logger.fatal(std::string(msgStart) + "Character::_limit[LIMIT_SPIRIT]: " + std::to_string(dat1->_limit[LIMIT_SPIRIT]) + " vs " + std::to_string(dat2->_limit[LIMIT_SPIRIT]));
 
 		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs)
 			game->logger.fatal(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat1->_nbReplayInputs) + " vs " + std::to_string(dat2->_nbReplayInputs));
@@ -4703,9 +4703,17 @@ namespace SpiralOfFate
 		this->_fdCache.oFlag.matterElement &= !this->_neutralEffectTimer;
 		this->_fdCache.oFlag.spiritElement &= !this->_neutralEffectTimer;
 		if (this->_hasVoidInstall || this->_hasMatterInstall || this->_hasSpiritInstall) {
+			auto index = this->_hasVoidInstall ? LIMIT_VOID : (this->_hasMatterInstall ? LIMIT_MATTER : LIMIT_SPIRIT);
+
 			this->_fdCache.oFlag.voidElement = this->_hasVoidInstall;
 			this->_fdCache.oFlag.matterElement = this->_hasMatterInstall;
 			this->_fdCache.oFlag.spiritElement = this->_hasSpiritInstall;
+			for (int i = 0; i < 4; i++) {
+				if (i == index)
+					continue;
+				(&this->_fdCache.neutralLimit)[index] += (&this->_fdCache.neutralLimit)[i];
+				(&this->_fdCache.neutralLimit)[i] = 0;
+			}
 		}
 		this->_fdCache.dFlag.grabInvulnerable |= this->_grabInvul;
 	}
@@ -4907,10 +4915,10 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684d: " + std::to_string(ptr->_624684d));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_624684a: " + std::to_string(ptr->_624684a));
 
-		game->logger.info(std::string(msgStart) + "Character::_limit[0]: " + std::to_string(dat->_limit[0]));
-		game->logger.info(std::string(msgStart) + "Character::_limit[1]: " + std::to_string(dat->_limit[1]));
-		game->logger.info(std::string(msgStart) + "Character::_limit[2]: " + std::to_string(dat->_limit[2]));
-		game->logger.info(std::string(msgStart) + "Character::_limit[3]: " + std::to_string(dat->_limit[3]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[LIMIT_NEUTRAL]: " + std::to_string(dat->_limit[LIMIT_NEUTRAL]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[LIMIT_VOID]: " + std::to_string(dat->_limit[LIMIT_VOID]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[LIMIT_MATTER]: " + std::to_string(dat->_limit[LIMIT_MATTER]));
+		game->logger.info(std::string(msgStart) + "Character::_limit[LIMIT_SPIRIT]: " + std::to_string(dat->_limit[LIMIT_SPIRIT]));
 
 		game->logger.info(std::string(msgStart) + "Character::_nbReplayInputs: " + std::to_string(dat->_nbReplayInputs));
 		game->logger.info(std::string(msgStart) + "Character::_nbLastInputs: " + std::to_string(dat->_nbLastInputs));
@@ -4928,7 +4936,7 @@ namespace SpiralOfFate
 		if (!this->_isGrounded())
 			return;
 
-		auto limited = this->_limit[0] >= 100 || this->_limit[1] >= 100 || this->_limit[2] >= 100 || this->_limit[3] >= 100;
+		auto limited = std::any_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d >= 100; });
 
 		this->_doubleGravity = false;
 		this->_airDashesUsed = 0;
