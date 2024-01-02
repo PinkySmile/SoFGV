@@ -1,0 +1,595 @@
+[
+	{
+		"index": 1,
+		"sprite": "particles.png",
+		"colors": [
+			{"r": 0, "g": 155, "b": 155},
+			{"r": 0, "g": 175, "b": 175},
+			{"r": 0, "g": 195, "b": 195},
+			{"r": 0, "g": 215, "b": 215},
+			{"r": 0, "g": 235, "b": 235},
+			{"r": 0, "g": 255, "b": 255}
+		],
+		"spawn_boundary": {
+			"left": -50,
+			"top": 150,
+			"width": 100,
+			"height": 150
+		},
+		"clip_center": {"x": 0, "y": 0},
+		"stick_to_target": true,
+		"force_in_stage": false,
+		"disabled_on_hit": false,
+		"life_span": [-1, -1],
+		"spawn_interval": [5, 5],
+		"particles": [
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[2, 2, 1, 1]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[3, 3, 2, 2]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[4, 4, 3, 3]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[5, 5, 4, 4]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			}
+		]
+	},
+
+
+
+	{
+		"index": 2,
+		"sprite": "particles.png",
+		"colors": [
+			{"r": 113, "g": 57, "b": 0},
+			{"r": 128, "g": 65, "b": 0},
+			{"r": 143, "g": 72, "b": 0},
+			{"r": 157, "g": 79, "b": 0},
+			{"r": 172, "g": 86, "b": 0},
+			{"r": 187, "g": 94, "b": 0}
+		],
+		"spawn_boundary": {
+			"left": -50,
+			"top": 150,
+			"width": 100,
+			"height": 150
+		},
+		"clip_center": {"x": 0, "y": 0},
+		"stick_to_target": true,
+		"force_in_stage": false,
+		"disabled_on_hit": false,
+		"life_span": [-1, -1],
+		"spawn_interval": [5, 5],
+		"particles": [
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[2, 2, 1, 1]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[3, 3, 2, 2]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[4, 4, 3, 3]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[5, 5, 4, 4]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			}
+		]
+	},
+
+
+
+	{
+		"index": 3,
+		"sprite": "particles.png",
+		"colors": [
+			{"r": 63, "g": 1, "b": 37},
+			{"r": 71, "g": 1, "b": 42},
+			{"r": 79, "g": 2, "b": 46},
+			{"r": 86, "g": 2, "b": 51},
+			{"r": 94, "g": 3, "b": 56},
+			{"r": 103, "g": 3, "b": 61}
+		],
+		"spawn_boundary": {
+			"left": -50,
+			"top": 150,
+			"width": 100,
+			"height": 150
+		},
+		"clip_center": {"x": 0, "y": 0},
+		"stick_to_target": true,
+		"force_in_stage": false,
+		"disabled_on_hit": false,
+		"life_span": [-1, -1],
+		"spawn_interval": [5, 5],
+		"particles": [
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[2, 2, 1, 1]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[3, 3, 2, 2]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[4, 4, 3, 3]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[5, 5, 4, 4]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			}
+		]
+	},
+
+
+
+	{
+		"index": 3,
+		"sprite": "particles.png",
+		"colors": [
+			{"r": 155, "g": 155, "b": 0},
+			{"r": 175, "g": 175, "b": 0},
+			{"r": 195, "g": 195, "b": 0},
+			{"r": 215, "g": 215, "b": 0},
+			{"r": 235, "g": 235, "b": 0},
+			{"r": 255, "g": 255, "b": 0}
+		],
+		"spawn_boundary": {
+			"left": -50,
+			"top": 150,
+			"width": 100,
+			"height": 150
+		},
+		"clip_center": {"x": 0, "y": 0},
+		"stick_to_target": true,
+		"force_in_stage": false,
+		"disabled_on_hit": false,
+		"life_span": [-1, -1],
+		"spawn_interval": [5, 5],
+		"particles": [
+			{
+				"colors": [
+					[1, 1, 0, 0]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[2, 2, 1, 1]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[3, 3, 2, 2]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[4, 4, 3, 3]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			},
+			{
+				"colors": [
+					[5, 5, 4, 4]
+				],
+				"scale": [0.5, 4],
+				"use_random_color": false,
+				"disabled_on_hit": false,
+				"update_interval": [4, 4],
+				"bounds": {
+					"left": 10,
+					"top": 1,
+					"width": 7,
+					"height": 7
+				},
+				"layer": 200,
+				"mirror": [100, 0],
+				"rotation": [0, 0],
+				"acceleration": [{"x": 0, "y": 0}, {"x": 0, "y": 0.2}],
+				"min_velocity": {"x": 0, "y": 0},
+				"max_velocity": {"x": 0, "y": 2},
+				"spawn_chance": 0.2,
+				"life_span": [20, 20],
+				"fade_time": [10, 10]
+			}
+		]
+	}
+]

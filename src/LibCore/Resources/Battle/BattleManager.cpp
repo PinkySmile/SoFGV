@@ -51,6 +51,16 @@ namespace SpiralOfFate
 		_leftHUDData{*this, *this->_leftCharacter, this->_leftHUDIcon, false},
 		_rightHUDData{*this, *this->_rightCharacter, this->_rightHUDIcon, true}
 	{
+		nlohmann::json json;
+		std::ifstream stream{"assets/effects/particles.json"};
+
+		my_assert(stream);
+		stream >> json;
+		this->_systemParticles.reserve(json.size());
+		for (auto &v : json)
+			this->_systemParticles.emplace_back(v, "assets/effects");
+		leftCharacter.character->systemParticles = &this->_systemParticles;
+		rightCharacter.character->systemParticles = &this->_systemParticles;
 		for (unsigned i = 0; i < spritesPaths.size(); i++)
 			this->_moveSprites[i] = game->textureMgr.load(spritesPaths[i]);
 
@@ -638,6 +648,15 @@ namespace SpiralOfFate
 		return nullptr;
 	}
 
+	std::shared_ptr<IObject> BattleManager::getIObjectFromId(unsigned int id) const
+	{
+		for (auto &object : this->_iobjects)
+			if (object.first == id)
+				return object.second;
+		my_assert(false);
+		return nullptr;
+	}
+
 	unsigned int BattleManager::getBufferSize() const
 	{
 		size_t size = sizeof(Data) + this->_leftCharacter->getBufferSize() + this->_rightCharacter->getBufferSize();
@@ -647,8 +666,14 @@ namespace SpiralOfFate
 			size += object.second->getBufferSize();
 			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
 		}
-		// TODO: Save other objects
-		// TODO: Save stage objects
+		size += this->_iobjects.size() * (sizeof(unsigned) + sizeof(unsigned char));
+		for (auto &object : this->_iobjects) {
+			size += object.second->getBufferSize();
+			size += (object.second->getClassId() == 10) * (sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned));
+			size += (object.second->getClassId() == 11) * (sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned) + sizeof(unsigned));
+		}
+		for (auto &object : this->_stageObjects)
+			size += object->getBufferSize();
 		for (size_t i = 0; i < this->_nbPlatform; i++)
 			size += this->_platforms[i]->getBufferSize();
 		return size;
@@ -670,6 +695,8 @@ namespace SpiralOfFate
 		dat->_roundStartTimer = this->_roundStartTimer;
 		dat->_roundEndTimer = this->_roundEndTimer;
 		dat->_nbObjects = this->_objects.size();
+		dat->_nbIObjects = this->_iobjects.size();
+		dat->_nbStageObjects = this->_stageObjects.size();
 		dat->_currentFrame = this->_currentFrame;
 		this->_leftCharacter->copyToBuffer((void *)ptr);
 		ptr += this->_leftCharacter->getBufferSize();
@@ -693,12 +720,49 @@ namespace SpiralOfFate
 			object.second->copyToBuffer((void *)ptr);
 			ptr += object.second->getBufferSize();
 		}
+		for (auto &object : this->_iobjects) {
+			*(unsigned *)ptr = object.first;
+			ptr += sizeof(unsigned);
+			*(unsigned char *)ptr = object.second->getClassId();
+			ptr += sizeof(unsigned char);
+			if (object.second->getClassId() == 10) {
+				my_assert(dynamic_cast<ParticleGenerator *>(&*object.second));
+
+				auto obj = reinterpret_cast<ParticleGenerator *>(&*object.second);
+
+				*(unsigned char *)ptr = obj->getOwner().getTeam();
+				ptr += sizeof(unsigned char);
+				*(unsigned char *)ptr = obj->getTarget().getTeam();
+				ptr += sizeof(unsigned char);
+				*(unsigned char *)ptr = std::get<0>(obj->getSource());
+				ptr += sizeof(unsigned char);
+				*(unsigned *)ptr = std::get<1>(obj->getSource());
+				ptr += sizeof(unsigned);
+			} else if (object.second->getClassId() == 11) {
+				my_assert(dynamic_cast<Particle *>(&*object.second));
+
+				auto obj = reinterpret_cast<Particle *>(&*object.second);
+
+				*(unsigned char *)ptr = obj->getOwner().getTeam();
+				ptr += sizeof(unsigned char);
+				*(unsigned char *)ptr = std::get<0>(obj->getSource());
+				ptr += sizeof(unsigned char);
+				*(unsigned *)ptr = std::get<1>(obj->getSource());
+				ptr += sizeof(unsigned);
+				*(unsigned *)ptr = std::get<2>(obj->getSource());
+				ptr += sizeof(unsigned);
+			}
+			object.second->copyToBuffer((void *)ptr);
+			ptr += object.second->getBufferSize();
+		}
+		for (const auto &stageObject : this->_stageObjects) {
+			stageObject->copyToBuffer((void *)ptr);
+			ptr += stageObject->getBufferSize();
+		}
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
 			this->_platforms[i]->copyToBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
 		}
-		// TODO: Save other objects
-		// TODO: Save stage objects
 	}
 
 	void BattleManager::restoreFromBuffer(void *data)
@@ -724,6 +788,8 @@ namespace SpiralOfFate
 		this->_rightCharacter->restoreFromBuffer((void *)ptr);
 		ptr += this->_rightCharacter->getBufferSize();
 
+		this->_iobjects.clear();
+		this->_iobjects.reserve(dat->_nbIObjects);
 		this->_objects.clear();
 		this->_objects.reserve(dat->_nbObjects);
 		this->_platforms.erase(this->_platforms.begin() + this->_nbPlatform, this->_platforms.end());
@@ -762,6 +828,91 @@ namespace SpiralOfFate
 			ptr += obj->getBufferSize();
 			this->_objects.emplace_back(id, obj);
 		}
+		for (size_t i = 0; i < dat->_nbIObjects; i++) {
+			std::shared_ptr<IObject> obj;
+			auto id = *(unsigned *)ptr;
+
+			ptr += sizeof(unsigned);
+
+			auto cl = *(unsigned char *)ptr;
+
+			ptr += sizeof(unsigned char);
+			switch (cl) {
+				case 10: {
+					auto owner = *(unsigned char *) ptr;
+					ptr += sizeof(unsigned char);
+					auto target = *(unsigned char *) ptr;
+					ptr += sizeof(unsigned char);
+					auto spawner = *(unsigned char *) ptr;
+					ptr += sizeof(unsigned char);
+					auto index = *(unsigned *) ptr;
+					ptr += sizeof(unsigned);
+
+					auto &gens =
+						spawner == 2 ?
+						this->_systemParticles :
+						(
+							spawner == 1 ?
+							this->_rightCharacter :
+							this->_leftCharacter
+						)->_generators;
+					my_assert(index < gens.size());
+					auto &genDat = gens[index];
+
+					obj = std::make_shared<ParticleGenerator>(
+						ParticleGenerator::Source{spawner, index},
+						genDat,
+						*(owner ? this->_rightCharacter : this->_leftCharacter),
+						*(target ? this->_rightCharacter : this->_leftCharacter),
+						false
+					);
+					break;
+				}
+				case 11: {
+					auto owner = *(unsigned char *) ptr;
+					ptr += sizeof(unsigned char);
+					auto spawner = *(unsigned char *) ptr;
+					ptr += sizeof(unsigned char);
+					auto genIndex = *(unsigned *) ptr;
+					ptr += sizeof(unsigned);
+					auto index = *(unsigned *) ptr;
+					ptr += sizeof(unsigned);
+
+					auto &gens =
+						spawner == 2 ?
+						this->_systemParticles :
+						(
+							spawner == 1 ?
+							this->_rightCharacter :
+							this->_leftCharacter
+						)->_generators;
+					my_assert(genIndex < gens.size());
+					auto &genDat = gens[genIndex];
+
+					my_assert(index < genDat.particles.size());
+					obj = std::make_shared<Particle>(
+						Particle::Source{spawner, genIndex, index},
+						genDat.particles[index],
+						*(owner ? this->_rightCharacter : this->_leftCharacter),
+						genDat.sprite,
+						Vector2f{0, 0},
+						false
+					);
+					break;
+				}
+				default:
+					throw std::invalid_argument("Wtf?" + std::to_string(cl));
+			}
+
+			obj->restoreFromBuffer((void *)ptr);
+			ptr += obj->getBufferSize();
+			this->_iobjects.emplace_back(id, obj);
+		}
+		my_assert(dat->_nbStageObjects == this->_stageObjects.size());
+		for (const auto &stageObject : this->_stageObjects) {
+			stageObject->restoreFromBuffer((void *)ptr);
+			ptr += stageObject->getBufferSize();
+		}
 		for (size_t i = 0; i < this->_nbPlatform; i++) {
 			this->_platforms[i]->restoreFromBuffer((void *)ptr);
 			ptr += this->_platforms[i]->getBufferSize();
@@ -769,8 +920,6 @@ namespace SpiralOfFate
 		this->_leftCharacter->resolveSubObjects(*this);
 		this->_rightCharacter->resolveSubObjects(*this);
 		game->logger.verbose("Restored BattleManager @" + std::to_string((uintptr_t)dat));
-		// TODO: Save other objects
-		// TODO: Save stage objects
 	}
 
 	bool BattleManager::_updateLoop()
@@ -1079,6 +1228,10 @@ namespace SpiralOfFate
 			game->logger.fatal("BattleManager::limitAnimTimer differs: " + std::to_string(dat1->_limitAnimTimer) + " vs " + std::to_string(dat2->_limitAnimTimer));
 		if (dat1->_nbObjects != dat2->_nbObjects)
 			game->logger.fatal("BattleManager::nbObjects differs: " + std::to_string(dat1->_nbObjects) + " vs " + std::to_string(dat2->_nbObjects));
+		if (dat1->_nbIObjects != dat2->_nbIObjects)
+			game->logger.fatal("BattleManager::nbIObjects differs: " + std::to_string(dat1->_nbIObjects) + " vs " + std::to_string(dat2->_nbIObjects));
+		if (dat1->_nbStageObjects != dat2->_nbStageObjects)
+			game->logger.fatal("BattleManager::nbStageObjects differs: " + std::to_string(dat1->_nbStageObjects) + " vs " + std::to_string(dat2->_nbStageObjects));
 
 		auto length = this->_leftCharacter->printDifference("Player1: ", (void *)ptr1, (void *)ptr2, sizeof(Data));
 
@@ -1139,6 +1292,8 @@ namespace SpiralOfFate
 					game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::subobjectId differs: " + std::to_string(subobjid1) + " vs " + std::to_string(subobjid2));
 				ptr1 += sizeof(unsigned);
 				ptr2 += sizeof(unsigned);
+				if (owner1 != owner2 || subobjid1 != subobjid2)
+					return;
 				obj = (owner1 ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(*this,subobjid1, false).second;
 				break;
 			}
@@ -1148,6 +1303,155 @@ namespace SpiralOfFate
 			}
 
 			length = obj->printDifference(("BattleManager::object[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
+			if (length == 0)
+				return;
+			ptr1 += length;
+			ptr2 += length;
+		}
+
+		//if (dat1->_nbIObjects != dat2->_nbIObjects)
+		//	return;
+
+		for (size_t i = 0; i < dat1->_nbIObjects; i++) {
+			std::shared_ptr<IObject> obj;
+			auto id1 = *(unsigned *)ptr1;
+			auto id2 = *(unsigned *)ptr2;
+
+			if (id1 != id2)
+				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::objectId differs: " + std::to_string(id1) + " vs " + std::to_string(id2));
+			ptr1 += sizeof(unsigned);
+			ptr2 += sizeof(unsigned);
+
+			auto cl1 = *(unsigned char *)ptr1;
+			auto cl2 = *(unsigned char *)ptr2;
+
+			if (cl1 != cl2) {
+				game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::class differs: " + std::to_string(cl1) + " vs " + std::to_string(cl2));
+				return;
+			}
+			ptr1 += sizeof(unsigned char);
+			ptr2 += sizeof(unsigned char);
+
+			switch (cl1) {
+			case 10: {
+				auto owner1 = *(unsigned char *) ptr1;
+				auto owner2 = *(unsigned char *) ptr2;
+				if (owner1 != owner2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::owner differs: " + std::to_string(owner1) + " vs " + std::to_string(owner2));
+				ptr1 += sizeof(unsigned char);
+				ptr2 += sizeof(unsigned char);
+
+				auto target1 = *(unsigned char *) ptr1;
+				auto target2 = *(unsigned char *) ptr2;
+				if (target1 != target2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::target differs: " + std::to_string(target1) + " vs " + std::to_string(target2));
+				ptr1 += sizeof(unsigned char);
+				ptr2 += sizeof(unsigned char);
+
+				auto spawner1 = *(unsigned char *) ptr1;
+				auto spawner2 = *(unsigned char *) ptr2;
+				if (spawner1 != spawner2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::spawner differs: " + std::to_string(spawner1) + " vs " + std::to_string(spawner2));
+				ptr1 += sizeof(unsigned char);
+				ptr2 += sizeof(unsigned char);
+
+				auto index1 = *(unsigned *) ptr1;
+				auto index2 = *(unsigned *) ptr2;
+				if (index1 != index2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::index differs: " + std::to_string(index1) + " vs " + std::to_string(index2));
+				ptr1 += sizeof(unsigned);
+				ptr2 += sizeof(unsigned);
+				if (spawner1 != spawner2 || index1 != index2)
+					return;
+
+				auto genDat1 = (
+					spawner1 == 2 ?
+					this->_systemParticles :
+					(
+						spawner1 == 1 ?
+						this->_rightCharacter :
+						this->_leftCharacter
+					)->_generators
+				)[index1];
+
+				obj = std::make_shared<ParticleGenerator>(
+					ParticleGenerator::Source{spawner1, index1},
+					genDat1,
+					*(owner1 ? this->_rightCharacter : this->_leftCharacter),
+					*(target1 ? this->_rightCharacter : this->_leftCharacter)
+				);
+				break;
+			}
+			case 11: {
+				auto owner1 = *(unsigned char *) ptr1;
+				auto owner2 = *(unsigned char *) ptr2;
+				if (owner1 != owner2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::owner differs: " + std::to_string(owner1) + " vs " + std::to_string(owner2));
+				ptr1 += sizeof(unsigned char);
+				ptr2 += sizeof(unsigned char);
+
+				auto spawner1 = *(unsigned char *) ptr1;
+				auto spawner2 = *(unsigned char *) ptr2;
+				if (spawner1 != spawner2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::spawner differs: " + std::to_string(spawner1) + " vs " + std::to_string(spawner2));
+				ptr1 += sizeof(unsigned char);
+				ptr2 += sizeof(unsigned char);
+
+				auto genIndex1 = *(unsigned *) ptr1;
+				auto genIndex2 = *(unsigned *) ptr2;
+				if (genIndex1 != genIndex2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::genIndex differs: " + std::to_string(genIndex1) + " vs " + std::to_string(genIndex2));
+				ptr1 += sizeof(unsigned);
+				ptr2 += sizeof(unsigned);
+
+				auto index1 = *(unsigned *) ptr1;
+				auto index2 = *(unsigned *) ptr2;
+				if (index1 != index2)
+					game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::index differs: " + std::to_string(index1) + " vs " + std::to_string(index2));
+				ptr1 += sizeof(unsigned);
+				ptr2 += sizeof(unsigned);
+				if (spawner1 != spawner2 || index1 != index2)
+					return;
+
+				auto genDat1 = (
+					spawner1 == 2 ?
+					this->_systemParticles :
+					(
+						spawner1 == 1 ?
+						this->_rightCharacter :
+						this->_leftCharacter
+					)->_generators
+				)[genIndex1];
+
+				obj = std::make_shared<Particle>(
+					Particle::Source{spawner1, genIndex1, index1},
+					genDat1.particles[index1],
+					*(owner1 ? this->_rightCharacter : this->_leftCharacter),
+					genDat1.sprite,
+					Vector2f{0, 0}
+				);
+				break;
+			}
+			default:
+				game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::class invalid: " + std::to_string(cl1));
+				return;
+			}
+
+			length = obj->printDifference(("BattleManager::iobject[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
+			if (length == 0)
+				return;
+			ptr1 += length;
+			ptr2 += length;
+		}
+
+		if (dat1->_nbStageObjects != dat2->_nbStageObjects)
+			return;
+		if (dat1->_nbStageObjects != this->_stageObjects.size()) {
+			game->logger.fatal("BattleManager::_nbStageObjects invalid: " + std::to_string(dat1->_nbStageObjects) + " != " + std::to_string(this->_stageObjects.size()));
+			return;
+		}
+		for (size_t i = 0; i < this->_stageObjects.size(); i++) {
+			length = this->_stageObjects[i]->printDifference(("BattleManager::stageObjects[" + std::to_string(i) + "]: ").c_str(), (void *)ptr1, (void *)ptr2, (ptrdiff_t)ptr1 - (ptrdiff_t)data1);
 			if (length == 0)
 				return;
 			ptr1 += length;
@@ -1182,6 +1486,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>(data);
 		char *ptr1 = (char *)data + sizeof(Data);
 
+		my_assert(false);
 		if (sizeof(Data) >= size)
 			game->logger.warn("Manager is " + std::to_string(sizeof(Data) - size) + " bytes bigger than input");
 		game->logger.info("BattleManager::random: " + std::to_string(dat1->random));

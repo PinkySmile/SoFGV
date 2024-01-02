@@ -406,6 +406,7 @@ namespace SpiralOfFate
 		struct Data {
 			InputStruct _inputBuffer;
 			unsigned _limit[4];
+			unsigned _typeSwitchEffects[4];
 			unsigned _subObjects[128];
 			int _timeSinceIdle;
 			unsigned _guardBarTmp;
@@ -427,9 +428,6 @@ namespace SpiralOfFate
 			unsigned _matterEffectTimer;
 			unsigned _spiritEffectTimer;
 			unsigned _voidEffectTimer;
-			unsigned _matterInstallTimer;
-			unsigned _spiritInstallTimer;
-			unsigned _voidInstallTimer;
 			float _stallingFactor;
 			float _regen;
 			float _mana;
@@ -450,24 +448,27 @@ namespace SpiralOfFate
 			bool _willGroundSlam;
 			bool _willWallSplat;
 			bool _doubleGravity;
-			unsigned char _hitStop;
+			bool _hasMatterInstall;
+			bool _hasSpiritInstall;
+			bool _hasVoidInstall;
+			bool _installMoveStarted;
 			unsigned char _specialInputs[37];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 726, "Data has wrong size");
+		static_assert(sizeof(Data) == 733, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[37] = {0};
 			struct {
-				char _an;
-				char _am;
-				char _as;
-				char _av;
 				unsigned char _22: 4;
 				unsigned char _44: 4;
 				unsigned char _66: 4;
 				unsigned char _27: 4;
 				unsigned char _28: 4;
 				unsigned char _29: 4;
+				char _dn;
+				char _dm;
+				char _ds;
+				char _dv;
 				unsigned char _c28n: 4;
 				unsigned char _c28m: 4;
 				unsigned char _c28s: 4;
@@ -542,6 +543,7 @@ namespace SpiralOfFate
 		static std::function<bool (const LastInput &)> getInputA;
 
 		// Game State
+		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 4> _typeSwitchEffects;
 		std::vector<ReplayData> _replayData;
 		std::list<LastInput> _lastInputs;
 		std::map<unsigned, unsigned> _usedMoves;
@@ -566,9 +568,6 @@ namespace SpiralOfFate
 		unsigned _matterEffectTimer = 0;
 		unsigned _spiritEffectTimer = 0;
 		unsigned _voidEffectTimer = 0;
-		unsigned _matterInstallTimer = 0;
-		unsigned _spiritInstallTimer = 0;
-		unsigned _voidInstallTimer = 0;
 		float _stallingFactor = 0;
 		float _prorate = 1;
 		float _regen = 0;
@@ -589,6 +588,10 @@ namespace SpiralOfFate
 		bool _hardKD = false;
 		bool _willGroundSlam = false;
 		bool _willWallSplat = false;
+		bool _hasMatterInstall = false;
+		bool _hasSpiritInstall = false;
+		bool _hasVoidInstall = false;
+		bool _installMoveStarted = false;
 		char _limitEffects = 0;
 		char _normalTreeFlag = 0;
 
@@ -628,6 +631,7 @@ namespace SpiralOfFate
 		unsigned char _forceBlock = 0;
 		unsigned char _counterHit = 0;
 
+		virtual void _spawnSystemParticles(unsigned id);
 		virtual void _mutateHitFramedata(FrameData &framedata) const;
 		virtual bool _executeNeutralAttack(unsigned base);
 		virtual bool _executeDownAttack(unsigned base);
@@ -673,6 +677,7 @@ namespace SpiralOfFate
 		static SubObjectAnchor anchorFromString(const std::string &str);
 		static SubObjectDirection directionFromString(const std::string &str);
 
+		void _clearBasicBuffer();
 		void _processAirDrift(const InputStruct &input);
 		void _processGroundedEvents();
 		void _processStallingFactor();
@@ -731,6 +736,7 @@ namespace SpiralOfFate
 		unsigned index;
 		std::wstring name;
 		bool startedAttack = false;
+		const std::vector<ParticleGenerator::InitData> *systemParticles = nullptr;
 
 		Character();
 		Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);

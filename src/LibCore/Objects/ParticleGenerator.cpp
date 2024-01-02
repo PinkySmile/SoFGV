@@ -7,21 +7,25 @@
 
 namespace SpiralOfFate
 {
-	ParticleGenerator::ParticleGenerator(const ParticleGenerator::InitData &initData, const Character &owner) :
+	ParticleGenerator::ParticleGenerator(Source source, const InitData &initData, const Character &owner, const Character &target, bool compute) :
 		_data(initData),
-		_owner(owner)
+		_source(std::move(source)),
+		_owner(owner),
+		_target(target)
 	{
-		this->_aliveTimer = random_distrib(game->battleRandom, initData.lifeSpan.first, initData.lifeSpan.second);
-		this->_nextSpawnCost = random_distrib(game->battleRandom, initData.spawnInterval.first, initData.spawnInterval.second);
-		this->_computePosition();
+		if (compute) {
+			this->_aliveTimer = random_distrib(game->battleRandom, initData.lifeSpan.first, initData.lifeSpan.second);
+			this->_nextSpawnCost = random_distrib(game->battleRandom, initData.spawnInterval.first, initData.spawnInterval.second);
+			this->_computePosition();
+		}
 		for (auto &p : initData.particles)
 			this->_maxSpawnRate += p.spawnChance;
 	}
 
 	void ParticleGenerator::_computePosition()
 	{
-		this->_position = this->_owner.getPosition();
-		this->_position.x += this->_data.clipCenter.x * (this->_owner.getDirection() ? 1 : -1);
+		this->_position = this->_target.getPosition();
+		this->_position.x += this->_data.clipCenter.x * (this->_target.getDirection() ? 1 : -1);
 		this->_position.y += this->_data.clipCenter.y;
 		if (this->_data.forceInStage) {
 			if (this->_position.x < STAGE_X_MIN)
@@ -94,6 +98,7 @@ namespace SpiralOfFate
 			return;
 
 		float val = random_distrib(game->battleRandom, 0.f, this->_maxSpawnRate);
+		unsigned index = 0;
 
 		for (auto &p : this->_data.particles) {
 			if (val <= p.spawnChance) {
@@ -102,9 +107,14 @@ namespace SpiralOfFate
 					this->_position.y + this->_data.spawnBoundary.pos.y - random_distrib(game->battleRandom, 0.f, this->_data.spawnBoundary.size.y)
 				};
 
-				game->battleMgr->registerObject<Particle>(true, p, this->_owner, this->_data.sprite, pos);
+				game->battleMgr->registerObject<Particle>(true, Particle::Source{
+					std::get<0>(this->_source),
+					std::get<1>(this->_source),
+					index
+				}, p, this->_owner, this->_data.sprite, pos);
 				return;
 			}
+			index++;
 			val -= p.spawnChance;
 		}
 		my_assert(false);
@@ -125,46 +135,99 @@ namespace SpiralOfFate
 		return -500;
 	}
 
-	// TODO:
 	unsigned int ParticleGenerator::getBufferSize() const
 	{
-		return 0;
+		return sizeof(Data);
 	}
 
-	// TODO:
 	void ParticleGenerator::copyToBuffer(void *data) const
 	{
+		auto dat = reinterpret_cast<Data *>(data);
 
+		dat->_position = this->_position;
+		dat->_aliveTimer = this->_aliveTimer;
+		dat->_maxSpawnRate = this->_maxSpawnRate;
+		dat->_nextSpawnCost = this->_nextSpawnCost;
+		dat->_spawnCredit = this->_spawnCredit;
 	}
 
-	// TODO:
 	void ParticleGenerator::restoreFromBuffer(void *data)
 	{
+		auto dat = reinterpret_cast<Data *>(data);
 
+		this->_position = dat->_position;
+		this->_aliveTimer = dat->_aliveTimer;
+		this->_maxSpawnRate = dat->_maxSpawnRate;
+		this->_nextSpawnCost = dat->_nextSpawnCost;
+		this->_spawnCredit = dat->_spawnCredit;
 	}
 
-	// TODO:
 	size_t ParticleGenerator::printDifference(const char *msgStart, void *data1, void *data2, unsigned int startOffset) const
 	{
-		return 0;
+		auto dat1 = reinterpret_cast<Data *>(data1);
+		auto dat2 = reinterpret_cast<Data *>(data2);
+
+		game->logger.info("ParticleGenerator @" + std::to_string(startOffset));
+		if (dat1->_position.x != dat2->_position.x)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_position.x: " + std::to_string(dat1->_position.x) + " vs " + std::to_string(dat2->_position.x));
+		if (dat1->_position.y != dat2->_position.y)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_position.y: " + std::to_string(dat1->_position.y) + " vs " + std::to_string(dat2->_position.y));
+		if (dat1->_aliveTimer != dat2->_aliveTimer)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_aliveTimer: " + std::to_string(dat1->_aliveTimer) + " vs " + std::to_string(dat2->_aliveTimer));
+		if (dat1->_maxSpawnRate != dat2->_maxSpawnRate)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_maxSpawnRate: " + std::to_string(dat1->_maxSpawnRate) + " vs " + std::to_string(dat2->_maxSpawnRate));
+		if (dat1->_nextSpawnCost != dat2->_nextSpawnCost)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_nextSpawnCost: " + std::to_string(dat1->_nextSpawnCost) + " vs " + std::to_string(dat2->_nextSpawnCost));
+		if (dat1->_spawnCredit != dat2->_spawnCredit)
+			game->logger.fatal(std::string(msgStart) + "ParticleGenerator::_spawnCredit: " + std::to_string(dat1->_spawnCredit) + " vs " + std::to_string(dat2->_spawnCredit));
+		return sizeof(Data);
 	}
 
-	// TODO:
 	size_t ParticleGenerator::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
 	{
-		return 0;
+		auto dat1 = reinterpret_cast<Data *>(data);
+
+		game->logger.info("ParticleGenerator @" + std::to_string(startOffset));
+		if (startOffset + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + sizeof(Data) - dataSize) + " bytes bigger than input");
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_position.x: " + std::to_string(dat1->_position.x));
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_position.y: " + std::to_string(dat1->_position.y));
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_aliveTimer: " + std::to_string(dat1->_aliveTimer));
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_maxSpawnRate: " + std::to_string(dat1->_maxSpawnRate));
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_nextSpawnCost: " + std::to_string(dat1->_nextSpawnCost));
+		game->logger.info(std::string(msgStart) + "ParticleGenerator::_spawnCredit: " + std::to_string(dat1->_spawnCredit));
+		if (startOffset + sizeof(Data) >= dataSize) {
+			game->logger.fatal("Invalid input frame");
+			return 0;
+		}
+		return sizeof(Data);
 	}
 
-	// TODO:
 	unsigned int ParticleGenerator::getClassId() const
 	{
-		return 0;
+		return 10;
 	}
 
-	ParticleGenerator::InitData::InitData(nlohmann::json &data, const std::string &folder)
+	const ParticleGenerator::Source &ParticleGenerator::getSource() const
+	{
+		return this->_source;
+	}
+
+	const Character &ParticleGenerator::getOwner() const
+	{
+		return this->_owner;
+	}
+
+	const Character &ParticleGenerator::getTarget() const
+	{
+		return this->_target;
+	}
+
+	ParticleGenerator::InitData::InitData(const nlohmann::json &data, const std::string &folder)
 	{
 		// TODO: Add proper error checking
 		this->sprite = game->textureMgr.load(folder + "/" + data["sprite"].get<std::string>());
+		my_assert(this->sprite);
 		this->spawnBoundary.pos.x = data["spawn_boundary"]["left"];
 		this->spawnBoundary.pos.y = data["spawn_boundary"]["top"];
 		this->spawnBoundary.size.x = data["spawn_boundary"]["width"];

@@ -17,6 +17,13 @@
 
 namespace SpiralOfFate
 {
+	enum SystemParticleGenerator {
+		SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH,
+		SYS_PARTICLE_GENERATOR_MATTER_TYPE_SWITCH,
+		SYS_PARTICLE_GENERATOR_VOID_TYPE_SWITCH,
+		SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_SWITCH
+	};
+
 	enum BattleUiSprite {
 		BATTLEUI_HUD_SEAT,
 		BATTLEUI_MANA_BAR,
@@ -97,16 +104,19 @@ namespace SpiralOfFate
 			unsigned _currentRound;
 			unsigned _roundEndTimer;
 			unsigned _nbObjects;
+			unsigned _nbIObjects;
+			unsigned _nbStageObjects;
 			int _roundStartTimer;
 			HUDDataPacked _leftHUDData;
 			HUDDataPacked _rightHUDData;
 			unsigned short _limitAnimTimer;
 			bool _ended;
 		};
-		static_assert(sizeof(Data) == 135, "Data has wrong size");
+		static_assert(sizeof(Data) == 143, "Data has wrong size");
 #pragma pack(pop)
 
 		// Non-Game State
+		std::vector<ParticleGenerator::InitData> _systemParticles;
 		unsigned _nbPlatform = 0;
 		sf::Clock _tpsClock;
 		std::list<unsigned> _tpsTimes;
@@ -188,6 +198,7 @@ namespace SpiralOfFate
 		unsigned registerObject(const std::shared_ptr<IObject> &object);
 		virtual void consumeEvent(const sf::Event &);
 		std::shared_ptr<Object> getObjectFromId(unsigned id) const;
+		std::shared_ptr<IObject> getIObjectFromId(unsigned id) const;
 		Character *getLeftCharacter();
 		Character *getRightCharacter();
 		const Character *getLeftCharacter() const;

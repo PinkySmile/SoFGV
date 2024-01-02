@@ -5,9 +5,6 @@
 #include "Cloud.hpp"
 #include "Resources/Game.hpp"
 
-//TODO: Save the objects so we can use the proper random
-#define battleRandom random
-
 namespace SpiralOfFate
 {
 	Cloud::Cloud(nlohmann::json &json)

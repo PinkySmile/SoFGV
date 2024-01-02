@@ -6,8 +6,7 @@
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
 
-#define INSTALL_COST 200
-#define INSTALL_DURATION 30
+#define INSTALL_COST 300
 
 namespace SpiralOfFate
 {
@@ -41,26 +40,25 @@ namespace SpiralOfFate
 	void Stickman::update()
 	{
 		Character::update();
-		this->_buffTimer -= !!this->_buffTimer;
+		if (this->_hasSpiritInstall || this->_hasMatterInstall || this->_hasVoidInstall)
+			this->_hasBuff = false;
 		if (
 			this->_inputBuffer.a &&
 			this->_inputBuffer.verticalAxis < 0 &&
-			this->_action >= ACTION_5N &&
 			!isOverdriveAction(this->_action) &&
-			!this->_voidInstallTimer &&
-			!this->_spiritInstallTimer &&
-			!this->_matterInstallTimer &&
-			!this->_buffTimer
+			!this->_installMoveStarted &&
+			!this->_hasBuff
 		) {
-			this->_voidInstallTimer = 0;
-			this->_spiritInstallTimer = 0;
-			this->_matterInstallTimer = 0;
-			this->_buffTimer = INSTALL_DURATION;
+			for (auto &obj : this->_typeSwitchEffects)
+				if (obj.second)
+					obj.second->kill();
+			this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_SWITCH);
+			this->_hasVoidInstall = false;
+			this->_hasSpiritInstall = false;
+			this->_hasMatterInstall = false;
+			this->_hasBuff = true;
 			this->_mana -= INSTALL_COST;
-			this->_specialInputs._am = -30;
-			this->_specialInputs._as = -30;
-			this->_specialInputs._av = -30;
-			this->_inputBuffer.a = 0;
+			this->_clearBasicBuffer();
 			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 	}
@@ -78,7 +76,7 @@ namespace SpiralOfFate
 		game->logger.verbose("Saving Stickman (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_time = this->_time;
 		dat->_oldAction = this->_oldAction;
-		dat->_buffTimer = this->_buffTimer;
+		dat->_hasBuff = this->_hasBuff;
 	}
 
 	void Stickman::restoreFromBuffer(void *data)
@@ -89,7 +87,7 @@ namespace SpiralOfFate
 
 		this->_time = dat->_time;
 		this->_oldAction = dat->_oldAction;
-		this->_buffTimer = dat->_buffTimer;
+		this->_hasBuff = dat->_hasBuff;
 		game->logger.verbose("Restored Stickman @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -130,22 +128,26 @@ namespace SpiralOfFate
 		auto dat2 = reinterpret_cast<Data *>((uintptr_t)data2 + length);
 
 		game->logger.info("Stickman @" + std::to_string(startOffset + length));
-		if (dat1->_buffTimer != dat2->_buffTimer)
-			game->logger.fatal(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer) + " vs " + std::to_string(dat2->_buffTimer));
+		if (dat1->_time != dat2->_time)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time) + " vs " + std::to_string(dat2->_time));
+		if (dat1->_oldAction != dat2->_oldAction)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction) + " vs " + std::to_string(dat2->_oldAction));
+		if (dat1->_hasBuff != dat2->_hasBuff)
+			game->logger.fatal(std::string(msgStart) + "Stickman::_hasBuff: " + std::to_string(dat1->_hasBuff) + " vs " + std::to_string(dat2->_hasBuff));
 		return length + sizeof(Data);
 	}
 
 	void Stickman::_renderExtraEffects(const Vector2f &pos) const
 	{
 		Character::_renderExtraEffects(pos);
-		if (this->_buffTimer)
+		if (this->_hasBuff && this->_installMoveStarted)
 			this->_renderInstallEffect(this->_neutralEffect);
 	}
 
 	void Stickman::_computeFrameDataCache()
 	{
 		Character::_computeFrameDataCache();
-		if (!this->_buffTimer)
+		if (!this->_hasBuff)
 			return;
 		this->_fdCache.oFlag.voidElement = true;
 		this->_fdCache.oFlag.matterElement = true;
@@ -164,7 +166,7 @@ namespace SpiralOfFate
 		game->logger.info("Stickman @" + std::to_string(startOffset + length));
 		if (startOffset + length + sizeof(Data) >= dataSize)
 			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
-		game->logger.info(std::string(msgStart) + "Stickman::_buffTimer: " + std::to_string(dat1->_buffTimer));
+		game->logger.info(std::string(msgStart) + "Stickman::_hasBuff: " + std::to_string(dat1->_hasBuff));
 		game->logger.info(std::string(msgStart) + "Stickman::_time: " + std::to_string(dat1->_time));
 		game->logger.info(std::string(msgStart) + "Stickman::_oldAction: " + std::to_string(dat1->_oldAction));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
@@ -172,5 +174,17 @@ namespace SpiralOfFate
 			return 0;
 		}
 		return length + sizeof(Data);
+	}
+
+	void Stickman::_forceStartMove(unsigned int action)
+	{
+		if (this->_installMoveStarted)
+			this->_hasBuff = false;
+		Character::_forceStartMove(action);
+		if (action >= ACTION_5N) {
+			this->_clearBasicBuffer();
+			if (this->_hasBuff)
+				this->_installMoveStarted = true;
+		}
 	}
 }

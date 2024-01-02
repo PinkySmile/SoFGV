@@ -17,20 +17,22 @@ namespace SpiralOfFate
 		struct Data {
 			unsigned _time;
 			unsigned _oldAction;
-			unsigned _buffTimer;
+			bool _hasBuff;
 		};
-		static_assert(sizeof(Data) == 12, "Data has wrong size");
+		static_assert(sizeof(Data) == 9, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
 		unsigned _time = 0;
 		unsigned _oldAction = 0;
-		unsigned _buffTimer = 0;
+		bool _hasBuff = false;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
 		void _computeFrameDataCache() override;
 		void _renderExtraEffects(const Vector2f &pos) const override;
+
+		void _forceStartMove(unsigned int action) override;
 
 	public:
 		Stickman() = default;

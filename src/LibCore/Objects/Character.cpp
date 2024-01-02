@@ -46,7 +46,8 @@
 #define IDLE_ANIM_CD_MIN 300
 #define IDLE_ANIM_CD_MAX 600
 
-#define PARRY_COST 100
+#define TYPED_PARRY_COST 75
+#define NEUTRAL_PARRY_COST 125
 #define INSTALL_COST 200
 #define INSTALL_DURATION 30
 #define REFLECT_PERCENT 60
@@ -431,14 +432,11 @@ namespace SpiralOfFate
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 	}
 
-	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
-		_input(std::move(input)),
-		index(index)
+	Character::Character( unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+		Character()
 	{
-		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
-		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
-		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
-		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
+		this->index = index;
+		this->_input = std::move(input);
 		this->_text.setFont(game->font);
 		this->_text.setFillColor(sf::Color::White);
 		this->_text.setOutlineColor(sf::Color::Black);
@@ -611,12 +609,6 @@ namespace SpiralOfFate
 
 		auto input = this->_updateInputs();
 
-		if (this->_matterInstallTimer)
-			this->_matterInstallTimer--;
-		if (this->_spiritInstallTimer)
-			this->_spiritInstallTimer--;
-		if (this->_voidInstallTimer)
-			this->_voidInstallTimer--;
 		if (this->_neutralEffectTimer)
 			this->_neutralEffectTimer--;
 		if (this->_matterEffectTimer)
@@ -767,15 +759,15 @@ namespace SpiralOfFate
 			this->_processInput(input);
 		else if (isHitAction(this->_action)) {
 			if (this->_isGrounded())
-				(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
-				(this->_specialInputs._am > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
-				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
-				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_OVERDRIVE));
+				(this->_specialInputs._dn > 0 && this->_startMove(ACTION_NEUTRAL_OVERDRIVE)) ||
+				(this->_specialInputs._dm > 0 && this->_startMove(ACTION_MATTER_OVERDRIVE)) ||
+				(this->_specialInputs._ds > 0 && this->_startMove(ACTION_SPIRIT_OVERDRIVE)) ||
+				(this->_specialInputs._dv > 0 && this->_startMove(ACTION_VOID_OVERDRIVE));
 			else
-				(this->_specialInputs._an > 0 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._am > 0 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._as > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
-				(this->_specialInputs._av > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
+				(this->_specialInputs._dn > 0 && this->_startMove(ACTION_NEUTRAL_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._dm > 0 && this->_startMove(ACTION_MATTER_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._ds > 0 && this->_startMove(ACTION_SPIRIT_AIR_OVERDRIVE)) ||
+				(this->_specialInputs._dv > 0 && this->_startMove(ACTION_VOID_AIR_OVERDRIVE));
 		}
 		this->_applyNewAnimFlags();
 		this->_applyMoveAttributes();
@@ -914,21 +906,38 @@ namespace SpiralOfFate
 				input.d = 0;
 			}
 		}
-		if ((this->_specialInputs._av > 0 || this->_specialInputs._as > 0 || this->_specialInputs._am > 0) && this->_action >= ACTION_5N && !isOverdriveAction(this->_action) && this->_mana >= INSTALL_COST) {
-			this->_voidInstallTimer = 0;
-			this->_spiritInstallTimer = 0;
-			this->_matterInstallTimer = 0;
-			if (this->_specialInputs._av > 0)
-				this->_voidInstallTimer = INSTALL_DURATION;
-			else if (this->_specialInputs._as > 0)
-				this->_spiritInstallTimer = INSTALL_DURATION;
-			else if (this->_specialInputs._am > 0)
-				this->_matterInstallTimer = INSTALL_DURATION;
+		if (
+			(this->_specialInputs._dv > 0 || this->_specialInputs._ds > 0 || this->_specialInputs._dm > 0) &&
+			!this->_installMoveStarted &&
+			!isOverdriveAction(this->_action) &&
+			this->_mana >= INSTALL_COST
+		) {
+			this->_hasVoidInstall = false;
+			this->_hasSpiritInstall = false;
+			this->_hasMatterInstall = false;
+			for (auto &obj : this->_typeSwitchEffects)
+				if (obj.second)
+					obj.second->kill();
+			if (this->_specialInputs._dv > 0) {
+				this->_hasVoidInstall = true;
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_VOID_TYPE_SWITCH);
+			} else if (this->_specialInputs._ds > 0) {
+				this->_hasSpiritInstall = true;
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH);
+			} else if (this->_specialInputs._dm > 0) {
+				this->_hasMatterInstall = true;
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_MATTER_TYPE_SWITCH);
+			}
 			this->_mana -= INSTALL_COST;
-			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_inputBuffer.a = 0;
+			this->_specialInputs._dm = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._ds = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._dv = -SPECIAL_INPUT_BUFFER_PERSIST;
+			input.n = 0;
+			input.v = 0;
+			input.s = 0;
+			input.m = 0;
+			input.d = 0;
+			this->_clearBasicBuffer();
 			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}
 		if (
@@ -1068,7 +1077,7 @@ namespace SpiralOfFate
 		        (this->_specialInputs._236a && this->_startMove(ACTION_j236A)) ||
 		        (this->_specialInputs._214a && this->_startMove(ACTION_j214A)) ||
 
-		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_AIR_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._dn > 0 && this->_startMove(ACTION_AIR_ROMAN_CANCEL)) ||
 
 		        this->_executeAirParry(input) ||
 
@@ -1166,7 +1175,7 @@ namespace SpiralOfFate
 		        (this->_specialInputs._236a && this->_startMove(ACTION_236A)) ||
 		        (this->_specialInputs._214a && this->_startMove(ACTION_214A)) ||
 
-		        (this->_specialInputs._an > 0 && this->_startMove(ACTION_ROMAN_CANCEL)) ||
+		        (this->_specialInputs._dn > 0 && this->_startMove(ACTION_ROMAN_CANCEL)) ||
 		        this->_executeGroundParry(input) ||
 
 		        (input.n && input.verticalAxis > 0 &&                                            this->_startMove(ACTION_8N)) ||
@@ -1509,6 +1518,20 @@ namespace SpiralOfFate
 		auto anim = this->_moves.at(this->_action)[this->_actionBlock].size() == this->_animation ? this->_animation - 1 : this->_animation;
 		auto &data = this->_moves[action][0][0];
 
+		if (this->_installMoveStarted) {
+			this->_hasMatterInstall = false;
+			this->_hasSpiritInstall = false;
+			this->_hasVoidInstall = false;
+			this->_installMoveStarted = false;
+			for (auto &obj : this->_typeSwitchEffects)
+				if (obj.second)
+					obj.second->kill();
+		}
+		if (action >= ACTION_5N) {
+			this->_clearBasicBuffer();
+			if (this->_hasMatterInstall || this->_hasSpiritInstall || this->_hasVoidInstall)
+				this->_installMoveStarted = true;
+		}
 		if (data.oFlag.turnAround && this->_opponent) {
 			if (this->_opponent->_position.x - this->_position.x != 0)
 				this->_dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
@@ -1549,12 +1572,9 @@ namespace SpiralOfFate
 		);
 		game->logger.debug("Starting action " + actionToString(action));
 		if (isParryAction(action)) {
-			unsigned loss = ((action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY) + 1) * PARRY_COST;
+			bool neutral = (action == ACTION_AIR_NEUTRAL_PARRY || action == ACTION_GROUND_HIGH_NEUTRAL_PARRY || action == ACTION_GROUND_LOW_NEUTRAL_PARRY);
+			unsigned loss = neutral ? NEUTRAL_PARRY_COST : TYPED_PARRY_COST;
 
-			this->_specialInputs._an = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._am = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._as = -SPECIAL_INPUT_BUFFER_PERSIST;
-			this->_specialInputs._av = -SPECIAL_INPUT_BUFFER_PERSIST;
 			game->soundMgr.play(BASICSOUND_PARRY);
 			this->_reduceGuard(loss, GUARD_REGEN_CD_PARRY, true);
 		}
@@ -1662,13 +1682,13 @@ namespace SpiralOfFate
 			this->_hasJumped = true;
 			// We add some anti buffer to RC and installs for the shared keys
 			if ((action >= ACTION_5N && action < ACTION_5M) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._an = -COMBINATION_LENIENCY;
+				this->_specialInputs._dn = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5M && action < ACTION_5S) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._am = -COMBINATION_LENIENCY;
+				this->_specialInputs._dm = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5S && action < ACTION_5V) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._as = -COMBINATION_LENIENCY;
+				this->_specialInputs._ds = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5V && action < ACTION_5A) || (action >= ACTION_5A && action < ACTION_214D))
-				this->_specialInputs._av = -COMBINATION_LENIENCY;
+				this->_specialInputs._dv = -COMBINATION_LENIENCY;
 		}
 		if (
 			!isHitAction(action) &&
@@ -1918,24 +1938,24 @@ namespace SpiralOfFate
 	{
 		auto input = this->_input->getInputs();
 
-		if (this->_specialInputs._an)
-			this->_specialInputs._an -= std::copysign(tickBuffer, this->_specialInputs._an);
-		if (this->_specialInputs._am)
-			this->_specialInputs._am -= std::copysign(tickBuffer, this->_specialInputs._am);
-		if (this->_specialInputs._as)
-			this->_specialInputs._as -= std::copysign(tickBuffer, this->_specialInputs._as);
-		if (this->_specialInputs._av)
-			this->_specialInputs._av -= std::copysign(tickBuffer, this->_specialInputs._av);
+		if (this->_specialInputs._dn)
+			this->_specialInputs._dn -= std::copysign(tickBuffer, this->_specialInputs._dn);
+		if (this->_specialInputs._dm)
+			this->_specialInputs._dm -= std::copysign(tickBuffer, this->_specialInputs._dm);
+		if (this->_specialInputs._ds)
+			this->_specialInputs._ds -= std::copysign(tickBuffer, this->_specialInputs._ds);
+		if (this->_specialInputs._dv)
+			this->_specialInputs._dv -= std::copysign(tickBuffer, this->_specialInputs._dv);
 
-		if (input.a && input.a < COMBINATION_LENIENCY) {
-			if (this->_specialInputs._an >= 0 && input.n && input.n < COMBINATION_LENIENCY)
-				this->_specialInputs._an = SPECIAL_INPUT_BUFFER_PERSIST;
-			if (this->_specialInputs._am >= 0 && input.m && input.m < COMBINATION_LENIENCY)
-				this->_specialInputs._am = SPECIAL_INPUT_BUFFER_PERSIST;
-			if (this->_specialInputs._as >= 0 && input.s && input.s < COMBINATION_LENIENCY)
-				this->_specialInputs._as = SPECIAL_INPUT_BUFFER_PERSIST;
-			if (this->_specialInputs._av >= 0 && input.v && input.v < COMBINATION_LENIENCY)
-				this->_specialInputs._av = SPECIAL_INPUT_BUFFER_PERSIST;
+		if (input.d && input.d < COMBINATION_LENIENCY) {
+			if (this->_specialInputs._dn >= 0 && input.n && input.n < COMBINATION_LENIENCY)
+				this->_specialInputs._dn = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._dm >= 0 && input.m && input.m < COMBINATION_LENIENCY)
+				this->_specialInputs._dm = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._ds >= 0 && input.s && input.s < COMBINATION_LENIENCY)
+				this->_specialInputs._ds = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._dv >= 0 && input.v && input.v < COMBINATION_LENIENCY)
+				this->_specialInputs._dv = SPECIAL_INPUT_BUFFER_PERSIST;
 		}
 	}
 
@@ -2325,7 +2345,9 @@ namespace SpiralOfFate
 		this->_checkAllHJInput(tickBuffer);
 
 		if (this->_atkDisabled) {
-			memset(&this->_specialInputs._value[3], 0, sizeof(this->_specialInputs._value) - 3);
+			constexpr size_t off = offsetof(SpecialInputs, _dn);
+
+			memset(&this->_specialInputs._value[off], 0, sizeof(this->_specialInputs._value) - off);
 			return;
 		}
 		this->_checkAllAXMacro(tickBuffer);
@@ -3167,6 +3189,11 @@ namespace SpiralOfFate
 				obj.first = 0;
 				obj.second.reset();
 			}
+		for (auto &obj : this->_typeSwitchEffects)
+			if (obj.second && obj.second->isDead()) {
+				obj.first = 0;
+				obj.second.reset();
+			}
 	}
 
 	unsigned char Character::_checkHitPos(const Object *other) const
@@ -3718,13 +3745,13 @@ namespace SpiralOfFate
 		dat->_spiritEffectTimer = this->_spiritEffectTimer;
 		dat->_voidEffectTimer = this->_voidEffectTimer;
 		dat->_timeSinceIdle = this->_timeSinceIdle;
-		dat->_matterInstallTimer = this->_matterInstallTimer;
-		dat->_spiritInstallTimer = this->_spiritInstallTimer;
-		dat->_voidInstallTimer = this->_voidInstallTimer;
+		dat->_hasMatterInstall = this->_hasMatterInstall;
+		dat->_hasSpiritInstall = this->_hasSpiritInstall;
+		dat->_hasVoidInstall = this->_hasVoidInstall;
+		dat->_installMoveStarted = this->_installMoveStarted;
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_grabInvul = this->_grabInvul;
-		dat->_hitStop = this->_hitStop;
 		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
@@ -3766,6 +3793,12 @@ namespace SpiralOfFate
 			else
 				dat->_subObjects[i] = 0;
 		}
+		for (i = 0; i < this->_typeSwitchEffects.size(); i++) {
+			if (this->_typeSwitchEffects[i].first && this->_typeSwitchEffects[i].second)
+				dat->_typeSwitchEffects[i] = this->_typeSwitchEffects[i].first;
+			else
+				dat->_typeSwitchEffects[i] = 0;
+		}
 		memcpy(&((LastInput *)&dat[1])[dat->_nbLastInputs], this->_replayData.data(), this->_replayData.size() * sizeof(ReplayData));
 
 		auto p = (unsigned *)(((ptrdiff_t)&((LastInput *)&dat[1])[dat->_nbLastInputs]) + this->_replayData.size() * sizeof(ReplayData));
@@ -3792,10 +3825,10 @@ namespace SpiralOfFate
 		this->_spiritEffectTimer = dat->_spiritEffectTimer;
 		this->_voidEffectTimer = dat->_voidEffectTimer;
 		this->_timeSinceIdle = dat->_timeSinceIdle;
-		this->_matterInstallTimer = dat->_matterInstallTimer;
-		this->_spiritInstallTimer = dat->_spiritInstallTimer;
-		this->_voidInstallTimer = dat->_voidInstallTimer;
-		this->_hitStop = dat->_hitStop;
+		this->_hasMatterInstall = dat->_hasMatterInstall;
+		this->_hasSpiritInstall = dat->_hasSpiritInstall;
+		this->_hasVoidInstall = dat->_hasVoidInstall;
+		this->_installMoveStarted = dat->_installMoveStarted;
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_grabInvul = dat->_grabInvul;
@@ -3835,6 +3868,10 @@ namespace SpiralOfFate
 			this->_subobjects[i].first = dat->_subObjects[i];
 			this->_subobjects[i].second.reset();
 		}
+		for (size_t i = 0; i < this->_typeSwitchEffects.size(); i++) {
+			this->_typeSwitchEffects[i].first = dat->_typeSwitchEffects[i];
+			this->_typeSwitchEffects[i].second.reset();
+		}
 		this->_replayData.clear();
 		this->_replayData.reserve(dat->_nbReplayInputs);
 		for (size_t i = 0; i < dat->_nbReplayInputs; i++)
@@ -3863,6 +3900,9 @@ namespace SpiralOfFate
 		for (auto &subobject : this->_subobjects)
 			if (subobject.first)
 				subobject.second = manager.getObjectFromId(subobject.first);
+		for (auto &obj : this->_typeSwitchEffects)
+			if (obj.first)
+				obj.second = manager.getIObjectFromId(obj.first);
 	}
 
 	unsigned int Character::getClassId() const
@@ -3945,7 +3985,7 @@ namespace SpiralOfFate
 			this->_parryMatterEffect(other, isStrongest);
 
 		if (!isWeakest && (!data->dFlag.neutralBlock || isStrongest)) {
-			unsigned loss = (data->dFlag.neutralBlock + 1) * PARRY_COST;
+			unsigned loss = data->dFlag.neutralBlock ? NEUTRAL_PARRY_COST : TYPED_PARRY_COST;
 
 			if (this->_guardCooldown) {
 				this->_guardCooldown = 0;
@@ -3962,6 +4002,7 @@ namespace SpiralOfFate
 				if (other->_team <= 1)
 					other->_team = this->_team;
 				other->_speed.x *= -1;
+				other->_speed.y *= -1;
 				other->_dir *= -1;
 				other->_direction = !other->_direction;
 			} else
@@ -4148,7 +4189,12 @@ namespace SpiralOfFate
 		}
 		if (data->particleGenerator > 0) {
 			my_assert(data->particleGenerator <= this->_generators.size());
-			game->battleMgr->registerObject<ParticleGenerator>(true, this->_generators[data->particleGenerator - 1], *this);
+			game->battleMgr->registerObject<ParticleGenerator>(
+				true,
+				ParticleGenerator::Source{this->_team, data->particleGenerator - 1},
+				this->_generators[data->particleGenerator - 1],
+				*this, *this
+			);
 		}
 	}
 
@@ -4250,8 +4296,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat1->_spiritEffectTimer) + " vs " + std::to_string(dat2->_spiritEffectTimer));
 		if (dat1->_voidEffectTimer != dat2->_voidEffectTimer)
 			game->logger.fatal(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat1->_voidEffectTimer) + " vs " + std::to_string(dat2->_voidEffectTimer));
-		if (dat1->_hitStop != dat2->_hitStop)
-			game->logger.fatal(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat1->_hitStop) + " vs " + std::to_string(dat2->_hitStop));
 		if (dat1->_jumpCanceled != dat2->_jumpCanceled)
 			game->logger.fatal(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat1->_jumpCanceled) + " vs " + std::to_string(dat2->_jumpCanceled));
 		if (dat1->_hadUltimate != dat2->_hadUltimate)
@@ -4328,6 +4372,14 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_guardBarTmp: " + std::to_string(dat1->_guardBarTmp) + " vs " + std::to_string(dat2->_guardBarTmp));
 		if (dat1->_airMovementUsed != dat2->_airMovementUsed)
 			game->logger.fatal(std::string(msgStart) + "Character::_airMovementUsed: " + std::to_string(dat1->_airMovementUsed) + " vs " + std::to_string(dat2->_airMovementUsed));
+		if (dat1->_hasMatterInstall != dat2->_hasMatterInstall)
+			game->logger.fatal(std::string(msgStart) + "Character::_hasMatterInstall: " + std::to_string(dat1->_hasMatterInstall) + " vs " + std::to_string(dat2->_hasMatterInstall));
+		if (dat1->_hasSpiritInstall != dat2->_hasSpiritInstall)
+			game->logger.fatal(std::string(msgStart) + "Character::_hasSpiritInstall: " + std::to_string(dat1->_hasSpiritInstall) + " vs " + std::to_string(dat2->_hasSpiritInstall));
+		if (dat1->_hasVoidInstall != dat2->_hasVoidInstall)
+			game->logger.fatal(std::string(msgStart) + "Character::_hasVoidInstall: " + std::to_string(dat1->_hasVoidInstall) + " vs " + std::to_string(dat2->_hasVoidInstall));
+		if (dat1->_installMoveStarted != dat2->_installMoveStarted)
+			game->logger.fatal(std::string(msgStart) + "Character::_installMoveStarted: " + std::to_string(dat1->_installMoveStarted) + " vs " + std::to_string(dat2->_installMoveStarted));
 		if (memcmp(dat1->_specialInputs, dat2->_specialInputs, sizeof(dat1->_specialInputs)) != 0) {
 			char number1[3];
 			char number2[3];
@@ -4353,14 +4405,14 @@ namespace SpiralOfFate
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_28: " + std::to_string(ptr1->_28) + " vs " + std::to_string(ptr2->_28));
 			if (ptr1->_29 != ptr2->_29)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_29: " + std::to_string(ptr1->_29) + " vs " + std::to_string(ptr2->_29));
-			if (ptr1->_an != ptr2->_an)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_an: " + std::to_string(ptr1->_an) + " vs " + std::to_string(ptr2->_an));
-			if (ptr1->_am != ptr2->_am)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_am: " + std::to_string(ptr1->_am) + " vs " + std::to_string(ptr2->_am));
-			if (ptr1->_as != ptr2->_as)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_as: " + std::to_string(ptr1->_as) + " vs " + std::to_string(ptr2->_as));
-			if (ptr1->_av != ptr2->_av)
-				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_av: " + std::to_string(ptr1->_av) + " vs " + std::to_string(ptr2->_av));
+			if (ptr1->_dn != ptr2->_dn)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_dn: " + std::to_string(ptr1->_dn) + " vs " + std::to_string(ptr2->_dn));
+			if (ptr1->_dm != ptr2->_dm)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_dm: " + std::to_string(ptr1->_dm) + " vs " + std::to_string(ptr2->_dm));
+			if (ptr1->_ds != ptr2->_ds)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_ds: " + std::to_string(ptr1->_ds) + " vs " + std::to_string(ptr2->_ds));
+			if (ptr1->_dv != ptr2->_dv)
+				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_dv: " + std::to_string(ptr1->_dv) + " vs " + std::to_string(ptr2->_dv));
 			if (ptr1->_c28n != ptr2->_c28n)
 				game->logger.fatal(std::string(msgStart) + "Character::_specialInputs::_c28n: " + std::to_string(ptr1->_c28n) + " vs " + std::to_string(ptr2->_c28n));
 			if (ptr1->_c28m != ptr2->_c28m)
@@ -4501,11 +4553,10 @@ namespace SpiralOfFate
 		if (dat1->_nbReplayInputs != dat2->_nbReplayInputs || dat1->_nbLastInputs != dat2->_nbLastInputs || dat1->_nbUsedMoves != dat2->_nbUsedMoves)
 			return 0;
 
-		return length +
-			sizeof(Data) +
-			sizeof(LastInput) * dat1->_nbLastInputs +
-			sizeof(ReplayData) * dat1->_nbReplayInputs +
-			sizeof(unsigned) * 2 * dat1->_nbUsedMoves;
+		return length + sizeof(Data) +
+		       sizeof(LastInput) * dat1->_nbLastInputs +
+		       sizeof(ReplayData) * dat1->_nbReplayInputs +
+		       sizeof(unsigned) * 2 * dat1->_nbUsedMoves;
 	}
 
 	Character::SubObjectAnchor Character::anchorFromString(const std::string &str)
@@ -4651,10 +4702,10 @@ namespace SpiralOfFate
 		this->_fdCache.oFlag.voidElement   &= !this->_neutralEffectTimer;
 		this->_fdCache.oFlag.matterElement &= !this->_neutralEffectTimer;
 		this->_fdCache.oFlag.spiritElement &= !this->_neutralEffectTimer;
-		if (this->_voidInstallTimer || this->_matterInstallTimer || this->_spiritInstallTimer) {
-			this->_fdCache.oFlag.voidElement = this->_voidInstallTimer;
-			this->_fdCache.oFlag.matterElement = this->_matterInstallTimer;
-			this->_fdCache.oFlag.spiritElement = this->_spiritInstallTimer;
+		if (this->_hasVoidInstall || this->_hasMatterInstall || this->_hasSpiritInstall) {
+			this->_fdCache.oFlag.voidElement = this->_hasVoidInstall;
+			this->_fdCache.oFlag.matterElement = this->_hasMatterInstall;
+			this->_fdCache.oFlag.spiritElement = this->_hasSpiritInstall;
 		}
 		this->_fdCache.dFlag.grabInvulnerable |= this->_grabInvul;
 	}
@@ -4736,7 +4787,6 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_matterEffectTimer: " + std::to_string(dat->_matterEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_spiritEffectTimer: " + std::to_string(dat->_spiritEffectTimer));
 		game->logger.info(std::string(msgStart) + "Character::_voidEffectTimer: " + std::to_string(dat->_voidEffectTimer));
-		game->logger.info(std::string(msgStart) + "Character::_hitStop: " + std::to_string(dat->_hitStop));
 		game->logger.info(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
 		game->logger.info(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
 		game->logger.info(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
@@ -4774,6 +4824,10 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_willWallSplat: " + std::to_string(dat->_willWallSplat));
 		game->logger.info(std::string(msgStart) + "Character::_doubleGravity: " + std::to_string(dat->_doubleGravity));
 		game->logger.info(std::string(msgStart) + "Character::_airMovementUsed: " + std::to_string(dat->_airMovementUsed));
+		game->logger.info(std::string(msgStart) + "Character::_hasMatterInstall: " + std::to_string(dat->_hasMatterInstall));
+		game->logger.info(std::string(msgStart) + "Character::_hasSpiritInstall: " + std::to_string(dat->_hasSpiritInstall));
+		game->logger.info(std::string(msgStart) + "Character::_hasVoidInstall: " + std::to_string(dat->_hasVoidInstall));
+		game->logger.info(std::string(msgStart) + "Character::_installMoveStarted: " + std::to_string(dat->_installMoveStarted));
 
 		char number[3];
 		auto *ptr = (SpecialInputs *)dat->_specialInputs;
@@ -4788,10 +4842,10 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_27: " + std::to_string(ptr->_27));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_28: " + std::to_string(ptr->_28));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_29: " + std::to_string(ptr->_29));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_an: " + std::to_string(ptr->_an));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_am: " + std::to_string(ptr->_am));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_as: " + std::to_string(ptr->_as));
-		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_av: " + std::to_string(ptr->_av));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_dn: " + std::to_string(ptr->_dn));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_dm: " + std::to_string(ptr->_dm));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_ds: " + std::to_string(ptr->_ds));
+		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_dv: " + std::to_string(ptr->_dv));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28n: " + std::to_string(ptr->_c28n));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28m: " + std::to_string(ptr->_c28m));
 		game->logger.info(std::string(msgStart) + "Character::_specialInputs::_c28s: " + std::to_string(ptr->_c28s));
@@ -4937,12 +4991,14 @@ namespace SpiralOfFate
 			this->_renderEffect(pos, this->_matterEffect);
 		else if (this->_voidEffectTimer)
 			this->_renderEffect(pos, this->_voidEffect);
-		if (this->_spiritInstallTimer)
-			this->_renderInstallEffect(this->_spiritEffect);
-		else if (this->_matterInstallTimer)
-			this->_renderInstallEffect(this->_matterEffect);
-		else if (this->_voidInstallTimer)
-			this->_renderInstallEffect(this->_voidEffect);
+		if (this->_installMoveStarted) {
+			if (this->_hasSpiritInstall)
+				this->_renderInstallEffect(this->_spiritEffect);
+			else if (this->_hasMatterInstall)
+				this->_renderInstallEffect(this->_matterEffect);
+			else if (this->_hasVoidInstall)
+				this->_renderInstallEffect(this->_voidEffect);
+		}
 	}
 
 	void Character::_reduceGuard(unsigned int amount, unsigned regenTime, bool canCrush)
@@ -4965,5 +5021,33 @@ namespace SpiralOfFate
 			game->soundMgr.play(BASICSOUND_GUARD_BREAK);
 		} else
 			this->_guardBar = 0;
+	}
+
+	void Character::_clearBasicBuffer()
+	{
+		this->_inputBuffer.n = 0;
+		this->_inputBuffer.v = 0;
+		this->_inputBuffer.s = 0;
+		this->_inputBuffer.m = 0;
+		this->_inputBuffer.a = 0;
+		this->_lastInputs.clear();
+	}
+
+	void Character::_spawnSystemParticles(unsigned int id)
+	{
+		my_assert(this->systemParticles);
+		my_assert(id < this->systemParticles->size());
+
+		auto result = game->battleMgr->registerObject<ParticleGenerator>(
+			true,
+			ParticleGenerator::Source{2, id},
+			(*this->systemParticles)[id],
+			*this, *this
+		);
+
+		if (id < 4) {
+			my_assert(!this->_typeSwitchEffects[id].second || this->_typeSwitchEffects[id].second->isDead());
+			this->_typeSwitchEffects[id] = result;
+		}
 	}
 }

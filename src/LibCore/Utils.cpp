@@ -112,6 +112,7 @@ namespace SpiralOfFate::Utils
 					return "Error reading from stdin.";
 				else if (ferror(stdout))
 					return "Error writing ro stdout.";
+				return "Errno error";
 			case Z_STREAM_ERROR:
 				return "Invalid compression level.";
 			case Z_DATA_ERROR:
