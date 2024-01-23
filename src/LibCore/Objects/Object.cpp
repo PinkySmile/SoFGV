@@ -241,6 +241,7 @@ namespace SpiralOfFate
 
 		auto *oData = other.getCurrentFrameData();
 		auto *mData = this->getCurrentFrameData();
+		auto neutral= mData->oFlag.matterElement && mData->oFlag.voidElement && mData->oFlag.spiritElement;
 
 		if (mData->hitBoxes.empty() || oData->hurtBoxes.empty())
 			return false;
@@ -252,13 +253,13 @@ namespace SpiralOfFate
 			return false;
 		if (oData->dFlag.airborne != mData->dFlag.airborne && mData->oFlag.grab)
 			return false;
-		if (oData->dFlag.spiritInvul && mData->oFlag.spiritElement)
+		if (oData->dFlag.spiritInvul && mData->oFlag.spiritElement && !neutral)
 			return false;
-		if (oData->dFlag.voidInvul && mData->oFlag.voidElement)
+		if (oData->dFlag.voidInvul && mData->oFlag.voidElement && !neutral)
 			return false;
-		if (oData->dFlag.matterInvul && mData->oFlag.matterElement)
+		if (oData->dFlag.matterInvul && mData->oFlag.matterElement && !neutral)
 			return false;
-		if (oData->dFlag.neutralInvul && (mData->oFlag.matterElement == mData->oFlag.voidElement && mData->oFlag.voidElement == mData->oFlag.spiritElement))
+		if (oData->dFlag.neutralInvul && neutral)
 			return false;
 
 		auto hurtBoxes = other._getModifiedHurtBoxes();
