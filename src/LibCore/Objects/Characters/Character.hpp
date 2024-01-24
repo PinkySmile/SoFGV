@@ -7,10 +7,10 @@
 
 
 #include <list>
-#include "Object.hpp"
+#include "Objects/Object.hpp"
 #include "Inputs/IInput.hpp"
 #include "Data/Color.hpp"
-#include "ParticleGenerator.hpp"
+#include "Objects/ParticleGenerator.hpp"
 #include "Resources/ReplayData.hpp"
 
 #ifdef _MSC_VER
@@ -458,12 +458,12 @@ namespace SpiralOfFate
 			bool _hasSpiritInstall;
 			bool _hasVoidInstall;
 			bool _installMoveStarted;
-			unsigned char _specialInputs[37];
+			unsigned char _specialInputs[38];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 733, "Data has wrong size");
+		static_assert(sizeof(Data) == 734, "Data has wrong size");
 		union SpecialInputs {
-			unsigned char _value[37] = {0};
+			unsigned char _value[38] = {0};
 			struct {
 				unsigned char _22: 4;
 				unsigned char _44: 4;
@@ -475,6 +475,7 @@ namespace SpiralOfFate
 				char _dm;
 				char _ds;
 				char _dv;
+				char _da;
 				unsigned char _c28n: 4;
 				unsigned char _c28m: 4;
 				unsigned char _c28s: 4;

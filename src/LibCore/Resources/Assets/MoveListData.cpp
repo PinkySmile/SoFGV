@@ -3,7 +3,7 @@
 //
 
 #include "MoveListData.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 
 namespace SpiralOfFate
 {

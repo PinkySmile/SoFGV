@@ -7,7 +7,7 @@
 
 
 #include <random>
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 
 namespace SpiralOfFate
 {

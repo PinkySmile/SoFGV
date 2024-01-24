@@ -3,7 +3,7 @@
 //
 
 #include "FakeObject.hpp"
-#include "Character.hpp"
+#include "Objects/Characters/Character.hpp"
 
 SpiralOfFate::FakeObject::FakeObject(const std::map<unsigned int, std::vector<std::vector<FrameData>>> &frameData)
 {

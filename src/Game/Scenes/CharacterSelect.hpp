@@ -11,7 +11,7 @@
 #include "Resources/IScene.hpp"
 #include "Inputs/IInput.hpp"
 #include "Resources/Assets/FrameData.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "InGame.hpp"
 #include "LoadingScene.hpp"
 #include "Resources/SceneArgument.hpp"

@@ -11,7 +11,7 @@
 #include <memory>
 #include <optional>
 #include "Inputs/RollbackInput.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 
 #define MAX_ROLLBACK 8
 

@@ -6,7 +6,7 @@
 #define SOFGV_BATTLEMANAGER_HPP
 
 
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Objects/Platform.hpp"
 #include "Resources/Assets/MoveListData.hpp"
 

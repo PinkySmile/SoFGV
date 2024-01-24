@@ -197,6 +197,7 @@ if (NETWORK_CLASSES)
 		src/LibCore/Resources/Network/SpectatorInputManager.hpp
 		src/LibCore/Inputs/SpectatorInput.cpp
 		src/LibCore/Inputs/SpectatorInput.hpp
+
 	)
 	set(
 		NETWORK_EXTRA_SCENES
@@ -280,8 +281,8 @@ add_library(
 	src/LibCore/Inputs/RollbackInput.hpp
 	src/LibCore/Logger.cpp
 	src/LibCore/Logger.hpp
-	src/LibCore/Objects/Character.cpp
-	src/LibCore/Objects/Character.hpp
+	src/LibCore/Objects/Characters/Character.cpp
+	src/LibCore/Objects/Characters/Character.hpp
 	src/LibCore/Objects/Characters/Projectile.cpp
 	src/LibCore/Objects/Characters/Projectile.hpp
 	src/LibCore/Objects/Characters/Stickman/Stickman.cpp
@@ -344,6 +345,7 @@ add_library(
 	src/LibCore/Objects/ParticleGenerator.cpp
 	src/LibCore/Objects/ParticleGenerator.hpp
 	src/LibCore/Resources/ReplayData.hpp
+	src/LibCore/Objects/Characters/CharacterParams.hpp
 	${INPUT_SRCS}
 	${ASSETS_SRCS}
 	${SCREEN_SRCS}

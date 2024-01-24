@@ -4,7 +4,7 @@
 
 #include "Butterfly.hpp"
 #include "Shadow.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Resources/Game.hpp"
 #include "VictoriaStar.hpp"
 

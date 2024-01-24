@@ -14,7 +14,7 @@
 #include "Inputs/RollbackInput.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Logger.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Objects/Characters/Stickman/Stickman.hpp"
 #include "Objects/FakeObject.hpp"
 #include "Objects/IObject.hpp"

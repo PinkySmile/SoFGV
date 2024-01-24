@@ -6,7 +6,7 @@
 #define SOFGV_PROJECTILE_HPP
 
 
-#include "Objects/Character.hpp"
+#include "Character.hpp"
 #include "SubObject.hpp"
 
 namespace SpiralOfFate

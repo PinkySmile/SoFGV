@@ -3,7 +3,7 @@
 //
 
 #include "SubObject.hpp"
-#include "Objects/Character.hpp"
+#include "Character.hpp"
 #include "Resources/Game.hpp"
 
 namespace SpiralOfFate

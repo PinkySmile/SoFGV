@@ -10,7 +10,7 @@
 #include <random>
 #include "Resources/IScene.hpp"
 #include "Inputs/IInput.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Resources/Assets/MoveListData.hpp"
 #include "Resources/Battle/RandomWrapper.hpp"
 #include "Objects/FakeObject.hpp"

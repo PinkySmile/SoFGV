@@ -5,8 +5,9 @@
 #include "Stickman.hpp"
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
+#include "Objects/Characters/CharacterParams.hpp"
 
-#define INSTALL_COST 300
+#define SPECIAL_INSTALL_COST 300
 
 namespace SpiralOfFate
 {
@@ -43,8 +44,7 @@ namespace SpiralOfFate
 		if (this->_hasSpiritInstall || this->_hasMatterInstall || this->_hasVoidInstall)
 			this->_hasBuff = false;
 		if (
-			this->_inputBuffer.a &&
-			this->_inputBuffer.verticalAxis < 0 &&
+			this->_specialInputs._da > 0 &&
 			!isOverdriveAction(this->_action) &&
 			!this->_installMoveStarted &&
 			!this->_hasBuff
@@ -57,7 +57,11 @@ namespace SpiralOfFate
 			this->_hasSpiritInstall = false;
 			this->_hasMatterInstall = false;
 			this->_hasBuff = true;
-			this->_mana -= INSTALL_COST;
+			this->_mana -= SPECIAL_INSTALL_COST;
+			this->_specialInputs._dm = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._ds = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._dv = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._da = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_clearBasicBuffer();
 			game->soundMgr.play(BASICSOUND_INSTALL_START);
 		}

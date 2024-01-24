@@ -16,61 +16,7 @@
 #define mini(x, y) (x < y ? x : y)
 #endif
 
-#define GRAB_INVUL_STACK 9
-
-#define MAX_LIMIT_EFFECT_TIMER (15 << 4)
-#define DEC_LIMIT_EFFECT_TIMER(x) ((x) -= (1 << 4))
-
-#define TMP_GUARD_MAX (300)
-#define GUARD_REGEN_CD_BLOCK (240)
-#define GUARD_REGEN_CD_PARRY (60)
-#define GUARD_REGEN_PER_FRAME (2)
-
-#define MINIMUM_STALLING_STACKING (-800)
-#define STALLING_HIT_REMOVE (75)
-#define STALLING_BLOCK_REMOVE (25)
-#define STALLING_BEING_HIT_REMOVE (50)
-#define STALLING_BLOCKING_REMOVE (50)
-#define STALLING_BLOCK_WIPE_THRESHOLD (350)
-#define MAXIMUM_STALLING_STACKING (2700)
-#define BACKING_STALLING_FACTOR (1.1f)
-#define FORWARD_STALLING_FACTOR (0.9f)
-#define GROUND_STALLING_FACTOR (0.25f)
-#define MAX_STALLING_FACTOR_HEIGHT (0.f)
-#define PASSIVE_STALLING_FACTOR (0.25f)
-// 0.1% per frame max
-#define METER_PENALTY_EQUATION(val, maxval) (((val) - START_STALLING_THRESHOLD) * (maxval) / (float)(MAXIMUM_STALLING_STACKING - START_STALLING_THRESHOLD) / 1000)
-
-#define IDLE_ANIM_FIRST 600
-#define IDLE_ANIM_CHANCE 50
-#define IDLE_ANIM_CD_MIN 300
-#define IDLE_ANIM_CD_MAX 600
-
-#define TYPED_PARRY_COST 75
-#define NEUTRAL_PARRY_COST 125
-#define INSTALL_COST 200
-#define INSTALL_DURATION 30
-#define REFLECT_PERCENT 60
-#define COMBINATION_LENIENCY 4
-#define MAX_FRAME_IN_BUFFER 60
-
-#define WALL_SLAM_HITSTUN_INCREASE 30
-#define GROUND_SLAM_HITSTUN_INCREASE 30
-
-#define SPECIAL_INPUT_BUFFER_PERSIST 10
-#define DASH_BUFFER_PERSIST 6
-#define HJ_BUFFER_PERSIST 6
-
-#define NORMAL_BUFFER 4
-#define HJ_BUFFER 10
-#define DASH_BUFFER 15
-#define QUARTER_CIRCLE_BUFFER 10
-#define DP_BUFFER 15
-#define HALF_CIRCLE_BUFFER 20
-#define SPIRAL_BUFFER 30
-#define CHARGE_PART_BUFFER 10
-#define CHARGE_BUFFER 5
-#define CHARGE_TIME 25
+#include "CharacterParams.hpp"
 
 static const char *oFlags[] = {
 	"grab",
@@ -932,6 +878,7 @@ namespace SpiralOfFate
 			this->_specialInputs._dm = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._ds = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_specialInputs._dv = -SPECIAL_INPUT_BUFFER_PERSIST;
+			this->_specialInputs._da = -SPECIAL_INPUT_BUFFER_PERSIST;
 			input.n = 0;
 			input.v = 0;
 			input.s = 0;
@@ -1694,6 +1641,8 @@ namespace SpiralOfFate
 				this->_specialInputs._ds = -COMBINATION_LENIENCY;
 			else if ((action >= ACTION_5V && action < ACTION_5A) || (action >= ACTION_5A && action < ACTION_214D))
 				this->_specialInputs._dv = -COMBINATION_LENIENCY;
+			else if (action >= ACTION_5A && action < ACTION_214D)
+				this->_specialInputs._da = -COMBINATION_LENIENCY;
 		}
 		if (
 			!isHitAction(action) &&
@@ -1951,6 +1900,8 @@ namespace SpiralOfFate
 			this->_specialInputs._ds -= std::copysign(tickBuffer, this->_specialInputs._ds);
 		if (this->_specialInputs._dv)
 			this->_specialInputs._dv -= std::copysign(tickBuffer, this->_specialInputs._dv);
+		if (this->_specialInputs._da)
+			this->_specialInputs._da -= std::copysign(tickBuffer, this->_specialInputs._da);
 
 		if (input.d && input.d < COMBINATION_LENIENCY) {
 			if (this->_specialInputs._dn >= 0 && input.n && input.n < COMBINATION_LENIENCY)
@@ -1961,6 +1912,8 @@ namespace SpiralOfFate
 				this->_specialInputs._ds = SPECIAL_INPUT_BUFFER_PERSIST;
 			if (this->_specialInputs._dv >= 0 && input.v && input.v < COMBINATION_LENIENCY)
 				this->_specialInputs._dv = SPECIAL_INPUT_BUFFER_PERSIST;
+			if (this->_specialInputs._da >= 0 && input.a && input.a < COMBINATION_LENIENCY)
+				this->_specialInputs._da = SPECIAL_INPUT_BUFFER_PERSIST;
 		}
 	}
 

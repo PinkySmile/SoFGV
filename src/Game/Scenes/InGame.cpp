@@ -13,7 +13,7 @@
 #endif
 #include <sys/stat.h>
 #include "InGame.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
 #include "CharacterSelect.hpp"

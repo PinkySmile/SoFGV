@@ -5,7 +5,7 @@
 #include "Particle.hpp"
 
 #include <utility>
-#include "Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Resources/Game.hpp"
 
 namespace SpiralOfFate

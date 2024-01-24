@@ -7,7 +7,7 @@
 
 
 #include "Butterfly.hpp"
-#include "Objects/Character.hpp"
+#include "Objects/Characters/Character.hpp"
 #include "Flower.hpp"
 
 #define NB_BUTTERFLIES 8
