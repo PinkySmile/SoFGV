@@ -7,8 +7,6 @@
 #undef max
 #undef min
 #else
-// TODO: Put native boxes on windows
-#define MessageBox(...)
 #include <arpa/inet.h>
 #include <dirent.h>
 #endif
@@ -1058,9 +1056,8 @@ namespace SpiralOfFate
 		args->params = params;
 		args->frameCount = frameCount;
 		args->platforms = stages[params.stage].platforms[params.platforms];
-		// TODO: Do this properly
-		args->licon = 0;
-		args->ricon = 0;
+		args->licon = entries[P1pos].icon[P1palette].textureHandle;
+		args->ricon = entries[P2pos].icon[P2palette].textureHandle;
 		args->lJson = entries[P1pos].entry;
 		args->rJson = entries[P2pos].entry;
 		game->scene.switchScene("replay_in_game", args);
