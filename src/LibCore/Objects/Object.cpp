@@ -47,7 +47,7 @@ namespace SpiralOfFate
 
 	std::vector<std::vector<Vector2f>> Rectangle::getIntersectionPoints(const Rectangle &other)
 	{
-		std::vector<std::vector<Vector2f>> result;
+		std::vector<std::vector<Vector2f>> result{4};
 		std::vector<Vector2f> tmp;
 
 		for (int i = 0; i < 4; i++) {
@@ -70,11 +70,8 @@ namespace SpiralOfFate
 
 				auto r = C + CD * u;
 
-				tmp.emplace_back(r);
+				result[i].emplace_back(r);
 			}
-			if (!tmp.empty())
-				result.push_back(tmp);
-			tmp.clear();
 		}
 		return result;
 	}

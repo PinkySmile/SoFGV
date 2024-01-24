@@ -3172,9 +3172,8 @@ namespace SpiralOfFate
 			static_cast<float>(oData->size.x) / oData->textureBounds.size.x,
 			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
 		};
-		bool found = false;
-		SpiralOfFate::Rectangle hurtbox;
-		SpiralOfFate::Rectangle hitbox;
+		int result = 3;
+		auto center = this->_position.y + oData->offset.y + oData->size.y / 2;
 
 		mCenter.y *= -1;
 		mCenter += Vector2f{
@@ -3201,40 +3200,44 @@ namespace SpiralOfFate
 
 			__hurtBox.pt1 = _hurtBox.pos.rotation(this->_rotation, oCenter)                                                      + Vector2f{this->_position.x, -this->_position.y};
 			__hurtBox.pt2 = (_hurtBox.pos + Vector2f{0, static_cast<float>(_hurtBox.size.y)}).rotation(this->_rotation, oCenter) + Vector2f{this->_position.x, -this->_position.y};
-			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size).rotation(this->_rotation, oCenter)                                    + Vector2f{this->_position.x, -this->_position.y};
+			__hurtBox.pt3 = (_hurtBox.pos + _hurtBox.size.to<int>()).rotation(this->_rotation, oCenter)                          + Vector2f{this->_position.x, -this->_position.y};
 			__hurtBox.pt4 = (_hurtBox.pos + Vector2f{static_cast<float>(_hurtBox.size.x), 0}).rotation(this->_rotation, oCenter) + Vector2f{this->_position.x, -this->_position.y};
-			hurtbox = __hurtBox;
 			for (auto &hitBox : mData->hitBoxes) {
 				auto _hitBox = other->_applyModifiers(hitBox);
 				SpiralOfFate::Rectangle __hitBox;
 
 				__hitBox.pt1 = _hitBox.pos.rotation(other->_rotation, mCenter)                                                     + Vector2f{other->_position.x, -other->_position.y};
 				__hitBox.pt2 = (_hitBox.pos + Vector2f{0, static_cast<float>(_hitBox.size.y)}).rotation(other->_rotation, mCenter) + Vector2f{other->_position.x, -other->_position.y};
-				__hitBox.pt3 = (_hitBox.pos + _hitBox.size).rotation(other->_rotation, mCenter)                                    + Vector2f{other->_position.x, -other->_position.y};
+				__hitBox.pt3 = (_hitBox.pos + _hitBox.size.to<int>()).rotation(other->_rotation, mCenter)                          + Vector2f{other->_position.x, -other->_position.y};
 				__hitBox.pt4 = (_hitBox.pos + Vector2f{static_cast<float>(_hitBox.size.x), 0}).rotation(other->_rotation, mCenter) + Vector2f{other->_position.x, -other->_position.y};
-				if (__hurtBox.intersect(__hitBox) || __hurtBox.isIn(__hitBox) || __hitBox.isIn(__hurtBox)) {
-					hitbox = __hitBox;
-					found = true;
-					break;
+				if (__hurtBox.isIn(__hitBox) || __hitBox.isIn(__hurtBox)) {
+					for (int i = 0; i < 4; i++) {
+						auto &pt = (&__hitBox.pt1)[i];
+
+						if (-pt.y > center)
+							result &= 2;
+						if (-pt.y < center)
+							result &= 1;
+					}
+					continue;
 				}
+
+				auto pts = __hurtBox.getIntersectionPoints(__hitBox);
+
+				for (auto &arr : pts)
+					for (auto &pt : arr) {
+						if (-pt.y > center)
+							result &= 2;
+						if (-pt.y < center)
+							result &= 1;
+					}
+				if (result == 0)
+					return 0;
 			}
-			if (found)
-				break;
 		}
-		my_assert(found);
 
-		auto height = 0;
-		auto pts = hurtbox.getIntersectionPoints(hitbox);
-		auto center = this->_position.y + oData->offset.y + oData->size.y / 2;
-
-		for (auto &arr : pts)
-			for (auto &pt : arr)
-				height += (pt.y > center) - (pt.y < center);
-		if (height == 0)
-			return 0;
-		if (pts.size() == 1)
-			return 0; // TODO: Handle this case
-		return height > 0 ? 1 : 2;
+		my_assert(result != 3);
+		return result;
 	}
 
 	void Character::_blockMove(Object *other, const FrameData &data)
