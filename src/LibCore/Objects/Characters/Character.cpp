@@ -1460,6 +1460,18 @@ namespace SpiralOfFate
 
 	void Character::_forceStartMove(unsigned int action)
 	{
+		if (
+			action == ACTION_NEUTRAL_OVERDRIVE ||
+			action == ACTION_MATTER_OVERDRIVE ||
+			action == ACTION_SPIRIT_OVERDRIVE ||
+			action == ACTION_VOID_OVERDRIVE ||
+			action == ACTION_NEUTRAL_AIR_OVERDRIVE ||
+			action == ACTION_MATTER_AIR_OVERDRIVE ||
+			action == ACTION_SPIRIT_AIR_OVERDRIVE ||
+			action == ACTION_VOID_AIR_OVERDRIVE
+		)
+			this->_blockStun = 0;
+
 		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
 		my_assert(this->_blockStun == 0 || (
 			isHitAction(action) ||
