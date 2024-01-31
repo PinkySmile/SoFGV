@@ -48,5 +48,6 @@
     [{ "r":120, "g":120, "b":120}]
   ],
   "name":"Stickman_old",
-  "pos":-1
+  "pos":-1,
+  "hidden": true
 }
