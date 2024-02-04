@@ -3,11 +3,8 @@
 #
 # Once done this module will define:
 #  SDL2_FOUND - system has SDL2
-#  SDL2_GRAPHICS_LIBRARY
-#  SDL2_AUDIO_LIBRARY
-#  SDL2_NETWORK_LIBRARY
-#  SDL2_SYSTEM_LIBRARY
-#  SDL2_WINDOW_LIBRARY
+#  SDL2_LIBRARY
+#  SDL2_IMAGE_LIBRARY
 #  - Link these to use SDL2
 #
 

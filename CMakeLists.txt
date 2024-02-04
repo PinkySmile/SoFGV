@@ -172,6 +172,15 @@ if (VIRTUAL_CONTROLLER)
 	add_compile_definitions(VIRTUAL_CONTROLLER=1)
 endif()
 if (NETWORK_CLASSES)
+	find_package(zlib REQUIRED)
+	message("zlib include dir is ${ZLIB_INCLUDE_DIRS}")
+	message("zlib library is ${ZLIB_LIBRARY}")
+	set(
+		EXTRA_LINK_LIBRARIES
+		${EXTRA_LINK_LIBRARIES}
+		${ZLIB_LIBRARY}
+	)
+	include_directories(${ZLIB_INCLUDE_DIRS})
 	set(
 		NETWORK_SRCS
 		${NETWORK_EXTRA_SRC}
@@ -197,7 +206,6 @@ if (NETWORK_CLASSES)
 		src/LibCore/Resources/Network/SpectatorInputManager.hpp
 		src/LibCore/Inputs/SpectatorInput.cpp
 		src/LibCore/Inputs/SpectatorInput.hpp
-
 	)
 	set(
 		NETWORK_EXTRA_SCENES

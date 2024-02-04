@@ -41,7 +41,9 @@ Character *createCharacter(std::string folder, int _class)
 
 int main(int argc, char **argv)
 {
+#ifndef _DEBUG
 	try {
+#endif
 		if (argc < 6) {
 			printf("Usage: %s <stage_id> <platform_id> <chr1_path> <chr2_path> <file1.frame> [<file2.frame>]\n", argv[0]);
 			return EXIT_FAILURE;
@@ -232,7 +234,9 @@ int main(int argc, char **argv)
 		else
 			game->battleMgr->printContent(buffer1, size);
 		return EXIT_SUCCESS;
+#ifndef _DEBUG
 	} catch (std::exception &e) {
 		printf("%s\n", e.what());
 	}
+#endif
 }
