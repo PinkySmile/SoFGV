@@ -371,7 +371,6 @@ if (WIN32)
 		${EXTRA_LINK_LIBRARIES}
 		dbghelp
 		ws2_32
-		z
 	)
 else ()
 	target_link_libraries(
@@ -380,7 +379,6 @@ else ()
 		pthread
 		png
 		xcb
-		z
 	)
 endif ()
 
