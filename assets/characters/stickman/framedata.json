@@ -25,9 +25,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -59,9 +59,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -93,9 +93,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -127,9 +127,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -161,9 +161,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -195,9 +195,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -231,9 +231,9 @@
             "x": -4,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -265,9 +265,9 @@
             "x": -4,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -299,9 +299,9 @@
             "x": -4,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -333,9 +333,9 @@
             "x": 0,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -367,9 +367,9 @@
             "x": -8,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -401,9 +401,9 @@
             "x": 0,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -435,9 +435,9 @@
             "x": -8,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -469,9 +469,9 @@
             "x": 0,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -503,9 +503,9 @@
             "x": -8,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -537,9 +537,9 @@
             "x": 0,
             "y": -2
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -571,9 +571,9 @@
             "x": -4,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -612,9 +612,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -646,9 +646,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -686,9 +686,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -727,9 +727,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -761,9 +761,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -802,9 +802,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -840,9 +840,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -878,9 +878,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -916,9 +916,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -954,9 +954,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -992,9 +992,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -1030,9 +1030,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -1068,9 +1068,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -1106,9 +1106,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -1144,9 +1144,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.75,
@@ -1189,9 +1189,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1227,9 +1227,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1265,9 +1265,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1303,9 +1303,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1341,9 +1341,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1379,9 +1379,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1417,9 +1417,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1455,9 +1455,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1493,9 +1493,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1531,9 +1531,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -3.75,
@@ -1581,9 +1581,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "sprite": "sheet_new.png",
@@ -1624,9 +1624,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 8.5,
@@ -1668,9 +1668,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 8.5,
@@ -1712,9 +1712,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 8.5,
@@ -1756,9 +1756,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 8.5,
@@ -1800,9 +1800,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 8.5,
@@ -1846,9 +1846,9 @@
             "x": -10,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 7.0,
@@ -1890,9 +1890,9 @@
             "x": -10,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -1934,9 +1934,9 @@
             "x": -10,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.0,
@@ -1984,9 +1984,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -2028,9 +2028,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -11.0,
@@ -2071,9 +2071,9 @@
             "x": -16,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -4.0,
@@ -2108,9 +2108,9 @@
             "x": -16,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -4.0,
@@ -2152,9 +2152,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2185,9 +2185,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2217,9 +2217,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -2254,9 +2254,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2288,9 +2288,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2322,9 +2322,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2356,9 +2356,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2390,9 +2390,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2430,9 +2430,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2463,9 +2463,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2495,9 +2495,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 7.0,
@@ -2532,9 +2532,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2566,9 +2566,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2600,9 +2600,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2634,9 +2634,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2668,9 +2668,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2708,9 +2708,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2741,9 +2741,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2773,9 +2773,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -7.0,
@@ -2810,9 +2810,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2844,9 +2844,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2878,9 +2878,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2912,9 +2912,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2946,9 +2946,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -2986,9 +2986,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3019,9 +3019,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3051,9 +3051,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "10",
           "speed": {
@@ -3089,9 +3089,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3123,9 +3123,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3157,9 +3157,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3191,9 +3191,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3225,9 +3225,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3265,9 +3265,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3298,9 +3298,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3330,9 +3330,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "10",
           "speed": {
@@ -3368,9 +3368,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3402,9 +3402,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3436,9 +3436,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3470,9 +3470,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3504,9 +3504,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3544,9 +3544,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3577,9 +3577,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3609,9 +3609,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "10",
           "speed": {
@@ -3647,9 +3647,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3681,9 +3681,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3715,9 +3715,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3749,9 +3749,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3783,9 +3783,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3824,9 +3824,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3858,9 +3858,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3897,9 +3897,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -3942,9 +3942,9 @@
             "y": -16
           },
           "rotation": 316.1200097530669,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -3985,9 +3985,9 @@
             "y": -16
           },
           "rotation": 316.1200097530669,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4023,9 +4023,9 @@
             "y": -16
           },
           "rotation": 314.9999995828637,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4064,9 +4064,9 @@
             "y": -16
           },
           "rotation": 87.64000412358519,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4103,9 +4103,9 @@
             "y": -16
           },
           "rotation": 84.28000275511602,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4137,9 +4137,9 @@
             "y": -16
           },
           "rotation": 85.4000032112724,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4182,9 +4182,9 @@
             "y": -16
           },
           "rotation": 43.96000090455629,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4225,9 +4225,9 @@
             "y": -16
           },
           "rotation": 45.08000136071267,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4263,9 +4263,9 @@
             "y": -16
           },
           "rotation": 47.32000713004886,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4307,9 +4307,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4349,9 +4349,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4386,9 +4386,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4430,9 +4430,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4472,9 +4472,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4509,9 +4509,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4554,9 +4554,9 @@
             "y": -16
           },
           "rotation": 41.71999999224351,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4597,9 +4597,9 @@
             "y": -16
           },
           "rotation": 41.71999999224351,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4635,9 +4635,9 @@
             "y": -16
           },
           "rotation": 42.8400004483999,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4680,9 +4680,9 @@
             "y": -16
           },
           "rotation": 267.68000216686164,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4723,9 +4723,9 @@
             "y": -16
           },
           "rotation": 263.20000034223614,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4761,9 +4761,9 @@
             "y": -16
           },
           "rotation": 268.7999929089712,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4806,9 +4806,9 @@
             "y": -16
           },
           "rotation": 314.9999995828637,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "13",
           "speed": {
@@ -4849,9 +4849,9 @@
             "y": -16
           },
           "rotation": 314.9999995828637,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4887,9 +4887,9 @@
             "y": -16
           },
           "rotation": 316.1200097530669,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -4928,9 +4928,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -4961,9 +4961,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5002,9 +5002,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5041,9 +5041,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5081,9 +5081,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5114,9 +5114,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5154,9 +5154,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5187,9 +5187,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5227,9 +5227,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5260,9 +5260,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5301,9 +5301,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5335,9 +5335,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5376,9 +5376,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5409,9 +5409,9 @@
             "x": 10,
             "y": -26
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5444,9 +5444,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5477,9 +5477,9 @@
             "x": 10,
             "y": -26
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5517,9 +5517,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5550,9 +5550,9 @@
             "x": 10,
             "y": -26
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5590,9 +5590,9 @@
             "x": 10,
             "y": -22
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5623,9 +5623,9 @@
             "x": 10,
             "y": -26
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5663,9 +5663,9 @@
             "x": 10,
             "y": -27
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5696,9 +5696,9 @@
             "x": 10,
             "y": -27
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5743,9 +5743,9 @@
             "x": -15,
             "y": 0
           },
-          "size": {
-            "x": 100,
-            "y": 134
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5784,9 +5784,9 @@
             "x": -20,
             "y": 0
           },
-          "size": {
-            "x": 104,
-            "y": 110
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5825,9 +5825,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5858,9 +5858,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5905,9 +5905,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5950,9 +5950,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -5990,9 +5990,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6023,9 +6023,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6063,9 +6063,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6096,9 +6096,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6136,9 +6136,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6169,9 +6169,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6206,9 +6206,9 @@
             }
           ],
           "offense_flag": 67108864,
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6241,9 +6241,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6276,9 +6276,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6311,9 +6311,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6339,10 +6339,6 @@
           },
           "defense_flag": 8192,
           "duration": 5,
-          "size": {
-            "x": 192,
-            "y": 52
-          },
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 35,
@@ -6367,10 +6363,6 @@
           },
           "defense_flag": 1,
           "duration": 25,
-          "size": {
-            "x": 192,
-            "y": 52
-          },
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 35,
@@ -6399,9 +6391,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6423,9 +6415,9 @@
             "x": 10,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6450,9 +6442,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6474,9 +6466,9 @@
             "x": 10,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6500,9 +6492,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -5.0,
@@ -6543,9 +6535,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6564,9 +6556,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -15.0,
@@ -6607,9 +6599,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6633,9 +6625,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -6676,9 +6668,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6697,9 +6689,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 15.0,
@@ -6740,9 +6732,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6785,9 +6777,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6824,9 +6816,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 88,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6860,9 +6852,9 @@
               "width": 48
             }
           ],
-          "size": {
-            "x": 66,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6888,9 +6880,9 @@
           },
           "defense_flag": 2097408,
           "duration": 5,
-          "size": {
-            "x": 48,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6908,9 +6900,9 @@
             "width": 40
           },
           "defense_flag": 256,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -6933,9 +6925,9 @@
           },
           "defense_flag": 256,
           "duration": 10,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6962,9 +6954,9 @@
               "width": 56
             }
           ],
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -6994,9 +6986,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 110,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7018,9 +7010,9 @@
             "x": 12,
             "y": -6
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -7047,9 +7039,9 @@
             "x": 12,
             "y": -6
           },
-          "size": {
-            "x": 122,
-            "y": 194
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7075,9 +7067,9 @@
           },
           "defense_flag": 2097408,
           "duration": 5,
-          "size": {
-            "x": 48,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7095,9 +7087,9 @@
             "width": 40
           },
           "defense_flag": 256,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 7.0,
@@ -7120,9 +7112,9 @@
           },
           "defense_flag": 256,
           "duration": 12,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7149,9 +7141,9 @@
               "width": 51
             }
           ],
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7178,9 +7170,9 @@
           "defense_flag": 2097160,
           "duration": 5,
           "offense_flag": 2048,
-          "size": {
-            "x": 48,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7198,9 +7190,9 @@
             "width": 40
           },
           "defense_flag": 256,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -7.0,
@@ -7223,9 +7215,9 @@
           },
           "defense_flag": 256,
           "duration": 12,
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7252,9 +7244,9 @@
               "width": 54
             }
           ],
-          "size": {
-            "x": 52,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7288,9 +7280,9 @@
               "width": 50
             }
           ],
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7317,9 +7309,9 @@
               "width": 50
             }
           ],
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7357,9 +7349,9 @@
             }
           ],
           "rotation": 21.280001381436254,
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7391,9 +7383,9 @@
             }
           ],
           "rotation": 24.64000032139371,
-          "size": {
-            "x": 56,
-            "y": 164
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7427,9 +7419,9 @@
             }
           ],
           "rotation": 26.880001233706487,
-          "size": {
-            "x": 62,
-            "y": 162
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7468,9 +7460,9 @@
             }
           ],
           "rotation": 340.76001978850746,
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7502,9 +7494,9 @@
             }
           ],
           "rotation": 340.76001978850746,
-          "size": {
-            "x": 56,
-            "y": 164
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7538,9 +7530,9 @@
             }
           ],
           "rotation": 335.15998836558504,
-          "size": {
-            "x": 62,
-            "y": 162
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7578,9 +7570,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "11",
           "sprite": "sheet_new.png",
@@ -7619,9 +7611,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7652,9 +7644,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7684,9 +7676,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -7721,9 +7713,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7755,9 +7747,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7789,9 +7781,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7823,9 +7815,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7857,9 +7849,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7897,9 +7889,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7930,9 +7922,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -7962,9 +7954,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 7.0,
@@ -7999,9 +7991,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8033,9 +8025,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8067,9 +8059,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8101,9 +8093,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8135,9 +8127,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8175,9 +8167,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8208,9 +8200,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8240,9 +8232,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -7.0,
@@ -8277,9 +8269,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8311,9 +8303,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8345,9 +8337,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8379,9 +8371,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8413,9 +8405,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -8454,9 +8446,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8487,9 +8479,9 @@
             "x": 4,
             "y": -2
           },
-          "size": {
-            "x": 46,
-            "y": 182
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8522,9 +8514,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8555,9 +8547,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 48,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8602,9 +8594,9 @@
             "x": -4,
             "y": 0
           },
-          "size": {
-            "x": 104,
-            "y": 128
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8641,9 +8633,9 @@
             "x": -13,
             "y": 0
           },
-          "size": {
-            "x": 86,
-            "y": 128
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8682,9 +8674,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 128,
-            "y": 106
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8721,9 +8713,9 @@
             "x": -20,
             "y": 0
           },
-          "size": {
-            "x": 100,
-            "y": 106
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8762,9 +8754,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8795,9 +8787,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 182
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8836,9 +8828,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8869,9 +8861,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 48,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8909,9 +8901,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8942,9 +8934,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8982,9 +8974,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9015,9 +9007,9 @@
             "x": 10,
             "y": -26
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9055,9 +9047,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9088,9 +9080,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 70,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9136,9 +9128,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9177,9 +9169,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 182
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9220,9 +9212,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9255,9 +9247,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 48,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9303,9 +9295,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9344,9 +9336,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 182
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9387,9 +9379,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9422,9 +9414,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 48,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9470,9 +9462,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9511,9 +9503,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 182
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9554,9 +9546,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 68,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9589,9 +9581,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 48,
-            "y": 174
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9630,9 +9622,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9663,9 +9655,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9696,9 +9688,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9764,9 +9756,9 @@
           "prorate": 60.0,
           "push_back": 4,
           "push_block": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet_new.png",
@@ -9805,9 +9797,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9838,9 +9830,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9871,9 +9863,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9904,9 +9896,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9945,9 +9937,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -9978,9 +9970,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.0,
@@ -10015,9 +10007,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.0,
@@ -10053,9 +10045,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -10091,9 +10083,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.0,
@@ -10129,9 +10121,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 3.0,
@@ -10203,9 +10195,9 @@
           "prorate": 80.0,
           "push_back": 4,
           "push_block": 9,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/028.ogg",
           "speed": {
@@ -10248,9 +10240,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10287,9 +10279,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10326,9 +10318,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10365,9 +10357,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10405,9 +10397,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10438,9 +10430,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10471,9 +10463,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10504,9 +10496,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10568,9 +10560,9 @@
           "prorate": 85.0,
           "push_back": 5,
           "push_block": 6,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet_new.png",
@@ -10609,9 +10601,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10648,9 +10640,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10687,9 +10679,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10720,9 +10712,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10760,9 +10752,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10799,9 +10791,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10832,9 +10824,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10865,9 +10857,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -10941,9 +10933,9 @@
           "prorate": 85.0,
           "push_back": 1,
           "push_block": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet_new.png",
@@ -10983,9 +10975,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11023,9 +11015,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11063,9 +11055,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11103,9 +11095,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11143,9 +11135,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11176,9 +11168,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11209,9 +11201,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11278,9 +11270,9 @@
           "prorate": 60.0,
           "push_back": 4,
           "push_block": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet_new.png",
@@ -11320,9 +11312,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11360,9 +11352,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11394,9 +11386,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11428,9 +11420,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11469,9 +11461,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11503,9 +11495,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11537,9 +11529,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11601,9 +11593,9 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "speed": {
@@ -11671,9 +11663,9 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11736,9 +11728,9 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11801,9 +11793,9 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11866,9 +11858,9 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11900,9 +11892,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11933,9 +11925,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11966,9 +11958,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -11999,9 +11991,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -12039,9 +12031,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12095,9 +12087,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -12130,9 +12122,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12165,9 +12157,9 @@
               "width": 47
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12194,9 +12186,9 @@
               "width": 47
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12245,9 +12237,9 @@
             "y": 0
           },
           "prorate": 25.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "snap": {
             "x": 20.0,
@@ -12292,9 +12284,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12326,9 +12318,9 @@
               "width": 72
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12367,9 +12359,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 86,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/007.ogg",
           "sprite": "sheet.png",
@@ -12394,9 +12386,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12439,9 +12431,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 86,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/008.ogg",
           "sprite": "sheet.png",
@@ -12495,9 +12487,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 72,
-            "y": 166
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12542,9 +12534,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 72,
-            "y": 166
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12589,9 +12581,9 @@
             "y": 0
           },
           "prorate": 80.0,
-          "size": {
-            "x": 94,
-            "y": 140
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -12673,9 +12665,9 @@
           "prorate": 95.0,
           "push_back": 2,
           "push_block": 4,
-          "size": {
-            "x": 104,
-            "y": 160
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/071.ogg",
           "sprite": "sheet.png",
@@ -12721,9 +12713,9 @@
             "x": 7,
             "y": -5
           },
-          "size": {
-            "x": 86,
-            "y": 140
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12758,9 +12750,9 @@
             }
           ],
           "offense_flag": 131072,
-          "size": {
-            "x": 50,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12788,9 +12780,9 @@
             }
           ],
           "offense_flag": 131072,
-          "size": {
-            "x": 50,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12843,9 +12835,9 @@
           },
           "prorate": 120.0,
           "push_block": 6,
-          "size": {
-            "x": 100,
-            "y": 222
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/004.ogg",
           "sprite": "sheet.png",
@@ -12885,9 +12877,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 80,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12925,9 +12917,9 @@
             "y": -8
           },
           "prorate": 100.0,
-          "size": {
-            "x": 74,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12965,9 +12957,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 80,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13005,9 +12997,9 @@
             "y": -8
           },
           "prorate": 100.0,
-          "size": {
-            "x": 74,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13045,9 +13037,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 80,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13075,9 +13067,9 @@
             "x": 0,
             "y": -24
           },
-          "size": {
-            "x": 122,
-            "y": 340
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13114,9 +13106,9 @@
           },
           "prorate": 100.0,
           "push_block": 6,
-          "size": {
-            "x": 178,
-            "y": 328
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
@@ -13155,9 +13147,9 @@
           },
           "prorate": 100.0,
           "push_block": 6,
-          "size": {
-            "x": 132,
-            "y": 328
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
@@ -13196,9 +13188,9 @@
           },
           "prorate": 100.0,
           "push_block": 6,
-          "size": {
-            "x": 122,
-            "y": 340
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
@@ -13237,9 +13229,9 @@
           },
           "prorate": 100.0,
           "push_block": 6,
-          "size": {
-            "x": 178,
-            "y": 328
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
@@ -13278,9 +13270,9 @@
           },
           "prorate": 100.0,
           "push_block": 6,
-          "size": {
-            "x": 132,
-            "y": 328
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "sprite": "sheet.png",
@@ -13325,9 +13317,9 @@
           },
           "prorate": 20.0,
           "push_block": 6,
-          "size": {
-            "x": 122,
-            "y": 340
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
           "spirit_limit": 100,
@@ -13357,9 +13349,9 @@
             "x": -3,
             "y": -16
           },
-          "size": {
-            "x": 80,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13385,9 +13377,9 @@
             "x": 2,
             "y": -8
           },
-          "size": {
-            "x": 74,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13413,9 +13405,9 @@
             "x": -3,
             "y": -16
           },
-          "size": {
-            "x": 80,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13441,9 +13433,9 @@
             "x": 2,
             "y": -8
           },
-          "size": {
-            "x": 74,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -13487,9 +13479,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13526,9 +13518,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13565,9 +13557,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13639,9 +13631,9 @@
           },
           "prorate": 80.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet_new.png",
@@ -13687,9 +13679,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13733,9 +13725,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13779,9 +13771,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 6.0,
@@ -13823,9 +13815,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13863,9 +13855,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13902,9 +13894,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13945,9 +13937,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -13984,9 +13976,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14054,9 +14046,9 @@
           "prorate": 85.0,
           "push_back": 2,
           "push_block": 6,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet_new.png",
@@ -14126,9 +14118,9 @@
           "prorate": 88.0,
           "push_back": 6,
           "push_block": 6,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14203,9 +14195,9 @@
           "prorate": 88.0,
           "push_back": 4,
           "push_block": 5,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14250,9 +14242,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14296,9 +14288,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14342,9 +14334,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14382,9 +14374,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14415,9 +14407,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14448,9 +14440,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14512,9 +14504,9 @@
           "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet_new.png",
@@ -14578,9 +14570,9 @@
           "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14643,9 +14635,9 @@
           "prorate": 85.0,
           "push_back": 5,
           "push_block": 5,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14685,9 +14677,9 @@
             "y": -16
           },
           "prorate": 90.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14726,9 +14718,9 @@
             "y": -16
           },
           "prorate": 90.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14767,9 +14759,9 @@
             "y": -16
           },
           "prorate": 90.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14811,9 +14803,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14848,9 +14840,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14885,9 +14877,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -14958,9 +14950,9 @@
           "prorate": 85.0,
           "push_back": 4,
           "push_block": 5,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/028.ogg",
           "sprite": "sheet_new.png",
@@ -14994,9 +14986,9 @@
             "x": 7,
             "y": -26
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15028,9 +15020,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15074,9 +15066,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15113,9 +15105,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15152,9 +15144,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15234,9 +15226,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "speed": {
@@ -15322,9 +15314,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15409,9 +15401,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15496,9 +15488,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15583,9 +15575,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15670,9 +15662,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15757,9 +15749,9 @@
           "prorate": 86.0,
           "push_back": 2,
           "push_block": 10,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -15798,9 +15790,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -15838,9 +15830,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -15894,9 +15886,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -15929,9 +15921,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -15964,9 +15956,9 @@
               "width": 47
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -15993,9 +15985,9 @@
               "width": 47
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16044,9 +16036,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "snap": {
             "x": 20.0,
@@ -16090,9 +16082,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16119,9 +16111,9 @@
               "width": 61
             }
           ],
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16163,9 +16155,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 86,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/007.ogg",
           "sprite": "sheet.png",
@@ -16191,9 +16183,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 94,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16238,9 +16230,9 @@
             "y": 0
           },
           "prorate": 100.0,
-          "size": {
-            "x": 86,
-            "y": 180
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/008.ogg",
           "sprite": "sheet.png",
@@ -16284,9 +16276,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16344,9 +16336,9 @@
           },
           "prorate": 120.0,
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 206
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sound": "17",
           "sprite": "sheet.png",
@@ -16390,9 +16382,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 206
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "spirit_limit": 100,
           "sprite": "sheet.png",
@@ -16435,9 +16427,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -16495,9 +16487,9 @@
           },
           "prorate": 120.0,
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 206
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sound": "17",
           "sprite": "sheet.png",
@@ -16541,9 +16533,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 206
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "spirit_limit": 100,
           "sprite": "sheet.png",
@@ -16582,9 +16574,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16615,9 +16607,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16648,9 +16640,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16681,9 +16673,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16714,9 +16706,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16773,9 +16765,9 @@
           "prorate": 82.0,
           "push_back": 6,
           "push_block": 8,
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/alice/021.ogg",
           "sprite": "8m.png",
@@ -16839,9 +16831,9 @@
           "prorate": 82.0,
           "push_back": 6,
           "push_block": 8,
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16873,9 +16865,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16906,9 +16898,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16939,9 +16931,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -16972,9 +16964,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -17005,9 +16997,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 400
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "8m.png",
           "texture_bounds": {
@@ -17052,9 +17044,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 1.0,
@@ -17096,9 +17088,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 1.0,
@@ -17140,9 +17132,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/tenshi/011.ogg",
           "speed": {
@@ -17185,9 +17177,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 2.0,
@@ -17250,9 +17242,9 @@
           },
           "prorate": 92.0,
           "push_back": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 4.0,
@@ -17331,9 +17323,9 @@
           "prorate": 90.0,
           "push_back": 1,
           "push_block": -3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/tenshi/012.ogg",
           "sprite": "sheet_new.png",
@@ -17403,9 +17395,9 @@
           "prorate": 90.0,
           "push_back": 1,
           "push_block": -3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17464,9 +17456,9 @@
           },
           "prorate": 96.0,
           "push_back": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17505,9 +17497,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17545,9 +17537,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17585,9 +17577,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17625,9 +17617,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17671,9 +17663,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17710,9 +17702,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17749,9 +17741,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17788,9 +17780,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17857,9 +17849,9 @@
           "prorate": 80.0,
           "push_back": 3,
           "push_block": 3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet_new.png",
@@ -17928,9 +17920,9 @@
           "prorate": 80.0,
           "push_back": 3,
           "push_block": 3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17963,9 +17955,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -17997,9 +17989,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -18031,9 +18023,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -18065,9 +18057,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -18101,9 +18093,9 @@
             }
           ],
           "offense_flag": 32,
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/suika/018.ogg",
           "sprite": "sheet.png",
@@ -18133,9 +18125,9 @@
           ],
           "matter_limit": 40,
           "offense_flag": 32,
-          "size": {
-            "x": 48,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18197,9 +18189,9 @@
           "prorate": 84.0,
           "push_back": 8,
           "push_block": 2,
-          "size": {
-            "x": 62,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/suika/001.ogg",
           "sprite": "sheet.png",
@@ -18263,9 +18255,9 @@
           "prorate": 84.0,
           "push_back": 8,
           "push_block": 2,
-          "size": {
-            "x": 68,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18297,9 +18289,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 58,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18337,9 +18329,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18393,9 +18385,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -18428,9 +18420,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18476,9 +18468,9 @@
             "y": 0
           },
           "prorate": 80.0,
-          "size": {
-            "x": 128,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18510,9 +18502,9 @@
             "x": 12,
             "y": 0
           },
-          "size": {
-            "x": 128,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18544,9 +18536,9 @@
             "x": 12,
             "y": 0
           },
-          "size": {
-            "x": 128,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -18570,9 +18562,9 @@
             "x": 12,
             "y": 0
           },
-          "size": {
-            "x": 128,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "0",
           "sprite": "sheet.png",
@@ -18635,9 +18627,9 @@
           },
           "prorate": 70.0,
           "push_block": 16,
-          "size": {
-            "x": 162,
-            "y": 330
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/alice/036.ogg",
           "sprite": "sheet.png",
@@ -18669,9 +18661,9 @@
             "x": 12,
             "y": 0
           },
-          "size": {
-            "x": 128,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -18719,9 +18711,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -18762,9 +18754,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -18805,9 +18797,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -18848,9 +18840,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -18918,9 +18910,9 @@
           "prorate": 80.0,
           "push_back": 2,
           "push_block": 3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "j5m.png",
@@ -18990,9 +18982,9 @@
           "prorate": 80.0,
           "push_back": 2,
           "push_block": 3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19061,9 +19053,9 @@
           "prorate": 80.0,
           "push_back": 2,
           "push_block": 3,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19102,9 +19094,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19142,9 +19134,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19182,9 +19174,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19222,9 +19214,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5m.png",
           "texture_bounds": {
@@ -19269,9 +19261,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 128,
-            "y": 199
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -19339,9 +19331,9 @@
           "prorate": 84.0,
           "push_back": 4,
           "push_block": 8,
-          "size": {
-            "x": 128,
-            "y": 199
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "speed": {
@@ -19385,9 +19377,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 128,
-            "y": 199
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -19420,9 +19412,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -19486,9 +19478,9 @@
           },
           "prorate": 90.0,
           "push_block": 6,
-          "size": {
-            "x": 128,
-            "y": 199
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -19531,9 +19523,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 128,
-            "y": 199
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -19588,9 +19580,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19626,9 +19618,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19664,9 +19656,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19702,9 +19694,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19740,9 +19732,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19784,9 +19776,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19870,9 +19862,9 @@
           "prorate": 80.0,
           "push_back": 2,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "j3m.png",
@@ -19911,9 +19903,9 @@
             "x": 7,
             "y": -36
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19944,9 +19936,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -19977,9 +19969,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20010,9 +20002,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20044,9 +20036,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20078,9 +20070,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20112,9 +20104,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20146,9 +20138,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3m.png",
           "texture_bounds": {
@@ -20182,9 +20174,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20222,9 +20214,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -20278,9 +20270,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -20313,9 +20305,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -20355,9 +20347,9 @@
             "y": -16
           },
           "prorate": 80.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20390,9 +20382,9 @@
             "y": -16
           },
           "prorate": 80.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20431,9 +20423,9 @@
             "y": -16
           },
           "prorate": 80.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20508,9 +20500,9 @@
           "prorate": 80.0,
           "push_back": 2,
           "push_block": 6,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet_new.png",
@@ -20550,9 +20542,9 @@
             "x": 36,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20589,9 +20581,9 @@
             "x": 36,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20628,9 +20620,9 @@
             "x": 36,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20667,9 +20659,9 @@
             "x": 26,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20700,9 +20692,9 @@
             "x": 17,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20741,9 +20733,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20775,9 +20767,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20809,9 +20801,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20843,9 +20835,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -20911,9 +20903,9 @@
           "prorate": 60.0,
           "push_back": 4,
           "push_block": 9,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "spirit_limit": 30,
@@ -20975,9 +20967,9 @@
           },
           "prorate": 60.0,
           "push_block": 4,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 30,
           "sprite": "sheet_new.png",
@@ -21011,9 +21003,9 @@
             "x": 82,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -21045,9 +21037,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -21085,9 +21077,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -21125,9 +21117,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -21165,9 +21157,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -21205,9 +21197,9 @@
             "x": 0,
             "y": -9
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21261,9 +21253,9 @@
             "y": -19
           },
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -21296,9 +21288,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21343,9 +21335,9 @@
             "x": 24,
             "y": 0
           },
-          "size": {
-            "x": 90,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21383,9 +21375,9 @@
             "x": 24,
             "y": 0
           },
-          "size": {
-            "x": 90,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21423,9 +21415,9 @@
             "x": 34,
             "y": 0
           },
-          "size": {
-            "x": 110,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -21464,9 +21456,9 @@
             "x": 34,
             "y": 0
           },
-          "size": {
-            "x": 110,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21497,9 +21489,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "subobject": 129,
@@ -21531,9 +21523,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -21577,9 +21569,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -21616,9 +21608,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -21655,9 +21647,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -21693,9 +21685,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -21766,9 +21758,9 @@
           "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/tenshi/055.ogg",
           "speed": {
@@ -21846,9 +21838,9 @@
           "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 5,
           "sprite": "j5s.png",
@@ -21921,9 +21913,9 @@
           "prorate": 90.0,
           "push_back": 1,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/remilia/000.ogg",
           "spirit_limit": 10,
@@ -21969,9 +21961,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -22014,9 +22006,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -22059,9 +22051,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5s.png",
           "texture_bounds": {
@@ -22091,9 +22083,9 @@
             }
           ],
           "offense_flag": 2048,
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22131,9 +22123,9 @@
             "y": 0
           },
           "prorate": 80.0,
-          "size": {
-            "x": 46,
-            "y": 186
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "subobject": -1,
@@ -22170,9 +22162,9 @@
             "y": 0
           },
           "prorate": 80.0,
-          "size": {
-            "x": 46,
-            "y": 186
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22209,9 +22201,9 @@
             "y": 0
           },
           "prorate": 87.0,
-          "size": {
-            "x": 60,
-            "y": 186
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22281,9 +22273,9 @@
           "prorate": 80.0,
           "push_back": 4,
           "push_block": 7,
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/remilia/001.ogg",
           "spirit_limit": 20,
@@ -22358,9 +22350,9 @@
           "prorate": 80.0,
           "push_back": 4,
           "push_block": 7,
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet.png",
@@ -22433,9 +22425,9 @@
           "prorate": 80.0,
           "push_back": 4,
           "push_block": 7,
-          "size": {
-            "x": 94,
-            "y": 192
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet.png",
@@ -22479,9 +22471,9 @@
             "x": 12,
             "y": -1
           },
-          "size": {
-            "x": 64,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22517,9 +22509,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22547,9 +22539,9 @@
               "width": 55
             }
           ],
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -22589,9 +22581,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -22630,9 +22622,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -22671,9 +22663,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -22712,9 +22704,9 @@
             "y": -16
           },
           "prorate": 100.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -22780,9 +22772,9 @@
           },
           "prorate": 90.0,
           "push_block": 8,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/tenshi/055.ogg",
           "spirit_limit": 10,
@@ -22860,9 +22852,9 @@
           "prorate": 90.0,
           "push_back": 6,
           "push_block": 8,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 10,
           "sprite": "j3s.png",
@@ -22963,9 +22955,9 @@
           "prorate": 90.0,
           "push_back": 6,
           "push_block": 8,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 10,
           "sprite": "j3s.png",
@@ -23004,9 +22996,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -10.0,
@@ -23048,9 +23040,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -23082,9 +23074,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -23116,9 +23108,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -23150,9 +23142,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -23184,9 +23176,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j3s.png",
           "texture_bounds": {
@@ -23228,9 +23220,9 @@
             "y": 0
           },
           "rotation": 5.599999852270234,
-          "size": {
-            "x": 60,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23266,9 +23258,9 @@
             "y": 0
           },
           "rotation": 5.599999852270234,
-          "size": {
-            "x": 60,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23358,9 +23350,9 @@
           "prorate": 92.0,
           "push_block": 1,
           "rotation": 38.36000105228605,
-          "size": {
-            "x": 112,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/remilia/012.ogg",
           "speed": {
@@ -23457,9 +23449,9 @@
           "prorate": 92.0,
           "push_block": 1,
           "rotation": 38.36000105228605,
-          "size": {
-            "x": 112,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 1.0,
@@ -23555,9 +23547,9 @@
           "prorate": 92.0,
           "push_block": 1,
           "rotation": 38.36000105228605,
-          "size": {
-            "x": 112,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 5,
           "sprite": "sheet.png",
@@ -23649,9 +23641,9 @@
           "prorate": 92.0,
           "push_block": 1,
           "rotation": 38.36000105228605,
-          "size": {
-            "x": 112,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 5,
           "sprite": "sheet.png",
@@ -23743,9 +23735,9 @@
           "prorate": 92.0,
           "push_block": 1,
           "rotation": 38.36000105228605,
-          "size": {
-            "x": 112,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -23783,9 +23775,9 @@
             "x": 1,
             "y": 0
           },
-          "size": {
-            "x": 60,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23821,9 +23813,9 @@
             "x": 1,
             "y": 0
           },
-          "size": {
-            "x": 60,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23860,9 +23852,9 @@
             "y": 0
           },
           "rotation": 5.599999852270234,
-          "size": {
-            "x": 60,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23900,9 +23892,9 @@
               "width": 191
             }
           ],
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -23960,9 +23952,9 @@
             "y": -19
           },
           "push_block": 6,
-          "size": {
-            "x": 148,
-            "y": 220
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -23995,9 +23987,9 @@
               "width": 132
             }
           ],
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -24036,9 +24028,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24070,9 +24062,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24135,9 +24127,9 @@
           "prorate": 75.0,
           "push_back": 2,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "sheet_new.png",
@@ -24178,9 +24170,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24218,9 +24210,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24252,9 +24244,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24299,9 +24291,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -24343,9 +24335,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -24387,9 +24379,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -24431,9 +24423,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -24509,9 +24501,9 @@
           },
           "prorate": 93.0,
           "push_block": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/028.ogg",
           "speed": {
@@ -24588,9 +24580,9 @@
             "y": -16
           },
           "prorate": 90.0,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 1.0,
@@ -24669,9 +24661,9 @@
           "prorate": 87.0,
           "push_back": 1,
           "push_block": 1,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 1.0,
@@ -24715,9 +24707,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24755,9 +24747,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24795,9 +24787,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24835,9 +24827,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24881,9 +24873,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_new.png",
           "texture_bounds": {
@@ -24921,9 +24913,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -24968,9 +24960,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -25027,9 +25019,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25061,9 +25053,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25102,9 +25094,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25136,9 +25128,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25170,9 +25162,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -25195,9 +25187,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "0",
           "sprite": "sheet.png",
@@ -25257,9 +25249,9 @@
           "prorate": 100.0,
           "push_back": 2,
           "push_block": 12,
-          "size": {
-            "x": 160,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25293,9 +25285,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25334,9 +25326,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25368,9 +25360,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25443,9 +25435,9 @@
           "prorate": 86.0,
           "push_back": 1,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/027.ogg",
           "sprite": "j5v.png",
@@ -25521,9 +25513,9 @@
           "prorate": 86.0,
           "push_back": 1,
           "push_block": 2,
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25557,9 +25549,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25591,9 +25583,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25625,9 +25617,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25659,9 +25651,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25693,9 +25685,9 @@
             "x": 7,
             "y": -16
           },
-          "size": {
-            "x": 240,
-            "y": 240
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "j5v.png",
           "texture_bounds": {
@@ -25733,9 +25725,9 @@
             "x": 0,
             "y": -6
           },
-          "size": {
-            "x": 64,
-            "y": 178
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25796,9 +25788,9 @@
           "prorate": 85.0,
           "push_back": 2,
           "push_block": 4,
-          "size": {
-            "x": 50,
-            "y": 200
+          "scale": {
+            "x": 1.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "speed": {
@@ -25837,9 +25829,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 54,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25872,9 +25864,9 @@
             "x": 6,
             "y": -6
           },
-          "size": {
-            "x": 54,
-            "y": 196
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25912,9 +25904,9 @@
             "x": 0,
             "y": -8
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -25959,9 +25951,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "8",
           "sprite": "sheet.png",
@@ -26018,9 +26010,9 @@
             "y": -9
           },
           "push_block": 6,
-          "size": {
-            "x": 158,
-            "y": 206
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26052,9 +26044,9 @@
             "x": 0,
             "y": -7
           },
-          "size": {
-            "x": 66,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26093,9 +26085,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26127,9 +26119,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26161,9 +26153,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -26187,9 +26179,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "0",
           "sprite": "sheet.png",
@@ -26254,9 +26246,9 @@
           "prorate": 90.0,
           "push_back": 2,
           "push_block": 12,
-          "size": {
-            "x": 170,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26298,9 +26290,9 @@
             "y": 0
           },
           "prorate": 110.0,
-          "size": {
-            "x": 170,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26332,9 +26324,9 @@
             "x": 17,
             "y": 0
           },
-          "size": {
-            "x": 92,
-            "y": 192
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26371,9 +26363,9 @@
             "x": 24,
             "y": 0
           },
-          "size": {
-            "x": 122,
-            "y": 118
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26404,9 +26396,9 @@
             "x": 24,
             "y": 0
           },
-          "size": {
-            "x": 122,
-            "y": 118
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26463,9 +26455,9 @@
           "prorate": 90.0,
           "push_back": 5,
           "push_block": 8,
-          "size": {
-            "x": 122,
-            "y": 178
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "speed": {
@@ -26529,9 +26521,9 @@
           "prorate": 90.0,
           "push_back": 5,
           "push_block": 8,
-          "size": {
-            "x": 122,
-            "y": 178
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26564,9 +26556,9 @@
               "width": 113
             }
           ],
-          "size": {
-            "x": 94,
-            "y": 166
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26599,9 +26591,9 @@
               "width": 113
             }
           ],
-          "size": {
-            "x": 94,
-            "y": 166
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26624,9 +26616,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26646,9 +26638,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26668,9 +26660,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26690,9 +26682,9 @@
             "x": -4,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26711,9 +26703,9 @@
         {
           "defense_flag": 2097152,
           "duration": 4,
-          "size": {
-            "x": 54,
-            "y": 140
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26726,9 +26718,9 @@
         {
           "defense_flag": 2097152,
           "duration": 4,
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26751,9 +26743,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26773,9 +26765,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26795,9 +26787,9 @@
             "x": -6,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26817,9 +26809,9 @@
             "x": -4,
             "y": 0
           },
-          "size": {
-            "x": 72,
-            "y": 181
+          "scale": {
+            "x": 2.0,
+            "y": 1.0
           },
           "speed": {
             "x": 5.0,
@@ -26841,9 +26833,9 @@
             "x": 4,
             "y": 0
           },
-          "size": {
-            "x": 54,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26858,9 +26850,9 @@
             "x": 3,
             "y": 0
           },
-          "size": {
-            "x": 52,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "subobject": 130,
@@ -26879,9 +26871,9 @@
             "x": 3,
             "y": 0
           },
-          "size": {
-            "x": 52,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26901,9 +26893,9 @@
         {
           "defense_flag": 67624,
           "duration": 4,
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26920,9 +26912,9 @@
             "x": 10,
             "y": -20
           },
-          "size": {
-            "x": 80,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26935,9 +26927,9 @@
         {
           "defense_flag": 67624,
           "duration": 4,
-          "size": {
-            "x": 54,
-            "y": 158
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26967,9 +26959,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
@@ -26993,9 +26985,9 @@
             "x": 5,
             "y": 0
           },
-          "size": {
-            "x": 60,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -27043,9 +27035,9 @@
           },
           "prorate": 50.0,
           "push_back": 1,
-          "size": {
-            "x": 70,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
@@ -27079,9 +27071,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 58,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -27111,9 +27103,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
@@ -27137,9 +27129,9 @@
             "x": 5,
             "y": 0
           },
-          "size": {
-            "x": 60,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -27187,9 +27179,9 @@
           },
           "prorate": 50.0,
           "push_back": 1,
-          "size": {
-            "x": 70,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
@@ -27223,9 +27215,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 58,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -27259,9 +27251,9 @@
             "x": 2,
             "y": 0
           },
-          "size": {
-            "x": 46,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/058.ogg",
           "sprite": "sheet.png",
@@ -27289,9 +27281,9 @@
             "x": 5,
             "y": 0
           },
-          "size": {
-            "x": 60,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -27343,9 +27335,9 @@
           },
           "prorate": 50.0,
           "push_back": 1,
-          "size": {
-            "x": 70,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
           "sprite": "sheet.png",
@@ -27383,9 +27375,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 58,
-            "y": 188
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {

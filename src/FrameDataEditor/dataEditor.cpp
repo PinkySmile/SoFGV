@@ -42,7 +42,13 @@ std::string floatToString(float f)
 void	arrangeButtons(EditableObject *object)
 {
 	auto *data = object ? &object->_moves.at(object->_action)[object->_actionBlock][object->_animation] : nullptr;
-	SpiralOfFate::Box box = spriteSelected ? SpiralOfFate::Box{{static_cast<int>(data->offset.x - data->size.x / 2), static_cast<int>(-data->offset.y - data->size.y)}, data->size} : *selectedBox;
+	SpiralOfFate::Box box = spriteSelected ? SpiralOfFate::Box{{
+		static_cast<int>(data->offset.x - data->textureBounds.size.x * data->scale.x / 2),
+		static_cast<int>(-data->offset.y - data->textureBounds.size.y * data->scale.y)
+	}, {
+		static_cast<unsigned>(std::abs(data->textureBounds.size.x * data->scale.x)),
+		static_cast<unsigned>(std::abs(data->textureBounds.size.y * data->scale.y))
+	}} : *selectedBox;
 
 	for (int i = 0; i < 8; i++) {
 		SpiralOfFate::Vector2i pos;
@@ -98,6 +104,10 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 	int i = 0;
 	auto button = tgui::Button::create();
 	auto renderer = button->getRenderer();
+	auto size = SpiralOfFate::Vector2f{
+		data.textureBounds.size.x * data.scale.x,
+		data.textureBounds.size.y * data.scale.y
+	};
 
 	panel->removeAllWidgets();
 	renderer->setBackgroundColor({0xFF, 0xFF, 0xFF, 0x00});
@@ -111,10 +121,10 @@ void	refreshBoxes(tgui::Panel::Ptr panel, SpiralOfFate::FrameData &data, std::un
 	renderer->setBorderColorDisabled({0xFF, 0xFF, 0xFF});
 	renderer->setBorderColorFocused({0xFF, 0xFF, 0xFF});
 	renderer->setBorders(1);
-	button->setSize(data.size.x, data.size.y);
+	button->setSize(size.x, size.y);
 	button->setPosition(
-		LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)),
-		"&.h / 2 + " + std::to_string(-data.size.y - data.offset.y + 300)
+		LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - size.x / 2)),
+		"&.h / 2 + " + std::to_string(-size.y - data.offset.y + 300)
 	);
 	button->connect("MousePressed", [&object](std::weak_ptr<tgui::Button> self){
 		selectSprite(self.lock(), object);
@@ -208,7 +218,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto pGenerator = panel->get<tgui::EditBox>("PGen");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
-	auto size = panel->get<tgui::EditBox>("Size");
+	auto scale = panel->get<tgui::EditBox>("Scale");
 	auto rotation = panel->get<tgui::Slider>("Rotation");
 	auto collisionBox = panel->get<tgui::CheckBox>("Collision");
 	auto duration = panel->get<tgui::EditBox>("Duration");
@@ -284,7 +294,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	pGenerator->setText(std::to_string(data.particleGenerator));
 
 	auto newBounds = "(" + std::to_string(data.textureBounds.pos.x) + "," + std::to_string(data.textureBounds.pos.y) + "," + std::to_string(data.textureBounds.size.x) + "," + std::to_string(data.textureBounds.size.y) + ")";
-	auto newSize = "(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")";
+	auto newScale = "(" + floatToString(data.scale.x) + "," + floatToString(data.scale.y) + ")";
 	auto newOffset = "(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")";
 	auto newSpeed = "(" + floatToString(data.speed.x) + "," + floatToString(data.speed.y) + ")";
 	auto newCHitSpeed = "(" + floatToString(data.counterHitSpeed.x) + "," + floatToString(data.counterHitSpeed.y) + ")";
@@ -297,7 +307,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	speed->setText(newSpeed);
 	offset->setText(newOffset);
 	bounds->setText(newBounds);
-	size->setText(newSize);
+	scale->setText(newScale);
 	gravity->setText(newGravity);
 	snap->setText(newSnap);
 	rotation->setValue(data.rotation * 180 / M_PI);
@@ -374,7 +384,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto pGenerator = panel->get<tgui::EditBox>("PGen");
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
-	auto size = panel->get<tgui::EditBox>("Size");
+	auto scale = panel->get<tgui::EditBox>("Scale");
 	auto rotation = panel->get<tgui::Slider>("Rotation");
 	auto collisionBox = panel->get<tgui::CheckBox>("Collision");
 	auto duration = panel->get<tgui::EditBox>("Duration");
@@ -731,7 +741,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		if (spriteSelected)
 			arrangeButtons(&*object);
 	});
-	size->connect("TextChanged", [&object, boxes](std::string t){
+	scale->connect("TextChanged", [&object, boxes](std::string t){
 		if (*c)
 			return;
 		if (t.empty())
@@ -743,9 +753,9 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		try {
-			std::stoul(y);
-			data.size.x = std::stoul(x);
-			data.size.y = std::stoul(y);
+			std::stof(y);
+			data.scale.x = std::stof(x);
+			data.scale.y = std::stof(y);
 		} catch (...) {}
 		refreshBoxes(boxes, data, object);
 		if (spriteSelected)
@@ -1098,7 +1108,13 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		if (!data.collisionBox)
-			data.collisionBox = new SpiralOfFate::Box{{-static_cast<int>(data.size.x) / 2, 0}, data.size};
+			data.collisionBox = new SpiralOfFate::Box{
+				{-static_cast<int>(data.textureBounds.size.x * data.scale.x) / 2, 0},
+				{
+					static_cast<unsigned>(std::abs(data.textureBounds.size.x * data.scale.x)),
+					static_cast<unsigned>(std::abs(data.textureBounds.size.y * data.scale.y))
+				}
+			};
 		refreshBoxes(boxes, data, object);
 	});
 	collisionBox->connect("Unchecked", [&object, boxes]{
@@ -2303,14 +2319,19 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 		dragStart = true;
 	if (!dragStart)
 		return;
+
 	if (!dragLeft && !dragRight && !dragUp && !dragDown) {
 		if (spriteSelected) {
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 			SpiralOfFate::Vector2i diff = SpiralOfFate::Vector2i{mouseX, mouseY} - lastMouse;
+			auto size = SpiralOfFate::Vector2f{
+				data.textureBounds.size.x * data.scale.x,
+				data.textureBounds.size.y * data.scale.y
+			};
 
 			diff.y *= -1;
 			data.offset += diff;
-			boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
+			boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
 			gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
 			arrangeButtons(&*object);
 		} else {
@@ -2326,12 +2347,16 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	if (dragLeft) {
 		auto diff = mouseX - lastMouse.x;
 
-		if (spriteSelected) {
+		if (spriteSelected) {/*
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+			auto size = SpiralOfFate::Vector2f{
+				data.textureBounds.size.x * data.scale.x,
+				data.textureBounds.size.y * data.scale.y
+			};
 
-			if (static_cast<int>(data.size.x) - diff < 10) {
-				data.offset.x += data.size.x - 10;
-				lastMouse.x += data.size.x - 10;
+			if (static_cast<int>(size.x) - diff < 10) {
+				data.offset.x += size.x - 10;
+				lastMouse.x += size.x - 10;
 				data.size.x = 10;
 			} else {
 				data.offset.x += diff;
@@ -2339,7 +2364,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 				bbb &= diff % 2;
 				data.size.x -= diff + copysign(bbb, diff);
 				lastMouse.x = mouseX;
-			}
+			}*/
 		} else {
 			if (static_cast<int>(selectedBox->size.x) - diff < 10) {
 				selectedBox->pos.x += selectedBox->size.x - 10;
@@ -2354,8 +2379,12 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	} else if (dragRight) {
 		auto diff = mouseX - lastMouse.x;
 
-		if (spriteSelected) {
+		if (spriteSelected) {/*
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+			auto size = SpiralOfFate::Vector2f{
+				data.textureBounds.size.x * data.scale.x,
+				data.textureBounds.size.y * data.scale.y
+			};
 
 			if (static_cast<int>(data.size.x) + diff < 10) {
 				lastMouse.x -= data.size.x - 10;
@@ -2367,7 +2396,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 				bbb &= diff % 2;
 				data.offset.x += diff / 2 + copysign(bbb, diff);
 				lastMouse.x = mouseX;
-			}
+			}*/
 		} else {
 			if (static_cast<int>(selectedBox->size.x) + diff < 10) {
 				lastMouse.x -= selectedBox->size.x - 10;
@@ -2381,7 +2410,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	if (dragUp) {
 		auto diff = mouseY - lastMouse.y;
 
-		if (spriteSelected) {
+		if (spriteSelected) {/*
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 			if (static_cast<int>(data.size.y) - diff < 10) {
@@ -2390,7 +2419,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 			} else {
 				data.size.y -= diff;
 				lastMouse.y = mouseY;
-			}
+			}*/
 		} else {
 			if (static_cast<int>(selectedBox->size.y) - diff < 10) {
 				selectedBox->pos.y += selectedBox->size.y - 10;
@@ -2405,7 +2434,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	} else if (dragDown) {
 		auto diff = mouseY - lastMouse.y;
 
-		if (spriteSelected) {
+		if (spriteSelected) {/*
 			auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 			if (static_cast<int>(data.size.y) + diff < 10) {
@@ -2416,7 +2445,7 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 				data.offset.y -= diff;
 				data.size.y += diff;
 				lastMouse.y = mouseY;
-			}
+			}*/
 		} else {
 			if (static_cast<int>(selectedBox->size.y) + diff < 10) {
 				lastMouse.y -= selectedBox->size.y - 10;
@@ -2429,11 +2458,15 @@ void	handleDrag(tgui::Gui &gui, std::unique_ptr<EditableObject> &object, int mou
 	}
 	if (spriteSelected) {
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+		auto size = SpiralOfFate::Vector2f{
+			data.textureBounds.size.x * data.scale.x,
+			data.textureBounds.size.y * data.scale.y
+		};
 
-		boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - data.size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
-		boxButton->setSize(data.size.x, data.size.y);
+		boxButton->setPosition(LEFT_POS" + " + std::to_string(static_cast<int>(data.offset.x - size.x / 2)), "&.h / 2 + " + std::to_string(data.offset.y + 300));
+		boxButton->setSize(size.x, size.y);
 		gui.get<tgui::EditBox>("Offset")->setText("(" + std::to_string(data.offset.x) + "," + std::to_string(data.offset.y) + ")");
-		gui.get<tgui::EditBox>("Size")->setText("(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")");
+		//gui.get<tgui::EditBox>("Scale")->setText("(" + std::to_string(data.size.x) + "," + std::to_string(data.size.y) + ")");
 		arrangeButtons(&*object);
 	} else {
 		boxButton->setPosition(LEFT_POS" + " + std::to_string(selectedBox->pos.x), "&.h / 2 + " + std::to_string(selectedBox->pos.y + 300));
@@ -2522,7 +2555,7 @@ void	handleKeyPress(sf::Event::KeyEvent event, std::unique_ptr<EditableObject> &
 						std::swap(anim.textureHandle, tmp.textureHandle);
 						anim.spritePath = tmp.spritePath;
 						anim.textureBounds = tmp.textureBounds;
-						anim.size = tmp.size;
+						anim.scale = tmp.scale;
 						anim.offset = tmp.offset;
 					} else if (event.shift) {
 						SpiralOfFate::FrameData tmp = {

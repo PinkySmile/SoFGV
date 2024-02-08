@@ -382,15 +382,19 @@ namespace SpiralOfFate
 
 		for (auto &platform : this->_stages[this->_stage].platforms[plat]) {
 			auto scale2 = Vector2f{
-				static_cast<float>(platform.data.size.x) / platform.data.textureBounds.size.x,
-				static_cast<float>(platform.data.size.y) / platform.data.textureBounds.size.y
+				platform.data.scale.x,
+				platform.data.scale.y
+			};
+			auto size2 = Vector2f{
+				platform.data.textureBounds.size.x * platform.data.scale.x,
+				platform.data.textureBounds.size.y * platform.data.scale.y
 			};
 			auto result = platform.data.offset + platform.pos;
 
 			result.y *= -1;
 			result += Vector2f{
-				platform.data.size.x / -2.f,
-				-static_cast<float>(platform.data.size.y)
+				size2.x / -2.f,
+				-size2.y
 			};
 			result += Vector2f{
 				platform.data.textureBounds.size.x * scale2.x / 2,

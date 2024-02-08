@@ -22,8 +22,8 @@
           "hit_player_hit_stop": 4,
           "hit_sound": "assets/sfxs/se/011.ogg",
           "hit_speed": {
-            "x": 4,
-            "y": 0
+            "x": 4.0,
+            "y": 0.0
           },
           "hit_stun": 18,
           "hurt_boxes": [
@@ -41,13 +41,13 @@
           },
           "prorate": 85.0,
           "push_block": 4,
-          "size": {
-            "x": 58,
-            "y": 58
+          "scale": {
+            "x": 3.411764621734619,
+            "y": 3.411764621734619
           },
           "speed": {
-            "x": 8,
-            "y": 0
+            "x": 8.0,
+            "y": 0.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -87,8 +87,8 @@
           "hit_player_hit_stop": 10,
           "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "hit_stun": 30,
           "offense_flag": 144,
@@ -99,13 +99,13 @@
           "priority": 10,
           "prorate": 95.0,
           "push_block": 4,
-          "size": {
-            "x": 64,
-            "y": 60
+          "scale": {
+            "x": 1.9393939971923828,
+            "y": 2.0
           },
           "speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -138,8 +138,8 @@
           "hit_player_hit_stop": 10,
           "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "hit_stun": 30,
           "offense_flag": 8336,
@@ -149,13 +149,13 @@
           },
           "prorate": 95.0,
           "push_block": 4,
-          "size": {
-            "x": 64,
-            "y": 60
+          "scale": {
+            "x": 1.9393939971923828,
+            "y": 2.0
           },
           "speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -188,8 +188,8 @@
           "hit_player_hit_stop": 10,
           "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "hit_stun": 30,
           "offense_flag": 8336,
@@ -199,13 +199,13 @@
           },
           "prorate": 95.0,
           "push_block": 4,
-          "size": {
-            "x": 64,
-            "y": 60
+          "scale": {
+            "x": 1.8285714387893677,
+            "y": 2.0
           },
           "speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -238,8 +238,8 @@
           "hit_player_hit_stop": 10,
           "hit_sound": "assets/sfxs/se/youmu/000.ogg",
           "hit_speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "hit_stun": 30,
           "offense_flag": 8336,
@@ -250,13 +250,13 @@
           "priority": 10,
           "prorate": 93.0,
           "push_block": 4,
-          "size": {
-            "x": 64,
-            "y": 60
+          "scale": {
+            "x": 1.8285714387893677,
+            "y": 2.0
           },
           "speed": {
-            "x": 1,
-            "y": 0
+            "x": 1.0,
+            "y": 0.0
           },
           "spirit_limit": 10,
           "sprite": "sheet.png",
@@ -281,9 +281,9 @@
             "x": -2,
             "y": -10
           },
-          "size": {
-            "x": 16,
-            "y": 24
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -299,9 +299,9 @@
             "x": 3,
             "y": -28
           },
-          "size": {
-            "x": 26,
-            "y": 42
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -317,9 +317,9 @@
             "x": 0,
             "y": -54
           },
-          "size": {
-            "x": 32,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -335,9 +335,9 @@
             "x": 0,
             "y": -80
           },
-          "size": {
-            "x": 32,
-            "y": 94
+          "scale": {
+            "x": 1.3333333730697632,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -355,9 +355,9 @@
             "x": 6,
             "y": -92
           },
-          "size": {
-            "x": 60,
-            "y": 108
+          "scale": {
+            "x": 2.0,
+            "y": 1.9285714626312256
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -373,9 +373,9 @@
             "x": 11,
             "y": -102
           },
-          "size": {
-            "x": 50,
-            "y": 118
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -391,9 +391,9 @@
             "x": 7,
             "y": -100
           },
-          "size": {
-            "x": 54,
-            "y": 116
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -409,9 +409,9 @@
             "x": 5,
             "y": -102
           },
-          "size": {
-            "x": 54,
-            "y": 118
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {

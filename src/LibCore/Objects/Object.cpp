@@ -162,7 +162,7 @@ namespace SpiralOfFate
 		auto opPos = this->_position;
 		sf::RectangleShape rect;
 
-		opPos.y += data.size.y / 2.f + data.offset.y;
+		opPos.y += data.textureBounds.size.y * data.scale.y / 2.f + data.offset.y;
 		opPos.y *= -1;
 		opPos -= Vector2i{1, 1};
 		rect.setFillColor(sf::Color::Black);
@@ -178,14 +178,18 @@ namespace SpiralOfFate
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 		auto scale = Vector2f{
-			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
+			this->_dir * data.scale.x,
+			data.scale.y
+		};
+		auto size = Vector2f{
+			data.textureBounds.size.x * data.scale.x,
+			data.textureBounds.size.y * data.scale.y
 		};
 
 		result.y *= -1;
 		result += Vector2f{
-			!this->_direction * data.size.x + data.size.x / -2.f,
-			-static_cast<float>(data.size.y)
+			!this->_direction * size.x + size.x / -2.f,
+			-size.y
 		};
 		result += Vector2f{
 			data.textureBounds.size.x * scale.x / 2,
@@ -479,7 +483,7 @@ namespace SpiralOfFate
 		std::vector<Rectangle> result;
 		Vector2f center{
 			data.offset.x * this->_dir,
-			data.size.y / -2.f - data.offset.y
+			data.textureBounds.size.y * data.scale.y / -2.f - data.offset.y
 		};
 
 		for (auto &box : boxes) {

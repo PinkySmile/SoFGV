@@ -139,7 +139,7 @@ namespace SpiralOfFate
 			float prorate;
 			float minProrate;
 			float rotation;
-			Vector2u size;
+			Vector2f scale;
 			Vector2i offset;
 			Vector2i speed;
 			Vector2i hitSpeed;
@@ -169,7 +169,7 @@ namespace SpiralOfFate
 		unsigned soundHandle = 0;
 		unsigned hitSoundHandle = 0;
 		Vector2i offset = {0, 0};
-		Vector2u size = {0, 0};
+		Vector2f scale = {1, 1};
 		Box textureBounds = {{0, 0}, {0, 0}};
 		float rotation = 0;
 		std::vector<Box> hurtBoxes;

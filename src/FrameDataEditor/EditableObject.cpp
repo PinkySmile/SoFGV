@@ -15,25 +15,25 @@ void EditableObject::render() const
 {
 	sf::RectangleShape rect;
 	auto &data = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
-	auto scale = SpiralOfFate::Vector2f{
-		static_cast<float>(data.size.x) / data.textureBounds.size.x,
-		static_cast<float>(data.size.y) / data.textureBounds.size.y
+	auto size = SpiralOfFate::Vector2f{
+		data.scale.x * data.textureBounds.size.x,
+		data.scale.y * data.textureBounds.size.y
 	};
 	auto result = data.offset;
 
 	result.y *= -1;
 	result += SpiralOfFate::Vector2f{
-		data.size.x / -2.f,
-		-static_cast<float>(data.size.y)
+		size.x / -2.f,
+		-size.y
 	};
 	result += SpiralOfFate::Vector2f{
-		data.textureBounds.size.x * scale.x / 2,
-		data.textureBounds.size.y * scale.y / 2
+		data.textureBounds.size.x * data.scale.x / 2,
+		data.textureBounds.size.y * data.scale.y / 2
 	};
 	this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 	this->_sprite.setRotation(data.rotation * 180 / M_PI);
 	this->_sprite.setPosition(result);
-	this->_sprite.setScale(scale);
+	this->_sprite.setScale(data.scale);
 	this->_sprite.textureHandle = data.textureHandle;
 	this->_sprite.setTextureRect(data.textureBounds);
 	SpiralOfFate::game->textureMgr.render(this->_sprite);

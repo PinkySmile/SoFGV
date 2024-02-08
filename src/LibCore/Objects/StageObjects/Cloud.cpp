@@ -29,20 +29,24 @@ namespace SpiralOfFate
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 		auto scale = Vector2f{
-			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
+			this->_dir * data.scale.x,
+			data.scale.y
+		};
+		auto size = Vector2f{
+			data.textureBounds.size.x * data.scale.x,
+			data.textureBounds.size.y * data.scale.y
 		};
 
 		result.y *= -1;
 		result += Vector2f{
-			!this->_direction * data.size.x + data.size.x / -2.f,
-			-static_cast<float>(data.size.y)
+			!this->_direction * size.x + size.x / -2.f,
+			-size.y
 		};
 		result += Vector2f{
 			data.textureBounds.size.x * scale.x / 2,
 			data.textureBounds.size.y * scale.y / 2
 		};
-		result.x += data.size.x;
+		result.x += size.x;
 		this->_airDrag = {1, 1};
 		if (result.x < -100)
 			this->_refresh();
@@ -63,14 +67,18 @@ namespace SpiralOfFate
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)};
 		auto scale = Vector2f{
-			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
+			this->_dir * data.scale.x,
+			data.scale.y
+		};
+		auto size = Vector2f{
+			data.textureBounds.size.x * data.scale.x,
+			data.textureBounds.size.y * data.scale.y
 		};
 
 		result.y *= -1;
 		result += Vector2f{
-			!this->_direction * data.size.x + data.size.x / -2.f,
-			-static_cast<float>(data.size.y)
+			!this->_direction * size.x + size.x / -2.f,
+			-size.y
 		};
 		result += Vector2f{
 			data.textureBounds.size.x * scale.x / 2,
@@ -78,7 +86,7 @@ namespace SpiralOfFate
 		};
 
 		this->_reload();
-		this->_position.x = 1200 - result.x + data.size.x;
+		this->_position.x = 1200 - result.x + size.x;
 		//TODO:
 		this->_position.y = random_distrib(game->battleRandom, this->_minY, this->_maxY);
 	}

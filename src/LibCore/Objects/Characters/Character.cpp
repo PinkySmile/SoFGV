@@ -414,7 +414,10 @@ namespace SpiralOfFate
 		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
 		auto &data = *this->getCurrentFrameData();
 
-		sprite.setScale({data.size.x / 40.f, static_cast<float>(data.size.y) / size.y});
+		sprite.setScale({
+			data.textureBounds.size.x * data.scale.x / 40.f,
+			data.textureBounds.size.y * data.scale.y / size.y
+		});
 		sprite.setOrigin({20, size.y / 2.f});
 		sprite.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
 		sprite.setPosition(result);
@@ -457,14 +460,14 @@ namespace SpiralOfFate
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 		auto scale = Vector2f{
-			this->_dir * static_cast<float>(data.size.x) / data.textureBounds.size.x,
-			static_cast<float>(data.size.y) / data.textureBounds.size.y
+			this->_dir * data.scale.x,
+			data.scale.y
 		};
 
 		result.y *= -1;
 		result += Vector2f{
-			!this->_direction * data.size.x + data.size.x / -2.f,
-			-static_cast<float>(data.size.y)
+			(!this->_direction - 0.5f) * data.textureBounds.size.x * data.scale.x,
+			-static_cast<float>(data.textureBounds.size.y * data.scale.y)
 		};
 		result += Vector2f{
 			data.textureBounds.size.x * scale.x / 2,
@@ -3176,34 +3179,34 @@ namespace SpiralOfFate
 		auto *mData = other->getCurrentFrameData();
 		auto mCenter = other->_position;
 		auto oCenter = this->_position;
-		auto mScale = Vector2f{
-			static_cast<float>(mData->size.x) / mData->textureBounds.size.x,
-			static_cast<float>(mData->size.y) / mData->textureBounds.size.y
+		auto mSize = Vector2f{
+			mData->textureBounds.size.x * mData->scale.x,
+			mData->textureBounds.size.y * mData->scale.y
 		};
-		auto oScale = Vector2f{
-			static_cast<float>(oData->size.x) / oData->textureBounds.size.x,
-			static_cast<float>(oData->size.y) / oData->textureBounds.size.y
+		auto oSize = Vector2f{
+			oData->textureBounds.size.x * oData->scale.x,
+			oData->textureBounds.size.y * oData->scale.y
 		};
 		int result = 3;
-		auto center = this->_position.y + oData->offset.y + oData->size.y / 2;
+		auto center = this->_position.y + oData->offset.y + oSize.y / 2;
 
 		mCenter.y *= -1;
 		mCenter += Vector2f{
-			mData->size.x / -2.f - mData->offset.x * !other->_direction * 2.f,
-			-static_cast<float>(mData->size.y) + mData->offset.y
+			mSize.x / -2.f - mData->offset.x * !other->_direction * 2.f,
+			-mSize.y + mData->offset.y
 		};
 		mCenter += Vector2f{
-			mData->textureBounds.size.x * mScale.x / 2,
-			mData->textureBounds.size.y * mScale.y / 2
+			mData->textureBounds.size.x * mData->scale.x / 2,
+			mData->textureBounds.size.y * mData->scale.y / 2
 		};
 		oCenter.y *= -1;
 		oCenter += Vector2f{
-			oData->size.x / -2.f - oData->offset.x * !this->_direction * 2.f,
-			-static_cast<float>(oData->size.y) + oData->offset.y
+			oSize.x / -2.f - oData->offset.x * !this->_direction * 2.f,
+			-oSize.y + oData->offset.y
 		};
 		oCenter += Vector2f{
-			oData->textureBounds.size.x * oScale.x / 2,
-			oData->textureBounds.size.y * oScale.y / 2
+			oData->textureBounds.size.x * oData->scale.x / 2,
+			oData->textureBounds.size.y * oData->scale.y / 2
 		};
 
 		for (auto &hurtBox : oData->hurtBoxes) {

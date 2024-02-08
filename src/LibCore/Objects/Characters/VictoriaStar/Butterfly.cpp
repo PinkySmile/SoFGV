@@ -299,8 +299,8 @@ namespace SpiralOfFate
 
 		auto owDat = this->_owner->getCurrentFrameData();
 		auto opDat = target.getCurrentFrameData();
-		auto owCenter = this->_owner->_position + Vector2f{0, owDat->size.y / 2.f};
-		auto opCenter = target.getPosition() + Vector2f{0, opDat->size.y / 2.f};
+		auto owCenter = this->_owner->_position + Vector2f{0, owDat->textureBounds.size.y * owDat->scale.y / 2.f};
+		auto opCenter = target.getPosition() + Vector2f{0, opDat->textureBounds.size.y * opDat->scale.y / 2.f};
 		auto dir = opCenter - owCenter;
 		auto normalized = dir.normalized();
 		Vector2f normalPt = {normalized.x * 60, normalized.y * 80};
@@ -326,10 +326,10 @@ namespace SpiralOfFate
 			return Object::_computeFrameDataCache();
 
 		auto angle = this->getAngle();
-		auto scale = 1.5 - std::sin(angle) * 0.5;
+		float scale = 1.5 - std::sin(angle) * 0.5;
 
 		Object::_computeFrameDataCache();
-		this->_fdCache.size = this->_fdCache.textureBounds.size * scale;
+		this->_fdCache.scale = {scale, scale};
 	}
 
 	void Butterfly::startAttack(Vector2f pos, unsigned int block, unsigned char fadeTime, unsigned char attackTime, unsigned char travelTime)

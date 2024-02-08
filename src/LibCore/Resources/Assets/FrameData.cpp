@@ -50,13 +50,15 @@ namespace SpiralOfFate
 
 	FrameData::FrameData(const nlohmann::json &data, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
+		Vector2u textureSize{0, 0};
+
 		__folder = folder;
 		__palette = palette;
 		my_assert2(data.is_object(), "Invalid json");
 		my_assert2(data.contains("sprite"), "Invalid json");
 		my_assert2(data["sprite"].is_string(), "Invalid json");
 		this->spritePath = data["sprite"];
-
+		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette, &textureSize);
 		if (data.contains("sound")) {
 			my_assert2(data["sound"].is_string(), "Invalid json");
 			this->soundPath = data["sound"];
@@ -75,14 +77,41 @@ namespace SpiralOfFate
 			this->offset.x = data["offset"]["x"];
 			this->offset.y = data["offset"]["y"];
 		}
-		if (data.contains("size")) {
+		if (data.contains("texture_bounds")) {
+			my_assert2(data["texture_bounds"].is_object(), "Invalid json");
+			my_assert2(data["texture_bounds"].contains("left"), "Invalid json");
+			my_assert2(data["texture_bounds"].contains("top"), "Invalid json");
+			my_assert2(data["texture_bounds"].contains("width"), "Invalid json");
+			my_assert2(data["texture_bounds"].contains("height"), "Invalid json");
+			my_assert2(data["texture_bounds"]["left"].is_number(), "Invalid json");
+			my_assert2(data["texture_bounds"]["top"].is_number(), "Invalid json");
+			my_assert2(data["texture_bounds"]["width"].is_number(), "Invalid json");
+			my_assert2(data["texture_bounds"]["height"].is_number(), "Invalid json");
+			this->textureBounds.pos.x = data["texture_bounds"]["left"];
+			this->textureBounds.pos.y = data["texture_bounds"]["top"];
+			this->textureBounds.size.x = data["texture_bounds"]["width"];
+			this->textureBounds.size.y = data["texture_bounds"]["height"];
+		}
+		if (!this->textureBounds.size.x)
+			this->textureBounds.size.x = textureSize.x;
+		if (!this->textureBounds.size.y)
+			this->textureBounds.size.y = textureSize.y;
+		if (data.contains("scale")) {
+			my_assert2(data["scale"].is_object(), "Invalid json");
+			my_assert2(data["scale"].contains("x"), "Invalid json");
+			my_assert2(data["scale"].contains("y"), "Invalid json");
+			my_assert2(data["scale"]["x"].is_number(), "Invalid json");
+			my_assert2(data["scale"]["y"].is_number(), "Invalid json");
+			this->scale.x = data["scale"]["x"];
+			this->scale.y = data["scale"]["y"];
+		} else if (data.contains("size")) {
 			my_assert2(data["size"].is_object(), "Invalid json");
 			my_assert2(data["size"].contains("x"), "Invalid json");
 			my_assert2(data["size"].contains("y"), "Invalid json");
 			my_assert2(data["size"]["x"].is_number(), "Invalid json");
 			my_assert2(data["size"]["y"].is_number(), "Invalid json");
-			this->size.x = data["size"]["x"];
-			this->size.y = data["size"]["y"];
+			this->scale.x = data["size"]["x"].get<float>() / this->textureBounds.size.x;
+			this->scale.y = data["size"]["y"].get<float>() / this->textureBounds.size.y;
 		}
 		if (data.contains("gravity")) {
 			my_assert2(data["gravity"].is_object(), "Invalid json");
@@ -99,21 +128,6 @@ namespace SpiralOfFate
 			my_assert2(data["snap"]["x"].is_number(), "Invalid json");
 			my_assert2(data["snap"]["y"].is_number(), "Invalid json");
 			this->snap = Vector2f(data["snap"]["x"], data["snap"]["y"]);
-		}
-		if (data.contains("texture_bounds")) {
-			my_assert2(data["texture_bounds"].is_object(), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("left"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("top"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("width"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("height"), "Invalid json");
-			my_assert2(data["texture_bounds"]["left"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["top"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["width"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["height"].is_number(), "Invalid json");
-			this->textureBounds.pos.x = data["texture_bounds"]["left"];
-			this->textureBounds.pos.y = data["texture_bounds"]["top"];
-			this->textureBounds.size.x = data["texture_bounds"]["width"];
-			this->textureBounds.size.y = data["texture_bounds"]["height"];
 		}
 		if (data.contains("rotation")) {
 			my_assert2(data["rotation"].is_number(), "Invalid json");
@@ -316,10 +330,6 @@ namespace SpiralOfFate
 			this->counterHitSpeed.x = data["counter_hit_speed"]["x"];
 			this->counterHitSpeed.y = data["counter_hit_speed"]["y"];
 		}
-
-		Vector2u textureSize;
-
-		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette, &textureSize);
 		if (!this->soundPath.empty()) {
 			if (this->soundPath[0] != 'a') {
 				this->soundHandle = std::stoul(this->soundPath);
@@ -334,14 +344,6 @@ namespace SpiralOfFate
 			} else
 				this->hitSoundHandle = game->soundMgr.load(this->hitSoundPath);
 		}
-		if (!this->textureBounds.size.x)
-			this->textureBounds.size.x = textureSize.x;
-		if (!this->textureBounds.size.y)
-			this->textureBounds.size.y = textureSize.y;
-		if (!this->size.x)
-			this->size.x = this->textureBounds.size.x;
-		if (!this->size.y)
-			this->size.y = this->textureBounds.size.y;
 	}
 
 	FrameData::~FrameData()
@@ -368,7 +370,7 @@ namespace SpiralOfFate
 		this->hitSoundPath = other.hitSoundPath;
 		this->hitSoundHandle = other.hitSoundHandle;
 		this->offset = other.offset;
-		this->size = other.size;
+		this->scale = other.scale;
 		this->textureBounds = other.textureBounds;
 		this->rotation = other.rotation;
 		this->hurtBoxes = other.hurtBoxes;
@@ -437,7 +439,7 @@ namespace SpiralOfFate
 		this->hitSoundPath = other.hitSoundPath;
 		this->hitSoundHandle = other.hitSoundHandle;
 		this->offset = other.offset;
-		this->size = other.size;
+		this->scale = other.scale;
 		this->textureBounds = other.textureBounds;
 		this->rotation = other.rotation;
 		this->hurtBoxes = other.hurtBoxes;
@@ -545,10 +547,10 @@ namespace SpiralOfFate
 				{"x", this->snap->x},
 				{"y", this->snap->y}
 			};
-		if (this->size != game->textureMgr.getTextureSize(this->textureHandle))
-			result["size"] = {
-				{"x", this->size.x},
-				{"y", this->size.y}
+		if (this->scale != Vector2f{1, 1})
+			result["scale"] = {
+				{"x", this->scale.x},
+				{"y", this->scale.y}
 			};
 		if (this->textureBounds.pos != Vector2i{0, 0} || this->textureBounds.size != game->textureMgr.getTextureSize(this->textureHandle))
 			result["texture_bounds"] = {
@@ -690,7 +692,7 @@ namespace SpiralOfFate
 		dat->prorate = this->prorate;
 		dat->minProrate = this->minProrate;
 		dat->rotation = this->rotation;
-		dat->size = this->size;
+		dat->scale = this->scale;
 		dat->offset = this->offset;
 		dat->speed = this->speed;
 		dat->hitSpeed = this->hitSpeed;
@@ -759,7 +761,7 @@ namespace SpiralOfFate
 		this->prorate = dat->prorate;
 		this->minProrate = dat->minProrate;
 		this->rotation = dat->rotation;
-		this->size = dat->size;
+		this->scale = dat->scale;
 		this->offset = dat->offset;
 		this->speed = dat->speed;
 		this->hitSpeed = dat->hitSpeed;
@@ -877,8 +879,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "FrameData::collisionBox::pos: (" + std::to_string(dat1->collisionBox.pos.x) + ", " + std::to_string(dat1->collisionBox.pos.y) + ") vs (" + std::to_string(dat2->collisionBox.pos.x) + ", " + std::to_string(dat2->collisionBox.pos.y) + ")");
 		if (dat1->hasCollisionBox && dat2->hasCollisionBox && dat1->collisionBox.size != dat2->collisionBox.size)
 			game->logger.fatal(std::string(msgStart) + "FrameData::collisionBox::size: (" + std::to_string(dat1->collisionBox.size.x) + ", " + std::to_string(dat1->collisionBox.size.y) + ") vs (" + std::to_string(dat2->collisionBox.size.x) + ", " + std::to_string(dat2->collisionBox.size.y) + ")");
-		if (dat1->size != dat2->size)
-			game->logger.fatal(std::string(msgStart) + "FrameData::size: (" + std::to_string(dat1->size.x) + ", " + std::to_string(dat1->size.y) + ") vs (" + std::to_string(dat2->size.x) + ", " + std::to_string(dat2->size.y) + ")");
+		if (dat1->scale != dat2->scale)
+			game->logger.fatal(std::string(msgStart) + "FrameData::scale: (" + std::to_string(dat1->scale.x) + ", " + std::to_string(dat1->scale.y) + ") vs (" + std::to_string(dat2->scale.x) + ", " + std::to_string(dat2->scale.y) + ")");
 		if (dat1->offset != dat2->offset)
 			game->logger.fatal(std::string(msgStart) + "FrameData::offset: (" + std::to_string(dat1->offset.x) + ", " + std::to_string(dat1->offset.y) + ") vs (" + std::to_string(dat2->offset.x) + ", " + std::to_string(dat2->offset.y) + ")");
 		if (dat1->speed != dat2->speed)
@@ -959,7 +961,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "FrameData::textureBounds::size: (" + std::to_string(dat->textureBounds.size.x) + ", " + std::to_string(dat->textureBounds.size.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::collisionBox::pos: (" + std::to_string(dat->collisionBox.pos.x) + ", " + std::to_string(dat->collisionBox.pos.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::collisionBox::size: (" + std::to_string(dat->collisionBox.size.x) + ", " + std::to_string(dat->collisionBox.size.y) + ")");
-		game->logger.info(std::string(msgStart) + "FrameData::size: (" + std::to_string(dat->size.x) + ", " + std::to_string(dat->size.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::scale: (" + std::to_string(dat->scale.x) + ", " + std::to_string(dat->scale.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::offset: (" + std::to_string(dat->offset.x) + ", " + std::to_string(dat->offset.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::speed: (" + std::to_string(dat->speed.x) + ", " + std::to_string(dat->speed.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::hitSpeed: (" + std::to_string(dat->hitSpeed.x) + ", " + std::to_string(dat->hitSpeed.y) + ")");

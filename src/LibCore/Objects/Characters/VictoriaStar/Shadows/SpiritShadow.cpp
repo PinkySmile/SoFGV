@@ -43,7 +43,7 @@ namespace SpiralOfFate
 		if (data.hurtBoxes.empty() || this->getTeam() == (obj)->getTeam())\
 			break; \
 		auto opPos = (obj)->getPosition(); \
-		opPos.y += (data.size.y + data.offset.y) / 2.f; \
+		opPos.y += (data.textureBounds.size.y * data.scale.y + data.offset.y) / 2.f; \
 		if (myPos.distance2(opPos) <= TRIGGER_RADIUS * TRIGGER_RADIUS) \
 			return this->activate(); \
 	} while (0)
@@ -63,7 +63,7 @@ namespace SpiralOfFate
 		std::vector<Object *> objects;
 		auto &subObjs = game->battleMgr->getObjects();
 
-		myPos.y += (dat.size.y + dat.offset.y) / 2.f;
+		myPos.y += (dat.textureBounds.size.y * dat.scale.y + dat.offset.y) / 2.f;
 		checkDistance(game->battleMgr->getLeftCharacter());
 		checkDistance(game->battleMgr->getRightCharacter());
 		for (auto &object : subObjs)
@@ -80,8 +80,9 @@ namespace SpiralOfFate
 
 		sf::CircleShape circle;
 		auto myPos = this->_position;
+		auto dat = this->getCurrentFrameData();
 
-		myPos.y += this->getCurrentFrameData()->size.y / 2.f;
+		myPos.y += dat->textureBounds.size.y * dat->scale.y / 2.f;
 		myPos.y *= -1;
 		if (this->_idleCounter < 120)
 			circle.setOutlineColor(sf::Color::Red);
