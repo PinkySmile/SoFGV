@@ -8595,7 +8595,7 @@
             "y": 0
           },
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sprite": "sheet.png",
@@ -13148,7 +13148,7 @@
           "prorate": 100.0,
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
@@ -13271,7 +13271,7 @@
           "prorate": 100.0,
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sound": "assets/sfxs/se/marisa/002.ogg",
@@ -16337,7 +16337,7 @@
           "prorate": 120.0,
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sound": "17",
@@ -16383,7 +16383,7 @@
           },
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "spirit_limit": 100,
@@ -16488,7 +16488,7 @@
           "prorate": 120.0,
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sound": "17",
@@ -16534,7 +16534,7 @@
           },
           "push_block": 6,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "spirit_limit": 100,
@@ -22426,7 +22426,7 @@
           "push_back": 4,
           "push_block": 7,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "spirit_limit": 20,
@@ -25789,7 +25789,7 @@
           "push_back": 2,
           "push_block": 4,
           "scale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 2.0
           },
           "sound": "assets/sfxs/se/029.ogg",
