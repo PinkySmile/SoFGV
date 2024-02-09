@@ -26240,7 +26240,7 @@
           ],
           "offense_flag": 67592,
           "offset": {
-            "x": 55,
+            "x": 49,
             "y": 0
           },
           "prorate": 90.0,
@@ -26255,7 +26255,7 @@
             "height": 96,
             "left": 49,
             "top": 339,
-            "width": 85
+            "width": 80
           },
           "untech": 30,
           "void_limit": 30
@@ -26286,7 +26286,7 @@
           ],
           "offense_flag": 2164736,
           "offset": {
-            "x": 55,
+            "x": 49,
             "y": 0
           },
           "prorate": 110.0,
@@ -26299,7 +26299,7 @@
             "height": 96,
             "left": 49,
             "top": 339,
-            "width": 85
+            "width": 80
           }
         },
         {
