@@ -69,6 +69,8 @@ namespace SpiralOfFate
 		Vector2f _position;
 
 	public:
+		static constexpr unsigned char CLASS_ID = 11;
+
 		Particle(Source source, const InitData &initData, const Character &owner, unsigned sprite, Vector2f position, bool compute = true);
 
 		void render() const override;

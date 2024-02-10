@@ -594,7 +594,7 @@ namespace SpiralOfFate
 
 	unsigned int Object::getClassId() const
 	{
-		return 0;
+		return CLASS_ID;
 	}
 
 	bool Object::_isOnPlatform() const

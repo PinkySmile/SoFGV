@@ -226,6 +226,8 @@ namespace SpiralOfFate
 		bool isLeftFirst() const;
 
 		static unsigned getFrame(void *data);
+
+		friend class ObjectFactory;
 	};
 }
 

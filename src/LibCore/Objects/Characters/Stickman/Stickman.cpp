@@ -25,7 +25,7 @@ namespace SpiralOfFate
 
 	unsigned int Stickman::getClassId() const
 	{
-		return 3;
+		return CLASS_ID;
 	}
 
 	void Stickman::_onMoveEnd(const FrameData &lastData)

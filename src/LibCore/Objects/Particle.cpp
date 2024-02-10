@@ -233,7 +233,7 @@ namespace SpiralOfFate
 
 	unsigned int Particle::getClassId() const
 	{
-		return 11;
+		return CLASS_ID;
 	}
 
 	const Particle::Source &Particle::getSource() const

@@ -20,6 +20,8 @@ namespace SpiralOfFate
 		void _applyNewAnimFlags() override;
 
 	public:
+		static constexpr unsigned char CLASS_ID = 2;
+
 		SubObject(unsigned id, bool owner, class Character *ownerObj);
 
 		bool hits(const Object &other) const override;

@@ -58,6 +58,8 @@ namespace SpiralOfFate
 		void _computePosition();
 
 	public:
+		static constexpr unsigned char CLASS_ID = 10;
+
 		ParticleGenerator(Source source, const InitData &initData, const Character &owner, const Character &target, bool compute = true);
 		ParticleGenerator(const ParticleGenerator &generator) = delete;
 		ParticleGenerator &operator=(ParticleGenerator &generator) = delete;

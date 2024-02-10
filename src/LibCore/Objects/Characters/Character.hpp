@@ -740,6 +740,8 @@ namespace SpiralOfFate
 		bool _check624684Input(const std::function<bool (const LastInput &)> &atkInput);
 
 	public:
+		static constexpr unsigned char CLASS_ID = 1;
+
 		unsigned index;
 		std::wstring name;
 		bool startedAttack = false;
@@ -783,6 +785,7 @@ namespace SpiralOfFate
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
 
+		friend class ObjectFactory;
 		friend class SubObject;
 		friend class PracticeBattleManager;
 		friend class PracticeInGame;

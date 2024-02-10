@@ -206,6 +206,10 @@ if (NETWORK_CLASSES)
 		src/LibCore/Resources/Network/SpectatorInputManager.hpp
 		src/LibCore/Inputs/SpectatorInput.cpp
 		src/LibCore/Inputs/SpectatorInput.hpp
+		src/LibCore/Resources/ObjectFactory.cpp
+		src/LibCore/Resources/ObjectFactory.hpp
+		src/LibCore/Resources/Assert.hpp
+		src/LibCore/Resources/Assert.cpp
 	)
 	set(
 		NETWORK_EXTRA_SCENES

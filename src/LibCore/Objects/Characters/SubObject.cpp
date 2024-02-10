@@ -17,7 +17,7 @@ namespace SpiralOfFate
 
 	unsigned int SubObject::getClassId() const
 	{
-		return 2;
+		return CLASS_ID;
 	}
 
 	bool SubObject::getOwner() const

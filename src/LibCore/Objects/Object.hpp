@@ -100,6 +100,8 @@ namespace SpiralOfFate
 		virtual void _computeFrameDataCache();
 
 	public:
+		static constexpr unsigned char CLASS_ID = 0;
+
 		virtual void reset();
 		virtual bool hits(const Object &other) const;
 		virtual void hit(Object &her, const FrameData *data);

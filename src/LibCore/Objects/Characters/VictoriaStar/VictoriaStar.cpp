@@ -109,7 +109,7 @@ namespace SpiralOfFate
 
 	unsigned int VictoriaStar::getClassId() const
 	{
-		return 4;
+		return CLASS_ID;
 	}
 
 	unsigned int VictoriaStar::getBufferSize() const

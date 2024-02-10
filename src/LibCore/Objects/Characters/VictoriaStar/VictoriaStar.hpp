@@ -62,6 +62,8 @@ namespace SpiralOfFate
 		void _tickMove() override;
 
 	public:
+		static constexpr unsigned char CLASS_ID = 4;
+
 		VictoriaStar() = default;
 		VictoriaStar(
 			unsigned index,

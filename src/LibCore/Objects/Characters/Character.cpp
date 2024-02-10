@@ -3884,7 +3884,7 @@ namespace SpiralOfFate
 
 	unsigned int Character::getClassId() const
 	{
-		return 1;
+		return CLASS_ID;
 	}
 
 	void Character::_removeSubobjects()

@@ -661,17 +661,12 @@ namespace SpiralOfFate
 	{
 		size_t size = sizeof(Data) + this->_leftCharacter->getBufferSize() + this->_rightCharacter->getBufferSize();
 
-		size += this->_objects.size() * (sizeof(unsigned) + sizeof(unsigned char));
-		for (auto &object : this->_objects) {
-			size += object.second->getBufferSize();
-			size += (object.second->getClassId() == 2) * (sizeof(bool) + sizeof(unsigned));
-		}
-		size += this->_iobjects.size() * (sizeof(unsigned) + sizeof(unsigned char));
-		for (auto &object : this->_iobjects) {
-			size += object.second->getBufferSize();
-			size += (object.second->getClassId() == 10) * (sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned));
-			size += (object.second->getClassId() == 11) * (sizeof(unsigned char) + sizeof(unsigned char) + sizeof(unsigned) + sizeof(unsigned));
-		}
+		size += this->_objects.size() * sizeof(unsigned);
+		for (auto &object : this->_objects)
+			size += game->objFactory.getObjectSize(*object.second);
+		size += this->_iobjects.size() * sizeof(unsigned);
+		for (auto &object : this->_iobjects)
+			size += game->objFactory.getObjectSize(*object.second);
 		for (auto &object : this->_stageObjects)
 			size += object->getBufferSize();
 		for (size_t i = 0; i < this->_nbPlatform; i++)
@@ -705,55 +700,14 @@ namespace SpiralOfFate
 		for (auto &object : this->_objects) {
 			*(unsigned *)ptr = object.first;
 			ptr += sizeof(unsigned);
-			*(unsigned char *)ptr = object.second->getClassId();
-			ptr += sizeof(unsigned char);
-			if (object.second->getClassId() == 2) {
-				my_assert(dynamic_cast<SubObject *>(&*object.second));
-
-				auto obj = reinterpret_cast<SubObject *>(&*object.second);
-
-				*(bool *)ptr = obj->getOwner();
-				ptr += sizeof(bool);
-				*(unsigned *)ptr = obj->getId();
-				ptr += sizeof(unsigned);
-			}
-			object.second->copyToBuffer((void *)ptr);
-			ptr += object.second->getBufferSize();
+			game->objFactory.saveObject(ptr, *object.second);
+			ptr += game->objFactory.getObjectSize(*object.second);
 		}
 		for (auto &object : this->_iobjects) {
 			*(unsigned *)ptr = object.first;
 			ptr += sizeof(unsigned);
-			*(unsigned char *)ptr = object.second->getClassId();
-			ptr += sizeof(unsigned char);
-			if (object.second->getClassId() == 10) {
-				my_assert(dynamic_cast<ParticleGenerator *>(&*object.second));
-
-				auto obj = reinterpret_cast<ParticleGenerator *>(&*object.second);
-
-				*(unsigned char *)ptr = obj->getOwner().getTeam();
-				ptr += sizeof(unsigned char);
-				*(unsigned char *)ptr = obj->getTarget().getTeam();
-				ptr += sizeof(unsigned char);
-				*(unsigned char *)ptr = std::get<0>(obj->getSource());
-				ptr += sizeof(unsigned char);
-				*(unsigned *)ptr = std::get<1>(obj->getSource());
-				ptr += sizeof(unsigned);
-			} else if (object.second->getClassId() == 11) {
-				my_assert(dynamic_cast<Particle *>(&*object.second));
-
-				auto obj = reinterpret_cast<Particle *>(&*object.second);
-
-				*(unsigned char *)ptr = obj->getOwner().getTeam();
-				ptr += sizeof(unsigned char);
-				*(unsigned char *)ptr = std::get<0>(obj->getSource());
-				ptr += sizeof(unsigned char);
-				*(unsigned *)ptr = std::get<1>(obj->getSource());
-				ptr += sizeof(unsigned);
-				*(unsigned *)ptr = std::get<2>(obj->getSource());
-				ptr += sizeof(unsigned);
-			}
-			object.second->copyToBuffer((void *)ptr);
-			ptr += object.second->getBufferSize();
+			game->objFactory.saveObject(ptr, *object.second);
+			ptr += game->objFactory.getObjectSize(*object.second);
 		}
 		for (const auto &stageObject : this->_stageObjects) {
 			stageObject->copyToBuffer((void *)ptr);
@@ -794,118 +748,19 @@ namespace SpiralOfFate
 		this->_objects.reserve(dat->_nbObjects);
 		this->_platforms.erase(this->_platforms.begin() + this->_nbPlatform, this->_platforms.end());
 		for (size_t i = 0; i < dat->_nbObjects; i++) {
-			std::shared_ptr<Object> obj;
 			auto id = *(unsigned *)ptr;
 
 			ptr += sizeof(unsigned);
-
-			auto cl = *(unsigned char *)ptr;
-
-			ptr += sizeof(unsigned char);
-			switch (cl) {
-			case 0:
-				obj.reset(new Object());
-				break;
-			case 1:
-				obj.reset(new Character());
-				break;
-			case 2: {
-				auto owner = *(bool *)ptr;
-
-				ptr += sizeof(bool);
-
-				auto subobjid = *(unsigned *)ptr;
-
-				ptr += sizeof(unsigned);
-				obj = (owner ? this->_rightCharacter : this->_leftCharacter)->_spawnSubObject(*this, subobjid, false).second;
-				break;
-			}
-			default:
-				throw std::invalid_argument("Wtf?" + std::to_string(cl));
-			}
-
-			obj->restoreFromBuffer((void *)ptr);
-			ptr += obj->getBufferSize();
+			auto obj = game->objFactory.createObject<Object>(*this, ptr, {&*this->_leftCharacter, &*this->_rightCharacter});
+			ptr += game->objFactory.getObjectSize(*obj);
 			this->_objects.emplace_back(id, obj);
 		}
 		for (size_t i = 0; i < dat->_nbIObjects; i++) {
-			std::shared_ptr<IObject> obj;
 			auto id = *(unsigned *)ptr;
 
 			ptr += sizeof(unsigned);
-
-			auto cl = *(unsigned char *)ptr;
-
-			ptr += sizeof(unsigned char);
-			switch (cl) {
-				case 10: {
-					auto owner = *(unsigned char *) ptr;
-					ptr += sizeof(unsigned char);
-					auto target = *(unsigned char *) ptr;
-					ptr += sizeof(unsigned char);
-					auto spawner = *(unsigned char *) ptr;
-					ptr += sizeof(unsigned char);
-					auto index = *(unsigned *) ptr;
-					ptr += sizeof(unsigned);
-
-					auto &gens =
-						spawner == 2 ?
-						this->_systemParticles :
-						(
-							spawner == 1 ?
-							this->_rightCharacter :
-							this->_leftCharacter
-						)->_generators;
-					my_assert(index < gens.size());
-					auto &genDat = gens[index];
-
-					obj = std::make_shared<ParticleGenerator>(
-						ParticleGenerator::Source{spawner, index},
-						genDat,
-						*(owner ? this->_rightCharacter : this->_leftCharacter),
-						*(target ? this->_rightCharacter : this->_leftCharacter),
-						false
-					);
-					break;
-				}
-				case 11: {
-					auto owner = *(unsigned char *) ptr;
-					ptr += sizeof(unsigned char);
-					auto spawner = *(unsigned char *) ptr;
-					ptr += sizeof(unsigned char);
-					auto genIndex = *(unsigned *) ptr;
-					ptr += sizeof(unsigned);
-					auto index = *(unsigned *) ptr;
-					ptr += sizeof(unsigned);
-
-					auto &gens =
-						spawner == 2 ?
-						this->_systemParticles :
-						(
-							spawner == 1 ?
-							this->_rightCharacter :
-							this->_leftCharacter
-						)->_generators;
-					my_assert(genIndex < gens.size());
-					auto &genDat = gens[genIndex];
-
-					my_assert(index < genDat.particles.size());
-					obj = std::make_shared<Particle>(
-						Particle::Source{spawner, genIndex, index},
-						genDat.particles[index],
-						*(owner ? this->_rightCharacter : this->_leftCharacter),
-						genDat.sprite,
-						Vector2f{0, 0},
-						false
-					);
-					break;
-				}
-				default:
-					throw std::invalid_argument("Wtf?" + std::to_string(cl));
-			}
-
-			obj->restoreFromBuffer((void *)ptr);
-			ptr += obj->getBufferSize();
+			auto obj = game->objFactory.createObject(*this, ptr, {&*this->_leftCharacter, &*this->_rightCharacter});
+			ptr += game->objFactory.getObjectSize(*obj);
 			this->_iobjects.emplace_back(id, obj);
 		}
 		my_assert(dat->_nbStageObjects == this->_stageObjects.size());

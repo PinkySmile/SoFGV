@@ -205,7 +205,7 @@ namespace SpiralOfFate
 
 	unsigned int ParticleGenerator::getClassId() const
 	{
-		return 10;
+		return CLASS_ID;
 	}
 
 	const ParticleGenerator::Source &ParticleGenerator::getSource() const

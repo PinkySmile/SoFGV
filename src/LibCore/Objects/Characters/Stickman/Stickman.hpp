@@ -35,6 +35,8 @@ namespace SpiralOfFate
 		void _forceStartMove(unsigned int action) override;
 
 	public:
+		static constexpr unsigned char CLASS_ID = 3;
+
 		Stickman() = default;
 		Stickman(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
 		unsigned int getClassId() const override;
