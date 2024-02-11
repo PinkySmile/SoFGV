@@ -16569,7 +16569,7 @@
             "width": 38
           },
           "defense_flag": 24576,
-          "duration": 3,
+          "duration": 2,
           "hurt_boxes": [
             {
               "height": 80,
@@ -16602,7 +16602,7 @@
             "width": 38
           },
           "defense_flag": 16384,
-          "duration": 7,
+          "duration": 3,
           "hurt_boxes": [
             {
               "height": 80,
@@ -16635,7 +16635,7 @@
             "width": 38
           },
           "defense_flag": 16384,
-          "duration": 4,
+          "duration": 3,
           "hurt_boxes": [
             {
               "height": 79,
@@ -16668,7 +16668,7 @@
             "width": 38
           },
           "defense_flag": 16384,
-          "duration": 4,
+          "duration": 3,
           "hurt_boxes": [
             {
               "height": 79,
@@ -16701,7 +16701,7 @@
             "width": 38
           },
           "defense_flag": 16384,
-          "duration": 4,
+          "duration": 3,
           "hurt_boxes": [
             {
               "height": 79,
