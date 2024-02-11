@@ -20,7 +20,8 @@ namespace SpiralOfFate
 			bool owner,
 			class Character *ownerObj,
 			unsigned id,
-			const nlohmann::json &json
+			const nlohmann::json &json,
+			unsigned char typeSwitchFlags
 		);
 		bool hits(const Object &other) const override;
 	};

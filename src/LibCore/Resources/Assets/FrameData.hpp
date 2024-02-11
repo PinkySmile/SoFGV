@@ -102,6 +102,13 @@ namespace SpiralOfFate
 	static_assert(sizeof(DefensiveFlags) == sizeof(unsigned), "Too many defensive flags");
 	static_assert(sizeof(OffensiveFlags) == sizeof(unsigned long long), "Too many offensive flags");
 
+	enum LimitType {
+		LIMIT_NEUTRAL,
+		LIMIT_VOID,
+		LIMIT_MATTER,
+		LIMIT_SPIRIT,
+	};
+
 	class FrameData {
 	private:
 		bool _slave = false;

@@ -34,6 +34,9 @@ namespace SpiralOfFate
 
 		void _forceStartMove(unsigned int action) override;
 
+		std::pair<unsigned int, std::shared_ptr<Object>>
+		_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister) override;
+
 	public:
 		static constexpr unsigned char CLASS_ID = 3;
 

@@ -11,9 +11,11 @@ namespace SpiralOfFate
 		bool owner,
 		class Character *ownerObj,
 		unsigned id,
-		const nlohmann::json &json
+		const nlohmann::json &json,
+		unsigned char typeSwitchFlags
 	) :
 		SubObject(id, owner, ownerObj),
+		_typeSwitchFlags(typeSwitchFlags),
 		_maxHit(json["hits"]),
 		_endBlock(json["end_block"]),
 		_animationData(json.contains("animation_data") ? json["animation_data"].get<int>() : 0),
@@ -31,9 +33,10 @@ namespace SpiralOfFate
 		bool owner,
 		class Character *ownerObj,
 		unsigned id,
-		const nlohmann::json &json
+		const nlohmann::json &json,
+		unsigned char typeSwitchFlags
 	) :
-		Projectile(owner, ownerObj, id, json)
+		Projectile(owner, ownerObj, id, json, typeSwitchFlags)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -155,6 +158,7 @@ namespace SpiralOfFate
 		dat->fadingOut = this->_fadingOut;
 		dat->disabled = this->_disabled;
 		dat->nbHit = this->_nbHit;
+		dat->typeSwitchFlags = this->_typeSwitchFlags;
 	}
 
 	void Projectile::restoreFromBuffer(void *data)
@@ -167,6 +171,7 @@ namespace SpiralOfFate
 		this->_fadingOut = dat->fadingOut;
 		this->_disabled = dat->disabled;
 		this->_nbHit = dat->nbHit;
+		this->_typeSwitchFlags = dat->typeSwitchFlags;
 	}
 
 	void Projectile::_onMoveEnd(const FrameData &lastData)
@@ -177,7 +182,7 @@ namespace SpiralOfFate
 		}
 		if (this->_actionBlock != this->_endBlock) {
 			this->_actionBlock++;
-			my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Subobject " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Projectile " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			return Object::_onMoveEnd(lastData);
 		}
 		if (!this->_loop)
@@ -204,6 +209,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit) + " vs " + std::to_string(dat2->nbHit));
 		if (dat1->fadingOut != dat2->fadingOut)
 			game->logger.fatal(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut) + " vs " + std::to_string(dat2->fadingOut));
+		if (dat1->typeSwitchFlags != dat2->typeSwitchFlags)
+			game->logger.fatal(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags) + " vs " + std::to_string(dat2->typeSwitchFlags));
 		return length + sizeof(Data);
 	}
 
@@ -244,6 +251,21 @@ namespace SpiralOfFate
 			this->_fdCache.hurtBoxes.clear();
 			this->_fdCache.collisionBox = nullptr;
 		}
+		if (this->_typeSwitchFlags) {
+			auto index = (this->_typeSwitchFlags & TYPESWITCH_VOID)   ? LIMIT_VOID :
+			             (this->_typeSwitchFlags & TYPESWITCH_MATTER) ? LIMIT_MATTER :
+			             (this->_typeSwitchFlags & TYPESWITCH_SPIRIT) ? LIMIT_SPIRIT : LIMIT_NEUTRAL;
+
+			this->_fdCache.oFlag.voidElement   = (this->_typeSwitchFlags & (TYPESWITCH_NEUTRAL | TYPESWITCH_VOID))   != 0;
+			this->_fdCache.oFlag.matterElement = (this->_typeSwitchFlags & (TYPESWITCH_NEUTRAL | TYPESWITCH_MATTER)) != 0;
+			this->_fdCache.oFlag.spiritElement = (this->_typeSwitchFlags & (TYPESWITCH_NEUTRAL | TYPESWITCH_SPIRIT)) != 0;
+			for (int i = 0; i < 4; i++) {
+				if (i == index)
+					continue;
+				(&this->_fdCache.neutralLimit)[index] += (&this->_fdCache.neutralLimit)[i];
+				(&this->_fdCache.neutralLimit)[i] = 0;
+			}
+		}
 	}
 
 	size_t Projectile::printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const
@@ -262,6 +284,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled));
 		game->logger.info(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit));
 		game->logger.info(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut));
+		game->logger.info(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
 			game->logger.fatal("Invalid input frame");
 			return 0;

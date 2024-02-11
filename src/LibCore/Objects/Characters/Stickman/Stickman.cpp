@@ -6,6 +6,7 @@
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
 #include "Objects/Characters/CharacterParams.hpp"
+#include "Objects/Characters/Projectile.hpp"
 
 #define SPECIAL_INSTALL_COST 300
 
@@ -64,6 +65,38 @@ namespace SpiralOfFate
 			this->_specialInputs._da = -SPECIAL_INPUT_BUFFER_PERSIST;
 			this->_clearBasicBuffer();
 			game->soundMgr.play(BASICSOUND_INSTALL_START);
+		}
+	}
+
+	std::pair<unsigned int, std::shared_ptr<Object>> Stickman::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
+	{
+		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+
+		auto &pdat = this->_projectileData[id];
+		bool dir = this->_getProjectileDirection(pdat);
+		unsigned char flags = 0;
+
+		if (this->_installMoveStarted) {
+			flags |= this->_hasVoidInstall   * Projectile::TYPESWITCH_VOID;
+			flags |= this->_hasMatterInstall * Projectile::TYPESWITCH_MATTER;
+			flags |= this->_hasSpiritInstall * Projectile::TYPESWITCH_SPIRIT;
+			flags |= this->_hasBuff          * Projectile::TYPESWITCH_NEUTRAL;
+		}
+		try {
+			return manager.registerObject<Projectile>(
+				needRegister,
+				this->_subObjectsData.at(pdat.action),
+				this->_team,
+				dir,
+				this->_calcProjectilePosition(pdat, dir ? 1 : -1),
+				this->_team,
+				this,
+				id,
+				pdat.json,
+				flags
+			);
+		} catch (std::out_of_range &e) {
+			throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));
 		}
 	}
 

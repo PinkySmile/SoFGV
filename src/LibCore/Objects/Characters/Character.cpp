@@ -3654,7 +3654,13 @@ namespace SpiralOfFate
 
 		auto &pdat = this->_projectileData[id];
 		bool dir = this->_getProjectileDirection(pdat);
+		unsigned char flags = 0;
 
+		if (this->_installMoveStarted) {
+			flags |= this->_hasVoidInstall   * Projectile::TYPESWITCH_VOID;
+			flags |= this->_hasMatterInstall * Projectile::TYPESWITCH_MATTER;
+			flags |= this->_hasSpiritInstall * Projectile::TYPESWITCH_SPIRIT;
+		}
 		try {
 			return manager.registerObject<Projectile>(
 				needRegister,
@@ -3665,7 +3671,8 @@ namespace SpiralOfFate
 				this->_team,
 				this,
 				id,
-				pdat.json
+				pdat.json,
+				flags
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));

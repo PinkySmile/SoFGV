@@ -1769,10 +1769,10 @@ namespace SpiralOfFate
 		this->lifeBarEffect %= game->textureMgr.getTextureSize(this->mgr._battleUi[BATTLEUI_LIFE_BAR_EFFECT].textureHandle).x;
 		if (this->base._opponent->_comboCtr) {
 			this->hitCtr       = this->base._opponent->_comboCtr;
-			this->neutralLimit = this->base._opponent->_limit[Character::LIMIT_NEUTRAL];
-			this->voidLimit    = this->base._opponent->_limit[Character::LIMIT_VOID];
-			this->matterLimit  = this->base._opponent->_limit[Character::LIMIT_MATTER];
-			this->spiritLimit  = this->base._opponent->_limit[Character::LIMIT_SPIRIT];
+			this->neutralLimit = this->base._opponent->_limit[LIMIT_NEUTRAL];
+			this->voidLimit    = this->base._opponent->_limit[LIMIT_VOID];
+			this->matterLimit  = this->base._opponent->_limit[LIMIT_MATTER];
+			this->spiritLimit  = this->base._opponent->_limit[LIMIT_SPIRIT];
 			this->totalDamage  = this->base._opponent->_totalDamage;
 			this->proration    = this->base._opponent->_prorate;
 			this->counter      = this->base._opponent->_counter;

@@ -25,8 +25,9 @@ namespace SpiralOfFate
 			unsigned animationCtr;
 			bool disabled;
 			bool fadingOut;
+			unsigned char typeSwitchFlags;
 		};
-		static_assert(sizeof(Data) == 10, "Data has wrong size");
+		static_assert(sizeof(Data) == 11, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
@@ -34,6 +35,7 @@ namespace SpiralOfFate
 		unsigned _nbHit = 0;
 		bool _disabled = false;
 		bool _fadingOut = false;
+		unsigned char _typeSwitchFlags = 0;
 
 		// Non-game state
 		unsigned _maxHit;
@@ -49,11 +51,19 @@ namespace SpiralOfFate
 		void _disableObject();
 
 	public:
+		enum TypeSwitchFlags {
+			TYPESWITCH_NEUTRAL = 1 << 0,
+			TYPESWITCH_SPIRIT  = 1 << 1,
+			TYPESWITCH_MATTER  = 1 << 2,
+			TYPESWITCH_VOID    = 1 << 3
+		};
+
 		Projectile(
 			bool owner,
 			class Character *ownerObj,
 			unsigned id,
-			const nlohmann::json &json
+			const nlohmann::json &json,
+			unsigned char typeSwitchFlags
 		);
 		Projectile(
 			const std::vector<std::vector<FrameData>> &frameData,
@@ -63,7 +73,8 @@ namespace SpiralOfFate
 			bool owner,
 			class Character *ownerObj,
 			unsigned id,
-			const nlohmann::json &json
+			const nlohmann::json &json,
+			unsigned char typeSwitchFlags
 		);
 		bool isDead() const override;
 		void update() override;
@@ -75,6 +86,7 @@ namespace SpiralOfFate
 		size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 		void getHit(Object &other, const FrameData *data) override;
 		bool hits(const Object &other) const override;
+
 
 		static ProjectileAnimation animationFromString(const std::string &str);
 	};
