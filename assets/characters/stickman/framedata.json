@@ -6339,6 +6339,10 @@
           },
           "defense_flag": 8192,
           "duration": 5,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 35,
@@ -6363,6 +6367,10 @@
           },
           "defense_flag": 1,
           "duration": 25,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
           "sprite": "sheet.png",
           "texture_bounds": {
             "height": 35,

@@ -4679,7 +4679,7 @@ namespace SpiralOfFate
 		this->_fdCache.oFlag.voidElement   &= !this->_neutralEffectTimer;
 		this->_fdCache.oFlag.matterElement &= !this->_neutralEffectTimer;
 		this->_fdCache.oFlag.spiritElement &= !this->_neutralEffectTimer;
-		if (this->_hasVoidInstall || this->_hasMatterInstall || this->_hasSpiritInstall) {
+		if ((this->_hasVoidInstall || this->_hasMatterInstall || this->_hasSpiritInstall) && this->_installMoveStarted) {
 			auto index = this->_hasVoidInstall ? LIMIT_VOID : (this->_hasMatterInstall ? LIMIT_MATTER : LIMIT_SPIRIT);
 
 			this->_fdCache.oFlag.voidElement = this->_hasVoidInstall;

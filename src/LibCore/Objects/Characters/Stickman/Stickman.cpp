@@ -151,7 +151,7 @@ namespace SpiralOfFate
 	void Stickman::_computeFrameDataCache()
 	{
 		Character::_computeFrameDataCache();
-		if (!this->_hasBuff)
+		if (!this->_hasBuff || !this->_installMoveStarted)
 			return;
 		this->_fdCache.oFlag.voidElement = true;
 		this->_fdCache.oFlag.matterElement = true;
