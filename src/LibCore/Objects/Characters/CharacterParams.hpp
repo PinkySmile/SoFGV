@@ -7,7 +7,7 @@
 
 // Wakeup protections
 #define GRAB_INVUL_STACK 9
-#define PROJ_INVUL_STACK 2
+#define PROJ_INVUL_STACK 4
 
 // Limit
 #define MAX_LIMIT_EFFECT_TIMER (15 << 4)

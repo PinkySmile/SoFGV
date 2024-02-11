@@ -645,9 +645,20 @@ namespace SpiralOfFate
 			this->_action == ACTION_GROUND_LOW_NEUTRAL_BLOCK ||
 			this->_action == ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK
 		)
-			this->_grabInvul = GRAB_INVUL_STACK;
+			this->_grabInvul = GRAB_INVUL_STACK + 1;
 		else if (this->_grabInvul)
 			this->_grabInvul--;
+
+		if (
+			this->_action == ACTION_BEING_KNOCKED_DOWN ||
+			this->_action == ACTION_KNOCKED_DOWN ||
+			this->_action == ACTION_NEUTRAL_TECH ||
+			this->_action == ACTION_FORWARD_TECH ||
+			this->_action == ACTION_BACKWARD_TECH
+		)
+			this->_projInvul = PROJ_INVUL_STACK + 1;
+		else if (this->_projInvul)
+			this->_projInvul--;
 
 		auto limited = std::any_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d >= 100; });
 
@@ -3738,6 +3749,7 @@ namespace SpiralOfFate
 		dat->_jumpCanceled = this->_jumpCanceled;
 		dat->_hadUltimate = this->_hadUltimate;
 		dat->_grabInvul = this->_grabInvul;
+		dat->_projInvul = this->_projInvul;
 		dat->_ultimateUsed = this->_ultimateUsed;
 		dat->_normalTreeFlag = this->_normalTreeFlag;
 		dat->_nbReplayInputs = this->_replayData.size();
@@ -3818,6 +3830,7 @@ namespace SpiralOfFate
 		this->_jumpCanceled = dat->_jumpCanceled;
 		this->_hadUltimate = dat->_hadUltimate;
 		this->_grabInvul = dat->_grabInvul;
+		this->_projInvul = dat->_projInvul;
 		this->_ultimateUsed = dat->_ultimateUsed;
 		this->_normalTreeFlag = dat->_normalTreeFlag;
 		this->_inputBuffer = dat->_inputBuffer;
@@ -4288,6 +4301,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat1->_hadUltimate) + " vs " + std::to_string(dat2->_hadUltimate));
 		if (dat1->_grabInvul != dat2->_grabInvul)
 			game->logger.fatal(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat1->_grabInvul) + " vs " + std::to_string(dat2->_grabInvul));
+		if (dat1->_projInvul != dat2->_projInvul)
+			game->logger.fatal(std::string(msgStart) + "Character::_projInvul: " + std::to_string(dat1->_projInvul) + " vs " + std::to_string(dat2->_projInvul));
 		if (dat1->_ultimateUsed != dat2->_ultimateUsed)
 			game->logger.fatal(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat1->_ultimateUsed) + " vs " + std::to_string(dat2->_ultimateUsed));
 		if (dat1->_normalTreeFlag != dat2->_normalTreeFlag)
@@ -4702,6 +4717,7 @@ namespace SpiralOfFate
 			}
 		}
 		this->_fdCache.dFlag.grabInvulnerable |= this->_grabInvul;
+		this->_fdCache.dFlag.projectileInvul |= this->_projInvul;
 	}
 
 	std::array<unsigned, 4> Character::getLimit() const
@@ -4784,6 +4800,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Character::_jumpCanceled: " + std::to_string(dat->_jumpCanceled));
 		game->logger.info(std::string(msgStart) + "Character::_hadUltimate: " + std::to_string(dat->_hadUltimate));
 		game->logger.info(std::string(msgStart) + "Character::_grabInvul: " + std::to_string(dat->_grabInvul));
+		game->logger.info(std::string(msgStart) + "Character::_projInvul: " + std::to_string(dat->_projInvul));
 		game->logger.info(std::string(msgStart) + "Character::_ultimateUsed: " + std::to_string(dat->_ultimateUsed));
 		game->logger.info(std::string(msgStart) + "Character::_normalTreeFlag: " + std::to_string(dat->_normalTreeFlag));
 		game->logger.info(std::string(msgStart) + "Character::_inputBuffer::horizontalAxis: " + std::to_string(dat->_inputBuffer.horizontalAxis));
