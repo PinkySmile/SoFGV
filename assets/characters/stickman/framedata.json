@@ -6862,7 +6862,7 @@
           ],
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7359,7 +7359,7 @@
           "rotation": 21.280001381436254,
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -7470,7 +7470,7 @@
           "rotation": 340.76001978850746,
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8456,7 +8456,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -8764,7 +8764,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9138,7 +9138,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9305,7 +9305,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -9472,7 +9472,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -12591,7 +12591,7 @@
           "prorate": 80.0,
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sound": "16",
           "sprite": "sheet.png",
@@ -26626,7 +26626,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26648,7 +26648,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26670,7 +26670,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26692,7 +26692,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26713,7 +26713,7 @@
           "duration": 4,
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "sprite": "sheet.png",
           "texture_bounds": {
@@ -26753,7 +26753,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26775,7 +26775,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26797,7 +26797,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
@@ -26819,7 +26819,7 @@
           },
           "scale": {
             "x": 2.0,
-            "y": 1.0
+            "y": 2.0
           },
           "speed": {
             "x": 5.0,
