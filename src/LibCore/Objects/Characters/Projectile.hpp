@@ -23,16 +23,18 @@ namespace SpiralOfFate
 		struct Data {
 			unsigned nbHit;
 			unsigned animationCtr;
+			unsigned debuffDuration;
 			bool disabled;
 			bool fadingOut;
 			unsigned char typeSwitchFlags;
 		};
-		static_assert(sizeof(Data) == 11, "Data has wrong size");
+		static_assert(sizeof(Data) == 15, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
 		unsigned _animationCtr = 0;
 		unsigned _nbHit = 0;
+		unsigned _debuffDuration = 0;
 		bool _disabled = false;
 		bool _fadingOut = false;
 		unsigned char _typeSwitchFlags = 0;
@@ -63,7 +65,8 @@ namespace SpiralOfFate
 			class Character *ownerObj,
 			unsigned id,
 			const nlohmann::json &json,
-			unsigned char typeSwitchFlags
+			unsigned char typeSwitchFlags,
+			unsigned debuffDuration
 		);
 		Projectile(
 			const std::vector<std::vector<FrameData>> &frameData,
@@ -74,7 +77,8 @@ namespace SpiralOfFate
 			class Character *ownerObj,
 			unsigned id,
 			const nlohmann::json &json,
-			unsigned char typeSwitchFlags
+			unsigned char typeSwitchFlags,
+			unsigned debuffDuration
 		);
 		bool isDead() const override;
 		void update() override;
@@ -89,6 +93,8 @@ namespace SpiralOfFate
 
 
 		static ProjectileAnimation animationFromString(const std::string &str);
+
+		unsigned int getDebuffDuration() const override;
 	};
 }
 

@@ -109,6 +109,7 @@ namespace SpiralOfFate
 		virtual void collide(Object &other);
 		virtual bool collides(const Object &other) const;
 		virtual bool isDisabled(const Object &target) const;
+		virtual unsigned getDebuffDuration() const;
 
 		Object();
 		~Object() override = default;

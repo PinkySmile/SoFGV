@@ -735,4 +735,9 @@ namespace SpiralOfFate
 	{
 		return this->_position;
 	}
+
+	unsigned Object::getDebuffDuration() const
+	{
+		return 60;
+	}
 }

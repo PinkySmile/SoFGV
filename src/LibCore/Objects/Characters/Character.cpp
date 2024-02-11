@@ -3280,21 +3280,13 @@ namespace SpiralOfFate
 		}
 		if (!isParryAction(this->_action)) {
 			if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
-				int tier = 0;
 				auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
+				unsigned duration = other->getDebuffDuration();
 
-				if (data.priority)
-					tier = *data.priority;
-				else if (chr)
-					tier = chr->getAttackTier(chr->_actionCache);
-				if (tier < 0)
-					tier = 100;
-				else
-					tier += 200;
-				this->_neutralEffectTimer = neutral * tier / 2;
-				this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 4;
-				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 4;
-				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 4;
+				this->_neutralEffectTimer = neutral * duration * 2;
+				this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * duration;
+				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * duration;
+				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * duration;
 			}
 		}
 		this->_hitStop = std::max<unsigned char>(this->_hitStop, data.blockPlayerHitStop);
@@ -3381,6 +3373,22 @@ namespace SpiralOfFate
 		this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_BLOCKING_REMOVE);
 	}
 
+	unsigned int Character::getDebuffDuration() const
+	{
+		int tier = 0;
+		auto &data = this->_fdCache;
+
+		if (data.priority)
+			tier = *data.priority;
+		else
+			tier = this->getAttackTier(this->_actionCache);
+		if (tier < 0)
+			tier = 100;
+		else
+			tier += 200;
+		return tier / 4;
+	}
+
 	bool Character::_isOnPlatform() const
 	{
 		if (this->_specialInputs._22)
@@ -3420,21 +3428,13 @@ namespace SpiralOfFate
 		}
 		my_assert(!data.oFlag.ultimate || chr);
 		if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
-			int tier = 0;
+			unsigned duration = obj->getDebuffDuration();
 			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
 
-			if (data.priority)
-				tier = *data.priority;
-			else if (chr)
-				tier = chr->getAttackTier(chr->_actionCache);
-			if (tier <= 0)
-				tier = 100;
-			else
-				tier += 200;
-			this->_neutralEffectTimer = neutral * tier;
-			this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * tier / 2;
-			this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * tier / 2;
-			this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * tier / 2;
+			this->_neutralEffectTimer = neutral * duration * 4;
+			this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * duration * 2;
+			this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * duration * 2;
+			this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * duration * 2;
 		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
@@ -3673,7 +3673,8 @@ namespace SpiralOfFate
 				this,
 				id,
 				pdat.json,
-				flags
+				flags,
+				this->getDebuffDuration()
 			);
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));

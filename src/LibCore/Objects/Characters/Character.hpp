@@ -779,6 +779,8 @@ namespace SpiralOfFate
 		virtual void onMatchEnd();
 		virtual bool matchEndUpdate();
 
+		unsigned int getDebuffDuration() const override;
+
 		friend class ObjectFactory;
 		friend class SubObject;
 		friend class PracticeBattleManager;

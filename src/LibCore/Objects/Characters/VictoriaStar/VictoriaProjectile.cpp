@@ -16,9 +16,10 @@ namespace SpiralOfFate
 		class Character *ownerObj,
 		unsigned id,
 		const nlohmann::json &json,
-		unsigned char typeSwitchFlags
+		unsigned char typeSwitchFlags,
+		unsigned debuffDuration
 	) :
-		Projectile(frameData, team, direction, pos, owner, ownerObj, id, json, typeSwitchFlags)
+		Projectile(frameData, team, direction, pos, owner, ownerObj, id, json, typeSwitchFlags, debuffDuration)
 	{
 	}
 

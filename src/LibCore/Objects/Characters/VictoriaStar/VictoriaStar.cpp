@@ -254,7 +254,8 @@ namespace SpiralOfFate
 					this,
 					id,
 					pdat.json,
-					flags
+					flags,
+					this->getDebuffDuration()
 				);
 			} catch (std::out_of_range &e) {
 				throw std::invalid_argument("Cannot find subobject action id " + std::to_string(id));

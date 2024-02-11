@@ -12,9 +12,11 @@ namespace SpiralOfFate
 		class Character *ownerObj,
 		unsigned id,
 		const nlohmann::json &json,
-		unsigned char typeSwitchFlags
+		unsigned char typeSwitchFlags,
+		unsigned debuffDuration
 	) :
 		SubObject(id, owner, ownerObj),
+		_debuffDuration(debuffDuration),
 		_typeSwitchFlags(typeSwitchFlags),
 		_maxHit(json["hits"]),
 		_endBlock(json["end_block"]),
@@ -34,9 +36,10 @@ namespace SpiralOfFate
 		class Character *ownerObj,
 		unsigned id,
 		const nlohmann::json &json,
-		unsigned char typeSwitchFlags
+		unsigned char typeSwitchFlags,
+		unsigned debuffDuration
 	) :
-		Projectile(owner, ownerObj, id, json, typeSwitchFlags)
+		Projectile(owner, ownerObj, id, json, typeSwitchFlags, debuffDuration)
 	{
 		this->_position = pos;
 		this->_dir = direction ? 1 : -1;
@@ -57,6 +60,11 @@ namespace SpiralOfFate
 				if (limit >= 100)
 					return false;
 		return Object::hits(other);
+	}
+
+	unsigned int Projectile::getDebuffDuration() const
+	{
+		return this->_debuffDuration;
 	}
 
 	void Projectile::hit(Object &other, const FrameData *data)
@@ -159,6 +167,7 @@ namespace SpiralOfFate
 		dat->disabled = this->_disabled;
 		dat->nbHit = this->_nbHit;
 		dat->typeSwitchFlags = this->_typeSwitchFlags;
+		dat->debuffDuration = this->_debuffDuration;
 	}
 
 	void Projectile::restoreFromBuffer(void *data)
@@ -172,6 +181,7 @@ namespace SpiralOfFate
 		this->_disabled = dat->disabled;
 		this->_nbHit = dat->nbHit;
 		this->_typeSwitchFlags = dat->typeSwitchFlags;
+		this->_debuffDuration = dat->debuffDuration;
 	}
 
 	void Projectile::_onMoveEnd(const FrameData &lastData)
@@ -211,6 +221,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut) + " vs " + std::to_string(dat2->fadingOut));
 		if (dat1->typeSwitchFlags != dat2->typeSwitchFlags)
 			game->logger.fatal(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags) + " vs " + std::to_string(dat2->typeSwitchFlags));
+		if (dat1->debuffDuration != dat2->debuffDuration)
+			game->logger.fatal(std::string(msgStart) + "Projectile::debuffDuration: " + std::to_string(dat1->debuffDuration) + " vs " + std::to_string(dat2->debuffDuration));
 		return length + sizeof(Data);
 	}
 
@@ -285,6 +297,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit));
 		game->logger.info(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut));
 		game->logger.info(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags));
+		game->logger.info(std::string(msgStart) + "Projectile::debuffDuration: " + std::to_string(dat1->debuffDuration));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
 			game->logger.fatal("Invalid input frame");
 			return 0;
