@@ -182,7 +182,7 @@ namespace SpiralOfFate
 		if (this->_terminated)
 			return;
 
-		char buffer[RECV_BUFFER_SIZE];
+		auto buffer = new char[RECV_BUFFER_SIZE];
 		auto packet = (Packet *)buffer;
 
 		while (true) {
@@ -205,7 +205,7 @@ namespace SpiralOfFate
 					args->errorMessage = "Connection lost.";
 					game->scene.switchScene("title_screen", args);
 					this->terminate();
-					return;
+					break;
 				}
 				if (this->onDisconnect)
 					this->onDisconnect(*iter);
@@ -214,10 +214,10 @@ namespace SpiralOfFate
 			}
 
 			if (res == sf::Socket::NotReady)
-				return;
+				break;
 			else if (res != sf::Socket::Done) {
 				game->logger.error("[<" + ip.toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string(res));
-				return;
+				break;
 			}
 
 			auto it = std::find_if(this->_remotes.begin(), this->_remotes.end(), [&ip, &port](Remote &remote) {
@@ -238,6 +238,7 @@ namespace SpiralOfFate
 					this->onError(*it, e.getPacket());
 			}
 		}
+		delete[] buffer;
 	}
 
 	void Connection::_send(Remote &remote, void *packet, uint32_t realSize)
