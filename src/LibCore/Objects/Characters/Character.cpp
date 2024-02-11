@@ -913,6 +913,7 @@ namespace SpiralOfFate
 		InputStruct input = this->_getInputs();
 
 		if (
+			this->_lastInputs.empty() ||
 			!!input.n != this->_lastInputs.front().n ||
 			!!input.m != this->_lastInputs.front().m ||
 			!!input.s != this->_lastInputs.front().s ||
