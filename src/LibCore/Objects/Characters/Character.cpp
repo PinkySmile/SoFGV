@@ -1433,6 +1433,9 @@ namespace SpiralOfFate
 		game->logger.debug(buffer);
 		if (!dat)
 			return;
+		this->_fadeDir = false;
+		this->_fadeTimer = 0;
+		this->_fadeTimerMax = 1;
 
 		FrameData data;
 		auto myData = this->getCurrentFrameData();

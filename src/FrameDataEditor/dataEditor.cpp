@@ -219,6 +219,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto scale = panel->get<tgui::EditBox>("Scale");
+	auto fade = panel->get<tgui::EditBox>("FadeTime");
 	auto rotation = panel->get<tgui::Slider>("Rotation");
 	auto collisionBox = panel->get<tgui::CheckBox>("Collision");
 	auto duration = panel->get<tgui::EditBox>("Duration");
@@ -269,6 +270,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	sprite->setText(data.spritePath);
 	sound->setText(data.soundPath);
 	hitSound->setText(data.hitSoundPath);
+	fade->setText(std::to_string(data.fadeTime));
 	damage->setText(std::to_string(data.damage));
 	duration->setText(std::to_string(data.duration));
 	marker->setText(std::to_string(data.specialMarker));
@@ -385,6 +387,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto offset = panel->get<tgui::EditBox>("Offset");
 	auto bounds = panel->get<tgui::EditBox>("Bounds");
 	auto scale = panel->get<tgui::EditBox>("Scale");
+	auto fade = panel->get<tgui::EditBox>("FadeTime");
 	auto rotation = panel->get<tgui::Slider>("Rotation");
 	auto collisionBox = panel->get<tgui::CheckBox>("Collision");
 	auto duration = panel->get<tgui::EditBox>("Duration");
@@ -868,6 +871,16 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.rotation = f * M_PI / 180;
+	});
+	fade->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.fadeTime = std::stol(t);
 	});
 	duration->connect("TextChanged", [&object](std::string t){
 		if (*c)

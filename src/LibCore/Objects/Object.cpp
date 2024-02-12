@@ -107,7 +107,13 @@ namespace SpiralOfFate
 	{
 		auto &data = *this->getCurrentFrameData();
 		auto realPos = this->_position;
+		auto tint = this->_sprite.getColor();
 
+		if (this->_fadeDir)
+			tint.a = this->_fadeTimer * 255 / this->_fadeTimerMax;
+		else
+			tint.a = (this->_fadeTimerMax - this->_fadeTimer) * 255 / this->_fadeTimerMax;
+		this->_sprite.setColor(tint);
 		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
 		this->_sprite.setPosition(spritePos);
@@ -319,8 +325,19 @@ namespace SpiralOfFate
 
 		auto data = this->getCurrentFrameData();
 
-		if (!data)
-			return;
+		if (data->fadeTime == (unsigned)-1) {
+			this->_fadeDir = false;
+			this->_fadeTimer = 0;
+			this->_fadeTimerMax = 1;
+		} else if (data->fadeTime == (unsigned)-2) {
+			this->_fadeDir = true;
+			this->_fadeTimer = 0;
+			this->_fadeTimerMax = 1;
+		} else if (data->fadeTime) {
+			this->_fadeDir = !this->_fadeDir;
+			this->_fadeTimer = data->fadeTime;
+			this->_fadeTimerMax = data->fadeTime;
+		}
 		this->_gravity = data->gravity ? *data->gravity : this->_baseGravity;
 		this->_hasHit &= !data->oFlag.resetHits;
 		if (data->dFlag.resetRotation)
@@ -467,6 +484,8 @@ namespace SpiralOfFate
 	{
 		auto data = &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 
+		if (this->_fadeTimer)
+			this->_fadeTimer--;
 		this->_animationCtr++;
 		while (this->_animationCtr >= data->duration) {
 			this->_animationCtr = 0;
@@ -563,6 +582,9 @@ namespace SpiralOfFate
 		dat->_cornerPriority = this->_cornerPriority;
 		dat->_dir = this->_dir;
 		dat->_newAnim = this->_newAnim;
+		dat->_fadeTimer = this->_fadeTimer;
+		dat->_fadeTimerMax = this->_fadeTimerMax;
+		dat->_fadeDir = this->_fadeDir;
 	}
 
 	void Object::restoreFromBuffer(void *data)
@@ -589,6 +611,9 @@ namespace SpiralOfFate
 		this->_cornerPriority = dat->_cornerPriority;
 		this->_dir = dat->_dir;
 		this->_newAnim = dat->_newAnim;
+		this->_fadeTimer = dat->_fadeTimer;
+		this->_fadeTimerMax = dat->_fadeTimerMax;
+		this->_fadeDir = dat->_fadeDir;
 		game->logger.verbose("Restored Object @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -661,6 +686,12 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Object::_dir: " + std::to_string(dat1->_dir) + " vs " + std::to_string(dat2->_dir));
 		if (dat1->_newAnim != dat2->_newAnim)
 			game->logger.fatal(std::string(msgStart) + "Object::_newAnim: " + std::to_string(dat1->_newAnim) + " vs " + std::to_string(dat2->_newAnim));
+		if (dat1->_fadeTimer != dat2->_fadeTimer)
+			game->logger.fatal(std::string(msgStart) + "Object::_fadeTimer: " + std::to_string(dat1->_fadeTimer) + " vs " + std::to_string(dat2->_fadeTimer));
+		if (dat1->_fadeTimerMax != dat2->_fadeTimerMax)
+			game->logger.fatal(std::string(msgStart) + "Object::_fadeTimerMax: " + std::to_string(dat1->_fadeTimerMax) + " vs " + std::to_string(dat2->_fadeTimerMax));
+		if (dat1->_fadeDir != dat2->_fadeDir)
+			game->logger.fatal(std::string(msgStart) + "Object::_fadeDir: " + std::to_string(dat1->_fadeDir) + " vs " + std::to_string(dat2->_fadeDir));
 		return sizeof(Data) + length;
 	}
 
@@ -724,6 +755,9 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Object::_cornerPriority: " + std::to_string(dat->_cornerPriority));
 		game->logger.info(std::string(msgStart) + "Object::_dir: " + std::to_string(dat->_dir));
 		game->logger.info(std::string(msgStart) + "Object::_newAnim: " + std::to_string(dat->_newAnim));
+		game->logger.info(std::string(msgStart) + "Object::_fadeTimer: " + std::to_string(dat->_fadeTimer));
+		game->logger.info(std::string(msgStart) + "Object::_fadeTimerMax: " + std::to_string(dat->_fadeTimerMax));
+		game->logger.info(std::string(msgStart) + "Object::_fadeDir: " + std::to_string(dat->_fadeDir));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
 			game->logger.fatal("Invalid input frame");
 			return 0;

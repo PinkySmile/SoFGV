@@ -138,6 +138,7 @@ namespace SpiralOfFate
 			unsigned hurtBoxesCount;
 			unsigned hitBoxesCount;
 			unsigned particleGenerator;
+			unsigned fadeTime;
 			DefensiveFlags dFlag;
 			OffensiveFlags oFlag;
 			int pushBack;
@@ -162,7 +163,7 @@ namespace SpiralOfFate
 			Box boxes[0];
 		};
 		static_assert(sizeof(Box) == 16, "Box has wrong size");
-		static_assert(sizeof(Data) == 728, "Data has wrong size");
+		static_assert(sizeof(Data) == 732, "Data has wrong size");
 #pragma pack(pop)
 
 	public:
@@ -208,6 +209,7 @@ namespace SpiralOfFate
 		unsigned damage = 0;
 		unsigned chipDamage = 0;
 		unsigned particleGenerator = 0;
+		unsigned fadeTime = 0;
 		std::optional<unsigned> priority;
 		Vector2f speed = {0, 0};
 		Vector2f hitSpeed = {0, 0};

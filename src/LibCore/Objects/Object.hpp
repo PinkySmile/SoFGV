@@ -34,19 +34,22 @@ namespace SpiralOfFate
 			float _rotation;
 			float _dir;
 			unsigned _team;
+			unsigned _fadeTimer;
+			unsigned _fadeTimerMax;
 			unsigned short _action;
 			unsigned short _actionBlock;
 			unsigned short _animation;
 			unsigned short _animationCtr;
 			unsigned short _hp;
 			unsigned char _hitStop;
+			bool _fadeDir;
 			bool _dead;
 			bool _hasHit;
 			bool _direction;
 			bool _newAnim;
 			char _cornerPriority;
 		};
-		static_assert(sizeof(Data) == 52, "Data has wrong size");
+		static_assert(sizeof(Data) == 61, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
@@ -54,7 +57,11 @@ namespace SpiralOfFate
 		Vector2f _speed = {0, 0};
 		Vector2f _gravity = {0, 0};
 		float _rotation = 0;
+		float _dir = -1;
 		unsigned _team = 0;
+		unsigned _fadeTimer = 0;
+		unsigned _fadeTimerMax = 1;
+		FrameData _fdCache;
 		unsigned short _actionCache = 0;
 		unsigned short _action = 0;
 		unsigned short _actionBlock = 0;
@@ -62,13 +69,12 @@ namespace SpiralOfFate
 		unsigned short _animationCtr = 0;
 		unsigned short _hp = 0;
 		unsigned char _hitStop = 0;
+		bool _fadeDir = false;
 		bool _dead = false;
 		bool _hasHit = false;
 		bool _direction = false;
 		bool _cacheComputed = false;
 		char _cornerPriority = 0;
-		float _dir = -1;
-		FrameData _fdCache;
 
 		// Non-game state
 		mutable Sprite _sprite;

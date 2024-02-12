@@ -211,6 +211,10 @@ namespace SpiralOfFate
 			my_assert2(data["particle_generator"].is_number(), "Invalid json");
 			this->particleGenerator = data["particle_generator"];
 		}
+		if (data.contains("fade_time")) {
+			my_assert2(data["fade_time"].is_number(), "Invalid json");
+			this->fadeTime = data["fade_time"];
+		}
 		if (data.contains("block_stun")) {
 			my_assert2(data["block_stun"].is_number(), "Invalid json");
 			this->blockStun = data["block_stun"];
@@ -569,6 +573,8 @@ namespace SpiralOfFate
 			result["marker"] = this->specialMarker;
 		if (this->damage)
 			result["damage"] = this->damage;
+		if (this->fadeTime)
+			result["fade_time"] = this->fadeTime;
 		if (this->chipDamage)
 			result["chip_damage"] = this->chipDamage;
 		if (this->priority)
@@ -671,6 +677,7 @@ namespace SpiralOfFate
 		dat->untech = this->untech;
 		dat->guardDmg = this->guardDmg;
 		dat->duration = this->duration;
+		dat->fadeTime = this->fadeTime;
 		dat->specialMarker = this->specialMarker;
 		dat->neutralLimit = this->neutralLimit;
 		dat->voidLimit = this->voidLimit;
@@ -738,6 +745,7 @@ namespace SpiralOfFate
 		this->blockStun = dat->blockStun;
 		this->hitStun = dat->hitStun;
 		this->untech = dat->untech;
+		this->fadeTime = dat->fadeTime;
 		this->guardDmg = dat->guardDmg;
 		this->duration = dat->duration;
 		this->specialMarker = dat->specialMarker;
@@ -817,6 +825,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "FrameData::duration: " + std::to_string(dat1->duration) + " vs " + std::to_string(dat2->duration));
 		if (dat1->specialMarker != dat2->specialMarker)
 			game->logger.fatal(std::string(msgStart) + "FrameData::specialMarker: " + std::to_string(dat1->specialMarker) + " vs " + std::to_string(dat2->specialMarker));
+		if (dat1->fadeTime != dat2->fadeTime)
+			game->logger.fatal(std::string(msgStart) + "FrameData::fadeTime: " + std::to_string(dat1->fadeTime) + " vs " + std::to_string(dat2->fadeTime));
 		if (dat1->neutralLimit != dat2->neutralLimit)
 			game->logger.fatal(std::string(msgStart) + "FrameData::neutralLimit: " + std::to_string(dat1->neutralLimit) + " vs " + std::to_string(dat2->neutralLimit));
 		if (dat1->voidLimit != dat2->voidLimit)
@@ -929,6 +939,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "FrameData::untech: " + std::to_string(dat->untech));
 		game->logger.info(std::string(msgStart) + "FrameData::guardDmg: " + std::to_string(dat->guardDmg));
 		game->logger.info(std::string(msgStart) + "FrameData::duration: " + std::to_string(dat->duration));
+		game->logger.info(std::string(msgStart) + "FrameData::fadeTime: " + std::to_string(dat->fadeTime));
 		game->logger.info(std::string(msgStart) + "FrameData::specialMarker: " + std::to_string(dat->specialMarker));
 		game->logger.info(std::string(msgStart) + "FrameData::neutralLimit: " + std::to_string(dat->neutralLimit));
 		game->logger.info(std::string(msgStart) + "FrameData::voidLimit: " + std::to_string(dat->voidLimit));
