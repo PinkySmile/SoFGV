@@ -116,6 +116,7 @@ namespace SpiralOfFate
 #pragma pack(push, 1)
 		struct Data {
 			char texturePath[512];
+			unsigned wrongBlockStun;
 			unsigned blockStun;
 			unsigned hitStun;
 			unsigned untech;
@@ -163,7 +164,7 @@ namespace SpiralOfFate
 			Box boxes[0];
 		};
 		static_assert(sizeof(Box) == 16, "Box has wrong size");
-		static_assert(sizeof(Data) == 732, "Data has wrong size");
+		static_assert(sizeof(Data) == 736, "Data has wrong size");
 #pragma pack(pop)
 
 	public:
@@ -187,6 +188,7 @@ namespace SpiralOfFate
 		DefensiveFlags dFlag = {0};
 		OffensiveFlags oFlag = {0};
 		Box *collisionBox = nullptr;
+		unsigned wrongBlockStun = 0;
 		unsigned blockStun = 0;
 		unsigned hitStun = 0;
 		unsigned untech = 0;

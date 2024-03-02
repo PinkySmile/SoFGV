@@ -3332,7 +3332,7 @@ namespace SpiralOfFate
 					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
 				else
 					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
-				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun * 5 / 3);
+				this->_blockStun = std::max<unsigned>(this->_blockStun, data.wrongBlockStun);
 				game->soundMgr.play(BASICSOUND_WRONG_BLOCK);
 			} else {
 				if (this->_isGrounded())

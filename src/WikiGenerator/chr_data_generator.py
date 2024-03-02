@@ -248,7 +248,7 @@ def calc_frame_advantage(block, data):
 			stun = anim.get("block_stun", 0)
 			stop = anim.get("block_opponent_hit_stop", 0) - anim.get("block_player_hit_stop", 0)
 			dat[1][0] = stun + stop - total - 1
-			dat[1][1] = stun * 5 // 3 + stop - total - 1
+			dat[1][1] = anim.get("wrong_block_stun", stun * 5 // 3) + stop - total - 1
 			break
 		total += duration
 

@@ -34,7 +34,7 @@ namespace SpiralOfFate::Utils
 
 		int compress(unsigned char *inBuffer, size_t size, std::vector<unsigned char> &outBuffer, int level)
 		{
-			int ret, flush;
+			int ret;
 			unsigned have;
 			z_stream strm;
 			unsigned char out[CHUNK];
@@ -90,6 +90,7 @@ namespace SpiralOfFate::Utils
 				switch (ret) {
 				case Z_NEED_DICT:
 					ret = Z_DATA_ERROR;
+				// FALLTHROUGH
 				case Z_DATA_ERROR:
 				case Z_MEM_ERROR:
 					inflateEnd(&strm);

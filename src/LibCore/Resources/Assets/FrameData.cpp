@@ -219,6 +219,11 @@ namespace SpiralOfFate
 			my_assert2(data["block_stun"].is_number(), "Invalid json");
 			this->blockStun = data["block_stun"];
 		}
+		if (data.contains("wrong_block_stun")) {
+			my_assert2(data["wrong_block_stun"].is_number(), "Invalid json");
+			this->wrongBlockStun = data["wrong_block_stun"];
+		} else
+			this->wrongBlockStun = this->blockStun * 5 / 3;
 		if (data.contains("chip_damage")) {
 			my_assert2(data["chip_damage"].is_number(), "Invalid json");
 			this->chipDamage = data["chip_damage"];
@@ -384,6 +389,7 @@ namespace SpiralOfFate
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
 		this->blockStun = other.blockStun;
+		this->wrongBlockStun = other.wrongBlockStun;
 		this->hitStun = other.hitStun;
 		this->untech = other.untech;
 		this->guardDmg = other.guardDmg;
@@ -453,6 +459,7 @@ namespace SpiralOfFate
 		this->dFlag = other.dFlag;
 		this->oFlag = other.oFlag;
 		this->blockStun = other.blockStun;
+		this->wrongBlockStun = other.wrongBlockStun;
 		this->hitStun = other.hitStun;
 		this->untech = other.untech;
 		this->guardDmg = other.guardDmg;
@@ -587,6 +594,8 @@ namespace SpiralOfFate
 			result["collision_box"] = *this->collisionBox;
 		if (this->blockStun)
 			result["block_stun"] = this->blockStun;
+		if (this->wrongBlockStun != this->blockStun * 5 / 3)
+			result["wrong_block_stun"] = this->wrongBlockStun;
 		if (this->hitStun)
 			result["hit_stun"] = this->hitStun;
 		if (this->untech)
@@ -673,6 +682,7 @@ namespace SpiralOfFate
 		strncpy(dat->texturePath, this->spritePath.c_str(), sizeof(dat->texturePath));
 		dat->particleGenerator = this->particleGenerator;
 		dat->blockStun = this->blockStun;
+		dat->wrongBlockStun = this->wrongBlockStun;
 		dat->hitStun = this->hitStun;
 		dat->untech = this->untech;
 		dat->guardDmg = this->guardDmg;
@@ -743,6 +753,7 @@ namespace SpiralOfFate
 		game->textureMgr.remove(this->textureHandle);
 		this->particleGenerator = dat->particleGenerator;
 		this->blockStun = dat->blockStun;
+		this->wrongBlockStun = dat->wrongBlockStun;
 		this->hitStun = dat->hitStun;
 		this->untech = dat->untech;
 		this->fadeTime = dat->fadeTime;
@@ -815,6 +826,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "FrameData::particleGenerator: " + std::to_string(dat1->particleGenerator) + " vs " + std::to_string(dat2->particleGenerator));
 		if (dat1->blockStun != dat2->blockStun)
 			game->logger.fatal(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat1->blockStun) + " vs " + std::to_string(dat2->blockStun));
+		if (dat1->wrongBlockStun != dat2->wrongBlockStun)
+			game->logger.fatal(std::string(msgStart) + "FrameData::wrongBlockStun: " + std::to_string(dat1->wrongBlockStun) + " vs " + std::to_string(dat2->wrongBlockStun));
 		if (dat1->hitStun != dat2->hitStun)
 			game->logger.fatal(std::string(msgStart) + "FrameData::hitStun: " + std::to_string(dat1->hitStun) + " vs " + std::to_string(dat2->hitStun));
 		if (dat1->untech != dat2->untech)
@@ -935,6 +948,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "FrameData::texturePath: " + std::string(dat->texturePath, strnlen(dat->texturePath, sizeof(dat->texturePath))));
 		game->logger.info(std::string(msgStart) + "FrameData::particleGenerator: " + std::to_string(dat->particleGenerator));
 		game->logger.info(std::string(msgStart) + "FrameData::blockStun: " + std::to_string(dat->blockStun));
+		game->logger.info(std::string(msgStart) + "FrameData::wrongBlockStun: " + std::to_string(dat->wrongBlockStun));
 		game->logger.info(std::string(msgStart) + "FrameData::hitStun: " + std::to_string(dat->hitStun));
 		game->logger.info(std::string(msgStart) + "FrameData::untech: " + std::to_string(dat->untech));
 		game->logger.info(std::string(msgStart) + "FrameData::guardDmg: " + std::to_string(dat->guardDmg));

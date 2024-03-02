@@ -228,6 +228,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto pushBack = panel->get<tgui::EditBox>("PushBack");
 	auto pushBlock = panel->get<tgui::EditBox>("PushBlock");
 	auto blockStun = panel->get<tgui::EditBox>("BlockStun");
+	auto wrongBlockStun = panel->get<tgui::EditBox>("WBlockStun");
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
 	auto untech = panel->get<tgui::EditBox>("Untech");
 	auto gdmg = panel->get<tgui::EditBox>("GuardDMG");
@@ -278,6 +279,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	pushBack->setText(std::to_string(data.pushBack));
 	pushBlock->setText(std::to_string(data.pushBlock));
 	blockStun->setText(std::to_string(data.blockStun));
+	wrongBlockStun->setText(std::to_string(data.wrongBlockStun));
 	hitStun->setText(std::to_string(data.hitStun));
 	untech->setText(std::to_string(data.untech));
 	gdmg->setText(std::to_string(data.guardDmg));
@@ -396,6 +398,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto pushBack = panel->get<tgui::EditBox>("PushBack");
 	auto pushBlock = panel->get<tgui::EditBox>("PushBlock");
 	auto blockStun = panel->get<tgui::EditBox>("BlockStun");
+	auto wrongBlockStun = panel->get<tgui::EditBox>("WBlockStun");
 	auto hitStun = panel->get<tgui::EditBox>("HitStun");
 	auto untech = panel->get<tgui::EditBox>("Untech");
 	auto gdmg = panel->get<tgui::EditBox>("GuardDMG");
@@ -1023,6 +1026,16 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
 
 		data.blockStun = std::stoul(t);
+	});
+	wrongBlockStun->connect("TextChanged", [&object](std::string t){
+		if (*c)
+			return;
+		if (t.empty())
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		data.wrongBlockStun = std::stoul(t);
 	});
 	hitStun->connect("TextChanged", [&object](std::string t){
 		if (*c)
