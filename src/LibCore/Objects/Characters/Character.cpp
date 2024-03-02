@@ -1463,7 +1463,8 @@ namespace SpiralOfFate
 	bool Character::_isBlocking() const
 	{
 		auto *data = this->getCurrentFrameData();
-		auto dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+		auto diff = this->_opponent->_position.x - this->_position.x;
+		auto dir = diff == 0 ? this->_dir : std::copysign(1, diff);
 
 		if (this->_input->isPressed(dir == 1 ? INPUT_LEFT : INPUT_RIGHT) && data->dFlag.canBlock)
 			return true;
@@ -3312,7 +3313,8 @@ namespace SpiralOfFate
 		if ((this->_forceBlock & 7) == ALL_WRONG_BLOCK)
 			low = height & 2;
 
-		auto dir = std::copysign(1, this->_opponent->_position.x - this->_position.x);
+		auto diff = this->_opponent->_position.x - this->_position.x;
+		auto dir = diff == 0 ? this->_dir : std::copysign(1, diff);
 		bool wrongBlock =
 			((height & 1) && !myData->dFlag.lowBlock && (!low || (!blkAction && !myData->dFlag.canBlock))) ||
 			((height & 2) && !myData->dFlag.highBlock && (low || (!blkAction && !myData->dFlag.canBlock)));
