@@ -460,6 +460,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 	auto groundSlamCH = panel->get<tgui::CheckBox>("GroundSlamCH");
 	auto wallSplat = panel->get<tgui::CheckBox>("WallSplat");
 	auto wallSplatCH = panel->get<tgui::CheckBox>("WallSplatCH");
+	auto phantomHit = panel->get<tgui::CheckBox>("PHit");
 
 	auto invulnerable = panel->get<tgui::CheckBox>("Invulnerable");
 	auto invulnerableArmor = panel->get<tgui::CheckBox>("InvulnerableArmor");
@@ -1541,7 +1542,18 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		oFlags->setText(std::to_string(data.oFlag.flags));
 		*c = false;
 	});
-	oFlags->connect("TextChanged", [&object, groundSlam, groundSlamCH, wallSplat, wallSplatCH, hardKD, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
+	phantomHit->connect("Changed", [oFlags, &object](bool b){
+		if (*c)
+			return;
+
+		auto &data = object->_moves.at(object->_action)[object->_actionBlock][object->_animation];
+
+		*c = true;
+		data.oFlag.phantomHit = b;
+		oFlags->setText(std::to_string(data.oFlag.flags));
+		*c = false;
+	});
+	oFlags->connect("TextChanged", [&object, phantomHit, groundSlam, groundSlamCH, wallSplat, wallSplatCH, hardKD, nboh, nbob, turnAround, forceTurnAround, voidMana, matterMana, spiritMana, super, ultimate, jumpCancelable, transformCancelable, unTransformCancelable, dashCancelable, backDashCancelable, grab, aub, ub, voidElem, spiritElem, matterElem, lowHit, highHit, autoHitPos, canCH, hitSwitch, cancelable, jab, resetHit, resetSpeed, restand](std::string t){
 		if (t.empty())
 			return;
 
@@ -1587,6 +1599,7 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 		groundSlamCH->setChecked(data.oFlag.groundSlamCH);
 		wallSplat->setChecked(data.oFlag.wallSplat);
 		wallSplatCH->setChecked(data.oFlag.wallSplatCH);
+		phantomHit->setChecked(data.oFlag.phantomHit);
 		if (!g)
 			*c = false;
 	});

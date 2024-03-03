@@ -97,6 +97,7 @@ namespace SpiralOfFate
 			bool groundSlamCH : 1;
 			bool wallSplat : 1;
 			bool wallSplatCH : 1;
+			bool phantomHit : 1;
 		};
 	};
 	static_assert(sizeof(DefensiveFlags) == sizeof(unsigned), "Too many defensive flags");

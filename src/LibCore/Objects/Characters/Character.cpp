@@ -53,7 +53,8 @@ static const char *oFlags[] = {
 	"groundSlam",
 	"groundSlamCH",
 	"wallSplat",
-	"wallSplatCH"
+	"wallSplatCH",
+	"phantomhit"
 };
 
 static const char *dFlags[] = {
@@ -3328,17 +3329,21 @@ namespace SpiralOfFate
 			if (wrongBlock) {
 				if (this->_guardCooldown)
 					return this->_getHitByMove(other, data);
-				if (this->_isGrounded())
-					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
-				else
-					this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
+				if (!data.oFlag.phantomHit) {
+					if (this->_isGrounded())
+						this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK);
+					else
+						this->_forceStartMove(ACTION_AIR_NEUTRAL_WRONG_BLOCK);
+				}
 				this->_blockStun = std::max<unsigned>(this->_blockStun, data.wrongBlockStun);
 				game->soundMgr.play(BASICSOUND_WRONG_BLOCK);
 			} else {
-				if (this->_isGrounded())
-					this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
-				else
-					this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
+				if (!data.oFlag.phantomHit) {
+					if (this->_isGrounded())
+						this->_forceStartMove(low ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK);
+					else
+						this->_forceStartMove(ACTION_AIR_NEUTRAL_BLOCK);
+				}
 				this->_blockStun = std::max<unsigned>(this->_blockStun, data.blockStun);
 				game->soundMgr.play(BASICSOUND_BLOCK);
 			}
@@ -3485,15 +3490,18 @@ namespace SpiralOfFate
 			this->_willWallSplat = data.oFlag.wallSplatCH;
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
-			if (this->_isGrounded() && data.counterHitSpeed.y <= 0)
+			if (this->_isGrounded() && data.counterHitSpeed.y <= 0) {
+					if (!data.oFlag.phantomHit)
 				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-			else {
-				this->_forceStartMove(ACTION_AIR_HIT);
+			} else {
 				this->_restand = data.oFlag.restand;
-				if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
-					this->_actionBlock = 3;
-				else if (this->_speed.y < 0)
-					this->_actionBlock = 1;
+				if (!data.oFlag.phantomHit) {
+					this->_forceStartMove(ACTION_AIR_HIT);
+					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
+						this->_actionBlock = 3;
+					else if (this->_speed.y < 0)
+						this->_actionBlock = 1;
+				}
 				stun = data.untech;
 			}
 			this->_counter = true;
@@ -3509,15 +3517,18 @@ namespace SpiralOfFate
 				this->_willWallSplat = data.oFlag.wallSplat;
 				this->_speed.x = -data.hitSpeed.x * this->_dir;
 				this->_speed.y =  data.hitSpeed.y;
-				if (this->_isGrounded() && data.hitSpeed.y <= 0)
-					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
-				else {
-					this->_forceStartMove(ACTION_AIR_HIT);
+				if (this->_isGrounded() && data.hitSpeed.y <= 0) {
+					if (!data.oFlag.phantomHit)
+						this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				} else {
+					if (!data.oFlag.phantomHit) {
+						this->_forceStartMove(ACTION_AIR_HIT);
+						if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
+							this->_actionBlock = 3;
+						else if (this->_speed.y < 0)
+							this->_actionBlock = 1;
+					}
 					this->_restand = data.oFlag.restand;
-					if (this->_restand && this->_moves.at(ACTION_AIR_HIT).size() > 3 && std::all_of(this->_limit.begin(), this->_limit.end(), [](unsigned d) { return d < 100; }))
-						this->_actionBlock = 3;
-					else if (this->_speed.y < 0)
-						this->_actionBlock = 1;
 					stun = data.untech;
 				}
 			} else
@@ -3545,7 +3556,8 @@ namespace SpiralOfFate
 		this->_totalDamage += damage;
 		if (this->_comboCtr == 0)
 			this->_limitEffects = 0;
-		this->_comboCtr++;
+		if (!data.oFlag.phantomHit)
+			this->_comboCtr++;
 		this->_prorate *= std::pow(data.prorate / 100, (nb + 1));
 		this->_limit[LIMIT_NEUTRAL] += data.neutralLimit * (nb + 1);
 		this->_limit[LIMIT_VOID] += data.voidLimit * (nb + 1);
