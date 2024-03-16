@@ -178,11 +178,12 @@ namespace SpiralOfFate
 	void Stickman::_renderExtraEffects(const Vector2f &pos) const
 	{
 		Character::_renderExtraEffects(pos);
-		if (this->_hasBuff && this->_installMoveStarted)
-			this->_renderInstallEffect(this->_neutralEffect);
+		//if (this->_hasBuff && this->_installMoveStarted)
+		//	this->_renderInstallEffect(this->_neutralEffect);
 	}
 
 	void Stickman::_computeFrameDataCache()
+
 	{
 		Character::_computeFrameDataCache();
 		if (!this->_hasBuff || !this->_installMoveStarted)

@@ -448,13 +448,13 @@ namespace SpiralOfFate
 	void Character::render() const
 	{
 		if (this->_neutralEffectTimer)
-			this->_sprite.setColor(sf::Color{0xA0, 0xA0, 0xA0});
+			this->_sprite.setColor(game->typeColors[TYPECOLOR_NEUTRAL]);
 		else if (this->_spiritEffectTimer)
-			this->_sprite.setColor(sf::Color{51, 204, 204});
+			this->_sprite.setColor(game->typeColors[TYPECOLOR_SPIRIT]);
 		else if (this->_matterEffectTimer)
-			this->_sprite.setColor(sf::Color{187, 94, 0});
+			this->_sprite.setColor(game->typeColors[TYPECOLOR_MATTER]);
 		else if (this->_voidEffectTimer)
-			this->_sprite.setColor(sf::Color{0x80, 0x00, 0x80});
+			this->_sprite.setColor(game->typeColors[TYPECOLOR_VOID]);
 		else
 			this->_sprite.setColor(sf::Color::White);
 
@@ -5019,14 +5019,14 @@ namespace SpiralOfFate
 			this->_renderEffect(pos, this->_matterEffect);
 		else if (this->_voidEffectTimer)
 			this->_renderEffect(pos, this->_voidEffect);
-		if (this->_installMoveStarted) {
+		/*if (this->_installMoveStarted) {
 			if (this->_hasSpiritInstall)
 				this->_renderInstallEffect(this->_spiritEffect);
 			else if (this->_hasMatterInstall)
 				this->_renderInstallEffect(this->_matterEffect);
 			else if (this->_hasVoidInstall)
 				this->_renderInstallEffect(this->_voidEffect);
-		}
+		}*/
 	}
 
 	void Character::_reduceGuard(unsigned int amount, unsigned regenTime, bool canCrush)

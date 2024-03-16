@@ -107,20 +107,36 @@ namespace SpiralOfFate
 	{
 		auto &data = *this->getCurrentFrameData();
 		auto realPos = this->_position;
+		auto baseTint = this->_sprite.getColor();
 		auto tint = this->_sprite.getColor();
+		int a;
 
 		if (this->_fadeDir)
-			tint.a = this->_fadeTimer * 255 / this->_fadeTimerMax;
+			a = this->_fadeTimer * 255 / this->_fadeTimerMax;
 		else
-			tint.a = (this->_fadeTimerMax - this->_fadeTimer) * 255 / this->_fadeTimerMax;
+			a = (this->_fadeTimerMax - this->_fadeTimer) * 255 / this->_fadeTimerMax;
+		tint.a = a;
 		this->_sprite.setColor(tint);
 		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 		this->_sprite.setRotation(this->_rotation * 180 / M_PI);
 		this->_sprite.setPosition(spritePos);
 		this->_sprite.setScale(scale);
-		this->_sprite.textureHandle = data.textureHandle;
 		this->_sprite.setTextureRect(data.textureBounds);
+		this->_sprite.textureHandle = data.textureHandle;
 		game->textureMgr.render(this->_sprite);
+		if (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement)
+			tint = game->typeColors[data.oFlag.spiritElement ? TYPECOLOR_NEUTRAL : TYPECOLOR_NON_TYPED];
+		else if (data.oFlag.spiritElement)
+			tint = game->typeColors[TYPECOLOR_SPIRIT];
+		else if (data.oFlag.matterElement)
+			tint = game->typeColors[TYPECOLOR_MATTER];
+		else if (data.oFlag.voidElement)
+			tint = game->typeColors[TYPECOLOR_VOID];
+		tint.a = a;
+		this->_sprite.setColor(tint);
+		this->_sprite.textureHandle = data.textureHandleEffects;
+		game->textureMgr.render(this->_sprite);
+		this->_sprite.setColor(baseTint);
 
 		realPos.y *= -1;
 		if (!this->showBoxes)

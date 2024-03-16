@@ -61,6 +61,14 @@ namespace SpiralOfFate
 		/*  4 */ BASICSOUND_GROUND_SLAM = BASICSOUND_KNOCKDOWN,
 	};
 
+	enum TypeColor {
+		TYPECOLOR_NON_TYPED,
+		TYPECOLOR_NEUTRAL,
+		TYPECOLOR_SPIRIT,
+		TYPECOLOR_MATTER,
+		TYPECOLOR_VOID,
+	};
+
 	struct Game {
 		bool hosting = false;
 		std::random_device random;
@@ -81,6 +89,13 @@ namespace SpiralOfFate
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
+		std::array<sf::Color, 5> typeColors = {
+			sf::Color{0xA6, 0xA6, 0xA6},
+			sf::Color{0xFF, 0xFF, 0x00},
+			sf::Color{0x33, 0xCC, 0xCC},
+			sf::Color{0xBB, 0x5E, 0x00},
+			sf::Color{0x67, 0x03, 0x3D}
+		};
 	#ifdef HAS_NETWORK
 		std::shared_ptr<class Connection> connection;
 	#endif

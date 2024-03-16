@@ -176,6 +176,7 @@ namespace SpiralOfFate
 		std::string soundPath;
 		std::string hitSoundPath;
 		unsigned textureHandle = 0;
+		unsigned textureHandleEffects = 0;
 		unsigned soundHandle = 0;
 		unsigned hitSoundHandle = 0;
 		Vector2i offset = {0, 0};
