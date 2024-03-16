@@ -12,6 +12,8 @@ print("Loading data")
 with open(sys.argv[2]) as fd:
 	framedata = json.load(fd)
 sprites = {}
+sprites_effect = {}
+sprites_merged = {}
 areas = []
 datas = {}
 for move in framedata:
@@ -22,13 +24,20 @@ for move in framedata:
 				path = os.path.join(sys.argv[1], frame['sprite'])
 				print("Loading " + path)
 				sprites[frame['sprite']] = Image.open(path).convert("RGBA")
+				path = os.path.join(sys.argv[1], 'effects', frame['sprite'])
+				print("Loading " + path)
+				sprites_effect[frame['sprite']] = Image.open(path).convert("RGBA")
+				sprites_merged[frame['sprite']] = sprites[frame['sprite']].copy()
+				if sprites_effect[frame['sprite']]:
+					sprites_merged[frame['sprite']].paste(sprites_effect[frame['sprite']], (0, 0), sprites_effect[frame['sprite']])
 			areas.append({
 				'frameId': f"{move['action']}|{i}|{j}",
 				'frames': [frame],
 				'rect': frame.get("texture_bounds", {"height": sprites[frame['sprite']].size[1], "left": 0, "width": sprites[frame['sprite']].size[0], "top": 0}).copy(),
 				'sprite': frame['sprite'],
 				'image': sprites[frame['sprite']],
-				'pixels': sprites[frame['sprite']].load(),
+				'pixels': sprites_merged[frame['sprite']].load(),
+				'effect_image': sprites_effect[frame['sprite']],
 				'deleted': False
 			})
 # with open(sys.argv[1] + "/framedata_step0.json", "w") as fd:
@@ -158,6 +167,7 @@ infos = oldInfos
 
 print("Generating spritesheet")
 result = Image.new("RGBA", (infos['totalWidth'], infos['totalHeight']), (0, 0, 0, 0))
+result_effect = Image.new("RGBA", (infos['totalWidth'], infos['totalHeight']), (0, 0, 0, 0))
 x = 0
 totalX = 0
 y = 0
@@ -167,16 +177,26 @@ for a in areas:
 		x = 0
 		y += infos['heights'][i]
 		i = totalX * infos['pivots'] // totalWidth
+
 	mask = Image.new("L", a['image'].size, 0)
 	draw = ImageDraw.Draw(mask)
 	draw.rectangle((a['rect']['left'], a['rect']['top'], a['rect']['left'] + a['rect']['width'], a['rect']['top'] + a['rect']['height']), fill=255)
 	result.paste(a['image'], (x - a['rect']['left'], y - a['rect']['top']), mask)
+
+	if a['effect_image']:
+		mask = Image.new("L", a['effect_image'].size, 0)
+		draw = ImageDraw.Draw(mask)
+		draw.rectangle((a['rect']['left'], a['rect']['top'], a['rect']['left'] + a['rect']['width'], a['rect']['top'] + a['rect']['height']), fill=255)
+		result_effect.paste(a['effect_image'], (x - a['rect']['left'], y - a['rect']['top']), mask)
+
 	for f in a['frames']:
 		f['sprite'] = "sheet_generated.png"
 		f['texture_bounds']['left'] = x
 		f['texture_bounds']['top'] = y
 	x += a['rect']['width']
 	totalX += a['rect']['width']
+
 result.save(sys.argv[1] + "/sheet_generated.png")
+result_effect.save(sys.argv[1] + "/effects/sheet_generated.png")
 with open(".".join(sys.argv[2].split(".")[:-1]) + "_generated.json", "w") as fd:
 	json.dump(framedata, fd)
