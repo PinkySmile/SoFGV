@@ -187,6 +187,9 @@ namespace SpiralOfFate
 			std::function<std::vector<Platform *>()> platforms;
 		};
 
+		// Called when frames are skipped for the animation of round transitions
+		std::function<void ()> onFrameSkipped;
+
 		BattleManager(const StageParams &stage, const CharacterParams &leftCharacter, const CharacterParams &rightCharacter);
 		virtual ~BattleManager();
 		virtual bool update();

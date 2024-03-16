@@ -789,6 +789,8 @@ namespace SpiralOfFate
 			this->_roundEndTimer % 2 == 0
 		)
 			this->_gameUpdate();
+		else if (this->onFrameSkipped)
+			this->onFrameSkipped();
 
 		this->_currentFrame++;
 		if (this->_roundEndTimer <= 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))

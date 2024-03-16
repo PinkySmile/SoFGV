@@ -34,4 +34,10 @@ namespace SpiralOfFate
 		if (this->_currentFrame)
 			(*this->_currentFrame)++;
 	}
+
+	void SpectatorInput::skipInput()
+	{
+		my_assert(!this->_inputList.empty());
+		this->_inputList.pop_front();
+	}
 }

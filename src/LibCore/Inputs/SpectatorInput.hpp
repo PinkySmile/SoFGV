@@ -19,6 +19,7 @@ namespace SpiralOfFate
 	public:
 		SpectatorInput(std::list<PacketInput> &list, unsigned *currentFrame = nullptr);
 		void update() override;
+		void skipInput();
 	};
 }
 

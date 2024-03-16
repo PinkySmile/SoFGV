@@ -360,6 +360,7 @@ namespace SpiralOfFate
 	{
 		if (!this->_slave) {
 			game->textureMgr.remove(this->textureHandle);
+			game->textureMgr.remove(this->textureHandleEffects);
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 			delete this->collisionBox;
@@ -418,6 +419,7 @@ namespace SpiralOfFate
 		this->snap = other.snap;
 		if (!this->_slave) {
 			game->textureMgr.addRef(this->textureHandle);
+			game->textureMgr.addRef(this->textureHandleEffects);
 			game->soundMgr.addRef(this->soundHandle);
 			game->soundMgr.addRef(this->hitSoundHandle);
 			delete this->collisionBox;
@@ -438,6 +440,7 @@ namespace SpiralOfFate
 		__palette = other.__palette;
 		if (!this->_slave) {
 			game->textureMgr.remove(this->textureHandle);
+			game->textureMgr.remove(this->textureHandleEffects);
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 		}
@@ -489,6 +492,7 @@ namespace SpiralOfFate
 		this->snap = other.snap;
 		if (!this->_slave) {
 			game->textureMgr.addRef(this->textureHandle);
+			game->textureMgr.addRef(this->textureHandleEffects);
 			game->soundMgr.addRef(this->soundHandle);
 			game->soundMgr.addRef(this->hitSoundHandle);
 			delete this->collisionBox;
@@ -504,6 +508,7 @@ namespace SpiralOfFate
 	{
 		my_assert(!this->_slave);
 		game->textureMgr.remove(this->textureHandle);
+		game->textureMgr.remove(this->textureHandleEffects);
 		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette);
 		this->textureHandleEffects = game->textureMgr.load(folder + "/effects/" + this->spritePath, palette);
 	}
@@ -657,12 +662,14 @@ namespace SpiralOfFate
 			return;
 		if (slave) {
 			game->textureMgr.remove(this->textureHandle);
+			game->textureMgr.remove(this->textureHandleEffects);
 			game->soundMgr.remove(this->soundHandle);
 			game->soundMgr.remove(this->hitSoundHandle);
 			delete this->collisionBox;
 			this->collisionBox = nullptr;
 		} else {
 			game->textureMgr.addRef(this->textureHandle);
+			game->textureMgr.addRef(this->textureHandleEffects);
 			game->soundMgr.addRef(this->soundHandle);
 			game->soundMgr.addRef(this->hitSoundHandle);
 			if (this->collisionBox)

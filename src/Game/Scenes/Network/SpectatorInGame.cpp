@@ -17,9 +17,16 @@ namespace SpiralOfFate
 		_connection(connection),
 		_inputManager(std::move(inputManager))
 	{
+		this->_replaySaved = false;
 		this->_endScene = "title_screen";
 		this->_replay = true;
 		this->_manager->replay = true;
+		game->battleMgr->onFrameSkipped = [this]{
+			auto inputs = this->_inputManager->getInputs();
+
+			inputs.first->skipInput();
+			inputs.second->skipInput();
+		};
 	}
 
 	void SpectatorInGame::consumeEvent(const sf::Event &event)
