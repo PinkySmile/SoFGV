@@ -183,7 +183,6 @@ namespace SpiralOfFate
 	}
 
 	void Stickman::_computeFrameDataCache()
-
 	{
 		Character::_computeFrameDataCache();
 		if (!this->_hasBuff || !this->_installMoveStarted)

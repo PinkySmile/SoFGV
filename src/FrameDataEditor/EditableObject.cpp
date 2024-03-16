@@ -30,12 +30,23 @@ void EditableObject::render() const
 		data.textureBounds.size.x * data.scale.x / 2,
 		data.textureBounds.size.y * data.scale.y / 2
 	};
+	this->_sprite.setColor(sf::Color::White);
 	this->_sprite.setOrigin(data.textureBounds.size / 2.f);
 	this->_sprite.setRotation(data.rotation * 180 / M_PI);
 	this->_sprite.setPosition(result);
 	this->_sprite.setScale(data.scale);
 	this->_sprite.textureHandle = data.textureHandle;
 	this->_sprite.setTextureRect(data.textureBounds);
+	SpiralOfFate::game->textureMgr.render(this->_sprite);
+	if (data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement)
+		this->_sprite.setColor(SpiralOfFate::game->typeColors[data.oFlag.spiritElement ? SpiralOfFate::TYPECOLOR_NEUTRAL : SpiralOfFate::TYPECOLOR_NON_TYPED]);
+	else if (data.oFlag.spiritElement)
+		this->_sprite.setColor(SpiralOfFate::game->typeColors[SpiralOfFate::TYPECOLOR_SPIRIT]);
+	else if (data.oFlag.matterElement)
+		this->_sprite.setColor(SpiralOfFate::game->typeColors[SpiralOfFate::TYPECOLOR_MATTER]);
+	else if (data.oFlag.voidElement)
+		this->_sprite.setColor(SpiralOfFate::game->typeColors[SpiralOfFate::TYPECOLOR_VOID]);
+	this->_sprite.textureHandle = data.textureHandleEffects;
 	SpiralOfFate::game->textureMgr.render(this->_sprite);
 
 	rect.setOutlineThickness(2);

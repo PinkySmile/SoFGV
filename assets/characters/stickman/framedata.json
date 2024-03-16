@@ -16578,6 +16578,7 @@
               "width": 77
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -16611,6 +16612,7 @@
               "width": 77
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -16644,6 +16646,7 @@
               "width": 80
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -16677,6 +16680,7 @@
               "width": 80
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -16710,6 +16714,7 @@
               "width": 80
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -16868,7 +16873,7 @@
               "width": 47
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -16901,7 +16906,7 @@
               "width": 47
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -16934,7 +16939,7 @@
               "width": 47
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -16967,7 +16972,7 @@
               "width": 47
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17000,7 +17005,7 @@
               "width": 47
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17500,7 +17505,7 @@
               "width": 58
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17540,7 +17545,7 @@
               "width": 50
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17580,7 +17585,7 @@
               "width": 50
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17620,7 +17625,7 @@
               "width": 50
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17667,6 +17672,7 @@
               "width": 28
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -17706,6 +17712,7 @@
               "width": 59
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -17745,6 +17752,7 @@
               "width": 69
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -17784,6 +17792,7 @@
               "width": 69
             }
           ],
+          "offense_flag": 32,
           "offset": {
             "x": 7,
             "y": -16
@@ -17958,7 +17967,7 @@
               "width": 138
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -17992,7 +18001,7 @@
               "width": 138
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -18026,7 +18035,7 @@
               "width": 124
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -18060,7 +18069,7 @@
               "width": 86
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 7,
             "y": -16
@@ -18292,7 +18301,7 @@
               "width": 61
             }
           ],
-          "offense_flag": 2048,
+          "offense_flag": 2080,
           "offset": {
             "x": 4,
             "y": 0
