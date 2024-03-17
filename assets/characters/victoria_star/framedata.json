@@ -332,8 +332,8 @@
           "duration": 7,
           "particle_generator": 1,
           "scale": {
-            "x": 0,
-            "y": 0
+            "x": 0.0,
+            "y": 0.0
           },
           "sprite": "sheet.png"
         },
@@ -341,8 +341,8 @@
           "defense_flag": 2105344,
           "particle_generator": 1,
           "scale": {
-            "x": 0,
-            "y": 0
+            "x": 0.0,
+            "y": 0.0
           },
           "speed": {
             "x": 150.0,
@@ -355,8 +355,8 @@
           "duration": 7,
           "offense_flag": 67108864,
           "scale": {
-            "x": 0,
-            "y": 0
+            "x": 0.0,
+            "y": 0.0
           },
           "sprite": "sheet.png"
         },
@@ -555,8 +555,6 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
-          "rotation": 4.480000003241773,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -684,7 +682,7 @@
               "width": 59
             }
           ],
-          "offense_flag": 67110912,
+          "offense_flag": 67108864,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -812,7 +810,7 @@
               "width": 59
             }
           ],
-          "offense_flag": 67110912,
+          "offense_flag": 67108864,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -3482,7 +3480,6 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -3610,7 +3607,6 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -3738,7 +3734,6 @@
               "width": 59
             }
           ],
-          "offense_flag": 2048,
           "scale": {
             "x": 2.0,
             "y": 2.0
@@ -10083,8 +10078,8 @@
         {
           "defense_flag": 2105344,
           "scale": {
-            "x": 0,
-            "y": 0
+            "x": 0.0,
+            "y": 0.0
           },
           "speed": {
             "x": 1000.0,
@@ -10097,8 +10092,8 @@
           "duration": 14,
           "offense_flag": 67108864,
           "scale": {
-            "x": 0,
-            "y": 0
+            "x": 0.0,
+            "y": 0.0
           },
           "sprite": "sheet.png"
         },
