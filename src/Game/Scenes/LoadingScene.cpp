@@ -17,7 +17,7 @@ namespace SpiralOfFate
 	{
 		auto fctCopy = new std::function<IScene *(LoadingScene *)>(fct);
 
-		std::thread{[this, fctCopy]{
+		this->_thread = std::thread{[this, fctCopy]{
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 			try {
 #endif
@@ -34,12 +34,14 @@ namespace SpiralOfFate
 				//TODO: What to here ?
 			}
 #endif
-		}}.detach();
+		}};
 	}
 
 	LoadingScene::~LoadingScene()
 	{
 		game->logger.debug("~LoadingScene()");
+		if (this->_thread.joinable())
+			this->_thread.join();
 	}
 
 	void SpiralOfFate::LoadingScene::render() const

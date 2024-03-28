@@ -371,16 +371,7 @@ namespace SpiralOfFate
 		return name == SpiralOfFate::actionNames.end() ? "Action #" + std::to_string(action) : name->second;
 	}
 
-	Character::Character()
-	{
-		this->_neutralEffect.textureHandle = game->textureMgr.load("assets/effects/neutralHit.png");
-		this->_matterEffect.textureHandle = game->textureMgr.load("assets/effects/matterHit.png");
-		this->_spiritEffect.textureHandle = game->textureMgr.load("assets/effects/spiritHit.png");
-		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
-	}
-
-	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
-		Character()
+	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input)
 	{
 		this->index = index;
 		this->_input = std::move(input);
@@ -402,62 +393,8 @@ namespace SpiralOfFate
 		this->_lastInputs.push_back(LastInput{0, false, false, false, false, false, false, 0, 0});
 	}
 
-	Character::~Character()
-	{
-		game->textureMgr.remove(this->_neutralEffect.textureHandle);
-		game->textureMgr.remove(this->_matterEffect.textureHandle);
-		game->textureMgr.remove(this->_spiritEffect.textureHandle);
-		game->textureMgr.remove(this->_voidEffect.textureHandle);
-	}
-
-	void Character::_renderEffect(const Vector2f &result, Sprite &sprite) const
-	{
-		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
-		auto &data = *this->getCurrentFrameData();
-
-		sprite.setScale({
-			data.textureBounds.size.x * data.scale.x / 40.f,
-			data.textureBounds.size.y * data.scale.y / size.y
-		});
-		sprite.setOrigin({20, size.y / 2.f});
-		sprite.setTextureRect({static_cast<int>(40 * (this->_effectTimer / 4) % size.x), 0, 40, 40});
-		sprite.setPosition(result);
-		game->textureMgr.render(sprite);
-	}
-
-	void Character::_renderInstallEffect(Sprite &sprite) const
-	{
-		auto size = game->textureMgr.getTextureSize(sprite.textureHandle);
-
-		game->textureMgr.setTexture(sprite);
-		for (auto &box : this->_getModifiedHitBoxes()) {
-			sf::VertexArray arr{sf::Quads, 4};
-
-			for (int i = 0; i < 4; i++) {
-				arr[i].texCoords = {
-					static_cast<int>(40 * (this->_effectTimer / 4) % size.x) + 40 * (i == 1 || i == 2) * 1.f,
-					40 * (i >= 2) * 1.f,
-				};
-				arr[i].color = sf::Color::White;
-				arr[i].position = (&box.pt1)[i];
-			}
-			game->screen->draw(arr, sprite.getTexture());
-		}
-	}
-
 	void Character::render() const
 	{
-		if (this->_neutralEffectTimer)
-			this->_sprite.setColor(game->typeColors[TYPECOLOR_NEUTRAL]);
-		else if (this->_spiritEffectTimer)
-			this->_sprite.setColor(game->typeColors[TYPECOLOR_SPIRIT]);
-		else if (this->_matterEffectTimer)
-			this->_sprite.setColor(game->typeColors[TYPECOLOR_MATTER]);
-		else if (this->_voidEffectTimer)
-			this->_sprite.setColor(game->typeColors[TYPECOLOR_VOID]);
-		else
-			this->_sprite.setColor(sf::Color::White);
-
 		auto &data = *this->getCurrentFrameData();
 		auto result = Vector2f{data.offset.x * this->_dir, static_cast<float>(data.offset.y)} + this->_position;
 		auto scale = Vector2f{
@@ -559,18 +496,29 @@ namespace SpiralOfFate
 
 		auto input = this->_updateInputs();
 
-		if (this->_neutralEffectTimer)
+		if (this->_neutralEffectTimer) {
 			this->_neutralEffectTimer--;
-		if (this->_matterEffectTimer)
+			if (this->_neutralEffectTimer == 0)
+				this->_typeDebuffEffects[3].second->kill();
+		}
+		if (this->_matterEffectTimer) {
 			this->_matterEffectTimer--;
-		if (this->_spiritEffectTimer)
+			if (this->_matterEffectTimer == 0)
+				this->_typeDebuffEffects[1].second->kill();
+		}
+		if (this->_spiritEffectTimer) {
 			this->_spiritEffectTimer--;
+			if (this->_spiritEffectTimer == 0)
+				this->_typeDebuffEffects[0].second->kill();
+		}
 		if (this->_voidEffectTimer) {
 			if (this->_hp > 1) {
 				this->_hp--;
 				this->_totalDamage++;
 			}
 			this->_voidEffectTimer--;
+			if (this->_voidEffectTimer == 0)
+				this->_typeDebuffEffects[2].second->kill();
 		}
 		if (!this->_ultimateUsed) {
 			if (this->_odCooldown) {
@@ -3303,6 +3251,17 @@ namespace SpiralOfFate
 				this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * duration;
 				this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * duration;
 				this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * duration;
+				for (auto &obj : this->_typeDebuffEffects)
+					if (obj.second)
+						obj.second->kill();
+				if (this->_voidEffectTimer)
+					this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_VOID_TYPE_DEBUFF);
+				else if (this->_matterEffectTimer)
+					this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_MATTER_TYPE_DEBUFF);
+				else if (this->_spiritEffectTimer)
+					this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF);
+				else if (this->_neutralEffectTimer)
+					this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_DEBUFF);
 			}
 		}
 		this->_hitStop = std::max<unsigned char>(this->_hitStop, data.blockPlayerHitStop);
@@ -3456,6 +3415,17 @@ namespace SpiralOfFate
 			this->_spiritEffectTimer = (!neutral && data.oFlag.spiritElement) * duration * 2;
 			this->_matterEffectTimer = (!neutral && data.oFlag.matterElement) * duration * 2;
 			this->_voidEffectTimer = (!neutral && data.oFlag.voidElement) * duration * 2;
+			for (auto &obj : this->_typeDebuffEffects)
+				if (obj.second)
+					obj.second->kill();
+			if (this->_voidEffectTimer)
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_VOID_TYPE_DEBUFF);
+			else if (this->_matterEffectTimer)
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_MATTER_TYPE_DEBUFF);
+			else if (this->_spiritEffectTimer)
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF);
+			else if (this->_neutralEffectTimer)
+				this->_spawnSystemParticles(SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_DEBUFF);
 		}
 		counter &= this->_action != ACTION_AIR_HIT;
 		counter &= this->_action != ACTION_WALL_SLAM;
@@ -5014,22 +4984,6 @@ namespace SpiralOfFate
 
 	void Character::_renderExtraEffects(const Vector2f &pos) const
 	{
-		if (this->_neutralEffectTimer)
-			this->_renderEffect(pos, this->_neutralEffect);
-		else if (this->_spiritEffectTimer)
-			this->_renderEffect(pos, this->_spiritEffect);
-		else if (this->_matterEffectTimer)
-			this->_renderEffect(pos, this->_matterEffect);
-		else if (this->_voidEffectTimer)
-			this->_renderEffect(pos, this->_voidEffect);
-		/*if (this->_installMoveStarted) {
-			if (this->_hasSpiritInstall)
-				this->_renderInstallEffect(this->_spiritEffect);
-			else if (this->_hasMatterInstall)
-				this->_renderInstallEffect(this->_matterEffect);
-			else if (this->_hasVoidInstall)
-				this->_renderInstallEffect(this->_voidEffect);
-		}*/
 	}
 
 	void Character::_reduceGuard(unsigned int amount, unsigned regenTime, bool canCrush)
@@ -5076,9 +5030,24 @@ namespace SpiralOfFate
 			*this, *this
 		);
 
-		if (id < 4) {
-			assert_exp(!this->_typeSwitchEffects[id].second || this->_typeSwitchEffects[id].second->isDead());
-			this->_typeSwitchEffects[id] = result;
+		if (
+			id == SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH ||
+			id == SYS_PARTICLE_GENERATOR_MATTER_TYPE_SWITCH ||
+			id == SYS_PARTICLE_GENERATOR_VOID_TYPE_SWITCH ||
+			id == SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_SWITCH
+		) {
+			assert_exp(!this->_typeSwitchEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH].second || this->_typeSwitchEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH].second->isDead());
+			this->_typeSwitchEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH] = result;
+		}
+
+		if (
+			id == SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF ||
+			id == SYS_PARTICLE_GENERATOR_MATTER_TYPE_DEBUFF ||
+			id == SYS_PARTICLE_GENERATOR_VOID_TYPE_DEBUFF ||
+			id == SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_DEBUFF
+		) {
+			assert_exp(!this->_typeDebuffEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF].second || this->_typeDebuffEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF].second->isDead());
+			this->_typeDebuffEffects[id - SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_DEBUFF] = result;
 		}
 	}
 }

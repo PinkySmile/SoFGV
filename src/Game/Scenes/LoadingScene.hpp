@@ -7,6 +7,7 @@
 
 
 #include <mutex>
+#include <thread>
 #include <functional>
 #include "Resources/IScene.hpp"
 #include "Resources/SceneArgument.hpp"
@@ -19,6 +20,7 @@ namespace SpiralOfFate
 		mutable std::mutex _mutex;
 		sf::String _status;
 		IScene *_nextScene = nullptr;
+		std::thread _thread;
 		std::function<void (IScene *)> onLoadingFinished;
 		std::function<void (LoadingScene *)> onUpdate;
 

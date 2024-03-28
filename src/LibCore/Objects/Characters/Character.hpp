@@ -546,6 +546,7 @@ namespace SpiralOfFate
 
 		// Game State
 		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 4> _typeSwitchEffects;
+		std::array<std::pair<unsigned, std::shared_ptr<IObject>>, 4> _typeDebuffEffects;
 		std::vector<ReplayData> _replayData;
 		std::list<LastInput> _lastInputs;
 		std::map<unsigned, unsigned> _usedMoves;
@@ -622,10 +623,6 @@ namespace SpiralOfFate
 		bool _hasBeenHitDuringFrame = false;
 		bool _hasHitDuringFrame = false;
 		mutable unsigned _effectTimer = 0;
-		mutable Sprite _neutralEffect;
-		mutable Sprite _matterEffect;
-		mutable Sprite _spiritEffect;
-		mutable Sprite _voidEffect;
 
 		//Practice
 		GroundTech _dummyGroundTech = GROUNDTECH_NONE;
@@ -700,8 +697,6 @@ namespace SpiralOfFate
 		InputStruct _updateInputs(bool tickBuffer = true);
 		void _computeFrameDataCache() override;
 
-		void _renderInstallEffect(Sprite &sprite) const;
-		void _renderEffect(const Vector2f &result, Sprite &sprite) const;
 		void _removeSubobjects();
 		void _checkSpecialInputs(bool tickBuffer);
 		void _clearLastInputs();
@@ -743,9 +738,9 @@ namespace SpiralOfFate
 		bool startedAttack = false;
 		const std::vector<ParticleGenerator::InitData> *systemParticles = nullptr;
 
-		Character();
+		Character() = default;
 		Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input);
-		~Character() override;
+		~Character() override = default;
 		void setOpponent(Character *opponent);
 		bool hits(const Object &other) const override;
 		void hit(Object &other, const FrameData *data) override;
