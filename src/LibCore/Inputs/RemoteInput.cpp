@@ -22,7 +22,7 @@ namespace SpiralOfFate
 
 	void RemoteInput::update()
 	{
-		my_assert(!this->_inputBuffer.empty());
+		assert_exp(!this->_inputBuffer.empty());
 		this->_keyStates[INPUT_LEFT] = this->_inputBuffer.front()._h < 0;
 		this->_keyStates[INPUT_RIGHT] = this->_inputBuffer.front()._h > 0;
 		this->_keyStates[INPUT_UP] = this->_inputBuffer.front()._v > 0;

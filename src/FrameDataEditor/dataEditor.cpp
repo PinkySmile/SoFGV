@@ -2066,7 +2066,7 @@ void	removeBoxCallback(tgui::Panel::Ptr boxes, std::unique_ptr<EditableObject> &
 			return;
 		}
 	}
-	my_assert(false);
+	assert_not_reached();
 }
 
 void	quitCallback()

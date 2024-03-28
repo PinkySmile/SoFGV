@@ -328,27 +328,27 @@ void	checkCompilationEnv()
 		);
 
 	game->battleRandom.seed(0);
-	my_assert_eq(game->battleRandom(), 2357136044UL);
-	my_assert_eq(game->battleRandom(), 2546248239UL);
-	my_assert_eq(game->battleRandom(), 3071714933UL);
-	my_assert_eq(game->battleRandom(), 3626093760UL);
-	my_assert_eq(game->battleRandom(), 2588848963UL);
+	assert_eq(game->battleRandom(), 2357136044UL);
+	assert_eq(game->battleRandom(), 2546248239UL);
+	assert_eq(game->battleRandom(), 3071714933UL);
+	assert_eq(game->battleRandom(), 3626093760UL);
+	assert_eq(game->battleRandom(), 2588848963UL);
 
 	game->battleRandom.seed(0);
-	my_assert_eq(game->battleRandom(), 2357136044UL);
-	my_assert_eq(game->battleRandom(), 2546248239UL);
-	my_assert_eq(game->battleRandom(), 3071714933UL);
-	my_assert_eq(game->battleRandom(), 3626093760UL);
-	my_assert_eq(game->battleRandom(), 2588848963UL);
+	assert_eq(game->battleRandom(), 2357136044UL);
+	assert_eq(game->battleRandom(), 2546248239UL);
+	assert_eq(game->battleRandom(), 3071714933UL);
+	assert_eq(game->battleRandom(), 3626093760UL);
+	assert_eq(game->battleRandom(), 2588848963UL);
 
 	game->battleRandom.seed(0);
-	my_assert_eq(game->battleRandom.min(), 0UL);
-	my_assert_eq(game->battleRandom.max(), 0xFFFFFFFFUL);
-	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 10UL);
-	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 11UL);
-	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 14UL);
-	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 16UL);
-	my_assert_eq(random_distrib(game->battleRandom, 0, 20), 12UL);
+	assert_eq(game->battleRandom.min(), 0UL);
+	assert_eq(game->battleRandom.max(), 0xFFFFFFFFUL);
+	assert_eq(random_distrib(game->battleRandom, 0, 20), 10UL);
+	assert_eq(random_distrib(game->battleRandom, 0, 20), 11UL);
+	assert_eq(random_distrib(game->battleRandom, 0, 20), 14UL);
+	assert_eq(random_distrib(game->battleRandom, 0, 20), 16UL);
+	assert_eq(random_distrib(game->battleRandom, 0, 20), 12UL);
 }
 
 void	registerScenes()
@@ -398,7 +398,7 @@ void	run()
 	if (getenv("BATTLE_FONT"))
 		font = getenv("BATTLE_FONT");
 	if (!game->font.loadFromFile(font))
-		my_assert(game->font.loadFromFile("assets/fonts/Retro Gaming.ttf"));
+		assert_exp(game->font.loadFromFile("assets/fonts/Retro Gaming.ttf"));
 	game->screen = std::make_unique<Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		game->screen->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());

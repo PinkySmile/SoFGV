@@ -105,10 +105,10 @@ namespace SpiralOfFate
 
 	void Object::_render(Vector2f spritePos, Vector2f scale) const
 	{
-		auto &data = *this->getCurrentFrameData();
-		auto realPos = this->_position;
-		auto baseTint = this->_sprite.getColor();
-		auto tint = this->_sprite.getColor();
+		const FrameData &data = *this->getCurrentFrameData();
+		Vector2f realPos = this->_position;
+		Color baseTint = this->_sprite.getColor();
+		Color tint = this->_sprite.getColor();
 		int a;
 
 		if (this->_fadeDir)
@@ -318,7 +318,7 @@ namespace SpiralOfFate
 		try {
 			return &this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {
-			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+			throw AssertionFailedExceptionMsg("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
 	}
 
@@ -388,7 +388,7 @@ namespace SpiralOfFate
 
 	void Object::_forceStartMove(unsigned int action)
 	{
-		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + std::to_string(action) + " was not found.");
+		assert_msg(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + std::to_string(action) + " was not found.");
 		this->_action = action;
 		this->_actionBlock = 0;
 		this->_animationCtr = 0;
@@ -732,7 +732,7 @@ namespace SpiralOfFate
 		try {
 			this->_fdCache = this->_moves.at(this->_action)[this->_actionBlock][this->_animation];
 		} catch (std::out_of_range &) {
-			throw AssertionFailedException("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
+			throw AssertionFailedExceptionMsg("this->_hasMove(this->_action)", "Invalid action: Action " + std::to_string(this->_action) + " was not found.");
 		}
 		this->_cacheComputed = true;
 	}

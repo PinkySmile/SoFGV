@@ -20,25 +20,25 @@ namespace SpiralOfFate
 		std::map<unsigned int, std::vector<std::vector<FrameData>>> data;
 
 		game->logger.debug("Loading json");
-		my_assert2(json.is_array(), "Invalid json");
+		assert_msg(json.is_array(), "Invalid json");
 		for (auto &val : json) {
-			my_assert2(val.is_object(), "Invalid json");
-			my_assert2(val.contains("action"), "Invalid json");
-			my_assert2(val.contains("framedata"), "Invalid json");
+			assert_msg(val.is_object(), "Invalid json");
+			assert_msg(val.contains("action"), "Invalid json");
+			assert_msg(val.contains("framedata"), "Invalid json");
 
 			auto &action = val["action"];
 			auto &framedata = val["framedata"];
 
-			my_assert2(action.is_number(), "Invalid json");
-			my_assert2(framedata.is_array(), "Invalid json");
-			my_assert2(!framedata.empty(), "Invalid json");
+			assert_msg(action.is_number(), "Invalid json");
+			assert_msg(framedata.is_array(), "Invalid json");
+			assert_msg(!framedata.empty(), "Invalid json");
 
 			unsigned actionId = action;
 
 			data[actionId].reserve(framedata.size());
 			for (auto &block : framedata) {
-				my_assert2(block.is_array(), "Invalid json");
-				my_assert2(!block.empty(), "Invalid json");
+				assert_msg(block.is_array(), "Invalid json");
+				assert_msg(!block.empty(), "Invalid json");
 				data[actionId].emplace_back();
 				data[actionId].back().reserve(block.size());
 				for (auto &frame : block)
@@ -54,40 +54,40 @@ namespace SpiralOfFate
 
 		__folder = folder;
 		__palette = palette;
-		my_assert2(data.is_object(), "Invalid json");
-		my_assert2(data.contains("sprite"), "Invalid json");
-		my_assert2(data["sprite"].is_string(), "Invalid json");
+		assert_msg(data.is_object(), "Invalid json");
+		assert_msg(data.contains("sprite"), "Invalid json");
+		assert_msg(data["sprite"].is_string(), "Invalid json");
 		this->spritePath = data["sprite"];
 		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette, &textureSize);
 		this->textureHandleEffects = game->textureMgr.load(folder + "/effects/" + this->spritePath, palette, &textureSize);
 		if (data.contains("sound")) {
-			my_assert2(data["sound"].is_string(), "Invalid json");
+			assert_msg(data["sound"].is_string(), "Invalid json");
 			this->soundPath = data["sound"];
 		}
 		if (data.contains("hit_sound")) {
-			my_assert2(data["hit_sound"].is_string(), "Invalid json");
+			assert_msg(data["hit_sound"].is_string(), "Invalid json");
 			this->hitSoundPath = data["hit_sound"];
 		}
 
 		if (data.contains("offset")) {
-			my_assert2(data["offset"].is_object(), "Invalid json");
-			my_assert2(data["offset"].contains("x"), "Invalid json");
-			my_assert2(data["offset"].contains("y"), "Invalid json");
-			my_assert2(data["offset"]["x"].is_number(), "Invalid json");
-			my_assert2(data["offset"]["y"].is_number(), "Invalid json");
+			assert_msg(data["offset"].is_object(), "Invalid json");
+			assert_msg(data["offset"].contains("x"), "Invalid json");
+			assert_msg(data["offset"].contains("y"), "Invalid json");
+			assert_msg(data["offset"]["x"].is_number(), "Invalid json");
+			assert_msg(data["offset"]["y"].is_number(), "Invalid json");
 			this->offset.x = data["offset"]["x"];
 			this->offset.y = data["offset"]["y"];
 		}
 		if (data.contains("texture_bounds")) {
-			my_assert2(data["texture_bounds"].is_object(), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("left"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("top"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("width"), "Invalid json");
-			my_assert2(data["texture_bounds"].contains("height"), "Invalid json");
-			my_assert2(data["texture_bounds"]["left"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["top"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["width"].is_number(), "Invalid json");
-			my_assert2(data["texture_bounds"]["height"].is_number(), "Invalid json");
+			assert_msg(data["texture_bounds"].is_object(), "Invalid json");
+			assert_msg(data["texture_bounds"].contains("left"), "Invalid json");
+			assert_msg(data["texture_bounds"].contains("top"), "Invalid json");
+			assert_msg(data["texture_bounds"].contains("width"), "Invalid json");
+			assert_msg(data["texture_bounds"].contains("height"), "Invalid json");
+			assert_msg(data["texture_bounds"]["left"].is_number(), "Invalid json");
+			assert_msg(data["texture_bounds"]["top"].is_number(), "Invalid json");
+			assert_msg(data["texture_bounds"]["width"].is_number(), "Invalid json");
+			assert_msg(data["texture_bounds"]["height"].is_number(), "Invalid json");
 			this->textureBounds.pos.x = data["texture_bounds"]["left"];
 			this->textureBounds.pos.y = data["texture_bounds"]["top"];
 			this->textureBounds.size.x = data["texture_bounds"]["width"];
@@ -98,54 +98,54 @@ namespace SpiralOfFate
 		if (!this->textureBounds.size.y)
 			this->textureBounds.size.y = textureSize.y;
 		if (data.contains("scale")) {
-			my_assert2(data["scale"].is_object(), "Invalid json");
-			my_assert2(data["scale"].contains("x"), "Invalid json");
-			my_assert2(data["scale"].contains("y"), "Invalid json");
-			my_assert2(data["scale"]["x"].is_number(), "Invalid json");
-			my_assert2(data["scale"]["y"].is_number(), "Invalid json");
+			assert_msg(data["scale"].is_object(), "Invalid json");
+			assert_msg(data["scale"].contains("x"), "Invalid json");
+			assert_msg(data["scale"].contains("y"), "Invalid json");
+			assert_msg(data["scale"]["x"].is_number(), "Invalid json");
+			assert_msg(data["scale"]["y"].is_number(), "Invalid json");
 			this->scale.x = data["scale"]["x"];
 			this->scale.y = data["scale"]["y"];
 		} else if (data.contains("size")) {
-			my_assert2(data["size"].is_object(), "Invalid json");
-			my_assert2(data["size"].contains("x"), "Invalid json");
-			my_assert2(data["size"].contains("y"), "Invalid json");
-			my_assert2(data["size"]["x"].is_number(), "Invalid json");
-			my_assert2(data["size"]["y"].is_number(), "Invalid json");
+			assert_msg(data["size"].is_object(), "Invalid json");
+			assert_msg(data["size"].contains("x"), "Invalid json");
+			assert_msg(data["size"].contains("y"), "Invalid json");
+			assert_msg(data["size"]["x"].is_number(), "Invalid json");
+			assert_msg(data["size"]["y"].is_number(), "Invalid json");
 			this->scale.x = data["size"]["x"].get<float>() / this->textureBounds.size.x;
 			this->scale.y = data["size"]["y"].get<float>() / this->textureBounds.size.y;
 		}
 		if (data.contains("gravity")) {
-			my_assert2(data["gravity"].is_object(), "Invalid json");
-			my_assert2(data["gravity"].contains("x"), "Invalid json");
-			my_assert2(data["gravity"].contains("y"), "Invalid json");
-			my_assert2(data["gravity"]["x"].is_number(), "Invalid json");
-			my_assert2(data["gravity"]["y"].is_number(), "Invalid json");
+			assert_msg(data["gravity"].is_object(), "Invalid json");
+			assert_msg(data["gravity"].contains("x"), "Invalid json");
+			assert_msg(data["gravity"].contains("y"), "Invalid json");
+			assert_msg(data["gravity"]["x"].is_number(), "Invalid json");
+			assert_msg(data["gravity"]["y"].is_number(), "Invalid json");
 			this->gravity = Vector2f(data["gravity"]["x"], data["gravity"]["y"]);
 		}
 		if (data.contains("snap")) {
-			my_assert2(data["snap"].is_object(), "Invalid json");
-			my_assert2(data["snap"].contains("x"), "Invalid json");
-			my_assert2(data["snap"].contains("y"), "Invalid json");
-			my_assert2(data["snap"]["x"].is_number(), "Invalid json");
-			my_assert2(data["snap"]["y"].is_number(), "Invalid json");
+			assert_msg(data["snap"].is_object(), "Invalid json");
+			assert_msg(data["snap"].contains("x"), "Invalid json");
+			assert_msg(data["snap"].contains("y"), "Invalid json");
+			assert_msg(data["snap"]["x"].is_number(), "Invalid json");
+			assert_msg(data["snap"]["y"].is_number(), "Invalid json");
 			this->snap = Vector2f(data["snap"]["x"], data["snap"]["y"]);
 		}
 		if (data.contains("rotation")) {
-			my_assert2(data["rotation"].is_number(), "Invalid json");
+			assert_msg(data["rotation"].is_number(), "Invalid json");
 			this->rotation = std::fmod(std::fmod(data["rotation"].get<float>(), 360) + 360, 360) * M_PI / 180;
 		}
 		if (data.contains("hurt_boxes")) {
-			my_assert2(data["hurt_boxes"].is_array(), "Invalid json");
+			assert_msg(data["hurt_boxes"].is_array(), "Invalid json");
 			for (auto &box : data["hurt_boxes"]) {
-				my_assert2(box.is_object(), "Invalid json");
-				my_assert2(box.contains("left"), "Invalid json");
-				my_assert2(box.contains("top"), "Invalid json");
-				my_assert2(box.contains("width"), "Invalid json");
-				my_assert2(box.contains("height"), "Invalid json");
-				my_assert2(box["left"].is_number(), "Invalid json");
-				my_assert2(box["top"].is_number(), "Invalid json");
-				my_assert2(box["width"].is_number(), "Invalid json");
-				my_assert2(box["height"].is_number(), "Invalid json");
+				assert_msg(box.is_object(), "Invalid json");
+				assert_msg(box.contains("left"), "Invalid json");
+				assert_msg(box.contains("top"), "Invalid json");
+				assert_msg(box.contains("width"), "Invalid json");
+				assert_msg(box.contains("height"), "Invalid json");
+				assert_msg(box["left"].is_number(), "Invalid json");
+				assert_msg(box["top"].is_number(), "Invalid json");
+				assert_msg(box["width"].is_number(), "Invalid json");
+				assert_msg(box["height"].is_number(), "Invalid json");
 				this->hurtBoxes.push_back(Box{{
 					box["left"],
 					box["top"]
@@ -156,17 +156,17 @@ namespace SpiralOfFate
 			}
 		}
 		if (data.contains("hit_boxes")) {
-			my_assert2(data["hit_boxes"].is_array(), "Invalid json");
+			assert_msg(data["hit_boxes"].is_array(), "Invalid json");
 			for (auto &box : data["hit_boxes"]) {
-				my_assert2(box.is_object(), "Invalid json");
-				my_assert2(box.contains("left"), "Invalid json");
-				my_assert2(box.contains("top"), "Invalid json");
-				my_assert2(box.contains("width"), "Invalid json");
-				my_assert2(box.contains("height"), "Invalid json");
-				my_assert2(box["left"].is_number(), "Invalid json");
-				my_assert2(box["top"].is_number(), "Invalid json");
-				my_assert2(box["width"].is_number(), "Invalid json");
-				my_assert2(box["height"].is_number(), "Invalid json");
+				assert_msg(box.is_object(), "Invalid json");
+				assert_msg(box.contains("left"), "Invalid json");
+				assert_msg(box.contains("top"), "Invalid json");
+				assert_msg(box.contains("width"), "Invalid json");
+				assert_msg(box.contains("height"), "Invalid json");
+				assert_msg(box["left"].is_number(), "Invalid json");
+				assert_msg(box["top"].is_number(), "Invalid json");
+				assert_msg(box["width"].is_number(), "Invalid json");
+				assert_msg(box["height"].is_number(), "Invalid json");
 				this->hitBoxes.push_back(Box{{
 					box["left"],
 					box["top"]
@@ -177,29 +177,29 @@ namespace SpiralOfFate
 			}
 		}
 		if (data.contains("marker")) {
-			my_assert2(data["marker"].is_number(), "Invalid json");
+			assert_msg(data["marker"].is_number(), "Invalid json");
 			this->specialMarker = data["marker"];
 		}
 		if (data.contains("defense_flag")) {
-			my_assert2(data["defense_flag"].is_number(), "Invalid json");
+			assert_msg(data["defense_flag"].is_number(), "Invalid json");
 			this->dFlag.flags = data["defense_flag"];
 		} else
 			this->dFlag.flags = 0;
 		if (data.contains("offense_flag")) {
-			my_assert2(data["offense_flag"].is_number(), "Invalid json");
+			assert_msg(data["offense_flag"].is_number(), "Invalid json");
 			this->oFlag.flags = data["offense_flag"];
 		} else
 			this->oFlag.flags = 0;
 		if (data.contains("collision_box")) {
-			my_assert2(data["collision_box"].is_object(), "Invalid json");
-			my_assert2(data["collision_box"].contains("left"), "Invalid json");
-			my_assert2(data["collision_box"].contains("top"), "Invalid json");
-			my_assert2(data["collision_box"].contains("width"), "Invalid json");
-			my_assert2(data["collision_box"].contains("height"), "Invalid json");
-			my_assert2(data["collision_box"]["left"].is_number(), "Invalid json");
-			my_assert2(data["collision_box"]["top"].is_number(), "Invalid json");
-			my_assert2(data["collision_box"]["width"].is_number(), "Invalid json");
-			my_assert2(data["collision_box"]["height"].is_number(), "Invalid json");
+			assert_msg(data["collision_box"].is_object(), "Invalid json");
+			assert_msg(data["collision_box"].contains("left"), "Invalid json");
+			assert_msg(data["collision_box"].contains("top"), "Invalid json");
+			assert_msg(data["collision_box"].contains("width"), "Invalid json");
+			assert_msg(data["collision_box"].contains("height"), "Invalid json");
+			assert_msg(data["collision_box"]["left"].is_number(), "Invalid json");
+			assert_msg(data["collision_box"]["top"].is_number(), "Invalid json");
+			assert_msg(data["collision_box"]["width"].is_number(), "Invalid json");
+			assert_msg(data["collision_box"]["height"].is_number(), "Invalid json");
 			this->collisionBox = new Box{{
 				data["collision_box"]["left"],
 				data["collision_box"]["top"]
@@ -209,134 +209,134 @@ namespace SpiralOfFate
 			}};
 		}
 		if (data.contains("particle_generator")) {
-			my_assert2(data["particle_generator"].is_number(), "Invalid json");
+			assert_msg(data["particle_generator"].is_number(), "Invalid json");
 			this->particleGenerator = data["particle_generator"];
 		}
 		if (data.contains("fade_time")) {
-			my_assert2(data["fade_time"].is_number(), "Invalid json");
+			assert_msg(data["fade_time"].is_number(), "Invalid json");
 			this->fadeTime = data["fade_time"];
 		}
 		if (data.contains("block_stun")) {
-			my_assert2(data["block_stun"].is_number(), "Invalid json");
+			assert_msg(data["block_stun"].is_number(), "Invalid json");
 			this->blockStun = data["block_stun"];
 		}
 		if (data.contains("wrong_block_stun")) {
-			my_assert2(data["wrong_block_stun"].is_number(), "Invalid json");
+			assert_msg(data["wrong_block_stun"].is_number(), "Invalid json");
 			this->wrongBlockStun = data["wrong_block_stun"];
 		} else
 			this->wrongBlockStun = this->blockStun * 5 / 3;
 		if (data.contains("chip_damage")) {
-			my_assert2(data["chip_damage"].is_number(), "Invalid json");
+			assert_msg(data["chip_damage"].is_number(), "Invalid json");
 			this->chipDamage = data["chip_damage"];
 		}
 		if (data.contains("priority")) {
-			my_assert2(data["priority"].is_number(), "Invalid json");
+			assert_msg(data["priority"].is_number(), "Invalid json");
 			this->priority = data["priority"];
 		}
 		if (data.contains("hit_stun")) {
-			my_assert2(data["hit_stun"].is_number(), "Invalid json");
+			assert_msg(data["hit_stun"].is_number(), "Invalid json");
 			this->hitStun = data["hit_stun"];
 		}
 		if (data.contains("untech")) {
-			my_assert2(data["untech"].is_number(), "Invalid json");
+			assert_msg(data["untech"].is_number(), "Invalid json");
 			this->untech = data["untech"];
 		}
 		if (data.contains("guard_damage")) {
-			my_assert2(data["guard_damage"].is_number(), "Invalid json");
+			assert_msg(data["guard_damage"].is_number(), "Invalid json");
 			this->guardDmg = data["guard_damage"];
 		}
 		if (data.contains("prorate")) {
-			my_assert2(data["prorate"].is_number(), "Invalid json");
+			assert_msg(data["prorate"].is_number(), "Invalid json");
 			this->prorate = data["prorate"];
 		}
 		if (data.contains("min_prorate")) {
-			my_assert2(data["min_prorate"].is_number(), "Invalid json");
+			assert_msg(data["min_prorate"].is_number(), "Invalid json");
 			this->minProrate = data["min_prorate"];
 		}
 		if (data.contains("neutral_limit")) {
-			my_assert2(data["neutral_limit"].is_number(), "Invalid json");
+			assert_msg(data["neutral_limit"].is_number(), "Invalid json");
 			this->neutralLimit = data["neutral_limit"];
 		}
 		if (data.contains("void_limit")) {
-			my_assert2(data["void_limit"].is_number(), "Invalid json");
+			assert_msg(data["void_limit"].is_number(), "Invalid json");
 			this->voidLimit = data["void_limit"];
 		}
 		if (data.contains("spirit_limit")) {
-			my_assert2(data["spirit_limit"].is_number(), "Invalid json");
+			assert_msg(data["spirit_limit"].is_number(), "Invalid json");
 			this->spiritLimit = data["spirit_limit"];
 		}
 		if (data.contains("matter_limit")) {
-			my_assert2(data["matter_limit"].is_number(), "Invalid json");
+			assert_msg(data["matter_limit"].is_number(), "Invalid json");
 			this->matterLimit = data["matter_limit"];
 		}
 		if (data.contains("push_back")) {
-			my_assert2(data["push_back"].is_number(), "Invalid json");
+			assert_msg(data["push_back"].is_number(), "Invalid json");
 			this->pushBack = data["push_back"];
 		}
 		if (data.contains("push_block")) {
-			my_assert2(data["push_block"].is_number(), "Invalid json");
+			assert_msg(data["push_block"].is_number(), "Invalid json");
 			this->pushBlock = data["push_block"];
 		}
 		if (data.contains("duration")) {
-			my_assert2(data["duration"].is_number(), "Invalid json");
+			assert_msg(data["duration"].is_number(), "Invalid json");
 			this->duration = data["duration"];
 		}
 		if (data.contains("subobject")) {
-			my_assert2(data["subobject"].is_number(), "Invalid json");
+			assert_msg(data["subobject"].is_number(), "Invalid json");
 			this->subObjectSpawn = data["subobject"];
 		}
 		if (data.contains("mana_gain")) {
-			my_assert2(data["mana_gain"].is_number(), "Invalid json");
+			assert_msg(data["mana_gain"].is_number(), "Invalid json");
 			this->manaGain = data["mana_gain"];
 		}
 		if (data.contains("mana_cost")) {
-			my_assert2(data["mana_cost"].is_number(), "Invalid json");
+			assert_msg(data["mana_cost"].is_number(), "Invalid json");
 			this->manaCost = data["mana_cost"];
 		}
 		if (data.contains("hit_player_hit_stop")) {
-			my_assert2(data["hit_player_hit_stop"].is_number(), "Invalid json");
+			assert_msg(data["hit_player_hit_stop"].is_number(), "Invalid json");
 			this->hitPlayerHitStop = data["hit_player_hit_stop"];
 		}
 		if (data.contains("hit_opponent_hit_stop")) {
-			my_assert2(data["hit_opponent_hit_stop"].is_number(), "Invalid json");
+			assert_msg(data["hit_opponent_hit_stop"].is_number(), "Invalid json");
 			this->hitOpponentHitStop = data["hit_opponent_hit_stop"];
 		}
 		if (data.contains("block_player_hit_stop")) {
-			my_assert2(data["block_player_hit_stop"].is_number(), "Invalid json");
+			assert_msg(data["block_player_hit_stop"].is_number(), "Invalid json");
 			this->blockPlayerHitStop = data["block_player_hit_stop"];
 		}
 		if (data.contains("block_opponent_hit_stop")) {
-			my_assert2(data["block_opponent_hit_stop"].is_number(), "Invalid json");
+			assert_msg(data["block_opponent_hit_stop"].is_number(), "Invalid json");
 			this->blockOpponentHitStop = data["block_opponent_hit_stop"];
 		}
 		if (data.contains("damage")) {
-			my_assert2(data["damage"].is_number(), "Invalid json");
+			assert_msg(data["damage"].is_number(), "Invalid json");
 			this->damage = data["damage"];
 		}
 		if (data.contains("speed")) {
-			my_assert2(data["speed"].is_object(), "Invalid json");
-			my_assert2(data["speed"].contains("x"), "Invalid json");
-			my_assert2(data["speed"].contains("y"), "Invalid json");
-			my_assert2(data["speed"]["x"].is_number(), "Invalid json");
-			my_assert2(data["speed"]["y"].is_number(), "Invalid json");
+			assert_msg(data["speed"].is_object(), "Invalid json");
+			assert_msg(data["speed"].contains("x"), "Invalid json");
+			assert_msg(data["speed"].contains("y"), "Invalid json");
+			assert_msg(data["speed"]["x"].is_number(), "Invalid json");
+			assert_msg(data["speed"]["y"].is_number(), "Invalid json");
 			this->speed.x = data["speed"]["x"];
 			this->speed.y = data["speed"]["y"];
 		}
 		if (data.contains("hit_speed")) {
-			my_assert2(data["hit_speed"].is_object(), "Invalid json");
-			my_assert2(data["hit_speed"].contains("x"), "Invalid json");
-			my_assert2(data["hit_speed"].contains("y"), "Invalid json");
-			my_assert2(data["hit_speed"]["x"].is_number(), "Invalid json");
-			my_assert2(data["hit_speed"]["y"].is_number(), "Invalid json");
+			assert_msg(data["hit_speed"].is_object(), "Invalid json");
+			assert_msg(data["hit_speed"].contains("x"), "Invalid json");
+			assert_msg(data["hit_speed"].contains("y"), "Invalid json");
+			assert_msg(data["hit_speed"]["x"].is_number(), "Invalid json");
+			assert_msg(data["hit_speed"]["y"].is_number(), "Invalid json");
 			this->hitSpeed.x = data["hit_speed"]["x"];
 			this->hitSpeed.y = data["hit_speed"]["y"];
 		}
 		if (data.contains("counter_hit_speed")) {
-			my_assert2(data["counter_hit_speed"].is_object(), "Invalid json");
-			my_assert2(data["counter_hit_speed"].contains("x"), "Invalid json");
-			my_assert2(data["counter_hit_speed"].contains("y"), "Invalid json");
-			my_assert2(data["counter_hit_speed"]["x"].is_number(), "Invalid json");
-			my_assert2(data["counter_hit_speed"]["y"].is_number(), "Invalid json");
+			assert_msg(data["counter_hit_speed"].is_object(), "Invalid json");
+			assert_msg(data["counter_hit_speed"].contains("x"), "Invalid json");
+			assert_msg(data["counter_hit_speed"].contains("y"), "Invalid json");
+			assert_msg(data["counter_hit_speed"]["x"].is_number(), "Invalid json");
+			assert_msg(data["counter_hit_speed"]["y"].is_number(), "Invalid json");
 			this->counterHitSpeed.x = data["counter_hit_speed"]["x"];
 			this->counterHitSpeed.y = data["counter_hit_speed"]["y"];
 		}
@@ -506,7 +506,7 @@ namespace SpiralOfFate
 
 	void FrameData::reloadTexture(const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette)
 	{
-		my_assert(!this->_slave);
+		assert_exp(!this->_slave);
 		game->textureMgr.remove(this->textureHandle);
 		game->textureMgr.remove(this->textureHandleEffects);
 		this->textureHandle = game->textureMgr.load(folder + "/" + this->spritePath, palette);
@@ -515,7 +515,7 @@ namespace SpiralOfFate
 
 	void FrameData::reloadSound()
 	{
-		my_assert(!this->_slave);
+		assert_exp(!this->_slave);
 		game->soundMgr.remove(this->soundHandle);
 		game->soundMgr.remove(this->hitSoundHandle);
 		this->soundHandle = 0;

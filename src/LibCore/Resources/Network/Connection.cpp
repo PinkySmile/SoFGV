@@ -249,7 +249,7 @@ namespace SpiralOfFate
 		auto logStr = "[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str;
 
 		try {
-			my_assert(realSize <= RECV_BUFFER_SIZE);
+			assert_exp(realSize <= RECV_BUFFER_SIZE);
 		} catch (...) {
 			game->logger.fatal(logStr);
 			throw;
@@ -335,7 +335,7 @@ namespace SpiralOfFate
 		while (remote.pingsSent.front().sequence != packet.seqId) {
 			remote.pingsSent.pop_front();
 			remote.pingLost++;
-			my_assert(!remote.pingsSent.empty());
+			assert_exp(!remote.pingsSent.empty());
 		}
 
 		auto time = remote.pingsSent.front().clock.getElapsedTime();

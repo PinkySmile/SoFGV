@@ -89,12 +89,12 @@ namespace SpiralOfFate
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
 		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
-		std::array<sf::Color, 5> typeColors = {
-			sf::Color{0xA6, 0xA6, 0xA6},
-			sf::Color{0xFF, 0xFF, 0x00},
-			sf::Color{0x33, 0xCC, 0xCC},
-			sf::Color{0xBB, 0x5E, 0x00},
-			sf::Color{0x67, 0x03, 0x3D}
+		std::array<Color, 5> typeColors = {
+			Color{0xA6, 0xA6, 0xA6},
+			Color{0xFF, 0xFF, 0x00},
+			Color{0x33, 0xCC, 0xCC},
+			Color{0xBB, 0x5E, 0x00},
+			Color{0x67, 0x03, 0x3D}
 		};
 	#ifdef HAS_NETWORK
 		std::shared_ptr<class Connection> connection;
@@ -105,6 +105,7 @@ namespace SpiralOfFate
 
 		Game(const std::string &loggerPath = "./latest.log");
 		std::vector<std::string> getCharacters();
+		Color getColor(const std::string &name);
 	};
 	extern MYDLL_API Game *game;
 }

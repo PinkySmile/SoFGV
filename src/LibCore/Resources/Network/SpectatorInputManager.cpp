@@ -41,13 +41,13 @@ namespace SpiralOfFate
 
 	bool SpectatorInputManager::hasInputs() const
 	{
-		my_assert(this->_leftList.size() == this->_rightList.size());
+		assert_exp(this->_leftList.size() == this->_rightList.size());
 		return !this->_leftList.empty();
 	}
 
 	unsigned SpectatorInputManager::getBufferSize() const
 	{
-		my_assert(this->_leftList.size() == this->_rightList.size());
+		assert_exp(this->_leftList.size() == this->_rightList.size());
 		return this->_leftList.size();
 	}
 

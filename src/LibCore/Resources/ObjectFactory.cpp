@@ -38,7 +38,7 @@ namespace SpiralOfFate
 		ptr += sizeof(unsigned char);
 		switch (obj.getClassId()) {
 		case SubObject::CLASS_ID: {
-			my_assert(dynamic_cast<const SubObject *>(&obj));
+			assert_exp(dynamic_cast<const SubObject *>(&obj));
 
 			auto o = reinterpret_cast<const SubObject *>(&obj);
 
@@ -49,7 +49,7 @@ namespace SpiralOfFate
 			break;
 		}
 		case ParticleGenerator::CLASS_ID: {
-			my_assert(dynamic_cast<const ParticleGenerator *>(&obj));
+			assert_exp(dynamic_cast<const ParticleGenerator *>(&obj));
 
 			auto o = reinterpret_cast<const ParticleGenerator *>(&obj);
 
@@ -64,7 +64,7 @@ namespace SpiralOfFate
 			break;
 		}
 		case Particle::CLASS_ID: {
-			my_assert(dynamic_cast<const Particle *>(&obj));
+			assert_exp(dynamic_cast<const Particle *>(&obj));
 
 			auto o = reinterpret_cast<const Particle *>(&obj);
 
@@ -116,12 +116,12 @@ namespace SpiralOfFate
 			auto index = *(unsigned *)ptr;
 			ptr += sizeof(unsigned);
 
-			my_assert(spawner <= 2);
+			assert_exp(spawner <= 2);
 			auto &gens =
 				spawner == 2 ?
 				mgr._systemParticles :
 				(&players.first)[spawner]->_generators;
-			my_assert(index < gens.size());
+			assert_exp(index < gens.size());
 			auto &genDat = gens[index];
 
 			obj = std::make_shared<ParticleGenerator>(
@@ -143,15 +143,15 @@ namespace SpiralOfFate
 			auto index = *(unsigned *) ptr;
 			ptr += sizeof(unsigned);
 
-			my_assert(spawner <= 2);
+			assert_exp(spawner <= 2);
 			auto &gens =
 				spawner == 2 ?
 				mgr._systemParticles :
 				(&players.first)[spawner]->_generators;
-			my_assert(genIndex < gens.size());
+			assert_exp(genIndex < gens.size());
 			auto &genDat = gens[genIndex];
 
-			my_assert(index < genDat.particles.size());
+			assert_exp(index < genDat.particles.size());
 			obj = std::make_shared<Particle>(
 				Particle::Source{spawner, genIndex, index},
 				genDat.particles[index],
@@ -163,7 +163,7 @@ namespace SpiralOfFate
 			break;
 		}
 		default:
-			my_assert2(false, "Invalid class id in buffer: " + std::to_string(cl));
+			assert_not_reached_msg("Invalid class id in buffer: " + std::to_string(cl));
 		}
 
 		obj->restoreFromBuffer((void *)ptr);

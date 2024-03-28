@@ -29,22 +29,22 @@ namespace SpiralOfFate
 
 	void SceneManager::render() const
 	{
-		my_assert(this->_scene || this->_oldScene);
+		assert_exp(this->_scene || this->_oldScene);
 		(this->_scene ? this->_scene : this->_oldScene)->render();
 	}
 
 	void SceneManager::consumeEvent(const sf::Event &event)
 	{
-		my_assert(this->_scene || this->_oldScene);
+		assert_exp(this->_scene || this->_oldScene);
 		(this->_scene ? this->_scene : this->_oldScene)->consumeEvent(event);
 	}
 
 	void SceneManager::switchScene(const std::string &name, SceneArguments *args, bool force)
 	{
 		if (!force)
-			my_assert(name != this->_currentScene);
-		my_assert2(this->_factory.find(name) != this->_factory.end(), "Scene '" + name + "' doesn't exist");
-		my_assert(!this->_factory[name].needLoading || this->_factory.find("loading") != this->_factory.end());
+			assert_exp(name != this->_currentScene);
+		assert_msg(this->_factory.find(name) != this->_factory.end(), "Scene '" + name + "' doesn't exist");
+		assert_exp(!this->_factory[name].needLoading || this->_factory.find("loading") != this->_factory.end());
 		delete this->_nextScene.args;
 		this->_nextScene.args = args;
 		this->_nextScene.name = name;
@@ -60,7 +60,7 @@ namespace SpiralOfFate
 	{
 		auto old = this->_factory[name];
 
-		my_assert(name != "loading" || !requireLoadingScene);
+		assert_exp(name != "loading" || !requireLoadingScene);
 		this->_factory[name].callback = constructor;
 		this->_factory[name].needLoading = requireLoadingScene;
 		return old;
@@ -104,7 +104,7 @@ namespace SpiralOfFate
 
 			arg.onLoadingFinished = [this](IScene *result){
 				this->_oldScene = this->_scene;
-				my_assert(result);
+				assert_exp(result);
 				this->_scene.reset(result);
 				this->_loading = false;
 			};

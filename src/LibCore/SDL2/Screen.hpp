@@ -8,7 +8,7 @@
 
 #include <SDL2/SDL.h>
 #include <SFML/Graphics.hpp>
-#include "Data/Color.hpp"
+#include "Color.hpp"
 #include "Sprite.hpp"
 
 namespace SpiralOfFate

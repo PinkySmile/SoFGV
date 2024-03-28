@@ -5,7 +5,7 @@
 #ifndef SOFGV_LIBCORE_HPP
 #define SOFGV_LIBCORE_HPP
 
-#include "Data/Color.hpp"
+#include "Color.hpp"
 #include "Data/Vector.hpp"
 #include "ControllerInput.hpp"
 #include "Inputs/IInput.hpp"

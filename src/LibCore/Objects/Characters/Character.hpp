@@ -9,7 +9,7 @@
 #include <list>
 #include "Objects/Object.hpp"
 #include "Inputs/IInput.hpp"
-#include "Data/Color.hpp"
+#include "Color.hpp"
 #include "Objects/ParticleGenerator.hpp"
 #include "Resources/ReplayData.hpp"
 

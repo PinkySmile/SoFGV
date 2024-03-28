@@ -36,10 +36,10 @@ namespace SpiralOfFate
 
 		game->logger.debug("VictoriaStar class created");
 		// Butterflies actions
-		my_assert(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
-		my_assert(this->_subObjectsData.find(ACTION_WEIRD_BUTTERFLY) != this->_subObjectsData.end());
+		assert_exp(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
+		assert_exp(this->_subObjectsData.find(ACTION_WEIRD_BUTTERFLY) != this->_subObjectsData.end());
 		// Shadow action
-		my_assert(this->_subObjectsData.find(ACTION_SHADOW) != this->_subObjectsData.end());
+		assert_exp(this->_subObjectsData.find(ACTION_SHADOW) != this->_subObjectsData.end());
 		this->_shadowActions = this->_subObjectsData.at(ACTION_SHADOW);
 		for (auto &block : this->_shadowActions)
 			for (auto &frame : block) {
@@ -230,7 +230,7 @@ namespace SpiralOfFate
 				this->_team,
 				id
 			);
-		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+		assert_msg(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
 		auto &pdat = this->_projectileData[id];
 		bool dir = this->_getProjectileDirection(pdat);
@@ -328,7 +328,7 @@ namespace SpiralOfFate
 		this->_speed.x += data->pushBack * -this->_dir;
 		if (!this->_hasHit && this->getCurrentFrameData()->oFlag.nextBlockOnHit) {
 			this->_actionBlock++;
-			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			assert_msg(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
 			Object::_onMoveEnd(*data);
 		}

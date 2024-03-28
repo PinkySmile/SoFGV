@@ -37,20 +37,20 @@ namespace SpiralOfFate
 
 	VirtualController::VirtualController()
 	{
-		my_assert(this->_stickBack.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_back.png"));
+		assert_exp(this->_stickBack.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_back.png"));
 		this->_stickBack.setPosition(20, 940 - game->textureMgr.getTextureSize(this->_stickBack.textureHandle).y * STICK_SCALE);
 		this->_stickBack.setScale(STICK_SCALE, STICK_SCALE);
 		this->_stickBack.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
 		game->textureMgr.setTexture(this->_stickBack)->setSmooth(true);
 
-		my_assert(this->_stickTop.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_top.png"));
+		assert_exp(this->_stickTop.textureHandle = game->textureMgr.load("assets/icons/inputs/stick_top.png"));
 		this->_stickTop.setPosition(20, 940 - game->textureMgr.getTextureSize(this->_stickTop.textureHandle).y * STICK_SCALE);
 		this->_stickTop.setScale(STICK_SCALE, STICK_SCALE);
 		this->_stickTop.setColor(sf::Color{255, 255, 255, MIN_ALPHA});
 		game->textureMgr.setTexture(this->_stickTop)->setSmooth(true);
 
 		for (int i = 0; i < 7; i++) {
-			my_assert(this->_buttons[i].textureHandle = game->textureMgr.load(buttonAssets[i]));
+			assert_exp(this->_buttons[i].textureHandle = game->textureMgr.load(buttonAssets[i]));
 			this->_buttons[i].setPosition(buttonPos[i]);
 			this->_buttons[i].setScale(BUTTON_SCALE, BUTTON_SCALE);
 			this->_buttons[i].setColor(sf::Color{255, 255, 255, MIN_ALPHA});

@@ -12,7 +12,7 @@
 #include <SDL2/SDL.h>
 #include "Sprite.hpp"
 #include "Data/Vector.hpp"
-#include "Data/Color.hpp"
+#include "Color.hpp"
 
 namespace SpiralOfFate
 {

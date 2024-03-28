@@ -117,7 +117,7 @@ namespace SpiralOfFate
 			index++;
 			val -= p.spawnChance;
 		}
-		my_assert(false);
+		assert_not_reached();
 	}
 
 	bool ParticleGenerator::isDead() const
@@ -227,7 +227,7 @@ namespace SpiralOfFate
 	{
 		// TODO: Add proper error checking
 		this->sprite = game->textureMgr.load(folder + "/" + data["sprite"].get<std::string>());
-		my_assert(this->sprite);
+		assert_exp(this->sprite);
 		this->spawnBoundary.pos.x = data["spawn_boundary"]["left"];
 		this->spawnBoundary.pos.y = data["spawn_boundary"]["top"];
 		this->spawnBoundary.size.x = data["spawn_boundary"]["width"];
@@ -241,11 +241,16 @@ namespace SpiralOfFate
 		this->lifeSpan.second = data["life_span"][1];
 		this->spawnInterval.first = data["spawn_interval"][0];
 		this->spawnInterval.second = data["spawn_interval"][1];
-		for (auto &color : data["colors"])
-			this->colors.emplace_back(
+		for (auto &color : data["colors"]) {
+			Color col{
 				color["r"], color["g"], color["b"],
 				static_cast<unsigned char>(color.contains("a") ? color["a"].get<unsigned char>() : 255)
-			);
+			};
+
+			if (color.contains("base"))
+				col.tint(game->getColor(color["base"]));
+			this->colors.emplace_back(col);
+		}
 		this->particles.reserve(data["particles"].size());
 		for (auto &particle : data["particles"])
 			this->particles.emplace_back(particle, this->colors);

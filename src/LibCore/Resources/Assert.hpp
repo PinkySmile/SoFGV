@@ -17,46 +17,49 @@
 #endif
 
 #ifdef _DEBUG
-#define checked_cast(s, t, a) auto s = dynamic_cast<t *>(a); my_assert(s)
+#define checked_cast(s, t, a) auto s = dynamic_cast<t *>(a); assert_exp(s)
 #else
 #define checked_cast(s, t, a) auto s = reinterpret_cast<t *>(a)
 #endif
 
-#define my_assert(_Expression)                                                                 \
+#define assert_exp(_Expression)                                                                \
 	do {                                                                                   \
 		if ((_Expression));                                                            \
 		else                                                                           \
-			throw _AssertionFailedException(                                       \
-				"Debug Assertion " + std::string(#_Expression) +               \
-				" failed in " + __FILE__ +                                     \
-				" at line " + std::to_string(__LINE__) +                       \
-				" in " + FCT_NAME                                              \
-			);                                                                     \
+			throw AssertionFailedException(#_Expression);                          \
 	} while (0)
-#define my_assert2(_Expression, msg)                                                           \
+#define assert_msg(_Expression, msg)                                                           \
 	do {                                                                                   \
 		if ((_Expression));                                                            \
 		else                                                                           \
-			throw AssertionFailedException(#_Expression, msg);                     \
+			throw AssertionFailedExceptionMsg(#_Expression, msg);                  \
 	} while (0)
-
-#define my_assert_eq(_Expression, _Expression2)                                                \
+#define assert_eq(_Expression, _Expression2)                                                   \
 	do {                                                                                   \
- 		auto a = (_Expression);                                                        \
-		auto b = (_Expression2);                                                       \
+ 		auto __a = (_Expression);                                                      \
+		auto __b = (_Expression2);                                                     \
 		                                                                               \
-		if (a != b)                                                                    \
-			throw AssertionFailedException(                                        \
+		if (__a != __b)                                                                \
+			throw AssertionFailedExceptionMsg(                                     \
 				std::string(#_Expression) + " == " + #_Expression2,            \
-				std::to_string(a) + " != " + std::to_string(b)                 \
+				std::to_string(__a) + " != " + std::to_string(__b)             \
 			);                                                                     \
 	} while (0)
 
-#define AssertionFailedException(expr, msg) _AssertionFailedException( \
-	"Debug Assertion " + std::string(expr) +                       \
-	" failed in " + __FILE__ +                                     \
-	" at line " + std::to_string(__LINE__) +                       \
-	" in " + FCT_NAME + ": " + msg                                 \
+#define assert_not_reached() throw AssertionFailedException("\"not reached\"")
+#define assert_not_reached_msg(msg) throw AssertionFailedExceptionMsg("\"not reached\"", msg)
+
+#define AssertionFailedException(expr) _AssertionFailedException( \
+	"Debug Assertion " + std::string(expr) +                  \
+	" failed in " + __FILE__ +                                \
+	" at line " + std::to_string(__LINE__) +                  \
+	" in " + FCT_NAME                                         \
+)
+#define AssertionFailedExceptionMsg(expr, msg) _AssertionFailedException( \
+	"Debug Assertion " + std::string(expr) +                          \
+	" failed in " + __FILE__ +                                        \
+	" at line " + std::to_string(__LINE__) +                          \
+	" in " + FCT_NAME + ": " + msg                                    \
 )
 
 class _AssertionFailedException : public std::exception {

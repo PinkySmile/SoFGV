@@ -54,11 +54,14 @@ namespace SpiralOfFate
 		nlohmann::json json;
 		std::ifstream stream{"assets/effects/particles.json"};
 
-		my_assert(stream);
+		assert_exp(stream);
 		stream >> json;
 		this->_systemParticles.reserve(json.size());
-		for (auto &v : json)
+		for (auto &v : json) {
 			this->_systemParticles.emplace_back(v, "assets/effects");
+			if (v.contains("index") && v["index"].is_number())
+				assert_eq(v["index"].get<size_t>(), this->_systemParticles.size());
+		}
 		leftCharacter.character->systemParticles = &this->_systemParticles;
 		rightCharacter.character->systemParticles = &this->_systemParticles;
 		for (unsigned i = 0; i < spritesPaths.size(); i++)
@@ -97,7 +100,7 @@ namespace SpiralOfFate
 		this->_oosBubble.textureHandle = game->textureMgr.load("assets/effects/oosBubble.png");
 		this->_oosBubbleMask.textureHandle = game->textureMgr.load("assets/effects/oosBubbleMask.png");
 		this->_stallWarn.textureHandle = game->textureMgr.load("assets/battleui/meter_warning.png");
-		my_assert(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png", nullptr, true));
+		assert_exp(this->_stallDown.textureHandle = game->textureMgr.load("assets/battleui/meter_penalty.png", nullptr, true));
 		game->textureMgr.setTexture(this->_stallWarn);
 		game->textureMgr.setTexture(this->_stallDown);
 		game->textureMgr.setTexture(this->_oosBubbleMask);
@@ -157,11 +160,11 @@ namespace SpiralOfFate
 			static_cast<float>(game->textureMgr.getTextureSize(this->_battleUi[BATTLEUI_OVERDRIVE_OUTLINE].textureHandle).y / 2),
 		});
 
-		my_assert(this->_leftHUDData.target.create(texSize.x, texSize.y));
-		my_assert(this->_rightHUDData.target.create(texSize.x, texSize.y));
-		my_assert(this->_leftHUD.create(550, 700));
-		my_assert(this->_rightHUD.create(550, 700));
-		my_assert(this->_hud.create(1100, 700));
+		assert_exp(this->_leftHUDData.target.create(texSize.x, texSize.y));
+		assert_exp(this->_rightHUDData.target.create(texSize.x, texSize.y));
+		assert_exp(this->_leftHUD.create(550, 700));
+		assert_exp(this->_rightHUD.create(550, 700));
+		assert_exp(this->_hud.create(1100, 700));
 	}
 
 	BattleManager::~BattleManager()
@@ -603,8 +606,8 @@ namespace SpiralOfFate
 			}
 		}
 
-		my_assert(!lchr->isDead());
-		my_assert(!rchr->isDead());
+		assert_exp(!lchr->isDead());
+		assert_exp(!rchr->isDead());
 
 		// Not using std::remove_if because it doesn't work with MSVC for some reason
 		for (unsigned i = 0; i < this->_objects.size(); i++)
@@ -644,7 +647,7 @@ namespace SpiralOfFate
 		for (auto &object : this->_objects)
 			if (object.first == id)
 				return object.second;
-		my_assert(false);
+		assert_not_reached();
 		return nullptr;
 	}
 
@@ -653,7 +656,7 @@ namespace SpiralOfFate
 		for (auto &object : this->_iobjects)
 			if (object.first == id)
 				return object.second;
-		my_assert(false);
+		assert_not_reached();
 		return nullptr;
 	}
 
@@ -763,7 +766,7 @@ namespace SpiralOfFate
 			ptr += game->objFactory.getObjectSize(*obj);
 			this->_iobjects.emplace_back(id, obj);
 		}
-		my_assert(dat->_nbStageObjects == this->_stageObjects.size());
+		assert_exp(dat->_nbStageObjects == this->_stageObjects.size());
 		for (const auto &stageObject : this->_stageObjects) {
 			stageObject->restoreFromBuffer((void *)ptr);
 			ptr += stageObject->getBufferSize();
@@ -1343,7 +1346,7 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>(data);
 		char *ptr1 = (char *)data + sizeof(Data);
 
-		my_assert(false);
+		assert_not_reached();
 		if (sizeof(Data) >= size)
 			game->logger.warn("Manager is " + std::to_string(sizeof(Data) - size) + " bytes bigger than input");
 		game->logger.info("BattleManager::random: " + std::to_string(dat1->random));

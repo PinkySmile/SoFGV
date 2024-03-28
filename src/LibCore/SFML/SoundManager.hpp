@@ -11,7 +11,7 @@
 #include <SFML/Audio.hpp>
 #include "Sprite.hpp"
 #include "Data/Vector.hpp"
-#include "Data/Color.hpp"
+#include "Color.hpp"
 
 namespace SpiralOfFate
 {

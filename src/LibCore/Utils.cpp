@@ -53,12 +53,12 @@ namespace SpiralOfFate::Utils
 				strm.avail_out = CHUNK;
 				strm.next_out = out;
 				ret = deflate(&strm, Z_FINISH);    /* anyone error value */
-				my_assert(ret != Z_STREAM_ERROR);
+				assert_exp(ret != Z_STREAM_ERROR);
 				have = CHUNK - strm.avail_out;
 				outBuffer.insert(outBuffer.end(), out, out + have);
 			} while (strm.avail_out == 0);
-			my_assert(strm.avail_in == 0);
-			my_assert(ret == Z_STREAM_END);
+			assert_exp(strm.avail_in == 0);
+			assert_exp(ret == Z_STREAM_END);
 			deflateEnd(&strm);
 			return Z_OK;
 		}
@@ -86,7 +86,7 @@ namespace SpiralOfFate::Utils
 				strm.avail_out = CHUNK;
 				strm.next_out = out;
 				ret = inflate(&strm, Z_NO_FLUSH);
-				my_assert(ret != Z_STREAM_ERROR);
+				assert_exp(ret != Z_STREAM_ERROR);
 				switch (ret) {
 				case Z_NEED_DICT:
 					ret = Z_DATA_ERROR;
@@ -99,7 +99,7 @@ namespace SpiralOfFate::Utils
 				have = CHUNK - strm.avail_out;
 				outBuffer.insert(outBuffer.end(), out, out + have);
 			} while (strm.avail_out == 0);
-			my_assert(ret == Z_STREAM_END);
+			assert_exp(ret == Z_STREAM_END);
 
 			inflateEnd(&strm);
 			return Z_OK;

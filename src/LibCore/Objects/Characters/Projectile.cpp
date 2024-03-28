@@ -192,7 +192,7 @@ namespace SpiralOfFate
 		}
 		if (this->_actionBlock != this->_endBlock) {
 			this->_actionBlock++;
-			my_assert2(this->_moves.at(this->_action).size() != this->_actionBlock, "Projectile " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			assert_msg(this->_moves.at(this->_action).size() != this->_actionBlock, "Projectile " + std::to_string(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			return Object::_onMoveEnd(lastData);
 		}
 		if (!this->_loop)

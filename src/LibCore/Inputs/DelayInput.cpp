@@ -14,7 +14,7 @@ namespace SpiralOfFate
 
 	void DelayInput::update()
 	{
-		my_assert(!this->_delayBuffer.empty());
+		assert_exp(!this->_delayBuffer.empty());
 
 		auto input = this->_delayBuffer.front();
 

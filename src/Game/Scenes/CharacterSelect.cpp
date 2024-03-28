@@ -690,7 +690,7 @@ namespace SpiralOfFate
 					255
 				});
 			}
-			my_assert(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
+			assert_exp(this->palettes.size() == 1 || this->palettes[this->palettes.size() - 2].size() == this->palettes.back().size());
 		}
 
 		this->pos = json["pos"];

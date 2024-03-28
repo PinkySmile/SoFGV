@@ -30,7 +30,7 @@ namespace SpiralOfFate
 	{
 		if (this->_actionBlock == 0) {
 			this->_actionBlock = 1;
-			my_assert2(this->_moves.at(this->_action).size() > this->_actionBlock, "Flower is missing block " + std::to_string(this->_actionBlock));
+			assert_msg(this->_moves.at(this->_action).size() > this->_actionBlock, "Flower is missing block " + std::to_string(this->_actionBlock));
 		}
 		if (this->_actionBlock == 2)
 			this->_dead = true;

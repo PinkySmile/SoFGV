@@ -79,19 +79,19 @@ int main(int argc, char **argv)
 	//	}
 
 		stream.open("assets/stages/list.json");
-		my_assert2(!stream.fail(), "assets/stages/list.json: " + strerror(errno));
+		assert_msg(!stream.fail(), "assets/stages/list.json: " + strerror(errno));
 		stream >> stagesJson;
 		stream.close();
 		stream.open(chr1_path + std::string("/chr.json"));
-		my_assert2(!stream.fail(), chr1_path + std::string("/chr.json: ") + strerror(errno));
+		assert_msg(!stream.fail(), chr1_path + std::string("/chr.json: ") + strerror(errno));
 		stream >> lJson;
 		stream.close();
 		stream.open(chr2_path + std::string("/chr.json"));
-		my_assert2(!stream.fail(), chr2_path + std::string("/chr.json: ") + strerror(errno));
+		assert_msg(!stream.fail(), chr2_path + std::string("/chr.json: ") + strerror(errno));
 		stream >> rJson;
 		stream.close();
-		my_assert(stagesJson.size() > stage);
-		my_assert(stagesJson[stage]["platforms"].size() > platforms);
+		assert_exp(stagesJson.size() > stage);
+		assert_exp(stagesJson[stage]["platforms"].size() > platforms);
 
 		game->battleMgr.reset(new BattleManager{
 			BattleManager::StageParams{
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
 
 		memset(buffer1, 0, sizeof(buffer1));
 		stream.open(frame_file);
-		my_assert2(!stream.fail(), frame_file + std::string(": ") + strerror(errno));
+		assert_msg(!stream.fail(), frame_file + std::string(": ") + strerror(errno));
 		stream.read(buffer1, sizeof(buffer1));
 
 		auto size = stream.tellg();
@@ -225,7 +225,7 @@ int main(int argc, char **argv)
 		stream.close();
 		if (frame_file2) {
 			stream.open(frame_file2);
-			my_assert2(!stream.fail(), frame_file2 + std::string(": ") + strerror(errno));
+			assert_msg(!stream.fail(), frame_file2 + std::string(": ") + strerror(errno));
 			stream.read(buffer2, sizeof(buffer2));
 			stream.close();
 		}

@@ -70,7 +70,7 @@ namespace SpiralOfFate
 
 	std::pair<unsigned int, std::shared_ptr<Object>> Stickman::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
-		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+		assert_msg(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
 		auto &pdat = this->_projectileData[id];
 		bool dir = this->_getProjectileDirection(pdat);

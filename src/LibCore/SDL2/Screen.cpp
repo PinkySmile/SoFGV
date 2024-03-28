@@ -13,7 +13,7 @@ namespace SpiralOfFate
 	{
 		game->logger.info("Opening game window \"" + title + "\"");
 		SDL_GetCurrentDisplayMode(0, &this->_videoMode);
-		my_assert2(this->_window = SDL_CreateWindow(
+		assert_msg(this->_window = SDL_CreateWindow(
 			title.c_str(),
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
@@ -21,7 +21,7 @@ namespace SpiralOfFate
 			this->_videoMode.h,
 			SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
 		), SDL_GetError());
-		my_assert2(this->_renderer = SDL_CreateRenderer(this->_window, -1, 0), SDL_GetError());
+		assert_msg(this->_renderer = SDL_CreateRenderer(this->_window, -1, 0), SDL_GetError());
 		SDL_RenderSetClipRect(this->_renderer, nullptr);
 	}
 
@@ -235,8 +235,8 @@ namespace SpiralOfFate
 
 void libraryInit()
 {
-	my_assert2(SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) != -1, SDL_GetError());
-	my_assert2(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG, IMG_GetError());
+	assert_msg(SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_EVENTS) != -1, SDL_GetError());
+	assert_msg(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG, IMG_GetError());
 }
 
 void libraryUnInit()

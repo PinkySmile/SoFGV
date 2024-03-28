@@ -34,6 +34,7 @@ if (USE_SDL2)
 	)
 	set(
 		SCREEN_SRCS
+		src/LibCore/SDL2/Color.hpp
 		src/LibCore/SDL2/Sprite.hpp
 		src/LibCore/SDL2/Screen.cpp
 		src/LibCore/SDL2/Screen.hpp
@@ -113,6 +114,7 @@ else (USE_SDL2)
 	)
 	set(
 		SCREEN_SRCS
+		src/LibCore/SFML/Color.hpp
 		src/LibCore/SFML/Sprite.hpp
 		src/LibCore/SFML/Screen.cpp
 		src/LibCore/SFML/Screen.hpp
@@ -318,7 +320,7 @@ endif()
 
 add_library(
 	SoFGVCore SHARED
-	src/LibCore/Data/Color.hpp
+	src/LibCore/SFML/Color.hpp
 	src/LibCore/Data/Vector.hpp
 	src/LibCore/Inputs/DelayInput.cpp
 	src/LibCore/Inputs/DelayInput.hpp

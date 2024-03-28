@@ -67,7 +67,7 @@ namespace SpiralOfFate
 			(void)old;
 			throw AssertionFailedException("input.hasInput()", "");
 #else
-			my_assert(old);
+			assert_exp(old);
 			this->keyStates = *old;
 			this->predicted = true;
 #endif
@@ -230,7 +230,7 @@ namespace SpiralOfFate
 				if (frame >= game->connection->getCurrentDelay()) {
 					auto time = this->_advanceInputs.front().getElapsedTime().asMicroseconds();
 
-					my_assert(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
+					assert_exp(this->_savedData.empty() || (!this->_savedData.back().left.predicted && !this->_savedData.back().right.predicted));
 					this->_advanceInputs.pop_front();
 					this->_diffTimes.push_back(time);
 					this->_totalAvgDiffTimes += time;
@@ -331,14 +331,14 @@ namespace SpiralOfFate
 			delete[] dataBefore;
 			delete[] dataAfter;
 			delete[] dataAfter2;
-			throw AssertionFailedException(
+			throw AssertionFailedExceptionMsg(
 				"checksum1 == checksum2",
 				std::to_string(checksum1) + " != " + std::to_string(checksum2)
 			);
 		}
-		my_assert(result1 == result2);
-		my_assert(lDur2 == this->inputLeft->_keyDuration);
-		my_assert(rDur2 == this->inputRight->_keyDuration);
+		assert_exp(result1 == result2);
+		assert_exp(lDur2 == this->inputLeft->_keyDuration);
+		assert_exp(rDur2 == this->inputRight->_keyDuration);
 		delete[] dataBefore;
 		delete[] dataAfter;
 		delete[] dataAfter2;

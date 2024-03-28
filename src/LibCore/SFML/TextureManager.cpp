@@ -61,7 +61,7 @@ namespace SpiralOfFate
 
 	unsigned TextureManager::load(const std::string &path, std::pair<std::vector<Color>, std::vector<Color>> palette, Vector2u *size)
 	{
-		my_assert_eq(palette.first.size(), palette.second.size());
+		assert_eq(palette.first.size(), palette.second.size());
 		if (palette.first.empty())
 			return this->load(path, size);
 
@@ -177,14 +177,14 @@ namespace SpiralOfFate
 
 		auto it = this->_textures.find(id);
 
-		my_assert(it != this->_textures.end());
+		assert_exp(it != this->_textures.end());
 		this->_textures.erase(it);
 		this->_freedIndexes.push_back(id);
 	}
 
 	sf::Texture *TextureManager::setTexture(Sprite &sprite)
 	{
-		my_assert(sprite.textureHandle);
+		assert_exp(sprite.textureHandle);
 		sprite.setTexture(this->_textures.at(sprite.textureHandle));
 		return &this->_textures.at(sprite.textureHandle);
 	}
@@ -204,7 +204,7 @@ namespace SpiralOfFate
 		for (auto &[loadedPath, attr] : this->_allocatedTextures)
 			if (attr.first == id && attr.second) {
 				attr.second++;
-				my_assert(attr.second > 1);
+				assert_exp(attr.second > 1);
 				game->logger.verbose("Adding ref to " + loadedPath);
 				return;
 			}

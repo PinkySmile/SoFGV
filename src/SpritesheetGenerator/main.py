@@ -190,13 +190,13 @@ for a in areas:
 		result_effect.paste(a['effect_image'], (x - a['rect']['left'], y - a['rect']['top']), mask)
 
 	for f in a['frames']:
-		f['sprite'] = "sheet_generated.png"
+		f['sprite'] = "sheet.png"
 		f['texture_bounds']['left'] = x
 		f['texture_bounds']['top'] = y
 	x += a['rect']['width']
 	totalX += a['rect']['width']
 
-result.save(sys.argv[1] + "/sheet_generated.png")
-result_effect.save(sys.argv[1] + "/effects/sheet_generated.png")
-with open(".".join(sys.argv[2].split(".")[:-1]) + "_generated.json", "w") as fd:
-	json.dump(framedata, fd)
+result.save(sys.argv[1] + "/sheet.png")
+result_effect.save(sys.argv[1] + "/effects/sheet.png")
+with open(sys.argv[2], "w") as fd:
+	json.dump(framedata, fd, separators=(',', ':'))

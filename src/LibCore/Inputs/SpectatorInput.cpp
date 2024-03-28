@@ -15,7 +15,7 @@ namespace SpiralOfFate
 
 	void SpectatorInput::update()
 	{
-		my_assert(!this->_inputList.empty());
+		assert_exp(!this->_inputList.empty());
 
 		auto &elem = this->_inputList.front();
 
@@ -37,7 +37,7 @@ namespace SpiralOfFate
 
 	void SpectatorInput::skipInput()
 	{
-		my_assert(!this->_inputList.empty());
+		assert_exp(!this->_inputList.empty());
 		this->_inputList.pop_front();
 	}
 }

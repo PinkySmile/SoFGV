@@ -157,8 +157,8 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketGameFrame();
 		size_t i = 0;
 
-		my_assert(!inputs.empty());
-		my_assert((void *)buffer == (void *)packet);
+		assert_exp(!inputs.empty());
+		assert_exp((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = inputs.front().first;
 		packet->nbInputs = inputs.size();
@@ -167,7 +167,7 @@ namespace SpiralOfFate
 			packet->inputs[i] = input.second;
 			i++;
 		}
-		my_assert(i == inputs.size() && i == packet->nbInputs);
+		assert_exp(i == inputs.size() && i == packet->nbInputs);
 		return {packet, deleteArray};
 	}
 
@@ -185,8 +185,8 @@ namespace SpiralOfFate
 		opcode(OPCODE_INIT_REQUEST),
 		spectator(spectator)
 	{
-		my_assert(strlen(name) < sizeof(this->playerName));
-		my_assert(strlen(version) < sizeof(this->gameVersion));
+		assert_exp(strlen(name) < sizeof(this->playerName));
+		assert_exp(strlen(version) < sizeof(this->gameVersion));
 		strncpy(this->playerName, name, sizeof(this->playerName));
 		strncpy(this->gameVersion, version, sizeof(this->gameVersion));
 	}
@@ -288,7 +288,7 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketState();
 
 		//TODO: Compress the data
-		my_assert((void *)buffer == (void *)packet);
+		assert_exp((void *)buffer == (void *)packet);
 		return {packet, deleteArray};
 	}
 
@@ -309,13 +309,13 @@ namespace SpiralOfFate
 		if (size) {
 			int res = Utils::Z::compress((unsigned char *) data, size, out, -1);
 
-			my_assert2(res == Z_OK, "Compression failed with result '" + Utils::Z::error(res) + "'");
+			assert_msg(res == Z_OK, "Compression failed with result '" + Utils::Z::error(res) + "'");
 		}
 
 		void *buffer = new char[out.size() + sizeof(PacketReplay)];
 		auto *packet = new(buffer) PacketReplay();
 
-		my_assert((void *)buffer == (void *)packet);
+		assert_exp((void *)buffer == (void *)packet);
 		packet->compressedSize = out.size();
 		packet->gameId = gameId;
 		packet->frameId = frameId;
@@ -405,8 +405,8 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketTimeSync();
 		size_t i = 0;
 
-		my_assert(!diffs.empty());
-		my_assert((void *)buffer == (void *)packet);
+		assert_exp(!diffs.empty());
+		assert_exp((void *)buffer == (void *)packet);
 		packet->lastRecvFrameId = lastRecvFrameId;
 		packet->frameId = diffs.front().first;
 		packet->nbDiff = diffs.size();
@@ -460,7 +460,7 @@ namespace SpiralOfFate
 		auto *packet = new(buffer) PacketReplayList();
 
 		static_assert(sizeof(*ids.data()) == sizeof(*PacketReplayList::gameIds));
-		my_assert((void *)buffer == (void *)packet);
+		assert_exp((void *)buffer == (void *)packet);
 		packet->nbEntries = ids.size();
 		memcpy(packet->gameIds, ids.data(), ids.size() * sizeof(*ids.data()));
 		return {packet, deleteArray};

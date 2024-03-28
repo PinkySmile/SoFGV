@@ -379,7 +379,7 @@ namespace SpiralOfFate
 		this->_voidEffect.textureHandle = game->textureMgr.load("assets/effects/voidHit.png");
 	}
 
-	Character::Character( unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
+	Character::Character(unsigned index, const std::string &folder, const std::pair<std::vector<Color>, std::vector<Color>> &palette, std::shared_ptr<IInput> input) :
 		Character()
 	{
 		this->index = index;
@@ -593,7 +593,7 @@ namespace SpiralOfFate
 					this->_guardBarTmp -= (GUARD_REGEN_PER_FRAME * 2);
 				else
 					this->_guardBarTmp = 0;
-				my_assert(this->_guardBar + this->_guardBarTmp / 2 <= this->_maxGuardBar);
+				assert_exp(this->_guardBar + this->_guardBarTmp / 2 <= this->_maxGuardBar);
 			}
 		} else {
 			this->_barMaxOdCooldown = this->_maxOdCooldown;
@@ -702,7 +702,7 @@ namespace SpiralOfFate
 			this->_actionBlock++;
 			this->_animation = 0;
 			this->_animationCtr = 0;
-			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block 2");
+			assert_msg(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block 2");
 			Object::_onMoveEnd(*data);
 		}
 
@@ -1297,7 +1297,7 @@ namespace SpiralOfFate
 
 		if ((this->_action == ACTION_FALLING_TECH || this->_blockStun) && !this->_actionBlock && this->_action != ACTION_AIR_HIT) {
 			this->_actionBlock++;
-			my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
+			assert_msg(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
 			Object::_onMoveEnd(lastData);
 			return;
 		}
@@ -1311,7 +1311,7 @@ namespace SpiralOfFate
 			if (this->_hardKD || (this->_limitEffects & MATTER_LIMIT_EFFECT)) {
 				this->_forceStartMove(ACTION_NEUTRAL_TECH);
 				this->_actionBlock = 1;
-				my_assert2(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
+				assert_msg(this->_moves.at(this->_action).size() > 1, "Action " + actionToString(this->_action) + " is missing block 1");
 				return;
 			}
 
@@ -1406,7 +1406,7 @@ namespace SpiralOfFate
 			(realData->oFlag.nextBlockOnBlock && chr && !isHit)
 		)) {
 			this->_actionBlock++;
-			my_assert2(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
+			assert_msg(this->_actionBlock != this->_moves.at(this->_action).size(), "Action " + actionToString(this->_action) + " is missing block " + std::to_string(this->_actionBlock));
 			this->_animationCtr = 0;
 			Object::_onMoveEnd(*data);
 			Object::hit(other, data);
@@ -1492,8 +1492,8 @@ namespace SpiralOfFate
 		)
 			this->_blockStun = 0;
 
-		my_assert2(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
-		my_assert(this->_blockStun == 0 || (
+		assert_msg(this->_moves.find(action) != this->_moves.end(), "Invalid action: Action " + actionToString(action) + " was not found.");
+		assert_exp(this->_blockStun == 0 || (
 			isHitAction(action) ||
 			isBlockingAction(action) ||
 			action == ACTION_BEING_KNOCKED_DOWN
@@ -3268,7 +3268,7 @@ namespace SpiralOfFate
 			}
 		}
 
-		my_assert(result != 3);
+		assert_exp(result != 3);
 		return result;
 	}
 
@@ -3447,7 +3447,7 @@ namespace SpiralOfFate
 			if (chr->_mana > chr->_manaMax)
 				chr->_mana = chr->_manaMax;
 		}
-		my_assert(!data.oFlag.ultimate || chr);
+		assert_exp(!data.oFlag.ultimate || chr);
 		if (data.oFlag.spiritElement || data.oFlag.matterElement || data.oFlag.voidElement) {
 			unsigned duration = obj->getDebuffDuration();
 			auto neutral = data.oFlag.spiritElement == data.oFlag.matterElement && data.oFlag.matterElement == data.oFlag.voidElement;
@@ -3679,7 +3679,7 @@ namespace SpiralOfFate
 
 	std::pair<unsigned int, std::shared_ptr<Object>> Character::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
 	{
-		my_assert2(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
+		assert_msg(this->_projectileData.find(id) != this->_projectileData.end(), "Cannot find subobject " + std::to_string(id));
 
 		auto &pdat = this->_projectileData[id];
 		bool dir = this->_getProjectileDirection(pdat);
@@ -3972,7 +3972,7 @@ namespace SpiralOfFate
 		bool isWeakest = false;
 		auto sObj = dynamic_cast<SubObject *>(other);
 
-		my_assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
+		assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
 			// Neutral attack
 			isStrongest = (data->dFlag.neutralBlock && oData->oFlag.spiritElement) || (!data->dFlag.neutralBlock && !oData->oFlag.spiritElement);
@@ -4204,7 +4204,7 @@ namespace SpiralOfFate
 			this->_subobjects[data->subObjectSpawn - 1] = obj;
 		}
 		if (data->particleGenerator > 0) {
-			my_assert(data->particleGenerator <= this->_generators.size());
+			assert_exp(data->particleGenerator <= this->_generators.size());
 			game->battleMgr->registerObject<ParticleGenerator>(
 				true,
 				ParticleGenerator::Source{this->_team, data->particleGenerator - 1},
@@ -4636,8 +4636,11 @@ namespace SpiralOfFate
 		nlohmann::json j = nlohmann::json::parse(game->fileMgr.readFull(path));
 
 		this->_generators.reserve(j.size());
-		for (auto &i : j)
+		for (auto &i : j) {
 			this->_generators.emplace_back(i, folder);
+			if (i.contains("index") && i["index"].is_number())
+				assert_eq(i["index"].get<size_t>(), this->_generators.size());
+		}
 	}
 
 	Vector2f Character::_calcProjectilePosition(const SubObjectData &pdat, float dir)
@@ -4670,7 +4673,7 @@ namespace SpiralOfFate
 		case ANCHOR_STAGE_CENTER:
 			return y ? (STAGE_Y_MIN + STAGE_Y_MAX) / 2 : (STAGE_X_MIN + STAGE_X_MAX) / 2;
 		}
-		my_assert(false);
+		assert_not_reached();
 	}
 
 	bool Character::_getProjectileDirection(const Character::SubObjectData &data)
@@ -4689,7 +4692,7 @@ namespace SpiralOfFate
 		case DIRECTION_OP_BACK:
 			return !this->_opponent->_direction;
 		}
-		my_assert(false);
+		assert_not_reached();
 	}
 
 	bool Character::isHit() const
@@ -5063,8 +5066,8 @@ namespace SpiralOfFate
 
 	void Character::_spawnSystemParticles(unsigned int id)
 	{
-		my_assert(this->systemParticles);
-		my_assert(id < this->systemParticles->size());
+		assert_exp(this->systemParticles);
+		assert_exp(id < this->systemParticles->size());
 
 		auto result = game->battleMgr->registerObject<ParticleGenerator>(
 			true,
@@ -5074,7 +5077,7 @@ namespace SpiralOfFate
 		);
 
 		if (id < 4) {
-			my_assert(!this->_typeSwitchEffects[id].second || this->_typeSwitchEffects[id].second->isDead());
+			assert_exp(!this->_typeSwitchEffects[id].second || this->_typeSwitchEffects[id].second->isDead());
 			this->_typeSwitchEffects[id] = result;
 		}
 	}

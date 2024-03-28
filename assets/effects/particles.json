@@ -1,14 +1,15 @@
 [
 	{
+		"comment": "SYS_PARTICLE_GENERATOR_SPIRIT_TYPE_SWITCH",
 		"index": 1,
 		"sprite": "particles.png",
 		"colors": [
-			{"r": 0, "g": 155, "b": 155},
-			{"r": 0, "g": 175, "b": 175},
-			{"r": 0, "g": 195, "b": 195},
-			{"r": 0, "g": 215, "b": 215},
-			{"r": 0, "g": 235, "b": 235},
-			{"r": 0, "g": 255, "b": 255}
+			{"base": "spirit", "r": 155, "g": 155, "b": 155},
+			{"base": "spirit", "r": 175, "g": 175, "b": 175},
+			{"base": "spirit", "r": 195, "g": 195, "b": 195},
+			{"base": "spirit", "r": 215, "g": 215, "b": 215},
+			{"base": "spirit", "r": 235, "g": 235, "b": 235},
+			{"base": "spirit", "r": 255, "g": 255, "b": 255}
 		],
 		"spawn_boundary": {
 			"left": -50,
@@ -149,15 +150,16 @@
 
 
 	{
+		"comment": "SYS_PARTICLE_GENERATOR_MATTER_TYPE_SWITCH",
 		"index": 2,
 		"sprite": "particles.png",
 		"colors": [
-			{"r": 113, "g": 57, "b": 0},
-			{"r": 128, "g": 65, "b": 0},
-			{"r": 143, "g": 72, "b": 0},
-			{"r": 157, "g": 79, "b": 0},
-			{"r": 172, "g": 86, "b": 0},
-			{"r": 187, "g": 94, "b": 0}
+			{"base": "matter", "r": 155, "g": 155, "b": 155},
+			{"base": "matter", "r": 175, "g": 175, "b": 175},
+			{"base": "matter", "r": 195, "g": 195, "b": 195},
+			{"base": "matter", "r": 215, "g": 215, "b": 215},
+			{"base": "matter", "r": 235, "g": 235, "b": 235},
+			{"base": "matter", "r": 255, "g": 255, "b": 255}
 		],
 		"spawn_boundary": {
 			"left": -50,
@@ -298,15 +300,16 @@
 
 
 	{
+		"comment": "SYS_PARTICLE_GENERATOR_VOID_TYPE_SWITCH",
 		"index": 3,
 		"sprite": "particles.png",
 		"colors": [
-			{"r": 63, "g": 1, "b": 37},
-			{"r": 71, "g": 1, "b": 42},
-			{"r": 79, "g": 2, "b": 46},
-			{"r": 86, "g": 2, "b": 51},
-			{"r": 94, "g": 3, "b": 56},
-			{"r": 103, "g": 3, "b": 61}
+			{"base": "void", "r": 155, "g": 155, "b": 155},
+			{"base": "void", "r": 175, "g": 175, "b": 175},
+			{"base": "void", "r": 195, "g": 195, "b": 195},
+			{"base": "void", "r": 215, "g": 215, "b": 215},
+			{"base": "void", "r": 235, "g": 235, "b": 235},
+			{"base": "void", "r": 255, "g": 255, "b": 255}
 		],
 		"spawn_boundary": {
 			"left": -50,
@@ -447,15 +450,16 @@
 
 
 	{
-		"index": 3,
+		"comment": "SYS_PARTICLE_GENERATOR_NEUTRAL_TYPE_SWITCH",
+		"index": 4,
 		"sprite": "particles.png",
 		"colors": [
-			{"r": 155, "g": 155, "b": 0},
-			{"r": 175, "g": 175, "b": 0},
-			{"r": 195, "g": 195, "b": 0},
-			{"r": 215, "g": 215, "b": 0},
-			{"r": 235, "g": 235, "b": 0},
-			{"r": 255, "g": 255, "b": 0}
+			{"base": "neutral", "r": 155, "g": 155, "b": 155},
+			{"base": "neutral", "r": 175, "g": 175, "b": 175},
+			{"base": "neutral", "r": 195, "g": 195, "b": 195},
+			{"base": "neutral", "r": 215, "g": 215, "b": 215},
+			{"base": "neutral", "r": 235, "g": 235, "b": 235},
+			{"base": "neutral", "r": 255, "g": 255, "b": 255}
 		],
 		"spawn_boundary": {
 			"left": -50,
