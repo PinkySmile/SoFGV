@@ -26221,7 +26221,7 @@
             "width": 42
           },
           "defense_flag": 2121992,
-          "duration": 8,
+          "duration": 2,
           "hurt_boxes": [
             {
               "height": 180,
@@ -26232,19 +26232,87 @@
           ],
           "offense_flag": 8,
           "offset": {
-            "x": 0,
-            "y": -6
+            "x": 2,
+            "y": -19
           },
           "scale": {
             "x": 2.0,
             "y": 2.0
           },
-          "sprite": "sheet.png",
+          "sprite": "j2v.png",
           "texture_bounds": {
-            "height": 89,
-            "left": 702,
-            "top": 434,
-            "width": 32
+            "height": 120,
+            "left": 0,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "defense_flag": 2113800,
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 180,
+              "left": -34,
+              "top": -175,
+              "width": 69
+            }
+          ],
+          "offense_flag": 8,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 120,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "defense_flag": 2113800,
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 180,
+              "left": -34,
+              "top": -175,
+              "width": 69
+            }
+          ],
+          "offense_flag": 8,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 240,
+            "top": 0,
+            "width": 120
           }
         },
         {
@@ -26263,7 +26331,7 @@
           },
           "damage": 600,
           "defense_flag": 540936,
-          "duration": 40,
+          "duration": 2,
           "guard_damage": 25,
           "hit_boxes": [
             {
@@ -26292,8 +26360,8 @@
           "mana_gain": 30,
           "offense_flag": 10521736,
           "offset": {
-            "x": 5,
-            "y": -6
+            "x": 7,
+            "y": -16
           },
           "prorate": 85.0,
           "push_back": 2,
@@ -26307,49 +26375,153 @@
             "x": 0.0,
             "y": -5.0
           },
-          "sprite": "sheet.png",
+          "sprite": "j2v.png",
           "texture_bounds": {
-            "height": 99,
-            "left": 719,
-            "top": 896,
-            "width": 27
+            "height": 120,
+            "left": 360,
+            "top": 0,
+            "width": 120
           },
           "untech": 20,
           "void_limit": 40
         },
         {
+          "block_opponent_hit_stop": 8,
+          "block_player_hit_stop": 8,
+          "block_stun": 8,
           "collision_box": {
             "height": 150,
             "left": -19,
             "top": -150,
             "width": 42
           },
-          "defense_flag": 524544,
-          "duration": 20,
-          "hurt_boxes": [
+          "counter_hit_speed": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "damage": 600,
+          "defense_flag": 540936,
+          "duration": 2,
+          "guard_damage": 25,
+          "hit_boxes": [
             {
-              "height": 199,
+              "height": 125,
               "left": -21,
-              "top": -191,
-              "width": 53
+              "top": -117,
+              "width": 45
             }
           ],
-          "offense_flag": 3080,
-          "offset": {
-            "x": 6,
-            "y": -6
+          "hit_opponent_hit_stop": 8,
+          "hit_player_hit_stop": 8,
+          "hit_sound": "assets/sfxs/se/005.ogg",
+          "hit_speed": {
+            "x": 0.0,
+            "y": 2.0
           },
+          "hit_stun": 20,
+          "hurt_boxes": [
+            {
+              "height": 201,
+              "left": -24,
+              "top": -193,
+              "width": 55
+            }
+          ],
+          "mana_gain": 30,
+          "offense_flag": 10521736,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "prorate": 85.0,
+          "push_back": 2,
+          "push_block": 4,
           "scale": {
             "x": 2.0,
             "y": 2.0
           },
-          "sprite": "sheet.png",
+          "speed": {
+            "x": 0.0,
+            "y": -5.0
+          },
+          "sprite": "j2v.png",
           "texture_bounds": {
-            "height": 98,
-            "left": 534,
-            "top": 896,
-            "width": 27
-          }
+            "height": 120,
+            "left": 480,
+            "top": 0,
+            "width": 120
+          },
+          "untech": 20,
+          "void_limit": 40
+        },
+        {
+          "block_opponent_hit_stop": 8,
+          "block_player_hit_stop": 8,
+          "block_stun": 8,
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "counter_hit_speed": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "damage": 600,
+          "defense_flag": 540936,
+          "duration": 9999,
+          "guard_damage": 25,
+          "hit_boxes": [
+            {
+              "height": 125,
+              "left": -21,
+              "top": -117,
+              "width": 45
+            }
+          ],
+          "hit_opponent_hit_stop": 8,
+          "hit_player_hit_stop": 8,
+          "hit_sound": "assets/sfxs/se/005.ogg",
+          "hit_speed": {
+            "x": 0.0,
+            "y": 2.0
+          },
+          "hit_stun": 20,
+          "hurt_boxes": [
+            {
+              "height": 201,
+              "left": -24,
+              "top": -193,
+              "width": 55
+            }
+          ],
+          "mana_gain": 30,
+          "offense_flag": 10521736,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "prorate": 85.0,
+          "push_back": 2,
+          "push_block": 4,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "speed": {
+            "x": 0.0,
+            "y": -5.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 600,
+            "top": 0,
+            "width": 120
+          },
+          "untech": 20,
+          "void_limit": 40
         }
       ],
       [
@@ -26360,7 +26532,7 @@
             "top": -150,
             "width": 42
           },
-          "duration": 15,
+          "duration": 3,
           "hurt_boxes": [
             {
               "height": 200,
@@ -26371,19 +26543,151 @@
           ],
           "offense_flag": 2056,
           "offset": {
-            "x": 6,
-            "y": -6
+            "x": 7,
+            "y": -16
           },
           "scale": {
             "x": 2.0,
             "y": 2.0
           },
-          "sprite": "sheet.png",
+          "sprite": "j2v.png",
           "texture_bounds": {
-            "height": 98,
-            "left": 534,
-            "top": 896,
-            "width": 27
+            "height": 120,
+            "left": 720,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 200,
+              "left": -22,
+              "top": -194,
+              "width": 54
+            }
+          ],
+          "offense_flag": 2056,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 840,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 200,
+              "left": -22,
+              "top": -194,
+              "width": 54
+            }
+          ],
+          "offense_flag": 2056,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 960,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 200,
+              "left": -22,
+              "top": -194,
+              "width": 54
+            }
+          ],
+          "offense_flag": 2056,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 1080,
+            "top": 0,
+            "width": 120
+          }
+        },
+        {
+          "collision_box": {
+            "height": 150,
+            "left": -19,
+            "top": -150,
+            "width": 42
+          },
+          "duration": 3,
+          "hurt_boxes": [
+            {
+              "height": 200,
+              "left": -22,
+              "top": -194,
+              "width": 54
+            }
+          ],
+          "offense_flag": 2056,
+          "offset": {
+            "x": 7,
+            "y": -16
+          },
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "j2v.png",
+          "texture_bounds": {
+            "height": 120,
+            "left": 1200,
+            "top": 0,
+            "width": 120
           }
         }
       ]
