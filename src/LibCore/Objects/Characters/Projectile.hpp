@@ -19,16 +19,23 @@ namespace SpiralOfFate
 			ANIMATION_BLOCK
 		};
 
+		struct ProjectileAnimationData {
+			bool hasValue;
+			ProjectileAnimation type;
+			unsigned data;
+
+			ProjectileAnimationData(const nlohmann::json &json);
+		};
+
 #pragma pack(push, 1)
 		struct Data {
 			unsigned nbHit;
 			unsigned animationCtr;
 			unsigned debuffDuration;
 			bool disabled;
-			bool fadingOut;
 			unsigned char typeSwitchFlags;
 		};
-		static_assert(sizeof(Data) == 15, "Data has wrong size");
+		static_assert(sizeof(Data) == 14, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game State
@@ -36,21 +43,23 @@ namespace SpiralOfFate
 		unsigned _nbHit = 0;
 		unsigned _debuffDuration = 0;
 		bool _disabled = false;
-		bool _fadingOut = false;
 		unsigned char _typeSwitchFlags = 0;
 
 		// Non-game state
 		unsigned _maxHit;
 		unsigned _endBlock;
-		unsigned _animationData;
-		ProjectileAnimation _anim;
+		ProjectileAnimationData _onHitDieAnim;
+		ProjectileAnimationData _onBlockDieAnim;
+		ProjectileAnimationData _onGetHitDieAnim;
+		ProjectileAnimationData _onOwnerHitDieAnim;
+		ProjectileAnimation _animType;
+		unsigned _animData;
 		bool _loop;
-		bool _disableOnHit;
 
 	protected:
 		void _onMoveEnd(const FrameData &lastData) override;
 		void _computeFrameDataCache() override;
-		void _disableObject();
+		void _disableObject(const ProjectileAnimationData &data);
 
 	public:
 		enum TypeSwitchFlags {
@@ -80,7 +89,6 @@ namespace SpiralOfFate
 			unsigned char typeSwitchFlags,
 			unsigned debuffDuration
 		);
-		bool isDead() const override;
 		void update() override;
 		void hit(Object &other, const FrameData *data) override;
 		unsigned int getBufferSize() const override;

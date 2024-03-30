@@ -4982,7 +4982,7 @@ namespace SpiralOfFate
 			this->_jumpsUsed = 0;
 	}
 
-	void Character::_renderExtraEffects(const Vector2f &pos) const
+	void Character::_renderExtraEffects(const Vector2f &) const
 	{
 	}
 

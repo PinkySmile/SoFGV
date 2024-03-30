@@ -11,10 +11,23 @@
     "dir": "front",
     "hits": 1,
     "loop": true,
-    "disable_on_hit": true,
-    "disable_animation": "fade",
-    "animation_data": 30,
-    "end_block": 0
+    "end_block": 0,
+    "on_hit_die_animation": {
+      "type": "block",
+      "data": 1
+    },
+    "on_block_die_animation": {
+      "type": "block",
+      "data": 1
+    },
+    "on_get_hit_die_animation": {
+      "type": "block",
+      "data": 1
+    },
+    "on_owner_hit_die_animation": {
+      "type": "fade",
+      "data": 30
+    }
   },
   {
     "index": 128,
@@ -28,10 +41,23 @@
     "dir": "front",
     "hits": 4,
     "loop": true,
-    "disable_on_hit": true,
-    "disable_animation": "fade",
-    "animation_data": 30,
-    "end_block": 0
+    "end_block": 0,
+    "on_hit_die_animation": {
+      "type": "fade",
+      "data": 30
+    },
+    "on_block_die_animation": {
+      "type": "fade",
+      "data": 30
+    },
+    "on_get_hit_die_animation": {
+      "type": "fade",
+      "data": 30
+    },
+    "on_owner_hit_die_animation": {
+      "type": "fade",
+      "data": 30
+    }
   },
   {
     "index": 129,
@@ -45,7 +71,10 @@
     "dir": "front",
     "hits": 1,
     "loop": true,
-    "disable_on_hit": false,
-    "end_block": 1
+    "end_block": 1,
+    "on_hit_die_animation": null,
+    "on_block_die_animation": null,
+    "on_get_hit_die_animation": null,
+    "on_owner_hit_die_animation": null
   }
 ]

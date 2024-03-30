@@ -20,10 +20,11 @@ namespace SpiralOfFate
 		_typeSwitchFlags(typeSwitchFlags),
 		_maxHit(json["hits"]),
 		_endBlock(json["end_block"]),
-		_animationData(json.contains("animation_data") ? json["animation_data"].get<int>() : 0),
-		_anim(json.contains("disable_animation") ? animationFromString(json["disable_animation"].get<std::string>()) : ANIMATION_DISAPPEAR),
-		_loop(json["loop"]),
-		_disableOnHit(json["disable_on_hit"])
+		_onHitDieAnim(json["on_hit_die_animation"]),
+		_onBlockDieAnim(json["on_block_die_animation"]),
+		_onGetHitDieAnim(json["on_get_hit_die_animation"]),
+		_onOwnerHitDieAnim(json["on_owner_hit_die_animation"]),
+		_loop(json["loop"])
 	{
 	}
 
@@ -82,10 +83,35 @@ namespace SpiralOfFate
 		}
 		Object::hit(other, data);
 
+		auto chr = dynamic_cast<Character *>(&other);
+
+		if (chr) {
+			this->_nbHit++;
+			if (this->_nbHit >= this->_maxHit) {
+				auto d = chr->getCurrentFrameData();
+
+				if (
+					chr->isHit() ||
+					d->dFlag.superarmor ||
+					d->dFlag.invulnerableArmor ||
+					d->dFlag.neutralArmor ||
+					d->dFlag.matterArmor ||
+					d->dFlag.spiritArmor ||
+					d->dFlag.voidArmor
+				)
+					this->_disableObject(this->_onHitDieAnim);
+				else
+					this->_disableObject(this->_onBlockDieAnim);
+			}
+			return;
+		}
+
 		auto proj = dynamic_cast<Projectile *>(&other);
 
 		if (!proj) {
 			this->_nbHit++;
+			if (this->_nbHit >= this->_maxHit)
+				this->_disableObject(this->_onHitDieAnim);
 			return;
 		}
 
@@ -93,15 +119,17 @@ namespace SpiralOfFate
 
 		if (data->priority) {
 			if (!odata->priority || *odata->priority < *data->priority)
-				proj->_dead = true;
+				proj->_nbHit = proj->_maxHit;
 			else if (odata->priority && *odata->priority > *data->priority)
-				this->_dead = true;
+				this->_nbHit = this->_maxHit;
 			else
 				this->_nbHit++;
 		} else if (odata->priority)
-			this->_dead = true;
+			this->_nbHit = this->_maxHit;
 		else
 			this->_nbHit++;
+		if (this->_nbHit >= this->_maxHit)
+			this->_disableObject(this->_onHitDieAnim);
 	}
 
 	void Projectile::getHit(Object &other, const FrameData *odata)
@@ -112,6 +140,8 @@ namespace SpiralOfFate
 
 		if (!proj) {
 			this->_nbHit++;
+			if (this->_nbHit >= this->_maxHit)
+				this->_disableObject(this->_onGetHitDieAnim);
 			return;
 		}
 
@@ -119,30 +149,27 @@ namespace SpiralOfFate
 
 		if (data->priority) {
 			if (!odata->priority || *odata->priority < *data->priority)
-				proj->_dead = true;
+				proj->_nbHit = proj->_maxHit;
 			else if (odata->priority && *odata->priority > *data->priority)
-				this->_dead = true;
+				this->_nbHit = this->_maxHit;
 			else
 				this->_nbHit++;
 		} else if (odata->priority)
-			this->_dead = true;
+			this->_nbHit = this->_maxHit;
 		else
 			this->_nbHit++;
-	}
-
-	bool Projectile::isDead() const
-	{
-		return Object::isDead() || this->_nbHit >= this->_maxHit;
+		if (this->_nbHit >= this->_maxHit)
+			this->_disableObject(this->_onGetHitDieAnim);
 	}
 
 	void Projectile::update()
 	{
-		if (this->_disableOnHit && this->getOwnerObj()->isHit())
-			this->_disableObject();
-		if (this->_disabled && this->_anim == ANIMATION_FADE) {
-			this->_sprite.setColor({255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_animationCtr / this->_animationData)});
+		if (this->getOwnerObj()->isHit())
+			this->_disableObject(this->_onOwnerHitDieAnim);
+		if (this->_disabled && this->_animType == ANIMATION_FADE) {
+			this->_sprite.setColor({255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_animationCtr / this->_animData)});
 			this->_animationCtr++;
-			this->_dead |= this->_animationCtr > this->_animationData;
+			this->_dead |= this->_animationCtr > this->_animData;
 		}
 		Object::update();
 		this->_dead |=
@@ -163,7 +190,6 @@ namespace SpiralOfFate
 
 		Object::copyToBuffer(data);
 		dat->animationCtr = this->_animationCtr;
-		dat->fadingOut = this->_fadingOut;
 		dat->disabled = this->_disabled;
 		dat->nbHit = this->_nbHit;
 		dat->typeSwitchFlags = this->_typeSwitchFlags;
@@ -177,7 +203,6 @@ namespace SpiralOfFate
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Object::getBufferSize());
 
 		this->_animationCtr = dat->animationCtr;
-		this->_fadingOut = dat->fadingOut;
 		this->_disabled = dat->disabled;
 		this->_nbHit = dat->nbHit;
 		this->_typeSwitchFlags = dat->typeSwitchFlags;
@@ -188,6 +213,7 @@ namespace SpiralOfFate
 	{
 		if (this->_actionBlock > this->_endBlock) {
 			this->_dead = true;
+			Object::_onMoveEnd(lastData);
 			return;
 		}
 		if (this->_actionBlock != this->_endBlock) {
@@ -217,8 +243,6 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled) + " vs " + std::to_string(dat2->disabled));
 		if (dat1->nbHit != dat2->nbHit)
 			game->logger.fatal(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit) + " vs " + std::to_string(dat2->nbHit));
-		if (dat1->fadingOut != dat2->fadingOut)
-			game->logger.fatal(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut) + " vs " + std::to_string(dat2->fadingOut));
 		if (dat1->typeSwitchFlags != dat2->typeSwitchFlags)
 			game->logger.fatal(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags) + " vs " + std::to_string(dat2->typeSwitchFlags));
 		if (dat1->debuffDuration != dat2->debuffDuration)
@@ -226,22 +250,23 @@ namespace SpiralOfFate
 		return length + sizeof(Data);
 	}
 
-	void Projectile::_disableObject()
+	void Projectile::_disableObject(const ProjectileAnimationData &data)
 	{
-		if (this->_disabled)
+		if (this->_disabled || !data.hasValue)
 			return;
-		if (this->_anim == ANIMATION_DISAPPEAR) {
+		if (this->_animType == ANIMATION_DISAPPEAR) {
 			this->_dead = true;
 			return;
 		}
+		this->_animType = data.type;
+		this->_animData = data.data;
 		this->_disabled = true;
-		if (this->_anim == ANIMATION_BLOCK) {
-			this->_actionBlock = this->_animationData;
+		if (this->_animType == ANIMATION_BLOCK) {
+			this->_actionBlock = this->_animData;
 			this->_animation = 0;
 			this->_newAnim = true;
 			return;
 		}
-		this->_fadingOut = true;
 	}
 
 	Projectile::ProjectileAnimation Projectile::animationFromString(const std::string &str)
@@ -258,7 +283,7 @@ namespace SpiralOfFate
 	void Projectile::_computeFrameDataCache()
 	{
 		Object::_computeFrameDataCache();
-		if (this->_fadingOut) {
+		if (this->_disabled && this->_animType == ANIMATION_FADE) {
 			this->_fdCache.hitBoxes.clear();
 			this->_fdCache.hurtBoxes.clear();
 			this->_fdCache.collisionBox = nullptr;
@@ -295,7 +320,6 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Projectile::animationCtr: " + std::to_string(dat1->animationCtr));
 		game->logger.info(std::string(msgStart) + "Projectile::disabled: " + std::to_string(dat1->disabled));
 		game->logger.info(std::string(msgStart) + "Projectile::nbHit: " + std::to_string(dat1->nbHit));
-		game->logger.info(std::string(msgStart) + "Projectile::fadingOut: " + std::to_string(dat1->fadingOut));
 		game->logger.info(std::string(msgStart) + "Projectile::typeSwitchFlags: " + std::to_string(dat1->typeSwitchFlags));
 		game->logger.info(std::string(msgStart) + "Projectile::debuffDuration: " + std::to_string(dat1->debuffDuration));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
@@ -303,5 +327,12 @@ namespace SpiralOfFate
 			return 0;
 		}
 		return length + sizeof(Data);
+	}
+
+	Projectile::ProjectileAnimationData::ProjectileAnimationData(const nlohmann::json &json) :
+		hasValue(!json.is_null())
+	{
+		this->type = animationFromString(json["type"]);
+		this->data = json["data"];
 	}
 }

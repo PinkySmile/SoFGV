@@ -115,6 +115,7 @@ namespace SpiralOfFate
 			a = this->_fadeTimer * 255 / this->_fadeTimerMax;
 		else
 			a = (this->_fadeTimerMax - this->_fadeTimer) * 255 / this->_fadeTimerMax;
+		a = baseTint.a * a / 255;
 		tint.a = a;
 		this->_sprite.setColor(tint);
 		this->_sprite.setOrigin(data.textureBounds.size / 2.f);
