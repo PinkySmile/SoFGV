@@ -304,7 +304,7 @@ void	refreshFrameDataPanel(tgui::Panel::Ptr panel, tgui::Panel::Ptr boxes, std::
 	auto newCHitSpeed = "(" + floatToString(data.counterHitSpeed.x) + "," + floatToString(data.counterHitSpeed.y) + ")";
 	auto newHitSpeed = "(" + floatToString(data.hitSpeed.x) + "," + floatToString(data.hitSpeed.y) + ")";
 	auto newGravity = data.gravity ? "(" + floatToString(data.gravity->x) + "," + floatToString(data.gravity->y) + ")" : "";
-	auto newSnap = data.snap ? "(" + floatToString(data.snap->x) + "," + floatToString(data.snap->y) + ")" : "";
+	auto newSnap = data.snap ? "(" + floatToString(data.snap->first.x) + "," + floatToString(data.snap->first.y) + "," + std::to_string((int)(data.snap->second * 180 / M_PI)) + ")" : "";
 
 	counterHitSpeed->setText(newCHitSpeed);
 	hitSpeed->setText(newHitSpeed);
@@ -820,18 +820,33 @@ void	placeAnimPanelHooks(tgui::Gui &gui, tgui::Panel::Ptr panel, tgui::Panel::Pt
 
 		auto pos = t.find(',');
 
+		std::cout << t << " " << pos << std::endl;
 		if (pos == std::string::npos) {
 			data.snap.reset();
 			return;
 		}
 
-		auto x = t.substr(1, pos - 1);
-		auto y = t.substr(pos + 1, t.size() - pos - 2);
+		auto t2 = t.substr(pos + 1, t.size() - pos - 2);
+		auto pos2 = t2.find(',');
 
+		std::cout << t2 << " " << pos2 << std::endl;
+		if (pos2 == std::string::npos) {
+			data.snap.reset();
+			return;
+		}
+
+		auto x = t.substr(1, pos - 1);
+		auto y = t2.substr(0, pos2 - 1);
+		auto r = t2.substr(pos2 + 1);
+
+		std::cout << x << " " << y << " " << r << std::endl;
 		try {
-			data.snap = SpiralOfFate::Vector2f(
-				std::stof(x),
-				std::stof(y)
+			data.snap = std::pair(
+				SpiralOfFate::Vector2f(
+					std::stof(x),
+					std::stof(y)
+				),
+				std::stoi(r) * M_PI / 180
 			);
 		} catch (...) {
 			data.snap.reset();

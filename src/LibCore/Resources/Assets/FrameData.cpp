@@ -128,7 +128,8 @@ namespace SpiralOfFate
 			assert_msg(data["snap"].contains("y"), "Invalid json");
 			assert_msg(data["snap"]["x"].is_number(), "Invalid json");
 			assert_msg(data["snap"]["y"].is_number(), "Invalid json");
-			this->snap = Vector2f(data["snap"]["x"], data["snap"]["y"]);
+			assert_msg(data["snap"]["r"].is_number(), "Invalid json");
+			this->snap = std::pair(Vector2f(data["snap"]["x"], data["snap"]["y"]), data["snap"]["r"]);
 		}
 		if (data.contains("rotation")) {
 			assert_msg(data["rotation"].is_number(), "Invalid json");
@@ -564,8 +565,9 @@ namespace SpiralOfFate
 			};
 		if (this->snap)
 			result["snap"] = {
-				{"x", this->snap->x},
-				{"y", this->snap->y}
+				{"x", this->snap->first.x},
+				{"y", this->snap->first.y},
+				{"r", this->snap->second}
 			};
 		if (this->scale != Vector2f{1, 1})
 			result["scale"] = {
@@ -741,7 +743,7 @@ namespace SpiralOfFate
 		if (this->snap)
 			dat->snap = *this->snap;
 		else
-			dat->snap = {0, 0};
+			dat->snap = {{0, 0}, 0};
 		if (this->priority)
 			dat->priority = *this->priority;
 		else
@@ -928,7 +930,7 @@ namespace SpiralOfFate
 		if (dat1->hasGravity && dat2->hasGravity && dat1->gravity != dat2->gravity)
 			game->logger.fatal(std::string(msgStart) + "FrameData::gravity: (" + std::to_string(dat1->gravity.x) + ", " + std::to_string(dat1->gravity.y) + ") vs (" + std::to_string(dat2->gravity.x) + ", " + std::to_string(dat2->gravity.y) + ")");
 		if (dat1->hasSnap && dat2->hasSnap && dat1->snap != dat2->snap)
-			game->logger.fatal(std::string(msgStart) + "FrameData::snap: (" + std::to_string(dat1->snap.x) + ", " + std::to_string(dat1->snap.y) + ") vs (" + std::to_string(dat2->snap.x) + ", " + std::to_string(dat2->snap.y) + ")");
+			game->logger.fatal(std::string(msgStart) + "FrameData::snap: (" + std::to_string(dat1->snap.first.x) + ", " + std::to_string(dat1->snap.first.y) + ", " + std::to_string(dat1->snap.second) + ") vs (" + std::to_string(dat2->snap.first.x) + ", " + std::to_string(dat2->snap.first.y) + ", " + std::to_string(dat2->snap.second) + ")");
 
 		if (dat1->hurtBoxesCount != dat2->hurtBoxesCount || dat1->hitBoxesCount != dat2->hitBoxesCount)
 			return 0;
@@ -1005,7 +1007,7 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "FrameData::hitSpeed: (" + std::to_string(dat->hitSpeed.x) + ", " + std::to_string(dat->hitSpeed.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::counterHitSpeed: (" + std::to_string(dat->counterHitSpeed.x) + ", " + std::to_string(dat->counterHitSpeed.y) + ")");
 		game->logger.info(std::string(msgStart) + "FrameData::gravity: (" + std::to_string(dat->gravity.x) + ", " + std::to_string(dat->gravity.y) + ")");
-		game->logger.info(std::string(msgStart) + "FrameData::snap: (" + std::to_string(dat->snap.x) + ", " + std::to_string(dat->snap.y) + ")");
+		game->logger.info(std::string(msgStart) + "FrameData::snap: (" + std::to_string(dat->snap.first.x) + ", " + std::to_string(dat->snap.first.y) + ", " + std::to_string(dat->snap.second) + ")");
 
 		while (i < dat->hurtBoxesCount) {
 			game->logger.info(std::string(msgStart) + "FrameData::hurtBoxes[" + std::to_string(i) + "]::pos: (" + std::to_string(dat->boxes[i].pos.x) + ", " + std::to_string(dat->boxes[i].pos.y) + ")");

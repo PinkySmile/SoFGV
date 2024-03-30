@@ -1719,7 +1719,7 @@ ScrollablePanel.Panel1 {
         }
 
         EditBox.Snap {
-            InputValidator = "\\(?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\.?[0-9]*\\)?";
+            InputValidator = "\\(?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\.?[0-9]*,?[+-]?[0-9]*\\)?";
             Position = (230, 250);
             Size = (80, 22);
             TextSize = 13;

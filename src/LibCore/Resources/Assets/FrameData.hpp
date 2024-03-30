@@ -155,7 +155,7 @@ namespace SpiralOfFate
 			Vector2i hitSpeed;
 			Vector2i counterHitSpeed;
 			Vector2f gravity;
-			Vector2f snap;
+			std::pair<Vector2f, float> snap;
 			Box textureBounds;
 			Box collisionBox;
 			bool hasCollisionBox;
@@ -165,7 +165,7 @@ namespace SpiralOfFate
 			Box boxes[0];
 		};
 		static_assert(sizeof(Box) == 16, "Box has wrong size");
-		static_assert(sizeof(Data) == 736, "Data has wrong size");
+		static_assert(sizeof(Data) == 740, "Data has wrong size");
 #pragma pack(pop)
 
 	public:
@@ -219,7 +219,7 @@ namespace SpiralOfFate
 		Vector2f hitSpeed = {0, 0};
 		Vector2f counterHitSpeed = {0, 0};
 		std::optional<Vector2f> gravity;
-		std::optional<Vector2f> snap;
+		std::optional<std::pair<Vector2f, float>> snap;
 
 		FrameData() = default;
 		~FrameData();

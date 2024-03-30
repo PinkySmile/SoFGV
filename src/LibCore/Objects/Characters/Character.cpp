@@ -162,6 +162,7 @@ namespace SpiralOfFate
 		{ ACTION_GROUND_HIGH_NEUTRAL_WRONG_BLOCK,"Ground high neutral wrong block" },
 		{ ACTION_GROUND_LOW_NEUTRAL_WRONG_BLOCK, "Ground low neutral wrong block" },
 		{ ACTION_AIR_NEUTRAL_WRONG_BLOCK,        "Air neutral wrong block" },
+		{ ACTION_PLATFORM_DROP,                  "Platform drop" },
 		{ ACTION_5N,                             "5n" },
 		{ ACTION_6N,                             "6n" },
 		{ ACTION_8N,                             "8n" },
@@ -496,6 +497,8 @@ namespace SpiralOfFate
 
 		auto input = this->_updateInputs();
 
+		if (Object::_isOnPlatform() && this->_specialInputs._22)
+			this->_forceStartMove(ACTION_PLATFORM_DROP);
 		if (this->_neutralEffectTimer) {
 			this->_neutralEffectTimer--;
 			if (this->_neutralEffectTimer == 0)
@@ -1304,6 +1307,8 @@ namespace SpiralOfFate
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_AIR_REVERSAL || this->_action == ACTION_GROUND_HIGH_REVERSAL || this->_action == ACTION_GROUND_LOW_REVERSAL)
+			return this->_forceStartMove(idleAction);
+		if (this->_action == ACTION_PLATFORM_DROP)
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_LANDING)
 			return this->_forceStartMove(idleAction);
@@ -3393,8 +3398,6 @@ namespace SpiralOfFate
 		float damage = data.damage * this->_prorate;
 		auto stun = data.hitStun;
 
-		if (data.snap)
-			this->_position = obj->_position + Vector2f{data.snap->x * obj->_dir, data.snap->y};
 		this->_forceCH = false;
 		if (chr) {
 			forcedCounter = chr->_forceCH;
@@ -3553,6 +3556,11 @@ namespace SpiralOfFate
 			this->_hp = 0;
 		this->_armorUsed = true;
 		this->_stallingFactor = maxi(MINIMUM_STALLING_STACKING, this->_stallingFactor - STALLING_BEING_HIT_REMOVE);
+		if (data.snap) {
+			this->_position = obj->_position + Vector2f{data.snap->first.x * obj->_dir, data.snap->first.y};
+			this->_rotation = data.snap->second;
+		} else
+			this->_rotation = 0;
 	}
 
 	void Character::_processWallSlams()
