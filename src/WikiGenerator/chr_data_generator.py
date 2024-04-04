@@ -125,11 +125,39 @@ def generate_palettes_image(path, idle, palettes):
 	return result, start
 
 
+def get_color_for_move(frame):
+	flags = frame.get('offense_flag', 0)
+	if (flags & OffensiveFlag.voidElement) and (flags & OffensiveFlag.spiritElement) and (flags & OffensiveFlag.matterElement):
+		return (0xFF, 0xFF, 0x00) # TYPECOLOR_NEUTRAL
+	if flags & OffensiveFlag.spiritElement:
+		return (0x33, 0xCC, 0xCC) # TYPECOLOR_SPIRIT
+	if flags & OffensiveFlag.matterElement:
+		return (0xBB, 0x5E, 0x00) # TYPECOLOR_MATTER
+	if flags & OffensiveFlag.voidElement:
+		return (0x67, 0x03, 0x3D) # TYPECOLOR_VOID
+	return (0xA6, 0xA6, 0xA6) # TYPECOLOR_NON_TYPED
+
+
+def tint_image(img, color):
+	img = img.copy().convert("RGBA")
+	px = img.load()
+	for x in range(img.size[0]):
+		for y in range(img.size[1]):
+			px[x, y] = (
+				px[x, y][0] * color[0] // 255,
+				px[x, y][1] * color[1] // 255,
+				px[x, y][2] * color[2] // 255,
+				px[x, y][3]
+			)
+	return img
+
+
 def generate_frames_images(path, datas, metadata, start=None):
 	if start is not None:
 		sprites = {datas[0][0][0]['sprite']: start}
 	else:
 		sprites = {}
+	effectSprites = {}
 	result = []
 	print("Loading additional sprites")
 	for move in datas.values():
@@ -139,17 +167,26 @@ def generate_frames_images(path, datas, metadata, start=None):
 					try:
 						sprites[frame['sprite']] = Image.open(path + "/" + frame['sprite']).convert("RGBA")
 					except Exception as e:
-						sprites[frame['sprite']] = Image.new("RGB", (0, 0))
+						sprites[frame['sprite']] = Image.new("RGB", (1, 1))
 						print("Cannot load " + path + "/" + frame['sprite'])
+						print(e)
+				if not frame['sprite'] in effectSprites:
+					try:
+						effectSprites[frame['sprite']] = Image.open(path + "/effects/" + frame['sprite']).convert("RGBA")
+					except Exception as e:
+						effectSprites[frame['sprite']] = Image.new("RGB", (1, 1))
+						print("Cannot load " + path + "/effects/" + frame['sprite'])
 						print(e)
 	print("Generating images")
 	for action, move in datas.items():
 		for blockId, block in enumerate(move):
 			for i, frame in enumerate(block):
 				img = sprites[frame['sprite']].copy()
+				img2 = effectSprites[frame['sprite']].copy()
 				tex = frame.get("texture_bounds", {"height": img.size[1], "left": 0, "width": img.size[0], "top": 0})
-				size = frame.get('size', {'x': tex['width'], 'y': tex['height']})
-				size = (size['x'], size['y'])
+				scale = frame.get('scale', {'x': 1, 'y': 1})
+				size = {'x': math.ceil(tex['width'] * scale['x']), 'y': math.ceil(tex['height'] * scale['y'])}
+				size = (size['x'] or 1, size['y'] or 1)
 				offset = frame.get('offset', {"x": 0, "y": 0})
 				borders = [
 					offset['x'] + int(math.floor(-size[0]) / 2),
@@ -180,6 +217,12 @@ def generate_frames_images(path, datas, metadata, start=None):
 					tex["left"] + tex["width"],
 					tex["top"] + tex["height"]
 				))
+				base2 = img2.crop((
+					tex["left"],
+					tex["top"],
+					tex["left"] + tex["width"],
+					tex["top"] + tex["height"]
+				))
 				borders[0] -= 10
 				borders[1] -= 10
 				borders[2] += 10
@@ -189,6 +232,15 @@ def generate_frames_images(path, datas, metadata, start=None):
 					offset['x'] + int(math.floor(-size[0]) / 2) - borders[0],
 					-borders[1] - offset['y']
 				))
+				img.paste(base.resize(size, resample=Image.Resampling.NEAREST), (
+					offset['x'] + int(math.floor(-size[0]) / 2) - borders[0],
+					-borders[1] - offset['y']
+				))
+				resized = tint_image(base2, get_color_for_move(frame)).resize(size, resample=Image.Resampling.NEAREST)
+				img.paste(resized, (
+					offset['x'] + int(math.floor(-size[0]) / 2) - borders[0],
+					-borders[1] - offset['y']
+				), resized)
 				for hurt_box in frame.get('hurt_boxes', []):
 					tmp = Image.new("RGBA", (borders[2] - borders[0], borders[3] - borders[1]))
 					img_draw = ImageDraw.Draw(tmp)

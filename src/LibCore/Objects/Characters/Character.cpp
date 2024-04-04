@@ -3464,8 +3464,8 @@ namespace SpiralOfFate
 			this->_speed.x = -data.counterHitSpeed.x * this->_dir;
 			this->_speed.y =  data.counterHitSpeed.y;
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0) {
-					if (!data.oFlag.phantomHit)
-				this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				if (!data.oFlag.phantomHit)
+					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
 			} else {
 				this->_restand = data.oFlag.restand;
 				if (!data.oFlag.phantomHit) {
