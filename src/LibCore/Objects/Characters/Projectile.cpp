@@ -332,6 +332,8 @@ namespace SpiralOfFate
 	Projectile::ProjectileAnimationData::ProjectileAnimationData(const nlohmann::json &json) :
 		hasValue(!json.is_null())
 	{
+		if (!this->hasValue)
+			return;
 		this->type = animationFromString(json["type"]);
 		this->data = json["data"];
 	}
