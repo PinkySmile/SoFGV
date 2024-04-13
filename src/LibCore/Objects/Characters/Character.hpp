@@ -408,6 +408,7 @@ namespace SpiralOfFate
 			InputStruct _inputBuffer;
 			unsigned _limit[4];
 			unsigned _typeSwitchEffects[4];
+			unsigned _typeDebuffEffects[4];
 			unsigned _subObjects[128];
 			int _timeSinceIdle;
 			unsigned _guardBarTmp;
@@ -457,7 +458,7 @@ namespace SpiralOfFate
 			unsigned char _specialInputs[38];
 		};
 		static_assert(sizeof(InputStruct) == 36, "InputStruct has wrong size");
-		static_assert(sizeof(Data) == 738, "Data has wrong size");
+		static_assert(sizeof(Data) == 754, "Data has wrong size");
 		union SpecialInputs {
 			unsigned char _value[38] = {0};
 			struct {

@@ -3138,6 +3138,11 @@ namespace SpiralOfFate
 				obj.first = 0;
 				obj.second.reset();
 			}
+		for (auto &obj : this->_typeDebuffEffects)
+			if (obj.second && obj.second->isDead()) {
+				obj.first = 0;
+				obj.second.reset();
+			}
 	}
 
 	unsigned char Character::_checkHitPos(const Object *other) const
@@ -3792,6 +3797,12 @@ namespace SpiralOfFate
 			else
 				dat->_typeSwitchEffects[i] = 0;
 		}
+		for (i = 0; i < this->_typeDebuffEffects.size(); i++) {
+			if (this->_typeDebuffEffects[i].first && this->_typeDebuffEffects[i].second)
+				dat->_typeDebuffEffects[i] = this->_typeDebuffEffects[i].first;
+			else
+				dat->_typeDebuffEffects[i] = 0;
+		}
 		memcpy(&((LastInput *)&dat[1])[dat->_nbLastInputs], this->_replayData.data(), this->_replayData.size() * sizeof(ReplayData));
 
 		auto p = (unsigned *)(((ptrdiff_t)&((LastInput *)&dat[1])[dat->_nbLastInputs]) + this->_replayData.size() * sizeof(ReplayData));
@@ -3866,6 +3877,10 @@ namespace SpiralOfFate
 			this->_typeSwitchEffects[i].first = dat->_typeSwitchEffects[i];
 			this->_typeSwitchEffects[i].second.reset();
 		}
+		for (size_t i = 0; i < this->_typeDebuffEffects.size(); i++) {
+			this->_typeDebuffEffects[i].first = dat->_typeDebuffEffects[i];
+			this->_typeDebuffEffects[i].second.reset();
+		}
 		this->_replayData.clear();
 		this->_replayData.reserve(dat->_nbReplayInputs);
 		for (size_t i = 0; i < dat->_nbReplayInputs; i++)
@@ -3895,6 +3910,9 @@ namespace SpiralOfFate
 			if (subobject.first)
 				subobject.second = manager.getObjectFromId(subobject.first);
 		for (auto &obj : this->_typeSwitchEffects)
+			if (obj.first)
+				obj.second = manager.getIObjectFromId(obj.first);
+		for (auto &obj : this->_typeDebuffEffects)
 			if (obj.first)
 				obj.second = manager.getIObjectFromId(obj.first);
 	}
