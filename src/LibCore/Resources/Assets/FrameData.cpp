@@ -128,8 +128,8 @@ namespace SpiralOfFate
 			assert_msg(data["snap"].contains("y"), "Invalid json");
 			assert_msg(data["snap"]["x"].is_number(), "Invalid json");
 			assert_msg(data["snap"]["y"].is_number(), "Invalid json");
-			assert_msg(data["snap"]["r"].is_number(), "Invalid json");
-			this->snap = std::pair(Vector2f(data["snap"]["x"], data["snap"]["y"]), data["snap"]["r"]);
+			assert_msg(!data["snap"].contains("r") || data["snap"]["r"].is_number(), "Invalid json");
+			this->snap = std::pair(Vector2f(data["snap"]["x"], data["snap"]["y"]), data["snap"].contains("r") ? data["snap"]["r"].get<float>() : 0);
 		}
 		if (data.contains("rotation")) {
 			assert_msg(data["rotation"].is_number(), "Invalid json");
