@@ -54,7 +54,7 @@ namespace SpiralOfFate
 			return;
 		}
 		Shadow::update();
-		if (this->_idleCounter != 120)
+		if (this->_idleCounter < 120)
 			return;
 
 		auto color = this->_sprite.getColor();

@@ -17,7 +17,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 256,
@@ -39,7 +39,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 384,
@@ -61,7 +61,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 384,
@@ -85,7 +85,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 0,
@@ -107,7 +107,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 128,
@@ -123,7 +123,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 256,
@@ -137,7 +137,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 128,
@@ -151,7 +151,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 0,
@@ -165,7 +165,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 0,
@@ -181,7 +181,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 0,
@@ -195,7 +195,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 0,
@@ -209,7 +209,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 128,
@@ -223,7 +223,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 256,
@@ -239,7 +239,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -253,7 +253,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -267,7 +267,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -306,7 +306,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -344,7 +344,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -359,7 +359,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -373,7 +373,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -387,7 +387,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -411,7 +411,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -433,7 +433,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -455,7 +455,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -498,7 +498,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -540,7 +540,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -555,7 +555,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -569,7 +569,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -583,7 +583,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -607,7 +607,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -629,7 +629,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -651,7 +651,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -689,7 +689,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -728,7 +728,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -744,7 +744,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -758,7 +758,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -772,7 +772,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -796,7 +796,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -818,7 +818,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -840,7 +840,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -881,7 +881,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,
@@ -920,7 +920,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 512,
@@ -935,7 +935,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 640,
@@ -949,7 +949,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 768,
@@ -963,7 +963,7 @@
             "x": 256,
             "y": 256
           },
-          "sprite": "shadow_victory_star.png",
+          "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
             "height": 128,
             "left": 896,

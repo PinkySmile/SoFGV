@@ -12,10 +12,6 @@
 
 #define NB_BUTTERFLIES 8
 #define BUTTERFLIES_START_ID 1000
-#define SHADOW_PER_STACK 3
-#define MAX_STACKS 15
-#define START_STACKS (5 * SHADOW_PER_STACK)
-#define RC_COST 3
 
 namespace SpiralOfFate
 {
@@ -26,25 +22,29 @@ namespace SpiralOfFate
 #pragma pack(push, 1)
 		struct Data {
 			bool _hitShadow;
-			unsigned _stacks;
+			unsigned char _stacksTimer;
+			float _stacks;
 			unsigned _flower;
-			unsigned _nbShadows;
-			unsigned _objects[0];
+			unsigned _shadows[4];
 		};
-		static_assert(sizeof(Data) == 13, "Data has wrong size");
+		static_assert(sizeof(Data) == 26, "Data has wrong size");
 #pragma pack(pop)
 
 		// Game state
 		bool _hitShadow = false;
-		unsigned _stacks = START_STACKS;
-		std::vector<std::pair<unsigned, std::shared_ptr<Shadow>>> _shadows;
+		unsigned char _stacksTimer;
+		unsigned char _currentForm = 0;
+		float _stacks;
+		std::array<std::pair<unsigned, std::shared_ptr<Shadow>>, 4> _shadows;
 		std::optional<std::pair<unsigned, std::shared_ptr<Flower>>> _flower;
 
 		// Non-game state
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _shadowFormFramedata;
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _flowerFormFramedata;
+		std::map<unsigned, std::vector<std::vector<FrameData>>> _neutralFormFramedata;
 		const Object *_target = nullptr;
-		Sprite _hudBack;
-		Sprite _hudFull;
-		Sprite _hudPart;
+		Sprite _hudScale;
+		Sprite _hudCursor;
 		std::vector<std::vector<FrameData>> _shadowActions;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _happyBufferFlies;
 		std::array<std::pair<unsigned, Butterfly *>, NB_BUTTERFLIES> _weirdBufferFlies;
@@ -87,6 +87,8 @@ namespace SpiralOfFate
 		size_t printContent(const char *msgStart, void *data, unsigned int startOffset, size_t dataSize) const override;
 		void postUpdate() override;
 		void drawSpecialHUD(sf::RenderTarget &texture) override;
+
+		void update() override;
 
 		friend class Flower;
 		friend class Butterfly;

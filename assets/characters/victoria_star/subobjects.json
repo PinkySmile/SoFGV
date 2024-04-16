@@ -1,33 +1,5 @@
 [
 	{
-		"index": 128,
-		"action": 1,
-		"spawn_offset": {
-			"anchorX": "opponent",
-			"anchorY": "opponent",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "front",
-		"shadow": "void",
-		"tint": false,
-		"hp": 1000
-	},
-	{
-		"index": 129,
-		"action": 0,
-		"spawn_offset": {
-			"anchorX": "owner",
-			"anchorY": "owner",
-			"x": 201,
-			"y": 210
-		},
-		"dir": "front",
-		"shadow": "matter",
-		"tint": true,
-		"hp": 1000
-	},
-	{
 		"index": 2,
 		"action": 2,
 		"spawn_offset": {
@@ -64,20 +36,6 @@
 		"hp": 1000
 	},
 	{
-		"index": 130,
-		"action": 2,
-		"spawn_offset": {
-			"anchorX": "border_front",
-			"anchorY": "stage_min",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "back",
-		"shadow": "matter",
-		"tint": true,
-		"hp": 1200
-	},
-	{
 		"index": 5,
 		"action": 6,
 		"spawn_offset": {
@@ -96,34 +54,6 @@
 		"hp": 1000
 	},
 	{
-		"index": 131,
-		"action": 6,
-		"spawn_offset": {
-			"anchorX": "border_front",
-			"anchorY": "stage_min",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "back",
-		"shadow": "spirit",
-		"tint": true,
-		"hp": 1600
-	},
-	{
-		"index": 132,
-		"action": 6,
-		"spawn_offset": {
-			"anchorX": "border_front",
-			"anchorY": "stage_min",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "back",
-		"shadow": "spirit",
-		"tint": true,
-		"hp": 900
-	},
-	{
 		"index": 6,
 		"action": 7,
 		"spawn_offset": {
@@ -140,20 +70,6 @@
 		"disable_animation": "fade",
 		"animation_data": 3,
 		"hp": 1000
-	},
-	{
-		"index": 133,
-		"action": 7,
-		"spawn_offset": {
-			"anchorX": "border_front",
-			"anchorY": "stage_min",
-			"x": 0,
-			"y": 0
-		},
-		"dir": "back",
-		"shadow": "void",
-		"tint": true,
-		"hp": 500
 	},
 	{
 		"index": 7,
@@ -190,6 +106,92 @@
 		"disable_animation": "fade",
 		"animation_data": 7,
 		"hp": 1000
+	},
+
+
+	{
+		"index": 128,
+		"action": 1,
+		"spawn_offset": {
+			"anchorX": "opponent",
+			"anchorY": "opponent",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "front",
+		"shadow": "void",
+		"tint": false,
+		"hp": 1000
+	},
+	{
+		"index": 129,
+		"action": 0,
+		"spawn_offset": {
+			"anchorX": "owner",
+			"anchorY": "owner",
+			"x": 201,
+			"y": 210
+		},
+		"dir": "front",
+		"shadow": "matter",
+		"tint": true,
+		"hp": 1000
+	},
+	{
+		"index": 130,
+		"action": 2,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "matter",
+		"tint": true,
+		"hp": 1200
+	},
+	{
+		"index": 131,
+		"action": 6,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "spirit",
+		"tint": true,
+		"hp": 1600
+	},
+	{
+		"index": 132,
+		"action": 6,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "spirit",
+		"tint": true,
+		"hp": 900
+	},
+	{
+		"index": 133,
+		"action": 7,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"shadow": "void",
+		"tint": true,
+		"hp": 500
 	},
 	{
 		"index": 134,

@@ -4187,18 +4187,6 @@ namespace SpiralOfFate
 			this->_mana = 0;
 		}
 		this->_ultimateUsed |= data->oFlag.ultimate;
-		if (data->subObjectSpawn > 0) {
-			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
-				return;
-			else if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
-				this->_subobjects[data->subObjectSpawn - 1].second->kill();
-
-			auto obj = this->_spawnSubObject(*game->battleMgr, data->subObjectSpawn - 1, true);
-
-			if (data->subObjectSpawn > 128)
-				return;
-			this->_subobjects[data->subObjectSpawn - 1] = obj;
-		}
 		if (data->particleGenerator > 0) {
 			assert_exp(data->particleGenerator <= this->_generators.size());
 			game->battleMgr->registerObject<ParticleGenerator>(
@@ -4207,6 +4195,19 @@ namespace SpiralOfFate
 				this->_generators[data->particleGenerator - 1],
 				*this, *this
 			);
+		}
+		if (data->subObjectSpawn > 0) {
+			if (data->subObjectSpawn <= 64 && this->_subobjects[data->subObjectSpawn - 1].first)
+				return;
+
+			auto obj = this->_spawnSubObject(*game->battleMgr, data->subObjectSpawn - 1, true);
+
+			if (obj.first) {
+				if (data->subObjectSpawn <= 128 && this->_subobjects[data->subObjectSpawn - 1].first)
+					this->_subobjects[data->subObjectSpawn - 1].second->kill();
+				if (data->subObjectSpawn <= 128)
+					this->_subobjects[data->subObjectSpawn - 1] = obj;
+			}
 		}
 	}
 

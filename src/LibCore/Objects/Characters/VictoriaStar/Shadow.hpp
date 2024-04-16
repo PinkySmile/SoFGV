@@ -15,12 +15,12 @@ namespace SpiralOfFate
 #pragma pack(push, 1)
 		struct Data {
 			unsigned _boxSize;
-			bool _ownerKilled;
+			bool _killedByOwner;
 			unsigned char _invincibleTime;
-			unsigned char _idleCounter;
+			unsigned short _idleCounter;
 			std::pair<unsigned char, unsigned char> _loopInfo;
 		};
-		static_assert(sizeof(Data) == 9, "Data has wrong size");
+		static_assert(sizeof(Data) == 10, "Data has wrong size");
 #pragma pack(pop)
 
 		enum AnimationBlock {
@@ -41,10 +41,10 @@ namespace SpiralOfFate
 		unsigned _activateBlock;
 
 		// Game state
-		bool _ownerKilled = false;
 		unsigned _invincibleTime = 0;
 		unsigned _boxSize = 0;
-		unsigned char _idleCounter = 0;
+		bool _killedByOwner = false;
+		unsigned short _idleCounter = 0;
 		std::pair<unsigned char, unsigned char> _loopInfo = {0, 0};
 
 		void _applyNewAnimFlags() override;
@@ -63,11 +63,11 @@ namespace SpiralOfFate
 			unsigned activateBlock
 		);
 
-		bool wasOwnerKilled() const;
-		void setInvincible(unsigned time);
-
 		virtual void activate();
 
+		bool wasKilledByOwner() const;
+		void setInvincible(unsigned time);
+		float getCurrentPoints() const;
 		void update() override;
 		unsigned int getBufferSize() const override;
 		void copyToBuffer(void *data) const override;

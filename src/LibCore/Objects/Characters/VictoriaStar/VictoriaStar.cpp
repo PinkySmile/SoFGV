@@ -11,6 +11,12 @@
 #include "Objects/Characters/VictoriaStar/Shadows/VoidShadow.hpp"
 #include "VictoriaProjectile.hpp"
 
+#define SCALE_POS_Y 610
+#define SCALE_MIDDLE_X 200
+#define SCALE_SIZE 200
+#define MAX_STACKS 1000
+#define STACK_PER_KILL 10
+#define PASSIVE_STACK_PER_SHADOW_TIMER 20
 #define ACTION_SCREEN_TELEPORT 368
 #define ACTION_SHADOW 0
 #define ACTION_FLOWER 1
@@ -29,12 +35,20 @@ namespace SpiralOfFate
 		std::shared_ptr<IInput> input,
 		const std::string &opName
 	) :
-		Character(index, folder, palette, std::move(input))
+		Character(index, folder, palette, std::move(input)),
+		_stacks(MAX_STACKS / 2)
 	{
 		auto spriteName = "shadow_" + opName + ".png";
 		auto opHandle = game->textureMgr.load(folder + "/" + spriteName);
 
 		game->logger.debug("VictoriaStar class created");
+		this->_neutralFormFramedata = this->_moves;
+		this->_shadowFormFramedata = FrameData::loadFile(folder + "/flower_form_framedata.json", folder, palette);
+		this->_flowerFormFramedata = FrameData::loadFile(folder + "/shadow_form_framedata.json", folder, palette);
+
+		assert_exp(this->_shadowFormFramedata.find(ACTION_GAME_START1) != this->_subObjectsData.end());
+		assert_exp(this->_flowerFormFramedata.find(ACTION_GAME_START1) != this->_subObjectsData.end());
+
 		// Butterflies actions
 		assert_exp(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
 		assert_exp(this->_subObjectsData.find(ACTION_WEIRD_BUTTERFLY) != this->_subObjectsData.end());
@@ -49,40 +63,21 @@ namespace SpiralOfFate
 				frame.setSlave(false);
 			}
 		game->textureMgr.remove(opHandle);
-		this->_hudBack.textureHandle = game->textureMgr.load(folder + "/hud.png");
-		this->_hudFull.textureHandle = this->_hudBack.textureHandle;
-		this->_hudPart.textureHandle = this->_hudBack.textureHandle;
-		game->textureMgr.setTexture(this->_hudBack);
-		game->textureMgr.setTexture(this->_hudFull);
-		game->textureMgr.setTexture(this->_hudPart);
+		this->_hudScale.textureHandle = game->textureMgr.load(folder + "/hud.png");
+		this->_hudCursor.textureHandle = game->textureMgr.load(folder + "/cursor.png");
+		game->textureMgr.setTexture(this->_hudScale);
+		game->textureMgr.setTexture(this->_hudCursor);
 
-		auto size = game->textureMgr.getTextureSize(this->_hudBack.textureHandle);
+		auto size = game->textureMgr.getTextureSize(this->_hudScale.textureHandle);
 
-		this->_hudBack.setScale(0.25, 0.25);
-		this->_hudFull.setScale(0.25, 0.25);
-		this->_hudPart.setScale(0.25, 0.25);
-		this->_hudBack.setTextureRect({
-			0, 0,
-			static_cast<int>(size.x) / 2,
-			static_cast<int>(size.y) / 2
-		});
-		this->_hudFull.setTextureRect({
-			static_cast<int>(size.x) / 2,
-			0,
-			static_cast<int>(size.x) / 2,
-			static_cast<int>(size.y) / 2
-		});
-		this->_hudPart.setTextureRect({
-			0,
-			static_cast<int>(size.y) / 2,
-			static_cast<int>(size.x) / 2,
-			static_cast<int>(size.y) / 2
-		});
+		this->_hudScale.setPosition(SCALE_MIDDLE_X - size.x / 2, SCALE_POS_Y);
+		this->_hudCursor.setPosition(0, SCALE_POS_Y + size.y);
 	}
 
 	VictoriaStar::~VictoriaStar()
 	{
-		game->textureMgr.addRef(this->_hudBack.textureHandle);
+		game->textureMgr.remove(this->_hudScale.textureHandle);
+		game->textureMgr.remove(this->_hudCursor.textureHandle);
 	}
 
 	bool VictoriaStar::_startMove(unsigned int action)
@@ -94,6 +89,8 @@ namespace SpiralOfFate
 
 	void VictoriaStar::_tickMove()
 	{
+		if (this->_stacksTimer)
+			this->_stacksTimer--;
 		Character::_tickMove();
 		if ((this->_action == ACTION_CROUCHING || this->_action == ACTION_CROUCH) && !this->_flower) {
 			auto result = this->_spawnSubObject(*game->battleMgr, FLOWER_ID, true);
@@ -120,16 +117,20 @@ namespace SpiralOfFate
 	void VictoriaStar::copyToBuffer(void *data) const
 	{
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
-		unsigned i = 0;
+		size_t i;
 
 		Character::copyToBuffer(data);
 		game->logger.verbose("Saving VictoriaStar (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
 		dat->_hitShadow = this->_hitShadow;
 		dat->_stacks = this->_stacks;
+		dat->_stacksTimer = this->_stacksTimer;
 		dat->_flower = this->_flower && !this->_flower->second->isDead() ? this->_flower->first : 0;
-		dat->_nbShadows = this->_shadows.size();
-		for (auto &shadow : this->_shadows)
-			dat->_objects[i++] = shadow.first;
+		for (i = 0; i < this->_shadows.size(); i++) {
+			if (this->_shadows[i].first && this->_shadows[i].second)
+				dat->_shadows[i] = this->_shadows[i].first;
+			else
+				dat->_shadows[i] = 0;
+		}
 	}
 
 	void VictoriaStar::restoreFromBuffer(void *data)
@@ -137,18 +138,19 @@ namespace SpiralOfFate
 		Character::restoreFromBuffer(data);
 
 		auto dat = reinterpret_cast<Data *>((uintptr_t)data + Character::getBufferSize());
-		unsigned i = 0;
+		size_t i;
 
 		this->_hitShadow = dat->_hitShadow;
 		this->_stacks = dat->_stacks;
-		this->_shadows.clear();
+		this->_stacksTimer = dat->_stacksTimer;
 		if (dat->_flower == 0)
 			this->_flower.reset();
 		else
 			this->_flower = {dat->_flower, nullptr};
-		this->_shadows.reserve(dat->_nbShadows);
-		for (; i < dat->_nbShadows; i++)
-			this->_shadows.emplace_back(dat->_objects[i], nullptr);
+		for (i = 0; i < this->_shadows.size(); i++) {
+			this->_shadows[i].first = dat->_shadows[i];
+			this->_shadows[i].second.reset();
+		}
 		game->logger.verbose("Restored VictoriaStar @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -167,28 +169,69 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow) + " vs " + std::to_string(dat2->_hitShadow));
 		if (dat1->_stacks != dat2->_stacks)
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_stacks: " + std::to_string(dat1->_stacks) + " vs " + std::to_string(dat2->_stacks));
-		if (dat1->_nbShadows != dat2->_nbShadows)
-			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_nbShadows: " + std::to_string(dat1->_nbShadows) + " vs " + std::to_string(dat2->_nbShadows));
+		if (dat1->_stacksTimer != dat2->_stacksTimer)
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_stacksTimer: " + std::to_string(dat1->_stacksTimer) + " vs " + std::to_string(dat2->_stacksTimer));
 		if (dat1->_flower != dat2->_flower)
 			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_flower: " + std::to_string(dat1->_flower) + " vs " + std::to_string(dat2->_flower));
-		if (dat1->_nbShadows != dat2->_nbShadows)
-			return 0;
-		for (unsigned i = 0; i < dat1->_nbShadows; i++)
-			if (dat1->_objects[i] != dat2->_objects[i])
-				game->logger.fatal(std::string(msgStart) + "VictoriaStar::shadows[" + std::to_string(i) + "]: " + std::to_string(dat1->_objects[i]) + " vs " + std::to_string(dat2->_objects[i]));
-		return length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows;
+		if (dat1->_shadows[0] != dat2->_shadows[0])
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_shadows[0]: " + std::to_string(dat1->_shadows[0]) + " vs " + std::to_string(dat2->_shadows[0]));
+		if (dat1->_shadows[1] != dat2->_shadows[1])
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_shadows[1]: " + std::to_string(dat1->_shadows[1]) + " vs " + std::to_string(dat2->_shadows[1]));
+		if (dat1->_shadows[2] != dat2->_shadows[2])
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_shadows[0]: " + std::to_string(dat1->_shadows[2]) + " vs " + std::to_string(dat2->_shadows[0]));
+		if (dat1->_shadows[3] != dat2->_shadows[3])
+			game->logger.fatal(std::string(msgStart) + "VictoriaStar::_shadows[0]: " + std::to_string(dat1->_shadows[3]) + " vs " + std::to_string(dat2->_shadows[0]));
+		return length + sizeof(Data);
+	}
+
+	void VictoriaStar::update()
+	{
+		if (this->_currentForm != 1 && this->_stacks == 0) {
+			// this->_takeShadowForm();
+		} else if (this->_currentForm != 2 && this->_stacks == MAX_STACKS) {
+			// this->_takeFlowerForm();
+		} else if (this->_currentForm != 0 && this->_stacks > 0 && this->_stacks < MAX_STACKS) {
+			this->_moves = this->_neutralFormFramedata;
+			this->_forceStartMove(ACTION_IDLE);
+		}
+		Character::update();
 	}
 
 	void VictoriaStar::postUpdate()
 	{
+		float v = 0;
+
 		Character::postUpdate();
-		// Not using std::remove_if because it doesn't work with MSVC for some reasons
-		for (unsigned i = 0; i < this->_shadows.size(); i++)
-			if (this->_shadows[i].second->isDead()) {
-				if (this->_stacks < MAX_STACKS * SHADOW_PER_STACK)
-					this->_stacks += this->_shadows[i].second->wasOwnerKilled();
-				this->_shadows.erase(this->_shadows.begin() + i--);
-			}
+		for (auto &s : this->_shadows) {
+			if (!s.second)
+				continue;
+			if (s.second->isDead()) {
+				if (s.second->wasKilledByOwner())
+					v += STACK_PER_KILL;
+				s.second.reset();
+				s.first = 0;
+			} else if (this->_stacksTimer == 0)
+				v -= s.second->getCurrentPoints();
+		}
+
+		if (this->_stacks == 0 || this->_stacks == MAX_STACKS);
+		else if (v < 0) {
+			if (this->_stacks < -v)
+				this->_stacks = 0;
+			else if (this->_stacks >= MAX_STACKS * 3 / 4 && this->_stacks + v < MAX_STACKS * 3 / 4)
+				this->_stacks = MAX_STACKS * 3 / 4;
+			else
+				this->_stacks += v;
+		} else {
+			if (this->_stacks + v > MAX_STACKS)
+				this->_stacks = MAX_STACKS;
+			else if (this->_stacks <= MAX_STACKS / 4 && this->_stacks + v > MAX_STACKS / 4)
+				this->_stacks = MAX_STACKS / 4;
+			else
+				this->_stacks += v;
+		}
+		if (this->_stacksTimer == 0)
+			this->_stacksTimer = PASSIVE_STACK_PER_SHADOW_TIMER;
 	}
 
 	static std::map<std::string, Shadow *(*)(
@@ -205,6 +248,12 @@ namespace SpiralOfFate
 		{"matter", MatterShadow::create },
 		{"spirit", SpiritShadow::create },
 		{"void", VoidShadow::create },
+	};
+	static std::map<std::string, unsigned> shadowIndex{
+		{"neutral", 0 },
+		{"matter",  1 },
+		{"spirit",  2 },
+		{"void",    3 },
 	};
 
 	std::pair<unsigned int, std::shared_ptr<Object>> VictoriaStar::_spawnSubObject(BattleManager &manager, unsigned int id, bool needRegister)
@@ -262,9 +311,15 @@ namespace SpiralOfFate
 			}
 		}
 
+		std::string neutral = pdat.json["shadow"];
+		unsigned index = shadowIndex.at(neutral);
+
+		if (this->_shadows[index].first)
+			return {0, nullptr};
+
 		try {
 			unsigned tint = pdat.json["tint"];
-			auto obj = std::shared_ptr<Shadow>(shadowConstructors.at(pdat.json["shadow"])(
+			auto obj = std::shared_ptr<Shadow>(shadowConstructors.at(neutral)(
 				tint ? this->_shadowActions : this->_subObjectsData.at(ACTION_SHADOW),
 				pdat.json["hp"],
 				dir,
@@ -280,8 +335,8 @@ namespace SpiralOfFate
 
 			auto objectId = manager.registerObject(static_cast<std::shared_ptr<Object>>(obj));
 
-			this->_shadows.emplace_back(objectId, obj);
-			return {objectId, obj};
+			this->_shadows[index] = {objectId, obj};
+			return this->_shadows[index];
 		} catch (std::out_of_range &e) {
 			throw std::invalid_argument("Invalid shadow type '" + pdat.json["shadow"].get<std::string>() + "'");
 		}
@@ -299,8 +354,6 @@ namespace SpiralOfFate
 
 	bool VictoriaStar::_canStartMove(unsigned int action, const FrameData &data)
 	{
-		if ((action == ACTION_5A || action == ACTION_j5A) && this->_stacks < SHADOW_PER_STACK)
-			return false;
 		return Character::_canStartMove(action, data);
 	}
 
@@ -380,6 +433,9 @@ namespace SpiralOfFate
 			butterfly.second->_copy = &*this->_happyBufferFlies[i].second;
 		}
 		for (auto &shadow : this->_shadows) {
+			if (!shadow.first)
+				continue;
+
 			auto obj = manager.getObjectFromId(shadow.first);
 
 			shadow.second = std::shared_ptr<Shadow>(obj, reinterpret_cast<Shadow *>(&*obj));
@@ -396,14 +452,14 @@ namespace SpiralOfFate
 	{
 		Character::init(manager, data);
 		for (unsigned i = 0; i < this->_happyBufferFlies.size(); i++) {
-			auto result = this->_spawnSubObject(manager, 1000 + i, true);
+			auto result = this->_spawnSubObject(manager, BUTTERFLIES_START_ID + i, true);
 
 			this->_happyBufferFlies[i] = {
 				result.first,
 				reinterpret_cast<Butterfly *>(&*result.second)
 			};
 
-			result = this->_spawnSubObject(manager, 1000 + this->_happyBufferFlies.size() + i,true);
+			result = this->_spawnSubObject(manager, BUTTERFLIES_START_ID + this->_happyBufferFlies.size() + i,true);
 			this->_weirdBufferFlies[i] = {
 				result.first,
 				reinterpret_cast<Butterfly *>(&*result.second)
@@ -430,37 +486,16 @@ namespace SpiralOfFate
 				);
 			return;
 		}
-		if ((this->_action == ACTION_5A || this->_action == ACTION_j5A) && data->specialMarker) {
-			for (auto &shadow: this->_shadows)
-				shadow.second->activate();
-			this->_stacks -= SHADOW_PER_STACK;
-		}
 	}
 
 	void VictoriaStar::drawSpecialHUD(sf::RenderTarget &texture)
 	{
-		for (unsigned i = 0; i < MAX_STACKS; i++) {
-			if (this->_stacks >= (i + 1) * SHADOW_PER_STACK) {
-				this->_hudFull.setPosition(20 + 10 * i, 600);
-				texture.draw(this->_hudFull);
-				continue;
-			}
-			this->_hudBack.setPosition(20 + 10 * i, 600);
-			texture.draw(this->_hudBack);
-			if (this->_stacks <= i * SHADOW_PER_STACK)
-				continue;
-
-			auto size = game->textureMgr.getTextureSize(this->_hudPart.textureHandle);
-
-			this->_hudPart.setTextureRect({
-				0,
-				static_cast<int>(size.y) / 2,
-				static_cast<int>((size.x / 2) * (this->_stacks - i * SHADOW_PER_STACK)) / SHADOW_PER_STACK,
-				static_cast<int>(size.y)
-			});
-			this->_hudPart.setPosition(20 + 10 * i, 600);
-			texture.draw(this->_hudPart);
-		}
+		texture.draw(this->_hudScale);
+		this->_hudCursor.setPosition(
+			(SCALE_MIDDLE_X - SCALE_SIZE / 2) + (this->_stacks * SCALE_SIZE / MAX_STACKS) - game->textureMgr.getTextureSize(this->_hudCursor.textureHandle).x / 2,
+			this->_hudCursor.getPosition().y
+		);
+		texture.draw(this->_hudCursor);
 		Character::drawSpecialHUD(texture);
 	}
 
@@ -484,18 +519,16 @@ namespace SpiralOfFate
 		auto dat1 = reinterpret_cast<Data *>((uintptr_t)data + length);
 
 		game->logger.info("VictoriaStar @" + std::to_string(startOffset + length));
-		if (startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows >= dataSize)
-			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows - dataSize) + " bytes bigger than input");
+		if (startOffset + length + sizeof(Data) >= dataSize)
+			game->logger.warn("Object is " + std::to_string(startOffset + length + sizeof(Data) - dataSize) + " bytes bigger than input");
 		game->logger.info(std::string(msgStart) + "VictoriaStar::_hitShadow: " + std::to_string(dat1->_hitShadow));
 		game->logger.info(std::string(msgStart) + "VictoriaStar::_stacks: " + std::to_string(dat1->_stacks));
-		game->logger.info(std::string(msgStart) + "VictoriaStar::_nbShadows: " + std::to_string(dat1->_nbShadows));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_stacksTimer: " + std::to_string(dat1->_stacksTimer));
 		game->logger.info(std::string(msgStart) + "VictoriaStar::_flower: " + std::to_string(dat1->_flower));
-		for (unsigned i = 0; i < dat1->_nbShadows; i++)
-			game->logger.info(std::string(msgStart) + "VictoriaStar::shadows[" + std::to_string(i) + "]: " + std::to_string(dat1->_objects[i]));
-		if (startOffset + length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows >= dataSize) {
-			game->logger.fatal("Invalid input frame");
-			return 0;
-		}
-		return length + sizeof(Data) + sizeof(unsigned) * dat1->_nbShadows;
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_shadows[0]: " + std::to_string(dat1->_shadows[0]));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_shadows[1]: " + std::to_string(dat1->_shadows[1]));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_shadows[2]: " + std::to_string(dat1->_shadows[2]));
+		game->logger.info(std::string(msgStart) + "VictoriaStar::_shadows[3]: " + std::to_string(dat1->_shadows[3]));
+		return length + sizeof(Data);
 	}
 }

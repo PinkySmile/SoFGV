@@ -5,6 +5,12 @@
 #include "Shadow.hpp"
 #include "Resources/Game.hpp"
 
+#define SHADOW_FULL_MATURE_TIME 1800
+#define PASSIVE_STACK_TIME_MIN 60
+#define PASSIVE_STACK_PER_SHADOW_MIN 1.f
+#define PASSIVE_STACK_PER_SHADOW_MAX 2.f
+#define PASSIVE_STACK_PER_SHADOW_FULL 5.f
+
 namespace SpiralOfFate
 {
 	Shadow::Shadow(
@@ -49,7 +55,7 @@ namespace SpiralOfFate
 		auto byOwner = other.getTeam() == this->getOwner();
 		auto o = reinterpret_cast<Shadow *>(&other);
 
-		this->_ownerKilled |= byOwner;
+		this->_killedByOwner |= byOwner;
 		if (dmg >= this->_hp || o->getTeam() == this->getOwnerObj()->getTeam())
 			this->_die();
 		else
@@ -70,7 +76,7 @@ namespace SpiralOfFate
 	{
 		if (this->_actionBlock >= ANIMBLOCK_NORMAL_ACTIVATED)
 			return;
-		this->_ownerKilled = false;
+		this->_killedByOwner = false;
 		if (this->_actionBlock == ANIMBLOCK_DYING) {
 			this->_animationCtr = this->getCurrentFrameData()->duration - this->_animationCtr - 1;
 			this->_animation = this->_moves.at(this->_action)[this->_actionBlock].size() - this->_animation - 1;
@@ -93,7 +99,7 @@ namespace SpiralOfFate
 
 		Object::copyToBuffer(data);
 		game->logger.verbose("Saving Shadow (Data size: " + std::to_string(sizeof(Data)) + ") @" + std::to_string((uintptr_t)dat));
-		dat->_ownerKilled = this->_ownerKilled;
+		dat->_killedByOwner = this->_killedByOwner;
 		dat->_invincibleTime = this->_invincibleTime;
 		dat->_boxSize = this->_boxSize;
 		dat->_loopInfo = this->_loopInfo;
@@ -110,7 +116,7 @@ namespace SpiralOfFate
 		this->_boxSize = dat->_boxSize;
 		this->_loopInfo = dat->_loopInfo;
 		this->_idleCounter = dat->_idleCounter;
-		this->_ownerKilled = dat->_ownerKilled;
+		this->_killedByOwner = dat->_killedByOwner;
 		game->logger.verbose("Restored Shadow @" + std::to_string((uintptr_t)dat));
 	}
 
@@ -133,8 +139,8 @@ namespace SpiralOfFate
 			game->logger.fatal(std::string(msgStart) + "Shadow::_loopInfo: {" + std::to_string(dat1->_loopInfo.first) + "," + std::to_string(dat1->_loopInfo.second) + "} vs {" + std::to_string(dat2->_loopInfo.first) + "," + std::to_string(dat2->_loopInfo.second) + "}");
 		if (dat1->_idleCounter != dat2->_idleCounter)
 			game->logger.fatal(std::string(msgStart) + "Shadow::_idleCounter: " + std::to_string(dat1->_idleCounter) + " vs " + std::to_string(dat2->_idleCounter));
-		if (dat1->_ownerKilled != dat2->_ownerKilled)
-			game->logger.fatal(std::string(msgStart) + "Shadow::_ownerKilled: " + (dat1->_ownerKilled ? "true" : "false") + " vs " + (dat2->_ownerKilled ? "true" : "false"));
+		if (dat1->_killedByOwner != dat2->_killedByOwner)
+			game->logger.fatal(std::string(msgStart) + "Shadow::_killedByOwner: " + (dat1->_killedByOwner ? "true" : "false") + " vs " + (dat2->_killedByOwner ? "true" : "false"));
 		return length + sizeof(Data);
 	}
 
@@ -144,7 +150,7 @@ namespace SpiralOfFate
 			this->_hitStop--;
 			return;
 		}
-		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < 120;
+		this->_idleCounter += this->_actionBlock == ANIMBLOCK_IDLE && this->_idleCounter < SHADOW_FULL_MATURE_TIME;
 		this->_tickMove();
 		if (this->_invincibleTime)
 			this->_invincibleTime--;
@@ -166,17 +172,17 @@ namespace SpiralOfFate
 		auto data = this->getCurrentFrameData();
 
 		if (data->specialMarker == 0)
-			return Object::_applyNewAnimFlags();
+			return SubObject::_applyNewAnimFlags();
 		if (data->specialMarker == 1) {
 			this->_loopInfo.first = this->_animation;
-			return Object::_applyNewAnimFlags();
+			return SubObject::_applyNewAnimFlags();
 		}
 		if (this->_loopInfo.second == 0)
 			this->_loopInfo.second = data->specialMarker;
 		if (--this->_loopInfo.second == 0)
-			return Object::_applyNewAnimFlags();
+			return SubObject::_applyNewAnimFlags();
 		this->_animation = this->_loopInfo.first;
-		Object::_applyNewAnimFlags();
+		SubObject::_applyNewAnimFlags();
 	}
 
 	int Shadow::getLayer() const
@@ -184,9 +190,9 @@ namespace SpiralOfFate
 		return -100;
 	}
 
-	bool Shadow::wasOwnerKilled() const
+	bool Shadow::wasKilledByOwner() const
 	{
-		return this->_ownerKilled;
+		return this->_killedByOwner;
 	}
 
 	void Shadow::_computeFrameDataCache()
@@ -221,11 +227,20 @@ namespace SpiralOfFate
 		game->logger.info(std::string(msgStart) + "Shadow::_boxSize: " + std::to_string(dat1->_boxSize));
 		game->logger.info(std::string(msgStart) + "Shadow::_loopInfo: {" + std::to_string(dat1->_loopInfo.first) + "," + std::to_string(dat1->_loopInfo.second) + "}");
 		game->logger.info(std::string(msgStart) + "Shadow::_idleCounter: " + std::to_string(dat1->_idleCounter));
-		game->logger.info(std::string(msgStart) + "Shadow::_ownerKilled: " + (dat1->_ownerKilled ? "true" : "false"));
+		game->logger.info(std::string(msgStart) + "Shadow::_killedByOwner: " + (dat1->_killedByOwner ? "true" : "false"));
 		if (startOffset + length + sizeof(Data) >= dataSize) {
 			game->logger.fatal("Invalid input frame");
 			return 0;
 		}
 		return length + sizeof(Data);
+	}
+
+	float Shadow::getCurrentPoints() const
+	{
+		if (this->_idleCounter < PASSIVE_STACK_TIME_MIN)
+			return 0;
+		if (this->_idleCounter == SHADOW_FULL_MATURE_TIME)
+			return PASSIVE_STACK_PER_SHADOW_FULL;
+		return (this->_idleCounter * (PASSIVE_STACK_PER_SHADOW_MAX - PASSIVE_STACK_PER_SHADOW_MIN) / SHADOW_FULL_MATURE_TIME) + PASSIVE_STACK_PER_SHADOW_MIN;
 	}
 }
