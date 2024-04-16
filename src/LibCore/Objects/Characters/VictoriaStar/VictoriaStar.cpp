@@ -187,12 +187,17 @@ namespace SpiralOfFate
 	void VictoriaStar::update()
 	{
 		if (this->_currentForm != 1 && this->_stacks == 0) {
-			// this->_takeShadowForm();
+			this->_moves = this->_shadowFormFramedata;
+			this->_forceStartMove(ACTION_GAME_START1);
+			this->_currentForm = 1;
 		} else if (this->_currentForm != 2 && this->_stacks == MAX_STACKS) {
-			// this->_takeFlowerForm();
+			this->_moves = this->_flowerFormFramedata;
+			this->_forceStartMove(ACTION_GAME_START1);
+			this->_currentForm = 2;
 		} else if (this->_currentForm != 0 && this->_stacks > 0 && this->_stacks < MAX_STACKS) {
 			this->_moves = this->_neutralFormFramedata;
 			this->_forceStartMove(ACTION_IDLE);
+			this->_currentForm = 0;
 		}
 		Character::update();
 	}

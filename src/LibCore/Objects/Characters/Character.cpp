@@ -1304,6 +1304,8 @@ namespace SpiralOfFate
 
 		auto idleAction = this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING;
 
+		if (this->_action >= ACTION_WIN_MATCH1 && this->_action < ACTION_GROUND_HIGH_REVERSAL)
+			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 			return this->_forceStartMove(idleAction);
 		if (this->_action == ACTION_AIR_REVERSAL || this->_action == ACTION_GROUND_HIGH_REVERSAL || this->_action == ACTION_GROUND_LOW_REVERSAL)
