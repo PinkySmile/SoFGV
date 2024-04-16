@@ -46,8 +46,8 @@ namespace SpiralOfFate
 		this->_shadowFormFramedata = FrameData::loadFile(folder + "/flower_form_framedata.json", folder, palette);
 		this->_flowerFormFramedata = FrameData::loadFile(folder + "/shadow_form_framedata.json", folder, palette);
 
-		assert_exp(this->_shadowFormFramedata.find(ACTION_GAME_START1) != this->_subObjectsData.end());
-		assert_exp(this->_flowerFormFramedata.find(ACTION_GAME_START1) != this->_subObjectsData.end());
+		assert_exp(this->_shadowFormFramedata.find(ACTION_GAME_START1) != this->_shadowFormFramedata.end());
+		assert_exp(this->_flowerFormFramedata.find(ACTION_GAME_START1) != this->_flowerFormFramedata.end());
 
 		// Butterflies actions
 		assert_exp(this->_subObjectsData.find(ACTION_HAPPY_BUTTERFLY) != this->_subObjectsData.end());
