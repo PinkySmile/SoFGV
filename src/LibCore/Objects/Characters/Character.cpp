@@ -2370,7 +2370,7 @@ namespace SpiralOfFate
 			foundAtk |= atkInput(input);
 			found3 |= foundAtk && input.v < 0 && input.h > 0;
 			found2 |= found3 && input.v < 0 && !input.h;
-			found6 |= found2 && !input.v && input.h > 0;
+			found6 |= found2 && !input.v && input.h > 0 && input.nbFrames <= FIRST_INPUT_MAX;
 			if (found2 && found3 && found6)
 				return true;
 			total += input.nbFrames;
@@ -2394,7 +2394,7 @@ namespace SpiralOfFate
 			foundAtk |= atkInput(input);
 			found1 |= foundAtk && input.v < 0 && input.h < 0;
 			found2 |= found1 && input.v < 0 && !input.h;
-			found4 |= found2 && !input.v && input.h < 0;
+			found4 |= found2 && !input.v && input.h < 0 && input.nbFrames <= FIRST_INPUT_MAX;
 			if (found2 && found1 && found4)
 				return true;
 			total += input.nbFrames;
