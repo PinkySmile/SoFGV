@@ -1,6 +1,6 @@
 {
   "class": 1,
-  "hp":20000,
+  "hp":1,
   "mana_max":2000,
   "mana_start":200,
   "mana_regen":0.00005,

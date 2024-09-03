@@ -34,7 +34,6 @@ namespace SpiralOfFate
 		if (this->_action == ACTION_WIN_MATCH2 && this->_actionBlock == 1) {
 			this->_actionBlock++;
 			assert(this->_moves.at(this->_action).size() != this->_actionBlock);
-			return Character::_onMoveEnd(lastData);
 		}
 		Character::_onMoveEnd(lastData);
 	}
