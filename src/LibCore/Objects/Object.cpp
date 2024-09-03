@@ -285,6 +285,8 @@ namespace SpiralOfFate
 			return false;
 		if (oData->dFlag.neutralInvul && neutral)
 			return false;
+		if ((oData->dFlag.spiritInvul || oData->dFlag.voidInvul || oData->dFlag.matterInvul || oData->dFlag.neutralInvul) && !neutral)
+			return false;
 
 		auto hurtBoxes = other._getModifiedHurtBoxes();
 		auto hitBoxes = this->_getModifiedHitBoxes();
