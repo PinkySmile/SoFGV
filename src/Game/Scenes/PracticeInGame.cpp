@@ -114,14 +114,14 @@ namespace SpiralOfFate
 			return;
 		if (this->_practice)
 			return this->_practiceRender();
-		game->screen->displayElement({340 - 50, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Mode", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Mode", {340 - 50 + STAGE_X_MIN, 245 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = 0; i < sizeof(PracticeInGame::_menuStrings) / sizeof(*PracticeInGame::_menuStrings); i++) {
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
-			game->screen->displayElement(PracticeInGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
+			game->screen->displayElement(PracticeInGame::_menuStrings[i], {350 - 50 + STAGE_X_MIN, 285 - 600 + 25.f * i});
 		}
 		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
@@ -269,16 +269,16 @@ namespace SpiralOfFate
 		values[10]= this->manaStateToString();
 		values[11]= vals[this->_inputDisplay];
 
-		game->screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 190 - 600, 400, 50 + 25 * (sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Options", {340 - 50, 195 - 600}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Options", {340 - 50 + STAGE_X_MIN, 195 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = 0; i < sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings); i++) {
 			char buffer[0x400];
 
 			sprintf(buffer, PracticeInGame::_practiceMenuStrings[i], values[i]);
 			game->screen->fillColor(i == this->_practiceCursor ? sf::Color::Yellow : sf::Color::White);
-			game->screen->displayElement(buffer, {350 - 50, 235 - 600 + 25.f * i});
+			game->screen->displayElement(buffer, {350 - 50 + STAGE_X_MIN, 235 - 600 + 25.f * i});
 		}
 		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
@@ -476,7 +476,7 @@ namespace SpiralOfFate
 
 	void PracticeInGame::render() const
 	{
-		ViewPort view{{-50, -600, 1100, 700}};
+		ViewPort view{{STAGE_X_MIN - 50, -600, 1100, 700}};
 
 		game->screen->setView(view);
 		game->battleMgr->render();

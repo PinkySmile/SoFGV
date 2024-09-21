@@ -265,7 +265,7 @@ namespace SpiralOfFate
 
 		auto *oData = other.getCurrentFrameData();
 		auto *mData = this->getCurrentFrameData();
-		auto neutral= mData->oFlag.matterElement && mData->oFlag.voidElement && mData->oFlag.spiritElement;
+		auto neutral = mData->oFlag.matterElement && mData->oFlag.voidElement && mData->oFlag.spiritElement;
 
 		if (mData->hitBoxes.empty() || oData->hurtBoxes.empty())
 			return false;

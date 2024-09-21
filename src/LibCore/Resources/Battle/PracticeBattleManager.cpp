@@ -53,7 +53,7 @@ namespace SpiralOfFate
 		BattleManager::render();
 		if (this->_showBoxes) {
 			game->screen->borderColor(2, sf::Color::White);
-			game->screen->displayElement({0, 0, 1000, -1000}, sf::Color::Transparent);
+			game->screen->displayElement({STAGE_X_MIN, -STAGE_Y_MIN, STAGE_X_MAX - STAGE_X_MIN, STAGE_Y_MIN - STAGE_Y_MAX}, sf::Color::Transparent);
 			game->screen->borderColor(0, sf::Color::Transparent);
 		}
 		this->_displayFrameStuff();

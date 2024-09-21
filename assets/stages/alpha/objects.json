@@ -3,7 +3,7 @@
     "class":0,
     "framedata":"assets/stages/alpha/sun.json",
     "action":0,
-    "x":-20,
+    "x":-520,
     "y":500,
     "team":2,
     "dir":false
@@ -12,7 +12,7 @@
     "class":0,
     "framedata":"assets/stages/alpha/sun.json",
     "action":1,
-    "x":-20,
+    "x":-520,
     "y":500,
     "team":2,
     "dir":false
@@ -20,7 +20,7 @@
   {
     "class":1,
     "framedata":"assets/stages/alpha/clouds.json",
-    "x":200,
+    "x":-300,
     "y":400,
     "maxY":500,
     "minY":350,
@@ -32,7 +32,7 @@
   {
     "class":1,
     "framedata":"assets/stages/alpha/clouds.json",
-    "x":400,
+    "x":-100,
     "y":400,
     "maxY":500,
     "minY":350,
@@ -44,7 +44,7 @@
   {
     "class":1,
     "framedata":"assets/stages/alpha/clouds.json",
-    "x":600,
+    "x":100,
     "y":400,
     "maxY":500,
     "minY":350,
@@ -56,7 +56,7 @@
   {
     "class":1,
     "framedata":"assets/stages/alpha/clouds.json",
-    "x":800,
+    "x":300,
     "y":400,
     "maxY":500,
     "minY":350,

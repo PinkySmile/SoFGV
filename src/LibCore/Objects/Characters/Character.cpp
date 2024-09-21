@@ -749,9 +749,9 @@ namespace SpiralOfFate
 		this->_backDrift = data.backDrift;
 		this->_frontDrift = data.frontDrift;
 		if (data.side)
-			this->_position = {200, 0};
+			this->_position = {-300, 0};
 		else
-			this->_position = {800, 0};
+			this->_position = {300, 0};
 	}
 
 	void Character::consumeEvent(const sf::Event &event)

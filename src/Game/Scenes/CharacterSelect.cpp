@@ -401,7 +401,7 @@ namespace SpiralOfFate
 				platform.data.textureBounds.size.y * scale2.y / 2
 			};
 			sprite.setOrigin(platform.data.textureBounds.size / 2.f);
-			sprite.setPosition({(result.x + 50) * scale.x, (result.y + 600) * scale.y});
+			sprite.setPosition({(result.x + 50 - STAGE_X_MIN) * scale.x, (result.y + 600) * scale.y});
 			sprite.setScale({scale.x * scale2.x, scale.y * scale2.y});
 			sprite.textureHandle = platform.data.textureHandle;
 			sprite.setTextureRect(platform.data.textureBounds);

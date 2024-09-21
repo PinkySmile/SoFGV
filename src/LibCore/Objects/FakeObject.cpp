@@ -4,6 +4,7 @@
 
 #include "FakeObject.hpp"
 #include "Objects/Characters/Character.hpp"
+#include "Resources/Battle/BattleManager.hpp"
 
 SpiralOfFate::FakeObject::FakeObject(const std::map<unsigned int, std::vector<std::vector<FrameData>>> &frameData)
 {
@@ -15,7 +16,7 @@ void SpiralOfFate::FakeObject::render() const
 {
 	auto oldPos = this->_position;
 
-	const_cast<FakeObject *>(this)->_position = {700 , 190};
+	const_cast<FakeObject *>(this)->_position = {700 + STAGE_X_MIN, 190};
 	Object::render();
 	const_cast<FakeObject *>(this)->_position = oldPos;
 }
@@ -31,7 +32,7 @@ void SpiralOfFate::FakeObject::_onMoveEnd(const SpiralOfFate::FrameData &lastDat
 	if (this->_action == ACTION_CROUCHING)
 		return this->_forceStartMove(ACTION_CROUCH);
 
-	auto idleAction = this->_isGrounded() ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING;
+	auto idleAction = !lastData.dFlag.airborne ? (lastData.dFlag.crouch ? ACTION_CROUCH : ACTION_IDLE) : ACTION_FALLING;
 
 	if (this->_action == ACTION_BACKWARD_AIR_TECH || this->_action == ACTION_FORWARD_AIR_TECH || this->_action == ACTION_UP_AIR_TECH || this->_action == ACTION_DOWN_AIR_TECH)
 		return this->_forceStartMove(idleAction);

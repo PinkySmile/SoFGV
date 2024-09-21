@@ -185,7 +185,7 @@ namespace SpiralOfFate
 
 	void InGame::render() const
 	{
-		ViewPort view{{-50, -600, 1100, 700}};
+		ViewPort view{{STAGE_X_MIN - 50, -600, 1100, 700}};
 
 		game->screen->setView(view);
 		game->battleMgr->render();
@@ -252,14 +252,14 @@ namespace SpiralOfFate
 	{
 		if (this->_paused == 3)
 			return;
-		game->screen->displayElement({340 - 50, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 240 - 600, 400, 175}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50 + STAGE_X_MIN, 245 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = 0; i < sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings); i++) {
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
-			game->screen->displayElement(InGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
+			game->screen->displayElement(InGame::_menuStrings[i], {350 - 50 + STAGE_X_MIN, 285 - 600 + 25.f * i});
 		}
 		game->screen->fillColor(sf::Color::White);
 		game->screen->textSize(30);
@@ -371,15 +371,15 @@ namespace SpiralOfFate
 		};
 
 		sprite.setScale(0.5f, 0.5f);
-		game->screen->displayElement({140 - 50, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
+		game->screen->displayElement({140 - 50 + STAGE_X_MIN, 10 - 600, 800, 680}, sf::Color{0x50, 0x50, 0x50, 0xF0});
 
 		game->screen->textSize(20);
-		game->screen->displayElement(title, {140 - 50, 15 - 600}, 800, Screen::ALIGN_CENTER);
+		game->screen->displayElement(title, {140 - 50 + STAGE_X_MIN, 15 - 600}, 800, Screen::ALIGN_CENTER);
 		game->screen->textSize(15);
 		if (this->_moveListTop > 0)
-			game->screen->displayElement("^^^^^^^^", {140 - 50, 50 - 600}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("^^^^^^^^", {140 - 50 + STAGE_X_MIN, 50 - 600}, 400, Screen::ALIGN_CENTER);
 		if (this->_moveListTop < this->_moveListCursorMax - 10 && this->_moveListCursorMax > 10)
-			game->screen->displayElement("VVVVVVVV", {140 - 50, 670 - 600}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("VVVVVVVV", {140 - 50 + STAGE_X_MIN, 670 - 600}, 400, Screen::ALIGN_CENTER);
 		for (size_t i = this->_moveListTop, k = 0; i < this->_moveOrder.size() && k < 10; i++) {
 			auto move = this->_moveList->find(this->_moveOrder[i]);
 
@@ -392,7 +392,7 @@ namespace SpiralOfFate
 			if (data == this->_moveData.end())
 				continue;
 
-			Vector2f pos{150 - 50, 70 - 600 + k * 60.f};
+			Vector2f pos{150 - 50 + STAGE_X_MIN, 70 - 600 + k * 60.f};
 			auto prio = relevent->getAttackTier(this->_moveOrder[i]);
 
 			k++;
@@ -438,7 +438,7 @@ namespace SpiralOfFate
 				}
 			}
 		}
-		game->screen->displayElement({590 - 50, 75 - 600, 300, 360}, sf::Color::White);
+		game->screen->displayElement({590 - 50 + STAGE_X_MIN, 75 - 600, 300, 360}, sf::Color::White);
 		for (int x = -static_cast<int>(this->_moveListObject->_position.x) % 16, i = 0; x < 300; x += 16, i++) {
 			bool color = static_cast<int>((this->_moveListObject->_position.x + x) / 16) % 2 == 1;
 
@@ -462,7 +462,7 @@ namespace SpiralOfFate
 				} else if (x > 284)
 					size.x -= x - 284;
 				game->screen->displayElement({
-					590 - 50 + pos.x,
+					590 - 50 + pos.x + STAGE_X_MIN,
 					75 - 600 + pos.y,
 					size.x, size.y
 				}, color ? sf::Color{0xA0, 0xA0, 0xA0} : sf::Color::White);

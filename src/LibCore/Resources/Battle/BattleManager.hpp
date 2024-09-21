@@ -10,8 +10,8 @@
 #include "Objects/Platform.hpp"
 #include "Resources/Assets/MoveListData.hpp"
 
-#define STAGE_X_MIN 0
-#define STAGE_X_MAX 1000
+#define STAGE_X_MIN (-500)
+#define STAGE_X_MAX 500
 #define STAGE_Y_MIN 0
 #define STAGE_Y_MAX 750
 

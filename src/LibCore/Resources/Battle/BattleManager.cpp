@@ -69,7 +69,7 @@ namespace SpiralOfFate
 
 		//TODO: Move this in another function
 		this->_stage.textureHandle = game->textureMgr.load(stage.path);
-		this->_stage.setPosition({-50, -600});
+		this->_stage.setPosition({STAGE_X_MIN - 50, -600});
 		for (auto object : stage.objects())
 			this->_stageObjects.emplace_back(object);
 		for (auto object : stage.platforms())
@@ -165,6 +165,7 @@ namespace SpiralOfFate
 		assert_exp(this->_leftHUD.create(550, 700));
 		assert_exp(this->_rightHUD.create(550, 700));
 		assert_exp(this->_hud.create(1100, 700));
+		this->_hud;
 	}
 
 	BattleManager::~BattleManager()
@@ -242,7 +243,7 @@ namespace SpiralOfFate
 
 		this->_hud.display();
 		sprite.setScale(1, 1);
-		sprite.setPosition(-50, -600);
+		sprite.setPosition(STAGE_X_MIN - 50, -600);
 		sprite.setTexture(this->_hud.getTexture(), true);
 		game->screen->draw(sprite);
 
@@ -269,7 +270,7 @@ namespace SpiralOfFate
 			game->screen->borderColor(2, sf::Color::Black);
 			game->screen->fillColor(sf::Color::White);
 			game->screen->textSize(20);
-			game->screen->displayElement(buffer, {900, 50}, 145, Screen::ALIGN_RIGHT);
+			game->screen->displayElement(buffer, {900 + STAGE_X_MIN, 50}, 145, Screen::ALIGN_RIGHT);
 			game->screen->textSize(30);
 			game->screen->borderColor(0, sf::Color::Transparent);
 		}
@@ -387,7 +388,7 @@ namespace SpiralOfFate
 			this->_roundSprite.getTexture()->getSize().x / 2.f,
 			this->_roundSprite.getTexture()->getSize().y / 2.f
 		);
-		this->_roundSprite.setPosition({500, -250});
+		this->_roundSprite.setPosition({(STAGE_X_MIN + STAGE_X_MAX) / 2.f + STAGE_X_MIN, -250});
 		this->_roundEndTimer++;
 	}
 
@@ -432,7 +433,7 @@ namespace SpiralOfFate
 			this->_roundSprite.getTexture()->getSize().x / 2.f,
 			this->_roundSprite.getTexture()->getSize().y / 2.f
 		);
-		this->_roundSprite.setPosition({500, -250});
+		this->_roundSprite.setPosition({0, -250});
 		this->_roundStartTimer++;
 	}
 
@@ -894,12 +895,12 @@ namespace SpiralOfFate
 
 	void BattleManager::renderLeftInputs()
 	{
-		this->_renderInputs(this->_leftCharacter->getReplayData(), {-50, -495}, false);
+		this->_renderInputs(this->_leftCharacter->getReplayData(), {-50 + STAGE_X_MIN, -495}, false);
 	}
 
 	void BattleManager::renderRightInputs()
 	{
-		this->_renderInputs(this->_rightCharacter->getReplayData(), {900, -495}, true);
+		this->_renderInputs(this->_rightCharacter->getReplayData(), {STAGE_X_MAX - 100, -495}, true);
 	}
 
 	void BattleManager::_renderButton(unsigned spriteId, float offset, int k, Vector2f pos)

@@ -60,6 +60,7 @@ namespace SpiralOfFate
 		this->_direction = random_distrib(game->battleRandom, 0, 2);
 		this->_dir = this->_direction ? 1 : -1;
 		this->_speed.x = -random_distrib(game->battleRandom, this->_minSpeed, this->_maxSpeed);
+		this->_rotation = 0;
 	}
 
 	void Cloud::_refresh()
@@ -86,8 +87,7 @@ namespace SpiralOfFate
 		};
 
 		this->_reload();
-		this->_position.x = 1200 - result.x + size.x;
-		//TODO:
+		this->_position.x = STAGE_X_MAX + 200 - result.x + size.x;
 		this->_position.y = random_distrib(game->battleRandom, this->_minY, this->_maxY);
 	}
 

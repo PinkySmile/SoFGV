@@ -156,10 +156,10 @@ namespace SpiralOfFate
 		}
 		PracticeInGame::render();
 
-		game->screen->displayElement({400, 0, 200, 20}, sf::Color::White);
-		game->screen->displayElement({400, 0, static_cast<int>(200.f * game->battleMgr->getCurrentFrame() / this->_startTime), 20}, sf::Color::Black);
+		game->screen->displayElement({400 + STAGE_X_MIN, 0, 200, 20}, sf::Color::White);
+		game->screen->displayElement({400 + STAGE_X_MIN, 0, static_cast<int>(200.f * game->battleMgr->getCurrentFrame() / this->_startTime), 20}, sf::Color::Black);
 		game->screen->textSize(15);
-		game->screen->displayElement(std::to_string(game->battleMgr->getCurrentFrame()) + "/" + std::to_string(this->_startTime) + " frames", {400, 20}, 200, Screen::ALIGN_CENTER);
+		game->screen->displayElement(std::to_string(game->battleMgr->getCurrentFrame()) + "/" + std::to_string(this->_startTime) + " frames", {400 + STAGE_X_MIN, 20}, 200, Screen::ALIGN_CENTER);
 		game->screen->textSize(30);
 	}
 

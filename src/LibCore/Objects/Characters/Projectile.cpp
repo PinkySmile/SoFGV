@@ -173,10 +173,10 @@ namespace SpiralOfFate
 		}
 		Object::update();
 		this->_dead |=
-			this->_position.x < -300 ||
-			this->_position.x > 1300 ||
-			this->_position.y < -300 ||
-			this->_position.y > 1300;
+			this->_position.x < STAGE_X_MIN - 300 ||
+			this->_position.x > STAGE_X_MAX + 300 ||
+			this->_position.y > STAGE_Y_MAX + 300 ||
+			this->_position.y < STAGE_Y_MIN - 300;
 	}
 
 	unsigned int Projectile::getBufferSize() const
