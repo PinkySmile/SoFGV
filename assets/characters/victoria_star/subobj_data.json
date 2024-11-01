@@ -13,9 +13,9 @@
               "width": 35
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -35,9 +35,9 @@
               "width": 53
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -57,9 +57,9 @@
               "width": 99
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -81,9 +81,9 @@
               "width": 122
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -103,9 +103,9 @@
               "width": 122
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -119,9 +119,9 @@
       [
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -133,9 +133,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -147,9 +147,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -161,9 +161,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -177,9 +177,9 @@
       [
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -191,9 +191,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -205,9 +205,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -219,9 +219,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -235,9 +235,9 @@
       [
         {
           "duration": 4,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -249,9 +249,9 @@
         },
         {
           "duration": 4,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -263,9 +263,9 @@
         },
         {
           "duration": 6,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -302,9 +302,9 @@
           "neutral_limit": 20,
           "prorate": 90.0,
           "push_block": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -340,9 +340,9 @@
           "neutral_limit": 20,
           "prorate": 90.0,
           "push_block": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -355,9 +355,9 @@
         {
           "duration": 8,
           "marker": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -369,9 +369,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -383,9 +383,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -407,9 +407,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -429,9 +429,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -451,9 +451,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -494,9 +494,9 @@
           "offense_flag": 704,
           "prorate": 90.0,
           "push_block": 2,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -536,9 +536,9 @@
           "offense_flag": 704,
           "prorate": 90.0,
           "push_block": 2,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -551,9 +551,9 @@
         {
           "duration": 8,
           "marker": 15,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -565,9 +565,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -579,9 +579,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -603,9 +603,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -625,9 +625,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -647,9 +647,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -685,9 +685,9 @@
           "marker": 1,
           "prorate": 90.0,
           "push_block": 4,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -724,9 +724,9 @@
           "marker": 1,
           "prorate": 90.0,
           "push_block": 4,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -740,9 +740,9 @@
         {
           "duration": 8,
           "marker": 7,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -754,9 +754,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -768,9 +768,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -792,9 +792,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -814,9 +814,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -836,9 +836,9 @@
               "width": 123
             }
           ],
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -877,9 +877,9 @@
           "offense_flag": 8192,
           "prorate": 90.0,
           "push_block": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -916,9 +916,9 @@
           "matter_limit": 10,
           "prorate": 90.0,
           "push_block": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -931,9 +931,9 @@
         {
           "duration": 8,
           "marker": 10,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -945,9 +945,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -959,9 +959,9 @@
         },
         {
           "duration": 8,
-          "size": {
-            "x": 256,
-            "y": 256
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "shadow_victoria_star.png",
           "texture_bounds": {
@@ -980,9 +980,9 @@
       [
         {
           "duration": 2,
-          "size": {
-            "x": 14,
-            "y": 30
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -994,9 +994,9 @@
         },
         {
           "duration": 2,
-          "size": {
-            "x": 14,
-            "y": 30
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1012,9 +1012,9 @@
             "x": 6,
             "y": 0
           },
-          "size": {
-            "x": 22,
-            "y": 36
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1030,9 +1030,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 22,
-            "y": 44
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1048,9 +1048,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 28,
-            "y": 50
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1066,9 +1066,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 38,
-            "y": 64
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1084,9 +1084,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 40,
-            "y": 82
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1104,9 +1104,9 @@
             "x": 16,
             "y": 0
           },
-          "size": {
-            "x": 42,
-            "y": 86
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1124,9 +1124,9 @@
             "x": 14,
             "y": 0
           },
-          "size": {
-            "x": 40,
-            "y": 82
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1142,9 +1142,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 38,
-            "y": 64
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1160,9 +1160,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 28,
-            "y": 50
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1178,9 +1178,9 @@
             "x": 8,
             "y": 0
           },
-          "size": {
-            "x": 22,
-            "y": 44
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1196,9 +1196,9 @@
             "x": 6,
             "y": 0
           },
-          "size": {
-            "x": 22,
-            "y": 36
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1210,9 +1210,9 @@
         },
         {
           "duration": 2,
-          "size": {
-            "x": 14,
-            "y": 30
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1224,9 +1224,9 @@
         },
         {
           "duration": 2,
-          "size": {
-            "x": 14,
-            "y": 30
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1279,9 +1279,9 @@
           },
           "prorate": 90.0,
           "push_block": 7,
-          "size": {
-            "x": 146,
-            "y": 118
+          "scale": {
+            "x": 2.0,
+            "y": 2.185185194015503
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1328,9 +1328,9 @@
           },
           "prorate": 90.0,
           "push_block": 7,
-          "size": {
-            "x": 174,
-            "y": 144
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1376,9 +1376,9 @@
             "y": -28
           },
           "prorate": 90.0,
-          "size": {
-            "x": 194,
-            "y": 172
+          "scale": {
+            "x": 2.0,
+            "y": 2.023529529571533
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1424,9 +1424,9 @@
             "y": -26
           },
           "prorate": 90.0,
-          "size": {
-            "x": 182,
-            "y": 164
+          "scale": {
+            "x": 1.9569892883300781,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1472,9 +1472,9 @@
           },
           "prorate": 90.0,
           "rotation": 8.960000006483545,
-          "size": {
-            "x": 182,
-            "y": 202
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "subobject": 4,
@@ -1521,9 +1521,9 @@
           },
           "prorate": 90.0,
           "rotation": 13.440000616853244,
-          "size": {
-            "x": 182,
-            "y": 202
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1552,9 +1552,9 @@
             "x": -47,
             "y": 0
           },
-          "size": {
-            "x": 10,
-            "y": 6
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1577,9 +1577,9 @@
             "x": -1,
             "y": -27
           },
-          "size": {
-            "x": 68,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1595,9 +1595,9 @@
             "x": 2,
             "y": -26
           },
-          "size": {
-            "x": 48,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1615,9 +1615,9 @@
             "x": -1,
             "y": -27
           },
-          "size": {
-            "x": 68,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1633,9 +1633,9 @@
             "x": 2,
             "y": -26
           },
-          "size": {
-            "x": 72,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1681,9 +1681,9 @@
           },
           "prorate": 87.0,
           "push_block": 6,
-          "size": {
-            "x": 68,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -1733,9 +1733,9 @@
           },
           "prorate": 87.0,
           "push_block": 6,
-          "size": {
-            "x": 48,
-            "y": 68
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": 0.0,
@@ -1764,9 +1764,9 @@
             "x": 0,
             "y": -25
           },
-          "size": {
-            "x": 58,
-            "y": 60
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1782,9 +1782,9 @@
             "x": 0,
             "y": -22
           },
-          "size": {
-            "x": 38,
-            "y": 61
+          "scale": {
+            "x": 2.0,
+            "y": 1.9677419662475586
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1802,9 +1802,9 @@
             "x": -2,
             "y": -25
           },
-          "size": {
-            "x": 60,
-            "y": 58
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1820,9 +1820,9 @@
             "x": -3,
             "y": -21
           },
-          "size": {
-            "x": 64,
-            "y": 54
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1840,9 +1840,9 @@
             "x": -2,
             "y": -25
           },
-          "size": {
-            "x": 60,
-            "y": 58
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1858,9 +1858,9 @@
             "x": -2,
             "y": -25
           },
-          "size": {
-            "x": 60,
-            "y": 58
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1886,9 +1886,9 @@
             "y": 0
           },
           "push_block": 7,
-          "size": {
-            "x": 20,
-            "y": 32
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1906,9 +1906,9 @@
             "x": 20,
             "y": 0
           },
-          "size": {
-            "x": 38,
-            "y": 64
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1938,9 +1938,9 @@
             "y": 0
           },
           "prorate": 90.0,
-          "size": {
-            "x": 50,
-            "y": 100
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -1959,9 +1959,9 @@
             "y": 0
           },
           "rotation": 0.8400000385533277,
-          "size": {
-            "x": 80,
-            "y": 122
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -2010,9 +2010,9 @@
           },
           "prorate": 85.0,
           "push_block": -2,
-          "size": {
-            "x": 84,
-            "y": 144
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
@@ -2031,9 +2031,9 @@
             "x": 25,
             "y": 0
           },
-          "size": {
-            "x": 84,
-            "y": 144
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -2082,9 +2082,9 @@
           },
           "prorate": 85.0,
           "push_block": 3,
-          "size": {
-            "x": 88,
-            "y": 164
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
@@ -2151,9 +2151,9 @@
           },
           "prorate": 85.0,
           "push_block": 1,
-          "size": {
-            "x": 100,
-            "y": 72
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -2204,9 +2204,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 98,
-            "y": 80
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2253,9 +2253,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 84,
-            "y": 74
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2302,9 +2302,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 98,
-            "y": 80
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2351,9 +2351,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 84,
-            "y": 74
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2400,9 +2400,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 98,
-            "y": 80
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2449,9 +2449,9 @@
           },
           "prorate": 85.0,
           "push_block": 6,
-          "size": {
-            "x": 84,
-            "y": 74
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "speed": {
             "x": -2.0,
@@ -2481,9 +2481,9 @@
             "x": 23,
             "y": 9
           },
-          "size": {
-            "x": 72,
-            "y": 28
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -2501,9 +2501,9 @@
             "x": 48,
             "y": -3
           },
-          "size": {
-            "x": 118,
-            "y": 80
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
@@ -2547,9 +2547,9 @@
           },
           "prorate": 80.0,
           "push_block": 2,
-          "size": {
-            "x": 152,
-            "y": 94
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
@@ -2595,9 +2595,9 @@
           },
           "prorate": 80.0,
           "push_block": 2,
-          "size": {
-            "x": 156,
-            "y": 108
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
           },
           "spirit_limit": 20,
           "sprite": "sheet_tmp.png",
@@ -2608,6 +2608,1056 @@
             "width": 78
           },
           "untech": 18
+        }
+      ]
+    ]
+  },
+  {
+    "action": 10,
+    "framedata": [
+      [
+        {
+          "block_opponent_hit_stop": 7,
+          "block_player_hit_stop": 7,
+          "block_stun": 10,
+          "counter_hit_speed": {
+            "x": 6.0,
+            "y": 0.0
+          },
+          "damage": 500,
+          "defense_flag": 512,
+          "duration": 4,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 41,
+              "left": 19,
+              "top": -71,
+              "width": 22
+            }
+          ],
+          "hit_opponent_hit_stop": 7,
+          "hit_player_hit_stop": 7,
+          "hit_speed": {
+            "x": 4.0,
+            "y": 0.0
+          },
+          "hit_stun": 12,
+          "mana_gain": 10,
+          "neutral_limit": 10,
+          "offset": {
+            "x": 30,
+            "y": 40
+          },
+          "prorate": 80.0,
+          "scale": {
+            "x": 3.0,
+            "y": 3.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 8,
+            "left": 9,
+            "top": 469,
+            "width": 4
+          },
+          "wrong_block_stun": 15
+        },
+        {
+          "block_opponent_hit_stop": 7,
+          "block_player_hit_stop": 7,
+          "block_stun": 10,
+          "counter_hit_speed": {
+            "x": 6.0,
+            "y": 0.0
+          },
+          "damage": 500,
+          "defense_flag": 512,
+          "duration": 4,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 53,
+              "left": 19,
+              "top": -83,
+              "width": 22
+            }
+          ],
+          "hit_opponent_hit_stop": 7,
+          "hit_player_hit_stop": 7,
+          "hit_speed": {
+            "x": 4.0,
+            "y": 0.0
+          },
+          "hit_stun": 12,
+          "mana_gain": 10,
+          "neutral_limit": 10,
+          "offset": {
+            "x": 30,
+            "y": 40
+          },
+          "prorate": 80.0,
+          "scale": {
+            "x": 3.0,
+            "y": 3.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 12,
+            "left": 9,
+            "top": 469,
+            "width": 4
+          },
+          "wrong_block_stun": 15
+        },
+        {
+          "block_opponent_hit_stop": 7,
+          "block_player_hit_stop": 7,
+          "block_stun": 10,
+          "counter_hit_speed": {
+            "x": 6.0,
+            "y": 0.0
+          },
+          "damage": 500,
+          "defense_flag": 512,
+          "duration": 4,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 41,
+              "left": 19,
+              "top": -71,
+              "width": 22
+            }
+          ],
+          "hit_opponent_hit_stop": 7,
+          "hit_player_hit_stop": 7,
+          "hit_speed": {
+            "x": 4.0,
+            "y": 0.0
+          },
+          "hit_stun": 12,
+          "mana_gain": 10,
+          "neutral_limit": 10,
+          "offset": {
+            "x": 30,
+            "y": 40
+          },
+          "prorate": 80.0,
+          "scale": {
+            "x": 3.0,
+            "y": 3.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 8,
+            "left": 9,
+            "top": 469,
+            "width": 4
+          },
+          "wrong_block_stun": 15
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 162,
+              "left": -65,
+              "top": -175,
+              "width": 122
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 0,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 162,
+              "left": -65,
+              "top": -175,
+              "width": 122
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 128,
+            "top": 0,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 256,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 128,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 128,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 0,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 128,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 256,
+            "top": 128,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 4,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 0,
+            "width": 128
+          }
+        },
+        {
+          "duration": 4,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 0,
+            "width": 128
+          }
+        },
+        {
+          "duration": 6,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 0,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 15,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 13.0,
+            "y": 0.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "marker": 1,
+          "neutral_limit": 20,
+          "prorate": 90.0,
+          "push_block": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 0,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 15,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 13.0,
+            "y": 0.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "neutral_limit": 20,
+          "prorate": 90.0,
+          "push_block": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "marker": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 128,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 128,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "duration": 10,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "counter_hit_speed": {
+            "x": 6.0,
+            "y": -45.0
+          },
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 35,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 4.0,
+            "y": -30.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 10,
+          "marker": 1,
+          "offense_flag": 704,
+          "prorate": 90.0,
+          "push_block": 2,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 256,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 15,
+          "block_player_hit_stop": 15,
+          "block_stun": 10,
+          "counter_hit_speed": {
+            "x": 6.0,
+            "y": -45.0
+          },
+          "damage": 800,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 35,
+          "hit_player_hit_stop": 15,
+          "hit_speed": {
+            "x": 4.0,
+            "y": -30.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 10,
+          "offense_flag": 704,
+          "prorate": 90.0,
+          "push_block": 2,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 384,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "marker": 15,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 384,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 384,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 384,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "duration": 4,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "duration": 6,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 512,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 5,
+          "block_player_hit_stop": 5,
+          "block_stun": 4,
+          "damage": 600,
+          "duration": 2,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 5,
+          "hit_player_hit_stop": 5,
+          "hit_speed": {
+            "x": 8.0,
+            "y": 0.0
+          },
+          "hit_stun": 10,
+          "mana_gain": 16,
+          "marker": 1,
+          "prorate": 90.0,
+          "push_block": 4,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 512,
+            "width": 128
+          },
+          "void_limit": 10
+        },
+        {
+          "block_opponent_hit_stop": 5,
+          "block_player_hit_stop": 5,
+          "block_stun": 4,
+          "damage": 600,
+          "duration": 2,
+          "guard_damage": 20,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 5,
+          "hit_player_hit_stop": 5,
+          "hit_speed": {
+            "x": 8.0,
+            "y": 0.0
+          },
+          "hit_stun": 10,
+          "mana_gain": 16,
+          "marker": 1,
+          "prorate": 90.0,
+          "push_block": 4,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 640,
+            "width": 128
+          },
+          "void_limit": 10
+        },
+        {
+          "duration": 8,
+          "marker": 7,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 640,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 640,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 640,
+            "width": 128
+          }
+        }
+      ],
+      [
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "duration": 12,
+          "hurt_boxes": [
+            {
+              "height": 172,
+              "left": -61,
+              "top": -179,
+              "width": 123
+            }
+          ],
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 20,
+          "block_player_hit_stop": 20,
+          "block_stun": 10,
+          "chip_damage": 150,
+          "damage": 850,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 20,
+          "hit_player_hit_stop": 20,
+          "hit_speed": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "marker": 1,
+          "matter_limit": 10,
+          "offense_flag": 8192,
+          "prorate": 90.0,
+          "push_block": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 768,
+            "width": 128
+          }
+        },
+        {
+          "block_opponent_hit_stop": 20,
+          "block_player_hit_stop": 20,
+          "block_stun": 10,
+          "chip_damage": 150,
+          "damage": 850,
+          "duration": 2,
+          "guard_damage": 50,
+          "hit_boxes": [
+            {
+              "height": 20,
+              "left": -11,
+              "top": -130,
+              "width": 20
+            }
+          ],
+          "hit_opponent_hit_stop": 20,
+          "hit_player_hit_stop": 20,
+          "hit_speed": {
+            "x": 0.0,
+            "y": 4.0
+          },
+          "hit_stun": 30,
+          "mana_gain": 16,
+          "matter_limit": 10,
+          "prorate": 90.0,
+          "push_block": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 512,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "marker": 10,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 640,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 768,
+            "top": 896,
+            "width": 128
+          }
+        },
+        {
+          "duration": 8,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "shadow_victoria_star.png",
+          "texture_bounds": {
+            "height": 128,
+            "left": 896,
+            "top": 896,
+            "width": 128
+          }
         }
       ]
     ]
