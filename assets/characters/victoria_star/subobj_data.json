@@ -2478,7 +2478,7 @@
           "duration": 9,
           "offense_flag": 16,
           "offset": {
-            "x": 23,
+            "x": -27,
             "y": 9
           },
           "scale": {
@@ -2498,7 +2498,7 @@
           "duration": 9,
           "offense_flag": 16,
           "offset": {
-            "x": 48,
+            "x": -2,
             "y": -3
           },
           "scale": {
@@ -2524,6 +2524,7 @@
           "damage": 700,
           "defense_flag": 512,
           "duration": 6,
+          "guard_damage": 80,
           "hit_boxes": [
             {
               "height": 35,
@@ -2542,7 +2543,7 @@
           "mana_gain": 100,
           "offense_flag": 58720848,
           "offset": {
-            "x": 61,
+            "x": 11,
             "y": -5
           },
           "prorate": 80.0,
@@ -2572,6 +2573,7 @@
           "damage": 700,
           "defense_flag": 512,
           "duration": 6,
+          "guard_damage": 80,
           "hit_boxes": [
             {
               "height": 54,
@@ -2590,7 +2592,7 @@
           "mana_gain": 100,
           "offense_flag": 58720848,
           "offset": {
-            "x": 63,
+            "x": 13,
             "y": -11
           },
           "prorate": 80.0,
@@ -3658,6 +3660,242 @@
             "top": 896,
             "width": 128
           }
+        }
+      ]
+    ]
+  },
+  {
+    "action": 11,
+    "framedata": [
+      [
+        {
+          "block_opponent_hit_stop": 12,
+          "block_player_hit_stop": 12,
+          "block_stun": 18,
+          "counter_hit_speed": {
+            "x": 0.0,
+            "y": 7.0
+          },
+          "damage": 1700,
+          "defense_flag": 8704,
+          "duration": 3,
+          "guard_damage": 140,
+          "hit_opponent_hit_stop": 12,
+          "hit_player_hit_stop": 12,
+          "hit_speed": {
+            "x": 1.0,
+            "y": 7.0
+          },
+          "hit_stun": 30,
+          "matter_limit": 30,
+          "offense_flag": 16418,
+          "offset": {
+            "x": -33,
+            "y": 257
+          },
+          "prorate": 88.0,
+          "push_block": 5,
+          "rotation": 267.68000216686164,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 24,
+            "left": 11,
+            "top": 740,
+            "width": 67
+          },
+          "wrong_block_stun": 20
+        },
+        {
+          "block_opponent_hit_stop": 12,
+          "block_player_hit_stop": 12,
+          "block_stun": 18,
+          "counter_hit_speed": {
+            "x": 0.0,
+            "y": 7.0
+          },
+          "damage": 1700,
+          "defense_flag": 8704,
+          "duration": 3,
+          "guard_damage": 140,
+          "hit_boxes": [
+            {
+              "height": 81,
+              "left": -51,
+              "top": -323,
+              "width": 132
+            }
+          ],
+          "hit_opponent_hit_stop": 12,
+          "hit_player_hit_stop": 12,
+          "hit_speed": {
+            "x": 1.0,
+            "y": 9.0
+          },
+          "hit_stun": 30,
+          "matter_limit": 30,
+          "offense_flag": 16418,
+          "offset": {
+            "x": 1,
+            "y": 226
+          },
+          "prorate": 88.0,
+          "push_block": 5,
+          "rotation": 267.68000216686164,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 58,
+            "left": 88,
+            "top": 742,
+            "width": 71
+          },
+          "wrong_block_stun": 20
+        },
+        {
+          "block_opponent_hit_stop": 12,
+          "block_player_hit_stop": 12,
+          "block_stun": 18,
+          "counter_hit_speed": {
+            "x": 0.0,
+            "y": 7.0
+          },
+          "damage": 1700,
+          "defense_flag": 8704,
+          "duration": 5,
+          "guard_damage": 140,
+          "hit_boxes": [
+            {
+              "height": 101,
+              "left": -46,
+              "top": -339,
+              "width": 199
+            }
+          ],
+          "hit_opponent_hit_stop": 12,
+          "hit_player_hit_stop": 12,
+          "hit_speed": {
+            "x": 1.0,
+            "y": 9.0
+          },
+          "hit_stun": 30,
+          "matter_limit": 30,
+          "offense_flag": 16418,
+          "offset": {
+            "x": 39,
+            "y": 183
+          },
+          "prorate": 88.0,
+          "push_block": 5,
+          "rotation": 267.68000216686164,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 96,
+            "left": 159,
+            "top": 745,
+            "width": 76
+          },
+          "wrong_block_stun": 20
+        },
+        {
+          "block_opponent_hit_stop": 12,
+          "block_player_hit_stop": 12,
+          "block_stun": 18,
+          "counter_hit_speed": {
+            "x": 0.0,
+            "y": 7.0
+          },
+          "damage": 1700,
+          "defense_flag": 8704,
+          "duration": 3,
+          "guard_damage": 140,
+          "hit_boxes": [
+            {
+              "height": 83,
+              "left": -7,
+              "top": -329,
+              "width": 127
+            }
+          ],
+          "hit_opponent_hit_stop": 12,
+          "hit_player_hit_stop": 12,
+          "hit_speed": {
+            "x": 1.0,
+            "y": 9.0
+          },
+          "hit_stun": 30,
+          "matter_limit": 30,
+          "offense_flag": 16418,
+          "offset": {
+            "x": 1,
+            "y": 226
+          },
+          "prorate": 88.0,
+          "push_block": 5,
+          "rotation": 267.68000216686164,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 58,
+            "left": 88,
+            "top": 742,
+            "width": 71
+          },
+          "wrong_block_stun": 20
+        },
+        {
+          "block_opponent_hit_stop": 12,
+          "block_player_hit_stop": 12,
+          "block_stun": 18,
+          "counter_hit_speed": {
+            "x": 0.0,
+            "y": 7.0
+          },
+          "damage": 1700,
+          "defense_flag": 8704,
+          "duration": 3,
+          "guard_damage": 140,
+          "hit_opponent_hit_stop": 12,
+          "hit_player_hit_stop": 12,
+          "hit_speed": {
+            "x": 1.0,
+            "y": 7.0
+          },
+          "hit_stun": 30,
+          "matter_limit": 30,
+          "offense_flag": 16418,
+          "offset": {
+            "x": -33,
+            "y": 257
+          },
+          "prorate": 88.0,
+          "push_block": 5,
+          "rotation": 267.68000216686164,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0
+          },
+          "sprite": "sheet_tmp.png",
+          "texture_bounds": {
+            "height": 24,
+            "left": 11,
+            "top": 740,
+            "width": 67
+          },
+          "wrong_block_stun": 20
         }
       ]
     ]

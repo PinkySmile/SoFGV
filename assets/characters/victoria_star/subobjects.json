@@ -170,6 +170,31 @@
 	},
 
 	{
+		"index": 10,
+		"action": 11,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 0,
+			"y": 0
+		},
+		"dir": "back",
+		"hits": 4000,
+		"end_block": 0,
+		"loop": false,
+		"disable_on_hit": true,
+		"disable_animation": "fade",
+		"animation_data": 6,
+		"hp": 1000,
+		"loop": false,
+		"end_block": 0,
+		"on_hit_die_animation":null,
+		"on_block_die_animation":null,
+		"on_get_hit_die_animation":null,
+		"on_owner_hit_die_animation":null
+	},
+
+	{
 		"index": 128,
 		"action": 1,
 		"spawn_offset": {
@@ -332,5 +357,19 @@
 		"shadow": "spirit",
 		"tint": true,
 		"hp": 700
+	},
+	{
+		"index": 136,
+		"action": 9,
+		"spawn_offset": {
+			"anchorX": "border_front",
+			"anchorY": "stage_min",
+			"x": 135,
+			"y": 221
+		},
+		"dir": "back",
+		"shadow": "matter",
+		"tint": true,
+		"hp": 1500
 	}
 ]
