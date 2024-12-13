@@ -1,0 +1,3 @@
+[submodule "SFML"]
+	path = SFML
+	url = git@github.com:PinkySmile/SFML.git
