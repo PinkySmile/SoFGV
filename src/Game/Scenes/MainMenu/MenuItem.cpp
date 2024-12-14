@@ -25,7 +25,10 @@ namespace SpiralOfFate
 		text.setOutlineThickness(0);
 		text.setCharacterSize(50);
 		text.setString(skeleton.button);
-		this->disabled = !skeleton.onClick;
+		if (!skeleton.onClick) {
+			this->disabled = true;
+			this->description += "\n\nComing soon!";
+		}
 
 		this->_normalText.create(BUTTON_TEXT_TEXTURE_SIZE.x, BUTTON_TEXT_TEXTURE_SIZE.y);
 		this->_normalText.clear(sf::Color{255, 255, 255, 0});
@@ -200,7 +203,6 @@ namespace SpiralOfFate
 
 	bool MenuItem::isAnimationFinished() const
 	{
-		return this->displayed * BUTTON_ANIM_LENGTH == this->_displayTimer &&
-		       this->selected * CURSOR_DISP_ANIM_LENGTH == this->_enableTimer;
+		return this->displayed * BUTTON_ANIM_LENGTH == this->_displayTimer;
 	}
 }

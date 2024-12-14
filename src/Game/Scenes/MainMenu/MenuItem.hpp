@@ -44,7 +44,7 @@ namespace SpiralOfFate
 		bool displayed = false;
 		bool cursorDisplayed = true;
 		float animationSpeed = 1;
-		const char *description;
+		std::string description;
 
 		MenuItem(const sf::Font &font, unsigned index, const MenuItemSkeleton &skeleton);
 		~MenuItem();

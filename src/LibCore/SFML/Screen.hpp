@@ -6,7 +6,9 @@
 #define THFGAME_RESSOURCES_HPP
 
 
+#include <memory>
 #include <SFML/Graphics.hpp>
+#include "Data/Vector.hpp"
 
 namespace SpiralOfFate
 {
@@ -14,6 +16,15 @@ namespace SpiralOfFate
 
 	typedef sf::Event Event;
 	typedef sf::View ViewPort;
+	typedef sf::IntRect IntRect;
+
+	struct PreparedShrunkRect {
+		Vector2u texSize;
+		sf::RenderTexture topLeft;
+		sf::RenderTexture topRight;
+		sf::RenderTexture bottomLeft;
+		sf::RenderTexture bottomRight;
+	};
 
 	class Screen : public sf::RenderWindow {
 	private:
@@ -46,6 +57,8 @@ namespace SpiralOfFate
 		void displayElement(const sf::Texture &texture, sf::Vector2f);
 		void displayElement(sf::Sprite &sprite, sf::Vector2f);
 		void displayElement(const sf::Sprite &sprite);
+		void displayShrunkRect(const PreparedShrunkRect &sprite, sf::IntRect rect);
+		std::unique_ptr<PreparedShrunkRect> prepareShrunkRect(sf::Sprite &sprite);
 	};
 }
 

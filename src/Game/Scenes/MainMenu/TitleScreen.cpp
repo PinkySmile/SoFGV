@@ -47,12 +47,6 @@ enum TitleScreenButton2 {
 	BUTTON2_PRACTICE,
 	BUTTON2_TRIAL_MODE,
 	BUTTON2_TUTORIAL,
-#ifdef HAS_NETWORK
-#ifdef _DEBUG
-#define HAS_SYNC_TEST
-	BUTTON2_SYNC_TEST,
-#endif
-#endif
 	BUTTON2_BACK
 };
 
@@ -61,6 +55,12 @@ enum TitleScreenButton3 {
 	BUTTON3_HOST,
 	BUTTON3_CONNECT,
 	BUTTON3_SPECTATE,
+#ifdef HAS_NETWORK
+#ifdef _DEBUG
+#define HAS_SYNC_TEST
+	BUTTON3_SYNC_TEST,
+#endif
+#endif
 	BUTTON3_BACK
 };
 
@@ -101,8 +101,9 @@ namespace SpiralOfFate
 	};
 
 	TitleScreen::TitleScreen() :
-		_menuObject{"assets/ui/copperplate-gothic-light.ttf", {
+		_menuObject{"assets/ui/copperplate-gothic-light.ttf", "assets/ui/gillsansmt.ttf", {
 			{
+				{"test", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?", nullptr},
 				{"Solo mode", "Fight by yourself", [this]{
 					this->_menuObject.setEnabledMenu(1, false);
 				}},
@@ -127,13 +128,6 @@ namespace SpiralOfFate
 				}},
 				{"Trial Mode", "Combo training", nullptr},
 				{"Tutorial", "Learn the basics", nullptr},
-			#ifdef HAS_NETWORK
-			#ifdef HAS_SYNC_TEST
-				{"Sync Test", "Verify that rollback doesn't desync", [this]{
-					this->_askingInputs = true;
-				}},
-			#endif
-			#endif
 				{"Back", "Go back to the main menu", [this]{
 					this->_menuObject.setEnabledMenu(0);
 				}},
@@ -151,6 +145,11 @@ namespace SpiralOfFate
 				}},
 				{"Spectate", "Connect to ip from clipboard", [this]{
 					this->_spectate();
+				}},
+			#endif
+			#ifdef HAS_SYNC_TEST
+				{"Sync Test", "Verify that rollback doesn't desync", [this]{
+					this->_askingInputs = true;
 				}},
 			#endif
 				{"Back", "Go back to the main menu", [this]{
@@ -533,7 +532,7 @@ namespace SpiralOfFate
 			break;
 	#endif
 	#ifdef HAS_SYNC_TEST
-		case TITLE_SCREEN_BUTTON(2, SYNC_TEST):
+		case TITLE_SCREEN_BUTTON(3, SYNC_TEST):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
@@ -677,7 +676,7 @@ namespace SpiralOfFate
 		if (
 			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
 		#ifdef HAS_SYNC_TEST
-			item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
+			item == TITLE_SCREEN_BUTTON(3, SYNC_TEST) ||
 		#endif
 			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)
@@ -689,7 +688,7 @@ namespace SpiralOfFate
 		if (this->_leftInput && (
 			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
 		#ifdef HAS_SYNC_TEST
-			item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
+			item == TITLE_SCREEN_BUTTON(3, SYNC_TEST) ||
 		#endif
 			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)) {
@@ -713,7 +712,7 @@ namespace SpiralOfFate
 		if (this->_leftInput && (this->_rightInput || (
 			item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
 		#ifdef HAS_SYNC_TEST
-			item != TITLE_SCREEN_BUTTON(2, SYNC_TEST) &&
+			item != TITLE_SCREEN_BUTTON(3, SYNC_TEST) &&
 		#endif
 			item != TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)))
@@ -928,7 +927,7 @@ namespace SpiralOfFate
 			if (this->_rightInput || (this->_leftInput && (
 				item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
 			#ifdef HAS_SYNC_TEST
-				item != TITLE_SCREEN_BUTTON(2, SYNC_TEST) &&
+				item != TITLE_SCREEN_BUTTON(3, SYNC_TEST) &&
 			#endif
 				item != TITLE_SCREEN_BUTTON(2, PRACTICE)
 			)))
@@ -967,7 +966,7 @@ namespace SpiralOfFate
 			if (this->_rightInput && (
 				item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
 			#ifdef HAS_SYNC_TEST
-				item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
+				item == TITLE_SCREEN_BUTTON(3, SYNC_TEST) ||
 			#endif
 				item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 			))

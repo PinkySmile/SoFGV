@@ -7,12 +7,32 @@
 
 #define SEPARATOR_GROW_SPEED 15
 #define SEPARATOR_END_SPACE 15
+#define MAX_DESC_WIDTH 650
+#define DESC_FONT_SIZE 25
+#define DESC_POS Vector2i{150, 320}
+#define DESC_FADE_TIME 5
 
 namespace SpiralOfFate
 {
-	Menu::Menu(const std::string &font, const std::vector<std::vector<MenuItemSkeleton>> &&arr)
+	Menu::Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &&arr)
 	{
-		this->_font.loadFromFile(font);
+		Sprite descBox;
+
+		assert_exp(this->_buttonFont.loadFromFile(buttonFont));
+		assert_exp(this->_descFont.loadFromFile(descFont));
+
+		descBox.textureHandle = game->textureMgr.load("assets/ui/box.png");
+		game->textureMgr.setTexture(descBox);
+		this->_descBox = game->screen->prepareShrunkRect(descBox);
+		game->textureMgr.remove(descBox.textureHandle);
+
+		this->_descTimer = DESC_FADE_TIME;
+
+		this->_descText.setFont(this->_descFont);
+		this->_descText.setCharacterSize(DESC_FONT_SIZE);
+		this->_descText.setOutlineThickness(0);
+		this->_descText.setFillColor(sf::Color::White);
+		this->_descText.setOutlineColor(sf::Color::Transparent);
 
 		this->_separatorBody.textureHandle = game->textureMgr.load("assets/ui/separator.png");
 		this->_separatorBody.setTextureRect({47, 0, 47, 5});
@@ -38,10 +58,10 @@ namespace SpiralOfFate
 
 			back.reserve(subArr.size());
 			for (auto &elem : subArr)
-				back.emplace_back(new MenuItem(this->_font, i++, elem));
+				back.emplace_back(new MenuItem(this->_buttonFont, i++, elem));
 		}
 		this->_items.front().front()->selected = true;
-
+		this->_computeExpectedDescBoxSize();
 	}
 
 	Menu::~Menu()
@@ -57,6 +77,17 @@ namespace SpiralOfFate
 		auto &newItems = this->_items[this->_nextIndex];
 		size_t expectedSeparatorSize = newItems.size() * MENU_ITEM_SPACING + SEPARATOR_END_SPACE;
 		bool needRedraw = this->_separatorSize != expectedSeparatorSize || this->_separatorDisableSize != expectedSeparatorSize;
+
+		if (this->_descTimer < DESC_FADE_TIME) {
+			this->_descTimer++;
+			this->_descText.setFillColor(Color{255, 255, 255, static_cast<unsigned char>(255 - 255 * this->_descTimer / DESC_FADE_TIME)});
+			if (this->_descTimer == DESC_FADE_TIME)
+				this->_computeExpectedDescBoxSize();
+		} else if (this->_descTimer < DESC_FADE_TIME * 2) {
+			this->_descTimer++;
+			this->_descBoxSize = this->_startDescSize + (this->_descSize.to<float>() - this->_startDescSize) * (1 - (DESC_FADE_TIME * 2.f - this->_descTimer) / DESC_FADE_TIME);
+			this->_descText.setFillColor(Color{255, 255, 255, static_cast<unsigned char>(255 - 255 * (DESC_FADE_TIME * 2 - this->_descTimer) / DESC_FADE_TIME)});
+		}
 
 		if (std::abs(static_cast<int>(this->_separatorSize - expectedSeparatorSize)) < SEPARATOR_GROW_SPEED)
 			this->_separatorSize = expectedSeparatorSize;
@@ -116,6 +147,10 @@ namespace SpiralOfFate
 		if (this->_currentIndex != this->_nextIndex)
 			for (auto &elem : this->_items[this->_currentIndex])
 				elem->render();
+		game->screen->displayShrunkRect(*this->_descBox, {
+			static_cast<int>(DESC_POS.x + MAX_DESC_WIDTH - this->_descBoxSize.x), DESC_POS.y,
+			static_cast<int>(this->_descBoxSize.x + this->_descBox->texSize.x + 2), static_cast<int>(this->_descBoxSize.y + this->_descBox->texSize.y)});
+		game->screen->draw(this->_descText);
 	}
 
 	unsigned Menu::getSelectedItem() const
@@ -134,11 +169,8 @@ namespace SpiralOfFate
 		items[selected]->selected = false;
 		selected = item % items.size();
 		items[selected]->selected = true;
-	}
-
-	unsigned Menu::getMenuSize() const
-	{
-		return this->_items[this->_nextIndex].size();
+		if (this->_descTimer >= DESC_FADE_TIME)
+			this->_descTimer = DESC_FADE_TIME * 2 - this->_descTimer;
 	}
 
 	void Menu::setEnabledMenu(unsigned index, bool resetOldSelected)
@@ -169,10 +201,92 @@ namespace SpiralOfFate
 				elem->update(false);
 		for (auto &elem : newItems)
 			elem->update(false);
+		if (this->_descTimer >= DESC_FADE_TIME)
+			this->_descTimer = DESC_FADE_TIME * 2 - this->_descTimer;
+	}
+
+	unsigned Menu::getMenuSize() const
+	{
+		return this->_items[this->_nextIndex].size();
 	}
 
 	unsigned Menu::getEnabledMenu() const
 	{
 		return this->_nextIndex;
+	}
+
+	void Menu::_computeExpectedDescBoxSize()
+	{
+		auto &text = this->getCurrentItem().description;
+		float x = 0;
+		float y = 0;
+		float wordSize = 0;
+		char s = 0;
+		std::string word;
+
+		this->_startDescSize = this->_descBoxSize;
+		this->_desc.clear();
+		this->_descSize.x = 0;
+		for (auto c : text) {
+			if (std::isspace(c)) {
+				if (x + wordSize > MAX_DESC_WIDTH) {
+					this->_desc.push_back('\n');
+					this->_descSize.x = std::max<unsigned>(this->_descSize.x, x);
+					x = 0;
+					s = 0;
+					y += this->_descFont.getLineSpacing(DESC_FONT_SIZE);
+				}
+				x += wordSize;
+				wordSize = 0;
+				if (s != 0) {
+					x += this->_descFont.getGlyph(s, DESC_FONT_SIZE, false).advance;
+					if (!word.empty())
+						x += this->_descFont.getKerning(word.back(), s, DESC_FONT_SIZE);
+					this->_desc.push_back(s);
+				}
+				this->_desc.append(word);
+				word.clear();
+				if (c == '\n') {
+					this->_descSize.x = std::max<unsigned>(this->_descSize.x, x);
+					x = 0;
+					y += this->_descFont.getLineSpacing(DESC_FONT_SIZE);
+					s = 0;
+					this->_desc.push_back('\n');
+				} else
+					s = c;
+			} else {
+				wordSize += this->_descFont.getGlyph(c, DESC_FONT_SIZE, false).advance;
+				if (!word.empty())
+					wordSize += this->_descFont.getKerning(word.back(), c, DESC_FONT_SIZE);
+				word.push_back(c);
+			}
+		}
+
+
+		if (x + wordSize > MAX_DESC_WIDTH) {
+			this->_desc.push_back('\n');
+			this->_descSize.x = std::max<unsigned>(this->_descSize.x, x);
+			x = 0;
+			y += this->_descFont.getLineSpacing(DESC_FONT_SIZE);
+		}
+		x += wordSize;
+		if (s != 0) {
+			x += this->_descFont.getGlyph(s, DESC_FONT_SIZE, false).advance;
+			if (!word.empty())
+				x += this->_descFont.getKerning(word.back(), s, DESC_FONT_SIZE);
+			this->_desc.push_back(s);
+		}
+		this->_desc.append(word);
+		word.clear();
+
+		this->_descSize.x = std::max<unsigned>(this->_descSize.x, x);
+		this->_descSize.y = y + this->_descFont.getLineSpacing(DESC_FONT_SIZE);
+		this->_descText.setString(this->_desc);
+		this->_descText.setPosition(DESC_POS + this->_descBox->texSize / 2 + Vector2i{2 + MAX_DESC_WIDTH - static_cast<int>(this->_descSize.x), -1});
+	}
+
+	const MenuItem &Menu::getCurrentItem() const
+	{
+		return *this->_items[this->_nextIndex][this->_selected[this->_nextIndex]];
 	}
 }
