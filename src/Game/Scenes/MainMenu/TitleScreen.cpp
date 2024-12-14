@@ -12,8 +12,8 @@
 #endif
 #include <utility>
 #include "TitleScreen.hpp"
-#include "InGame.hpp"
-#include "CharacterSelect.hpp"
+#include "../InGame.hpp"
+#include "../CharacterSelect.hpp"
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
 #include "KeyboardInput.hpp"
@@ -21,7 +21,7 @@
 #include "Utils.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Resources/version.h"
-#include "ReplayInGame.hpp"
+#include "../ReplayInGame.hpp"
 #ifdef HAS_NETWORK
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
@@ -33,30 +33,54 @@
 
 #define THRESHOLD 50
 
-enum TitleScreenButton {
-	#define PLAY_BUTTON PLAY_BUTTON
-	PLAY_BUTTON,
-	#define PRACTICE_BUTTON PRACTICE_BUTTON
-	PRACTICE_BUTTON,
-	#define REPLAY_BUTTON REPLAY_BUTTON
-	REPLAY_BUTTON,
-#ifdef HAS_NETWORK
-	#define HOST_BUTTON HOST_BUTTON
-	HOST_BUTTON,
-	#define CONNECT_BUTTON CONNECT_BUTTON
-	CONNECT_BUTTON,
-	#define SPECTATE_BUTTON SPECTATE_BUTTON
-	SPECTATE_BUTTON,
-#endif
-	#define SETTINGS_BUTTON SETTINGS_BUTTON
-	SETTINGS_BUTTON,
-	#define QUIT_BUTTON QUIT_BUTTON
-	QUIT_BUTTON,
-#if defined(_DEBUG) && defined(HAS_NETWORK)
-	SYNC_TEST_BUTTON,
-	#define SYNC_TEST_BUTTON SYNC_TEST_BUTTON
-#endif
+enum TitleScreenButton1 {
+	BUTTON1_SOLO_MODE,
+	BUTTON1_MULTIPLAYER,
+	BUTTON1_SETTINGS,
+	BUTTON1_EXTRA,
+	BUTTON1_QUIT
 };
+
+enum TitleScreenButton2 {
+	BUTTON2_STORY_MODE,
+	BUTTON2_VS_COM,
+	BUTTON2_PRACTICE,
+	BUTTON2_TRIAL_MODE,
+	BUTTON2_TUTORIAL,
+#ifdef HAS_NETWORK
+#ifdef _DEBUG
+#define HAS_SYNC_TEST
+	BUTTON2_SYNC_TEST,
+#endif
+#endif
+	BUTTON2_BACK
+};
+
+enum TitleScreenButton3 {
+	BUTTON3_OFFLINE,
+	BUTTON3_HOST,
+	BUTTON3_CONNECT,
+	BUTTON3_SPECTATE,
+	BUTTON3_BACK
+};
+
+enum TitleScreenButton4 {
+	BUTTON4_COLORS,
+	BUTTON4_NETPLAY,
+	BUTTON4_SOUNDS,
+	BUTTON4_KEY_CONFIGS,
+	BUTTON4_BACK
+};
+
+enum TitleScreenButton5 {
+	BUTTON5_REPLAYS,
+	BUTTON5_SOUND_TEST,
+	BUTTON5_CREDITS,
+	BUTTON5_COMMUNITY,
+	BUTTON5_BACK
+};
+
+#define TITLE_SCREEN_BUTTON(index, name) ((index - 1) << 8 | BUTTON##index##_##name)
 
 #define STICK_ID_KEYBOARD 0
 #define STICK_ID_VPAD 1
@@ -77,47 +101,92 @@ namespace SpiralOfFate
 	};
 
 	TitleScreen::TitleScreen() :
-		_menuObject{{
-			{"vsplayer", "Play a game against a human opponent", [this]{
-				this->_askingInputs = true;
-			}},
-			{"practicemode", "Free training", [this]{
-				this->_askingInputs = true;
-			}},
-			{"replays", "Select a replay to watch", [this]{
-				auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
+		_menuObject{"assets/ui/copperplate-gothic-light.ttf", {
+			{
+				{"Solo mode", "Fight by yourself", [this]{
+					this->_menuObject.setEnabledMenu(1, false);
+				}},
+				{"Multiplayer mode", "Fight a human opponent", [this]{
+					this->_menuObject.setEnabledMenu(2, false);
+				}},
+				{"Settings", "Change settings", [this]{
+					this->_menuObject.setEnabledMenu(3, false);
+				}},
+				{"Extra", "Other", [this]{
+					this->_menuObject.setEnabledMenu(4, false);
+				}},
+				{"Quit", "Quit game", []{
+					game->screen->close();
+				}},
+			},
+			{
+				{"Story Mode", "Discover the universe", nullptr},
+				{"VS Computer", "Fight a virtual opponent", nullptr},
+				{"Practice", "Free training", [this]{
+					this->_askingInputs = true;
+				}},
+				{"Trial Mode", "Combo training", nullptr},
+				{"Tutorial", "Learn the basics", nullptr},
+			#ifdef HAS_NETWORK
+			#ifdef HAS_SYNC_TEST
+				{"Sync Test", "Verify that rollback doesn't desync", [this]{
+					this->_askingInputs = true;
+				}},
+			#endif
+			#endif
+				{"Back", "Go back to the main menu", [this]{
+					this->_menuObject.setEnabledMenu(0);
+				}},
+			},
+			{
+				{"Offline", "Play a game against a human opponent on the same computer", [this]{
+					this->_askingInputs = true;
+				}},
+			#ifdef HAS_NETWORK
+				{"Host", "Host an online game", [this]{
+					this->_askingInputs = true;
+				}},
+				{"Connect", "Connect to ip from clipboard", [this]{
+					this->_askingInputs = true;
+				}},
+				{"Spectate", "Connect to ip from clipboard", [this]{
+					this->_spectate();
+				}},
+			#endif
+				{"Back", "Go back to the main menu", [this]{
+					this->_menuObject.setEnabledMenu(0);
+				}},
+			},
+			{
+				{"Colors", "Change type colors", nullptr},
+				{"Netplay", "Change various online options", nullptr},
+				{"Sound", "", nullptr},
+				{"Key Config", "Change inputs", [this]{
+					this->_changingInputs = 1;
+					this->_cursorInputs = 0;
+				}},
+				{"Back", "Go back to the main menu", [this]{
+					this->_menuObject.setEnabledMenu(0);
+				}},
+			},
+			{
+				{"Replays", "Select a replay to watch", [this]{
+					auto path = Utils::openFileDialog("Open replay", "./replays", {{".+[.]replay", "Replay file"}});
 
-				if (!path.empty()) {
-					try {
-						this->_loadReplay(path);
-					} catch (std::exception &e) {
-						Utils::dispMsg("Replay loading failed", "This replay is invalid, corrupted or was created for an different version of the game: " + std::string(e.what()), MB_ICONERROR);
+					if (!path.empty()) {
+						try {
+							this->_loadReplay(path);
+						} catch (std::exception &e) {
+							Utils::dispMsg("Replay loading failed", "This replay is invalid, corrupted or was created for an different version of the game: " + std::string(e.what()), MB_ICONERROR);
+						}
 					}
-				}
-			}},
-		#ifdef HAS_NETWORK
-			{"host", "Host an online game", [this]{
-				this->_askingInputs = true;
-			}},
-			{"connect", "Connect to ip from clipboard", [this]{
-				this->_askingInputs = true;
-			}},
-			{"spectate", "Connect to ip from clipboard", [this]{
-				this->_spectate();
-			}},
-		#endif
-			{"settings", "Change inputs", [this]{
-				this->_changingInputs = 1;
-				this->_cursorInputs = 0;
-			}},
-			{"quit", "Quit game", []{
-				game->screen->close();
-			}},
-		#ifdef SYNC_TEST_BUTTON
-			{"synctest", "Verify that rollback doesn't desync", [this]{
-				this->_askingInputs = true;
-			}},
-		#endif
+				}},
+				{"Music Room", "Catchy tune!", nullptr},
+				{"Credits", "", nullptr},
+				{"Back", "Go back to the main menu", [this]{
+					this->_menuObject.setEnabledMenu(0);
+				}},
+			}
 		}}
 	{
 		game->logger.info("Title scene created");
@@ -140,7 +209,6 @@ namespace SpiralOfFate
 		this->_inputs[INPUT_A].textureHandle = game->textureMgr.load("assets/icons/inputs/ascend.png");
 		this->_inputs[INPUT_D].textureHandle = game->textureMgr.load("assets/icons/inputs/dash.png");
 		this->_inputs[INPUT_PAUSE].textureHandle = game->textureMgr.load("assets/icons/inputs/pause.png");
-		this->_menuObject.displayed = true;
 		this->_lastInput = &*game->menu.first;
 	}
 
@@ -441,15 +509,15 @@ namespace SpiralOfFate
 	{
 		CharacterSelect::Arguments *args;
 
-		switch (this->_menuObject.getSelectedItem()) {
-		case PLAY_BUTTON:
+		switch (this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem()) {
+		case TITLE_SCREEN_BUTTON(3, OFFLINE):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "in_game";
 			game->scene.switchScene("char_select", args);
 			break;
-		case PRACTICE_BUTTON:
+		case TITLE_SCREEN_BUTTON(2, PRACTICE):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
@@ -457,21 +525,21 @@ namespace SpiralOfFate
 			game->scene.switchScene("char_select", args);
 			break;
 	#ifdef HAS_NETWORK
-		case HOST_BUTTON:
+		case TITLE_SCREEN_BUTTON(3, HOST):
 			this->_chooseSpecCount = true;
 			break;
-		case CONNECT_BUTTON:
+		case TITLE_SCREEN_BUTTON(3, CONNECT):
 			this->_connect();
 			break;
-	#ifdef _DEBUG
-		case SYNC_TEST_BUTTON:
+	#endif
+	#ifdef HAS_SYNC_TEST
+		case TITLE_SCREEN_BUTTON(2, SYNC_TEST):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = _getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = _getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "sync_test_in_game";
 			game->scene.switchScene("char_select", args);
 			break;
-	#endif
 	#endif
 		}
 	}
@@ -604,12 +672,14 @@ namespace SpiralOfFate
 		else
 			game->screen->displayElement("Press [Confirm]", {540, 260}, 300, Screen::ALIGN_CENTER);
 
+		auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+
 		if (
-			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-		#ifdef SYNC_TEST_BUTTON
-			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
+		#ifdef HAS_SYNC_TEST
+			item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
 		#endif
-			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
+			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)
 			game->screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
@@ -617,11 +687,11 @@ namespace SpiralOfFate
 		game->screen->displayElement("P2", {540 + 420, 190});
 		game->screen->fillColor(sf::Color::White);
 		if (this->_leftInput && (
-			this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-		#ifdef SYNC_TEST_BUTTON
-			this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
+		#ifdef HAS_SYNC_TEST
+			item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
 		#endif
-			this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
+			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
@@ -641,11 +711,11 @@ namespace SpiralOfFate
 		}
 
 		if (this->_leftInput && (this->_rightInput || (
-			this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
-		#ifdef SYNC_TEST_BUTTON
-			this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON &&
+			item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
+		#ifdef HAS_SYNC_TEST
+			item != TITLE_SCREEN_BUTTON(2, SYNC_TEST) &&
 		#endif
-			this->_menuObject.getSelectedItem() != PRACTICE_BUTTON
+			item != TITLE_SCREEN_BUTTON(2, PRACTICE)
 		)))
 			game->screen->displayElement("Press [Confirm] to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
@@ -853,12 +923,14 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
+			auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+
 			if (this->_rightInput || (this->_leftInput && (
-				this->_menuObject.getSelectedItem() != PLAY_BUTTON &&
-			#ifdef SYNC_TEST_BUTTON
-				this->_menuObject.getSelectedItem() != SYNC_TEST_BUTTON &&
+				item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
+			#ifdef HAS_SYNC_TEST
+				item != TITLE_SCREEN_BUTTON(2, SYNC_TEST) &&
 			#endif
-				this->_menuObject.getSelectedItem() != PRACTICE_BUTTON
+				item != TITLE_SCREEN_BUTTON(2, PRACTICE)
 			)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
@@ -890,12 +962,14 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
+			auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+
 			if (this->_rightInput && (
-				this->_menuObject.getSelectedItem() == PLAY_BUTTON ||
-			#ifdef SYNC_TEST_BUTTON
-				this->_menuObject.getSelectedItem() == SYNC_TEST_BUTTON ||
+				item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
+			#ifdef HAS_SYNC_TEST
+				item == TITLE_SCREEN_BUTTON(2, SYNC_TEST) ||
 			#endif
-				this->_menuObject.getSelectedItem() == PRACTICE_BUTTON
+				item == TITLE_SCREEN_BUTTON(2, PRACTICE)
 			))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
@@ -904,7 +978,7 @@ namespace SpiralOfFate
 				this->_askingInputs = false;
 			return;
 		}
-		this->_menuObject.setSelectedItem(QUIT_BUTTON);
+		this->_menuObject.setSelectedItem(this->_menuObject.getMenuSize() - 1);
 	}
 
 #ifdef HAS_NETWORK

@@ -5,7 +5,7 @@
 #include "ReplayInGame.hpp"
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
-#include "TitleScreen.hpp"
+#include "MainMenu/TitleScreen.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Utils.hpp"
 

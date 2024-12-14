@@ -4,7 +4,7 @@
 
 #include "Resources/Game.hpp"
 #include "SyncTestInGame.hpp"
-#include "../TitleScreen.hpp"
+#include "../MainMenu/TitleScreen.hpp"
 #include "../CharacterSelect.hpp"
 
 namespace SpiralOfFate

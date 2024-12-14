@@ -8,7 +8,7 @@
 #include "LoadingScene.hpp"
 #include "CharacterSelect.hpp"
 #include "InGame.hpp"
-#include "TitleScreen.hpp"
+#include "MainMenu/TitleScreen.hpp"
 #include "PracticeInGame.hpp"
 #include "ReplayInGame.hpp"
 #ifdef HAS_NETWORK

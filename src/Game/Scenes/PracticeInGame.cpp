@@ -7,7 +7,7 @@
 #include "Resources/Game.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
 #include "Logger.hpp"
-#include "TitleScreen.hpp"
+#include "MainMenu/TitleScreen.hpp"
 #include "Objects/StageObjects/StageObject.hpp"
 
 namespace SpiralOfFate

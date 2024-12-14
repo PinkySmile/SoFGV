@@ -165,7 +165,6 @@ namespace SpiralOfFate
 		assert_exp(this->_leftHUD.create(550, 700));
 		assert_exp(this->_rightHUD.create(550, 700));
 		assert_exp(this->_hud.create(1100, 700));
-		this->_hud;
 	}
 
 	BattleManager::~BattleManager()

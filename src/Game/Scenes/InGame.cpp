@@ -17,7 +17,7 @@
 #include "Resources/Game.hpp"
 #include "Logger.hpp"
 #include "CharacterSelect.hpp"
-#include "TitleScreen.hpp"
+#include "MainMenu/TitleScreen.hpp"
 #include "Utils.hpp"
 #include "Resources/version.h"
 #include "Objects/StageObjects/StageObject.hpp"

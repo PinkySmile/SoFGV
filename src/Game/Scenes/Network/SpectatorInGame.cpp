@@ -6,7 +6,7 @@
 #include "Resources/Game.hpp"
 #include "Resources/Network/SpectatorConnection.hpp"
 #include "Resources/Battle/PracticeBattleManager.hpp"
-#include "Scenes/TitleScreen.hpp"
+#include "../MainMenu/TitleScreen.hpp"
 #include "Inputs/ReplayInput.hpp"
 #include "Utils.hpp"
 

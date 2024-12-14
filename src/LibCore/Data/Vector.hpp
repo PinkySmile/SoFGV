@@ -17,17 +17,17 @@ namespace SpiralOfFate
 		T x;
 		T y;
 
-		Vector2<T>() noexcept
+		Vector2() noexcept
 			: x(0), y(0) {}
 
-		Vector2<T>(T x, T y) noexcept
+		Vector2(T x, T y) noexcept
 			: x(x), y(y) {}
 
 		template <typename T2>
-		Vector2<T>(Vector2<T2> v) noexcept
+		Vector2(Vector2<T2> v) noexcept
 			: x(v.x), y(v.y) {}
 
-		Vector2<T>(sf::Vector2<T> v) noexcept
+		Vector2(sf::Vector2<T> v) noexcept
 			: x(v.x), y(v.y) {}
 
 		template<typename T2>

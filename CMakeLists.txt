@@ -432,18 +432,18 @@ add_executable(
 	SoFGV
 	${GICON}
 	src/Game/main.cpp
-	src/Game/Scenes/Menu.cpp
-	src/Game/Scenes/Menu.hpp
-	src/Game/Scenes/MenuItem.cpp
-	src/Game/Scenes/MenuItem.hpp
+	src/Game/Scenes/MainMenu/Menu.cpp
+	src/Game/Scenes/MainMenu/Menu.hpp
+	src/Game/Scenes/MainMenu/MenuItem.cpp
+	src/Game/Scenes/MainMenu/MenuItem.hpp
+	src/Game/Scenes/MainMenu/TitleScreen.cpp
+	src/Game/Scenes/MainMenu/TitleScreen.hpp
 	src/Game/Scenes/LoadingScene.cpp
 	src/Game/Scenes/LoadingScene.hpp
 	src/Game/Scenes/CharacterSelect.cpp
 	src/Game/Scenes/CharacterSelect.hpp
 	src/Game/Scenes/InGame.cpp
 	src/Game/Scenes/InGame.hpp
-	src/Game/Scenes/TitleScreen.cpp
-	src/Game/Scenes/TitleScreen.hpp
 	src/Game/Scenes/PracticeInGame.cpp
 	src/Game/Scenes/PracticeInGame.hpp
 	src/Game/Scenes/ReplayInGame.cpp

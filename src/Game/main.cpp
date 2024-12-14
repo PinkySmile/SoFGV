@@ -378,6 +378,8 @@ void	registerScenes()
 
 void	run()
 {
+	bool step = false;
+	bool force = false;
 	Event event;
 	sf::Image icon;
 	double timer = 0;
@@ -419,7 +421,9 @@ void	run()
 			game->virtualController->onFrameStart();
 			game->virtualController->update();
 		#endif
-			game->scene.update();
+			if (!step || force)
+				game->scene.update();
+			force = false;
 			timer -= 1. / 60.;
 		}
 		game->scene.render();
@@ -431,6 +435,10 @@ void	run()
 		while (game->screen->pollEvent(event)) {
 			if (event.type == EVENT_WINDOW_CLOSED)
 				game->screen->close();
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F12 && event.key.control && event.key.shift)
+				step = !step;
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F11 && event.key.control && event.key.shift)
+				force = true;
 		#ifdef USE_SFML
 			game->scene.consumeEvent(event);
 		#endif
