@@ -254,11 +254,11 @@ namespace SpiralOfFate
 	{
 		if (this->_disabled || !data.hasValue)
 			return;
+		this->_animType = data.type;
 		if (this->_animType == ANIMATION_DISAPPEAR) {
 			this->_dead = true;
 			return;
 		}
-		this->_animType = data.type;
 		this->_animData = data.data;
 		this->_disabled = true;
 		if (this->_animType == ANIMATION_BLOCK) {

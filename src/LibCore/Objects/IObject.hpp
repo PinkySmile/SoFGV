@@ -25,6 +25,7 @@ namespace SpiralOfFate
 		virtual unsigned getBufferSize() const = 0;
 		virtual void copyToBuffer(void *data) const = 0;
 		virtual void restoreFromBuffer(void *data) = 0;
+		// return a std::pair<size_t, size_t> instead
 		virtual size_t printDifference(const char *msgStart, void *data1, void *data2, unsigned startOffset) const = 0;
 		virtual size_t printContent(const char *msgStart, void *data, unsigned startOffset, size_t dataSize) const = 0;
 		virtual unsigned getClassId() const = 0;

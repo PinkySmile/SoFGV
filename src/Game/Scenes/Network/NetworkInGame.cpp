@@ -130,16 +130,16 @@ namespace SpiralOfFate
 		game->screen->textSize(20);
 
 		sprintf(buffer, "Rand %08llx|%llu", (unsigned long long)game->battleRandom.ser.seed, (unsigned long long)game->battleRandom.ser.invoke_count);
-		game->screen->displayElement(buffer, {-50, 25}, 145, Screen::ALIGN_LEFT);
+		game->screen->displayElement(buffer, {STAGE_X_MIN - 50, 25}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Delay %u (%zi:%zi)", this->_leftDInput->getDelay(), this->_leftDInput->getBufferSize(), this->_rightDInput->getBufferSize());
-		game->screen->displayElement(buffer, {-50, 50}, 145, Screen::ALIGN_LEFT);
+		game->screen->displayElement(buffer, {STAGE_X_MIN - 50, 50}, 145, Screen::ALIGN_LEFT);
 		sprintf(buffer, "Rollback %zu/%zu", this->_rMachine.getBufferSize(), this->_rMachine.getMaxBufferSize());
-		game->screen->displayElement(buffer, {-50, 75}, 145, Screen::ALIGN_LEFT);
+		game->screen->displayElement(buffer, {STAGE_X_MIN - 50, 75}, 145, Screen::ALIGN_LEFT);
 
 		sprintf(buffer, "Net delay %.2fms|%.2fms", myTime, opTime);
-		game->screen->displayElement(buffer, {900, 25}, 145, Screen::ALIGN_RIGHT);
+		game->screen->displayElement(buffer, {STAGE_X_MIN + 900, 25}, 145, Screen::ALIGN_RIGHT);
 		sprintf(buffer, "Avg net delay %.2fms|%.2fms", myAvgTime, opAvgTime);
-		game->screen->displayElement(buffer, {900, 0}, 145, Screen::ALIGN_RIGHT);
+		game->screen->displayElement(buffer, {STAGE_X_MIN + 900, 0}, 145, Screen::ALIGN_RIGHT);
 
 		game->screen->textSize(15);
 		game->screen->displayElement(game->connection->getNames().first, {-50, -592}, 340, Screen::ALIGN_CENTER);
@@ -149,9 +149,9 @@ namespace SpiralOfFate
 		if (this->_error) {
 			this->_errorMutex.lock();
 			game->screen->fillColor(sf::Color::Red);
-			game->screen->displayElement("Desync detected!", {-50, -262}, 1100, Screen::ALIGN_CENTER);
-			game->screen->displayElement(this->_error, {-50, -232}, 1100, Screen::ALIGN_CENTER);
-			game->screen->displayElement(this->_error + strlen(this->_error) + 1, {-50, -202}, 1100, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Desync detected!", {STAGE_X_MIN - 50, -262}, 1100, Screen::ALIGN_CENTER);
+			game->screen->displayElement(this->_error, {STAGE_X_MIN  - 50, -232}, 1100, Screen::ALIGN_CENTER);
+			game->screen->displayElement(this->_error + strlen(this->_error) + 1, {STAGE_X_MIN - 50, -202}, 1100, Screen::ALIGN_CENTER);
 			game->screen->fillColor(sf::Color::White);
 			this->_errorMutex.unlock();
 		}

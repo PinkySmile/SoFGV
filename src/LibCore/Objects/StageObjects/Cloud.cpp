@@ -48,7 +48,7 @@ namespace SpiralOfFate
 		};
 		result.x += size.x;
 		this->_airDrag = {1, 1};
-		if (result.x < -100)
+		if (result.x < STAGE_X_MIN - 100)
 			this->_refresh();
 	}
 

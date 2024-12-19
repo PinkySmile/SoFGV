@@ -267,7 +267,7 @@ namespace SpiralOfFate
 
 	void TitleScreen::update()
 	{
-		this->_titleSpiral.setRotation(std::fmod(this->_titleSpiral.getRotation() + 0.25, 360));
+		this->_titleSpiral.setRotation(std::fmod(this->_titleSpiral.getRotation() - 0.25, 360));
 		game->random();
 		this->_oldRemote = this->_remote;
 		game->menu.first->update();

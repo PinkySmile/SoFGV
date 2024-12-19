@@ -255,7 +255,7 @@ namespace SpiralOfFate
 			game->screen->borderColor(2, sf::Color::Black);
 			game->screen->fillColor(sf::Color::White);
 			game->screen->textSize(20);
-			game->screen->displayElement(buffer, {900, 75}, 145, Screen::ALIGN_RIGHT);
+			game->screen->displayElement(buffer, {900 + STAGE_X_MIN, 75}, 145, Screen::ALIGN_RIGHT);
 			game->screen->textSize(30);
 			game->screen->borderColor(0, sf::Color::Transparent);
 		}
@@ -387,7 +387,7 @@ namespace SpiralOfFate
 			this->_roundSprite.getTexture()->getSize().x / 2.f,
 			this->_roundSprite.getTexture()->getSize().y / 2.f
 		);
-		this->_roundSprite.setPosition({(STAGE_X_MIN + STAGE_X_MAX) / 2.f + STAGE_X_MIN, -250});
+		this->_roundSprite.setPosition({(STAGE_X_MIN + STAGE_X_MAX) / 2.f, -250});
 		this->_roundEndTimer++;
 	}
 
@@ -432,7 +432,7 @@ namespace SpiralOfFate
 			this->_roundSprite.getTexture()->getSize().x / 2.f,
 			this->_roundSprite.getTexture()->getSize().y / 2.f
 		);
-		this->_roundSprite.setPosition({0, -250});
+		this->_roundSprite.setPosition({(STAGE_X_MIN + STAGE_X_MAX) / 2.f, -250});
 		this->_roundStartTimer++;
 	}
 
@@ -490,7 +490,7 @@ namespace SpiralOfFate
 			this->_roundSprite.getTexture()->getSize().x / 2.f,
 			this->_roundSprite.getTexture()->getSize().y / 2.f
 		);
-		this->_roundSprite.setPosition({500, -250});
+		this->_roundSprite.setPosition({(STAGE_X_MIN + STAGE_X_MAX) / 2.f, -250});
 		this->_roundStartTimer++;
 		return this->_roundStartTimer <= 140;
 	}
@@ -1169,8 +1169,8 @@ namespace SpiralOfFate
 			ptr2 += length;
 		}
 
-		//if (dat1->_nbIObjects != dat2->_nbIObjects)
-		//	return;
+		if (dat1->_nbIObjects != dat2->_nbIObjects)
+			return;
 
 		for (size_t i = 0; i < dat1->_nbIObjects; i++) {
 			std::shared_ptr<IObject> obj;
@@ -1178,7 +1178,7 @@ namespace SpiralOfFate
 			auto id2 = *(unsigned *)ptr2;
 
 			if (id1 != id2)
-				game->logger.fatal("BattleManager::object[" + std::to_string(i) + "]::objectId differs: " + std::to_string(id1) + " vs " + std::to_string(id2));
+				game->logger.fatal("BattleManager::iobject[" + std::to_string(i) + "]::objectId differs: " + std::to_string(id1) + " vs " + std::to_string(id2));
 			ptr1 += sizeof(unsigned);
 			ptr2 += sizeof(unsigned);
 
@@ -1224,7 +1224,7 @@ namespace SpiralOfFate
 				if (spawner1 != spawner2 || index1 != index2)
 					return;
 
-				auto genDat1 = (
+				auto &genDat1 = (
 					spawner1 == 2 ?
 					this->_systemParticles :
 					(
@@ -1273,7 +1273,7 @@ namespace SpiralOfFate
 				if (spawner1 != spawner2 || index1 != index2)
 					return;
 
-				auto genDat1 = (
+				auto &genDat1 = (
 					spawner1 == 2 ?
 					this->_systemParticles :
 					(

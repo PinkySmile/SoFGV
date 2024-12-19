@@ -4,6 +4,7 @@
 
 #include <Resources/Game.hpp>
 #include <fstream>
+#include <iostream>
 #include "Objects/StageObjects/Cloud.hpp"
 #include "Objects/StageObjects/StageObject.hpp"
 #include "Objects/Characters/VictoriaStar/VictoriaStar.hpp"
@@ -96,16 +97,18 @@ int main(int argc, char **argv)
 		game->battleMgr.reset(new BattleManager{
 			BattleManager::StageParams{
 				stagesJson[stage]["image"],
-				[&stagesJson]{
-					if (!stagesJson.contains("objects"))
-						return std::vector<Object *>{};
+				[&stagesJson, stage] () -> std::vector<Object *>{
+					if (!stagesJson[stage].contains("objects")) {
+						std::cout << "Stage has no objects" << std::endl;
+						return {};
+					}
 
-					std::ifstream stream2{stagesJson["objects"].get<std::string>()};
+					std::ifstream stream2{stagesJson[stage]["objects"].get<std::string>()};
 					nlohmann::json json;
 					std::vector<Object *> objects;
 
 					if (stream2.fail()) {
-						game->logger.error("Failed to open stage object file: " + stagesJson["objects"].get<std::string>() + ": " + strerror(errno));
+						game->logger.error("Failed to open stage object file: " + stagesJson[stage]["objects"].get<std::string>() + ": " + strerror(errno));
 						return objects;
 					}
 
@@ -113,20 +116,21 @@ int main(int argc, char **argv)
 						stream2 >> json;
 						for (auto &obj : json) {
 							switch (obj["class"].get<int>()) {
-								case 1:
-									objects.push_back(new Cloud(obj));
-									break;
-								default:
-									objects.push_back(new StageObject(obj));
+							case 1:
+								objects.push_back(new Cloud(obj));
+								break;
+							default:
+								objects.push_back(new StageObject(obj));
 							}
 						}
+						std::cout << objects.size() << " objects" << std::endl;
 						return objects;
 					} catch (std::exception &e) {
 						game->logger.error("Error while loading objects: " + std::string(e.what()));
 						for (auto object : objects)
 							delete object;
 					}
-					return std::vector<Object *>{};
+					return {};
 				},
 				[&stagesJson, stage, platforms]{
 					std::vector<Platform *> objects;
