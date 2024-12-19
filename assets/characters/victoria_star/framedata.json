@@ -7131,18 +7131,38 @@
             "x": 0.0,
             "y": -0.10000000149011612
           },
+          "hit_boxes": [
+            {
+              "height": 74,
+              "left": 502,
+              "top": -532,
+              "width": 75
+            },
+            {
+              "height": 75,
+              "left": 414,
+              "top": -451,
+              "width": 69
+            },
+            {
+              "height": 73,
+              "left": 452,
+              "top": -490,
+              "width": 69
+            }
+          ],
           "hurt_boxes": [
             {
-              "height": 118,
+              "height": 183,
               "left": -21,
-              "top": -118,
-              "width": 117
+              "top": -183,
+              "width": 191
             }
           ],
           "offense_flag": 2361344,
           "offset": {
-            "x": 10,
-            "y": 0
+            "x": 282,
+            "y": 5
           },
           "scale": {
             "x": 2.0,
@@ -7151,10 +7171,10 @@
           "sprite": "sheet_tmp.png",
           "subobject": -9,
           "texture_bounds": {
-            "height": 60,
-            "left": 208,
-            "top": 389,
-            "width": 27
+            "height": 262,
+            "left": 251,
+            "top": 549,
+            "width": 294
           }
         },
         {
