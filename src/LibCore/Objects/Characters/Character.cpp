@@ -4662,9 +4662,9 @@ namespace SpiralOfFate
 		case ANCHOR_OPPONENT:
 			return (&this->_opponent->_position.x)[y];
 		case ANCHOR_BORDER_FRONT:
-			return this->_direction * STAGE_X_MAX;
+			return this->_direction ? STAGE_X_MAX : STAGE_X_MIN;
 		case ANCHOR_BORDER_BACK:
-			return !this->_direction * STAGE_X_MAX;
+			return !this->_direction ? STAGE_X_MAX : STAGE_X_MIN;
 		case ANCHOR_STAGE_MIN:
 			return y ? STAGE_Y_MIN : STAGE_X_MIN;
 		case ANCHOR_STAGE_MAX:

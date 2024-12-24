@@ -598,7 +598,7 @@ namespace SpiralOfFate
 						collisions.emplace_back(&*object, &*object2.second, object->getCurrentFrameData());
 			}
 
-			for (auto &[attacker, defender, data]: collisions) {
+			for (auto [attacker, defender, data]: collisions) {
 				if (attacker->isDisabled(*defender))
 					continue;
 				defender->getHit(*attacker, data);
