@@ -15832,7 +15832,7 @@
           ],
           "mana_gain": 30,
           "neutral_limit": 15,
-          "offense_flag": 2304,
+          "offense_flag": 2816,
           "offset": {
             "x": -12,
             "y": -36
