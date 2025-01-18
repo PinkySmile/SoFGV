@@ -25288,7 +25288,7 @@
             "top": -166,
             "width": 34
           },
-          "defense_flag": 8449,
+          "defense_flag": 8448,
           "duration": 14,
           "gravity": {
             "x": 0.0,
@@ -25322,7 +25322,7 @@
             "top": -166,
             "width": 34
           },
-          "defense_flag": 532737,
+          "defense_flag": 532736,
           "duration": 14,
           "gravity": {
             "x": 0.0,
@@ -25371,7 +25371,6 @@
               "width": 55
             }
           ],
-          "rotation": 5.599999852270234,
           "scale": {
             "x": 2.0,
             "y": 2.0
