@@ -199,6 +199,7 @@ namespace SpiralOfFate
 		dat->_animationCtr = this->_animationCtr;
 		dat->_disabled = this->_disabled;
 		dat->_nbHit = this->_nbHit;
+		dat->_animData = this->_animData;
 		dat->_animType = this->_animType;
 		dat->_typeSwitchFlags = this->_typeSwitch;
 		dat->_debuffDuration = this->_debuffDuration;
@@ -213,6 +214,7 @@ namespace SpiralOfFate
 		this->_animationCtr = dat->_animationCtr;
 		this->_disabled = dat->_disabled;
 		this->_nbHit = dat->_nbHit;
+		this->_animData = dat->_animData;
 		this->_animType = dat->_animType;
 		this->_typeSwitch = dat->_typeSwitchFlags;
 		this->_debuffDuration = dat->_debuffDuration;
@@ -249,6 +251,7 @@ namespace SpiralOfFate
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _animationCtr, std::to_string);
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _disabled, DISP_BOOL);
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _nbHit, std::to_string);
+		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _animData, std::to_string);
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _animType, std::to_string);
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _typeSwitchFlags, std::to_string);
 		OBJECT_CHECK_FIELD("Projectile", "", dat1, dat2, _debuffDuration, std::to_string);
@@ -330,6 +333,7 @@ namespace SpiralOfFate
 		DISPLAY_FIELD("Projectile", "", dat, _animationCtr, std::to_string);
 		DISPLAY_FIELD("Projectile", "", dat, _debuffDuration, std::to_string);
 		DISPLAY_FIELD("Projectile", "", dat, _disabled, DISP_BOOL);
+		DISPLAY_FIELD("Projectile", "", dat, _animData, std::to_string);
 		DISPLAY_FIELD("Projectile", "", dat, _typeSwitchFlags, std::to_string);
 		DISPLAY_FIELD("Projectile", "", dat, _animType, std::to_string);
 		if (startOffset + length + sizeof(Data) >= dataSize) {
