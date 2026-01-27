@@ -55,7 +55,7 @@ namespace SpiralOfFate
 		unsigned _debuffDuration = 0;
 		bool _disabled = false;
 		unsigned _animData = 0;
-		ProjectileAnimation _animType;
+		ProjectileAnimation _animType = ANIMATION_DISAPPEAR;
 		// Technically non-game state, but is required to be saved
 		// because the object is recreated from scratch
 		TypeSwitch _typeSwitch;
