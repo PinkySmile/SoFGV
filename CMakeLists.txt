@@ -6,7 +6,74 @@ set(CMAKE_CXX_STANDARD 20)
 add_compile_definitions(_USE_MATH_DEFINES ZLIB_CONST)
 
 if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
-	set(USE_SDL2 ON)
+	set(BUILD_STATIC ON)
+	set(WEB_BUILD ON)
+	# Dirty hack for emscripten
+	set(SFML_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/SFML")
+	set(FLAC_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/FLAC")
+	set(Freetype_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/freetype")
+	set(Ogg_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Ogg")
+	set(Vorbis_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/Vorbis")
+	set(TGUI_DIR "${CMAKE_PREFIX_PATH}/lib/cmake/TGUI")
+
+	# Suppress warning in json library
+	set(SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_DEBUG -g3 -gsource-map -Og)
+	set(SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_RELEASE -O3)
+	set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_DEBUG -g3 -gsource-map -sASSERTIONS=2 -sCHECK_NULL_WRITES=1 -sSAFE_HEAP=1 -sSTACK_OVERFLOW_CHECK=1)
+	set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_RELEASE -O3)
+	set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_ASYNCIFY -sASYNCIFY=1) #-sASYNCIFY_IGNORE_INDIRECT=1)
+
+	if (CMAKE_BUILD_TYPE STREQUAL Debug)
+		set(SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS ${SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_DEBUG})
+		set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS ${SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_DEBUG})
+	else()
+		set(SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS ${SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_RELEASE})
+		set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS ${SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_RELEASE})
+	endif()
+
+	set(SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS
+		${SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS}
+		#-pthread
+		--use-port=freetype
+	)
+	set(SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS
+		${SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS}
+
+		${SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS_ASYNCIFY}
+
+		#-pthread                            # Enable threading support
+
+		-Wno-limited-postlink-optimizations # warning: running limited binaryen optimizations because DWARF info requested (or indirectly required)
+		-Wno-pthreads-mem-growth            # warning: -pthread + ALLOW_MEMORY_GROWTH may run non-wasm code slowly, see https://github.com/WebAssembly/design/issues/1271
+
+		-s EXPORTED_RUNTIME_METHODS=HEAPF32
+		-sALLOW_MEMORY_GROWTH=1             # Grow the memory arrays at runtime
+		-sEXIT_RUNTIME=1                    # Execute cleanup (e.g. `atexit`) after `main` completes
+		-sFETCH=1                           # Enables `emscripten_fetch` API
+		-sFORCE_FILESYSTEM=1                # Makes full filesystem support be included
+		-sFULL_ES2=1                        # Forces support for all GLES2 features, not just the WebGL-friendly subset
+		-sMAX_WEBGL_VERSION=1               # Specifies the highest WebGL version to target
+		-sMIN_WEBGL_VERSION=1               # Specifies the lowest WebGL version to target
+		-sSTACK_SIZE=8mb                    # Set the total stack size
+		#-sUSE_PTHREADS=1                    # Enable threading support
+		-sWASM=1                            # Compile code to WebAssembly
+
+		-sGL_EXPLICIT_UNIFORM_LOCATION=1  # TODO P0:
+		-sGL_EXPLICIT_UNIFORM_BINDING=1   # TODO P0:
+
+		--emrun                             # Add native support for `emrun` (I/O capture)
+		--embed-file ${CMAKE_SOURCE_DIR}/assets/@/assets
+		-sTOTAL_MEMORY=512mb
+
+		--shell-file=${CMAKE_SOURCE_DIR}/shell.html
+	)
+
+	set(CMAKE_EXECUTABLE_SUFFIX ".html")
+	add_compile_options(-Wno-deprecated-literal-operator)
+	add_compile_options(${SFML_EMSCRIPTEN_TARGET_COMPILE_OPTIONS})
+	add_link_options(${SFML_EMSCRIPTEN_TARGET_LINK_OPTIONS})
+else ()
+	set(WEB_BUILD OFF)
 endif ()
 if (USE_SDL2)
 	find_package(SDL2 REQUIRED)
@@ -59,7 +126,9 @@ if (USE_SDL2)
 	set(VIRTUAL_CONTROLLER OFF)
 	add_compile_definitions(USE_SDL=1)
 else ()
-	set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=sf::UdpSocket)
+	if (NOT WEB_BUILD)
+		set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=sf::UdpSocket)
+	endif()
 	set(NETWORK_EXTRA_SRC)
 	set(
 		INPUT_SRCS
@@ -87,8 +156,14 @@ else ()
 		src/LibCore/SFML/Sprite.cpp
 	)
 
+	if (BUILD_STATIC)
+		set(TGUI_SHARED_LIBS OFF)
+		set(SFML_STATIC_LIBRARIES ON)
+	else()
+		set(TGUI_SHARED_LIBS ON)
+		set(SFML_STATIC_LIBRARIES OFF)
+	endif()
 	find_package(SFML 3 REQUIRED COMPONENTS Graphics Audio Network)
-	set(TGUI_SHARED_LIBS TRUE)
 	find_package(TGUI 1 REQUIRED)
 
 	if (NO_TGUI)
@@ -148,12 +223,6 @@ if (NETWORK_CLASSES)
 		src/LibCore/Resources/Network/SpectatorInputManager.hpp
 		src/LibCore/Inputs/SpectatorInput.cpp
 		src/LibCore/Inputs/SpectatorInput.hpp
-		src/LibCore/Resources/ObjectFactory.cpp
-		src/LibCore/Resources/ObjectFactory.hpp
-		src/LibCore/Resources/Assert.hpp
-		src/LibCore/Resources/Assert.cpp
-		src/LibCore/Resources/Settings.cpp
-		src/LibCore/Resources/Settings.hpp
 	)
 	set(
 		NETWORK_EXTRA_SCENES
@@ -224,8 +293,14 @@ else()
 	set(FDICON)
 endif()
 
+if (BUILD_STATIC)
+	set(LIBRARY_TYPE STATIC)
+else ()
+	set(LIBRARY_TYPE SHARED)
+endif ()
+
 add_library(
-	SoFGVCore SHARED
+	SoFGVCore ${LIBRARY_TYPE}
 	${CRES}
 	src/LibCore/Data/Vector.hpp
 	src/LibCore/Inputs/DelayInput.cpp
@@ -306,6 +381,12 @@ add_library(
 	src/LibCore/Resources/ReplayData.hpp
 	src/LibCore/Objects/Characters/CharacterParams.hpp
 	src/LibCore/Objects/CheckUtils.hpp
+	src/LibCore/Resources/ObjectFactory.cpp
+	src/LibCore/Resources/ObjectFactory.hpp
+	src/LibCore/Resources/Assert.hpp
+	src/LibCore/Resources/Assert.cpp
+	src/LibCore/Resources/Settings.cpp
+	src/LibCore/Resources/Settings.hpp
 	${INPUT_SRCS}
 	${ASSETS_SRCS}
 	${SCREEN_SRCS}
@@ -329,8 +410,6 @@ else ()
 		SoFGVCore
 		${EXTRA_LINK_LIBRARIES}
 		pthread
-		png
-		xcb
 	)
 endif ()
 
@@ -367,7 +446,7 @@ add_executable(
 	src/Game/Scenes/Scenes.hpp
 	src/Game/Scenes/SkeletonData.hpp
 )
-target_link_libraries(SoFGV SoFGVCore ${EXTRA_LINK_LIBRARIES})
+target_link_libraries(SoFGV SoFGVCore pthread ${EXTRA_LINK_LIBRARIES})
 target_include_directories(SoFGV PRIVATE src/LibCore src/Game)
 
 if (NOT USE_SDL2)

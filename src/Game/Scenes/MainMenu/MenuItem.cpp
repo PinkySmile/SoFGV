@@ -9,6 +9,7 @@
 #define SELECTED_BUTTON_LENGTH_EXTEND 60
 #define BUTTON_TEXT_TEXTURE_SIZE Vector2u{600, 60}
 #define DISABLE_DIM 100
+#include <GLES2/gl2.h> // Ensure you have the GLES2 headers for Emscripten
 
 namespace SpiralOfFate
 {
@@ -39,12 +40,17 @@ namespace SpiralOfFate
 		this->_normalText.draw(text);
 		this->_normalText.display();
 
-		assert_exp(shader.loadFromFile("assets/ui/blur.frag", sf::Shader::Type::Fragment));
-		shader.setUniform("offsetFactor", sf::Vector2f{0.0025, 0.0025});
-		shader.setUniform("source", sf::Shader::CurrentTexture);
-		this->_blurredText.clear(Color{255, 255, 255, 0});
-		this->_blurredText.draw(text, &shader);
-		this->_blurredText.display();
+#ifdef __EMSCRIPTEN__
+		//assert_exp(shader.loadFromFile("assets/ui/blur_web.vert", "assets/ui/blur_web.frag"));
+#else
+		//assert_exp(shader.loadFromFile("assets/ui/blur.frag", sf::Shader::Type::Fragment));
+		//shader.setUniform("source", sf::Shader::CurrentTexture);
+#endif
+		//shader.setUniform("offsetFactor", sf::Vector2f{0.0025f, 0.0025f});
+
+		//this->_blurredText.clear(Color{255, 255, 255, 0});
+		//this->_blurredText.draw(text, &shader);
+		//this->_blurredText.display();
 
 		this->_btnImg.setPosition({842, 321.f + MENU_ITEM_SPACING * index});
 		this->_btnImg.setColor(Color::Transparent);

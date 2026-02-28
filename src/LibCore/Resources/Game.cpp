@@ -12,13 +12,23 @@ namespace SpiralOfFate
 {
 	MYDLL_API Game *game = nullptr;
 
-	Game::Game(const std::filesystem::path &fontPath, const std::filesystem::path &settingsPath, const std::filesystem::path &loggerPath) :
+	Game::Game(
+		const std::string &title,
+		const std::filesystem::path &fontPath,
+		const std::filesystem::path &settingsPath,
+		const std::filesystem::path &loggerPath
+	) :
 		settings(settingsPath),
 		logger(loggerPath),
-		font(fontPath)
+		font(fontPath),
+		// Needed for emscripten build so that the window is opened before
+		// the other classes are instanciated
+		screen([this, &title]{
+			assert_exp(!game);
+			game = this;
+			return std::make_unique<Screen>(title);
+		}())
 	{
-		assert_exp(!game);
-		game = this;
 		try {
 			assert_eq(this->soundMgr.load("assets/sfxs/se/039.ogg"), BASICSOUND_MENU_MOVE);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/041.ogg"), BASICSOUND_MENU_CANCEL);

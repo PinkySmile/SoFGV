@@ -12,17 +12,17 @@
 namespace SpiralOfFate
 {
 	Screen::Screen(const std::string &title) :
-#ifdef __ANDROID__
-		sf::RenderWindow(sf::VideoMode::getDesktopMode(), title), _title(title)
-#else
+	#if defined(__ANDROID__) || defined(__EMSCRIPTEN__)
+		sf::RenderWindow(sf::VideoMode::getDesktopMode(), title),
+	#else
 		sf::RenderWindow([]{
 			auto desktop = sf::VideoMode::getDesktopMode();
 
 			desktop.size.y -= 40;
 			return desktop;
 		}(), title),
+	#endif
 		_title(title)
-#endif
 	{
 		this->setPosition(sf::Vector2i(0, 0));
 		game->logger.info("Opening game window \"" + title + "\"");

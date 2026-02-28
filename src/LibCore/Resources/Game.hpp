@@ -96,9 +96,9 @@ namespace SpiralOfFate
 		std::shared_ptr<VirtualController> virtualController;
 	#endif
 		std::unique_ptr<BattleManager> battleMgr;
-		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P1;
-		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> P2;
-		std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<SpiralOfFate::ControllerInput>> menu;
+		std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> P1;
+		std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> P2;
+		std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> menu;
 		std::array<Color, 5> typeColors = {
 			Color{0xA6, 0xA6, 0xA6},
 			Color{0xFF, 0xFF, 0x00},
@@ -115,7 +115,12 @@ namespace SpiralOfFate
 	#endif
 		std::shared_ptr<IInput> activeNetInput;
 
-		Game(const std::filesystem::path &fontPath, const std::filesystem::path &settingsPath, const std::filesystem::path &loggerPath = "./latest.log");
+		Game(
+			const std::string &title,
+			const std::filesystem::path &fontPath,
+			const std::filesystem::path &settingsPath,
+			const std::filesystem::path &loggerPath = "./latest.log"
+		);
 		std::vector<std::filesystem::path> getCharacters();
 		Color getColor(const std::string &name);
 	};

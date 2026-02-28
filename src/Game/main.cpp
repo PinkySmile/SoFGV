@@ -1,5 +1,8 @@
 #include <iostream>
 #include <memory>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 #ifdef _WIN32
 #include <windows.h>
 #include <dbghelp.h>
@@ -200,6 +203,7 @@ static void logEvent(sf::Event &event)
 void	checkCompilationEnv()
 {
 	char magic[] = {0x04, 0x03, 0x02, 0x01};
+	auto magicPtr = reinterpret_cast<unsigned *>(magic);
 
 	// We perform an endianness check here and display a warning if it fails.
 	// The affected stuff are:
@@ -208,11 +212,11 @@ void	checkCompilationEnv()
 	//   - Computed state checksums
 	// We officially support only little endian but people can play if they have the same endianness.
 	// Regardless, the game should work in singleplayer.
-	if (*(unsigned *)magic != 0x01020304)
+	if (*magicPtr != 0x01020304)
 		Utils::dispMsg(
 			game->gui,
 			"Warning",
-			"Your version of the game has been compiled in " + std::string(*(unsigned *)magic == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
+			"Your version of the game has been compiled in " + std::string(*magicPtr == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
 			"You will not be able to play with players using a different endianness.\n" +
 			"Moreover, you won't be able to load replays generated with a different endianness.\n"
 			"Your replays will also not be compatible with a different version of the game.",
@@ -245,26 +249,32 @@ void	checkCompilationEnv()
 
 void	registerScenes()
 {
+	bool hasLoading = true;
+
+#ifdef __EMSCRIPTEN__
+	hasLoading = false;
+#endif
+
 	game->scene.registerScene("title_screen", TitleScreen::create, false);
 	game->scene.registerScene("loading", LoadingScene::create, false);
 
 	// Single player
-	game->scene.registerScene("char_select", CharacterSelect::create, true);
-	game->scene.registerScene("in_game", InGame::create, true);
-	game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
-	game->scene.registerScene("replay_in_game", ReplayInGame::create, true);
+	game->scene.registerScene("char_select", CharacterSelect::create, hasLoading);
+	game->scene.registerScene("in_game", InGame::create, hasLoading);
+	game->scene.registerScene("practice_in_game", PracticeInGame::create, hasLoading);
+	game->scene.registerScene("replay_in_game", ReplayInGame::create, hasLoading);
 #ifdef HAS_NETWORK
 #ifdef _DEBUG
-	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, true);
+	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, hasLoading);
 #endif
 
 	// Netplay
-	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, true);
-	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, true);
+	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, hasLoading);
+	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, hasLoading);
 	game->scene.registerScene("spectator_char_select", SpectatorCharacterSelect::create, false);
-	game->scene.registerScene("client_in_game", ClientInGame::create, true);
-	game->scene.registerScene("server_in_game", ServerInGame::create, true);
-	game->scene.registerScene("spectator_in_game", SpectatorInGame::create, true);
+	game->scene.registerScene("client_in_game", ClientInGame::create, hasLoading);
+	game->scene.registerScene("server_in_game", ServerInGame::create, hasLoading);
+	game->scene.registerScene("spectator_in_game", SpectatorInGame::create, hasLoading);
 #endif
 }
 
@@ -284,7 +294,6 @@ void	run()
 #ifdef VIRTUAL_CONTROLLER
 	game->virtualController = std::make_shared<VirtualController>();
 #endif
-	game->screen = std::make_unique<Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		game->screen->setIcon(icon.getSize(), icon.getPixelsPtr());
 	game->screen->setFont(game->font);
@@ -360,7 +369,7 @@ int	main()
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	try {
 #endif
-		new Game("assets/fonts/Retro Gaming.ttf", "settings.json");
+		new Game("Spiral of Fate: Grand Vision | version " VERSION_STR, "assets/fonts/Retro Gaming.ttf", "settings.json");
 		game->logger.info("Starting game->");
 		run();
 		game->logger.info("Goodbye !");

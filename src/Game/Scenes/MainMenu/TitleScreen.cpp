@@ -106,7 +106,7 @@ extern std::pair<std::shared_ptr<SpiralOfFate::KeyboardInput>, std::shared_ptr<S
 
 namespace SpiralOfFate
 {
-	static const unsigned inputsOrder[]{
+	static constexpr unsigned inputsOrder[]{
 		INPUT_LEFT,
 		INPUT_RIGHT,
 		INPUT_UP,
@@ -152,9 +152,11 @@ namespace SpiralOfFate
 					this->_menuObject.setEnabledMenu(CHUNK_DEBUG, false);
 				}},
 			#endif
+			#if !defined(__EMSCRIPTEN__) && !defined(__ANDROID__)
 				{"Quit", "Quit game", []{
 					game->screen->close();
 				}},
+			#endif
 			},
 			{
 				{"Story Mode", "Discover the universe", nullptr},
