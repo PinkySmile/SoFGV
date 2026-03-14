@@ -199,7 +199,7 @@ namespace SpiralOfFate
 			return;
 
 		auto buffer = new char[RECV_BUFFER_SIZE];
-		auto packet = (Packet *)buffer;
+		auto packet = reinterpret_cast<Packet *>(buffer);
 
 		while (true) {
 			size_t realSize = 0;
@@ -212,7 +212,8 @@ namespace SpiralOfFate
 				auto t = iter->timeSinceLastPacket.getElapsedTime().asSeconds();
 
 				if (t < 10 && iter->connectPhase != CONNECTION_STATE_DISCONNECTED) {
-					iter++;
+					iter->pingUpdate();
+					++iter;
 					continue;
 				}
 				if (this->_opponent == &*iter) {
@@ -228,8 +229,9 @@ namespace SpiralOfFate
 
 			if (res == sf::Socket::Status::NotReady)
 				break;
-			else if (res != sf::Socket::Status::Done) {
-				game->logger.error("[<" + ip->toString() + ":" + std::to_string(port) + "] Error receiving packet " + std::to_string((int)res));
+			if (res != sf::Socket::Status::Done) {
+				game->logger.error("Error receiving packet " + std::to_string((int)res));
+				this->terminate();
 				break;
 			}
 
@@ -716,24 +718,23 @@ namespace SpiralOfFate
 		this->_sendSyncBuffer.emplace_back(frame, time);
 	}
 
-	void Connection::Remote::_pingLoop()
+	void Connection::Remote::pingUpdate()
 	{
-		PacketPing ping(0);
+		if (this->connectPhase == CONNECTION_STATE_DISCONNECTED)
+			return;
+		if (this->_ping.seqId != 0 && this->_lastPingSent.getElapsedTime().asSeconds() < 2)
+			return;
 
-		while (this->connectPhase != CONNECTION_STATE_DISCONNECTED) {
-			this->base._send(*this, &ping, sizeof(ping));
-			for (int i = 0; i < 20 && this->connectPhase != CONNECTION_STATE_DISCONNECTED; i++)
-				std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			ping.seqId++;
-		}
+		this->_base._send(*this, &this->_ping, sizeof(this->_ping));
+		this->_ping.seqId++;
+		this->_lastPingSent.restart();
 	}
 
 	Connection::Remote::Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) :
-		base(base),
+		_base(base),
 		ip(ip),
 		port(port)
 	{
-		pthread_setname_np(this->pingThread.native_handle(), ("Ping " + ip.toString() + ":" + std::to_string(port)).c_str());
 	}
 
 	Connection::Remote::~Remote()
@@ -741,10 +742,8 @@ namespace SpiralOfFate
 		if (this->connectPhase != CONNECTION_STATE_DISCONNECTED) {
 			PacketQuit quit;
 
-			this->base._send(*this, &quit, sizeof(quit));
+			this->_base._send(*this, &quit, sizeof(quit));
 			this->connectPhase = CONNECTION_STATE_DISCONNECTED;
 		}
-		if (this->pingThread.joinable())
-			this->pingThread.join();
 	}
 }

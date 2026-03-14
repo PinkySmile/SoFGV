@@ -48,9 +48,10 @@ namespace SpiralOfFate
 				sf::Clock clock;
 			};
 
-			Connection &base;
+			Connection &_base;
+			PacketPing _ping{0};
+			sf::Clock _lastPingSent;
 
-			void _pingLoop();
 
 		public:
 			sf::IpAddress ip;
@@ -63,11 +64,11 @@ namespace SpiralOfFate
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
 			sf::Clock timeSinceLastPacket;
-			std::thread pingThread{&Remote::_pingLoop, this};
 			std::function<void (Remote &remote)> onDisconnect;
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port);
 			~Remote();
+			void pingUpdate();
 		};
 
 	protected:

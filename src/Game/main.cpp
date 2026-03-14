@@ -20,6 +20,13 @@
 #include "VirtualController.hpp"
 #endif
 
+#ifdef __EMSCRIPTEN__
+#define USE_LOADING_THREAD false
+#else
+#define LOADING_SCENE
+#define USE_LOADING_THREAD true
+#endif
+
 #ifdef _WIN32
 std::wstring getLastError(int err = GetLastError())
 {
@@ -250,14 +257,12 @@ void	checkCompilationEnv()
 
 void	registerScenes()
 {
-	bool hasLoading = true;
-
-#ifdef __EMSCRIPTEN__
-	hasLoading = false;
-#endif
+	bool hasLoading = USE_LOADING_THREAD;
 
 	game->scene.registerScene("title_screen", TitleScreen::create, false);
+#ifdef LOADING_SCENE
 	game->scene.registerScene("loading", LoadingScene::create, false);
+#endif
 
 	// Single player
 	game->scene.registerScene("char_select", CharacterSelect::create, hasLoading);
@@ -297,11 +302,9 @@ void	run()
 #endif
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		game->screen->setIcon(icon.getSize(), icon.getPixelsPtr());
-	game->screen->setFont(game->font);
 	game->scene.switchScene("title_screen");
 	clock.restart();
 	game->screen->setFramerateLimit(60);
-	game->gui.setWindow(*game->screen);
 	while (game->screen->isOpen()) {
 	#ifdef HAS_NETWORK
 		if (game->connection)
@@ -387,9 +390,11 @@ int	main()
 		} else
 			MessageBoxA(nullptr, e.what(), "Fatal error", MB_ICONERROR);
 #else
-		//	Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*game->screen);
-		}// else
-		//	Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
+		} else
+			std::cerr << Utils::getLastExceptionName() << ": " << e.what() << std::endl;
+#endif
+#ifdef __EMSCRIPTEN__
+		abort();
 #endif
 		ret = EXIT_FAILURE;
 	}

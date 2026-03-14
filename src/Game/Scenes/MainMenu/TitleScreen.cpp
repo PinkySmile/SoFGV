@@ -418,7 +418,7 @@ namespace SpiralOfFate
 		}
 		if (pos != std::string::npos) {
 			try {
-				auto p = std::stoul(static_cast<std::string>(ipString.substr(pos + 1)));
+				auto p = std::stoul(ipString.substr(pos + 1));
 
 				if (p > UINT16_MAX)
 					throw std::exception();

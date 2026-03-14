@@ -35,10 +35,6 @@
 </head>
 <body style="background-color:black">
     <div class="emscripten" id="status" style="color:white">Downloading...</div>
-    <span id='controls'>
-      <span><input type="button" value="Fullscreen" onclick="Module.requestFullscreen();document.getElementById('enableApp').disabled=false">
-      </span>
-    </span>
     <div class="emscripten_border" id="enableApp" disabled=true>
         <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
     </div>
