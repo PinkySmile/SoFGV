@@ -102,28 +102,15 @@ std::string getLastError(int err = errno)
 
 using namespace SpiralOfFate;
 
-void saveInputs(const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &input, const std::string &path)
-{
-	auto parent = std::filesystem::path(path).parent_path();
-
-	if (!parent.empty())
-		std::filesystem::create_directories(parent);
-
-	std::ofstream stream{path};
-
-	input.first->save(stream);
-	input.second->save(stream);
-}
-
 std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadInputs(const std::string &path)
 {
 	std::ifstream istream{path};
 	std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> result;
 
 	if (istream.fail()) {
+		game->logger.debug("Generating inputs for " + path);
 		result.first = std::make_shared<KeyboardInput>();
 		result.second = std::make_shared<ControllerInput>();
-		saveInputs(result, path);
 	} else {
 		result.first = std::make_shared<KeyboardInput>(istream);
 		result.second = std::make_shared<ControllerInput>(istream);
@@ -293,7 +280,7 @@ void	run()
 	sf::Clock clock;
 
 	checkCompilationEnv();
-	game->menu = loadInputs("menuInputs.in");
+	game->menu = loadInputs("settings/menuInputs.in");
 	game->P1 = loadInputs(game->settings.inputPresetP1);
 	game->P2 = loadInputs(game->settings.inputPresetP2);
 	registerScenes();
@@ -359,14 +346,29 @@ void	run()
 		#endif
 		}
 	}
-	// TODO: Move
-	saveInputs(game->menu, "menuInputs.in");
-	saveInputs(game->P1, game->settings.inputPresetP1);
-	saveInputs(game->P2, game->settings.inputPresetP2);
 }
 
 int	main()
 {
+#ifdef __EMSCRIPTEN__
+	EM_ASM(
+		FS.mkdir('/inputs');
+		FS.mkdir('/settings');
+		FS.mount(IDBFS, {autoPersist: true}, '/inputs');
+		FS.mount(IDBFS, {autoPersist: true}, '/settings');
+		FS.syncfs(true, function (err) {
+			if (err)
+				console.error(err);
+			_entrypoint();
+		});
+	);
+
+	emscripten_exit_with_live_runtime();
+}
+
+extern "C" EMSCRIPTEN_KEEPALIVE int entrypoint()
+{
+#endif
 	int ret = EXIT_SUCCESS;
 
 	libraryInit();
@@ -377,7 +379,7 @@ int	main()
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	try {
 #endif
-		new Game("Spiral of Fate: Grand Vision | version " VERSION_STR, "assets/fonts/Retro Gaming.ttf", "settings.json");
+		new Game("Spiral of Fate: Grand Vision | version " VERSION_STR, "assets/fonts/Retro Gaming.ttf", "settings/settings.json");
 		game->logger.info("Starting game->");
 		run();
 		game->logger.info("Goodbye !");

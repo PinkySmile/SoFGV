@@ -953,6 +953,20 @@ namespace SpiralOfFate
 		}
 	}
 
+	static void saveInputs(const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &input, const std::string &path)
+	{
+		auto parent = std::filesystem::path(path).parent_path();
+
+		if (!parent.empty())
+			std::filesystem::create_directories(parent);
+		game->logger.debug("Saving inputs to " + path);
+
+		std::ofstream stream{path};
+
+		input.first->save(stream);
+		input.second->save(stream);
+	}
+
 	void TitleScreen::_onCancel()
 	{
 		game->soundMgr.play(BASICSOUND_MENU_CANCEL);
@@ -968,6 +982,9 @@ namespace SpiralOfFate
 	#endif
 		if (this->_changingInputs) {
 			this->_changingInputs = 0;
+			saveInputs(game->menu, "settings/menuInputs.in");
+			saveInputs(game->P1, game->settings.inputPresetP1);
+			saveInputs(game->P2, game->settings.inputPresetP2);
 			return;
 		}
 		if (this->_askingInputs) {

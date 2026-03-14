@@ -224,14 +224,14 @@ namespace SpiralOfFate
 		while (it != objectLayers.end() && it->first <= -1000) {
 			for (auto obj : it->second)
 				obj->render();
-			it++;
+			++it;
 		}
 		game->screen->displayElement(this->_stage);
 		// <= -500, behind HUD
 		while (it != objectLayers.end() && it->first <= -500) {
 			for (auto obj : it->second)
 				obj->render();
-			it++;
+			++it;
 		}
 
 		this->_leftHUDData.render(this->_leftHUD);
@@ -291,7 +291,7 @@ namespace SpiralOfFate
 		while (it != objectLayers.end() && it->first < -50) {
 			for (auto obj : it->second)
 				obj->render();
-			it++;
+			++it;
 		}
 		if (this->_leftFirst) {
 			this->_renderCharacter(*this->_leftCharacter);
@@ -299,7 +299,7 @@ namespace SpiralOfFate
 			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj : it->second)
 					obj->render();
-				it++;
+				++it;
 			}
 		}
 		this->_renderCharacter(*this->_rightCharacter);
@@ -308,14 +308,14 @@ namespace SpiralOfFate
 			while (it != objectLayers.end() && it->first <= 50) {
 				for (auto obj: it->second)
 					obj->render();
-				it++;
+				++it;
 			}
 			this->_renderCharacter(*this->_leftCharacter);
 		}
 		while (it != objectLayers.end()) {
 			for (auto obj : it->second)
 				obj->render();
-			it++;
+			++it;
 		}
 		if (this->_roundEndTimer < 120 && (this->_leftCharacter->_hp <= 0 || this->_rightCharacter->_hp <= 0 || this->_roundEndTimer))
 			this->_renderRoundEndAnimation();

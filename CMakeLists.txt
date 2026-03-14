@@ -185,6 +185,13 @@ else ()
 	add_compile_definitions(USE_SFML=1)
 	set(EXTRA_LIBRARY_INCLUDES src/LibCore/SFML)
 endif ()
+if (EMSCRIPTEN)
+	set(
+		EXTRA_LINK_LIBRARIES
+		${EXTRA_LINK_LIBRARIES}
+		idbfs.js
+	)
+endif ()
 
 if (VIRTUAL_CONTROLLER)
 	add_compile_definitions(VIRTUAL_CONTROLLER=1)
