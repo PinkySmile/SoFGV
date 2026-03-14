@@ -731,8 +731,7 @@ namespace SpiralOfFate
 	Connection::Remote::Remote(Connection &base, const sf::IpAddress &ip, unsigned short port) :
 		base(base),
 		ip(ip),
-		port(port),
-		pingThread{&Remote::_pingLoop, this}
+		port(port)
 	{
 		pthread_setname_np(this->pingThread.native_handle(), ("Ping " + ip.toString() + ":" + std::to_string(port)).c_str());
 	}

@@ -758,10 +758,13 @@ namespace SpiralOfFate
 			dat->gravity = *this->gravity;
 		else
 			dat->gravity = {0, 0};
-		if (this->snap)
-			dat->snap = *this->snap;
-		else
-			dat->snap = {{0, 0}, 0};
+		if (this->snap) {
+			dat->snapPos = this->snap->first;
+			dat->snapRot = this->snap->second;
+		} else {
+			dat->snapPos = {0, 0};
+			dat->snapRot = 0;
+		}
 		if (this->priority)
 			dat->priority = *this->priority;
 		else
@@ -830,9 +833,10 @@ namespace SpiralOfFate
 			this->gravity = dat->gravity;
 		else
 			this->gravity.reset();
-		if (dat->hasSnap)
-			this->snap = dat->snap;
-		else
+		if (dat->hasSnap) {
+			this->snap->first  = dat->snapPos;
+			this->snap->second = dat->snapRot;
+		} else
 			this->snap.reset();
 		if (dat->hasPriority)
 			this->priority = dat->priority;
@@ -900,8 +904,8 @@ namespace SpiralOfFate
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, speed, DISP_VEC);
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, hitSpeed, DISP_VEC);
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, gravity, DISP_VEC);
-		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, snap.first, DISP_VEC);
-		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, snap.second, std::to_string);
+		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, snapPos, DISP_VEC);
+		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, snapRot, std::to_string);
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, counterHitSpeed, DISP_VEC);
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, textureBounds.pos, DISP_VEC);
 		OBJECT_CHECK_FIELD("FrameData", "", dat1, dat2, textureBounds.size, DISP_VEC);
@@ -982,8 +986,8 @@ namespace SpiralOfFate
 		DISPLAY_FIELD("FrameData", "", dat, speed, DISP_VEC);
 		DISPLAY_FIELD("FrameData", "", dat, hitSpeed, DISP_VEC);
 		DISPLAY_FIELD("FrameData", "", dat, gravity, DISP_VEC);
-		DISPLAY_FIELD("FrameData", "", dat, snap.first, DISP_VEC);
-		DISPLAY_FIELD("FrameData", "", dat, snap.second, std::to_string);
+		DISPLAY_FIELD("FrameData", "", dat, snapPos, DISP_VEC);
+		DISPLAY_FIELD("FrameData", "", dat, snapRot, std::to_string);
 		DISPLAY_FIELD("FrameData", "", dat, counterHitSpeed, DISP_VEC);
 		DISPLAY_FIELD("FrameData", "", dat, textureBounds.pos, DISP_VEC);
 		DISPLAY_FIELD("FrameData", "", dat, textureBounds.size, DISP_VEC);

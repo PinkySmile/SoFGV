@@ -12,8 +12,16 @@
 namespace SpiralOfFate
 {
 	Screen::Screen(const std::string &title) :
-	#if defined(__ANDROID__) || defined(__EMSCRIPTEN__)
+	#if defined(__ANDROID__)
 		sf::RenderWindow(sf::VideoMode::getDesktopMode(), title),
+	#elif defined(__EMSCRIPTEN__)
+		sf::RenderWindow([]{
+			auto desktop = sf::VideoMode::getDesktopMode();
+
+			desktop.size.x -= 50;
+			desktop.size.y -= 200;
+			return desktop;
+		}(), title),
 	#else
 		sf::RenderWindow([]{
 			auto desktop = sf::VideoMode::getDesktopMode();

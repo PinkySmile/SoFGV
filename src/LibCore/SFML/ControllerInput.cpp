@@ -206,7 +206,7 @@ namespace SpiralOfFate
 	{
 		auto pDisconnected = event.getIf<sf::Event::JoystickDisconnected>();
 
-		if (pDisconnected && (pDisconnected->joystickId == this->_joystickId || this->_joystickId == (unsigned)-1)) {
+		if (pDisconnected && (pDisconnected->joystickId == this->_joystickId || this->_joystickId == UINT32_MAX)) {
 			this->_state = 0;
 			return;
 		}
@@ -215,7 +215,7 @@ namespace SpiralOfFate
 
 		if (!moved)
 			return;
-		if (moved->joystickId != this->_joystickId && this->_joystickId != (unsigned)-1)
+		if (moved->joystickId != this->_joystickId && this->_joystickId != UINT32_MAX)
 			return;
 		if (moved->axis != this->_axis)
 			return;
@@ -240,11 +240,11 @@ namespace SpiralOfFate
 			"PadY"
 		};
 
-		return "Axis " + axis[(int)this->_axis] + (this->_threshHold < 0 ? "-" : "+");
+		return "Axis " + axis[static_cast<int>(this->_axis)] + (this->_threshHold < 0 ? "-" : "+");
 	}
 
 	std::pair<bool, int> ControllerAxis::save()
 	{
-		return {true, ((int)this->_axis) | ((int)(char)(this->_threshHold)) << 3};
+		return {true, static_cast<int>(this->_axis) | ((int)(char)(this->_threshHold)) << 3};
 	}
 }

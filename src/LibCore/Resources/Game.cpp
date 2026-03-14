@@ -22,7 +22,7 @@ namespace SpiralOfFate
 		logger(loggerPath),
 		font(fontPath),
 		// Needed for emscripten build so that the window is opened before
-		// the other classes are instanciated
+		// the other classes are instantiated
 		screen([this, &title]{
 			assert_exp(!game);
 			game = this;
@@ -56,6 +56,7 @@ namespace SpiralOfFate
 			assert_eq(this->soundMgr.load("assets/sfxs/se/022.ogg"), BASICSOUND_WALL_BOUNCE);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/022.ogg"), BASICSOUND_GROUND_SLAM);
 			tgui::Theme::setDefault(tgui::Theme::create(this->settings.theme));
+			this->soundMgr.setVolume(20);
 		} catch (std::exception &) {
 			game = nullptr;
 			throw;

@@ -46,7 +46,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
 		-Wno-limited-postlink-optimizations # warning: running limited binaryen optimizations because DWARF info requested (or indirectly required)
 		-Wno-pthreads-mem-growth            # warning: -pthread + ALLOW_MEMORY_GROWTH may run non-wasm code slowly, see https://github.com/WebAssembly/design/issues/1271
 
-		-s EXPORTED_RUNTIME_METHODS=HEAPF32
+		-sEXPORTED_RUNTIME_METHODS=HEAPF32
 		-sALLOW_MEMORY_GROWTH=1             # Grow the memory arrays at runtime
 		-sEXIT_RUNTIME=1                    # Execute cleanup (e.g. `atexit`) after `main` completes
 		-sFETCH=1                           # Enables `emscripten_fetch` API

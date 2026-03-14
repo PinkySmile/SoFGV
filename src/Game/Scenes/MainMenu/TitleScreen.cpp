@@ -792,7 +792,7 @@ namespace SpiralOfFate
 		if (this->_changingInputs == 1) {
 			game->screen->displayElement("Menu | " + input->getName(), {640, 85}, 400, Screen::ALIGN_CENTER);
 			game->screen->fillColor(sf::Color::White);
-			for (size_t j = 0; j < sizeof(inputsOrder) / sizeof(*inputsOrder); j++) {
+			for (size_t j = 0; j < std::size(inputsOrder); j++) {
 				auto i = inputsOrder[j];
 
 				if (this->_changeInput && this->_cursorInputs == i) {

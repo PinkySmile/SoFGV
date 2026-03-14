@@ -2,6 +2,7 @@
 #include <memory>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include <emscripten/html5.h>
 #endif
 #ifdef _WIN32
 #include <windows.h>
@@ -330,6 +331,10 @@ void	run()
 		while (auto event = game->screen->pollEvent()) {
 			if (event->is<EVENT_WINDOW_CLOSED>())
 				game->screen->close();
+			else if (auto connect = event->getIf<sf::Event::JoystickConnected>())
+				game->logger.debug("New gamepad connect with id " + std::to_string(connect->joystickId));
+			else if (auto disconnect = event->getIf<sf::Event::JoystickDisconnected>())
+				game->logger.debug("New gamepad disconnect with id " + std::to_string(disconnect->joystickId));
 		#ifdef _DEBUG
 			if (auto e = event->getIf<sf::Event::KeyPressed>()) {
 				if (e->code == sf::Keyboard::Key::F12 && e->control && e->shift)
