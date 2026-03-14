@@ -987,7 +987,12 @@ namespace SpiralOfFate
 				this->_askingInputs = false;
 			return;
 		}
+	#ifdef __EMSCRIPTEN__
+		if (this->_menuObject.getEnabledMenu() != 0)
+			this->_menuObject.setSelectedItem(this->_menuObject.getMenuSize() - 1);
+	#else
 		this->_menuObject.setSelectedItem(this->_menuObject.getMenuSize() - 1);
+	#endif
 	}
 
 #ifdef HAS_NETWORK

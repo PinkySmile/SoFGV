@@ -8,6 +8,7 @@
 #define CURSOR_DISP_ANIM_LENGTH 15
 #define SELECTED_BUTTON_LENGTH_EXTEND 60
 #define BUTTON_TEXT_TEXTURE_SIZE Vector2u{600, 60}
+#define BLUR_EXTRA 20
 #define DISABLE_DIM 100
 #include <GLES2/gl2.h> // Ensure you have the GLES2 headers for Emscripten
 
@@ -15,7 +16,7 @@ namespace SpiralOfFate
 {
 	MenuItem::MenuItem(const sf::Font &font, unsigned index, const MenuItemSkeleton &skeleton) :
 		_normalText{BUTTON_TEXT_TEXTURE_SIZE},
-		_blurredText{BUTTON_TEXT_TEXTURE_SIZE},
+		_blurredText{BUTTON_TEXT_TEXTURE_SIZE + Vector2u{BLUR_EXTRA * 2, BLUR_EXTRA * 2}},
 		_btnImg{ game->textureMgr.load("assets/ui/buttonbar.png") },
 		_cursImg{ game->textureMgr.load("assets/ui/cursor.png") },
 		_textImg{ game->textureMgr.getTexture(0) },
@@ -41,16 +42,20 @@ namespace SpiralOfFate
 		this->_normalText.display();
 
 #ifdef __EMSCRIPTEN__
-		//assert_exp(shader.loadFromFile("assets/ui/blur_web.vert", "assets/ui/blur_web.frag"));
+		assert_exp(shader.loadFromFile("assets/ui/blur_web.vert", "assets/ui/blur_web.frag"));
 #else
-		//assert_exp(shader.loadFromFile("assets/ui/blur.frag", sf::Shader::Type::Fragment));
-		//shader.setUniform("source", sf::Shader::CurrentTexture);
+		assert_exp(shader.loadFromFile("assets/ui/blur.frag", sf::Shader::Type::Fragment));
+		shader.setUniform("source", sf::Shader::CurrentTexture);
 #endif
-		//shader.setUniform("offsetFactor", sf::Vector2f{0.0025f, 0.0025f});
+		shader.setUniform("offsetFactor", sf::Vector2f{0.0035f, 0.0035f});
 
-		//this->_blurredText.clear(Color{255, 255, 255, 0});
-		//this->_blurredText.draw(text, &shader);
-		//this->_blurredText.display();
+		auto pos = text.getPosition();
+		pos.x += BLUR_EXTRA;
+		pos.y += BLUR_EXTRA;
+		text.setPosition(pos);
+		this->_blurredText.clear(Color{255, 255, 255, 0});
+		this->_blurredText.draw(text, &shader);
+		this->_blurredText.display();
 
 		this->_btnImg.setPosition({842, 321.f + MENU_ITEM_SPACING * index});
 		this->_btnImg.setColor(Color::Transparent);
@@ -62,8 +67,11 @@ namespace SpiralOfFate
 		this->_textImg.setPosition({868, 331.f + MENU_ITEM_SPACING * index});
 		this->_textImg.setColor(Color::Transparent);
 
+		pos = this->_textImg.getPosition();
+		pos.x -= BLUR_EXTRA;
+		pos.y -= BLUR_EXTRA;
 		this->_textImgBlur.setTexture(this->_blurredText.getTexture(), true);
-		this->_textImgBlur.setPosition(this->_textImg.getPosition());
+		this->_textImgBlur.setPosition(pos);
 		this->_textImgBlur.setColor(Color::Transparent);
 	}
 
