@@ -194,7 +194,7 @@ namespace SpiralOfFate
 		game->screen->textSize(20);
 		game->screen->fillColor(Color::White);
 		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Paused", {340 - 50 + STAGE_X_MIN, 245 - 600}, 400, Screen::ALIGN_CENTER);
-		for (size_t i = 0; i < sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings); i++) {
+		for (size_t i = 0; i < std::size(InGame::_menuStrings); i++) {
 			game->screen->fillColor(i == this->_pauseCursor ? Color::Yellow : Color::White);
 			game->screen->displayElement(InGame::_menuStrings[i], {350 - 50 + STAGE_X_MIN, 285 - 600 + 25.f * i});
 		}
@@ -216,12 +216,8 @@ namespace SpiralOfFate
 			auto l = linput->getInputs();
 			auto r = rinput->getInputs();
 
-			for (size_t i = 0; i < sizeof(l) / sizeof(int); i++)
-				if (((int *)&l)[i])
-					return;
-			for (size_t i = 0; i < sizeof(r) / sizeof(int); i++)
-				if (((int *)&r)[i])
-					return;
+			if (l.n || r.n)
+				return;
 			this->_paused = 0;
 			return;
 		}
@@ -231,12 +227,12 @@ namespace SpiralOfFate
 			return;
 		}
 		if (relevant.verticalAxis == 1 || (relevant.verticalAxis >= 36 && relevant.verticalAxis % 6 == 0)) {
-			this->_pauseCursor += sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor += std::size(InGame::_menuStrings);
 			this->_pauseCursor--;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		} else if (relevant.verticalAxis == -1 || (relevant.verticalAxis <= -36 && relevant.verticalAxis % 6 == 0)) {
 			this->_pauseCursor++;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		}
 		if (relevant.n == 1 && this->_pauseConfirm()) {
 			this->_pauseCursor = 0;
@@ -339,7 +335,7 @@ namespace SpiralOfFate
 				}, sf::Color{0xA0, 0xA0, 0xFF, 0xC0});
 
 			game->screen->fillColor(sf::Color::White);
-			if (std::find(noText, noText + (sizeof(noText) / sizeof(*noText)), this->_moveOrder[i]) != noText + (sizeof(noText) / sizeof(*noText)))
+			if (std::find(noText, noText + std::size(noText), this->_moveOrder[i]) != noText + std::size(noText))
 				game->screen->fillColor(sf::Color::Green);
 			else if (prio >= 800) {
 				game->screen->fillColor(sf::Color::Red);

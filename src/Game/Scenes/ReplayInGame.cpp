@@ -84,12 +84,12 @@ namespace SpiralOfFate
 			return;
 		}
 		if (keyboard.verticalAxis == 1 || (keyboard.verticalAxis >= 36 && keyboard.verticalAxis % 6 == 0)) {
-			this->_pauseCursor += sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor += std::size(InGame::_menuStrings);
 			this->_pauseCursor--;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		} else if (keyboard.verticalAxis == -1 || (keyboard.verticalAxis <= -36 && keyboard.verticalAxis % 6 == 0)) {
 			this->_pauseCursor++;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		}
 		if (keyboard.n == 1 && this->_pauseConfirm()) {
 			this->_pauseCursor = 0;
@@ -215,7 +215,7 @@ namespace SpiralOfFate
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->displayElement(end ? "Replay Mode | Replay ended" : "Replay Mode", {340 - 50 + STAGE_X_MIN, 245 - 600}, 400, Screen::ALIGN_CENTER);
-		for (size_t i = 0; i < sizeof(ReplayInGame::_menuStrings) / sizeof(*ReplayInGame::_menuStrings); i++) {
+		for (size_t i = 0; i < std::size(ReplayInGame::_menuStrings); i++) {
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
 			game->screen->displayElement(ReplayInGame::_menuStrings[i], {350 - 50 + STAGE_X_MIN, 285 - 600 + 25.f * i});
 		}
@@ -238,7 +238,7 @@ namespace SpiralOfFate
 		values[1] = !this->_manager->_showAttributes ? "Disabled" : "Enabled";
 		values[2] = vals[this->_inputDisplay];
 
-		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 190 - 600, 400, 50 + 25 * (std::size(ReplayInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 190 - 600, 400, 50 + 25 * std::size(ReplayInGame::_practiceMenuStrings)}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->displayElement("Replay Options", {340 - 50 + STAGE_X_MIN, 195 - 600}, 400, Screen::ALIGN_CENTER);

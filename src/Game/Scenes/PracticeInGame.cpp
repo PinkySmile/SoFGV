@@ -210,7 +210,7 @@ namespace SpiralOfFate
 		values[10]= this->manaStateToString();
 		values[11]= vals[this->_inputDisplay];
 
-		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 190 - 600, 400, 50 + 25 * (std::size(PracticeInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50 + STAGE_X_MIN, 190 - 600, 400, 50 + 25 * std::size(PracticeInGame::_practiceMenuStrings)}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->displayElement("P" + std::to_string(this->_paused) + " | Practice Options", {340 - 50 + STAGE_X_MIN, 195 - 600}, 400, Screen::ALIGN_CENTER);
