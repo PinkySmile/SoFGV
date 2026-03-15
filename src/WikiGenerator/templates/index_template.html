@@ -5,8 +5,10 @@
 {% block content %}
 	<h1>Home Page</h1>
 	<hr>
-	<h2><a href="../downloads">Downloads</a></h2>
-	<div><a href="../downloads/SoFGV_{{ version | replace(' ', '_') }}.zip">Latest version ({{ version }})</a></div>
+	<h2><a href="../downloads">All downloads</a></h2>
+	<div><a href="../downloads/SoFGV_{{ version | replace(' ', '_') }}_win.zip">Download for Windows ({{ version }})</a></div>
+	<div><a href="../downloads/SoFGV_{{ version | replace(' ', '_') }}_linux.zip">Download for Linux ({{ version }})</a></div>
+	<div><a href="../play/">Play online</a></div>
 	<h2>Characters</h2>
 	{% for stats in chrs %}
 	{% if not stats['hidden'] %}
