@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <sys/stat.h>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
@@ -10,7 +11,6 @@
 #include <crtdbg.h>
 #include <direct.h>
 #endif
-#include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
 #include "Scenes/Network/SpectatorCharacterSelect.hpp"
@@ -91,9 +91,6 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	exit(ExPtr->ExceptionRecord->ExceptionCode);
 }
 #else
-#define MessageBox(...) ((void)0)
-#define MessageBox(...) ((void)0)
-
 std::string getLastError(int err = errno)
 {
 	return strerror(err);

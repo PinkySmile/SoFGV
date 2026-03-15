@@ -34,7 +34,7 @@ namespace SpiralOfFate
 			tgui::Font::setGlobalFont({fontPath.string()});
 			tgui::Theme::setDefault(tgui::Theme::create(this->settings.theme));
 			this->screen->setFont(game->font);
-			this->soundMgr.setVolume(20);
+			this->soundMgr.setVolume(10);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/039.ogg"), BASICSOUND_MENU_MOVE);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/041.ogg"), BASICSOUND_MENU_CANCEL);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/040.ogg"), BASICSOUND_MENU_CONFIRM);

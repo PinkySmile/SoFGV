@@ -129,10 +129,10 @@ namespace SpiralOfFate
 		mutable std::list<unsigned> _fpsTimes;
 		Sprite _stage;
 		sf::Font _font;
-		sf::RenderTexture _tex;
 		sf::RenderTexture _hud;
 		sf::RenderTexture _leftHUD;
 		sf::RenderTexture _rightHUD;
+		Sprite _inputHolder;
 		Sprite _stallWarn;
 		Sprite _stallDown;
 		Sprite _leftIcon;
