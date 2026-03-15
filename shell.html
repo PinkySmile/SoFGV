@@ -92,6 +92,10 @@
 				if (text) console.error('[post-exception status] ' + text);
 			};
 		};
+		document.onkeydown = e => {
+			e.preventDefault();
+			return false;
+		}
 	</script>
 	{{{ SCRIPT }}}
 </body>

@@ -6,6 +6,12 @@
 #define SOFGV_GAME_HPP
 
 
+#ifdef __EMSCRIPTEN__
+#define sleepms(ms) (emscripten_sleep(ms))
+#else
+#define sleepms(ms) (std::this_thread::sleep_for(std::chrono::milliseconds(ms)))
+#endif
+
 #include <mutex>
 #include <memory>
 #include <random>

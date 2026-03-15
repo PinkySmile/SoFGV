@@ -27,12 +27,13 @@ namespace SpiralOfFate
 		mutable Sprite _titleLogo;
 		mutable Sprite _titleSpiral;
 		mutable std::vector<Sprite> _inputs;
-		Menu _menuObject;
+		std::unique_ptr<Menu> _menuObject;
 		std::map<unsigned, std::map<sf::Joystick::Axis, int>> _oldStickValues;
 		std::pair<unsigned, unsigned> _spec;
 		unsigned _latestJoystickId = 0;
 		unsigned _leftInput = 0;
 		unsigned _rightInput = 0;
+		unsigned _timer = 0;
 		float _totalPing = 0;
 		unsigned _nbPings = 0;
 		unsigned _lastPing = 0;
@@ -52,6 +53,10 @@ namespace SpiralOfFate
 		bool _connected = false;
 		bool _chooseSpecCount = false;
 		bool _specEnabled = true;
+	#ifdef __EMSCRIPTEN__
+		bool _selectingRoom = false;
+		std::string _typingCode;
+	#endif
 	#endif
 		IInput *_lastInput;
 		std::string _remote;
@@ -64,8 +69,8 @@ namespace SpiralOfFate
 		void _onInputsChosen();
 	#ifdef HAS_NETWORK
 		void _host(bool spec);
-		void _connect();
-		void _spectate();
+		void _connect(const std::string &ip);
+		void _spectate(const std::string &ip);
 	#endif
 		bool _onKeyPressed(const sf::Event::KeyPressed &ev);
 		bool _onJoystickMoved(const sf::Event::JoystickMoved &ev);
@@ -76,6 +81,7 @@ namespace SpiralOfFate
 		void _showHostMessage() const;
 		void _showConnectMessage() const;
 		void _showChooseSpecCount() const;
+		void _showSelectingRoom() const;
 	#endif
 		void _onGoUp();
 		void _onGoDown();

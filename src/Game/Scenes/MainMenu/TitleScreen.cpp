@@ -23,6 +23,11 @@
 #include "Resources/version.h"
 #include "../ReplayInGame.hpp"
 #ifdef HAS_NETWORK
+#ifdef __EMSCRIPTEN__
+#include <emscripten/websocket.h>
+#include <emscripten/val.h>
+#include <emscripten_browser_clipboard.h>
+#endif
 #include "Resources/Network/ServerConnection.hpp"
 #include "Resources/Network/ClientConnection.hpp"
 #include "Resources/Network/SpectatorConnection.hpp"
@@ -31,56 +36,66 @@
 #include "VirtualController.hpp"
 #endif
 
+#if defined(_DEBUG) && defined(HAS_NETWORK)
+#define HAS_SYNC_TEST
+#endif
 #define THRESHOLD 50
+#ifdef HAS_SYNC_TEST
+#define MODE_HAS_2_LOCAL_PLAYERS(item) (item == TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, OFFLINE) || item == TITLE_SCREEN_BUTTON(SOLO_MODE, PRACTICE) || item == TITLE_SCREEN_BUTTON(DEBUG, SYNC_TEST))
+#else
+#define MODE_HAS_2_LOCAL_PLAYERS(item) (item == TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, OFFLINE) || item == TITLE_SCREEN_BUTTON(SOLO_MODE, PRACTICE))
+#endif
 
-enum TitleScreenButton1 {
-	BUTTON1_SOLO_MODE,
-	BUTTON1_MULTIPLAYER,
-	BUTTON1_SETTINGS,
-	BUTTON1_EXTRA,
-	BUTTON1_QUIT
+#define MIN_ERROR_SHOW 15
+#define MAX_ERROR_SHOW 180
+
+enum TitleScreenButtonMainMenu {
+	BUTTON_MAIN_MENU_SOLO_MODE,
+	BUTTON_MAIN_MENU_MULTIPLAYER,
+	BUTTON_MAIN_MENU_SETTINGS,
+	BUTTON_MAIN_MENU_EXTRA,
+	BUTTON_MAIN_MENU_QUIT
 };
 
-enum TitleScreenButton2 {
-	BUTTON2_STORY_MODE,
-	BUTTON2_VS_COM,
-	BUTTON2_PRACTICE,
-	BUTTON2_TRIAL_MODE,
-	BUTTON2_TUTORIAL,
-	BUTTON2_BACK
+enum TitleScreenButtonSoloMode {
+	BUTTON_SOLO_MODE_STORY_MODE,
+	BUTTON_SOLO_MODE_VS_COM,
+	BUTTON_SOLO_MODE_PRACTICE,
+	BUTTON_SOLO_MODE_TRIAL_MODE,
+	BUTTON_SOLO_MODE_TUTORIAL,
+	BUTTON_SOLO_MODE_BACK
 };
 
-enum TitleScreenButton3 {
-	BUTTON3_OFFLINE,
-	BUTTON3_HOST,
-	BUTTON3_CONNECT,
-	BUTTON3_SPECTATE,
-	BUTTON3_BACK
+enum TitleScreenButtonMultiplayerMode {
+	BUTTON_MULTIPLAYER_MODE_OFFLINE,
+	BUTTON_MULTIPLAYER_MODE_HOST,
+	BUTTON_MULTIPLAYER_MODE_CONNECT,
+	BUTTON_MULTIPLAYER_MODE_SPECTATE,
+	BUTTON_MULTIPLAYER_MODE_BACK
 };
 
-enum TitleScreenButton4 {
-	BUTTON4_COLORS,
-	BUTTON4_NETPLAY,
-	BUTTON4_SOUNDS,
-	BUTTON4_KEY_CONFIGS,
-	BUTTON4_BACK
+enum TitleScreenButtonSettings {
+	BUTTON_SETTINGS_COLORS,
+	BUTTON_SETTINGS_NETPLAY,
+	BUTTON_SETTINGS_SOUNDS,
+	BUTTON_SETTINGS_KEY_CONFIGS,
+	BUTTON_SETTINGS_BACK
 };
 
-enum TitleScreenButton5 {
-	BUTTON5_REPLAYS,
-	BUTTON5_SOUND_TEST,
-	BUTTON5_CREDITS,
-	BUTTON5_COMMUNITY,
-	BUTTON5_BACK
+enum TitleScreenButtonExtra {
+	BUTTON_EXTRA_REPLAYS,
+	BUTTON_EXTRA_SOUND_TEST,
+	BUTTON_EXTRA_CREDITS,
+	BUTTON_EXTRA_COMMUNITY,
+	BUTTON_EXTRA_BACK
 };
 
 #ifdef _DEBUG
-enum TitleScreenButton6 {
+enum TitleScreenButtonDebug {
 #ifdef HAS_NETWORK
-#define HAS_SYNC_TEST
-	BUTTON6_SYNC_TEST,
+	BUTTON_DEBUG_SYNC_TEST,
 #endif
-	BUTTON6_BACK
+	BUTTON_DEBUG_BACK
 };
 #endif
 
@@ -95,7 +110,7 @@ enum TitleScreenChunks {
 #endif
 };
 
-#define TITLE_SCREEN_BUTTON(index, name) ((index - 1) << 8 | BUTTON##index##_##name)
+#define TITLE_SCREEN_BUTTON(index, name) (static_cast<int>(CHUNK_##index) << 8 | BUTTON_##index##_##name)
 
 #define STICK_ID_KEYBOARD 0
 #define STICK_ID_VPAD 1
@@ -132,24 +147,25 @@ namespace SpiralOfFate
 			{ game->textureMgr.load("assets/icons/inputs/ascend.png") },
 			{ game->textureMgr.load("assets/icons/inputs/dash.png") },
 			{ game->textureMgr.load("assets/icons/inputs/pause.png") }
-		},
-		_menuObject{"assets/ui/copperplate-gothic-light.ttf", "assets/ui/gillsansmt.ttf", {
+		}
+	{
+		std::vector<std::vector<MenuItemSkeleton>> array = {
 			{
 				{"Solo mode", "Fight by yourself", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_SOLO_MODE, false);
+					this->_menuObject->setEnabledMenu(CHUNK_SOLO_MODE, false);
 				}},
 				{"Multiplayer mode", "Fight a human opponent", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MULTIPLAYER_MODE, false);
+					this->_menuObject->setEnabledMenu(CHUNK_MULTIPLAYER_MODE, false);
 				}},
 				{"Settings", "Change settings", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_SETTINGS, false);
+					this->_menuObject->setEnabledMenu(CHUNK_SETTINGS, false);
 				}},
 				{"Extra", "Other", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_EXTRA, false);
+					this->_menuObject->setEnabledMenu(CHUNK_EXTRA, false);
 				}},
 			#ifdef _DEBUG
 				{"Debug", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_DEBUG, false);
+					this->_menuObject->setEnabledMenu(CHUNK_DEBUG, false);
 				}},
 			#endif
 			#if !defined(__EMSCRIPTEN__) && !defined(__ANDROID__)
@@ -159,15 +175,15 @@ namespace SpiralOfFate
 			#endif
 			},
 			{
-				{"Story Mode", "Discover the universe", nullptr},
-				{"VS Computer", "Fight a virtual opponent", nullptr},
+				{"Story Mode", "Discover the universe\n\nComing soon!", nullptr},
+				{"VS Computer", "Fight a virtual opponent\n\nComing soon!", nullptr},
 				{"Practice", "Free training", [this]{
 					this->_askingInputs = true;
 				}},
-				{"Trial Mode", "Combo training", nullptr},
-				{"Tutorial", "Learn the basics", nullptr},
+				{"Trial Mode", "Combo training\n\nComing soon!", nullptr},
+				{"Tutorial", "Learn the basics\n\nComing soon!", nullptr},
 				{"Back", "Go back to the main menu", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MAIN_MENU);
+					this->_menuObject->setEnabledMenu(CHUNK_MAIN_MENU);
 				}},
 			},
 			{
@@ -182,23 +198,28 @@ namespace SpiralOfFate
 					this->_askingInputs = true;
 				}},
 				{"Spectate", "Connect to ip from clipboard", [this]{
-					this->_spectate();
+				#ifdef __EMSCRIPTEN__
+					this->_selectingRoom = true;
+					this->_typingCode.clear();
+				#else
+					this->_spectate(sf::Clipboard::getString());
+				#endif
 				}},
 			#endif
 				{"Back", "Go back to the main menu", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MAIN_MENU);
+					this->_menuObject->setEnabledMenu(CHUNK_MAIN_MENU);
 				}},
 			},
 			{
-				{"Colors", "Change type colors", nullptr},
-				{"Netplay", "Change various online options", nullptr},
-				{"Sound", "", nullptr},
+				{"Colors", "Change type colors\n\nComing soon!", nullptr},
+				{"Netplay", "Change various online options\n\nComing soon!", nullptr},
+				{"Sound", "\n\nComing soon!", nullptr},
 				{"Key Config", "Change inputs", [this]{
 					this->_changingInputs = 1;
 					this->_cursorInputs = 0;
 				}},
 				{"Back", "Go back to the main menu", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MAIN_MENU);
+					this->_menuObject->setEnabledMenu(CHUNK_MAIN_MENU);
 				}},
 			},
 			{
@@ -214,26 +235,37 @@ namespace SpiralOfFate
 						}
 					});
 				}},
-				{"Music Room", "Catchy tune!", nullptr},
-				{"Credits", "", nullptr},
+				{"Music Room", "Catchy tune!\n\nComing soon!", nullptr},
+				{"Credits", "\n\nComing soon!", nullptr},
 				{"Back", "Go back to the main menu", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MAIN_MENU);
+					this->_menuObject->setEnabledMenu(CHUNK_MAIN_MENU);
 				}},
 			},
-#ifdef _DEBUG
+		#ifdef _DEBUG
 			{
-#ifdef HAS_SYNC_TEST
+			#ifdef HAS_SYNC_TEST
 				{"Sync Test", "Verify that rollback doesn't desync", [this]{
 					this->_askingInputs = true;
 				}},
-#endif
+			#endif
 				{"Back", "Go back to the main menu", [this]{
-					this->_menuObject.setEnabledMenu(CHUNK_MAIN_MENU);
+					this->_menuObject->setEnabledMenu(CHUNK_MAIN_MENU);
 				}},
 			}
-#endif
-		}}
-	{
+		#endif
+		};
+
+	#ifdef __EMSCRIPTEN__
+		if (!emscripten_websocket_is_supported()) {
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_HOST].onClick = nullptr;
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_CONNECT].onClick = nullptr;
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_SPECTATE].onClick = nullptr;
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_HOST].desc = "Not supported by your browser!\nOnline requires Websocket support.";
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_CONNECT].desc = "Not supported by your browser!\nOnline requires Websocket support.";
+			array[CHUNK_MULTIPLAYER_MODE][BUTTON_MULTIPLAYER_MODE_SPECTATE].desc = "Not supported by your browser!\nOnline requires Websocket support.";
+		}
+	#endif
+		this->_menuObject = std::make_unique<Menu>("assets/ui/copperplate-gothic-light.ttf", "assets/ui/gillsansmt.ttf", array);
 		game->logger.info("Title scene created");
 		this->_titleLogo.setPosition({275, 31});
 		this->_titleSpiral.setOrigin({140, 131});
@@ -258,7 +290,7 @@ namespace SpiralOfFate
 		game->screen->displayElement(this->_titleBg);
 		game->screen->displayElement(this->_titleSpiral);
 		game->screen->displayElement(this->_titleLogo);
-		this->_menuObject.render();
+		this->_menuObject->render();
 		if (!this->_errorMsg.empty()) {
 			game->screen->fillColor(Color::White);
 			game->screen->displayElement({540, 280, 600, 100}, Color{0x50, 0x50, 0x50});
@@ -271,6 +303,8 @@ namespace SpiralOfFate
 			this->_showHostMessage();
 		else if (this->_chooseSpecCount)
 			this->_showChooseSpecCount();
+		else if (this->_selectingRoom)
+			this->_showSelectingRoom();
 	#endif
 		else if (this->_askingInputs)
 			this->_showAskInputBox();
@@ -280,6 +314,7 @@ namespace SpiralOfFate
 
 	void TitleScreen::update()
 	{
+		this->_timer++;
 		this->_titleSpiral.setRotation(this->_titleSpiral.getRotation() - sf::degrees(0.25));
 		game->random();
 		this->_oldRemote = this->_remote;
@@ -293,6 +328,9 @@ namespace SpiralOfFate
 			if (this->_connecting) {
 				this->_errorMsg = "Failed to connect";
 				this->_connecting = false;
+			#ifdef __EMSCRIPTEN__
+				this->_selectingRoom = true;
+			#endif
 			}
 			game->connection.reset();
 		}
@@ -301,7 +339,7 @@ namespace SpiralOfFate
 			if (this->_errorTimer == 0)
 				game->soundMgr.play(BASICSOUND_MENU_CANCEL);
 			this->_errorTimer++;
-			if (this->_errorTimer > 180) {
+			if (this->_errorTimer > MAX_ERROR_SHOW) {
 				this->_errorTimer = 0;
 				this->_errorMsg.clear();
 			}
@@ -327,9 +365,9 @@ namespace SpiralOfFate
 			this->_changingInputs ||
 			this->_askingInputs
 		)
-			this->_menuObject.update({});
+			this->_menuObject->update({});
 		else
-			this->_menuObject.update(inputs);
+			this->_menuObject->update(inputs);
 	}
 
 	void TitleScreen::consumeEvent(const sf::Event &event)
@@ -382,32 +420,35 @@ namespace SpiralOfFate
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
 
 			game->logger.info(name + " connected with game version " + vers);
-			this->_onConnect(remote.ip.toString());
+			this->_onConnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->onError = [](Connection::Remote &remote, const PacketError &e){
-			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+			game->logger.error(remote.ip.toString() + ":" + std::to_string(remote.port) + " -> " + e.toString());
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString());
+			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->spectatorEnabled = spec;
 		con->host(this->_hostingPort);
+		this->_hostingPort = con->getLocalPort();
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
 			con->onDisconnect = nullptr;
 		};
+	#ifdef __EMSCRIPTEN__
+		std::string host = emscripten::val::global("window")["location"]["hostname"].as<std::string>();
+
+		emscripten_browser_clipboard::copy(host + ":" + std::to_string(this->_hostingPort));
+	#endif
 	}
 
-	void TitleScreen::_connect()
+	void TitleScreen::_connect(const std::string &ipString)
 	{
-		auto _ipString = sf::Clipboard::getString();
-
-		if (_ipString.isEmpty()) {
+		if (ipString.empty()) {
 			Utils::dispMsg(game->gui, "Error", "No ip is copied to the clipboard", MB_ICONERROR);
 			return;
 		}
 
-		auto ipString = _ipString.toAnsiString();
 		size_t pos = ipString.find(':');
 		auto ip = sf::IpAddress::resolve(ipString.substr(0, pos));
 		unsigned short port = 10800;
@@ -424,7 +465,11 @@ namespace SpiralOfFate
 					throw std::exception();
 				port = p;
 			} catch (...) {
+			#ifdef __EMSCRIPTEN__
 				Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
+			#else
+				Utils::dispMsg(game->gui, "Error", "Invalid room code", MB_ICONERROR);
+			#endif
 				return;
 			}
 		}
@@ -441,14 +486,14 @@ namespace SpiralOfFate
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
 
 			game->logger.info("Connected to " + name + " with game version " + vers);
-			this->_onConnect(remote.ip.toString());
+			this->_onConnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->onError = [](Connection::Remote &remote, const PacketError &e){
-			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+			game->logger.error(remote.ip.toString() + ":" + std::to_string(remote.port) + " -> " + e.toString());
 			// TODO: Abort connection and display error on UI
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString());
+			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->connect(*ip, port);
 		this->_connecting = true;
@@ -458,16 +503,12 @@ namespace SpiralOfFate
 		};
 	}
 
-	void TitleScreen::_spectate()
+	void TitleScreen::_spectate(const std::string &ipString)
 	{
-		auto _ipString = sf::Clipboard::getString();
-
-		if (_ipString.isEmpty()) {
+		if (ipString.empty()) {
 			Utils::dispMsg(game->gui, "Error", "No ip is copied to the clipboard", MB_ICONERROR);
 			return;
 		}
-
-		auto ipString = _ipString.toAnsiString();
 
 		size_t pos = ipString.find(':');
 		auto ip = sf::IpAddress::resolve(ipString.substr(0, pos));
@@ -500,14 +541,14 @@ namespace SpiralOfFate
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
 
 			game->logger.info("Connected to " + name + " with game version " + vers);
-			this->_onConnect(remote.ip.toString());
+			this->_onConnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->onError = [](Connection::Remote &remote, const PacketError &e){
-			game->logger.error(remote.ip.toString() + " -> " + e.toString());
+			game->logger.error(remote.ip.toString() + ":" + std::to_string(remote.port) + " -> " + e.toString());
 			// TODO: Abort connection and display error on UI
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString());
+			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
 		};
 		con->connect(*ip, port);
 		this->_connecting = true;
@@ -522,15 +563,15 @@ namespace SpiralOfFate
 	{
 		CharacterSelect::Arguments *args;
 
-		switch (this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem()) {
-		case TITLE_SCREEN_BUTTON(3, OFFLINE):
+		switch (this->_menuObject->getEnabledMenu() << 8 | this->_menuObject->getSelectedItem()) {
+		case TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, OFFLINE):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = TitleScreen::_getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = TitleScreen::_getInputFromId(this->_rightInput - 1, game->P2);
 			args->inGameName = "in_game";
 			game->scene.switchScene("char_select", args);
 			break;
-		case TITLE_SCREEN_BUTTON(2, PRACTICE):
+		case TITLE_SCREEN_BUTTON(SOLO_MODE, PRACTICE):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = TitleScreen::_getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = TitleScreen::_getInputFromId(this->_rightInput - 1, game->P2);
@@ -538,15 +579,20 @@ namespace SpiralOfFate
 			game->scene.switchScene("char_select", args);
 			break;
 	#ifdef HAS_NETWORK
-		case TITLE_SCREEN_BUTTON(3, HOST):
+		case TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, HOST):
 			this->_chooseSpecCount = true;
 			break;
-		case TITLE_SCREEN_BUTTON(3, CONNECT):
-			this->_connect();
+		case TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, CONNECT):
+		#ifdef __EMSCRIPTEN__
+			this->_selectingRoom = true;
+			this->_typingCode.clear();
+		#else
+			this->_connect(sf::Clipboard::getString().toAnsiString());
+		#endif
 			break;
 	#endif
 	#ifdef HAS_SYNC_TEST
-		case TITLE_SCREEN_BUTTON(6, SYNC_TEST):
+		case TITLE_SCREEN_BUTTON(DEBUG, SYNC_TEST):
 			args = new CharacterSelect::Arguments();
 			args->leftInput = TitleScreen::_getInputFromId(this->_leftInput - 1, game->P1);
 			args->rightInput = TitleScreen::_getInputFromId(this->_rightInput - 1, game->P2);
@@ -559,6 +605,21 @@ namespace SpiralOfFate
 
 	bool TitleScreen::_onKeyPressed(const sf::Event::KeyPressed &ev)
 	{
+	#if defined(__EMSCRIPTEN__) && defined(HAS_NETWORK)
+		if (this->_selectingRoom) {
+			if (ev.code >= sf::Keyboard::Key::Num0 && ev.code <= sf::Keyboard::Key::Num9 && this->_typingCode.size() < 5) {
+				this->_typingCode += static_cast<char>('0' + (static_cast<int>(ev.code) - static_cast<int>(sf::Keyboard::Key::Num0)));
+				game->soundMgr.play(BASICSOUND_MENU_MOVE);
+			} else if (ev.code == sf::Keyboard::Key::Backspace && !this->_typingCode.empty()) {
+				this->_typingCode.pop_back();
+				game->soundMgr.play(BASICSOUND_MENU_MOVE);
+			} else if (ev.code == sf::Keyboard::Key::Escape)
+				this->_onCancel();
+			else if (ev.code == sf::Keyboard::Key::Enter)
+				this->_onConfirm(STICK_ID_KEYBOARD);
+			return true;
+		}
+	#endif
 		if (ev.code == sf::Keyboard::Key::F2 && this->_changingInputs > 1) {
 			auto dialog = Utils::saveFileDialog(game->gui, "Save inputs", "./profiles");
 
@@ -681,27 +742,15 @@ namespace SpiralOfFate
 		else
 			game->screen->displayElement("Press [Confirm]", {540, 260}, 300, Screen::ALIGN_CENTER);
 
-		auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+		auto item = this->_menuObject->getEnabledMenu() << 8 | this->_menuObject->getSelectedItem();
 
-		if (
-			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
-		#ifdef HAS_SYNC_TEST
-			item == TITLE_SCREEN_BUTTON(6, SYNC_TEST) ||
-		#endif
-			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
-		)
+		if (MODE_HAS_2_LOCAL_PLAYERS(item))
 			game->screen->fillColor(this->_rightInput ? sf::Color::Green : (this->_leftInput ? sf::Color::White : sf::Color{0xA0, 0xA0, 0xA0}));
 		else
 			game->screen->fillColor(sf::Color{0x80, 0x80, 0x80});
 		game->screen->displayElement("P2", {540 + 420, 190});
 		game->screen->fillColor(sf::Color::White);
-		if (this->_leftInput && (
-			item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
-		#ifdef HAS_SYNC_TEST
-			item == TITLE_SCREEN_BUTTON(6, SYNC_TEST) ||
-		#endif
-			item == TITLE_SCREEN_BUTTON(2, PRACTICE)
-		)) {
+		if (this->_leftInput && MODE_HAS_2_LOCAL_PLAYERS(item)) {
 			if (this->_rightInput)
 				game->screen->displayElement(
 				#ifdef VIRTUAL_CONTROLLER
@@ -719,13 +768,7 @@ namespace SpiralOfFate
 				game->screen->displayElement("Press [Confirm]", {840, 260}, 300, Screen::ALIGN_CENTER);
 		}
 
-		if (this->_leftInput && (this->_rightInput || (
-			item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
-		#ifdef HAS_SYNC_TEST
-			item != TITLE_SCREEN_BUTTON(6, SYNC_TEST) &&
-		#endif
-			item != TITLE_SCREEN_BUTTON(2, PRACTICE)
-		)))
+		if (this->_leftInput && (this->_rightInput || !MODE_HAS_2_LOCAL_PLAYERS(item)))
 			game->screen->displayElement("Press [Confirm] to confirm", {540, 360}, 600, Screen::ALIGN_CENTER);
 	}
 
@@ -734,8 +777,16 @@ namespace SpiralOfFate
 	{
 		game->screen->fillColor(sf::Color::White);
 		if (this->_remote.empty()) {
-			game->screen->displayElement({640, 280, 400, 100}, sf::Color{0x50, 0x50, 0x50});
-			game->screen->displayElement("Hosting on port " + std::to_string(this->_hostingPort), {640, 300}, 400, Screen::ALIGN_CENTER);
+		#ifndef __EMSCRIPTEN__
+			game->screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
+			game->screen->displayElement("Waiting for opponent...", {640, 300}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Hosting on port " + std::to_string(this->_hostingPort), {640, 330}, 400, Screen::ALIGN_CENTER);
+		#else
+			game->screen->displayElement({540, 280, 600, 150}, sf::Color{0x50, 0x50, 0x50});
+			game->screen->displayElement("Waiting for opponent...", {640, 300}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("Room code:" + std::to_string(this->_hostingPort), {640, 330}, 400, Screen::ALIGN_CENTER);
+			game->screen->displayElement("IP copied to clipboard", {640, 380}, 400, Screen::ALIGN_CENTER);
+		#endif
 		} else {
 			game->screen->displayElement({620, 280, 440, 200}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement(this->_remote + " joined.", {640, 300}, 400, Screen::ALIGN_CENTER);
@@ -758,8 +809,13 @@ namespace SpiralOfFate
 	{
 		game->screen->fillColor(sf::Color::White);
 		if (this->_remote.empty()) {
+		#ifdef __EMSCRIPTEN__
 			game->screen->displayElement({540, 280, 600, 100}, sf::Color{0x50, 0x50, 0x50});
+			game->screen->displayElement("Joining room " + std::to_string(game->lastPort), {540, 300}, 600, Screen::ALIGN_CENTER);
+		#else
+			game->screen->displayElement({340, 280, 1000, 100}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement("Connecting to " + game->lastIp + " on port " + std::to_string(game->lastPort), {540, 300}, 600, Screen::ALIGN_CENTER);
+		#endif
 		} else {
 			game->screen->displayElement({540, 280, 600, 130}, sf::Color{0x50, 0x50, 0x50});
 			game->screen->displayElement("Connected to " + this->_remote + ".", {540, 300}, 600, Screen::ALIGN_CENTER);
@@ -841,7 +897,7 @@ namespace SpiralOfFate
 		if (this->_askingInputs)
 			return;
 		game->soundMgr.play(BASICSOUND_MENU_MOVE);
-		this->_menuObject.setSelectedItem(this->_menuObject.getSelectedItem() - 1);
+		this->_menuObject->setSelectedItem(this->_menuObject->getSelectedItem() - 1);
 	}
 
 	void TitleScreen::_onGoDown()
@@ -865,7 +921,7 @@ namespace SpiralOfFate
 		if (this->_askingInputs)
 			return;
 		game->soundMgr.play(BASICSOUND_MENU_MOVE);
-		this->_menuObject.setSelectedItem(this->_menuObject.getSelectedItem() + 1);
+		this->_menuObject->setSelectedItem(this->_menuObject->getSelectedItem() + 1);
 	}
 
 	void TitleScreen::_onGoLeft()
@@ -916,6 +972,14 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onConfirm(unsigned stickId)
 	{
+		if (!this->_errorMsg.empty()) {
+			if (this->_errorTimer < MIN_ERROR_SHOW)
+				return;
+			this->_errorMsg.clear();
+			this->_errorTimer = 0;
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			return;
+		}
 	#ifdef HAS_NETWORK
 		if (game->connection)
 			return;
@@ -925,6 +989,19 @@ namespace SpiralOfFate
 			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
 			return;
 		}
+	#ifdef __EMSCRIPTEN__
+		if (this->_selectingRoom) {
+			auto item = this->_menuObject->getEnabledMenu() << 8 | this->_menuObject->getSelectedItem();
+
+			this->_selectingRoom = false;
+			if (item == TITLE_SCREEN_BUTTON(MULTIPLAYER_MODE, CONNECT))
+				this->_connect("0.0.0.0:" + this->_typingCode);
+			else
+				this->_spectate("0.0.0.0:" + this->_typingCode);
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			return;
+		}
+	#endif
 	#endif
 		if (this->_changingInputs) {
 			this->_changeInput = true;
@@ -932,15 +1009,9 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
-			auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+			auto item = this->_menuObject->getEnabledMenu() << 8 | this->_menuObject->getSelectedItem();
 
-			if (this->_rightInput || (this->_leftInput && (
-				item != TITLE_SCREEN_BUTTON(3, OFFLINE) &&
-			#ifdef HAS_SYNC_TEST
-				item != TITLE_SCREEN_BUTTON(6, SYNC_TEST) &&
-			#endif
-				item != TITLE_SCREEN_BUTTON(2, PRACTICE)
-			)))
+			if (this->_rightInput || (this->_leftInput && !MODE_HAS_2_LOCAL_PLAYERS(item)))
 				this->_onInputsChosen();
 			else if (this->_leftInput) {
 				if (stickId >= STICK_ID_PPAD1 && this->_leftInput == stickId + 1)
@@ -969,11 +1040,23 @@ namespace SpiralOfFate
 
 	void TitleScreen::_onCancel()
 	{
+		if (!this->_errorMsg.empty()) {
+			if (this->_errorTimer < MIN_ERROR_SHOW)
+				return;
+			this->_errorMsg.clear();
+			this->_errorTimer = 0;
+			game->soundMgr.play(BASICSOUND_MENU_CANCEL);
+			return;
+		}
 		game->soundMgr.play(BASICSOUND_MENU_CANCEL);
 	#ifdef HAS_NETWORK
 		if (game->connection) {
 			this->_connecting = false;
 			return game->connection.reset();
+		}
+		if (this->_selectingRoom) {
+			this->_selectingRoom = false;
+			return;
 		}
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
@@ -988,15 +1071,9 @@ namespace SpiralOfFate
 			return;
 		}
 		if (this->_askingInputs) {
-			auto item = this->_menuObject.getEnabledMenu() << 8 | this->_menuObject.getSelectedItem();
+			auto item = this->_menuObject->getEnabledMenu() << 8 | this->_menuObject->getSelectedItem();
 
-			if (this->_rightInput && (
-				item == TITLE_SCREEN_BUTTON(3, OFFLINE) ||
-			#ifdef HAS_SYNC_TEST
-				item == TITLE_SCREEN_BUTTON(6, SYNC_TEST) ||
-			#endif
-				item == TITLE_SCREEN_BUTTON(2, PRACTICE)
-			))
+			if (this->_rightInput && MODE_HAS_2_LOCAL_PLAYERS(item))
 				this->_rightInput = 0;
 			else if (this->_leftInput)
 				this->_leftInput = 0;
@@ -1005,10 +1082,10 @@ namespace SpiralOfFate
 			return;
 		}
 	#ifdef __EMSCRIPTEN__
-		if (this->_menuObject.getEnabledMenu() != 0)
-			this->_menuObject.setSelectedItem(this->_menuObject.getMenuSize() - 1);
+		if (this->_menuObject->getEnabledMenu() != CHUNK_MAIN_MENU)
+			this->_menuObject->setSelectedItem(this->_menuObject->getMenuSize() - 1);
 	#else
-		this->_menuObject.setSelectedItem(this->_menuObject.getMenuSize() - 1);
+		this->_menuObject->setSelectedItem(this->_menuObject->getMenuSize() - 1);
 	#endif
 	}
 
@@ -1050,8 +1127,16 @@ namespace SpiralOfFate
 	{
 		game->screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
 		game->screen->fillColor(sf::Color::White);
-		game->screen->displayElement("Enable spectating?", {640, 280}, 400, Screen::ALIGN_CENTER);
-		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 340}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement("Enable spectating?", {640, 290}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 330}, 400, Screen::ALIGN_CENTER);
+	}
+
+	void TitleScreen::_showSelectingRoom() const
+	{
+		game->screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
+		game->screen->fillColor(sf::Color::White);
+		game->screen->displayElement("Enter room code", {640, 290}, 400, Screen::ALIGN_CENTER);
+		game->screen->displayElement(this->_typingCode + (this->_timer % 20 < 10 ? "_" : " "), {640, 330}, 400, Screen::ALIGN_CENTER);
 	}
 #endif
 

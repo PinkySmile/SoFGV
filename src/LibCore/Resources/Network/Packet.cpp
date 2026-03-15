@@ -47,11 +47,13 @@ namespace SpiralOfFate
 
 	std::string PacketHello::toString() const
 	{
+		auto ptr = reinterpret_cast<const unsigned char *>(&this->targetIp);
+
 		return "Packet HELLO: magic " + std::to_string(this->magic) +
-			" targetIp " + std::to_string(((unsigned char *)&this->targetIp)[0]) +
-			"." + std::to_string(((unsigned char *)&this->targetIp)[1]) +
-			"." + std::to_string(((unsigned char *)&this->targetIp)[2]) +
-			"." + std::to_string(((unsigned char *)&this->targetIp)[3]) +
+			" targetIp " + std::to_string(ptr[3]) +
+			"." + std::to_string(ptr[2]) +
+			"." + std::to_string(ptr[1]) +
+			"." + std::to_string(ptr[0]) +
 			" targetPort " + std::to_string(this->targetPort);
 	}
 

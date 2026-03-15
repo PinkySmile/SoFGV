@@ -5,6 +5,20 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_compile_definitions(_USE_MATH_DEFINES ZLIB_CONST)
 
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		add_compile_options(-W -Wall -Wextra)
+	endif ()
+	option(DEBUG_CHECKS "Debug checks" ON)
+else ()
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		if (WIN32)
+			add_link_options(-mwindows)
+		endif()
+		add_compile_options("-fmacro-prefix-map=${CMAKE_SOURCE_DIR}/src=src" "-ffile-prefix-map=${CMAKE_SOURCE_DIR}/src=src")
+	endif ()
+	option(DEBUG_CHECKS "Debug checks" OFF)
+endif ()
 if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
 	set(BUILD_STATIC ON)
 	set(WEB_BUILD ON)
@@ -19,7 +33,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
 	# Suppress warning in json library
 	set(SOFGV_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_DEBUG -g3 -gsource-map -Og)
 	set(SOFGV_EMSCRIPTEN_TARGET_COMPILE_OPTIONS_RELEASE -O3)
-	set(SOFGV_EMSCRIPTEN_TARGET_LINK_OPTIONS_DEBUG -g3 -gsource-map -sASSERTIONS=2 -sCHECK_NULL_WRITES=1 -sSTACK_OVERFLOW_CHECK=1) # -sSAFE_HEAP=1
+	set(SOFGV_EMSCRIPTEN_TARGET_LINK_OPTIONS_DEBUG -g3 -gsource-map -sASSERTIONS=2 -sCHECK_NULL_WRITES=1 -sSTACK_OVERFLOW_CHECK=1 -sWEBSOCKET_DEBUG) # -sSAFE_HEAP=1
 	set(SOFGV_EMSCRIPTEN_TARGET_LINK_OPTIONS_RELEASE -O3)
 	set(SOFGV_EMSCRIPTEN_TARGET_LINK_OPTIONS_ASYNCIFY -sASYNCIFY=1) #-sASYNCIFY_IGNORE_INDIRECT=1)
 
@@ -63,6 +77,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL Emscripten)
 		-sGL_EXPLICIT_UNIFORM_LOCATION=1  # TODO P0:
 		-sGL_EXPLICIT_UNIFORM_BINDING=1   # TODO P0:
 
+		--bind
 		--embed-file ${CMAKE_SOURCE_DIR}/assets/@/assets
 		-sTOTAL_MEMORY=512mb
 
@@ -127,8 +142,18 @@ if (USE_SDL2)
 	set(VIRTUAL_CONTROLLER OFF)
 	add_compile_definitions(USE_SDL=1)
 else ()
-	set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=sf::UdpSocket)
-	set(NETWORK_EXTRA_SRC)
+	if (EMSCRIPTEN)
+		set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=EmWsSocket)
+		set(NETWORK_EXTRA_SRC src/LibCore/Resources/Network/EmWsSocket.cpp src/LibCore/Resources/Network/EmWsSocket.hpp)
+		if (DEFINED WEBSOCKET_PATH)
+			add_compile_definitions(WEBSOCKET_PATH="${WEBSOCKET_PATH}")
+		else ()
+			add_compile_definitions(WEBSOCKET_PATH="/")
+		endif ()
+	else ()
+		set(NETWORK_CLASSES IP_CLASS=sf::IpAddress SOCKET_CLASS=sf::UdpSocket)
+		set(NETWORK_EXTRA_SRC)
+	endif ()
 	set(
 		INPUT_SRCS
 		src/LibCore/SFML/ControllerInput.cpp
@@ -190,6 +215,7 @@ if (EMSCRIPTEN)
 		EXTRA_LINK_LIBRARIES
 		${EXTRA_LINK_LIBRARIES}
 		idbfs.js
+		websocket.js
 	)
 endif ()
 
@@ -252,7 +278,7 @@ if (NETWORK_CLASSES)
 		src/Game/Scenes/Network/SpectatorInGame.hpp
 	)
 	add_compile_definitions(HAS_NETWORK=1)
-	add_compile_definitions(NETWORK_CLASSES)
+	add_compile_definitions(${NETWORK_CLASSES})
 endif ()
 
 include_directories(${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/src/LibCore ${EXTRA_LIBRARY_INCLUDES})
@@ -272,21 +298,6 @@ endif ()
 if (UBSAN)
 	add_compile_options(-fsanitize=undefined)
 	add_link_options(-fsanitize=undefined)
-endif ()
-
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		add_compile_options(-W -Wall -Wextra)
-	endif ()
-	option(DEBUG_CHECKS "Debug checks" ON)
-else ()
-	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-		if (WIN32)
-			add_link_options(-mwindows)
-		endif()
-		add_compile_options("-fmacro-prefix-map=${CMAKE_SOURCE_DIR}/src=src" "-ffile-prefix-map=${CMAKE_SOURCE_DIR}/src=src")
-	endif ()
-	option(DEBUG_CHECKS "Debug checks" OFF)
 endif ()
 
 if (DEBUG_CHECKS)

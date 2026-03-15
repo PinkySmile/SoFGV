@@ -32,10 +32,8 @@ namespace SpiralOfFate
 		text.setOutlineThickness(0);
 		text.setCharacterSize(50);
 		text.setString(skeleton.button);
-		if (!skeleton.onClick) {
+		if (!skeleton.onClick)
 			this->disabled = true;
-			this->description += "\n\nComing soon!";
-		}
 
 		this->_normalText.clear(Color{255, 255, 255, 0});
 		this->_normalText.draw(text);

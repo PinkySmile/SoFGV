@@ -14,7 +14,7 @@
 
 namespace SpiralOfFate
 {
-	Menu::Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &&arr) :
+	Menu::Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &arr) :
 		_buttonFont(buttonFont),
 		_descFont(descFont),
 		_separatorBody{ game->textureMgr.load("assets/ui/separator.png") },

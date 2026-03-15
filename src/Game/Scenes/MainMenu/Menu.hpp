@@ -40,7 +40,7 @@ namespace SpiralOfFate
 		void _computeExpectedDescBoxSize();
 
 	public:
-		Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &&arr);
+		Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &arr);
 
 		void update(InputStruct inputs);
 		void render() const;
