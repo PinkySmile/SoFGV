@@ -303,8 +303,10 @@ namespace SpiralOfFate
 			this->_showHostMessage();
 		else if (this->_chooseSpecCount)
 			this->_showChooseSpecCount();
+	#ifdef __EMSCRIPTEN__
 		else if (this->_selectingRoom)
 			this->_showSelectingRoom();
+	#endif
 	#endif
 		else if (this->_askingInputs)
 			this->_showAskInputBox();
@@ -1054,10 +1056,12 @@ namespace SpiralOfFate
 			this->_connecting = false;
 			return game->connection.reset();
 		}
+	#ifdef __EMSCRIPTEN__
 		if (this->_selectingRoom) {
 			this->_selectingRoom = false;
 			return;
 		}
+	#endif
 		if (this->_chooseSpecCount) {
 			this->_chooseSpecCount = false;
 			return;
@@ -1131,6 +1135,7 @@ namespace SpiralOfFate
 		game->screen->displayElement(this->_specEnabled ? "Spectating enabled" : "Spectating disabled", {640, 330}, 400, Screen::ALIGN_CENTER);
 	}
 
+#ifdef __EMSCRIPTEN__
 	void TitleScreen::_showSelectingRoom() const
 	{
 		game->screen->displayElement({620, 280, 440, 100}, sf::Color{0x50, 0x50, 0x50});
@@ -1138,6 +1143,7 @@ namespace SpiralOfFate
 		game->screen->displayElement("Enter room code", {640, 290}, 400, Screen::ALIGN_CENTER);
 		game->screen->displayElement(this->_typingCode + (this->_timer % 20 < 10 ? "_" : " "), {640, 330}, 400, Screen::ALIGN_CENTER);
 	}
+#endif
 #endif
 
 	void TitleScreen::_loadReplay(const std::filesystem::path &path)

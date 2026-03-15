@@ -217,6 +217,8 @@ namespace SpiralOfFate
 
 	void SpectatorConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
+		PacketHello hello{REAL_VERSION_STR, ip.toInteger(), port};
+
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
 		this->_remotes.emplace_back(*this, ip, port);
 
@@ -229,6 +231,13 @@ namespace SpiralOfFate
 		};
 		this->_states.clear();
 		this->_terminated = false;
+
+		auto res = this->_send(this->_remotes.back(), &hello, sizeof(hello));
+
+		if (res != sf::Socket::Status::Done) {
+			game->logger.error("Failed to send packet to " + ip.toString() + ":" + std::to_string(port));
+			op.onDisconnect(this->_remotes.back());
+		}
 	}
 
 	void SpectatorConnection::requestInputs(unsigned int startFrame)
