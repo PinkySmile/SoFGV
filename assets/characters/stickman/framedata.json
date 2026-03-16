@@ -26467,7 +26467,7 @@
         {
           "block_opponent_hit_stop": 13,
           "block_player_hit_stop": 13,
-          "block_stun": 15,
+          "block_stun": 17,
           "chip_damage": 500,
           "collision_box": {
             "height": 151,
@@ -26525,7 +26525,8 @@
             "width": 72
           },
           "untech": 30,
-          "void_limit": 15
+          "void_limit": 15,
+          "wrong_block_stun": 23
         },
         {
           "collision_box": {
