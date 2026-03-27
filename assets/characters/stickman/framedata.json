@@ -27114,7 +27114,7 @@
             }
           ],
           "mana_gain": 30,
-          "offense_flag": 10521736,
+          "offense_flag": 10520712,
           "offset": {
             "x": 2,
             "y": -6
@@ -27138,7 +27138,7 @@
             "top": 804,
             "width": 27
           },
-          "untech": 20,
+          "untech": 23,
           "void_limit": 20
         },
         {
@@ -27184,7 +27184,7 @@
             }
           ],
           "mana_gain": 30,
-          "offense_flag": 10521736,
+          "offense_flag": 10520712,
           "offset": {
             "x": 2,
             "y": -6
@@ -27207,7 +27207,7 @@
             "top": 804,
             "width": 27
           },
-          "untech": 20,
+          "untech": 23,
           "void_limit": 20
         },
         {
@@ -27253,7 +27253,7 @@
             }
           ],
           "mana_gain": 30,
-          "offense_flag": 10521736,
+          "offense_flag": 10520712,
           "offset": {
             "x": 0,
             "y": -6
@@ -27276,7 +27276,7 @@
             "top": 804,
             "width": 31
           },
-          "untech": 20,
+          "untech": 23,
           "void_limit": 20
         }
       ],
