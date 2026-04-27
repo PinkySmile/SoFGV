@@ -5,12 +5,12 @@
 #include "MenuItem.hpp"
 #include "Resources/Game.hpp"
 
+
 #define CURSOR_DISP_ANIM_LENGTH 15
 #define SELECTED_BUTTON_LENGTH_EXTEND 60
 #define BUTTON_TEXT_TEXTURE_SIZE Vector2u{600, 60}
 #define BLUR_EXTRA 20
 #define DISABLE_DIM 100
-#include <GLES2/gl2.h> // Ensure you have the GLES2 headers for Emscripten
 
 namespace SpiralOfFate
 {

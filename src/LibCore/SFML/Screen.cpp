@@ -97,10 +97,10 @@ namespace SpiralOfFate
 	{
 		switch (align) {
 		case ALIGN_RIGHT:
-			pos.x += boxSize - this->getTextSize(str);
+			pos.x += boxSize - this->getTextSize(str.toAnsiString());
 			break;
 		case ALIGN_CENTER:
-			pos.x += (boxSize - this->getTextSize(str)) / 2;
+			pos.x += (boxSize - this->getTextSize(str.toAnsiString())) / 2;
 			break;
 		default:
 			break;
@@ -165,7 +165,11 @@ namespace SpiralOfFate
 
 		for (size_t i = 0; i < txt.size(); i++) {
 			if (i != 0)
-				size += this->_text.getFont().getKerning(txt[i - 1], txt[i], this->_text.getCharacterSize());
+				size += this->_text.getFont().getKerning(
+					static_cast<char32_t>(txt[i - 1]),
+					static_cast<char32_t>(txt[i]),
+					this->_text.getCharacterSize()
+				);
 			size += this->_text.getFont().getGlyph(txt[i], this->_text.getCharacterSize(), false).advance;
 		}
 		return size;

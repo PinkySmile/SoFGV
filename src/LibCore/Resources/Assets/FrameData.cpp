@@ -833,10 +833,9 @@ namespace SpiralOfFate
 			this->gravity = dat->gravity;
 		else
 			this->gravity.reset();
-		if (dat->hasSnap) {
-			this->snap->first  = dat->snapPos;
-			this->snap->second = dat->snapRot;
-		} else
+		if (dat->hasSnap)
+			this->snap.emplace(dat->snapPos, dat->snapRot);
+		else
 			this->snap.reset();
 		if (dat->hasPriority)
 			this->priority = dat->priority;
