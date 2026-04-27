@@ -125,7 +125,8 @@ namespace SpiralOfFate
 			const std::string &title,
 			const std::filesystem::path &fontPath,
 			const std::filesystem::path &settingsPath,
-			const std::filesystem::path &loggerPath = "./latest.log"
+			const std::filesystem::path &loggerPath = "./latest.log",
+			bool setGuiFont = true
 		);
 		std::vector<std::filesystem::path> getCharacters();
 		Color getColor(const std::string &name);

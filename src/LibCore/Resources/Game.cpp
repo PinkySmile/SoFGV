@@ -16,7 +16,8 @@ namespace SpiralOfFate
 		const std::string &title,
 		const std::filesystem::path &fontPath,
 		const std::filesystem::path &settingsPath,
-		const std::filesystem::path &loggerPath
+		const std::filesystem::path &loggerPath,
+		bool setGuiFont
 	) :
 		settings(settingsPath),
 		logger(loggerPath),
@@ -31,7 +32,8 @@ namespace SpiralOfFate
 	{
 		try {
 			this->gui.setWindow(*game->screen);
-			tgui::Font::setGlobalFont({fontPath.string()});
+			if (setGuiFont)
+				tgui::Font::setGlobalFont({fontPath.string()});
 			tgui::Theme::setDefault(tgui::Theme::create(this->settings.theme));
 			this->screen->setFont(game->font);
 			this->soundMgr.setVolume(10);

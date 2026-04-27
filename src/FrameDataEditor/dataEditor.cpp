@@ -1,3 +1,4 @@
+#include <iostream>
 #include "LibCore.hpp"
 #include "FrameDataEditor.hpp"
 
@@ -40,9 +41,8 @@ void initEditor()
 {
 	sf::Image icon;
 
-	new Game("assets/fonts/Retro Gaming.ttf", "assets/fonts/Retro Gaming.ttf", "settings/settings.json");
+	new Game("Spiral of Fate: Grand Vision | FrameData Editor", "assets/fonts/Retro Gaming.ttf", "settings/settings.json", "./editor.log", false);
 	game->logger.info("Starting editor.");
-	game->screen = std::make_unique<Screen>("Spiral of Fate: Grand Vision | FrameData Editor");
 	if (icon.loadFromFile("assets/editorIcon.png"))
 		game->screen->setIcon(icon.getSize(), icon.getPixelsPtr());
 	game->screen->setFramerateLimit(240);
