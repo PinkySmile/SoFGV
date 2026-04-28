@@ -10,7 +10,7 @@ def render_file(file, out, root, version):
 	env = Environment(loader=FileSystemLoader(os.path.dirname(__file__) + "/templates"))
 	with open(file) as fd:
 		template = env.from_string(fd.read())
-	html = template.render(chrs=entries, root=root, version=version)
+	html = template.render(chrs=entries, root=root, version=version, debug=True if os.getenv('DEBUG', False) else False)
 	with open(out, "w") as fd:
 		fd.write(html)
 

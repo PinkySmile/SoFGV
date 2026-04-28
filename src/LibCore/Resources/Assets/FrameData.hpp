@@ -224,7 +224,8 @@ namespace SpiralOfFate
 			Vector2i hitSpeed;
 			Vector2i counterHitSpeed;
 			Vector2f gravity;
-			std::pair<Vector2f, float> snap;
+			Vector2f snapPos;
+			float snapRot;
 			Box textureBounds;
 			Box collisionBox;
 			bool hasCollisionBox;

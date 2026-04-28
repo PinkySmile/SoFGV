@@ -18,7 +18,8 @@ namespace SpiralOfFate
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_OLLEH, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (remote.connectPhase == 3) {
 			PacketInitRequest request{this->_names.second.c_str(), VERSION_STR, false};
@@ -58,12 +59,14 @@ namespace SpiralOfFate
 		if (remote.connectPhase == 0) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 
 		if (this->_currentMenu != MENUSTATE_LOADING_CHARSELECT && this->_currentMenu != MENUSTATE_CHARSELECT) {
@@ -91,12 +94,14 @@ namespace SpiralOfFate
 		if (remote.connectPhase != 1) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 
 		this->_expectedDelay = packet.newDelay;
@@ -114,7 +119,8 @@ namespace SpiralOfFate
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_MENU_SWITCH, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (packet.opMenuId != this->_currentMenu) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
@@ -174,7 +180,8 @@ namespace SpiralOfFate
 		if (this->_currentMenu == MENUSTATE_LOADING_INGAME || this->_currentMenu == MENUSTATE_INGAME) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
 
-			return this->_send(remote, &menuSwitch, sizeof(menuSwitch));
+			this->_send(remote, &menuSwitch, sizeof(menuSwitch));
+			return;
 		}
 		this->_currentMenu = MENUSTATE_LOADING_INGAME;
 		this->_startParams.seed = packet.seed;
@@ -221,6 +228,8 @@ namespace SpiralOfFate
 
 	void ClientConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
+		PacketHello hello{REAL_VERSION_STR, ip.toInteger(), port};
+
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
 		this->_remotes.emplace_back(*this, ip, port);
 
@@ -233,5 +242,12 @@ namespace SpiralOfFate
 		};
 		this->_states.clear();
 		this->_terminated = false;
+
+		auto res = this->_send(this->_remotes.back(), &hello, sizeof(hello));
+
+		if (res != sf::Socket::Status::Done) {
+			game->logger.error("Failed to send packet to " + ip.toString() + ":" + std::to_string(port));
+			op.onDisconnect(this->_remotes.back());
+		}
 	}
 }

@@ -69,12 +69,12 @@ namespace SpiralOfFate
 			return;
 		}
 		if (relevent.verticalAxis == 1 || (relevent.verticalAxis >= 36 && relevent.verticalAxis % 6 == 0)) {
-			this->_pauseCursor += sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor += std::size(InGame::_menuStrings);
 			this->_pauseCursor--;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		} else if (relevent.verticalAxis == -1 || (relevent.verticalAxis <= -36 && relevent.verticalAxis % 6 == 0)) {
 			this->_pauseCursor++;
-			this->_pauseCursor %= sizeof(InGame::_menuStrings) / sizeof(*InGame::_menuStrings);
+			this->_pauseCursor %= std::size(InGame::_menuStrings);
 		}
 		if (relevent.n == 1 && this->_pauseConfirm()) {
 			this->_pauseCursor = 0;
@@ -102,12 +102,12 @@ namespace SpiralOfFate
 			return;
 		}
 		if (relevent.verticalAxis == 1 || (relevent.verticalAxis >= 36 && relevent.verticalAxis % 6 == 0)) {
-			this->_practiceCursor += sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings);
+			this->_practiceCursor += std::size(PracticeInGame::_practiceMenuStrings);
 			this->_practiceCursor--;
-			this->_practiceCursor %= sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings);
+			this->_practiceCursor %= std::size(PracticeInGame::_practiceMenuStrings);
 		} else if (relevent.verticalAxis == -1 || (relevent.verticalAxis <= -36 && relevent.verticalAxis % 6 == 0)) {
 			this->_practiceCursor++;
-			this->_practiceCursor %= sizeof(PracticeInGame::_practiceMenuStrings) / sizeof(*PracticeInGame::_practiceMenuStrings);
+			this->_practiceCursor %= std::size(PracticeInGame::_practiceMenuStrings);
 		}
 		if (relevent.n == 1)
 			this->_practiceConfirm();
@@ -181,7 +181,7 @@ namespace SpiralOfFate
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->displayElement("Spectator Mode", {340 - 50, 245 - 600}, 400, Screen::ALIGN_CENTER);
-		for (size_t i = 0; i < sizeof(SpectatorInGame::_menuStrings) / sizeof(*SpectatorInGame::_menuStrings); i++) {
+		for (size_t i = 0; i < std::size(SpectatorInGame::_menuStrings); i++) {
 			game->screen->fillColor(i == this->_pauseCursor ? sf::Color::Yellow : sf::Color::White);
 			game->screen->displayElement(SpectatorInGame::_menuStrings[i], {350 - 50, 285 - 600 + 25.f * i});
 		}
@@ -191,7 +191,7 @@ namespace SpiralOfFate
 
 	void SpectatorInGame::_practiceRender() const
 	{
-		char const *values[sizeof(SpectatorInGame::_practiceMenuStrings) / sizeof(*SpectatorInGame::_practiceMenuStrings)];
+		char const *values[std::size(SpectatorInGame::_practiceMenuStrings)];
 		std::string delay = std::to_string(this->_inputDelay);
 		const char *vals[] = {
 			"Hidden",
@@ -204,11 +204,11 @@ namespace SpiralOfFate
 		values[1] = !this->_manager->_showAttributes ? "Disabled" : "Enabled";
 		values[2] = vals[this->_inputDisplay];
 
-		game->screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * (sizeof(SpectatorInGame::_practiceMenuStrings) / sizeof(*SpectatorInGame::_practiceMenuStrings))}, sf::Color{0x50, 0x50, 0x50, 0xC0});
+		game->screen->displayElement({340 - 50, 190 - 600, 400, 50 + 25 * std::size(SpectatorInGame::_practiceMenuStrings)}, sf::Color{0x50, 0x50, 0x50, 0xC0});
 		game->screen->textSize(20);
 		game->screen->fillColor(sf::Color::White);
 		game->screen->displayElement("Replay Options", {340 - 50, 195 - 600}, 400, Screen::ALIGN_CENTER);
-		for (size_t i = 0; i < sizeof(SpectatorInGame::_practiceMenuStrings) / sizeof(*SpectatorInGame::_practiceMenuStrings); i++) {
+		for (size_t i = 0; i < std::size(SpectatorInGame::_practiceMenuStrings); i++) {
 			char buffer[0x400];
 
 			sprintf(buffer, SpectatorInGame::_practiceMenuStrings[i], values[i]);

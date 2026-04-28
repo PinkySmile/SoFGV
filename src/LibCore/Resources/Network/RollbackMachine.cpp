@@ -160,7 +160,7 @@ namespace SpiralOfFate
 		auto it = this->_savedData.begin();
 
 		while (frame != BattleManager::getFrame(it->data))
-			it++;
+			++it;
 
 		auto time = it->clock.getElapsedTime().asMicroseconds();
 
@@ -520,7 +520,7 @@ namespace SpiralOfFate
 				break;
 			// We weren't! Good job!
 		endLoop:
-			it++;
+			++it;
 			// All inputs have been processed, bail out
 			if (it == this->_savedData.end())
 				return true;
@@ -545,7 +545,7 @@ namespace SpiralOfFate
 			}
 			save = true;
 			old = &*it;
-			it++;
+			++it;
 		}
 		game->logger.debug("Rolled back " + std::to_string(result) + " frames");
 		return true;

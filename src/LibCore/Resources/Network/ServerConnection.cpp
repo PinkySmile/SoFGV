@@ -55,7 +55,8 @@ namespace SpiralOfFate
 		if (err != -1) {
 			PacketError error{static_cast<unsigned int>(err), OPCODE_INIT_REQUEST, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (!this->_playing)
 			this->_names.second = std::string(packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName)));
@@ -106,7 +107,8 @@ namespace SpiralOfFate
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_MENU_SWITCH, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (packet.opMenuId != this->_currentMenu) {
 			PacketMenuSwitch menuSwitch{this->_currentMenu, this->_opCurrentMenu};
@@ -127,7 +129,8 @@ namespace SpiralOfFate
 			// In this case, the init success packet has probably been dropped, so we send it again
 			PacketInitSuccess result{this->_names.first.c_str(), this->_names.second.c_str(), VERSION_STR};
 
-			return this->_send(remote, &result, sizeof(result));
+			this->_send(remote, &result, sizeof(result));
+			return;
 		}
 		Connection::_handlePacket(remote, packet, size);
 	}
@@ -237,6 +240,7 @@ namespace SpiralOfFate
 
 	void ServerConnection::host(unsigned short port)
 	{
+		sf::UdpSocket s;
 		game->logger.info("Hosting on port " + std::to_string(port));
 		this->_states.clear();
 		if (this->_socket.bind(port) != sf::Socket::Status::Done) {

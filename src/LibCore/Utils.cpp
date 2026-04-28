@@ -6,6 +6,8 @@
 #include <windows.h>
 #else
 #include <sys/types.h>
+#endif
+#ifdef __linux__
 #include <sys/ptrace.h>
 #endif
 #ifdef __GNUG__
@@ -18,9 +20,11 @@
 #include <numeric>
 #include <fstream>
 #include <cmath>
-#include <zlib.h>
 #include "Resources/Game.hpp"
 #include "Utils.hpp"
+#ifdef HAS_NETWORK
+#include <zlib.h>
+#endif
 
 #ifdef max
 #undef max
@@ -29,6 +33,7 @@
 #undef min
 #endif
 
+#ifdef HAS_NETWORK
 namespace SpiralOfFate::Utils::Z
 {
 	static constexpr long int CHUNK = {16384};
@@ -149,6 +154,7 @@ namespace SpiralOfFate::Utils::Z
 		}
 	}
 }
+#endif
 
 namespace SpiralOfFate::Utils
 {
@@ -395,10 +401,12 @@ namespace SpiralOfFate::Utils
 	}
 #endif
 
-#ifndef _WIN32
 	// https://forum.juce.com/t/detecting-if-a-process-is-being-run-under-a-debugger/2098
 	bool isBeingDebugged()
 	{
+	#ifdef _WIN32
+		return IsDebuggerPresent() == TRUE;
+	#elif defined(__linux__)
 		static bool isCheckedAlready = false;
 		static bool underDebugger = false;
 
@@ -410,13 +418,10 @@ namespace SpiralOfFate::Utils
 			isCheckedAlready = true;
 		}
 		return underDebugger;
+	#else
+		return false;
+	#endif
 	}
-#else
-	bool isBeingDebugged()
-	{
-	     return IsDebuggerPresent() == TRUE;
-	}
-#endif
 
 	void mergeInputs(InputStruct &inputs1, const InputStruct &inputs2)
 	{

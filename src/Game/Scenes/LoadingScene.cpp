@@ -36,7 +36,9 @@ namespace SpiralOfFate
 			}
 #endif
 		}};
+	#ifndef __EMSCRIPTEN__
 		pthread_setname_np(this->_thread.native_handle(), "Scene loading thread");
+	#endif
 	}
 
 	LoadingScene::~LoadingScene()

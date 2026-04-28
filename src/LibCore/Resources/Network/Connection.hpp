@@ -5,6 +5,7 @@
 #ifndef SOFGV_CONNECTION_HPP
 #define SOFGV_CONNECTION_HPP
 
+
 #ifndef HAS_NETWORK
 #error "No network backend available"
 #endif
@@ -18,6 +19,9 @@
 #include "Inputs/InputEnum.hpp"
 #include "IConnection.hpp"
 #include "Resources/SceneArgument.hpp"
+#ifdef __EMSCRIPTEN__
+#include "EmWsSocket.hpp"
+#endif
 
 enum MenuStates {
 	MENUSTATE_NOMENU,
@@ -48,9 +52,10 @@ namespace SpiralOfFate
 				sf::Clock clock;
 			};
 
-			Connection &base;
+			Connection &_base;
+			PacketPing _ping{0};
+			sf::Clock _lastPingSent;
 
-			void _pingLoop();
 
 		public:
 			sf::IpAddress ip;
@@ -63,11 +68,11 @@ namespace SpiralOfFate
 			unsigned pingLost = 0;
 			std::list<unsigned> pingsReceived;
 			sf::Clock timeSinceLastPacket;
-			std::thread pingThread{&Remote::_pingLoop, this};
 			std::function<void (Remote &remote)> onDisconnect;
 
 			Remote(Connection &base, const sf::IpAddress &ip, unsigned short port);
 			~Remote();
+			void pingUpdate();
 		};
 
 	protected:
@@ -77,7 +82,7 @@ namespace SpiralOfFate
 			std::vector<PacketInput> remote;
 		};
 
-		GameStartParams _startParams;
+		GameStartParams _startParams = {};
 		bool _terminated = true;
 		bool _swapSide = false;
 		unsigned _currentMenu = 0;
@@ -94,12 +99,12 @@ namespace SpiralOfFate
 		std::list<PacketInput> _buffer;
 		std::list<std::pair<unsigned, PacketInput>> _sendBuffer;
 		std::list<std::pair<unsigned, long long>> _sendSyncBuffer;
-		sf::UdpSocket _socket;
+		SOCKET_CLASS _socket;
 		std::list<Remote> _remotes;
 		std::mutex _terminationMutex;
 		std::pair<std::string, std::string> _names;
 
-		void _send(Remote &remote, void *packet, uint32_t size);
+		sf::Socket::Status _send(Remote &remote, void *packet, uint32_t size);
 
 		virtual void _handlePacket(Remote &remote, PacketHello &packet, size_t size);
 		virtual void _handlePacket(Remote &remote, PacketOlleh &packet, size_t size);
@@ -148,6 +153,7 @@ namespace SpiralOfFate
 		void terminate();
 		bool isTerminated() const;
 		void nextGame();
+		unsigned short getLocalPort() const;
 		void timeSync(long long time, unsigned frame);
 		virtual void update();
 		const std::pair<std::string, std::string> &getNames() const;

@@ -73,7 +73,7 @@ namespace SpiralOfFate
 
 		auto it = state.gaps.begin();
 
-		for (; it != state.gaps.end(); it++)
+		for (; it != state.gaps.end(); ++it)
 			it->timer++;
 		while (!state.gaps.empty() && state.gaps.back().timer >= 240)
 			state.gaps.pop_back();
