@@ -12,14 +12,31 @@ namespace SpiralOfFate
 {
 	MYDLL_API Game *game = nullptr;
 
-	Game::Game(const std::filesystem::path &fontPath, const std::filesystem::path &settingsPath, const std::filesystem::path &loggerPath) :
+	Game::Game(
+		const std::string &title,
+		const std::filesystem::path &fontPath,
+		const std::filesystem::path &settingsPath,
+		const std::filesystem::path &loggerPath,
+		bool setGuiFont
+	) :
 		settings(settingsPath),
 		logger(loggerPath),
-		font(fontPath)
+		font(fontPath),
+		// Needed for emscripten build so that the window is opened before
+		// the other classes are instantiated
+		screen([this, &title]{
+			assert_exp(!game);
+			game = this;
+			return std::make_unique<Screen>(title);
+		}())
 	{
-		assert_exp(!game);
-		game = this;
 		try {
+			this->gui.setWindow(*game->screen);
+			if (setGuiFont)
+				tgui::Font::setGlobalFont({fontPath.string()});
+			tgui::Theme::setDefault(tgui::Theme::create(this->settings.theme));
+			this->screen->setFont(game->font);
+			this->soundMgr.setVolume(10);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/039.ogg"), BASICSOUND_MENU_MOVE);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/041.ogg"), BASICSOUND_MENU_CANCEL);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/040.ogg"), BASICSOUND_MENU_CONFIRM);
@@ -45,7 +62,6 @@ namespace SpiralOfFate
 			assert_eq(this->soundMgr.load("assets/sfxs/se/tenshi/052.ogg"), BASICSOUND_INSTALL_START);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/022.ogg"), BASICSOUND_WALL_BOUNCE);
 			assert_eq(this->soundMgr.load("assets/sfxs/se/022.ogg"), BASICSOUND_GROUND_SLAM);
-			tgui::Theme::setDefault(tgui::Theme::create(this->settings.theme));
 		} catch (std::exception &) {
 			game = nullptr;
 			throw;

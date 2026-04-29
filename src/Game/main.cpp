@@ -1,12 +1,16 @@
 #include <iostream>
 #include <memory>
+#include <sys/stat.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
 #ifdef _WIN32
 #include <windows.h>
 #include <dbghelp.h>
 #include <crtdbg.h>
 #include <direct.h>
 #endif
-#include <sys/stat.h>
 #include <LibCore.hpp>
 #include "Scenes/Scenes.hpp"
 #include "Scenes/Network/SpectatorCharacterSelect.hpp"
@@ -14,6 +18,13 @@
 
 #ifdef VIRTUAL_CONTROLLER
 #include "VirtualController.hpp"
+#endif
+
+#ifdef __EMSCRIPTEN__
+#define USE_LOADING_THREAD false
+#else
+#define LOADING_SCENE
+#define USE_LOADING_THREAD true
 #endif
 
 #ifdef _WIN32
@@ -80,9 +91,6 @@ LONG WINAPI UnhandledExFilter(PEXCEPTION_POINTERS ExPtr)
 	exit(ExPtr->ExceptionRecord->ExceptionCode);
 }
 #else
-#define MessageBox(...) ((void)0)
-#define MessageBox(...) ((void)0)
-
 std::string getLastError(int err = errno)
 {
 	return strerror(err);
@@ -91,28 +99,15 @@ std::string getLastError(int err = errno)
 
 using namespace SpiralOfFate;
 
-void saveInputs(const std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> &input, const std::string &path)
-{
-	auto parent = std::filesystem::path(path).parent_path();
-
-	if (!parent.empty())
-		std::filesystem::create_directories(parent);
-
-	std::ofstream stream{path};
-
-	input.first->save(stream);
-	input.second->save(stream);
-}
-
 std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> loadInputs(const std::string &path)
 {
 	std::ifstream istream{path};
 	std::pair<std::shared_ptr<KeyboardInput>, std::shared_ptr<ControllerInput>> result;
 
 	if (istream.fail()) {
+		game->logger.debug("Generating inputs for " + path);
 		result.first = std::make_shared<KeyboardInput>();
 		result.second = std::make_shared<ControllerInput>();
-		saveInputs(result, path);
 	} else {
 		result.first = std::make_shared<KeyboardInput>(istream);
 		result.second = std::make_shared<ControllerInput>(istream);
@@ -200,6 +195,7 @@ static void logEvent(sf::Event &event)
 void	checkCompilationEnv()
 {
 	char magic[] = {0x04, 0x03, 0x02, 0x01};
+	auto magicPtr = reinterpret_cast<unsigned *>(magic);
 
 	// We perform an endianness check here and display a warning if it fails.
 	// The affected stuff are:
@@ -208,11 +204,11 @@ void	checkCompilationEnv()
 	//   - Computed state checksums
 	// We officially support only little endian but people can play if they have the same endianness.
 	// Regardless, the game should work in singleplayer.
-	if (*(unsigned *)magic != 0x01020304)
+	if (*magicPtr != 0x01020304)
 		Utils::dispMsg(
 			game->gui,
 			"Warning",
-			"Your version of the game has been compiled in " + std::string(*(unsigned *)magic == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
+			"Your version of the game has been compiled in " + std::string(*magicPtr == 0x04030201 ? "big endian" : "middle endian") + " but only little endian is supported\n" +
 			"You will not be able to play with players using a different endianness.\n" +
 			"Moreover, you won't be able to load replays generated with a different endianness.\n"
 			"Your replays will also not be compatible with a different version of the game.",
@@ -245,26 +241,30 @@ void	checkCompilationEnv()
 
 void	registerScenes()
 {
+	bool hasLoading = USE_LOADING_THREAD;
+
 	game->scene.registerScene("title_screen", TitleScreen::create, false);
+#ifdef LOADING_SCENE
 	game->scene.registerScene("loading", LoadingScene::create, false);
+#endif
 
 	// Single player
-	game->scene.registerScene("char_select", CharacterSelect::create, true);
-	game->scene.registerScene("in_game", InGame::create, true);
-	game->scene.registerScene("practice_in_game", PracticeInGame::create, true);
-	game->scene.registerScene("replay_in_game", ReplayInGame::create, true);
+	game->scene.registerScene("char_select", CharacterSelect::create, hasLoading);
+	game->scene.registerScene("in_game", InGame::create, hasLoading);
+	game->scene.registerScene("practice_in_game", PracticeInGame::create, hasLoading);
+	game->scene.registerScene("replay_in_game", ReplayInGame::create, hasLoading);
 #ifdef HAS_NETWORK
 #ifdef _DEBUG
-	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, true);
+	game->scene.registerScene("sync_test_in_game", SyncTestInGame::create, hasLoading);
 #endif
 
 	// Netplay
-	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, true);
-	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, true);
+	game->scene.registerScene("client_char_select", ClientCharacterSelect::create, hasLoading);
+	game->scene.registerScene("server_char_select", ServerCharacterSelect::create, hasLoading);
 	game->scene.registerScene("spectator_char_select", SpectatorCharacterSelect::create, false);
-	game->scene.registerScene("client_in_game", ClientInGame::create, true);
-	game->scene.registerScene("server_in_game", ServerInGame::create, true);
-	game->scene.registerScene("spectator_in_game", SpectatorInGame::create, true);
+	game->scene.registerScene("client_in_game", ClientInGame::create, hasLoading);
+	game->scene.registerScene("server_in_game", ServerInGame::create, hasLoading);
+	game->scene.registerScene("spectator_in_game", SpectatorInGame::create, hasLoading);
 #endif
 }
 
@@ -277,21 +277,18 @@ void	run()
 	sf::Clock clock;
 
 	checkCompilationEnv();
-	game->menu = loadInputs("menuInputs.in");
+	game->menu = loadInputs("settings/menuInputs.in");
 	game->P1 = loadInputs(game->settings.inputPresetP1);
 	game->P2 = loadInputs(game->settings.inputPresetP2);
 	registerScenes();
 #ifdef VIRTUAL_CONTROLLER
 	game->virtualController = std::make_shared<VirtualController>();
 #endif
-	game->screen = std::make_unique<Screen>("Spiral of Fate: Grand Vision | version " VERSION_STR);
 	if (icon.loadFromFile("assets/gameIcon.png"))
 		game->screen->setIcon(icon.getSize(), icon.getPixelsPtr());
-	game->screen->setFont(game->font);
 	game->scene.switchScene("title_screen");
 	clock.restart();
 	game->screen->setFramerateLimit(60);
-	game->gui.setWindow(*game->screen);
 	while (game->screen->isOpen()) {
 	#ifdef HAS_NETWORK
 		if (game->connection)
@@ -321,6 +318,10 @@ void	run()
 		while (auto event = game->screen->pollEvent()) {
 			if (event->is<EVENT_WINDOW_CLOSED>())
 				game->screen->close();
+			else if (auto connect = event->getIf<sf::Event::JoystickConnected>())
+				game->logger.debug("New gamepad connect with id " + std::to_string(connect->joystickId));
+			else if (auto disconnect = event->getIf<sf::Event::JoystickDisconnected>())
+				game->logger.debug("New gamepad disconnect with id " + std::to_string(disconnect->joystickId));
 		#ifdef _DEBUG
 			if (auto e = event->getIf<sf::Event::KeyPressed>()) {
 				if (e->code == sf::Keyboard::Key::F12 && e->control && e->shift)
@@ -342,14 +343,29 @@ void	run()
 		#endif
 		}
 	}
-	// TODO: Move
-	saveInputs(game->menu, "menuInputs.in");
-	saveInputs(game->P1, game->settings.inputPresetP1);
-	saveInputs(game->P2, game->settings.inputPresetP2);
 }
 
 int	main()
 {
+#ifdef __EMSCRIPTEN__
+	EM_ASM(
+		FS.mkdir('/inputs');
+		FS.mkdir('/settings');
+		FS.mount(IDBFS, {autoPersist: true}, '/inputs');
+		FS.mount(IDBFS, {autoPersist: true}, '/settings');
+		FS.syncfs(true, function (err) {
+			if (err)
+				console.error(err);
+			_entrypoint();
+		});
+	);
+
+	emscripten_exit_with_live_runtime();
+}
+
+extern "C" EMSCRIPTEN_KEEPALIVE int entrypoint()
+{
+#endif
 	int ret = EXIT_SUCCESS;
 
 	libraryInit();
@@ -360,7 +376,7 @@ int	main()
 #if !defined(_DEBUG) || defined(_WIN32) || defined(__ANDROID__)
 	try {
 #endif
-		new Game("assets/fonts/Retro Gaming.ttf", "settings.json");
+		new Game("Spiral of Fate: Grand Vision | version " VERSION_STR, "assets/fonts/Retro Gaming.ttf", "settings/settings.json");
 		game->logger.info("Starting game->");
 		run();
 		game->logger.info("Goodbye !");
@@ -373,9 +389,11 @@ int	main()
 		} else
 			MessageBoxA(nullptr, e.what(), "Fatal error", MB_ICONERROR);
 #else
-		//	Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, &*game->screen);
-		}// else
-		//	Utils::dispMsg("Fatal error", e.what(), MB_ICONERROR, nullptr);
+		} else
+			std::cerr << Utils::getLastExceptionName() << ": " << e.what() << std::endl;
+#endif
+#ifdef __EMSCRIPTEN__
+		abort();
 #endif
 		ret = EXIT_FAILURE;
 	}

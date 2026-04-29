@@ -2741,7 +2741,7 @@ namespace SpiralOfFate
 
 		while (it != this->_lastInputs.end() && total < MAX_FRAME_IN_BUFFER) {
 			total += it->nbFrames;
-			it++;
+			++it;
 		}
 		this->_lastInputs.erase(it, this->_lastInputs.end());
 	}

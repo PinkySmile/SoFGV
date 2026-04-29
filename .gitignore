@@ -47,3 +47,4 @@ src/WikiGenerator/generated
 __pycache__
 Android.mk
 build
+.venv

@@ -115,7 +115,14 @@ def generate_palettes_image(path, idle, palettes):
 		tex["top"] + tex["height"]
 	))
 	imgs = [base]
-	pals = [[(p['r'], p['b'], p['g'], 255) for p in r] for r in palettes]
+	pal_data = []
+	for p in palettes:
+		try:
+			with open(path + "/" + p, "rb") as f:
+				pal_data.append(f.read())
+		except:
+			pal_data.append(b'\0\0\0' * 256)
+	pals = [(p[i * 3], p[i * 3 + 1], p[i * 3 + 2], 255) for i in range(256) for p in pal_data]
 	for palette in pals[1:]:
 		img = base.copy()
 		pixels = img.load()

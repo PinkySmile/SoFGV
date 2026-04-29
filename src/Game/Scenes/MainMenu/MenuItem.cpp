@@ -5,16 +5,18 @@
 #include "MenuItem.hpp"
 #include "Resources/Game.hpp"
 
+
 #define CURSOR_DISP_ANIM_LENGTH 15
 #define SELECTED_BUTTON_LENGTH_EXTEND 60
 #define BUTTON_TEXT_TEXTURE_SIZE Vector2u{600, 60}
+#define BLUR_EXTRA 20
 #define DISABLE_DIM 100
 
 namespace SpiralOfFate
 {
 	MenuItem::MenuItem(const sf::Font &font, unsigned index, const MenuItemSkeleton &skeleton) :
 		_normalText{BUTTON_TEXT_TEXTURE_SIZE},
-		_blurredText{BUTTON_TEXT_TEXTURE_SIZE},
+		_blurredText{BUTTON_TEXT_TEXTURE_SIZE + Vector2u{BLUR_EXTRA * 2, BLUR_EXTRA * 2}},
 		_btnImg{ game->textureMgr.load("assets/ui/buttonbar.png") },
 		_cursImg{ game->textureMgr.load("assets/ui/cursor.png") },
 		_textImg{ game->textureMgr.getTexture(0) },
@@ -30,18 +32,25 @@ namespace SpiralOfFate
 		text.setOutlineThickness(0);
 		text.setCharacterSize(50);
 		text.setString(skeleton.button);
-		if (!skeleton.onClick) {
+		if (!skeleton.onClick)
 			this->disabled = true;
-			this->description += "\n\nComing soon!";
-		}
 
 		this->_normalText.clear(Color{255, 255, 255, 0});
 		this->_normalText.draw(text);
 		this->_normalText.display();
 
+#ifdef __EMSCRIPTEN__
+		assert_exp(shader.loadFromFile("assets/ui/blur_web.vert", "assets/ui/blur_web.frag"));
+#else
 		assert_exp(shader.loadFromFile("assets/ui/blur.frag", sf::Shader::Type::Fragment));
-		shader.setUniform("offsetFactor", sf::Vector2f{0.0025, 0.0025});
 		shader.setUniform("source", sf::Shader::CurrentTexture);
+#endif
+		shader.setUniform("offsetFactor", sf::Vector2f{0.0035f, 0.0035f});
+
+		auto pos = text.getPosition();
+		pos.x += BLUR_EXTRA;
+		pos.y += BLUR_EXTRA;
+		text.setPosition(pos);
 		this->_blurredText.clear(Color{255, 255, 255, 0});
 		this->_blurredText.draw(text, &shader);
 		this->_blurredText.display();
@@ -56,8 +65,11 @@ namespace SpiralOfFate
 		this->_textImg.setPosition({868, 331.f + MENU_ITEM_SPACING * index});
 		this->_textImg.setColor(Color::Transparent);
 
+		pos = this->_textImg.getPosition();
+		pos.x -= BLUR_EXTRA;
+		pos.y -= BLUR_EXTRA;
 		this->_textImgBlur.setTexture(this->_blurredText.getTexture(), true);
-		this->_textImgBlur.setPosition(this->_textImg.getPosition());
+		this->_textImgBlur.setPosition(pos);
 		this->_textImgBlur.setColor(Color::Transparent);
 	}
 

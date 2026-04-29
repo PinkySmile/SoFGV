@@ -14,7 +14,7 @@
 
 namespace SpiralOfFate
 {
-	Menu::Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &&arr) :
+	Menu::Menu(const std::string &buttonFont, const std::string &descFont, const std::vector<std::vector<MenuItemSkeleton>> &arr) :
 		_buttonFont(buttonFont),
 		_descFont(descFont),
 		_separatorBody{ game->textureMgr.load("assets/ui/separator.png") },
@@ -230,7 +230,7 @@ namespace SpiralOfFate
 				if (s != 0) {
 					x += this->_descFont.getGlyph(s, DESC_FONT_SIZE, false).advance;
 					if (!word.empty())
-						x += this->_descFont.getKerning(word.back(), s, DESC_FONT_SIZE);
+						x += this->_descFont.getKerning(static_cast<char32_t>(word.back()), static_cast<char32_t>(s), DESC_FONT_SIZE);
 					this->_desc.push_back(s);
 				}
 				this->_desc.append(word);
@@ -246,7 +246,7 @@ namespace SpiralOfFate
 			} else {
 				wordSize += this->_descFont.getGlyph(c, DESC_FONT_SIZE, false).advance;
 				if (!word.empty())
-					wordSize += this->_descFont.getKerning(word.back(), c, DESC_FONT_SIZE);
+					wordSize += this->_descFont.getKerning(static_cast<char32_t>(word.back()), static_cast<char32_t>(c), DESC_FONT_SIZE);
 				word.push_back(c);
 			}
 		}
@@ -262,7 +262,7 @@ namespace SpiralOfFate
 		if (s != 0) {
 			x += this->_descFont.getGlyph(s, DESC_FONT_SIZE, false).advance;
 			if (!word.empty())
-				x += this->_descFont.getKerning(word.back(), s, DESC_FONT_SIZE);
+				x += this->_descFont.getKerning(static_cast<char32_t>(word.back()), static_cast<char32_t>(s), DESC_FONT_SIZE);
 			this->_desc.push_back(s);
 		}
 		this->_desc.append(word);

@@ -21,7 +21,7 @@ namespace SpiralOfFate
 	struct MenuItemSkeleton {
 		const char *button;
 		const char *desc;
-		const std::function<void ()> onClick;
+		std::function<void ()> onClick;
 	};
 
 	class MenuItem {

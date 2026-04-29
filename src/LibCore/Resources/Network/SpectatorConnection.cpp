@@ -13,12 +13,14 @@ namespace SpiralOfFate
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_OLLEH, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (remote.connectPhase == CONNECTION_STATE_CONNECTING) {
 			PacketInitRequest request{this->_names.second.c_str(), VERSION_STR, true};
 
-			return this->_send(remote, &request, sizeof(request));
+			this->_send(remote, &request, sizeof(request));
+			return;
 		}
 
 		PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_OLLEH, size};
@@ -52,12 +54,14 @@ namespace SpiralOfFate
 		if (remote.connectPhase == 0) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_INIT_SUCCESS, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 
 		auto args = new SpectatorArguments();
@@ -89,17 +93,20 @@ namespace SpiralOfFate
 		if (remote.connectPhase != CONNECTION_STATE_HOST_NODE) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size < sizeof(packet) || size != packet.getSize()) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_REPLAY, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (packet.gameId != this->_gameId || (packet.frameId > packet.lastFrameId && packet.lastFrameId)) {
 			PacketError error{ERROR_INVALID_DATA, OPCODE_REPLAY, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (!this->onReplayData)
 			return;
@@ -113,12 +120,14 @@ namespace SpiralOfFate
 		if (remote.connectPhase != CONNECTION_STATE_HOST_NODE) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_GAME_START, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size != sizeof(packet)) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_GAME_START, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (!this->_gameEnded && game->scene.getCurrentScene().first == "spectator_in_game")
 			return;
@@ -144,12 +153,14 @@ namespace SpiralOfFate
 		if (remote.connectPhase != CONNECTION_STATE_HOST_NODE) {
 			PacketError error{ERROR_UNEXPECTED_OPCODE, OPCODE_REPLAY_LIST, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (size < sizeof(packet) || size != packet.getSize()) {
 			PacketError error{ERROR_SIZE_MISMATCH, OPCODE_REPLAY_LIST, size};
 
-			return this->_send(remote, &error, sizeof(error));
+			this->_send(remote, &error, sizeof(error));
+			return;
 		}
 		if (!this->_gameEnded || packet.nbEntries == 0)
 			return;
@@ -191,7 +202,8 @@ namespace SpiralOfFate
 				return;
 			PacketHello hello{REAL_VERSION_STR, op.ip.toInteger(), op.port};
 
-			return this->_send(this->_remotes.back(), &hello, sizeof(hello));
+			this->_send(this->_remotes.back(), &hello, sizeof(hello));
+			return;
 		}
 		if (!this->_gameEnded)
 			return;
@@ -205,6 +217,8 @@ namespace SpiralOfFate
 
 	void SpectatorConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
+		PacketHello hello{REAL_VERSION_STR, ip.toInteger(), port};
+
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
 		this->_remotes.emplace_back(*this, ip, port);
 
@@ -217,6 +231,13 @@ namespace SpiralOfFate
 		};
 		this->_states.clear();
 		this->_terminated = false;
+
+		auto res = this->_send(this->_remotes.back(), &hello, sizeof(hello));
+
+		if (res != sf::Socket::Status::Done) {
+			game->logger.error("Failed to send packet to " + ip.toString() + ":" + std::to_string(port));
+			op.onDisconnect(this->_remotes.back());
+		}
 	}
 
 	void SpectatorConnection::requestInputs(unsigned int startFrame)
