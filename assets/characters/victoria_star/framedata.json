@@ -6657,10 +6657,10 @@
           "sound": "assets/sfxs/se/marisa/009.ogg",
           "sprite": "sheet_tmp.png",
           "texture_bounds": {
-            "height": 80,
-            "left": 442,
-            "top": 6,
-            "width": 65
+            "height": 79,
+            "left": 962,
+            "top": 902,
+            "width": 50
           }
         },
         {
