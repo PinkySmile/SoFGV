@@ -1817,9 +1817,9 @@ namespace SpiralOfFate
 		if (this->base._position.y > 540) {
 			this->target.clear(sf::Color::Transparent);
 			this->target.draw(this->mgr._oosBubbleMask, sf::BlendNone);
-			this->target.draw(side ? this->mgr._rightIcon : this->mgr._leftIcon, sf::BlendMode{
-				sf::BlendMode::Factor::DstColor,
-				sf::BlendMode::Factor::Zero,
+			this->target.draw(this->side ? this->mgr._rightIcon : this->mgr._leftIcon, sf::BlendMode{
+				sf::BlendMode::Factor::SrcAlpha,
+				sf::BlendMode::Factor::OneMinusSrcAlpha,
 				sf::BlendMode::Equation::Add,
 				sf::BlendMode::Factor::Zero,
 				sf::BlendMode::Factor::DstColor,
@@ -1837,7 +1837,7 @@ namespace SpiralOfFate
 			} else
 				pos.x -= this->target.getSize().x / 2;
 			pos.y = std::max(-pos.y, -540.f);
-			pos.x += 50;
+			pos.x += 50 - STAGE_X_MIN;
 			pos.y += 600;
 			sprite.setPosition(pos);
 			output.draw(sprite);
