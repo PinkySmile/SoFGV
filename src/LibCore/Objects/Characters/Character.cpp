@@ -3993,10 +3993,10 @@ namespace SpiralOfFate
 			if (oData->oFlag.spiritElement) {
 				// Neutral attack
 				isStrongest = data->dFlag.neutralBlock;
-				isWeakest = !data->dFlag.neutralBlock;
+				isWeakest   = !data->dFlag.neutralBlock;
 			} else {
 				// Non-typed attack
-				isStrongest = false;
+				isStrongest = !data->dFlag.neutralBlock;
 				isWeakest   = false;
 			}
 		} else if (oData->oFlag.spiritElement) {
