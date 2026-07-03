@@ -20,7 +20,7 @@ namespace SpiralOfFate
 		virtual void consumeEvent(const sf::Event &event) = 0;
 		virtual void setJoystickId(unsigned id) = 0;
 		virtual std::string toString() = 0;
-		virtual std::pair<bool, int> save() = 0;
+		virtual std::pair<char, int> save() = 0;
 	};
 
 	class ControllerButton : public ControllerKey {
@@ -35,7 +35,7 @@ namespace SpiralOfFate
 		void consumeEvent(const sf::Event &event) override;
 		void setJoystickId(unsigned id) override;
 		std::string toString() override;
-		std::pair<bool, int> save() override;
+		std::pair<char, int> save() override;
 	};
 
 	class ControllerAxis : public ControllerKey {
@@ -51,7 +51,25 @@ namespace SpiralOfFate
 		void consumeEvent(const sf::Event &event) override;
 		void setJoystickId(unsigned id) override;
 		std::string toString() override;
-		std::pair<bool, int> save() override;
+		std::pair<char, int> save() override;
+	};
+
+	class ControllerDoubleAxis : public ControllerKey {
+	private:
+		unsigned _joystickId;
+		float _threshHold;
+		float _state = 0;
+
+	public:
+		sf::Joystick::Axis axis1;
+		sf::Joystick::Axis axis2;
+
+		ControllerDoubleAxis(unsigned joystickId, sf::Joystick::Axis axis1, sf::Joystick::Axis axis2, float threshHold);
+		bool isPressed() override;
+		void consumeEvent(const sf::Event &event) override;
+		void setJoystickId(unsigned id) override;
+		std::string toString() override;
+		std::pair<char, int> save() override;
 	};
 
 	class ControllerInput : public IInput {

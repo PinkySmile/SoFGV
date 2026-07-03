@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <dirent.h>
 #endif
+#include <memory>
 #include <utility>
 #include "TitleScreen.hpp"
 #include "../InGame.hpp"
@@ -141,8 +142,8 @@ namespace SpiralOfFate
 			{ game->textureMgr.load("assets/icons/inputs/8.png") },
 			{ game->textureMgr.load("assets/icons/inputs/2.png") },
 			{ game->textureMgr.load("assets/icons/inputs/neutral.png") },
-			{ game->textureMgr.load("assets/icons/inputs/matter.png") },
 			{ game->textureMgr.load("assets/icons/inputs/spirit.png") },
+			{ game->textureMgr.load("assets/icons/inputs/matter.png") },
 			{ game->textureMgr.load("assets/icons/inputs/void.png") },
 			{ game->textureMgr.load("assets/icons/inputs/ascend.png") },
 			{ game->textureMgr.load("assets/icons/inputs/dash.png") },
@@ -622,6 +623,17 @@ namespace SpiralOfFate
 			return true;
 		}
 	#endif
+		if (ev.code == sf::Keyboard::Key::F1 && (this->_changingInputs || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))) {
+			auto &pair = (this->_changingInputs == 2 ? game->P1 : this->_changingInputs == 3 ? game->P2 : game->menu);
+
+			pair.first = std::make_shared<KeyboardInput>();
+			pair.second = std::make_shared<ControllerInput>();
+			this->_lastInput = &*pair.first;
+			game->soundMgr.play(BASICSOUND_MENU_CONFIRM);
+			if (this->_changingInputs == 0)
+				this->_errorMsg = "Menu keys reset";
+			return false;
+		}
 		if (ev.code == sf::Keyboard::Key::F2 && this->_changingInputs > 1) {
 			auto dialog = Utils::saveFileDialog(game->gui, "Save inputs", "./profiles");
 
@@ -857,8 +869,7 @@ namespace SpiralOfFate
 					game->screen->fillColor(sf::Color{0xFF, 0x80, 0x00});
 					game->screen->displayElement(names[j] + ": Press a key", {680, 146 + i * 68.f});
 				} else {
-					game->screen->fillColor(
-						this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
+					game->screen->fillColor(this->_cursorInputs == i ? sf::Color::Red : sf::Color::White);
 					game->screen->displayElement(names[j] + ": " + strs[i], {680, 146 + i * 68.f});
 				}
 			}
