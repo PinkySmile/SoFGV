@@ -296,18 +296,27 @@ namespace SpiralOfFate
 			this->_fdCache.collisionBox = nullptr;
 		}
 		if (this->_typeSwitch != TYPESWITCH_NONE) {
-			int index = LIMIT_NEUTRAL;
+			int index = this->_typeSwitch - 1;
 
 			static_assert(TYPESWITCH_NEUTRAL - 1 == LIMIT_NEUTRAL);
 			static_assert(TYPESWITCH_VOID - 1    == LIMIT_VOID);
 			static_assert(TYPESWITCH_MATTER - 1  == LIMIT_MATTER);
 			static_assert(TYPESWITCH_SPIRIT - 1  == LIMIT_SPIRIT);
 
-			if (this->_typeSwitch != TYPESWITCH_NON_TYPED)
-				index = this->_typeSwitch - 1;
-			this->_fdCache.oFlag.voidElement   = this->_typeSwitch == TYPESWITCH_NEUTRAL || this->_typeSwitch == TYPESWITCH_VOID;
-			this->_fdCache.oFlag.matterElement = this->_typeSwitch == TYPESWITCH_NEUTRAL || this->_typeSwitch == TYPESWITCH_MATTER;
-			this->_fdCache.oFlag.spiritElement = this->_typeSwitch == TYPESWITCH_NEUTRAL || this->_typeSwitch == TYPESWITCH_SPIRIT;
+			if (this->_typeSwitch == TYPESWITCH_NON_TYPED) {
+				this->_fdCache.oFlag.voidElement = false;
+				this->_fdCache.oFlag.matterElement = false;
+				this->_fdCache.oFlag.spiritElement = false;
+				return;
+			} else if (this->_typeSwitch == TYPESWITCH_NEUTRAL) {
+				this->_fdCache.oFlag.voidElement   = true;
+				this->_fdCache.oFlag.matterElement = true;
+				this->_fdCache.oFlag.spiritElement = true;
+			} else {
+				this->_fdCache.oFlag.voidElement   = this->_typeSwitch == TYPESWITCH_VOID;
+				this->_fdCache.oFlag.matterElement = this->_typeSwitch == TYPESWITCH_MATTER;
+				this->_fdCache.oFlag.spiritElement = this->_typeSwitch == TYPESWITCH_SPIRIT;
+			}
 			for (int i = 0; i < 4; i++) {
 				if (i == index)
 					continue;
