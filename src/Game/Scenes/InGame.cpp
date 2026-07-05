@@ -129,7 +129,7 @@ namespace SpiralOfFate
 			auto rinput = game->battleMgr->getRightCharacter();
 			auto relevent = (this->_paused == 1 ? linput : rinput);
 
-			this->_renderMoveList(relevent, L"P" + sf::String(std::to_string(this->_paused)) + L" | " + relevent->name + L"'s " + this->_moveListName);
+			this->_renderMoveList(relevent, L"P" + sf::String(std::to_string(this->_paused)).toWideString() + L" | " + relevent->name + L"'s " + this->_moveListName);
 		} else if (this->_paused)
 			this->_renderPause();
 	}
@@ -372,7 +372,7 @@ namespace SpiralOfFate
 			}
 		}
 		game->screen->displayElement({590 - 50 + STAGE_X_MIN, 75 - 600, 300, 360}, sf::Color::White);
-		for (int x = -static_cast<int>(this->_moveListObject->_position.x) % 16, i = 0; x < 300; x += 16, i++) {
+		for (int x = -static_cast<int>(this->_moveListObject->_position.x) % 16; x < 300; x += 16) {
 			bool color = static_cast<int>((this->_moveListObject->_position.x + x) / 16) % 2 == 1;
 
 			if (x <= -16)

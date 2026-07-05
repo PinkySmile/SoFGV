@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 
 	sf::UdpSocket sock;
 	sf::IpAddress caddr = sf::IpAddress::Any;
-	sf::IpAddress haddr = *sf::IpAddress::resolve(argv[2]);
+	sf::IpAddress haddr = (*sf::Dns::resolve(argv[2]))[0];
 	unsigned short cport = 0;
 	unsigned short hport = std::stoul(argv[3]);
 	float packet_lost = 0;

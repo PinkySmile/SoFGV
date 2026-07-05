@@ -203,7 +203,7 @@ namespace SpiralOfFate
 					this->_selectingRoom = true;
 					this->_typingCode.clear();
 				#else
-					this->_spectate(sf::Clipboard::getString());
+					this->_spectate(sf::Clipboard::getString().toAnsiString());
 				#endif
 				}},
 			#endif
