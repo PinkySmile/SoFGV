@@ -49,7 +49,7 @@ namespace SpiralOfFate
 		unsigned char _cursorInputs = 0;
 		unsigned char _errorTimer = 0;
 	#ifdef HAS_NETWORK
-		unsigned _hostingPort = 10800;
+		unsigned _hostingPort;
 		bool _connected = false;
 		bool _chooseSpecCount = false;
 		bool _specEnabled = true;
@@ -68,6 +68,7 @@ namespace SpiralOfFate
 		void _fetchReplayList();
 		void _onInputsChosen();
 	#ifdef HAS_NETWORK
+		std::optional<std::pair<sf::IpAddress, unsigned short>> _getIPPort(const std::string &ip) const;
 		void _host(bool spec);
 		void _connect(const std::string &ip);
 		void _spectate(const std::string &ip);

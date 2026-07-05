@@ -221,14 +221,14 @@ namespace SpiralOfFate
 		if (op.connectPhase != CONNECTION_STATE_CONNECTING)
 			return;
 
-		PacketHello hello{REAL_VERSION_STR, op.ip.toInteger(), op.port};
+		PacketHello hello{REAL_VERSION_STR, op.ip, op.port};
 
 		this->_send(this->_remotes.back(), &hello, sizeof(hello));
 	}
 
 	void ClientConnection::connect(sf::IpAddress ip, unsigned short port)
 	{
-		PacketHello hello{REAL_VERSION_STR, ip.toInteger(), port};
+		PacketHello hello{REAL_VERSION_STR, ip, port};
 
 		game->logger.info("Connecting to " + ip.toString() + " on port " + std::to_string(port));
 		this->_remotes.emplace_back(*this, ip, port);

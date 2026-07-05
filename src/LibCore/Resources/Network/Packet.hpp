@@ -107,12 +107,12 @@ namespace SpiralOfFate
 		uint32_t magic;
 
 	public:
-		uint32_t targetIp;
+		char targetIp[16];
 		uint32_t targetPort;
 
 		static unsigned computeMagic(const char *version);
 
-		PacketHello(const char *version, unsigned targetIp, unsigned targetPort);
+		PacketHello(const char *version, const sf::IpAddress &targetIp, unsigned targetPort);
 		unsigned int getMagic() const;
 		std::string toString() const;
 	};

@@ -4,13 +4,23 @@
 
 #include <thread>
 #include <emscripten/val.h>
-#include "EmWsSocket.hpp"
-
 #include <arpa/inet.h>
-
+#include "EmWsSocket.hpp"
 #include "Resources/Assert.hpp"
 
 #define RECV_BUFFER_SIZE (1 * 1024 * 1024) // 1MB
+
+template<typename T, size_t s, typename T2, T2 ... ints>
+inline std::array<T, s> __createArray(T *data, std::index_sequence<ints...>)
+{
+	return { data[ints]... };
+}
+
+template<typename T, size_t s>
+inline std::array<T, s> createArray(T *data)
+{
+	return __createArray<T, s>(data, std::make_index_sequence<s>{});
+}
 
 namespace SpiralOfFate
 {
@@ -26,19 +36,14 @@ namespace SpiralOfFate
 			} else
 				This->_localPort = websocketEvent->data[0] << 8 | websocketEvent->data[1];
 			This->_needPort = false;
-		} else if (websocketEvent->numBytes < 6) {
+		} else if (websocketEvent->numBytes < 18) {
 			This->_isClosed = true;
 			This->_hadError = true;
 			emscripten_websocket_close(websocketEvent->socket, 1002, "");
 		} else {
-			sf::IpAddress addr{
-				websocketEvent->data[0],
-				websocketEvent->data[1],
-				websocketEvent->data[2],
-				websocketEvent->data[3]
-			};
-			unsigned short port = websocketEvent->data[4] << 8 | websocketEvent->data[5];
-			std::vector<unsigned char> data{&websocketEvent->data[6], &websocketEvent->data[websocketEvent->numBytes]};
+			sf::IpAddress addr{createArray<uint8_t, 16>(websocketEvent->data)};
+			unsigned short port = websocketEvent->data[16] << 8 | websocketEvent->data[17];
+			std::vector<unsigned char> data{&websocketEvent->data[18], &websocketEvent->data[websocketEvent->numBytes]};
 
 			This->_queueMutex.lock();
 			This->_messageQueue.emplace_back(addr, port, data);
@@ -96,14 +101,15 @@ namespace SpiralOfFate
 		return this->_localPort;
 	}
 
-	sf::Socket::Status EmWsSocket::bind(unsigned short, sf::IpAddress)
+	sf::Socket::Status EmWsSocket::bind(unsigned short, sf::IpAddress addr)
 	{
-		assert_exp(!this->_websocket);
+		if (this->_websocket)
+			return sf::Socket::Status::Done;
 
 		EmscriptenWebSocketCreateAttributes attributes;
 		emscripten::val location = emscripten::val::global("window")["location"];
-		std::string protocol = location["protocol"].as<std::string>();
-		std::string host = location["host"].as<std::string>();
+		auto protocol = location["protocol"].as<std::string>();
+		auto host = location["host"].as<std::string>();
 		std::string url;
 		size_t size = protocol.size() + host.size() + strlen(WEBSOCKET_PATH) + strlen("host");
 
@@ -153,8 +159,8 @@ namespace SpiralOfFate
 
 			EmscriptenWebSocketCreateAttributes attributes;
 			emscripten::val location = emscripten::val::global("window")["location"];
-			std::string protocol = location["protocol"].as<std::string>();
-			std::string host = location["host"].as<std::string>();
+			auto protocol = location["protocol"].as<std::string>();
+			auto host = location["host"].as<std::string>();
 			std::string port = std::to_string(remotePort);
 			std::string url;
 			size_t requested_capacity = protocol.size() + host.size() + strlen(WEBSOCKET_PATH) + strlen("join/") + port.size();
@@ -195,15 +201,14 @@ namespace SpiralOfFate
 				return sf::Socket::Status::Disconnected;
 		}
 
-		char buffer[RECV_BUFFER_SIZE + 6];
-		unsigned ipInt = htonl(remoteAddress.toInteger());
+		char buffer[RECV_BUFFER_SIZE + 18];
 		unsigned short port = htons(remotePort);
 
 		assert_exp(size < RECV_BUFFER_SIZE);
-		memcpy(buffer, &ipInt, 4);
-		memcpy(&buffer[4], &port, 2);
-		memcpy(&buffer[6], data, size);
-		emscripten_websocket_send_binary(*this->_websocket, buffer, size + 6);
+		memcpy(buffer, remoteAddress.toBytes().data(), 16);
+		memcpy(&buffer[16], &port, 2);
+		memcpy(&buffer[18], data, size);
+		emscripten_websocket_send_binary(*this->_websocket, buffer, size + 18);
 		return sf::Socket::Status::Done;
 	}
 

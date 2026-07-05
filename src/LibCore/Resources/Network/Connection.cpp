@@ -113,9 +113,9 @@ namespace SpiralOfFate
 		remote.timeSinceLastPacket.restart();
 		// FIXME: Validate size of packet before (or while) turning it to string
 		if (packet.opcode != OPCODE_GAME_FRAME && packet.opcode != OPCODE_TIME_SYNC)
-			game->logger.debug("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
+			game->logger.debug("[<(" + remote.ip.toString() + "):" + std::to_string(remote.port) + "] " + packet.toString());
 		else
-			game->logger.verbose("[<" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + packet.toString());
+			game->logger.verbose("[<(" + remote.ip.toString() + "):" + std::to_string(remote.port) + "] " + packet.toString());
 		switch (packet.opcode) {
 		case OPCODE_HELLO:
 			this->_handlePacket(remote, packet.hello, size);
@@ -249,7 +249,7 @@ namespace SpiralOfFate
 				// TODO: Handle split/merged packet(s)
 				this->_handlePacket(*it, *packet, realSize);
 			} catch (ErrorPacketException &e) {
-				game->logger.error("[<" + ip->toString() + ":" + std::to_string(port) + "] Peer responded with " + e.getPacket().toString());
+				game->logger.error("[<(" + ip->toString() + "):" + std::to_string(port) + "] Peer responded with " + e.getPacket().toString());
 				if (this->onError)
 					this->onError(*it, e.getPacket());
 			}
@@ -262,7 +262,7 @@ namespace SpiralOfFate
 		auto pack = reinterpret_cast<Packet *>(packet);
 		//TODO: To net endianness
 		auto str = pack->toString();
-		auto logStr = "[>" + remote.ip.toString() + ":" + std::to_string(remote.port) + "] " + str;
+		auto logStr = "[>(" + remote.ip.toString() + "):" + std::to_string(remote.port) + "] " + str;
 
 		try {
 			assert_exp(realSize <= RECV_BUFFER_SIZE);

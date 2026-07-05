@@ -241,12 +241,15 @@ namespace SpiralOfFate
 	void ServerConnection::host(unsigned short port)
 	{
 		sf::UdpSocket s;
+
 		game->logger.info("Hosting on port " + std::to_string(port));
 		this->_states.clear();
-		if (this->_socket.bind(port) != sf::Socket::Status::Done) {
+		if (this->_socket.bind(port, sf::IpAddress::AnyV4) != sf::Socket::Status::Done) {
 			game->logger.error("Failed to bind port.");
 			return;
 		}
+		if (this->_socket.bind(port, sf::IpAddress::AnyV6) != sf::Socket::Status::Done)
+			game->logger.error("Failed to bind port.");
 		this->_terminated = false;
 	}
 

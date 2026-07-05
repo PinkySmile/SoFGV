@@ -50,6 +50,8 @@
 #define MIN_ERROR_SHOW 15
 #define MAX_ERROR_SHOW 180
 
+#define DEFAULT_PORT 1326
+
 enum TitleScreenButtonMainMenu {
 	BUTTON_MAIN_MENU_SOLO_MODE,
 	BUTTON_MAIN_MENU_MULTIPLAYER,
@@ -414,9 +416,10 @@ namespace SpiralOfFate
 		// TODO: Handle port better
 		std::ifstream stream{"hostPort.txt"};
 
-		if (stream) {
+		if (stream)
 			stream >> this->_hostingPort;
-		}
+		else
+			this->_hostingPort = DEFAULT_PORT;
 		game->connection.reset(con);
 		con->onConnection = [this](Connection::Remote &remote, PacketInitRequest &packet){
 			std::string name{packet.playerName, strnlen(packet.playerName, sizeof(packet.playerName))};
@@ -429,7 +432,7 @@ namespace SpiralOfFate
 			game->logger.error(remote.ip.toString() + ":" + std::to_string(remote.port) + " -> " + e.toString());
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
+			this->_onDisconnect("[" + remote.ip.toString() + "]:" + std::to_string(remote.port));
 		};
 		con->spectatorEnabled = spec;
 		con->host(this->_hostingPort);
@@ -445,20 +448,38 @@ namespace SpiralOfFate
 	#endif
 	}
 
-	void TitleScreen::_connect(const std::string &ipString)
+	std::optional<std::pair<sf::IpAddress, unsigned short>> TitleScreen::_getIPPort(const std::string &ipString) const
 	{
 		if (ipString.empty()) {
 			Utils::dispMsg(game->gui, "Error", "No ip is copied to the clipboard", MB_ICONERROR);
-			return;
+			return {};
 		}
 
-		size_t pos = ipString.find(':');
-		auto ip = sf::IpAddress::resolve(ipString.substr(0, pos));
-		unsigned short port = 10800;
+		auto isIPV4 = std::ranges::count(ipString, ':') <= 1;
+		std::optional<std::vector<sf::IpAddress>> ips;
+		unsigned short port = DEFAULT_PORT;
+		size_t pos = std::string::npos;
+		std::string hostStr;
 
-		if (!ip) {
+		if (isIPV4) {
+			pos = ipString.find_last_of(':');
+			hostStr = ipString.substr(0, pos);
+		} else if (ipString[0] == '[') {
+			size_t pos2 = ipString.find_last_of(']');
+
+			if (pos2 == std::string::npos) {
+				Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
+				return {};
+			}
+			hostStr = ipString.substr(1, pos2 - 1);
+			pos = ipString.find_last_of(':');
+		} else
+			hostStr = ipString;
+
+		ips = sf::Dns::resolve(hostStr);
+		if (!ips) {
 			Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
-			return;
+			return {};
 		}
 		if (pos != std::string::npos) {
 			try {
@@ -468,22 +489,38 @@ namespace SpiralOfFate
 					throw std::exception();
 				port = p;
 			} catch (...) {
-			#ifdef __EMSCRIPTEN__
-				Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
+			#ifndef __EMSCRIPTEN__
+				Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address (Invalid port)", MB_ICONERROR);
 			#else
 				Utils::dispMsg(game->gui, "Error", "Invalid room code", MB_ICONERROR);
 			#endif
-				return;
+				return {};
 			}
 		}
+
+		sf::IpAddress final = (*ips)[0];
+
+		for (size_t i = 1; !final.isV6() && i < ips->size(); i++)
+			if ((*ips)[i].isV6())
+				final = (*ips)[i];
+		game->lastIp = final.toString();
+		game->lastPort = port;
+		return std::make_pair(final, port);
+	}
+
+	void TitleScreen::_connect(const std::string &ipString)
+	{
 		game->activeNetInput = TitleScreen::_getInputFromId(this->_leftInput - 1, game->P1);
+
+		auto pair = this->_getIPPort(ipString);
+
+		if (!pair)
+			return;
 
 		// TODO: Handle names
 		auto con = new ClientConnection("SpiralOfFate::ClientConnection");
 
 		game->connection.reset(con);
-		game->lastIp = ip->toString();
-		game->lastPort = port;
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
 			std::string name{packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name))};
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
@@ -496,9 +533,9 @@ namespace SpiralOfFate
 			// TODO: Abort connection and display error on UI
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
+			this->_onDisconnect("[" + remote.ip.toString() + "]:" + std::to_string(remote.port));
 		};
-		con->connect(*ip, port);
+		con->connect(pair->first, pair->second);
 		this->_connecting = true;
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;
@@ -508,37 +545,14 @@ namespace SpiralOfFate
 
 	void TitleScreen::_spectate(const std::string &ipString)
 	{
-		if (ipString.empty()) {
-			Utils::dispMsg(game->gui, "Error", "No ip is copied to the clipboard", MB_ICONERROR);
+		auto pair = this->_getIPPort(ipString);
+
+		if (!pair)
 			return;
-		}
-
-		size_t pos = ipString.find(':');
-		auto ip = sf::IpAddress::resolve(ipString.substr(0, pos));
-		unsigned short port = 10800;
-
-		if (!ip) {
-			Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
-			return;
-		}
-		if (pos != std::string::npos) {
-			try {
-				auto p = std::stoul(static_cast<std::string>(ipString.substr(pos + 1)));
-
-				if (p > UINT16_MAX)
-					throw std::exception();
-				port = p;
-			} catch (...) {
-				Utils::dispMsg(game->gui, "Error", "Clipboard doesn't contain a valid IP address", MB_ICONERROR);
-				return;
-			}
-		}
 
 		auto con = new SpectatorConnection();
 
 		game->connection.reset(con);
-		game->lastIp = ip->toString();
-		game->lastPort = port;
 		con->onConnection = [this](Connection::Remote &remote, PacketInitSuccess &packet){
 			std::string name{packet.player1Name, strnlen(packet.player1Name, sizeof(packet.player1Name))};
 			std::string vers{packet.gameVersion, strnlen(packet.gameVersion, sizeof(packet.gameVersion))};
@@ -551,9 +565,9 @@ namespace SpiralOfFate
 			// TODO: Abort connection and display error on UI
 		};
 		con->onDisconnect = [this](Connection::Remote &remote){
-			this->_onDisconnect(remote.ip.toString() + ":" + std::to_string(remote.port));
+			this->_onDisconnect("[" + remote.ip.toString() + "]:" + std::to_string(remote.port));
 		};
-		con->connect(*ip, port);
+		con->connect(pair->first, pair->second);
 		this->_connecting = true;
 		this->onDestruct = [con]{
 			con->onConnection = nullptr;

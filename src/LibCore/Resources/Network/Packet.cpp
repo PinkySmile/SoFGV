@@ -32,12 +32,22 @@ namespace SpiralOfFate
 		return magic;
 	}
 
-	PacketHello::PacketHello(const char *version, unsigned targetIp, unsigned targetPort) :
+	PacketHello::PacketHello(const char *version, const sf::IpAddress &targetIp, unsigned targetPort) :
 		opcode(OPCODE_HELLO),
 		magic(computeMagic(version)),
-		targetIp(targetIp),
 		targetPort(targetPort)
 	{
+		if (targetIp.isV4()) {
+			unsigned ip = targetIp.toInteger();
+
+			memset(&this->targetIp[0], 0x00, 10);
+			memset(&this->targetIp[10], 0xFF, 2);
+			this->targetIp[12] = ip << 24;
+			this->targetIp[13] = ip << 16;
+			this->targetIp[14] = ip << 8;
+			this->targetIp[15] = ip << 0;
+		} else
+			memcpy(this->targetIp, targetIp.toBytes().data(), sizeof(this->targetIp));
 	}
 
 	unsigned int PacketHello::getMagic() const
@@ -48,13 +58,25 @@ namespace SpiralOfFate
 	std::string PacketHello::toString() const
 	{
 		auto ptr = reinterpret_cast<const unsigned char *>(&this->targetIp);
+		std::string res = "Packet HELLO: magic " + std::to_string(this->magic) + " targetIp ";
 
-		return "Packet HELLO: magic " + std::to_string(this->magic) +
-			" targetIp " + std::to_string(ptr[3]) +
-			"." + std::to_string(ptr[2]) +
-			"." + std::to_string(ptr[1]) +
-			"." + std::to_string(ptr[0]) +
-			" targetPort " + std::to_string(this->targetPort);
+		if (memcmp(ptr, "\0\0\0\0\0\0\0\0\0\0\xFF\xFF", 12) == 0)
+			res += std::to_string(ptr[12]) +
+				"." + std::to_string(ptr[13]) +
+				"." + std::to_string(ptr[14]) +
+				"." + std::to_string(ptr[15]);
+		else {
+			char buffer[40];
+
+			sprintf(
+				buffer,
+				"%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
+				ptr[0], ptr[1], ptr[2],  ptr[3],  ptr[4],  ptr[5],  ptr[6],  ptr[7],
+				ptr[8], ptr[9], ptr[10], ptr[11], ptr[12], ptr[13], ptr[14], ptr[15]
+			);
+			res += buffer;
+		}
+		return res + " targetPort " + std::to_string(this->targetPort);
 	}
 
 	PacketOlleh::PacketOlleh() :
