@@ -326,6 +326,7 @@
 	"animation.general.sound":                             "Sound",
 	"animation.general.fadetime":                          "Fade time",
 	"animation.general.manacost":                          "Mana cost",
+	"animation.general.managain":                          "Mana gain",
 	"animation.general.rotation":                          "Rotation",
 
 	"animation.hit.pstop":                                 "Player hitstop",

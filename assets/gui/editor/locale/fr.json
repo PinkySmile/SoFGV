@@ -326,6 +326,7 @@
 	"animation.general.sound":                             "Son",
 	"animation.general.fadetime":                          "Temps de disparition",
 	"animation.general.manacost":                          "Coût de mana",
+	"animation.general.managain":                          "Gain de mana",
 	"animation.general.rotation":                          "Rotation",
 
 	"animation.hit.pstop":                                 "Hitstop du joueur",

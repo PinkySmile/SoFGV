@@ -50,7 +50,7 @@ Label.Label1 {
     HorizontalAlignment = Right;
     Position = (0, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.partgenerator";
     TextSize = 13;
@@ -69,7 +69,7 @@ Label.Label3 {
     HorizontalAlignment = Right;
     Position = (0, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.subobj";
     TextSize = 13;
@@ -88,7 +88,7 @@ Label.Label2 {
     HorizontalAlignment = Right;
     Position = (240, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.speed";
     TextSize = 13;
@@ -107,7 +107,7 @@ Label.Label4 {
     HorizontalAlignment = Right;
     Position = (240, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.gravity";
     TextSize = 13;
@@ -126,7 +126,7 @@ Label.Label5 {
     HorizontalAlignment = Right;
     Position = (240, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.sound";
     TextSize = 13;
@@ -144,7 +144,7 @@ Label.Label6 {
     HorizontalAlignment = Right;
     Position = (240, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.marker";
     TextSize = 13;
@@ -163,7 +163,7 @@ Label.Label7 {
     HorizontalAlignment = Right;
     Position = (0, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.tier";
     TextSize = 13;
@@ -191,7 +191,7 @@ Label.Label8 {
     HorizontalAlignment = Right;
     Position = (0, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.fadetime";
     TextSize = 13;
@@ -201,7 +201,7 @@ Label.Label9 {
     HorizontalAlignment = Right;
     Position = (240, 133);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.rotation";
     TextSize = 13;
@@ -220,7 +220,7 @@ Label.Label10 {
     HorizontalAlignment = Right;
     Position = (0, 133);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.general.manacost";
     TextSize = 13;
@@ -230,6 +230,25 @@ EditBox.ManaCost {
     Alignment = Center;
     InputValidator = UInt;
     Position = (180, 130);
+    Renderer = &2;
+    Size = (60, 21);
+    TextSize = 13;
+}
+
+Label.Label11 {
+    HorizontalAlignment = Right;
+    Position = (0, 163);
+    Renderer = &1;
+    ScrollbarPolicy = Never;
+    Size = (175, 17);
+    Text = "animation.general.managain";
+    TextSize = 13;
+}
+
+EditBox.ManaGain {
+    Alignment = Center;
+    InputValidator = UInt;
+    Position = (180, 160);
     Renderer = &2;
     Size = (60, 21);
     TextSize = 13;

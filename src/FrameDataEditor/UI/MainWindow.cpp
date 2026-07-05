@@ -1051,8 +1051,8 @@ void SpiralOfFate::MainWindow::_createGenericPopup(const std::string &path)
 
 	contentPanel->loadLocalizedWidgetsFromFile(path);
 	for (auto &w : contentPanel->getWidgets()) {
-		size.x = std::max(size.x, w->getFullSize().x + w->getPosition().x + 20);
-		size.y = std::max(size.y, w->getFullSize().y + w->getPosition().y + 20);
+		size.x = std::max(size.x, w->getFullSize().x + w->getPosition().x + 10);
+		size.y = std::max(size.y, w->getFullSize().y + w->getPosition().y + 10);
 	}
 	contentPanel->setSize(size);
 	Utils::setRenderer(contentPanel->cast<tgui::Container>());
@@ -1531,6 +1531,7 @@ void SpiralOfFate::MainWindow::_placeUIHooks(tgui::Container &container)
 	PLACE_HOOK_OPTIONAL_VECTOR(container, "Gravity",   gravity,           this->_editor.localize("animation.general.gravity"),       BasicDataOperation, true,  2);
 	PLACE_HOOK_STRING(container,          "Sound",     soundPath,         this->_editor.localize("animation.general.sound"),         EditSoundOperation, false);
 	PLACE_HOOK_NUMBER(container,          "FadeTime",  fadeTime,          this->_editor.localize("animation.general.fadetime"),      BasicDataOperation, false, 0);
+	PLACE_HOOK_NUMBER(container,          "ManaGain",  manaGain,          this->_editor.localize("animation.general.managain"),      BasicDataOperation, false, 0);
 	PLACE_HOOK_NUMBER(container,          "ManaCost",  manaCost,          this->_editor.localize("animation.general.manacost"),      BasicDataOperation, false, 0);
 	PLACE_HOOK_NUMBER_DEG(container,      "Rotation",  rotation,          this->_editor.localize("animation.general.rotation"),      BasicDataOperation, true, 2);
 

@@ -50,7 +50,7 @@ Label.Label1 {
     HorizontalAlignment = Right;
     Position = (0, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.pstop";
     TextSize = 13;
@@ -69,7 +69,7 @@ Label.Label3 {
     HorizontalAlignment = Right;
     Position = (0, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.nlimit";
     TextSize = 13;
@@ -88,7 +88,7 @@ Label.Label2 {
     HorizontalAlignment = Right;
     Position = (240, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.ostop";
     TextSize = 13;
@@ -107,7 +107,7 @@ Label.Label4 {
     HorizontalAlignment = Right;
     Position = (240, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.slimit";
     TextSize = 13;
@@ -126,7 +126,7 @@ Label.Label5 {
     HorizontalAlignment = Right;
     Position = (240, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.vlimit";
     TextSize = 13;
@@ -145,7 +145,7 @@ Label.Label6 {
     HorizontalAlignment = Right;
     Position = (240, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.untech";
     TextSize = 13;
@@ -164,7 +164,7 @@ Label.Label7 {
     HorizontalAlignment = Right;
     Position = (0, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.rate";
     TextSize = 13;
@@ -192,7 +192,7 @@ Label.Label8 {
     HorizontalAlignment = Right;
     Position = (0, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.mlimit";
     TextSize = 13;
@@ -211,7 +211,7 @@ Label.Label9 {
     HorizontalAlignment = Right;
     Position = (490, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.speed";
     TextSize = 13;
@@ -230,7 +230,7 @@ Label.Label10 {
     HorizontalAlignment = Right;
     Position = (490, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.chspeed";
     TextSize = 13;
@@ -249,7 +249,7 @@ Label.Label11 {
     HorizontalAlignment = Right;
     Position = (490, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.snap";
     TextSize = 13;
@@ -259,7 +259,7 @@ Label.Label12 {
     HorizontalAlignment = Right;
     Position = (490, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.sound";
     TextSize = 13;
@@ -286,7 +286,7 @@ Label.Label13 {
     HorizontalAlignment = Right;
     Position = (240, 133);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.damage";
     TextSize = 13;
@@ -305,7 +305,7 @@ Label.Label14 {
     HorizontalAlignment = Right;
     Position = (0, 133);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.minrate";
     TextSize = 13;
@@ -315,7 +315,7 @@ Label.Label15 {
     HorizontalAlignment = Right;
     Position = (490, 133);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.hit.stun";
     TextSize = 13;

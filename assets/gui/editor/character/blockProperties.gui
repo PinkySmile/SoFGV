@@ -50,7 +50,7 @@ Label.Label1 {
     HorizontalAlignment = Right;
     Position = (0, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.block.pstop";
     TextSize = 13;
@@ -69,7 +69,7 @@ Label.Label3 {
     HorizontalAlignment = Right;
     Position = (0, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.block.ppush";
     TextSize = 13;
@@ -88,8 +88,8 @@ Label.Label2 {
     HorizontalAlignment = Right;
     Position = (240, 13);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
-    Size = (175, 17);
+    ScrollbarPolicy = Never;
+    Size = (205, 17);
     Text = "animation.block.ostop";
     TextSize = 13;
 }
@@ -97,7 +97,7 @@ Label.Label2 {
 EditBox.OBlockStop {
     Alignment = Center;
     InputValidator = UInt;
-    Position = (420, 10);
+    Position = (450, 10);
     Renderer = &2;
     Size = (60, 21);
     TextSize = 13;
@@ -107,8 +107,8 @@ Label.Label4 {
     HorizontalAlignment = Right;
     Position = (240, 43);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
-    Size = (175, 17);
+    ScrollbarPolicy = Never;
+    Size = (205, 17);
     Text = "animation.block.opush";
     TextSize = 13;
 }
@@ -116,7 +116,7 @@ Label.Label4 {
 EditBox.OPush {
     Alignment = Center;
     InputValidator = Int;
-    Position = (420, 40);
+    Position = (450, 40);
     Renderer = &2;
     Size = (60, 21);
     TextSize = 13;
@@ -126,7 +126,7 @@ Label.Label5 {
     HorizontalAlignment = Right;
     Position = (0, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.block.stun";
     TextSize = 13;
@@ -145,8 +145,8 @@ Label.Label6 {
     HorizontalAlignment = Right;
     Position = (240, 103);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
-    Size = (175, 17);
+    ScrollbarPolicy = Never;
+    Size = (205, 17);
     Text = "animation.block.wstun";
     TextSize = 13;
 }
@@ -154,7 +154,7 @@ Label.Label6 {
 EditBox.WBlockStun {
     Alignment = Center;
     InputValidator = UInt;
-    Position = (420, 100);
+    Position = (450, 100);
     Renderer = &2;
     Size = (60, 21);
     TextSize = 13;
@@ -164,8 +164,8 @@ Label.Label7 {
     HorizontalAlignment = Right;
     Position = (240, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
-    Size = (175, 17);
+    ScrollbarPolicy = Never;
+    Size = (205, 17);
     Text = "animation.block.chip";
     TextSize = 13;
 }
@@ -173,7 +173,7 @@ Label.Label7 {
 EditBox.Chip {
     Alignment = Center;
     InputValidator = UInt;
-    Position = (420, 70);
+    Position = (450, 70);
     Renderer = &2;
     Size = (60, 21);
     TextSize = 13;
@@ -192,7 +192,7 @@ Label.Label8 {
     HorizontalAlignment = Right;
     Position = (0, 73);
     Renderer = &1;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (175, 17);
     Text = "animation.block.guarddmg";
     TextSize = 13;
