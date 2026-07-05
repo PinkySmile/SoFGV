@@ -7,20 +7,9 @@
 #include <arpa/inet.h>
 #include "EmWsSocket.hpp"
 #include "Resources/Assert.hpp"
+#include "Utils.hpp"
 
 #define RECV_BUFFER_SIZE (1 * 1024 * 1024) // 1MB
-
-template<typename T, size_t s, typename T2, T2 ... ints>
-inline std::array<T, s> __createArray(T *data, std::index_sequence<ints...>)
-{
-	return { data[ints]... };
-}
-
-template<typename T, size_t s>
-inline std::array<T, s> createArray(T *data)
-{
-	return __createArray<T, s>(data, std::make_index_sequence<s>{});
-}
 
 namespace SpiralOfFate
 {
@@ -41,7 +30,7 @@ namespace SpiralOfFate
 			This->_hadError = true;
 			emscripten_websocket_close(websocketEvent->socket, 1002, "");
 		} else {
-			sf::IpAddress addr{createArray<uint8_t, 16>(websocketEvent->data)};
+			sf::IpAddress addr{Utils::createArray<uint8_t, 16>(websocketEvent->data)};
 			unsigned short port = websocketEvent->data[16] << 8 | websocketEvent->data[17];
 			std::vector<unsigned char> data{&websocketEvent->data[18], &websocketEvent->data[websocketEvent->numBytes]};
 

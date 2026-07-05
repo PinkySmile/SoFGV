@@ -45,6 +45,18 @@ namespace SpiralOfFate::Utils
 		std::string error(int ret);
 	}
 
+	template<typename T, size_t s, typename T2, T2 ... ints>
+	inline std::array<T, s> __createArray(T *data, std::index_sequence<ints...>)
+	{
+		return { data[ints]... };
+	}
+
+	template<typename T, size_t s>
+	inline std::array<T, s> createArray(T *data)
+	{
+		return __createArray<T, s>(data, std::make_index_sequence<s>{});
+	}
+
 	std::string getLocale();
 
 	//! @brief Get the last Exception Name
