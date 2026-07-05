@@ -10052,7 +10052,7 @@
               "width": 48
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "offense_flag": 6272,
           "offset": {
             "x": 15,
@@ -10490,7 +10490,7 @@
               "width": 43
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 30,
           "offense_flag": 2688,
           "offset": {
@@ -10855,7 +10855,7 @@
               "width": 79
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 30,
           "offense_flag": 264834,
           "offset": {
@@ -11228,7 +11228,7 @@
               "width": 65
             }
           ],
-          "mana_gain": 40,
+          "mana_gain": 25,
           "neutral_limit": 20,
           "offense_flag": 2112,
           "offset": {
@@ -11566,7 +11566,7 @@
               "width": 56
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "offense_flag": 6208,
           "offset": {
             "x": 12,
@@ -14391,7 +14391,7 @@
               "width": 64
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "offense_flag": 2688,
           "offset": {
             "x": 2,
@@ -14804,7 +14804,7 @@
               "width": 67
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 20,
           "offense_flag": 2944,
           "offset": {
@@ -14876,7 +14876,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 20,
           "offense_flag": 2944,
           "offset": {
@@ -14953,7 +14953,7 @@
               "width": 45
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 20,
           "offense_flag": 2944,
           "offset": {
@@ -15262,7 +15262,7 @@
               "width": 36
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 10,
           "offense_flag": 2688,
           "offset": {
@@ -15328,7 +15328,7 @@
               "width": 37
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 10,
           "offense_flag": 2688,
           "offset": {
@@ -15393,7 +15393,7 @@
               "width": 39
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 10,
           "offense_flag": 2688,
           "offset": {
@@ -15705,7 +15705,7 @@
               "width": 31
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "neutral_limit": 15,
           "offense_flag": 2816,
           "offset": {
@@ -15977,7 +15977,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "neutral_limit": 10,
           "offense_flag": 264832,
           "offset": {
@@ -16065,7 +16065,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -16152,7 +16152,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 12,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -16239,7 +16239,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 12,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -16326,7 +16326,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 12,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -16413,7 +16413,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 12,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -16500,7 +16500,7 @@
               "width": 63
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 12,
           "neutral_limit": 10,
           "offense_flag": 273024,
           "offset": {
@@ -17499,7 +17499,7 @@
               "width": 79
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 33557026,
           "offset": {
             "x": 44,
@@ -17564,7 +17564,7 @@
               "width": 79
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "matter_limit": 35,
           "offense_flag": 33565218,
           "offset": {
@@ -17977,7 +17977,7 @@
               "width": 60
             }
           ],
-          "mana_gain": 10,
+          "mana_gain": 7,
           "matter_limit": 10,
           "offense_flag": 33557088,
           "offset": {
@@ -18057,7 +18057,7 @@
               "width": 81
             }
           ],
-          "mana_gain": 10,
+          "mana_gain": 7,
           "matter_limit": 10,
           "offense_flag": 33565280,
           "offset": {
@@ -18129,7 +18129,7 @@
               "width": 81
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 10,
           "matter_limit": 10,
           "offense_flag": 33565280,
           "offset": {
@@ -18192,6 +18192,7 @@
               "width": 76
             }
           ],
+          "mana_gain": 7,
           "matter_limit": 10,
           "offense_flag": 10848,
           "offset": {
@@ -18588,7 +18589,7 @@
               "width": 138
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "offense_flag": 33557088,
           "offset": {
             "x": 20,
@@ -18659,7 +18660,7 @@
               "width": 138
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "offense_flag": 33557088,
           "offset": {
             "x": 24,
@@ -18895,7 +18896,7 @@
             "x": 25.0,
             "y": 10.0
           },
-          "hit_stun": 35,
+          "hit_stun": 60,
           "hurt_boxes": [
             {
               "height": 167,
@@ -18931,7 +18932,7 @@
             "top": 710,
             "width": 103
           },
-          "untech": 35
+          "untech": 60
         },
         {
           "collision_box": {
@@ -19559,7 +19560,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 10,
           "offense_flag": 264864,
           "offset": {
@@ -19631,7 +19632,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 10,
           "offense_flag": 264864,
           "offset": {
@@ -19702,7 +19703,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 10,
           "offense_flag": 264864,
           "offset": {
@@ -20076,7 +20077,7 @@
               "width": 121
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 20,
           "offense_flag": 2720,
           "offset": {
@@ -20152,7 +20153,7 @@
               "width": 121
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 20,
           "offense_flag": 2720,
           "offset": {
@@ -20877,7 +20878,7 @@
               "width": 50
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 20,
           "matter_limit": 50,
           "offense_flag": 6442451616,
           "offset": {
@@ -21520,7 +21521,7 @@
               "width": 129
             }
           ],
-          "mana_gain": 50,
+          "mana_gain": 40,
           "offense_flag": 2064,
           "offset": {
             "x": 31,
@@ -21923,7 +21924,7 @@
               "width": 52
             }
           ],
-          "mana_gain": 60,
+          "mana_gain": 50,
           "offense_flag": 264274,
           "offset": {
             "x": 54,
@@ -21988,7 +21989,7 @@
               "width": 108
             }
           ],
-          "mana_gain": 60,
+          "mana_gain": 50,
           "offense_flag": 264274,
           "offset": {
             "x": 72,
@@ -22785,7 +22786,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 2192,
           "offset": {
             "x": 36,
@@ -22865,7 +22866,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 58730640,
           "offset": {
             "x": 58,
@@ -22940,7 +22941,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 10384,
           "offset": {
             "x": 63,
@@ -24019,7 +24020,7 @@
               "width": 79
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 6293520,
           "offset": {
             "x": 22,
@@ -24098,7 +24099,7 @@
               "width": 52
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 6301712,
           "offset": {
             "x": 35,
@@ -24201,7 +24202,7 @@
               "width": 41
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 6301712,
           "offset": {
             "x": 44,
@@ -25377,7 +25378,7 @@
               "width": 43
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 8390728,
           "offset": {
             "x": 6,
@@ -25752,7 +25753,7 @@
               "width": 34
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 2122,
           "offset": {
             "x": -12,
@@ -25832,7 +25833,7 @@
               "width": 43
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 10312,
           "offset": {
             "x": -11,
@@ -25911,7 +25912,7 @@
               "width": 57
             }
           ],
-          "mana_gain": 20,
+          "mana_gain": 15,
           "offense_flag": 272456,
           "offset": {
             "x": -12,
@@ -26691,7 +26692,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 10749960,
           "offset": {
             "x": 9,
@@ -26769,7 +26770,7 @@
               "width": 49
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 10749960,
           "offset": {
             "x": 9,
@@ -27113,7 +27114,7 @@
               "width": 55
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 10520712,
           "offset": {
             "x": 2,
@@ -27183,7 +27184,7 @@
               "width": 55
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 10520712,
           "offset": {
             "x": 2,
@@ -27252,7 +27253,7 @@
               "width": 55
             }
           ],
-          "mana_gain": 30,
+          "mana_gain": 15,
           "offense_flag": 10520712,
           "offset": {
             "x": 0,
