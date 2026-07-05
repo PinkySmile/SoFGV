@@ -21,38 +21,38 @@ namespace SpiralOfFate
 		T x;
 		T y;
 
-		Vector2() noexcept
+		inline Vector2() noexcept
 			: x(0), y(0) {}
 
-		Vector2(T x, T y) noexcept
+		inline Vector2(T x, T y) noexcept
 			: x(x), y(y) {}
 
 		template <typename T2>
-		Vector2(Vector2<T2> v) noexcept
+		inline Vector2(Vector2<T2> v) noexcept
 			: x(v.x), y(v.y) {}
 
-		Vector2(sf::Vector2<T> v) noexcept
+		inline Vector2(sf::Vector2<T> v) noexcept
 			: x(v.x), y(v.y) {}
 
 		template <typename T2>
-		operator sf::Vector2<T2>() const noexcept
+		inline operator sf::Vector2<T2>() const noexcept
 		{
 			return sf::Vector2<T2>(this->x, this->y);
 		}
 
-#ifndef NO_TGUI
-		Vector2(tgui::Vector2<T> v) noexcept
+	#ifndef NO_TGUI
+		inline Vector2(tgui::Vector2<T> v) noexcept
 			: x(v.x), y(v.y) {}
 
 		template <typename T2>
-		operator tgui::Vector2<T2>() const noexcept
+		inline operator tgui::Vector2<T2>() const noexcept
 		{
 			return tgui::Vector2<T2>(this->x, this->y);
 		}
-#endif
+	#endif
 
 		template<typename T2>
-		Vector2<T2> to() const noexcept
+		inline Vector2<T2> to() const noexcept
 		{
 			return {
 				static_cast<T2>(this->x),
@@ -61,19 +61,19 @@ namespace SpiralOfFate
 		}
 
 		template <typename T2>
-		bool operator==(const Vector2<T2> &other) const
+		inline bool operator==(const Vector2<T2> &other) const
 		{
 			return other.x == this->x && this->y == other.y;
 		}
 
 		template <typename T2>
-		bool operator!=(const Vector2<T2> &other) const
+		inline bool operator!=(const Vector2<T2> &other) const
 		{
 			return other.x != this->x || this->y != other.y;
 		}
 
 		template<typename T2>
-		Vector2<T> &operator+=(const Vector2<T2> &vec) noexcept
+		inline Vector2<T> &operator+=(const Vector2<T2> &vec) noexcept
 		{
 			this->x += vec.x;
 			this->y += vec.y;
@@ -81,13 +81,13 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		auto operator+(const Vector2<T2> &vec) const noexcept
+		inline auto operator+(const Vector2<T2> &vec) const noexcept
 		{
 			return Vector2<decltype(this->x + vec.x)>(this->x + vec.x, this->y + vec.y);
 		}
 
 		template<typename T2>
-		Vector2<T> &operator-=(const Vector2<T2> &vec) noexcept
+		inline Vector2<T> &operator-=(const Vector2<T2> &vec) noexcept
 		{
 			this->x -= vec.x;
 			this->y -= vec.y;
@@ -95,13 +95,13 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		auto operator-(const Vector2<T2> &vec) const noexcept
+		inline auto operator-(const Vector2<T2> &vec) const noexcept
 		{
 			return Vector2<decltype(this->x - vec.x)>(this->x - vec.x, this->y - vec.y);
 		}
 
 		template<typename T2>
-		Vector2<T> &operator*=(T2 d) noexcept
+		inline Vector2<T> &operator*=(T2 d) noexcept
 		{
 			this->x *= d;
 			this->y *= d;
@@ -109,19 +109,19 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		auto operator*(const Vector2<T2> &b) const noexcept
+		inline auto operator*(const Vector2<T2> &b) const noexcept
 		{
 			return this->x * b.x + this->y * b.y;
 		}
 
 		template<typename T2>
-		auto operator*(T2 d) const noexcept
+		inline auto operator*(T2 d) const noexcept
 		{
 			return Vector2<decltype(this->x * d)>(this->x * d, this->y * d);
 		}
 
 		template<typename T2>
-		Vector2<T> operator/=(Vector2<T2> &b) noexcept
+		inline Vector2<T> operator/=(Vector2<T2> &b) noexcept
 		{
 			this->x /= b.x;
 			this->y /= b.y;
@@ -129,13 +129,13 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		auto operator/(Vector2<T2> &b) const noexcept
+		inline auto operator/(Vector2<T2> &b) const noexcept
 		{
 			return Vector2<decltype(this->x / b)>(this->x / b.x, this->y / b.y);
 		}
 
 		template<typename T2>
-		Vector2<T> operator/=(T2 b) noexcept
+		inline Vector2<T> operator/=(T2 b) noexcept
 		{
 			this->x /= b;
 			this->y /= b;
@@ -143,49 +143,49 @@ namespace SpiralOfFate
 		}
 
 		template<typename T2>
-		auto operator/(T2 b) const noexcept
+		inline auto operator/(T2 b) const noexcept
 		{
 			return Vector2<decltype(this->x / b)>(this->x / b, this->y / b);
 		}
 
-		Vector2<T> operator-() const noexcept
+		inline Vector2<T> operator-() const noexcept
 		{
 			return Vector2<T>(-this->x, -this->y);
 		}
 
 		template<typename T2>
-		double distance(const Vector2<T2> &o) const noexcept
+		inline double distance(const Vector2<T2> &o) const noexcept
 		{
 			return (*this - o).magnitude();
 		}
 
-		double magnitude() const noexcept
+		inline double magnitude() const noexcept
 		{
 			return std::sqrt(this->x * this->x + this->y * this->y);
 		}
 
 		template<typename T2>
-		double distance2(const Vector2<T2> &o) const noexcept
+		inline double distance2(const Vector2<T2> &o) const noexcept
 		{
 			return (*this - o).magnitude2();
 		}
 
-		double magnitude2() const noexcept
+		inline double magnitude2() const noexcept
 		{
 			return this->x * this->x + this->y * this->y;
 		}
 
-		double angle(const Vector2<T> &o) const noexcept
+		inline double angle(const Vector2<T> &o) const noexcept
 		{
 			return std::atan2(o.y - this->y, o.x - this->x);
 		}
 
-		Vector2<float> normal(const Vector2<T> &p2)
+		inline Vector2<float> normal(const Vector2<T> &p2)
 		{
 			return Vector2<float>{this->y - p2.y, p2.x - this->x}.normalized();
 		}
 
-		Vector2<T> normalize() noexcept
+		inline Vector2<T> normalize() noexcept
 		{
 			double mag = this->magnitude();
 
@@ -194,24 +194,24 @@ namespace SpiralOfFate
 			return *this;
 		}
 
-		Vector2<T> normalized() const noexcept
+		inline Vector2<T> normalized() const noexcept
 		{
 			T mag = this->magnitude();
 
 			return Vector2<T>(this->x / mag, this->y / mag);
 		}
 
-		void project(const Vector2<T> &point) noexcept
+		inline void project(const Vector2<T> &point) noexcept
 		{
 			*this = this->projection(point);
 		}
 
-		Vector2<float> projection(const Vector2<T> &point) const noexcept
+		inline Vector2<float> projection(const Vector2<T> &point) const noexcept
 		{
 			return (point * this) / std::pow(this->magnitude(), 2) * *this;
 		}
 
-		void rotate(float angle, const Vector2<T> &center) noexcept
+		inline void rotate(float angle, const Vector2<T> &center) noexcept
 		{
 			if (angle == 0.f)
 				return;
@@ -224,7 +224,7 @@ namespace SpiralOfFate
 			this->x = newX;
 		}
 
-		Vector2<float> rotation(float angle, const Vector2<T> &center) const noexcept
+		inline Vector2<float> rotation(float angle, const Vector2<T> &center) const noexcept
 		{
 			Vector2<float> result = *this;
 
