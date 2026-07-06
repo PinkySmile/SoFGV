@@ -35,6 +35,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": 13,
@@ -92,6 +93,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": 14,
@@ -149,6 +151,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": 18,
@@ -206,6 +209,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": 5,
@@ -263,6 +267,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": 1,
@@ -320,6 +325,7 @@
               "width": 56
             }
           ],
+          "mana_gain": 20,
           "offense_flag": 16,
           "offset": {
             "x": -8,
