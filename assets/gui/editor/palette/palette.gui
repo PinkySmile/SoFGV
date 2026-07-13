@@ -333,7 +333,7 @@ Label.ColorComponentName1 {
     HorizontalAlignment = Center;
     Position = (200, 220);
     Renderer = &2;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (100, 17);
     Text = Hue;
     TextSize = 13;
@@ -344,7 +344,7 @@ Label.ColorComponentName2 {
     HorizontalAlignment = Center;
     Position = (200, 265);
     Renderer = &2;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (100, 17);
     Text = Saturation;
     TextSize = 13;
@@ -355,7 +355,7 @@ Label.ColorComponentName3 {
     HorizontalAlignment = Center;
     Position = (200, 310);
     Renderer = &2;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (100, 17);
     Text = Value;
     TextSize = 13;
@@ -366,7 +366,7 @@ Label.RGBColorName {
     HorizontalAlignment = Center;
     Position = (200, 355);
     Renderer = &2;
-    ScrollbarPolicy = Automatic;
+    ScrollbarPolicy = Never;
     Size = (100, 17);
     Text = "color.hexcode";
     TextSize = 13;
