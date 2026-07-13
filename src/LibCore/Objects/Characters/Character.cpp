@@ -3986,7 +3986,6 @@ namespace SpiralOfFate
 		auto oData = other->getCurrentFrameData();
 		bool isStrongest = false;
 		bool isWeakest = false;
-		auto sObj = dynamic_cast<SubObject *>(other);
 
 		assert_eq(data->dFlag.neutralBlock + data->dFlag.voidBlock + data->dFlag.spiritBlock + data->dFlag.matterBlock, 1);
 		if (oData->oFlag.matterElement == oData->oFlag.voidElement && oData->oFlag.voidElement == oData->oFlag.spiritElement) {
@@ -4013,9 +4012,11 @@ namespace SpiralOfFate
 			isWeakest   = data->dFlag.spiritBlock;
 		}
 
-		if (sObj && sObj->getCurrentFrameData()->dFlag.projectile);
-		else if (isWeakest);
-		else if (data->dFlag.voidBlock)
+		if (other->getCurrentFrameData()->dFlag.projectile);
+		else if (isWeakest) {
+			game->soundMgr.play(BASICSOUND_WORST_PARRY);
+			return this->_getHitByMove(other, *oData);
+		} else if (data->dFlag.voidBlock)
 			this->_parryVoidEffect(other, isStrongest);
 		else if (data->dFlag.spiritBlock)
 			this->_parrySpiritEffect(other, isStrongest);
@@ -4035,7 +4036,7 @@ namespace SpiralOfFate
 			}
 		}
 		if (isStrongest) {
-			if (sObj && sObj->getCurrentFrameData()->dFlag.projectile) {
+			if (other->getCurrentFrameData()->dFlag.projectile) {
 				this->_hitStop = 15;
 				if (other->_team <= 1)
 					other->_team = this->_team;
@@ -4047,9 +4048,7 @@ namespace SpiralOfFate
 				this->_hitStop = 20;
 			other->_hitStop = 25;
 			game->soundMgr.play(BASICSOUND_BEST_PARRY);
-		} else if (isWeakest)
-			game->soundMgr.play(BASICSOUND_WORST_PARRY);
-		else
+		} else
 			game->soundMgr.play(BASICSOUND_BLOCK);
 
 		memset(&this->_specialInputs._value, 0, sizeof(this->_specialInputs._value));
@@ -4063,7 +4062,7 @@ namespace SpiralOfFate
 			this->_forceStartMove(this->_getReversalAction());
 		} else {
 			this->_forceStartMove(this->_isGrounded() ? (data->dFlag.crouch ? ACTION_GROUND_LOW_NEUTRAL_BLOCK : ACTION_GROUND_HIGH_NEUTRAL_BLOCK) : ACTION_AIR_NEUTRAL_BLOCK);
-			this->_blockStun = oData->blockStun * (3 + isWeakest) / 3;
+			this->_blockStun = oData->blockStun;
 		}
 	}
 
