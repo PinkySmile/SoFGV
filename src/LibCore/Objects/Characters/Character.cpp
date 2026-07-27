@@ -3472,6 +3472,8 @@ namespace SpiralOfFate
 			if (this->_isGrounded() && data.counterHitSpeed.y <= 0) {
 				if (!data.oFlag.phantomHit)
 					this->_forceStartMove(myData->dFlag.crouch ? ACTION_GROUND_LOW_HIT : ACTION_GROUND_HIGH_HIT);
+				else
+					assert_exp(isHitAction(this->_action));
 			} else {
 				this->_restand = data.oFlag.restand;
 				if (!data.oFlag.phantomHit) {
@@ -3480,7 +3482,8 @@ namespace SpiralOfFate
 						this->_actionBlock = 3;
 					else if (this->_speed.y < 0)
 						this->_actionBlock = 1;
-				}
+				} else
+					assert_exp(isHitAction(this->_action));
 				stun = data.untech;
 			}
 			this->_counter = true;
